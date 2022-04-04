@@ -9,7 +9,7 @@ Three files are required to define the search:
 3. Options file (exhaustiveoptions.json, gaoptions.json, gpoptions.json, rfoptions.json, gbrtoptions.json)
     
  The 5 options files are (nearly) identical except which algorithm is implemented:
- 1. exhaustive.json - full exhaustive search of candidate model space (12,960 models)
+ 1. exhaustiveoptions.json - full exhaustive search of candidate model space (12,960 models)
  2. gaoptions.json - Genetic Algorithm - implemented with deap package (https://github.com/deap/deap)
  3. gpoptions.json - Gaussian process/Bayesian optimization - implemented with scikit-optimize (https://scikit-optimize.github.io/stable/index.html)
  4. rfoptions.json - Random forest optimization - implemented with scikit-optimize (https://scikit-optimize.github.io/stable/index.html)

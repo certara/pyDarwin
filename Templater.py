@@ -91,7 +91,7 @@ class template:
                     set_num += 1
                
                 self.space.append(names)        
-        if not os.path.isfile(self.homeDir):
+        if not os.path.isdir(self.homeDir):
             os.mkdir(self.homeDir)
         os.chdir(self.homeDir)
         self.control =  self.controlBaseTokens = None

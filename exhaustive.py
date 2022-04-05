@@ -1,6 +1,6 @@
 import numpy as np  
 import sys
-from sympy import collect
+from sympy import Max, collect
 import Templater  
 import time
 from datetime import timedelta
@@ -24,18 +24,31 @@ def exhaustive(model_template):
     codes = np.array(np.meshgrid(*Num_Groups)).T.reshape(-1,len(Num_Groups))
     # convert to regular list
     codes = codes.tolist() 
-    Models = []
+    NumModels = len(codes) 
     maxes = model_template.gene_max
     lengths = model_template.gene_length
-    for thisInts,model_num in zip(codes,range(len(codes))):
-        code = model_code.model_code(thisInts,"Int",maxes,lengths)
-        Models.append(Templater.model(model_template,code,model_num,True,1 )) # slot argument will always be the same, model num will change
+    # break into smaller list, for memory management
+    MaxModels = model_template.options['max_model_list_size']  
+    Models = [None]*MaxModels
+    current_start = 0
+    current_last = current_start + MaxModels-1
     runAllModels.InitModellist(model_template)
-    runAllModels.run_all(Models)  
     fitnesses = []
-    for i in range(len(Models)):
-        fitnesses.append(Models[i].fitness) 
-        Models[i] = None
+    while current_last < NumModels: 
+        if current_last > len(codes):
+            current_last = len(codes)
+        #for thisInts,model_num in zip(codes,range(len(codes))):
+        thisModel = 0
+        for thisInts,model_num in zip(codes,range(current_start,current_last)):
+            code = model_code.model_code(thisInts,"Int",maxes,lengths)
+            Models[thisModel] = Templater.model(model_template,code,model_num,True,1 ) # slot argument will always be the same, model num will change
+            thisModel += 1
+        runAllModels.run_all(Models)   
+        for i in range(len(Models)):
+            fitnesses.append(Models[i].fitness) 
+            Models[i] = None
+        current_start = current_last + 1
+        current_last = current_start + MaxModels-1
     best = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__) 
     best_fitness = fitnesses[best[0]]
     best_model = deepcopy(Models[best[0]]) 

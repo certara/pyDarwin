@@ -89,12 +89,12 @@ def RunSearch(template_file: str,tokens_file: str,options_file: str) -> Template
     return final
 if __name__ == '__main__': 
      
-    #print(f"#\n#\n# Start exhaustive search at {time.asctime()}..............................................")
-    #best_modelEx = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\exhaustive\\exhaustiveoptions.json")
-    print(f"#\n#\n# Start GA at {time.asctime()}..............................................")
-    best_modelGA = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\GA\\GAoptions.json")  
-    print(f"#\n#\n# Start RF at {time.asctime()}..............................................")
-    best_modelRF = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\RF\\RFoptions.json")
+    print(f"#\n#\n# Start exhaustive search at {time.asctime()}..............................................")
+    best_modelEx = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\exhaustive\\exhaustiveoptions.json")
+    #print(f"#\n#\n# Start GA at {time.asctime()}..............................................")
+    #best_modelGA = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\GA\\GAoptions.json")  
+    #print(f"#\n#\n# Start RF at {time.asctime()}..............................................")
+    #best_modelRF = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\RF\\RFoptions.json")
     #print(f"#\n#\n# Start GBRT at {time.asctime()}............................................")
     #best_modelGBRT = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\GBRT\\GBRToptions.json")
     #print(f"#\n#\n# Start GP at {time.asctime()}..............................................")

@@ -6,7 +6,7 @@ import re
 import math
 
 from sympy import true
-import model_code
+#import model_code
 import numpy as np
 from typing import OrderedDict
 import collections
@@ -90,9 +90,9 @@ class template:
                     names.append(this_group + "[" + str(set_num) + "] =" + this_token[0]  )
                     set_num += 1
                
-                self.space.append(names)   
-     
-        
+                self.space.append(names)        
+        if not os.path.isfile(self.homeDir):
+            os.mkdir(self.homeDir)
         os.chdir(self.homeDir)
         self.control =  self.controlBaseTokens = None
         self.status= "Not initialized" 

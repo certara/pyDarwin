@@ -60,6 +60,7 @@ def run_all(Models:Templater.model):
     convert to minimal binary, then to integer 
     all_results maybe full binary (GA) or integer (not GA) or minimal binary (downhill)
     no return value, just updates Models"""
+    start_model_num = Models[0].modelNum # will be 0 unless this is exhaustive and the model list is broken up into smaller lists
     fitnesses = [None]*len(Models)   # all_results is full GA/DEAP individual, with fitness.values as tuple (currently empty)
    # will keep resutls in all_results, note that fitness MUST be assigned after call to this
     num_parallel = min(len(Models), Models[0].template.options['num_parallel']) 
@@ -97,17 +98,15 @@ def run_all(Models:Templater.model):
         started[cur_model_num] = True
         slots.append(current_model) # slots are the local/general model type, will need to copy fitness to all_results 
      
-    #for check_model in  range(10): 
+      
     while not all(started):  
         for slot_being_checked in range(num_parallel): 
             current_model = slots[slot_being_checked] # shallow copy, still linked to all_results
             # note that at this point, w are using local models, not GA/DEAP models, addressed in the object initialization
             if current_model.check_done() == True: # model finished, collect results, start new on, IF not yet done 
                 #y = current_model.fitness    
-
-                nmtranMsgs = current_model.NMtranMSG 
-                  
-                fitnesses[current_model.modelNum] = current_model.fitness  
+                nmtranMsgs = current_model.NMtranMSG  
+                fitnesses[current_model.modelNum-start_model_num] = current_model.fitness  # all we do with this fitness is print out the best, this fitness is not returned separately
                 if GlobalVars.BestModel == None or current_model.fitness < GlobalVars.BestModel.fitness:
                     Copy_to_Best(current_model)
                     
@@ -133,14 +132,8 @@ def run_all(Models:Templater.model):
                     print(f"{step_name} = {current_model.generation}, Model {current_model.modelNum:5},\t fitness = {current_model.fitness:.3f}, \t NMTRANMSG = {nmtranMsgs.strip()},{PRDERR_text}") 
                 
                 current_slot = current_model.slot # keep slot number of next model
-                
-                #print("Number of references to Models before = " + str(sys.getrefcount(Models[current_model.modelNum])))
-                Models[current_model.modelNum].__del__() 
-                #print("Number of references to Models after = " + str(sys.getrefcount(Models[current_model.modelNum])))
-                 
+                #Models[current_model.modelNum-start_model_num].__del__() 
                 current_model.__del__()
-                
-               # print("Number of references to Models after = " + str(sys.getrefcount(Models[current_model.modelNum])))
                 gc.collect()
                 # start new model  
                 if cur_model_num < (num_models-1):  
@@ -172,7 +165,7 @@ def run_all(Models:Templater.model):
  
                     #y = current_model.fitness    
                     nmtranMsgs = current_model.NMtranMSG  
-                    fitnesses[current_model.modelNum] = current_model.fitness  
+                    fitnesses[current_model.modelNum-start_model_num] = current_model.fitness  
                     if GlobalVars.BestModel == None or current_model.fitness < GlobalVars.BestModel.fitness:   
                         Copy_to_Best(current_model)                 
                      

@@ -29,9 +29,9 @@ def exhaustive(model_template):
     lengths = model_template.gene_length
     # break into smaller list, for memory management
     MaxModels = model_template.options['max_model_list_size']  
-    Models = [None]*MaxModels
+    #Models = [None]*MaxModels
     current_start = 0
-    current_last = current_start + MaxModels-1
+    current_last = current_start + MaxModels
     runAllModels.InitModellist(model_template)
     fitnesses = []
     while current_last < NumModels: 
@@ -39,16 +39,16 @@ def exhaustive(model_template):
             current_last = len(codes)
         #for thisInts,model_num in zip(codes,range(len(codes))):
         thisModel = 0
-        for thisInts,model_num in zip(codes,range(current_start,current_last)):
+        Models = [None]*MaxModels
+        for thisInts,model_num in zip(codes[current_start:current_last],range(current_start,current_last)):
             code = model_code.model_code(thisInts,"Int",maxes,lengths)
             Models[thisModel] = Templater.model(model_template,code,model_num,True,1 ) # slot argument will always be the same, model num will change
             thisModel += 1
         runAllModels.run_all(Models)   
         for i in range(len(Models)):
-            fitnesses.append(Models[i].fitness) 
-            Models[i] = None
-        current_start = current_last + 1
-        current_last = current_start + MaxModels-1
+            fitnesses.append(Models[i].fitness)  
+        current_start = current_last 
+        current_last = current_start + MaxModels
     best = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__) 
     best_fitness = fitnesses[best[0]]
     best_model = deepcopy(Models[best[0]]) 

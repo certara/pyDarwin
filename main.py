@@ -9,7 +9,7 @@ import sys
 from os import error
 from os.path import exists 
 import errno
-import rpy2  
+#import rpy2  
 import gc
 import rpy2.robjects as robjects 
 from rpy2.robjects.packages import importr
@@ -88,17 +88,17 @@ def RunSearch(template_file: str,tokens_file: str,options_file: str) -> Template
     gc.collect()    
     return final
 if __name__ == '__main__': 
-     
+     ### test test test 
     print(f"#\n#\n# Start exhaustive search at {time.asctime()}..............................................")
-    best_modelEx = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\exhaustive\\exhaustiveoptions.json")
+    best_modelEx = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\all\\exhaustiveoptions.json")
     #print(f"#\n#\n# Start GA at {time.asctime()}..............................................")
-    #best_modelGA = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\GA\\GAoptions.json")  
+    #best_modelGA = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\all\\GAoptions.json")  
     #print(f"#\n#\n# Start RF at {time.asctime()}..............................................")
-    #best_modelRF = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\RF\\RFoptions.json")
+    #best_modelRF = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\all\\RFoptions.json")
     #print(f"#\n#\n# Start GBRT at {time.asctime()}............................................")
-    #best_modelGBRT = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\GBRT\\GBRToptions.json")
+    #best_modelGBRT = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\all\\GBRToptions.json")
     #print(f"#\n#\n# Start GP at {time.asctime()}..............................................")
-    #best_modelGP = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\GP\\GPoptions.json")
+    #best_modelGP = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\all\\GPoptions.json")
     ##print(f"Exhaustive best model fitness = {best_modelEx.fitness}")
     #print(f"GA best model fitness = {best_modelGA.fitness}")
     #print(f"RF best model fitness = {best_modelRF.fitness}")

@@ -4,6 +4,7 @@
 	"algorithm":"GA",
 	"random_seed": 11, 
 	"popSize": 100,
+	"max_model_list_size": 500,
 	"num_parallel": 4,
 	"num_generations": 40,
 	"num_niches": 2,

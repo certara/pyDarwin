@@ -2,6 +2,14 @@
 Research repo for NONMEM GA 
 Python solution for using several machine learning methods to search a candidate solution space for the optimal population models in NONMEM. 
 
+## Python Packages
+
+Execute the following command to install required Python package versions as specified in `required_packages.txt`
+
+```
+pip install -r required_packages.txt
+```
+
 Requirements are a NONMEM installation, with nmfe??.bat available. R is optional.
 Three files are required to define the search:
 1. Template file (example5_template.txt) - basic shell for NONMEM control files

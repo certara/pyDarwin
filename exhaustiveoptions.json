@@ -5,7 +5,7 @@
 	"random_seed": 11, 
 	"popSize": 40,
 	"max_model_list_size": 500,
-	"num_parallel": 4,
+	"num_parallel": 8,
 	"num_generations": 10,
 	"num_niches": 2,
 	"niche_penalty": 10, 
@@ -34,16 +34,16 @@
 	"xover": "cxOnePoint",
 	"mutate": "flipBit",
 	"indpb": 0.1, 
-    "timeout_sec": "1200", 
+    "timeout_sec": 1200, 
 	"useR": false,  
-	"postRunRCode": "c:/fda/exhaustive/PPCfunc.R",
+	"postRunRCode": "c:/fda/all/PPCfunc.R",
 	"Rargs": {
 		"AUCPenalty": 5,
 		"CmaxPenalty": 5,
 		"TmaxPenalty":2
 	},
 	"usePython": true,  
-	"postRunPythonCode": "c:/fda/exhaustive/PPCfunc.py",
+	"postRunPythonCode": "c:/fda/all/PPCfunc.py",
 	"Pythonargs": {
 		"AUCPenalty": 5,
 		"CmaxPenalty": 5,

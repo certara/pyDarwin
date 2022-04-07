@@ -5,11 +5,11 @@ import Templater
 import logging 
 import model_code
 import time
+from time import localtime
 import sys
 from os import error
 from os.path import exists 
-import errno
-#import rpy2  
+import errno 
 import gc
 import rpy2.robjects as robjects 
 from rpy2.robjects.packages import importr
@@ -43,6 +43,7 @@ def Set_up_Objects(model_template):
                 raise Exception("Cannot find RPenalty function in R instance") # no built in exception for this, just a general exception
             else:
                 GlobalVars.SlotRobjects.append(robjects.r['RPenalty'])# function in R MUST be called RPenalty (case sensitive), returns the function
+
     return
 def RunSearch(template_file: str,tokens_file: str,options_file: str) -> Templater.model: 
     """run algorithm selected in options_file, based on template_file and tokens_file
@@ -66,6 +67,9 @@ def RunSearch(template_file: str,tokens_file: str,options_file: str) -> Template
     GlobalVars.BestModelOutput = "No output yet" 
     GlobalVars.StartTime = time.time()
     algorithm  =  model_template.options['algorithm'] 
+    
+    print("Search start time =")
+    print(time.asctime(localtime()))
     if not algorithm in ["GBRT","RF","GP","GA","EXHAUSTIVE","PSO"]:
         print(f"Algorithm {algorithm} is not available")
         sys.exit()
@@ -85,12 +89,14 @@ def RunSearch(template_file: str,tokens_file: str,options_file: str) -> Template
     print(f"Time to best model = {GlobalVars.TimeToBest/60:0.1f} minutes")
     GlobalVars.output.close()
     GlobalVars.SlotRobjects = None
+    print("Search end time =")
+    print(time.asctime(localtime()))
     gc.collect()    
     return final
 if __name__ == '__main__': 
-     ### test test test 
+     
     print(f"#\n#\n# Start exhaustive search at {time.asctime()}..............................................")
-    best_modelEx = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\all\\exhaustiveoptions.json")
+    best_modelEx = RunSearch("C:/FDA/all/example_small_template.txt","c:/fda/all/example_small_tokens.json","c:\\fda\\all\\exhaustiveoptions.json")
     #print(f"#\n#\n# Start GA at {time.asctime()}..............................................")
     #best_modelGA = RunSearch(sys.argv[1],sys.argv[2],"c:\\fda\\all\\GAoptions.json")  
     #print(f"#\n#\n# Start RF at {time.asctime()}..............................................")

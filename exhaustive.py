@@ -32,9 +32,12 @@ def exhaustive(model_template):
     #Models = [None]*MaxModels
     current_start = 0
     current_last = current_start + MaxModels
+    if current_last > NumModels:
+        MaxModels = NumModels
+        current_last = NumModels
     runAllModels.InitModellist(model_template)
     fitnesses = []
-    while current_last < NumModels: 
+    while current_last <= NumModels: 
         if current_last > len(codes):
             current_last = len(codes)
         #for thisInts,model_num in zip(codes,range(len(codes))):
@@ -42,7 +45,7 @@ def exhaustive(model_template):
         Models = [None]*MaxModels
         for thisInts,model_num in zip(codes[current_start:current_last],range(current_start,current_last)):
             code = model_code.model_code(thisInts,"Int",maxes,lengths)
-            Models[thisModel] = Templater.model(model_template,code,model_num,True,1 ) # slot argument will always be the same, model num will change
+            Models[thisModel] = Templater.model(model_template,code,model_num,True,0 ) # slot argument will always be the same, model num will change
             thisModel += 1
         runAllModels.run_all(Models)   
         for i in range(len(Models)):
@@ -51,7 +54,7 @@ def exhaustive(model_template):
         current_last = current_start + MaxModels
     best = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__) 
     best_fitness = fitnesses[best[0]]
-    best_model = deepcopy(Models[best[0]]) 
+    best_model = Models[best[0]].makeCopy()
     elapsed = time.time() - start
     print(f"Elapse time = {elapsed/60:.1f} minutes \n")  
     print(f"Best overall fitness = {best_fitness:4f}, model {best_model.modelNum}" )
@@ -60,10 +63,8 @@ def exhaustive(model_template):
     resultFilePath = os.path.join(model_template.homeDir,"finalresultFile.lst")
     with open(resultFilePath,'w') as result:
          result.write(GlobalVars.BestModelOutput)
-    print(f"Final outout from best model is in {resultFilePath}")
-    print("Number of references to Models before = " + str(sys.getrefcount(Models)))
-    Models = None # free up memory??  
-    print("Number of references to Models after = " + str(sys.getrefcount(Models)))
+    print(f"Final outout from best model is in {resultFilePath}") 
+    Models = None # free up memory??   stil not working
     gc.collect()
     return best_model
  

@@ -1,11 +1,13 @@
+from ast import Break
+from cmath import nan
 import json
-#import xmltodict
-import xml.etree.ElementTree as ET
+import xmltodict
+#import xml.etree.ElementTree as ET
 import sys
 import re 
 import math
-
-from sympy import true
+from pharmpy.modeling import read_model ## v 0.62.0 works
+from sympy import false, true
 #import model_code
 import numpy as np
 from typing import OrderedDict
@@ -15,10 +17,8 @@ import utils
 import psutil 
 import os, shutil
 from os.path import exists
-import errno
-import pkg_resources
- 
-#import pharmpy   
+#import errno
+#import pkg_resources
 from subprocess import DEVNULL, STDOUT, check_call, Popen
 import time   
 import glob
@@ -30,7 +30,14 @@ import concurrent.futures
 import gc
 Rexecutor = concurrent.futures.ThreadPoolExecutor(max_workers=10) # is 10 enough? 
 logger = logging.getLogger(__name__)
+import warnings
 
+def fxn():
+    warnings.warn("RuntimeWarning", RuntimeWarning)
+
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    fxn()
 class Object:
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
@@ -206,8 +213,52 @@ class model:
         self.token_Non_influential = [True]*len(self.template.tokens) # does each token result in a change? does it containt a parameter, if token has a parameter, but doesn't
                                                     # default is true, will change to false if: 1. doesn't contain parameters (in check_contains_parms) is put into control file (in utils.replaceTokens)     
         self.startTime = time.time()     
-        self.ElapseTime = None
-         
+        self.elapseTime = None
+        
+        self.filestem  = None
+        self.outputFileName = None
+        self.runDir = None
+        self.phenotype = None
+        self.xml_file = None
+        self.control = None
+        self.controlFileName = None
+        self.datafile_name = None
+        self.executableFileName = None
+        self.status = "Not Started"
+    def makeCopy(self):
+        newmodel = model(self.template,self.model_code,self.model_code,self.template.isGA,self.generation)
+        newmodel.fitness = self.fitness
+        newmodel.ofv = self.ofv
+        newmodel.condition_num = self.condition_num
+        newmodel.control = copy(self.control)
+        newmodel.controlFileName = copy(self.controlFileName)
+        newmodel.Condition_num_test = copy(self.Condition_num_test)
+        newmodel.correlation = copy(self.correlation)
+        newmodel.covariance = copy(self.covariance)
+        newmodel.datafile_name = copy(self.datafile_name)
+        newmodel.elapseTime = copy(self.elapseTime)
+        newmodel.errMsgs = copy(self.errMsgs)
+        newmodel.executableFileName = copy(self.executableFileName)
+        newmodel.generation = self.generation
+        newmodel.modelNum = self.modelNum
+        newmodel.jsonListRecord = copy(self.jsonListRecord)
+        newmodel.NMtranMSG = copy(self.NMtranMSG)
+        newmodel.errMsgs = copy(self.errMsgs)
+        newmodel.filestem = copy(self.filestem)
+        newmodel.outputFileName = self.outputFileName
+        newmodel.num_non_fixed_THETAs = self.num_non_fixed_THETAs 
+        newmodel.num_THETAs = self.num_THETAs
+        newmodel.num_OMEGAs = self.num_OMEGAs
+        newmodel.num_SIGMAs = self.num_SIGMAs
+        newmodel.phenotype = copy(self.phenotype)
+        newmodel.post_run_penalty = copy(self.post_run_penalty)
+        newmodel.post_run_text = copy(self.post_run_text)
+        newmodel.token_Non_influential = copy(self.token_Non_influential )
+        newmodel.runDir = copy(self.runDir)
+        newmodel.status = "Done"
+        newmodel.success = copy(self.success)
+        newmodel.xml_file = copy(self.xml_file )
+        return(newmodel)
     def __del__(self):
         gc.collect()
 
@@ -280,7 +331,7 @@ class model:
         os.chdir(self.runDir)
         command = [self.template.options['nmfePath'],self.controlFileName ,self.outputFileName, " -nmexec=" + self.executableFileName]
         GlobalVars.UniqueModels += 1
-        self.Process = Popen(command, stdout=DEVNULL, stderr=STDOUT)
+        self.NMProcess = Popen(command, stdout=DEVNULL, stderr=STDOUT)
         self.start = time.time()
         self.status = "RunningNM"
         return
@@ -298,7 +349,6 @@ class model:
                 # recommend gc after ach call to R - https://rpy2.github.io/doc/latest/html/performances.html#
         gc.collect()
         return rval
-        
     def run_post_Code(self): 
         """Run the post minimization R code in the file specified in the options file filename = postRunCode
         creates a future (self.Rfuture) which is then checked in check_done_postRun
@@ -316,7 +366,25 @@ class model:
             self.post_run_penalty = self.template.options['crash_value'] 
             return
          
-        return
+        return      
+    # def run_post_Code_old(self): 
+    #     """Run the post minimization R code in the file specified in the options file filename = postRunCode
+    #     creates a future (self.Rfuture) which is then checked in check_done_postRun
+    #     Post run code MUST be a function that takes self.rundir as the only argument
+    #     and returns an array of two values, the penalty and text to append to the output e.g., c(penalty, text)"""
+       
+    #     try:
+    #         ## need to write as a function that take the rundir as the argument, otherwise will
+    #         ## run in the last start model rundir
+            
+    #         self.Rfuture = Rexecutor.submit(self.runR)
+    #     except:
+    #         print("unable to access R future object")  
+    #         self.status = "Done"
+    #         self.post_run_penalty = self.template.options['crash_value'] 
+    #         return
+         
+    #     return
     def check_done_postRun(self):  
         if self.template.options['useR']:
             if self.Rfuture.done(): #also is _state property, will be "FINISHED" when done, "RUNNING" before done
@@ -336,6 +404,25 @@ class model:
                 return(True)
             else:
                 return(False) 
+    # def check_done_postRun_old(self):  
+    #     if self.template.options['useR']:
+    #         if self.Rfuture.done(): #also is _state property, will be "FINISHED" when done, "RUNNING" before done
+    #             try:
+    #                 self.post_run_penalty = float(self.Rfuture._Future__get_result()[0])
+    #             except:
+    #                 self.post_run_penalty = self.template.options['crash_value']
+    #             try:    
+    #                 self.post_run_text = self.Rfuture._Future__get_result()[1]
+    #             except:
+    #                 self.post_run_text = " no R output available"
+                
+    #             with open(self.outputFileName,"a") as f:
+    #                 f.write("\nPost Run text output: " + self.post_run_text)
+                 
+                 
+    #             return(True)
+    #         else:
+    #             return(False) 
     # def get_results(self):
     #     with open(self.xml_file) as xml_file:
     #         data_dict = xmltodict.parse(xml_file.read()) 
@@ -358,11 +445,11 @@ class model:
         if self.status == "Done": # if done here, then already has post run code results
             return True 
         if self.status == "RunningNM":
-            if self.Process.poll() == 107 or self.Process.poll() == 110:
+            if self.NMProcess.poll() == 107 or self.NMProcess.poll() == 110:
             # check FSMG here
                 self.fitness = self.template.options['crash_value'] 
                 self.NMtranMSG = ( "", "","","No NONMEM execution, is data file present?") # 3 lines empty so we can get the usual (no error) message
-                self.process = None
+                self.NMProcess = None
                 gc.collect()
                 if self.template.options['useR']:
                     self.run_post_Code()
@@ -373,9 +460,10 @@ class model:
                     self.status = "Done" # done with all 
                     self.elapseTime = time.time() - self.startTime
                     return True
-            if self.Process.poll() == 0: # done with NM, create the model here, before any post code run
-                self.get_results_from_xml()
-                self.process = None
+
+            if self.NMProcess.poll() == 0: # done with NM, create the model here, before any post code run 
+                self.get_results_pharmpy()
+                self.NMProcess = None
                 gc.collect()
                 #self.result = pharmpy.Model.create_model(self.controlFileName)  
                 if self.template.options['useR']:
@@ -385,19 +473,19 @@ class model:
                 else:
                     self.calcFitness()
                     self.status = "Done"
-                    self.elapseTime = time.time() - self.startTime
+                    self.ElapseTime = time.time() - self.startTime
                     return True 
             else: 
                 end = time.time()
                 if (end-self.start) > int(self.template.options['timeout_sec']):
                     print(f"overtime, model in {self.runDir}")
                     try:
-                        p = psutil.Process(self.Process.pid)
+                        p = psutil.Process(self.NMProcess.pid)
                         p.terminate()   
                     except:
                         pass 
-                    self.get_results_from_xml()
-                    self.process = None
+                    self.get_results_pharmpy()
+                    self.NMProcess = None
                     gc.collect()
                     if self.template.options['useR']:
                         self.run_post_Code()
@@ -416,143 +504,345 @@ class model:
                 self.calcFitness()
                 self.status = "Done"
                 return True
-    def get_results_from_xml(self):
+                
+    # def get_results_from_xml_old(self):
+    #     if not exists(self.xml_file):
+    #         self.crash = True
+    #         self.success = self.covariance = self.correlation  = False
+    #         self.Condition_num_test = False
+    #         self.condition_num = 9999999
+    #         self.ofv = None
+    #         self.fitness = self.template.options['crash_value']
+    #         return()
+
+    #     tree = ET.parse(self.xml_file)
+    #     root = tree.getroot()
+    #     orgnamespace = root.tag
+    #     namespaceroot = orgnamespace.replace("output","")
+    #     namespace= namespaceroot.replace("{","").replace("}","") 
+    #     ns = {"NMresult":namespace} 
+    #    ## ##THETALB = root.find('NMresult:theta_lb',ns)#
+    #     nonmem = root.find('NMresult:nonmem',ns)   
+    #     #Lbs = THETALB.find('nm:val nm:name')
+    #     EstimationProblem = nonmem.find('NMresult:problem',ns) 
+    #     Estimations = EstimationProblem.findall('NMresult:estimation',ns   )
+    #     NumEstimations = len(Estimations) #only the final estimation
+    #     FinalEst = Estimations[NumEstimations-1]
+    #     self.crash = False
+    #     if len(FinalEst.findall('NMresult:final_objective_function',ns))==0:
+    #         self.crash = True
+    #         self.success = self.covariance = self.correlation  =  self.Condition_num_test = False
+    #         self.condition_num = 9999999
+    #         self.ofv = None
+    #         self.fitness = self.template.options['crash_value']
+    #         return()
+    #     self.ofv = float(FinalEst.findall('NMresult:final_objective_function',ns)[0].text)
+    #     Convergence = int(FinalEst.findall('NMresult:termination_status',ns)[0].text)
+    #     if Convergence == 0:
+    #         self.success = True
+    #     else:
+    #         self.success = False
+    #     Covariance_results = FinalEst.findall('NMresult:covariance_status',ns)[0] 
+    #     allCov = dict(Covariance_results.attrib)
+    #     self.covariance_error = int(allCov[namespaceroot + "error"]) 
+    #     # covariance matrix
+    #     if self.covariance_error == 0:
+    #         self.covariance = True
+    #         allcorr = FinalEst.findall('NMresult:correlation',ns)[0]
+    #         rows = allcorr.findall('NMresult:row',ns)
+    #         #NumRowsCorr = len(rows)
+    #         numCols = 0
+    #         Correlation_limit = self.template.options['correlationLimit']
+    #         self.correlation  = True
+    #         for thisrow in rows:
+    #             if numCols > 0:
+    #                 thiscol = thisrow.findall('NMresult:col',ns)
+    #                 offdiags = thiscol[:numCols]
+    #                 for thisval in offdiags:
+    #                     val = abs(float(thisval.text))
+    #                     if val> Correlation_limit:
+    #                         self.correlation  = False
+    #             numCols += 1 
+             
+    #         maxEigen = -9999999
+    #         minEigen = 99999999 
+
+    #         allEigens = FinalEst.findall('NMresult:eigenvalues',ns)[0]
+            
+            
+    #         for this_eigen in allEigens: # are the always sorted assending
+    #             eigen = float(this_eigen.text)
+    #             if eigen> maxEigen: maxEigen = eigen
+    #             if eigen < minEigen: minEigen = eigen
+    #         self.condition_num  = maxEigen/minEigen
+    #         if self.condition_num > 1000:
+    #             self.Condition_num_test = False
+    #         else:
+    #             self.Condition_num_test = True
+    #     else:
+    #         self.Condition_num_test = False
+    #         self.correlation  = False
+    #         self.covariance = False
+    #         self.condition_num = 999999
+    #     # nmtran msgs
+    #     self.nmtran = root.find('NMresult:nmtran',ns).text
+
+    #        # numthetas
+    #     thetalb = EstimationProblem.findall('NMresult:theta_lb',ns  )[0]
+    #     thetaub = EstimationProblem.findall('NMresult:theta_ub',ns  )[0]
+    #     valslb = thetalb.findall('NMresult:val',ns) 
+    #     #valsub = thetaub.findall('NMresult:val',ns) 
+    #     numtheta = len(valslb)
+    #     num_thetas_fixed = 0
+    #     for this_theta in range(numtheta): 
+            
+    #         if thetalb[this_theta] == thetaub[this_theta]:
+    #             num_thetas_fixed += 1 
+    #     self.num_THETAs = numtheta
+    #     self.num_non_fixed_THETAs = numtheta-num_thetas_fixed
+    #     # add in final THETA estimates, may need someday? for plausability score?           
+    #     # omega  will always be a full matrix, value of 0 means fixed
+    #     # found in estimation 
+    #     omegaBlock = FinalEst.findall('NMresult:omega',ns)[0]
+    #     rows = omegaBlock.findall('NMresult:row',ns)
+    #     NumRowsOmega = len(rows)
+    #     OMEGA = []
+    #     for _ in range(NumRowsOmega):
+    #         OMEGA.append([None]*NumRowsOmega) #,[None]*NumRowsOmega]#*NumRowsOmega
+    #     cur_row = 0  
+    #     NumOmega = 0
+    #     for thisrow in rows: 
+    #         cur_col = 0
+    #         thiscol = thisrow.findall('NMresult:col',ns) 
+    #         for thisval in thiscol:
+    #             OMEGA[cur_row][cur_col] = float(thisval.text)  
+    #             if(OMEGA[cur_row][cur_col]) !=0.00:
+    #                 NumOmega += 1
+    #             cur_col += 1
+    #         cur_row += 1
+    #     self.num_OMEGAs = NumOmega
+    #     self.OMEGA = OMEGA # may need someday?
+    #     sigmaBlock = FinalEst.findall('NMresult:sigma',ns)[0]
+    #     rows = sigmaBlock.findall('NMresult:row',ns)
+    #     NumRowsSigma = len(rows)
+    #     SIGMA = []
+    #     for _ in range(NumRowsSigma):
+    #         SIGMA.append([None]*NumRowsSigma) #,[None]*NumRowsOmega]#*NumRowsOmega
+    #     cur_row = 0  
+    #     NumSigma = 0
+    #     for thisrow in rows: 
+    #         cur_col = 0
+    #         thiscol = thisrow.findall('NMresult:col',ns) 
+    #         for thisval in thiscol:
+    #             SIGMA[cur_row][cur_col] = float(thisval.text)  
+    #             if(SIGMA[cur_row][cur_col]) !=0.00:
+    #                 NumSigma += 1
+    #             cur_col += 1
+    #         cur_row += 1
+    #     self.num_SIGMAs = NumSigma
+    #     self.SIGMA = SIGMA
+    #     root.clear()
+    #     if exists(self.xml_file):
+    #         os.remove(self.xml_file)
+    #     gc.collect()
+    #     return()
+                      
+    def get_results_pharmpy(self):
+      
         if not exists(self.xml_file):
             self.crash = True
             self.success = self.covariance = self.correlation  = False
             self.Condition_num_test = False
-            self.condition_num = 9999999
+            self.condition_num = 9999999    
             self.ofv = None
             self.fitness = self.template.options['crash_value']
             return()
-
-        tree = ET.parse(self.xml_file)
-        root = tree.getroot()
-        orgnamespace = root.tag
-        namespaceroot = orgnamespace.replace("output","")
-        namespace= namespaceroot.replace("{","").replace("}","") 
-        ns = {"NMresult":namespace} 
-       ## ##THETALB = root.find('NMresult:theta_lb',ns)#
-        nonmem = root.find('NMresult:nonmem',ns)   
-        #Lbs = THETALB.find('nm:val nm:name')
-        EstimationProblem = nonmem.find('NMresult:problem',ns) 
-        Estimations = EstimationProblem.findall('NMresult:estimation',ns   )
-        NumEstimations = len(Estimations) #only the final estimation
-        FinalEst = Estimations[NumEstimations-1]
-        self.crash = False
-        if len(FinalEst.findall('NMresult:final_objective_function',ns))==0:
-            self.crash = True
+        result = read_model(self.controlFileName)
+        
+        try:
+            # fixed thetas/omega/sigmas from parmeters.fix
+            fixed_parms = result.parameters.fix
+             
+            thetas = [value for key, value in fixed_parms.items() if 'THETA' in key.upper()]
+            omegas = [value for key, value in fixed_parms.items() if 'OMEGA' in key.upper()]
+            sigmas = [value for key, value in fixed_parms.items() if 'SIGMA' in key.upper()] 
+            self.num_THETAs = len(thetas)
+            self.num_OMEGAs = len(omegas)
+            self.num_SIGMAs = len(sigmas)
+            self.num_non_fixed_THETAs = self.num_THETAs - sum(thetas)
+            self.num_non_fixed_OMEGAs = self.num_OMEGAs - sum(omegas)           
+            self.num_non_fixed_SIGMAs = self.num_SIGMAs - sum(sigmas)
+            model_fit = result.modelfit_results
+            self.ofv = model_fit.ofv
+            self.success = model_fit.minimization_successful
+               
+            if model_fit.correlation_matrix is None:
+                self.covariance = False
+                self.correlation = False
+                self.condition_num = self.template.options['crash_value']
+                self.Condition_num_test = False
+            else:
+                if model_fit.correlation_matrix.isnull().values.any():  
+                    self.covariance = False
+                    self.correlation = False
+                    self.condition_num = self.template.options['crash_value']
+                    self.Condition_num_test = False
+                else:   
+                    self.covariance = True
+                    correlation_matrix = model_fit.correlation_matrix.values
+                    size = model_fit.correlation_matrix.shape[0]
+                    self.correlation = True #passes correlation test
+                    for row in range(1,size):
+                        if self.correlation == False:
+                            break
+                        for col in range(row):
+                            if correlation_matrix[row,col] > self.template.options['correlationLimit']:
+                                self.correlation = False
+                                break
+                    
+                    # need to read xml for eigenvalues, not in pharmpy output (???)
+                    # xml file should have eigen values if covariance is succesfull
+                    # but need to verify this 
+                    # assume only 1 estimation problem, find number of estimations
+                    
+                    with open(self.xml_file) as xml_file:
+                        data_dict = xmltodict.parse(xml_file.read()) 
+                        # may be more than one estimation
+                    problem_dict = data_dict['nm:output']['nm:nonmem']['nm:problem']
+                    if 0 in problem_dict: # more than one problem, e.g. with simulation
+                        n_estimation = len(problem_dict[0]['nm:estimation']) # estimation MUST be the first one, followed by any simulations
+                        last_estimation = data_dict['nm:output']['nm:nonmem']['nm:problem'][0]['nm:estimation'][n_estimation-1]
+                    else:
+                        last_estimation = problem_dict['nm:estimation']    
+                    if 'nm:eigenvalue' in last_estimation: 
+                    #if last_estimation['nm:eigenvalues'] is None: 
+                        Eigens = last_estimation['nm:eigenvalues']['nm:val'] 
+                        max = -9999999
+                        min = 9999999
+                        for i in Eigens:
+                            val = float(i['#text']) 
+                            if val < min: min = val
+                            if val > max: max = val 
+                        self.condition_num = max/min
+                        if self.condition_num > 1000: # should 1000 be an option??
+                            self.Condition_num_test = False
+                        else:
+                            self.Condition_num_test = True
+                    else: 
+                        self.condition_num = self.template.options['crash_value']
+                        self.Condition_num_test = False
+        except:            
             self.success = self.covariance = self.correlation  =  self.Condition_num_test = False
             self.condition_num = 9999999
             self.ofv = None
             self.fitness = self.template.options['crash_value']
-            return()
-        self.ofv = float(FinalEst.findall('NMresult:final_objective_function',ns)[0].text)
-        Convergence = int(FinalEst.findall('NMresult:termination_status',ns)[0].text)
-        if Convergence == 0:
-            self.success = True
-        else:
-            self.success = False
-        Covariance_results = FinalEst.findall('NMresult:covariance_status',ns)[0] 
-        allCov = dict(Covariance_results.attrib)
-        self.covariance_error = int(allCov[namespaceroot + "error"]) 
-        # covariance matrix
-        if self.covariance_error == 0:
-            self.covariance = True
-            allcorr = FinalEst.findall('NMresult:correlation',ns)[0]
-            rows = allcorr.findall('NMresult:row',ns)
-            #NumRowsCorr = len(rows)
-            numCols = 0
-            Correlation_limit = self.template.options['correlationLimit']
-            self.correlation  = True
-            for thisrow in rows:
-                if numCols > 0:
-                    thiscol = thisrow.findall('NMresult:col',ns)
-                    offdiags = thiscol[:numCols]
-                    for thisval in offdiags:
-                        val = abs(float(thisval.text))
-                        if val> Correlation_limit:
-                            self.correlation  = False
-                numCols += 1 
+         
+        #self.ofv = float(FinalEst.findall('NMresult:final_objective_function',ns)[0].text)
+        # Convergence = int(FinalEst.findall('NMresult:termination_status',ns)[0].text)
+        # if Convergence == 0:
+        #     self.success = True
+        # else:
+        #     self.success = False
+        # Covariance_results = FinalEst.findall('NMresult:covariance_status',ns)[0] 
+        # allCov = dict(Covariance_results.attrib)
+        # self.covariance_error = int(allCov[namespaceroot + "error"]) 
+        # # covariance matrix
+        # if self.covariance_error == 0:
+        #     self.covariance = True
+        #     allcorr = FinalEst.findall('NMresult:correlation',ns)[0]
+        #     rows = allcorr.findall('NMresult:row',ns)
+        #     #NumRowsCorr = len(rows)
+        #     numCols = 0
+        #     Correlation_limit = self.template.options['correlationLimit']
+        #     self.correlation  = True
+        #     for thisrow in rows:
+        #         if numCols > 0:
+        #             thiscol = thisrow.findall('NMresult:col',ns)
+        #             offdiags = thiscol[:numCols]
+        #             for thisval in offdiags:
+        #                 val = abs(float(thisval.text))
+        #                 if val> Correlation_limit:
+        #                     self.correlation  = False
+        #         numCols += 1 
              
-            maxEigen = -9999999
-            minEigen = 99999999 
+        #     maxEigen = -9999999
+        #     minEigen = 99999999 
 
-            allEigens = FinalEst.findall('NMresult:eigenvalues',ns)[0]
+        #     allEigens = FinalEst.findall('NMresult:eigenvalues',ns)[0]
             
             
-            for this_eigen in allEigens: # are the always sorted assending
-                eigen = float(this_eigen.text)
-                if eigen> maxEigen: maxEigen = eigen
-                if eigen < minEigen: minEigen = eigen
-            self.condition_num  = maxEigen/minEigen
-            if self.condition_num > 1000:
-                self.Condition_num_test = False
-            else:
-                self.Condition_num_test = True
-        else:
-            self.Condition_num_test = False
-            self.correlation  = False
-            self.covariance = False
-            self.condition_num = 999999
-        # nmtran msgs
-        self.nmtran = root.find('NMresult:nmtran',ns).text
+        #     for this_eigen in allEigens: # are the always sorted assending
+        #         eigen = float(this_eigen.text)
+        #         if eigen> maxEigen: maxEigen = eigen
+        #         if eigen < minEigen: minEigen = eigen
+        #     self.condition_num  = maxEigen/minEigen
+        #     if self.condition_num > 1000:
+        #         self.Condition_num_test = False
+        #     else:
+        #         self.Condition_num_test = True
+        # else:
+        #     self.Condition_num_test = False
+        #     self.correlation  = False
+        #     self.covariance = False
+        #     self.condition_num = 999999
+        # # nmtran msgs
+        # self.nmtran = root.find('NMresult:nmtran',ns).text
 
-           # numthetas
-        thetalb = EstimationProblem.findall('NMresult:theta_lb',ns  )[0]
-        thetaub = EstimationProblem.findall('NMresult:theta_ub',ns  )[0]
-        valslb = thetalb.findall('NMresult:val',ns) 
-        #valsub = thetaub.findall('NMresult:val',ns) 
-        numtheta = len(valslb)
-        num_thetas_fixed = 0
-        for this_theta in range(numtheta): 
+        #    # numthetas
+        # thetalb = EstimationProblem.findall('NMresult:theta_lb',ns  )[0]
+        # thetaub = EstimationProblem.findall('NMresult:theta_ub',ns  )[0]
+        # valslb = thetalb.findall('NMresult:val',ns) 
+        # #valsub = thetaub.findall('NMresult:val',ns) 
+        # numtheta = len(valslb)
+        # num_thetas_fixed = 0
+        # for this_theta in range(numtheta): 
             
-            if thetalb[this_theta] == thetaub[this_theta]:
-                num_thetas_fixed += 1 
-        self.num_THETAs = numtheta
-        self.num_non_fixed_THETAs = numtheta-num_thetas_fixed
-        # add in final THETA estimates, may need someday? for plausability score?           
-        # omega  will always be a full matrix, value of 0 means fixed
-        # found in estimation 
-        omegaBlock = FinalEst.findall('NMresult:omega',ns)[0]
-        rows = omegaBlock.findall('NMresult:row',ns)
-        NumRowsOmega = len(rows)
-        OMEGA = []
-        for _ in range(NumRowsOmega):
-            OMEGA.append([None]*NumRowsOmega) #,[None]*NumRowsOmega]#*NumRowsOmega
-        cur_row = 0  
-        NumOmega = 0
-        for thisrow in rows: 
-            cur_col = 0
-            thiscol = thisrow.findall('NMresult:col',ns) 
-            for thisval in thiscol:
-                OMEGA[cur_row][cur_col] = float(thisval.text)  
-                if(OMEGA[cur_row][cur_col]) !=0.00:
-                    NumOmega += 1
-                cur_col += 1
-            cur_row += 1
-        self.num_OMEGAs = NumOmega
-        self.OMEGA = OMEGA # may need someday?
-        sigmaBlock = FinalEst.findall('NMresult:sigma',ns)[0]
-        rows = sigmaBlock.findall('NMresult:row',ns)
-        NumRowsSigma = len(rows)
-        SIGMA = []
-        for _ in range(NumRowsSigma):
-            SIGMA.append([None]*NumRowsSigma) #,[None]*NumRowsOmega]#*NumRowsOmega
-        cur_row = 0  
-        NumSigma = 0
-        for thisrow in rows: 
-            cur_col = 0
-            thiscol = thisrow.findall('NMresult:col',ns) 
-            for thisval in thiscol:
-                SIGMA[cur_row][cur_col] = float(thisval.text)  
-                if(SIGMA[cur_row][cur_col]) !=0.00:
-                    NumSigma += 1
-                cur_col += 1
-            cur_row += 1
-        self.num_SIGMAs = NumSigma
-        self.SIGMA = SIGMA
-        root.clear()
+        #     if thetalb[this_theta] == thetaub[this_theta]:
+        #         num_thetas_fixed += 1 
+        # self.num_THETAs = numtheta
+        # self.num_non_fixed_THETAs = numtheta-num_thetas_fixed
+        # # add in final THETA estimates, may need someday? for plausability score?           
+        # # omega  will always be a full matrix, value of 0 means fixed
+        # # found in estimation 
+        # omegaBlock = FinalEst.findall('NMresult:omega',ns)[0]
+        # rows = omegaBlock.findall('NMresult:row',ns)
+        # NumRowsOmega = len(rows)
+        # OMEGA = []
+        # for _ in range(NumRowsOmega):
+        #     OMEGA.append([None]*NumRowsOmega) #,[None]*NumRowsOmega]#*NumRowsOmega
+        # cur_row = 0  
+        # NumOmega = 0
+        # for thisrow in rows: 
+        #     cur_col = 0
+        #     thiscol = thisrow.findall('NMresult:col',ns) 
+        #     for thisval in thiscol:
+        #         OMEGA[cur_row][cur_col] = float(thisval.text)  
+        #         if(OMEGA[cur_row][cur_col]) !=0.00:
+        #             NumOmega += 1
+        #         cur_col += 1
+        #     cur_row += 1
+        # self.num_OMEGAs = NumOmega
+        # self.OMEGA = OMEGA # may need someday?
+        # sigmaBlock = FinalEst.findall('NMresult:sigma',ns)[0]
+        # rows = sigmaBlock.findall('NMresult:row',ns)
+        # NumRowsSigma = len(rows)
+        # SIGMA = []
+        # for _ in range(NumRowsSigma):
+        #     SIGMA.append([None]*NumRowsSigma) #,[None]*NumRowsOmega]#*NumRowsOmega
+        # cur_row = 0  
+        # NumSigma = 0
+        # for thisrow in rows: 
+        #     cur_col = 0
+        #     thiscol = thisrow.findall('NMresult:col',ns) 
+        #     for thisval in thiscol:
+        #         SIGMA[cur_row][cur_col] = float(thisval.text)  
+        #         if(SIGMA[cur_row][cur_col]) !=0.00:
+        #             NumSigma += 1
+        #         cur_col += 1
+        #     cur_row += 1
+        # self.num_SIGMAs = NumSigma
+        # self.SIGMA = SIGMA
+        # root.clear()
         if exists(self.xml_file):
             os.remove(self.xml_file)
         gc.collect()
@@ -561,6 +851,7 @@ class model:
     def calcFitness(self): 
         """calculates the fitness, based on the model output, and the penalties (from the options file)
         need to look in output file for parameter at boundary and parameter non positive """
+        # GET NMTRAN MESSAGES HERE, THEY WON'T SHOW UP IN XML FILE IF NONMEM CRASHES
         self.NMtranMSG = ""
         try:
             if(os.path.exists(os.path.join(self.runDir,"FMSG"))):

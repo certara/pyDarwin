@@ -5,7 +5,7 @@
 	"random_seed": 11, 
 	"popSize": 40,
 	"max_model_list_size": 500,
-	"num_parallel": 8,
+	"num_parallel": 4,
 	"num_generations": 10,
 	"num_niches": 2,
 	"niche_penalty": 10, 

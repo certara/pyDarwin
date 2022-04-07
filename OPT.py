@@ -3,6 +3,7 @@ import model_code
 import GlobalVars
 import numpy as np
 import skopt
+# install packages for specific version of python, e.g c:\users\msale\appdata\local\programs\python\python38\python -m pip install scikit-optimize
 from skopt import Optimizer
 import run_downhill
 from copy import deepcopy, copy 

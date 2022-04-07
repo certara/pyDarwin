@@ -319,7 +319,7 @@ def run_GA(model_template: Templater.template)-> Templater.model:
             best_inds.append(copy(Models[i]))
         # temp_Models = deepcopy(popFullBits) # deepcopy, keep pop unchanaged will copy best later# temp_pop is fullbinary here
         new_models, worst_inds = run_downhill.run_downhill(Models) 
-        for i in range(num_niches): 
+        for i in range(len(new_models)): 
             fitnesses[worst_inds[i]] = new_models[i].fitness
       
         best_index = heapq.nsmallest(Models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__)[0]

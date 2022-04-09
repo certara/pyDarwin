@@ -1,5 +1,4 @@
-import numpy as np  
-import sys
+import numpy as np   
 from sympy import Max, collect
 import Templater  
 import time
@@ -10,11 +9,9 @@ import runAllModels
 import errno
 import heapq
 from copy import deepcopy, copy  
-import os
-import rpy2   
+import os 
 import gc 
-from os.path import exists
-import rpy2.robjects as robjects 
+from os.path import exists 
 def exhaustive(model_template):
     start = time.time()    
     Num_Groups = [] 
@@ -45,7 +42,7 @@ def exhaustive(model_template):
         Models = [None]*MaxModels
         for thisInts,model_num in zip(codes[current_start:current_last],range(current_start,current_last)):
             code = model_code.model_code(thisInts,"Int",maxes,lengths)
-            Models[thisModel] = Templater.model(model_template,code,model_num,True,0 ) # slot argument will always be the same, model num will change
+            Models[thisModel] = Templater.model(model_template,code,model_num,True,0 ) 
             thisModel += 1
         runAllModels.run_all(Models)   
         for i in range(len(Models)):

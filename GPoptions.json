@@ -34,20 +34,11 @@
 	"xover": "cxOnePoint",
 	"mutate": "flipBit",
 	"indpb": 0.1, 
-    "timeout_sec": 1200, 
-	"useR": false,  
-	"postRunRCode": "c:/fda/all/PPCfunc.R",
-	"Rargs": {
-		"AUCPenalty": 5,
-		"CmaxPenalty": 5,
-		"TmaxPenalty":2
-	},
+    "timeout_sec": 1200,  
+	"useR": true,  
+	"postRunRCode": "c:/fda/FDA-OGD-ML/simplefunc.r",  
 	"usePython": true,  
-	"postRunPythonCode": "c:/fda/all/PPCfunc.py",
-	"Pythonargs": {
-		"AUCPenalty": 5,
-		"CmaxPenalty": 5,
-		"TmaxPenalty":2
-	},
-	"nmfePath": "c:/nm75g64/util/nmfe75.bat " 
+	"postRunPythonCode": "c:/fda/all/PPCfunc.py", 
+	"nmfePath": "c:/nm75g64/util/nmfe75.bat " ,
+	"RScriptPath": "c:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe"  
 }

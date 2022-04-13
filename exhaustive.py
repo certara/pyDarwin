@@ -13,7 +13,7 @@ import os
 import gc 
 from os.path import exists 
 def exhaustive(model_template):
-    start = time.time()    
+    GlobalVars.StartTime = time.time()    
     Num_Groups = [] 
     for thisKey in model_template.tokens.keys():   
         tokenGroup = model_template.tokens.get(thisKey) 
@@ -52,7 +52,7 @@ def exhaustive(model_template):
     best = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__) 
     best_fitness = fitnesses[best[0]]
     best_model = Models[best[0]].makeCopy()
-    elapsed = time.time() - start
+    elapsed = time.time() - GlobalVars.StartTime 
     print(f"Elapse time = {elapsed/60:.1f} minutes \n")  
     print(f"Best overall fitness = {best_fitness:4f}, model {best_model.modelNum}" )
     with open(os.path.join(model_template.homeDir,"finalControlFile.mod"),'w') as control:

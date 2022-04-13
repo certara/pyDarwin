@@ -52,7 +52,7 @@ def get_best_in_niche(pop: list):
     return best, best_fitnesses,best_models
     
 
-def run_downhill(pop: list,return_all = False) -> (Templater.model,list): # only return new models - best _in_niches
+def run_downhill(pop: list,return_all = False): # only return new models - best _in_niches
     """Run the downhill step, with full (2 bit) search if requested,
     arguments a population of full models
     return value is list of length num_niches full models after search 
@@ -146,7 +146,7 @@ def run_downhill(pop: list,return_all = False) -> (Templater.model,list): # only
     else:
         return  best_Models_in_niches, worst
  
-def ChangeEachBit(sourcemodels:list,radius: int) -> (list,int): ## only need upper triangle, add start row here
+def ChangeEachBit(sourcemodels:list,radius: int): ## only need upper triangle, add start row here
     """loop over either 1 or 2 radius 
     raised exception if radius is not 1 or 2
     if, e.g, numbits is 16, and radius is 2, the number of modesl is 136 (16+15+14 + ...)

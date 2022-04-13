@@ -34,7 +34,7 @@ def run_skopt(model_template:Templater.template) -> Templater.model:
         this_x = skopt.space.Categorical(categories = numerical_group,transform="onehot")
         Num_Groups.append(this_x)       
     model_num = 0
-    start = time.time()    
+    GlobalVars.StartTime = time.time()    
     # from doc https://scikit-optimize.github.io/dev//_downloads/scikit-optimize-docs.pdf
     # command to install is pip install scikit-optimize
     from skopt import Optimizer
@@ -112,14 +112,14 @@ def run_skopt(model_template:Templater.template) -> Templater.model:
     resultFilePath = os.path.join(GlobalVars.BestModel.template.homeDir,"InterimresultFile.lst")
     with open(resultFilePath,'w') as result:
         result.write(GlobalVars.BestModelOutput)
-    elapsed = time.time() - start 
+    #elapsed = time.time() - GlobalVars.StartTime 
     if niter_no_change > GlobalVars.BestModel.fitness:
         last_best_fitness = GlobalVars.BestModel.fitness
         niter_no_change = 0
     else:
         niter_no_change += 1
     print(f'No change in fitness in {niter_no_change} iteration')
-    print(f"total time = {(time.time() - start)/60:.2f} minutes")
+    print(f"total time = {(time.time() - GlobalVars.StartTime)/60:.2f} minutes")
     with open(os.path.join(model_template.homeDir,"finalControlFile.mod"),'w') as control:
         control.write(GlobalVars.BestModel.control)
     resultFilePath = os.path.join(GlobalVars.BestModel.template.homeDir,"finalresultFile.lst")

@@ -1,5 +1,5 @@
 import gc
-import sys
+#import sys
 import Templater
 import time
 import json
@@ -28,13 +28,14 @@ def InitModellist(model_template:Templater.template):
             print(f"Cannot read {model_template.options['input_model_json']}, setting models list to empty")
             GlobalVars.allModelsDict = dict()
   
-    GlobalVars.output.write(f"Model num,Fitness,Model,generation,ofv,success,covar,correlation,ntheta,condition,RPenalty#\n")
+    GlobalVars.output.write(f"Model num,Fitness,Model,generation,ofv,success,covar,correlation,ntheta,condition,RPenalty,PythonPenalty\n")
     return 
 def Copy_to_Best(current_model: Templater.model):
     '''copies current model to the global best model
     argumen is a template.model'''
+    GlobalVars.TimeToBest = time.time() -GlobalVars.StartTime
     GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
-    GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
+    #GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
     GlobalVars.BestModel.fitness = current_model.fitness
     GlobalVars.BestModel.control = current_model.control
     GlobalVars.BestModel.generation = current_model.generation
@@ -103,8 +104,8 @@ def run_all(Models:Templater.model):
         for slot_being_checked in range(num_parallel): 
             current_model = slots[slot_being_checked] # shallow copy, still linked to all_results
             # note that at this point, w are using local models, not GA/DEAP models, addressed in the object initialization
-            if current_model.check_done() == True: # model finished, collect results, start new on, IF not yet done 
-                #y = current_model.fitness    
+            if current_model.check_all_done() == True: # model finished, collect results, start new on, IF not yet done 
+                    
                 nmtranMsgs = current_model.NMtranMSG  
                 fitnesses[current_model.modelNum-start_model_num] = current_model.fitness  # all we do with this fitness is print out the best, this fitness is not returned separately
                 if GlobalVars.BestModel == None or current_model.fitness < GlobalVars.BestModel.fitness:
@@ -115,7 +116,7 @@ def run_all(Models:Templater.model):
                     # Integer code is common denominator for all, entered into dictionary with this 
                     GlobalVars.allModelsDict[str(current_model.model_code.IntCode)] = current_model.jsonListRecord 
                   
-                GlobalVars.output.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_penalty}\n")
+                GlobalVars.output.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty}\n")
                 if current_model.template.isGA:
                     step_name = "Generation"
                 else:
@@ -152,7 +153,7 @@ def run_all(Models:Templater.model):
                         current_model.source = "new"
                     started[cur_model_num] = True
                     slots[slot_being_checked] = current_model       
-                    started[cur_model_num] = True 
+                    #started[cur_model_num] = True 
 
         # wait for all to finish
     done = [False] * num_parallel
@@ -161,7 +162,7 @@ def run_all(Models:Templater.model):
             if not done[slot_being_checked]:
                 current_model = slots[slot_being_checked] ## still linked to all_results
                 #current model is the model object, not the same as in all_results
-                if current_model.check_done() == True: # model finished, collect results, start new on, IF not yet done
+                if current_model.check_all_done() == True: # model finished, collect results, start new on, IF not yet done
  
                     #y = current_model.fitness    
                     nmtranMsgs = current_model.NMtranMSG  
@@ -169,8 +170,8 @@ def run_all(Models:Templater.model):
                     if GlobalVars.BestModel == None or current_model.fitness < GlobalVars.BestModel.fitness:   
                         Copy_to_Best(current_model)                 
                      
-                    
-                    GlobalVars.output.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num}\n")
+                    GlobalVars.output.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty}\n")
+ 
                     if current_model.template.isGA:
                         step_name = "Generation"
                     else:

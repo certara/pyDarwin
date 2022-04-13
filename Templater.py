@@ -1,9 +1,11 @@
 import shlex
+import importlib
+import re
 from cmath import nan
 from distutils.log import error
 import json
 import xmltodict
-
+import concurrent.futures
 #import sys
 import re 
 import math
@@ -17,22 +19,16 @@ from unittest.mock import seal
 import utils  
 import psutil 
 import os, shutil
-from os.path import exists
-#import errno
-#import pkg_resources
+from os.path import exists 
 from subprocess import DEVNULL, STDOUT,  Popen, PIPE
- 
 import time   
 import glob
 import logging
 import utils
 import GlobalVars
-from copy import copy  
-#import concurrent.futures 
-import gc
-#Rexecutor = concurrent.futures.ThreadPoolExecutor(max_workers=10) # is 10 enough? 
-logger = logging.getLogger(__name__)
-#import warnings
+from copy import copy   
+import gc 
+logger = logging.getLogger(__name__) 
  
 class Object:
     def toJSON(self):
@@ -46,9 +42,10 @@ class template:
         self.isFirstModel = True
         self.errMsgs = []
         self.warnings = []  
+        os.chdir(os.path.dirname(os.path.abspath(__file__))) # need to start in original folder, in case python module must be loaded
         try:
             self.options = json.loads(open(optionsFile,'r').read())
-            self.homeDir = self.options['homeDir'] # just to make it easier
+            self.homeDir = self.options['homeDir'] # just to make it easier 
         except Exception as error:
             self.errMsgs.append("Failed to parse JSON tokens in " + optionsFile)  
             logger.error(error)
@@ -69,30 +66,50 @@ class template:
          
         # write out space, to use in test for exhaustive search 
         # self.space = []
+        if self.options['usePython']:
+            if not os.path.isfile( self.options['postRunPythonCode'] + ".py"):
+                print("!!!!!postRunPythonCode " + os.path.join(os.getcwd(),self.options['postRunPythonCode']) + ".py does not exist, exiting")
+                quit()
+            else: 
+                print("postRunPythonCode " + os.path.join(os.getcwd(),self.options['postRunPythonCode']) + ".py found")
+                self.python_mod = importlib.import_module( self.options['postRunPythonCode'])  # MUST be in home directory, a python rule, and cannot have the .py extension
+                
         if self.options['algorithm'] == "GA":
             self.isGA = True
         else:
             self.isGA = False
+        self.version = None
         self.gene_max = [] ## zero based
         self.gene_length = [] ## length is 1 based
         self.getGeneLength()
-        if self.isGA: # if GA in DEAP, intergers
-            for this_group in self.tokens: 
-                # build list of names from first token in each set
-                # note that first token need not be unique, so have to include token set number
-                options = list(range(len(self.tokens[this_group])))
-                #self.space.append(options)    
-        else: # is scikit-optimize or exhaustive
-            for this_group in self.tokens: 
-                # build list of names from first token in each set
-                # note that first token need not be unique, so have to include token set number
-                names = []
-                set_num = 0
-                for this_token in self.tokens[this_group]:
-                    names.append(this_group + "[" + str(set_num) + "] =" + this_token[0]  )
-                    set_num += 1
+         
+        for this_group in self.tokens: 
+            # build list of names from first token in each set
+            # note that first token need not be unique, so have to include token set number
+            names = []
+            set_num = 0
+            for this_token in self.tokens[this_group]:
+                names.append(this_group + "[" + str(set_num) + "] =" + this_token[0]  )
+                set_num += 1
+            
+                #self.space.append(names)   
+        # if self.isGA: # if GA in DEAP, intergers
+        #     for this_group in self.tokens: 
+        #         # build list of names from first token in each set
+        #         # note that first token need not be unique, so have to include token set number
+        #         options = list(range(len(self.tokens[this_group])))
+                     
+        # else: # is scikit-optimize or exhaustive
+        #     for this_group in self.tokens: 
+        #         # build list of names from first token in each set
+        #         # note that first token need not be unique, so have to include token set number
+        #         names = []
+        #         set_num = 0
+        #         for this_token in self.tokens[this_group]:
+        #             names.append(this_group + "[" + str(set_num) + "] =" + this_token[0]  )
+        #             set_num += 1
                
-                #self.space.append(names)        
+        #         #self.space.append(names)        
         if not os.path.isdir(self.homeDir):
             os.mkdir(self.homeDir)
         os.chdir(self.homeDir)
@@ -182,13 +199,14 @@ class model:
     def __init__(self,template: template,code: list, model_num: int,is_ga:bool, generation = None ): # for ga, code is full GA/DEAP individual, with fitness
         """code is a model_code object, type defines whether it is full binary (for GA), minimal binary (for downhill)
         or integer.
-        makecontrol always used intcode"""
+        makecontrol always used intcode"""   
         self.ofv = self.crash = None 
+        self.dataset_path = None
         self.template = template
         self.source = "new" # new if new run, "saved" if from saved model, will be no results and no output file - consider saving output file?
         self.generation = generation 
         # get model number and phenotype
-        self.modelNum = model_num
+        self.modelNum = model_num 
         self.errMsgs = [] 
         self.model_code = copy(code)
         self.RSTDOUT = self.RSTDERR  =self.NMSTDOUT = self.NMSTDERR = None # standard output and standard error from NONMEM run
@@ -198,16 +216,14 @@ class model:
         # minimal binary is generated, just in case this is a downhill step 
         self.success = self.covariance = self.correlation =  False
         self.OMEGA = self.SIGMA = None
-        self.post_run_text = ""
-        self.NMtranMSG = ""
-        self.PRDERR = ""
+        self.post_run_Rtext =  self.post_run_Pythontext  = self.NMtranMSG = self.PRDERR = ""
         #self.Rfuture = None # hold future for running R code
         self.fitness = self.template.options['crash_value'] 
-        self.post_run_penalty = self.Condition_num_test = self.condition_num  = self.num_THETAs = self.num_non_fixed_THETAs = self.num_OMEGAs = self.num_SIGMAs = self.ofv= None
+        self.post_run_Pythonpenalty = self.post_run_Rpenalty = self.Condition_num_test = self.condition_num  = self.num_THETAs = self.num_non_fixed_THETAs = self.num_OMEGAs = self.num_SIGMAs = self.ofv= 0
         self.jsonListRecord = None # this is a list of key values to be saved to json file, for subsequent runs and to avoid running the same mdoel
         self.Num_noninfluential_tokens = 0 # home many tokens, due to nesting have a parameter that doesn't end up in the control file?
         self.token_Non_influential = [True]*len(self.template.tokens) # does each token result in a change? does it containt a parameter, if token has a parameter, but doesn't
-                                                    # default is true, will change to false if: 1. doesn't contain parameters (in check_contains_parms) is put into control file (in utils.replaceTokens)     
+                                          # default is true, will change to false if: 1. doesn't contain parameters (in check_contains_parms) is put into control file (in utils.replaceTokens)     
         self.startTime = time.time()     
         self.elapseTime = None 
         self.filestem  = None
@@ -246,8 +262,10 @@ class model:
         newmodel.num_OMEGAs = self.num_OMEGAs
         newmodel.num_SIGMAs = self.num_SIGMAs
         newmodel.phenotype = copy(self.phenotype)
-        newmodel.post_run_penalty = copy(self.post_run_penalty)
-        newmodel.post_run_text = copy(self.post_run_text)
+        newmodel.post_run_Rpenalty = copy(self.post_run_Rpenalty)
+        newmodel.post_run_Rtext = copy(self.post_run_Rtext)
+        newmodel.post_run_Pythonpenalty = copy(self.post_run_Pythonpenalty)
+        newmodel.post_run_Pythonpenalty = copy(self.post_run_Pythonpenalty)
         newmodel.token_Non_influential = copy(self.token_Non_influential )
         newmodel.runDir = copy(self.runDir)
         newmodel.status = "Done"
@@ -261,16 +279,20 @@ class model:
     def files_present(self): 
         """is the data file specified in the control file present? """
         result = read_model(self.controlFileName)
-        if hasattr(result, "dataset_path"):
-            datapath = result.dataset_path
-            if not exists(datapath ):
-                text = input(f"Data set for FIRST MODEL {result.dataset_path} seems to be missing, exit (y or n)?")
+        try:
+            if hasattr(result, "dataset_path"):
+                self.dataset_path = result.dataset_path
+            else:
+                self.dataset_path = result._read_dataset_path()
+            
+            if not exists(self.dataset_path):
+                text = input(f"!!!!!Data set for FIRST MODEL {self.dataset_path} seems to be missing, exit (y or n)?")
                 if text.strip().lower() == "y":
                     print(f"exiting at {time.asctime()}")
                     quit()   
             else:
-                print(f"data set for FIRST MODEL ONLY {datapath} was found")
-        else:
+                print(f"Data set for FIRST MODEL ONLY {self.dataset_path} was found")
+        except:
             print(f"Unable to check if data set is present with current version of NONMEM")
         ## check nmfe?
         if not exists(self.template.options['nmfePath']):
@@ -295,6 +317,7 @@ class model:
                     quit() 
             else:
                 print(f"postRunRCode file found at {self.template.options['postRunRCode']}")
+                
         return 
     def copyResults(self,prevResults):
         try:
@@ -308,8 +331,10 @@ class model:
             self.num_OMEGAs = prevResults['num_OMEGAs']
             self.num_SIGMAs = prevResults['num_SIGMAs']
             self.condition_num = prevResults['condition_num']
-            self.post_run_text = prevResults['post_run_text']
-            self.post_run_penalty = prevResults['post_run_penalty']
+            self.post_run_Rtext = prevResults['post_run_Rtext']
+            self.post_run_Rpenalty = prevResults['post_run_Rpenalty']
+            self.post_run_Pythontext = prevResults['post_run_Pythontext']
+            self.post_run_Pythonpenalty = prevResults['post_run_Pythontext']
             self.NMtranMSG = prevResults['NMtranMSG'] 
             self.NMtranMSG = "From saved model " +  self.NMtranMSG  #["","","","output from previous model"]
             self.status = "Done"
@@ -324,11 +349,7 @@ class model:
         self.outputFileName = os.path.join(self.runDir, self.filestem +".lst")
         self.xml_file = os.path.join(self.runDir, self.filestem +".xml")
         self.executableFileName = os.path.join(self.runDir,self.filestem +".exe") 
-        self.MakeControl()
-         # check if data file is present, still to do
-        if self.template.isFirstModel:
-            self.files_present()
-            self.template.isFirstModel = False
+        self.MakeControl() 
              
         # in case the new folder name is a file
         try:
@@ -358,13 +379,17 @@ class model:
             f.write(self.control)  
             f.flush()
 
+         # check if data file is present, still to do
+        if self.template.isFirstModel:
+            self.files_present()
+            self.template.isFirstModel = False
         os.chdir(self.runDir)
         command = [self.template.options['nmfePath'],self.controlFileName ,self.outputFileName, " -nmexec=" + self.executableFileName]
         GlobalVars.UniqueModels += 1
  
         self.NMProcess = Popen(command, stdout=DEVNULL, stderr=STDOUT)
         self.start = time.time()
-        self.status = "RunningNM"
+        self.status = "Running_NM"
 
  
         return
@@ -372,131 +397,140 @@ class model:
         newval = self.RSTDOUT.decode("utf-8").replace("[1]","").strip() 
          # comes back a single string, need to parse by ""
         val = shlex.split(newval)
-        self.post_run_penalty = float(val[0])
-        self.post_run_text = val[1]
+        self.post_run_Rpenalty = float(val[0])
+        self.post_run_Rtext = val[1]
 
-    def StartR(self):
+    def StartPostR(self):
         """Run R code specified in the file options['postRunCode'], return penalty from R code
         R is called by subprocess call to Rscript.exe. User must supply path to Rscript.exe
-        Presence of Rscript.exe is check in the files_present call"""
-       # command = ["c:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe" , "simplefunc.r"]
+        Presence of Rscript.exe is check in the files_present"""
+        
         command = [self.template.options['RScriptPath'] , self.template.options['postRunRCode']] 
         os.chdir(self.runDir) #  just to make sure it is reading the right data
         try: 
             self.RProcess = Popen(command,  stdout = PIPE, stderr = PIPE  ) 
         except:
-            self.post_run_penalty = self.template.options['crash_value']
-            self.status = "Done"
+            self.post_run_Rpenalty = self.template.options['crash_value'] 
         return 
-  
-    def check_done_postRun(self):  
+    def check_done_postRunPython(self):
+        if self.future.done():
+            try:
+                self.post_run_Pythonpenalty,self.post_run_Pythontext =  self.template.python_mod.PostRunPython()
+                self.status = "Done"
+                with open(self.outputFileName,"a") as f:
+                        f.write(f"Post run Python code Penalty = {str(self.post_run_Pythonpenalty)}\n")
+                        f.write(f"Post run Python code text = {str(self.post_run_Pythontext)}\n")
+                return True       
+            except:
+                self.post_run_Pythonpenalty = self.template.options['crash_value']
+                self.status = "Done"
+                with open(self.outputFileName,"a") as f: 
+                    print("!!!Post run Python code crashed in " + self.runDir)
+                    f.write("Post run Python code crashed\n")
+                return True
+            finally: 
+                self.status = "Done"
+        else:
+            return False
+
+    def check_done_postRunR(self):  
         """Is the post run call (R only for now) done?"""
         try:
-            if not self.RProcess.poll() is None: # will be None before finished, not sure why this is diffent from the call to NONMEM
-                self.RSTDOUT,self.RSTDERR = self.RProcess.communicate() 
-                self.DecodeRSTOUT()
-
+            count = 0
+            if self.RProcess.poll() is None: 
+                return False
+            else:
+                while self.RSTDOUT is None and count < 100:
+                    self.RSTDOUT,self.RSTDERR = self.RProcess.communicate() 
+                    time.sleep(0.2)
+                    count += 1
+                self.DecodeRSTOUT() 
                 self.RProcess = None
-                gc.collect()
-                self.status = "Done"
+                gc.collect() 
+                with open(self.outputFileName,"a") as f:
+                    f.write(f"Post run R code Penalty = {str(self.post_run_Rpenalty)}\n")
+                    f.write(f"Post run R code text = {str(self.post_run_Rtext)}\n")
+                if count >= 99:
+                    self.post_run_Rpenalty = self.template.options['crash_value'] 
+                    print("!!!Post run R code failed return a value in " + self.runDir)
+                    f.write("Post run R code failed return a value\n") 
                 return True
         except:
-            self.post_run_penalty = self.template.options['crash_value']
-            self.status = "Done"
+            self.post_run_Rpenalty = self.template.options['crash_value']
+           
+            with open(self.outputFileName,"a") as f: 
+                print("!!!Post run R code crashed in " + self.runDir)
+                f.write("Post run R code crashed\n")
             return True
-        return False
   
-    def check_done(self):
+    def StartPostPython(self):
+        with concurrent.futures.ThreadPoolExecutor() as executor: # each model object has it's own future for running user defined python code
+            self.future = executor.submit(self.template.python_mod.PostRunPython())
+        self.status = "Running_post_Pythoncode"
+    def check_all_done(self):
         """Check is the model is done running, uses the Process of the object. Process.poll() return of 107 or 110 
         seems to mean failed to start. Process.poll() of 0 is finished  
-        If done, calls (the excellect package) pharmpy to collect results, then either calls run_post_Code (if applicable) 
+        If done, calls (the excellect) pharmpy package to collect results, then either calls run_post_Code (if applicable) 
         or calls calcFitness."""
         if self.status == "Done": # if done here, then already has post run code results
             return True 
-        if self.status == "RunningNM":
-            if self.NMProcess.poll() == 107 or self.NMProcess.poll() == 110:
-            # check FSMG here
-                self.get_NMTRAN_msgs()
-                self.get_PRDERR()
-                self.fitness = self.template.options['crash_value'] 
-                self.NMProcess = None
-                gc.collect()
-                if self.template.options['useR']:
-                    self.StartR()
-                    self.status = "Running_post_code"
-                    return False
-                else:
-                    self.calcFitness()
-                    self.status = "Done" # done with all 
-                    self.elapseTime = time.time() - self.startTime
-                    return True
-
-            if self.NMProcess.poll() == 0: # done with NM, create the model here, before any post code run 
-                 # GET NMTRAN MESSAGES HERE, THEY WON'T SHOW UP IN XML FILE IF NONMEM CRASHES
-
-                self.get_NMTRAN_msgs()
-                self.get_PRDERR()
-                self.get_results_pharmpy()
-                self.NMProcess = None
-                gc.collect()
-                #self.result = pharmpy.Model.create_model(self.controlFileName)  
-                if self.template.options['useR']:
-                    self.StartR()
-                    self.status = "Running_post_code"
-                    return False
-                else:
-                    self.calcFitness()
-                    self.status = "Done"
-                    self.ElapseTime = time.time() - self.startTime
-                    return True 
-            else: 
+        if self.status == "Running_NM":
+            if not self.NMProcess.poll() is None:## == 107 or self.NMProcess.poll() == 110 or self.NMProcess.poll() == 0:
+             # done with NM, create the model here, before any post code run 
+                 # GET NMTRAN MESSAGES HERE, THEY WON'T SHOW UP IN XML FILE IF NONMEM CRASHES  
+                self.NMProcess = None 
+                gc.collect()  
+                self.status  = "Done_running_NM"
+            else:  # has timeout expired?
                 end = time.time()
                 if (end-self.start) > int(self.template.options['timeout_sec']):
-                    print(f"overtime, model in {self.runDir}")
+                    print(f"Allowed NM run time exceeded, model in {self.runDir}")
                     try:
                         p = psutil.Process(self.NMProcess.pid)
-                        p.terminate()   
+                        p.terminate() 
+                        self.NMProcess = None  
+                        gc.collect()   
                     except:
                         pass 
-                    self.get_results_pharmpy()
-                    self.NMProcess = None
-                    gc.collect()
-                    if self.template.options['useR']:
-                        self.run_post_Code()
-                        self.status = "Running_post_code"
-                        return False
-                    else:
-                        self.calcFitness()
-                        self.status = "Done"
-                        self.elapseTime = time.time() - self.startTime
-                        return True  
-            time.sleep(0.1)  # not sure this adds anything
-            self.status = "RunningNM"
-            return False
-        if self.status == "Running_post_code":
-            if self.check_done_postRun():
-                self.calcFitness()
-                self.status = "Done"
-                return True
-                
-    
+                    finally:
+                        self.status  = "Done_running_NM"
+                else:
+                    return False
+            
+        if self.status == "Done_running_NM":
+            if self.template.options['useR']:
+                self.StartPostR()
+                self.status = "Running_post_Rcode" 
+                return False
+            else:
+                self.status = "Done_running_PostR"  
+        if self.status == "Running_post_Rcode":
+            if self.check_done_postRunR(): 
+                self.status = "Done_running_PostR"  
+            else:
+                return False
+        if self.status == "Done_running_PostR":
+            if self.template.options['usePython']:
+                self.StartPostPython()
+               
+                self.status = "Running_post_Pythoncode" 
+                return False
+            else:
+                self.status = "Done"         
+        if self.status == "Running_post_Pythoncode":
+            if self.check_done_postRunPython(): 
+                self.status = "Done" 
+            else:
+                return False
+        if self.status == "Done":
+            self.calcFitness()
+            return True
                       
     def get_results_pharmpy(self):
-      
-        if not exists(self.xml_file):
-            self.crash = True
-            self.success = self.covariance = self.correlation  = False
-            self.Condition_num_test = False
-            self.condition_num = 9999999    
-            self.ofv = None
-            self.fitness = self.template.options['crash_value']
-            return()
-        result = read_model(self.controlFileName)
-        
         try:
+            result = read_model(self.controlFileName)
             # fixed thetas/omega/sigmas from parmeters.fix
-            fixed_parms = result.parameters.fix
-             
+            fixed_parms = result.parameters.fix 
             thetas = [value for key, value in fixed_parms.items() if 'THETA' in key.upper()]
             omegas = [value for key, value in fixed_parms.items() if 'OMEGA' in key.upper()]
             sigmas = [value for key, value in fixed_parms.items() if 'SIGMA' in key.upper()] 
@@ -506,179 +540,110 @@ class model:
             self.num_non_fixed_THETAs = self.num_THETAs - sum(thetas)
             self.num_non_fixed_OMEGAs = self.num_OMEGAs - sum(omegas)           
             self.num_non_fixed_SIGMAs = self.num_SIGMAs - sum(sigmas)
-            model_fit = result.modelfit_results
-            self.ofv = model_fit.ofv
-            self.success = model_fit.minimization_successful
-               
-            if model_fit.correlation_matrix is None:
+            model_fit = result.modelfit_results 
+            try:
+                self.ofv = model_fit.ofv 
+                self.success = model_fit.minimization_successful 
+                try:
+                    if model_fit.correlation_matrix.isnull().values.any():  
+                        self.covariance = False
+                        self.correlation = False
+                        self.condition_num = self.template.options['crash_value']
+                        self.Condition_num_test = False
+                    else:   
+                        self.covariance = True
+                        correlation_matrix = model_fit.correlation_matrix.values
+                        size = model_fit.correlation_matrix.shape[0]
+                        self.correlation = True #passes correlation test
+                        for row in range(1,size):
+                            if self.correlation == False:
+                                break
+                            for col in range(row):
+                                if correlation_matrix[row,col] > self.template.options['correlationLimit']:
+                                    self.correlation = False
+                                    break
+                except: 
+                    self.covariance = False
+                    self.correlation = False
+                    self.condition_num = self.template.options['crash_value']
+                    self.Condition_num_test = False 
+            except: 
+                self.ofv = self.template.options['crash_value']
                 self.covariance = False
                 self.correlation = False
                 self.condition_num = self.template.options['crash_value']
                 self.Condition_num_test = False
-            else:
-                if model_fit.correlation_matrix.isnull().values.any():  
-                    self.covariance = False
-                    self.correlation = False
-                    self.condition_num = self.template.options['crash_value']
-                    self.Condition_num_test = False
-                else:   
-                    self.covariance = True
-                    correlation_matrix = model_fit.correlation_matrix.values
-                    size = model_fit.correlation_matrix.shape[0]
-                    self.correlation = True #passes correlation test
-                    for row in range(1,size):
-                        if self.correlation == False:
-                            break
-                        for col in range(row):
-                            if correlation_matrix[row,col] > self.template.options['correlationLimit']:
-                                self.correlation = False
-                                break
-                    
-                    # need to read xml for eigenvalues, not in pharmpy output (???)
-                    # xml file should have eigen values if covariance is succesfull
-                    # but need to verify this 
-                    # assume only 1 estimation problem, find number of estimations
-                    
-                    with open(self.xml_file) as xml_file:
-                        data_dict = xmltodict.parse(xml_file.read()) 
-                        # may be more than one estimation
-                    problem_dict = data_dict['nm:output']['nm:nonmem']['nm:problem']
-                    if 0 in problem_dict: # more than one problem, e.g. with simulation
-                        n_estimation = len(problem_dict[0]['nm:estimation']) # estimation MUST be the first one, followed by any simulations
-                        last_estimation = data_dict['nm:output']['nm:nonmem']['nm:problem'][0]['nm:estimation'][n_estimation-1]
-                    else:
-                        last_estimation = problem_dict['nm:estimation']    
-                    if 'nm:eigenvalue' in last_estimation: 
-                    #if last_estimation['nm:eigenvalues'] is None: 
-                        Eigens = last_estimation['nm:eigenvalues']['nm:val'] 
-                        max = -9999999
-                        min = 9999999
-                        for i in Eigens:
-                            val = float(i['#text']) 
-                            if val < min: min = val
-                            if val > max: max = val 
-                        self.condition_num = max/min
-                        if self.condition_num > 1000: # should 1000 be an option??
-                            self.Condition_num_test = False
-                        else:
-                            self.Condition_num_test = True
-                    else: 
-                        self.condition_num = self.template.options['crash_value']
-                        self.Condition_num_test = False
-        except:            
-            self.success = self.covariance = self.correlation  =  self.Condition_num_test = False
-            self.condition_num = 9999999
-            self.ofv = None
-            self.fitness = self.template.options['crash_value']
-         
-        #self.ofv = float(FinalEst.findall('NMresult:final_objective_function',ns)[0].text)
-        # Convergence = int(FinalEst.findall('NMresult:termination_status',ns)[0].text)
-        # if Convergence == 0:
-        #     self.success = True
-        # else:
-        #     self.success = False
-        # Covariance_results = FinalEst.findall('NMresult:covariance_status',ns)[0] 
-        # allCov = dict(Covariance_results.attrib)
-        # self.covariance_error = int(allCov[namespaceroot + "error"]) 
-        # # covariance matrix
-        # if self.covariance_error == 0:
-        #     self.covariance = True
-        #     allcorr = FinalEst.findall('NMresult:correlation',ns)[0]
-        #     rows = allcorr.findall('NMresult:row',ns)
-        #     #NumRowsCorr = len(rows)
-        #     numCols = 0
-        #     Correlation_limit = self.template.options['correlationLimit']
-        #     self.correlation  = True
-        #     for thisrow in rows:
-        #         if numCols > 0:
-        #             thiscol = thisrow.findall('NMresult:col',ns)
-        #             offdiags = thiscol[:numCols]
-        #             for thisval in offdiags:
-        #                 val = abs(float(thisval.text))
-        #                 if val> Correlation_limit:
-        #                     self.correlation  = False
-        #         numCols += 1 
+        except:
+            self.ofv = self.template.options['crash_value']  
+            self.covariance = False
+            self.correlation = False
+            self.condition_num = self.template.options['crash_value']
+            self.Condition_num_test = False 
+               
+            
+            # need to read xml for eigenvalues, not in pharmpy output (???)
+            # xml file should have eigen values if covariance is succesfull
+            # but need to verify this 
              
-        #     maxEigen = -9999999
-        #     minEigen = 99999999 
+        
+        if not exists(self.xml_file): 
+            self.Condition_num_test = False
+            self.condition_num = 9999999    
+            return()     
+        else:       
+            try:
+                with open(self.xml_file) as xml_file:
+                    data_dict = xmltodict.parse(xml_file.read()) 
+                    if self.template.version is None:
+                        self.template.version = data_dict['nm:output']['nm:nonmem']['@nm:version'] # string
+                        print("NONMEM version = " + self.template.version)
+                        # keep first two digits
+                        dots = [_.start() for _ in re.finditer("\.", self.template.version)] 
+                        # and get the first two
+                        majorversion = float(self.template.version[:dots[1]]) # float
+                        if majorversion < 7.4 or majorversion > 7.5:
+                            print("NONMEM is version " + self.template.version  + ", Code requires NONMEM 7.4 or 7.5, exiting")
+                            quit() 
+                       
+                #if 0 in problem_dict: # more than one problem, e.g. with simulation
+                # it seems that if there is only one problem, this is orderedDict
+                # is multiple problems, is just a plain list, if > 0, assume the FIRST IS THE $EST
+                problem_dict = data_dict['nm:output']['nm:nonmem']['nm:problem']  
+                if isinstance(problem_dict,list): 
+                    problem_dict = problem_dict[0]
+                estimations = problem_dict['nm:estimation']   
 
-        #     allEigens = FinalEst.findall('NMresult:eigenvalues',ns)[0]
-            
-            
-        #     for this_eigen in allEigens: # are the always sorted assending
-        #         eigen = float(this_eigen.text)
-        #         if eigen> maxEigen: maxEigen = eigen
-        #         if eigen < minEigen: minEigen = eigen
-        #     self.condition_num  = maxEigen/minEigen
-        #     if self.condition_num > 1000:
-        #         self.Condition_num_test = False
-        #     else:
-        #         self.Condition_num_test = True
-        # else:
-        #     self.Condition_num_test = False
-        #     self.correlation  = False
-        #     self.covariance = False
-        #     self.condition_num = 999999
-        # # nmtran msgs
-        # self.nmtran = root.find('NMresult:nmtran',ns).text
-
-        #    # numthetas
-        # thetalb = EstimationProblem.findall('NMresult:theta_lb',ns  )[0]
-        # thetaub = EstimationProblem.findall('NMresult:theta_ub',ns  )[0]
-        # valslb = thetalb.findall('NMresult:val',ns) 
-        # #valsub = thetaub.findall('NMresult:val',ns) 
-        # numtheta = len(valslb)
-        # num_thetas_fixed = 0
-        # for this_theta in range(numtheta): 
-            
-        #     if thetalb[this_theta] == thetaub[this_theta]:
-        #         num_thetas_fixed += 1 
-        # self.num_THETAs = numtheta
-        # self.num_non_fixed_THETAs = numtheta-num_thetas_fixed
-        # # add in final THETA estimates, may need someday? for plausability score?           
-        # # omega  will always be a full matrix, value of 0 means fixed
-        # # found in estimation 
-        # omegaBlock = FinalEst.findall('NMresult:omega',ns)[0]
-        # rows = omegaBlock.findall('NMresult:row',ns)
-        # NumRowsOmega = len(rows)
-        # OMEGA = []
-        # for _ in range(NumRowsOmega):
-        #     OMEGA.append([None]*NumRowsOmega) #,[None]*NumRowsOmega]#*NumRowsOmega
-        # cur_row = 0  
-        # NumOmega = 0
-        # for thisrow in rows: 
-        #     cur_col = 0
-        #     thiscol = thisrow.findall('NMresult:col',ns) 
-        #     for thisval in thiscol:
-        #         OMEGA[cur_row][cur_col] = float(thisval.text)  
-        #         if(OMEGA[cur_row][cur_col]) !=0.00:
-        #             NumOmega += 1
-        #         cur_col += 1
-        #     cur_row += 1
-        # self.num_OMEGAs = NumOmega
-        # self.OMEGA = OMEGA # may need someday?
-        # sigmaBlock = FinalEst.findall('NMresult:sigma',ns)[0]
-        # rows = sigmaBlock.findall('NMresult:row',ns)
-        # NumRowsSigma = len(rows)
-        # SIGMA = []
-        # for _ in range(NumRowsSigma):
-        #     SIGMA.append([None]*NumRowsSigma) #,[None]*NumRowsOmega]#*NumRowsOmega
-        # cur_row = 0  
-        # NumSigma = 0
-        # for thisrow in rows: 
-        #     cur_col = 0
-        #     thiscol = thisrow.findall('NMresult:col',ns) 
-        #     for thisval in thiscol:
-        #         SIGMA[cur_row][cur_col] = float(thisval.text)  
-        #         if(SIGMA[cur_row][cur_col]) !=0.00:
-        #             NumSigma += 1
-        #         cur_col += 1
-        #     cur_row += 1
-        # self.num_SIGMAs = NumSigma
-        # self.SIGMA = SIGMA
-        # root.clear()
-        if exists(self.xml_file):
-            os.remove(self.xml_file)
+                    # similar, may be more than one estimation, if > 1, we want the final one
+                if isinstance(estimations,list): # > 1 one $EST
+                    n_estimation = len(estimations)  
+                    last_estimation = estimations [n_estimation-1]
+                else:
+                    last_estimation = estimations 
+                 
+                # a
+                if 'nm:eigenvalues' in last_estimation: 
+                #if last_estimation['nm:eigenvalues'] is None: 
+                    Eigens = last_estimation['nm:eigenvalues']['nm:val'] 
+                    max = -9999999
+                    min = 9999999
+                    for i in Eigens:
+                        val = float(i['#text']) 
+                        if val < min: min = val
+                        if val > max: max = val 
+                    self.condition_num = max/min
+                    if self.condition_num > 1000: # should 1000 be an option??
+                        self.Condition_num_test = False
+                    else:
+                        self.Condition_num_test = True
+                else: 
+                    self.condition_num = self.template.options['crash_value']
+                    self.Condition_num_test = False                    
+            except:            
+                self.Condition_num_test = False
+                self.condition_num = self.template.options['crash_value']  
+                self.PRDERR += " .xml file not present, likely crash in estimation step"
+        #if exists(self.xml_file):
+        #    os.remove(self.xml_file)
         gc.collect()
         return()
     
@@ -751,6 +716,9 @@ class model:
         need to look in output file for parameter at boundary and parameter non positive """
        
         try:
+            self.get_NMTRAN_msgs()
+            self.get_PRDERR()
+            self.get_results_pharmpy()
             if (self.ofv == None):
                 self.fitness = self.template.options['crash_value']
                 return  
@@ -787,16 +755,17 @@ class model:
             self.fitness = self.template.options['crash_value']
         if self.template.options['useR']:
             try:
-                self.fitness += self.post_run_penalty 
+                self.fitness += self.post_run_Rpenalty 
             except:
                 self.fitness = self.template.options['crash_value']
+             
+                 
+        if self.template.options['usePython']:
             try:
-                f = open(self.outputFileName,"a")
-                f.write("\nPost Run text: " + self.post_run_text)
-                f.flush()
-                f.close()
+                self.fitness += self.post_run_Pythonpenalty 
             except:
-                    pass
+                self.fitness = self.template.options['crash_value']
+             
         if self.fitness > self.template.options['crash_value']:
             self.fitness = self.template.options['crash_value'] 
             # save results
@@ -805,7 +774,8 @@ class model:
 
     def MakeJsonList(self):
         """assembles what goes into the JSON file of saved models"""
-        self.jsonListRecord = {"control": self.control, "fitness": self.fitness,"ofv": self.ofv,"success": self.success,"covariance": self.covariance,"post_run_text": self.post_run_text, "post_run_penalty": self.post_run_penalty, \
+        self.jsonListRecord = {"control": self.control, "fitness": self.fitness,"ofv": self.ofv,"success": self.success,"covariance": self.covariance, \
+        "post_run_Rtext": self.post_run_Rtext,"post_run_Rpenalty": self.post_run_Rpenalty, "post_run_Pythontext": self.post_run_Pythontext,"post_run_Pythonpenalty": self.post_run_Pythonpenalty,\
              "correlation": self.correlation,"num_THETAs": self.num_THETAs,"num_OMEGAs": self.num_OMEGAs,"num_SIGMAs": self.num_SIGMAs, "condition_num": self.condition_num, \
                  "NMtranMSG":self.NMtranMSG}
         return

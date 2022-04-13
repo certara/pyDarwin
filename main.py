@@ -3,10 +3,9 @@ import Templater
 import logging 
 import model_code
 import time
-from time import localtime
-import sys
-from os import error
-from os.path import exists 
+import sys 
+from os import error 
+ 
 import gc
 logger = logging.getLogger(__name__) 
  
@@ -15,19 +14,19 @@ def RunSearch(template_file: str,tokens_file: str,options_file: str) -> Template
     At the end, write best control and output file to homeDir (specified in options_file) 
     options_file path name should, in general, be absolute, other file names can be absolute path or path relative to the homeDir  
     function returns the final model object"""
-     
+    
     try:   # path to tokens/template is relative to homeDir, probably need to give full path to template/tokens??
         model_template = Templater.template(template_file,tokens_file,options_file)
     except:   
         logger.error(error)
         raise    
     GlobalVars.Set_up_Objects()
-    
+        
     GlobalVars.output = open("results.csv","w")    
     genome_length = sum(model_template.gene_length) 
     # initialize a trival model for the global best 
     nullCode = model_code.model_code([0]*genome_length,"None",model_template.gene_max,model_template.gene_length)
-    GlobalVars.BestModel = Templater.model(model_template,nullCode,-99,True,-99) # set alreadyInt to True to keep decode from running
+    GlobalVars.BestModel = Templater.model(model_template,nullCode,-99,True,-99)  
     GlobalVars.BestModel.fitness = model_template.options['crash_value'] + 1
     algorithm  =  model_template.options['algorithm'] 
     
@@ -54,16 +53,20 @@ def RunSearch(template_file: str,tokens_file: str,options_file: str) -> Template
     gc.collect()    
     return final
 if __name__ == '__main__': 
-     
-    print(f"#\n#\n# Start exhaustive search at {time.asctime()}..............................................")
-    best_modelEx = RunSearch("C:/fda/FDA-OGD-ML/example_small_template.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/exhaustiveoptions.json")
-    print(f"#\n#\n# Start GA at {time.asctime()}..............................................")
-    best_modelGA = RunSearch("C:/fda/FDA-OGD-ML/example_small_template.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/GAoptions.json")  
-    print(f"#\n#\n# Start RF at {time.asctime()}..............................................")
-    best_modelRF = RunSearch("C:/fda/FDA-OGD-ML/example_small_template.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/RFoptions.json")
-    print(f"#\n#\n# Start GBRT at {time.asctime()}............................................")
-    best_modelGBRT = RunSearch("C:/fda/FDA-OGD-ML/example_small_template.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/GBRToptions.json")
-    print(f"#\n#\n# Start GP at {time.asctime()}..............................................")
-    best_modelGP = RunSearch("C:/fda/FDA-OGD-ML/example_small_template.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/GPoptions.json")
-
+  
+    #print(f"#\n#\n# Start exhaustive for small space search, only 1 $EST, NM74 at {time.asctime()}..............................................")
+    #best_modelEx = RunSearch("C:/fda/FDA-OGD-ML/example_small_template.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/exhaustiveoptions74.json")
+    #print(f"#\n#\n# Start exhaustive for small space search, 2 $EST, no $SIM at {time.asctime()}..............................................")
+    #best_modelEx = RunSearch("C:/fda/FDA-OGD-ML/example_small_2EST_template.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/exhaustiveoptions74.json")
+    #print(f"#\n#\n# Start exhaustive for small space search, only 1 $EST, no $SIM at {time.asctime()}..............................................")
+    #best_modelEx = RunSearch("C:/fda/FDA-OGD-ML/example_small_template.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/exhaustiveoptions75.json") 
+    #print(f"#\n#\n# Start exhaustive for small space search, 2 $EST at {time.asctime()}..............................................")
+    #best_modelEx = RunSearch("C:/fda/FDA-OGD-ML/example_small_2EST_template.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/exhaustiveoptions75.json")
+    #print(f"#\n#\n# Start exhaustive for small space search, only 1 $EST at {time.asctime()}..............................................")
+    #best_modelEx = RunSearch("C:/fda/FDA-OGD-ML/example_small_template.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/exhaustiveoptions75.json") 
+ ## with $SIM
+    #print(f"#\n#\n# Start exhaustive for small space search, 2 $EST, with $SIM at {time.asctime()}..............................................")
+    #best_modelEx = RunSearch("C:/fda/FDA-OGD-ML/example_small_2EST_template_SIM.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/exhaustiveoptions74.json")
+    print(f"#\n#\n# Start exhaustive for small space search, 1 $EST, with $SIM at {time.asctime()}..............................................")
+    best_modelEx = RunSearch("C:/fda/FDA-OGD-ML/example_small_template_SIM.txt","C:/fda/FDA-OGD-ML/example_small_tokens.json","C:/fda/FDA-OGD-ML/exhaustiveoptions75.json")
     print("done")

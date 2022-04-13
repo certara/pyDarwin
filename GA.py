@@ -1,5 +1,6 @@
 # https://programtalk.com/python-examples/deap.tools.HallOfFame/
 # deap seems to need python 3.7.3
+from ast import Global
 import model_code
 import run_downhill
 import GlobalVars
@@ -96,7 +97,7 @@ def add_sharing_penalty(pop,niche_radius,sharing_alpha,niche_penalty):
 def run_GA(model_template: Templater.template)-> Templater.model:  
     """ Runs GA, 
     Argument is model_template, which has all the needed information """
-    start = time.time()    
+    GlobalVars.StartTime = time.time()    
     runAllModels.InitModellist(model_template)
     pop_size = model_template.options['popSize'] 
     best_fitness = crash_value = model_template.options['crash_value'] 
@@ -335,7 +336,7 @@ def run_GA(model_template: Templater.template)-> Templater.model:
     with open(resultFilePath,'w') as result:
         result.write(GlobalVars.BestModelOutput)     
     print(f"-- End of Optimization at {time.asctime()}--")  
-    elapsed = time.time() - start
+    elapsed = time.time() - GlobalVars.StartTime 
     print(f"Elapse time = " + str(timedelta(seconds=elapsed)) + "\n") 
     print(f'Best individual GA is {str(final_model.model_code.FullBinCode)} with fitness of {final_model.fitness:4f}') 
     print(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )

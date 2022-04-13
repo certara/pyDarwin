@@ -25,4 +25,5 @@ Three files are required to define the search:
      
  The optimization can be run from the main.py module, in Visual studio code (VScode). To run from VScode, load the folder, open the main.py and hit F5 (note that the paths to the three arguments
  are absolute paths, the first two arguments are specified in the launch.json file in the .vscode folder. Currently this has been tested only on Windows, likely signifcant changes will be needed to run on Linux.
+GA model selection requires the package DEAP (distributed Evolutionary Algorithm in python). This package is not compatible as of April 8, 2020 with Python versions greater than 3.8.1. Newer versions of Python can be used with DEAP, but requires recompiling the package. This repo has been tested with Python 3.7 and 3.8 and NONMEM 7.4 and NONMEM 7.5.
  

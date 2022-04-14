@@ -28,8 +28,7 @@ import utils
 import GlobalVars
 from copy import copy   
 import gc 
-logger = logging.getLogger(__name__) 
- 
+logger = logging.getLogger(__name__)  
 class Object:
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, 
@@ -41,37 +40,48 @@ class template:
         Tokens are parsed to define the search space. The template object is inheirated by the model object """
         self.isFirstModel = True
         self.errMsgs = []
-        self.warnings = []  
-        os.chdir(os.path.dirname(os.path.abspath(__file__))) # need to start in original folder, in case python module must be loaded
+        self.warnings = []   
+        os.chdir(os.path.dirname(os.path.abspath(__file__))) # need to start in original folder, in case python module must be loaded 
+        
         try:
-            self.options = json.loads(open(optionsFile,'r').read())
-            self.homeDir = self.options['homeDir'] # just to make it easier 
+            if os.path.exists(optionsFile):
+                self.options = json.loads(open(optionsFile,'r').read())
+                self.homeDir = self.options['homeDir'] # just to make it easier  
+                 # remove messages file
+                if os.path.exists(os.path.join(self.homeDir,"messages.txt")):
+                    os.remove(os.path.join(self.homeDir,"messages.txt"))
+                    
+                self.printMessage(f"Options file found at {optionsFile}") 
+            else: # can't write to homeDir if can't open options
+                print(f"!!!!!Options file {optionsFile} seems to be missing, exiting") 
+                quit()
+                 
         except Exception as error:
-            self.errMsgs.append("Failed to parse JSON tokens in " + optionsFile)  
-            logger.error(error)
-            raise 
+            self.errMsgs.append("Failed to parse JSON tokens in " + optionsFile)   
+            self.printMessage("Failed to parse JSON tokens in " + optionsFile)
+            quit()
         try:    ## should this be absolute path or path from homeDir??
             self.TemplateText= open(TemplateTextFile,'r').read()  
         except Exception as error:
-            self.errMsgs.append( "Failed to open Template file " + TemplateTextFile)    
-            logger.error(error)
-            raise            
+            self.errMsgs.append( "Failed to open Template file " + TemplateTextFile)   
+            self.printMessage("Failed to open Template file " + TemplateTextFile)
+            quit()
         try:     
              self.tokens = collections.OrderedDict(json.loads(open(tokensFile,'r').read()))
                  
         except Exception as error:
             self.errMsgs.append( "Failed to parse JSON tokens in " + tokensFile)  
-            logger.error(error)
-            raise         
+            self.printMessage("Failed to parse JSON tokens in " + tokensFile)
+            quit() 
          
         # write out space, to use in test for exhaustive search 
         # self.space = []
         if self.options['usePython']:
-            if not os.path.isfile( self.options['postRunPythonCode'] + ".py"):
-                print("!!!!!postRunPythonCode " + os.path.join(os.getcwd(),self.options['postRunPythonCode']) + ".py does not exist, exiting")
+            if not os.path.isfile( self.options['postRunPythonCode'] + ".py"): 
+                self.printMessage(f"!!!!!postRunPythonCode {os.path.join(os.getcwd(),self.options['postRunPythonCode'])}.py was not found, exiting")  
                 quit()
-            else: 
-                print("postRunPythonCode " + os.path.join(os.getcwd(),self.options['postRunPythonCode']) + ".py found")
+            else:  
+                self.printMessage("postRunPythonCode " + os.path.join(os.getcwd(),self.options['postRunPythonCode']) + ".py found") 
                 self.python_mod = importlib.import_module( self.options['postRunPythonCode'])  # MUST be in home directory, a python rule, and cannot have the .py extension
                 
         if self.options['algorithm'] == "GA":
@@ -90,26 +100,7 @@ class template:
             set_num = 0
             for this_token in self.tokens[this_group]:
                 names.append(this_group + "[" + str(set_num) + "] =" + this_token[0]  )
-                set_num += 1
-            
-                #self.space.append(names)   
-        # if self.isGA: # if GA in DEAP, intergers
-        #     for this_group in self.tokens: 
-        #         # build list of names from first token in each set
-        #         # note that first token need not be unique, so have to include token set number
-        #         options = list(range(len(self.tokens[this_group])))
-                     
-        # else: # is scikit-optimize or exhaustive
-        #     for this_group in self.tokens: 
-        #         # build list of names from first token in each set
-        #         # note that first token need not be unique, so have to include token set number
-        #         names = []
-        #         set_num = 0
-        #         for this_token in self.tokens[this_group]:
-        #             names.append(this_group + "[" + str(set_num) + "] =" + this_token[0]  )
-        #             set_num += 1
-               
-        #         #self.space.append(names)        
+                set_num += 1    
         if not os.path.isdir(self.homeDir):
             os.mkdir(self.homeDir)
         os.chdir(self.homeDir)
@@ -133,7 +124,16 @@ class template:
         self.lastFixedTHETA=nFixedTHETA
         self.lastFixedETA=nFixedETA
         self.lastFixedEPS=nFixedEPS  
-        
+    
+    def printMessage(self,message): 
+        print(message) 
+        try: 
+            with open(os.path.join(self.homeDir,"messages.txt"),"a") as f:
+                f.write(message + "\n") 
+                f.flush()
+        except:  
+            msg = os.path.join(self.homeDir,"message.txt")
+            print(f"unable to write to {msg}") 
     def getGeneLength(self):
         ''' argument is the token sets, returns maximum value of token sets and number of bits'''  
         tokenKeys = self.tokens.keys()
@@ -278,45 +278,46 @@ class model:
 
     def files_present(self): 
         """is the data file specified in the control file present? """
-        result = read_model(self.controlFileName)
-        try:
-            if hasattr(result, "dataset_path"):
-                self.dataset_path = result.dataset_path
-            else:
-                self.dataset_path = result._read_dataset_path()
-            
-            if not exists(self.dataset_path):
-                text = input(f"!!!!!Data set for FIRST MODEL {self.dataset_path} seems to be missing, exit (y or n)?")
-                if text.strip().lower() == "y":
-                    print(f"exiting at {time.asctime()}")
+        # make sure control file is there:
+        count = 0
+        file_exists = exists(self.controlFileName)
+        while not file_exists and count < 20:
+            time.sleep(0.1)
+            count += 1
+            file_exists = exists(self.controlFileName)
+        if not file_exists:
+            self.template.printMessage("Cannot find " + self.controlFileName + " to check for data file")
+        else:
+            result = read_model(self.controlFileName)
+            try:
+                if hasattr(result, "dataset_path"):
+                    self.dataset_path = result.dataset_path
+                else:
+                    self.dataset_path = result._read_dataset_path() 
+                if not exists(self.dataset_path):
+                    self.template.printMessage(f"!!!!!Data set for FIRST MODEL {self.dataset_path} seems to be missing, exiting at {time.asctime()}")
                     quit()   
-            else:
-                print(f"Data set for FIRST MODEL ONLY {self.dataset_path} was found")
-        except:
-            print(f"Unable to check if data set is present with current version of NONMEM")
+                else:
+                    self.template.printMessage(f"Data set for FIRST MODEL ONLY {self.dataset_path} was found")
+            except:
+                self.template.printMessage(f"Unable to check if data set is present with current version of NONMEM")
         ## check nmfe?
         if not exists(self.template.options['nmfePath']):
-            text = input(f"NMFE path ({self.template.options['nmfePath']} seems to be missing, exit (y or n)?")
-            if text.strip().lower() == "y":
-                 print(f"exiting at {time.asctime()}")
-                 quit() 
+            self.template.printMessage(f"NMFE path ({self.template.options['nmfePath']} seems to be missing, exiting at {time.asctime()}")
+            quit() 
         else:
-            print(f"NMFE found at {self.template.options['nmfePath']}")
-        if not exists(self.template.options['RScriptPath']):
-            text = input(f"RScript.exe path ({self.template.options['RScriptPath']} seems to be missing, exit (y or n)?")
-            if text.strip().lower() == "y":
-                 print(f"exiting at {time.asctime()}")
-                 quit()   
+            self.template.printMessage(f"NMFE found at {self.template.options['nmfePath']}")
+        if not exists(self.template.options['RScriptPath']): 
+            self.template.printMessage(f"RScript.exe path ({self.template.options['RScriptPath']} seems to be missing, exiting at {time.asctime()}")
+            quit()   
         else:
             print(f"RScript.exe found at {self.template.options['RScriptPath']}")
         if self.template.options['useR']:
             if not exists(self.template.options['postRunRCode']):
-                text = input(f"Post Run R code path ({self.template.options['postRunRCode']} seems to be missing, exit (y or n)?")
-                if text.strip().lower() == "y":
-                    print(f"exiting at {time.asctime()}")
-                    quit() 
+                self.template.printMessage(f"Post Run R code path ({self.template.options['postRunRCode']} seems to be missing, exiting at {time.asctime()}")
+                quit() 
             else:
-                print(f"postRunRCode file found at {self.template.options['postRunRCode']}")
+                self.template.printMessage(f"postRunRCode file found at {self.template.options['postRunRCode']}")
                 
         return 
     def copyResults(self,prevResults):
@@ -345,10 +346,10 @@ class model:
     def startModel(self): 
         self.filestem = 'NMModel_' + str(self.generation) + "_" + str(self.modelNum)
         self.runDir = os.path.join(self.template.homeDir,str(self.generation),str(self.modelNum))      
-        self.controlFileName = os.path.join(self.runDir, self.filestem +".mod")
-        self.outputFileName = os.path.join(self.runDir, self.filestem +".lst")
+        self.controlFileName = self.filestem +".mod"
+        self.outputFileName = self.filestem +".lst"
         self.xml_file = os.path.join(self.runDir, self.filestem +".xml")
-        self.executableFileName = os.path.join(self.runDir,self.filestem +".exe") 
+        self.executableFileName = self.filestem +".exe" #os.path.join(self.runDir,self.filestem +".exe") 
         self.MakeControl() 
              
         # in case the new folder name is a file
@@ -358,9 +359,10 @@ class model:
             if os.path.isfile(self.runDir) or os.path.islink(self.runDir):
                 os.unlink(self.runDir)
             if not os.path.isdir(self.runDir):
-                os.makedirs(self.runDir)
+                os.makedirs(self.runDir) 
+            os.chdir(self.runDir)
         except:
-            print(f"Error removing run files/folders for {self.runDir}, is that file/folder open?")
+            self.template.printMessage(f"Error removing run files/folders for {self.runDir}, is that file/folder open?")
         for filename in os.listdir(self.runDir):
             file_path = os.path.join(self.runDir, filename)
             try:
@@ -369,8 +371,9 @@ class model:
                 elif os.path.isdir(file_path):
                     shutil.rmtree(file_path)
             except Exception as e:
-                print('Failed to delete %s. Reason: %s' % (self.runDir, e))
+                self.template.printMessage('Failed to delete %s. Reason: %s' % (self.runDir, e))
         ## check key file, just to make sure
+
         if os.path.exists(self.controlFileName):
             os.remove(self.controlFileName)
         if os.path.exists(self.outputFileName ):
@@ -378,12 +381,11 @@ class model:
         with open(self.controlFileName, 'w+') as f: 
             f.write(self.control)  
             f.flush()
-
-         # check if data file is present, still to do
+ 
         if self.template.isFirstModel:
             self.files_present()
             self.template.isFirstModel = False
-        os.chdir(self.runDir)
+            self.template.printMessage("Run Directory for first model is " + self.runDir) 
         command = [self.template.options['nmfePath'],self.controlFileName ,self.outputFileName, " -nmexec=" + self.executableFileName]
         GlobalVars.UniqueModels += 1
  
@@ -417,14 +419,14 @@ class model:
             try:
                 self.post_run_Pythonpenalty,self.post_run_Pythontext =  self.template.python_mod.PostRunPython()
                 self.status = "Done"
-                with open(self.outputFileName,"a") as f:
+                with open(os.path.join(self.runDir,self.outputFileName),"a") as f: 
                         f.write(f"Post run Python code Penalty = {str(self.post_run_Pythonpenalty)}\n")
                         f.write(f"Post run Python code text = {str(self.post_run_Pythontext)}\n")
                 return True       
             except:
                 self.post_run_Pythonpenalty = self.template.options['crash_value']
                 self.status = "Done"
-                with open(self.outputFileName,"a") as f: 
+                with open(os.path.join(self.runDir,self.outputFileName),"a") as f:
                     print("!!!Post run Python code crashed in " + self.runDir)
                     f.write("Post run Python code crashed\n")
                 return True
@@ -442,24 +444,23 @@ class model:
             else:
                 while self.RSTDOUT is None and count < 100:
                     self.RSTDOUT,self.RSTDERR = self.RProcess.communicate() 
-                    time.sleep(0.2)
+                    time.sleep(0.1)
                     count += 1
                 self.DecodeRSTOUT() 
                 self.RProcess = None
                 gc.collect() 
-                with open(self.outputFileName,"a") as f:
+                
+                with open(os.path.join(self.runDir,self.outputFileName),"a") as f:
                     f.write(f"Post run R code Penalty = {str(self.post_run_Rpenalty)}\n")
                     f.write(f"Post run R code text = {str(self.post_run_Rtext)}\n")
                 if count >= 99:
                     self.post_run_Rpenalty = self.template.options['crash_value'] 
-                    print("!!!Post run R code failed return a value in " + self.runDir)
-                    f.write("Post run R code failed return a value\n") 
+                    self.template.printMessage("!!!Post run R code failed return a value in " + self.runDir) 
                 return True
         except:
             self.post_run_Rpenalty = self.template.options['crash_value']
-           
-            with open(self.outputFileName,"a") as f: 
-                print("!!!Post run R code crashed in " + self.runDir)
+            self.template.printMessage("!!!Post run R code crashed in " + self.runDir)
+            with open(os.path.join(self.runDir,self.outputFileName),"a") as f: 
                 f.write("Post run R code crashed\n")
             return True
   
@@ -484,7 +485,7 @@ class model:
             else:  # has timeout expired?
                 end = time.time()
                 if (end-self.start) > int(self.template.options['timeout_sec']):
-                    print(f"Allowed NM run time exceeded, model in {self.runDir}")
+                    self.template.printMessage(f"Allowed NM run time exceeded, model in {self.runDir}")
                     try:
                         p = psutil.Process(self.NMProcess.pid)
                         p.terminate() 
@@ -511,8 +512,7 @@ class model:
                 return False
         if self.status == "Done_running_PostR":
             if self.template.options['usePython']:
-                self.StartPostPython()
-               
+                self.StartPostPython() 
                 self.status = "Running_post_Pythoncode" 
                 return False
             else:
@@ -528,6 +528,7 @@ class model:
                       
     def get_results_pharmpy(self):
         try:
+            os.chdir(self.runDir)
             result = read_model(self.controlFileName)
             # fixed thetas/omega/sigmas from parmeters.fix
             fixed_parms = result.parameters.fix 
@@ -682,7 +683,7 @@ class model:
                             full_error_text = msg[startline:] 
                             for error_line in full_error_text:
                                 error_text = error_text + ", " + error_line
-                            print("!!!ERROR in Model " + str(self.modelNum) + ", " +  error_text + "!!!")
+                            self.template.printMessage("!!!ERROR in Model " + str(self.modelNum) + ", " +  error_text + "!!!")
                             self.NMtranMSG += error_text
                             break
                         else:
@@ -824,7 +825,7 @@ class model:
             if os.path.isdir(os.path.join(self.runDir,"temp_dir")):
                 shutil.rmtree(os.path.join(self.runDir,"temp_dir") )
         except OSError as e:
-            print(f"OS Error {e}")
+            self.template.printMessage(f"OS Error {e}")
         return     
 
     def check_contains_parms(self):

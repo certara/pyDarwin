@@ -27,8 +27,10 @@ def InitModellist(model_template:Templater.template):
         except:
             print(f"Cannot read {model_template.options['input_model_json']}, setting models list to empty")
             GlobalVars.allModelsDict = dict()
-  
-    GlobalVars.output.write(f"Model num,Fitness,Model,generation,ofv,success,covar,correlation,ntheta,condition,RPenalty,PythonPenalty\n")
+    
+    with open(os.path.join(model_template.options['homeDir'] ,"results.csv")   ,"w") as f:
+        f.write(f"Model num,Fitness,Model,generation,ofv,success,covar,correlation #,ntheta,condition,RPenalty,PythonPenalty,NMTran messages\n")
+        f.flush()
     return 
 def Copy_to_Best(current_model: Templater.model):
     '''copies current model to the global best model
@@ -115,8 +117,11 @@ def run_all(Models:Templater.model):
                     current_model.cleanup() # changes back to home_dir 
                     # Integer code is common denominator for all, entered into dictionary with this 
                     GlobalVars.allModelsDict[str(current_model.model_code.IntCode)] = current_model.jsonListRecord 
-                  
-                GlobalVars.output.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty}\n")
+                
+    
+                with open(os.path.join(current_model.template.options['homeDir'], "results.csv"),"a") as f: # unfortunately, below needs to be all on one line
+                    f.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
+                    f.flush()
                 if current_model.template.isGA:
                     step_name = "Generation"
                 else:
@@ -162,16 +167,14 @@ def run_all(Models:Templater.model):
             if not done[slot_being_checked]:
                 current_model = slots[slot_being_checked] ## still linked to all_results
                 #current model is the model object, not the same as in all_results
-                if current_model.check_all_done() == True: # model finished, collect results, start new on, IF not yet done
- 
-                    #y = current_model.fitness    
+                if current_model.check_all_done() == True: # model finished, collect results, start new on, IF not yet done 
                     nmtranMsgs = current_model.NMtranMSG  
                     fitnesses[current_model.modelNum-start_model_num] = current_model.fitness  
                     if GlobalVars.BestModel == None or current_model.fitness < GlobalVars.BestModel.fitness:   
                         Copy_to_Best(current_model)                 
-                     
-                    GlobalVars.output.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty}\n")
- 
+                    with open(os.path.join(current_model.template.options['homeDir'] ,"results.csv")   ,"a") as f: 
+                        f.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
+                        f.flush()
                     if current_model.template.isGA:
                         step_name = "Generation"
                     else:

@@ -41,44 +41,53 @@ class Object:
 
 
 class template:
-    def __init__(self, TemplateTextFile, tokensFile, optionsFile):
-        """template contains all the results of the template file and the tokens, and the options
-        Tokens are parsed to define the search space. The template object is inheirated by the model object """
+    def __init__(self, project_dir: str, template_file: str = "template.txt",
+                 tokens_file: str = "tokens.json", options_file: str = "options.json"):
+        """
+        template contains all the results of the template file and the tokens, and the options
+        Tokens are parsed to define the search space. The template object is inherited by the model object
+        """
         self.isFirstModel = True
         self.errMsgs = []
         self.warnings = []
-        os.chdir(os.path.dirname(
-            os.path.abspath(__file__)))  # need to start in original folder, in case python module must be loaded
+
+        # need to start in original folder, in case python module must be loaded
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+        template_file = project_dir + "/" + template_file
+        tokens_file = project_dir + "/" + tokens_file
+        options_file = project_dir + "/" + options_file
 
         try:
-            if os.path.exists(optionsFile):
-                self.options = json.loads(open(optionsFile, 'r').read())
-                self.homeDir = self.options['homeDir']  # just to make it easier
+            if os.path.exists(options_file):
+                self.options = json.loads(open(options_file, 'r').read())
+                self.homeDir = project_dir
+
                 # remove messages file
                 if os.path.exists(os.path.join(self.homeDir, "messages.txt")):
                     os.remove(os.path.join(self.homeDir, "messages.txt"))
 
-                self.printMessage(f"Options file found at {optionsFile}")
+                self.printMessage(f"Options file found at {options_file}")
             else:  # can't write to homeDir if can't open options
-                print(f"!!!!!Options file {optionsFile} seems to be missing, exiting")
+                print(f"!!!!!Options file {options_file} seems to be missing, exiting")
                 quit()
 
         except Exception as error:
-            self.errMsgs.append("Failed to parse JSON tokens in " + optionsFile)
-            self.printMessage("Failed to parse JSON tokens in " + optionsFile)
+            self.errMsgs.append("Failed to parse JSON tokens in " + options_file)
+            self.printMessage("Failed to parse JSON tokens in " + options_file)
             quit()
         try:  ## should this be absolute path or path from homeDir??
-            self.TemplateText = open(TemplateTextFile, 'r').read()
+            self.TemplateText = open(template_file, 'r').read()
         except Exception as error:
-            self.errMsgs.append("Failed to open Template file " + TemplateTextFile)
-            self.printMessage("Failed to open Template file " + TemplateTextFile)
+            self.errMsgs.append("Failed to open Template file " + template_file)
+            self.printMessage("Failed to open Template file " + template_file)
             quit()
         try:
-            self.tokens = collections.OrderedDict(json.loads(open(tokensFile, 'r').read()))
+            self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
 
         except Exception as error:
-            self.errMsgs.append("Failed to parse JSON tokens in " + tokensFile)
-            self.printMessage("Failed to parse JSON tokens in " + tokensFile)
+            self.errMsgs.append("Failed to parse JSON tokens in " + tokens_file)
+            self.printMessage("Failed to parse JSON tokens in " + tokens_file)
             quit()
 
             # write out space, to use in test for exhaustive search

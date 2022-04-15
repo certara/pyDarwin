@@ -21,14 +21,13 @@ import logging
 import model_code
 import time
 import sys
-from os import error
 
 import gc
 
 logger = logging.getLogger(__name__)
 
 
-def run_search(template_file: str, tokens_file: str, options_file: str) -> Templater.model:
+def run_search(project_dir: str) -> Templater.model:
     """
     run algorithm selected in options_file, based on template_file and tokens_file
     At the end, write best control and output file to homeDir (specified in options_file) 
@@ -38,9 +37,9 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Templ
     """
 
     try:  # path to tokens/template is relative to homeDir, probably need to give full path to template/tokens??
-        model_template = Templater.template(template_file, tokens_file, options_file)
-    except:
-        logger.error(error)
+        model_template = Templater.template(project_dir)
+    except Exception as e:
+        logger.error(e)
         raise
 
     GlobalVars.Set_up_Objects()
@@ -81,6 +80,4 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Templ
 
 if __name__ == '__main__':
     print(f"#\n#\n# Start GA for example5, at {time.asctime()}")
-    best_modelEx2 = run_search("D:/workspace/ffe/ga/example5_template.txt",
-                               "D:/workspace/ffe/ga/example5_tokens.json",
-                               "D:/workspace/ffe/GA/gaoptions.json")
+    best_modelEx2 = run_search("D:/workspace/ffe/ga")

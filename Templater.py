@@ -41,8 +41,7 @@ class Object:
 
 
 class template:
-    def __init__(self, project_dir: str, template_file: str = "template.txt",
-                 tokens_file: str = "tokens.json", options_file: str = "options.json"):
+    def __init__(self, template_file: str, tokens_file: str, options_file: str):
         """
         template contains all the results of the template file and the tokens, and the options
         Tokens are parsed to define the search space. The template object is inherited by the model object
@@ -54,14 +53,10 @@ class template:
         # need to start in original folder, in case python module must be loaded
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-        template_file = project_dir + "/" + template_file
-        tokens_file = project_dir + "/" + tokens_file
-        options_file = project_dir + "/" + options_file
-
         try:
             if os.path.exists(options_file):
                 self.options = json.loads(open(options_file, 'r').read())
-                self.homeDir = project_dir
+                self.homeDir = self.options['homeDir']  # just to make it easier
 
                 # remove messages file
                 if os.path.exists(os.path.join(self.homeDir, "messages.txt")):

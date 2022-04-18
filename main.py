@@ -27,7 +27,7 @@ import gc
 logger = logging.getLogger(__name__)
 
 
-def run_search(project_dir: str) -> Templater.model:
+def run_search(template_file: str, tokens_file: str, options_file: str) -> Templater.model:
     """
     run algorithm selected in options_file, based on template_file and tokens_file
     At the end, write best control and output file to homeDir (specified in options_file) 
@@ -37,7 +37,7 @@ def run_search(project_dir: str) -> Templater.model:
     """
 
     try:  # path to tokens/template is relative to homeDir, probably need to give full path to template/tokens??
-        model_template = Templater.template(project_dir)
+        model_template = Templater.template(template_file, tokens_file, options_file)
     except Exception as e:
         logger.error(e)
         raise
@@ -79,5 +79,18 @@ def run_search(project_dir: str) -> Templater.model:
 
 
 if __name__ == '__main__':
+    best_modelEx = run_search(
+        "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/example_small_2est_withsim_template.txt",
+        "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/example_small_tokens.json",
+        "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/exhaustiveoptions74.json")
     print(f"#\n#\n# Start GA for example5, at {time.asctime()}")
-    best_modelEx2 = run_search("D:/workspace/ffe/ga")
+    best_modelEx2 = run_search("C:/fda/FDA-OGD-ML/examples/ga/example5_template.txt",
+                               "C:/fda/FDA-OGD-ML/examples/ga/example5_tokens.json",
+                               "C:/fda/FDA-OGD-ML/examples/GA/gaoptions.json")
+    print(f"#\n#\n# Start RF for example5, at {time.asctime()}")
+    best_modelEx3 = run_search("C:/fda/FDA-OGD-ML/examples/RF/example5_template.txt",
+                               "C:/fda/FDA-OGD-ML/examples/RF/example5_tokens.json",
+                               "C:/fda/FDA-OGD-ML/examples/RF/RFoptions.json")
+    best_modelEx4 = run_search("C:/fda/FDA-OGD-ML/examples/example5/example5_template.txt",
+                               "C:/fda/FDA-OGD-ML/examples/example5/example5_tokens.json",
+                               "C:/fda/FDA-OGD-ML/examples/example5/exhaustiveptions74.json")

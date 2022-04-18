@@ -28,7 +28,7 @@ def InitModellist(model_template:Templater.template):
             print(f"Cannot read {model_template.options['input_model_json']}, setting models list to empty")
             GlobalVars.allModelsDict = dict()
     
-    with open(os.path.join(model_template.options['homeDir'] ,"results.csv")   ,"w") as f:
+    with open(os.path.join(model_template.homeDir, "results.csv")   ,"w") as f:
         f.write(f"Model num,Fitness,Model,generation,ofv,success,covar,correlation #,ntheta,condition,RPenalty,PythonPenalty,NMTran messages\n")
         f.flush()
     return 
@@ -58,6 +58,8 @@ def Copy_to_Best(current_model: Templater.model):
         with open(current_model.outputFileName) as file: # Use file to refer to the file object
             GlobalVars.BestModelOutput = file.read() # only save best model, not all models, other models can be reproduced if needed.
     return
+
+
 def run_all(Models:Templater.model):
     """runs the models, always runs from integer representation, so for GA will need to convert to integer, for downhill, will need to
     convert to minimal binary, then to integer 
@@ -119,7 +121,7 @@ def run_all(Models:Templater.model):
                     GlobalVars.allModelsDict[str(current_model.model_code.IntCode)] = current_model.jsonListRecord 
                 
     
-                with open(os.path.join(current_model.template.options['homeDir'], "results.csv"),"a") as f: # unfortunately, below needs to be all on one line
+                with open(os.path.join(current_model.template.homeDir, "results.csv"),"a") as f: # unfortunately, below needs to be all on one line
                     f.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
                     f.flush()
                 if current_model.template.isGA:
@@ -172,7 +174,7 @@ def run_all(Models:Templater.model):
                     fitnesses[current_model.modelNum-start_model_num] = current_model.fitness  
                     if GlobalVars.BestModel == None or current_model.fitness < GlobalVars.BestModel.fitness:   
                         Copy_to_Best(current_model)                 
-                    with open(os.path.join(current_model.template.options['homeDir'] ,"results.csv")   ,"a") as f: 
+                    with open(os.path.join(current_model.template.homeDir, "results.csv")   ,"a") as f:
                         f.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
                         f.flush()
                     if current_model.template.isGA:
@@ -199,10 +201,10 @@ def run_all(Models:Templater.model):
         json.dump(GlobalVars.allModelsDict,f,indent=4, sort_keys=True, ensure_ascii=False)
     # write best model to output
     try:
-        with open(os.path.join(Models[0].homeDir,"InterimBestControl.mod"),'w' ) as f:
+        with open(os.path.join(Models[0].template.homeDir,"InterimBestControl.mod"),'w' ) as f:
             f.write(GlobalVars.BestModel.control)
         if GlobalVars.BestModelOutput != None:
-            with open(os.path.join(Models[0].homeDir,"InterimBestOutput.mod"),'w' ) as f:
+            with open(os.path.join(Models[0].template.homeDir,"InterimBestOutput.mod"),'w' ) as f:
                 f.write(GlobalVars.BestModelOutput)
     except:
         pass

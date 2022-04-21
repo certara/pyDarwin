@@ -1,6 +1,6 @@
 # https://programtalk.com/python-examples/deap.tools.HallOfFame/
 # deap seems to need python 3.7.3
-from ast import Global
+#from ast import Global
 import model_code
 import run_downhill
 import GlobalVars
@@ -22,7 +22,7 @@ import numpy as np
 from scipy.spatial import distance_matrix
 import heapq
 from pathlib import Path
-import utils
+#import utils
 np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning) 
 logger = logging.getLogger(__name__) 
    

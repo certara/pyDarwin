@@ -5,14 +5,12 @@ from cmath import nan
 from distutils.log import error
 import json
 import xmltodict
-import concurrent.futures
-# import sys
+import concurrent.futures 
 import re
 import math
 from pharmpy.modeling import read_model  ## v 0.62.0 works
-from sympy import false, true
-# import model_code
-import numpy as np
+from sympy import false, true 
+#import numpy as np
 from typing import OrderedDict
 import collections
 from unittest.mock import seal
@@ -503,7 +501,7 @@ class model:
     def check_all_done(self):
         """Check is the model is done running, uses the Process of the object. Process.poll() return of 107 or 110 
         seems to mean failed to start. Process.poll() of 0 is finished  
-        If done, calls (the excellect) pharmpy package to collect results, then either calls run_post_Code (if applicable) 
+        If done, calls (the excellet) pharmpy package to collect results, then either calls run_post_Code (if applicable) 
         or calls calcFitness."""
         if self.status == "Done":  # if done here, then already has post run code results
             return True
@@ -674,8 +672,8 @@ class model:
                 self.Condition_num_test = False
                 self.condition_num = self.template.options['crash_value']
                 self.PRDERR += " .xml file not present, likely crash in estimation step"
-        # if exists(self.xml_file):
-        #    os.remove(self.xml_file)
+        
+         
         gc.collect()
         return ()
 
@@ -826,14 +824,14 @@ class model:
         try:
             os.chdir(self.template.homeDir)
         except OSError as e:
-            print(f"OS Error {e}")
+            self.template.printMessage(f"OS Error {e} in call to cleanup")
         try:
             if self.template.options['remove_run_dir'] == "True":
                 try:
                     if os.path.isdir(self.runDir):
                         shutil.rmtree(self.runDir)
                 except OSError:
-                    print("Cannot remove folder {self.runDir}")
+                    self.template.printMessage("Cannot remove folder {self.runDir} in call to cleanup")
             else:
                 file_to_delete = [self.filestem + ".ext",
                                   self.filestem + ".clt",
@@ -899,7 +897,9 @@ class model:
             self.Num_noninfluential_tokens = sum(self.token_Non_influential)
             token_found = token_found or anyFound
         if anyFound:
+            self.template.printMessage("It appears that there is more than one level of nested tokens, only one level is supported, exiting")
             raise RuntimeError("Is there more than 1 level of nested tokens??")
+
 
         self.control = utils.matchTHETAs(self.control, self.template.tokens, self.template.varTHETABlock,
                                          self.phenotype, self.template.lastFixedTHETA)
@@ -911,9 +911,11 @@ class model:
             self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; Genotype \n ;; " + str(
                 self.model_code.FullBinCode) + \
                             "\n;; Num influential tokens = " + str(self.token_Non_influential)
-        self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; code \n ;; " + str(
-            self.model_code.IntCode) + \
-                        "\n;; Num influential tokens = " + str(self.token_Non_influential)
-        if not (token_found):
+        else:
+            self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; code \n ;; " + str(
+                self.model_code.IntCode) + \
+                            "\n;; Num Non influential tokens = " + str(self.token_Non_influential)
+        if not (token_found):  
+            self.template.printMessage("No tokens found, exiting")
             self.errMsgs.append("No tokens found")
         return

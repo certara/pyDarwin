@@ -11,8 +11,8 @@ Input:
 Output:
 Notes:  
 ModifiedBy:
-    Date:
-    Details: 
+    Date: 21 Apr, 2022
+    Details: updated the template.printmessage
     Effective
 """
 import GlobalVars
@@ -79,18 +79,18 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Templ
 
 
 if __name__ == '__main__':
-    best_modelEx = run_search(
-        "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/example_small_2est_withsim_template.txt",
-        "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/example_small_tokens.json",
-        "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/exhaustiveoptions74.json")
-    print(f"#\n#\n# Start GA for example5, at {time.asctime()}")
-    best_modelEx2 = run_search("C:/fda/FDA-OGD-ML/examples/ga/example5_template.txt",
-                               "C:/fda/FDA-OGD-ML/examples/ga/example5_tokens.json",
-                               "C:/fda/FDA-OGD-ML/examples/GA/gaoptions.json")
-    print(f"#\n#\n# Start RF for example5, at {time.asctime()}")
-    best_modelEx3 = run_search("C:/fda/FDA-OGD-ML/examples/RF/example5_template.txt",
-                               "C:/fda/FDA-OGD-ML/examples/RF/example5_tokens.json",
-                               "C:/fda/FDA-OGD-ML/examples/RF/RFoptions.json")
+    # best_modelEx = run_search(
+    #     "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/example_small_2est_withsim_template.txt",
+    #     "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/example_small_tokens.json",
+    #     "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/exhaustiveoptions74.json")
+    # print(f"#\n#\n# Start GA for example5, at {time.asctime()}")
+    # best_modelEx2 = run_search("C:/fda/FDA-OGD-ML/examples/ga/example5_template.txt",
+    #                            "C:/fda/FDA-OGD-ML/examples/ga/example5_tokens.json",
+    #                            "C:/fda/FDA-OGD-ML/examples/GA/gaoptions.json")
+    # print(f"#\n#\n# Start RF for example5, at {time.asctime()}")
+    # best_modelEx3 = run_search("C:/fda/FDA-OGD-ML/examples/RF/example5_template.txt",
+    #                            "C:/fda/FDA-OGD-ML/examples/RF/example5_tokens.json",
+    #                            "C:/fda/FDA-OGD-ML/examples/RF/RFoptions.json")
     best_modelEx4 = run_search("C:/fda/FDA-OGD-ML/examples/example5/example5_template.txt",
                                "C:/fda/FDA-OGD-ML/examples/example5/example5_tokens.json",
-                               "C:/fda/FDA-OGD-ML/examples/example5/exhaustiveptions74.json")
+                               "C:/fda/FDA-OGD-ML/examples/example5/exhaustiveoptions74.json")

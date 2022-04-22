@@ -1,43 +1,65 @@
 import gc
-#import sys
 import Templater
 import time
 import json
 import os
 import GlobalVars
-import model_code
-from copy import deepcopy, copy 
+#import model_code
+from copy import copy 
 import numpy as np
 np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning) 
 from pathlib import Path
 BestModelOutput = ""
 def InitModellist(model_template:Templater.template): 
     'Initializes model from template. Need Options first''' 
-    if model_template.options['input_model_json'] == "None" or model_template.options['input_model_json'] == "none": 
-        GlobalVars.allModelsDict = dict()
-    else: 
+    if model_template.options['usePreviousModelsList']:
         try:
-            models_list = Path(model_template.options['input_model_json'])
-            if models_list.is_file(): 
-                with open( model_template.options['input_model_json']) as json_file:
-                    GlobalVars.allModelsDict = json.load(json_file)  
+            models_list = Path(model_template.options['PreviousModelsList'])
+            if models_list.name.lower() == "none":
+                # remove default file name if no model specified and set name to default
+                if os.path.exists(os.path.join(model_template.homeDir,"allmodel.json")):
+                    os.remove(os.path.join(model_template.homeDir,"allmodel.json"))
+                GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir,"allmodel.json")
             else:
-                print(f"Cannot find {model_template.options['input_model_json']}, setting models list to empty")            
-                GlobalVars.allModelsDict = dict()
+                if models_list.is_file() and not models_list.name.lower() == "none": 
+                    with open(models_list) as json_file:
+                        GlobalVars.allModelsDict = json.load(json_file)   
+                        GlobalVars.SavedModelsFile = model_template.options['PreviousModelsList']
+                        model_template.printMessage(f"Using Saved model list from  {GlobalVars.SavedModelsFile}")
+                else:
+                    model_template.printMessage(f"Cannot find {models_list}, setting models list to empty")
+                    GlobalVars.SavedModelsFile = model_template.options['PreviousModelsList']           
+                    GlobalVars.allModelsDict = dict()
         except:
-            print(f"Cannot read {model_template.options['input_model_json']}, setting models list to empty")
+            model_template.printMessage(f"Cannot read {model_template.options['input_model_json']}, setting models list to empty")
+            model_template.printMessage(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
+            GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir,"allmodels.json")
             GlobalVars.allModelsDict = dict()
-    
-    with open(os.path.join(model_template.homeDir, "results.csv")   ,"w") as f:
-        f.write(f"Model num,Fitness,Model,generation,ofv,success,covar,correlation #,ntheta,condition,RPenalty,PythonPenalty,NMTran messages\n")
-        f.flush()
-    return 
+        results_file = os.path.join(model_template.options['homeDir'] ,"results.csv") 
+        with open(results_file  ,"w") as f:
+            f.write(f"Model num,Fitness,Model,generation,ofv,success,covar,correlation #,ntheta,condition,RPenalty,PythonPenalty,NMTran messages\n") 
+            model_template.printMessage(f"Writing intermediate output to {results_file}")
+            f.flush()
+        return
+    else: 
+        GlobalVars.allModelsDict = dict() 
+        if  "PreviousModelsList" in model_template.options:
+            if not model_template.options['PreviousModelsList'].lower() == "none":
+                GlobalVars.SavedModelsFile = model_template.options['PreviousModelsList']  
+                
+            else: 
+                GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir,"allmodels.json")  
+        else: 
+            GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir,"allmodels.json")  
+            # delete the model if it is there
+        if os.path.exists(GlobalVars.SavedModelsFile ):
+                os.remove(GlobalVars.SavedModelsFile )
+    model_template.printMessage(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
 def Copy_to_Best(current_model: Templater.model):
     '''copies current model to the global best model
     argumen is a template.model'''
     GlobalVars.TimeToBest = time.time() -GlobalVars.StartTime
     GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
-    #GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
     GlobalVars.BestModel.fitness = current_model.fitness
     GlobalVars.BestModel.control = current_model.control
     GlobalVars.BestModel.generation = current_model.generation
@@ -55,7 +77,7 @@ def Copy_to_Best(current_model: Templater.model):
     GlobalVars.BestModel.condition_num = current_model.condition_num
     GlobalVars.BestModel.Condition_num_test = current_model.Condition_num_test
     if current_model.source == "new":
-        with open(current_model.outputFileName) as file: # Use file to refer to the file object
+        with open(os.path.join(current_model.runDir,current_model.outputFileName)) as file: # Use file to refer to the file object
             GlobalVars.BestModelOutput = file.read() # only save best model, not all models, other models can be reproduced if needed.
     return
 
@@ -74,13 +96,10 @@ def run_all(Models:Templater.model):
     started = [False]*num_models
     cur_model_num = 0 
     for cur_model_num in range(num_parallel) : 
-        #current_model = all_results_int[cur_model_num] # shallow copy, still linkedm but just bit string for GA or downhill, integer string for others
+        #current_model = all_results_int[cur_model_num] # shallow copy, still linked but just bit string for GA or downhill, integer string for others
         #returns a model object = to be consistent with GP, RF, GBRF etc, not the same as the model in all_results
         # will need to copy fitness, ntheta, OFV, success etc back to all_results when done, 
         # by model_num,
-        # only send model code, not entire model current_model.code
-        #current_code = current_model.model_code.IntCode # model_code.model_code(current_model,"FullBinary",model_template.gene_max,model_template.gene_length)
-        #current_model = Templater.model(model_template,current_code,cur_model_num,is_ga=model_template.isGA,generation=step) # but here converts current_model (DEAP type) to the local model type, consistent iwth GA and RF/GBRF and GP
         # current model has only fitness  (scalar), not fitness.values (tuple)
         # all_results has fitness.values (a tuple)
         # check if already done here
@@ -90,8 +109,9 @@ def run_all(Models:Templater.model):
         current_model.slot = cur_model_num
         if current_code in GlobalVars.allModelsDict: 
             if current_model.copyResults(GlobalVars.allModelsDict[current_code]): # returns True if copy is successful
-                current_model.source = "saved"  
-                
+                current_model.source = "saved"                 
+                if GlobalVars.BestModel == None or current_model.fitness < GlobalVars.BestModel.fitness:
+                    Copy_to_Best(current_model) 
             else:
                 current_model.startModel()  
                 current_model.source = "new"
@@ -113,14 +133,12 @@ def run_all(Models:Templater.model):
                 nmtranMsgs = current_model.NMtranMSG  
                 fitnesses[current_model.modelNum-start_model_num] = current_model.fitness  # all we do with this fitness is print out the best, this fitness is not returned separately
                 if GlobalVars.BestModel == None or current_model.fitness < GlobalVars.BestModel.fitness:
-                    Copy_to_Best(current_model)
-                    
+                    Copy_to_Best(current_model)                    
                 if current_model.source == "new":
                     current_model.cleanup() # changes back to home_dir 
                     # Integer code is common denominator for all, entered into dictionary with this 
                     GlobalVars.allModelsDict[str(current_model.model_code.IntCode)] = current_model.jsonListRecord 
-                
-    
+                    
                 with open(os.path.join(current_model.template.homeDir, "results.csv"),"a") as f: # unfortunately, below needs to be all on one line
                     f.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
                     f.flush()
@@ -135,12 +153,12 @@ def run_all(Models:Templater.model):
                 else:
                     PRDERR_text = ""
                 if current_model.fitness == current_model.template.options['crash_value']:
-                    print(f"{step_name} = {current_model.generation}, Model {current_model.modelNum:5},\t fitness = {current_model.fitness:.0f}, \t NMTRANMSG = {nmtranMsgs.strip()},{PRDERR_text}") 
+                    current_model.template.printMessage(f"{step_name} = {current_model.generation}, Model {current_model.modelNum:5},\t fitness = {current_model.fitness:.0f}, \t NMTRANMSG = {nmtranMsgs.strip()},{PRDERR_text}") 
                 else:
-                    print(f"{step_name} = {current_model.generation}, Model {current_model.modelNum:5},\t fitness = {current_model.fitness:.3f}, \t NMTRANMSG = {nmtranMsgs.strip()},{PRDERR_text}") 
+                    current_model.template.printMessage(f"{step_name} = {current_model.generation}, Model {current_model.modelNum:5},\t fitness = {current_model.fitness:.3f}, \t NMTRANMSG = {nmtranMsgs.strip()},{PRDERR_text}") 
                 
                 current_slot = current_model.slot # keep slot number of next model
-                #Models[current_model.modelNum-start_model_num].__del__() 
+                  
                 current_model.__del__()
                 gc.collect()
                 # start new model  
@@ -159,8 +177,7 @@ def run_all(Models:Templater.model):
                         current_model.startModel() # current model is the geneneral model type (not GA/DEAP model)
                         current_model.source = "new"
                     started[cur_model_num] = True
-                    slots[slot_being_checked] = current_model       
-                    #started[cur_model_num] = True 
+                    slots[slot_being_checked] = current_model                           
 
         # wait for all to finish
     done = [False] * num_parallel
@@ -170,6 +187,13 @@ def run_all(Models:Templater.model):
                 current_model = slots[slot_being_checked] ## still linked to all_results
                 #current model is the model object, not the same as in all_results
                 if current_model.check_all_done() == True: # model finished, collect results, start new on, IF not yet done 
+                    if current_model.source == "new":
+                        current_model.cleanup() # changes back to home_dir  
+                        GlobalVars.allModelsDict[str(current_model.model_code.IntCode)] = current_model.jsonListRecord  
+        
+                    with open(os.path.join(current_model.template.options['homeDir'], "results.csv"),"a") as f: # unfortunately, below needs to be all on one line
+                        f.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
+                        f.flush() 
                     nmtranMsgs = current_model.NMtranMSG  
                     fitnesses[current_model.modelNum-start_model_num] = current_model.fitness  
                     if GlobalVars.BestModel == None or current_model.fitness < GlobalVars.BestModel.fitness:   
@@ -189,9 +213,9 @@ def run_all(Models:Templater.model):
                     else:
                         PRDERR_text = ""
                     if current_model.fitness == current_model.template.options['crash_value']:
-                        print(f"{step_name} = {current_model.generation}, Model {current_model.modelNum:5},\t fitness = {current_model.fitness:.0f}, \t NMTRANMSG = {nmtranMsgs.strip()},{PRDERR_text}") 
+                        current_model.template.printMessage(f"{step_name} = {current_model.generation}, Model {current_model.modelNum:5},\t fitness = {current_model.fitness:.0f}, \t NMTRANMSG = {nmtranMsgs.strip()},{PRDERR_text}") 
                     else:
-                        print(f"{step_name} = {current_model.generation}, Model {current_model.modelNum:5},\t fitness = {current_model.fitness:.3f}, \t NMTRANMSG = {nmtranMsgs.strip()},{PRDERR_text}") 
+                        current_model.template.printMessage(f"{step_name} = {current_model.generation}, Model {current_model.modelNum:5},\t fitness = {current_model.fitness:.3f}, \t NMTRANMSG = {nmtranMsgs.strip()},{PRDERR_text}") 
                
                     current_model=None
                     gc.collect()

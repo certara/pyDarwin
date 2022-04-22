@@ -21,7 +21,7 @@ import logging
 import numpy as np 
 from scipy.spatial import distance_matrix
 import heapq
-from pathlib import Path
+#from pathlib import Path
 #import utils
 np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning) 
 logger = logging.getLogger(__name__) 
@@ -101,7 +101,7 @@ def run_GA(model_template: Templater.template)-> Templater.model:
     runAllModels.InitModellist(model_template)
     pop_size = model_template.options['popSize'] 
     best_fitness = crash_value = model_template.options['crash_value'] 
-    num_niches = model_template.options['num_niches']
+    #num_niches = model_template.options['num_niches']
     niche_radius = model_template.options['niche_radius']  
     downhill_q = model_template.options['downhill_q'] 
     elitist_num = model_template.options['elitist_num'] 
@@ -155,11 +155,6 @@ def run_GA(model_template: Templater.template)-> Templater.model:
     # each individual is a list of bits [0|1])
     popFullBits = toolbox.population(n=pop_size)   
     best_for_elitism = toolbox.population(n=elitist_num)   
-    # convert pop to integer form, runAllModels argument is integer form
-    #popInt = []
-    #for i in popFullBits:
-    #    popInt.append(utils.convert_full_bits_int(i,model_template.gene_length,model_template.gene_max))
-    #hof = tools.HallOfFame(model_template.options['hof_num']) 
     # CXPB  is the probability with which two individuals
     #       are crossed
     #
@@ -192,12 +187,12 @@ def run_GA(model_template: Templater.template)-> Templater.model:
 
     generations_no_change = 0
     current_overall_best_fitness = crash_value
-    print(f"generation 0 fitness = {allbest:.4f}")
+    model_template.printMessage(f"generation 0 fitness = {allbest:.4f}")
     num_generations  = model_template.options['num_generations']
     while generation < num_generations:
         # A new generation
         generation += 1 
-        print("-- Starting Generation %i --" % generation)
+        model_template.printMessage("-- Starting Generation %i --" % generation)
         
         add_sharing_penalty(popFullBits,niche_radius,sharing_alpha,niche_penalty) # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
                              # so fitnesses in pop are only used for selection in GA
@@ -241,7 +236,7 @@ def run_GA(model_template: Templater.template)-> Templater.model:
             code = model_code.model_code(thisFullBits,"FullBinary",maxes,lengths)
             Models.append(Templater.model(model_template,code,model_num,True,generation ))
         runAllModels.run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
-        print(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
+        model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
         
         fitnesses = [None]*len(Models)
         for ind,pop,fit in zip(Models,popFullBits,range(len(Models))):    
@@ -259,14 +254,14 @@ def run_GA(model_template: Templater.template)-> Templater.model:
             # add local exhausitve search here??
             # temp_fitnessses = copy(fitnesses)
             # downhill with NumNiches best models
-            print(f"Starting downhill generation = {generation}  at {time.asctime()}")
+            model_template.printMessage(f"Starting downhill generation = {generation}  at {time.asctime()}")
             best_index = heapq.nsmallest(Models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__)
             best_inds = []
             for i in best_index:  
                 best_inds.append(copy(Models[i]))
-           # temp_Models = deepcopy(popFullBits) # deepcopy, keep pop unchanaged will copy best later# temp_pop is fullbinary here
+           
             new_models, worst_inds = run_downhill.run_downhill(Models) 
-            print(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
+            model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
             # replace worst_inds with new_inds, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
             # rundownhill return on the fitness and the integer representation!!, need to make GA model from that
@@ -279,7 +274,7 @@ def run_GA(model_template: Templater.template)-> Templater.model:
                 else:
                     fitnesses[worst_inds[i]] = (new_models[i].fitness,)
             best_index = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)[0]
-            print(f"Done with downhill step, {generation}. best fitness = {fitnesses[best_index]}")      
+            model_template.printMessage(f"Done with downhill step, {generation}. best fitness = {fitnesses[best_index]}")      
             
             single_best_model = copy(Models[best_index])
             ## redo best_for_elitism, after downhill
@@ -295,15 +290,15 @@ def run_GA(model_template: Templater.template)-> Templater.model:
         # here expects fitnesses to be tuple, but isn't after downhill
         if not type(best_fitness) is tuple:
             best_fitness = (best_fitness,) 
-        print(f"Current generation best genome = {Models[cur_gen_best_ind[0]].model_code.FullBinCode}, best fit = {best_fitness[0]:.4f}")
+        model_template.printMessage(f"Current generation best genome = {Models[cur_gen_best_ind[0]].model_code.FullBinCode}, best fit = {best_fitness[0]:.4f}")
         
         if best_fitness[0] < current_overall_best_fitness:
-            print(f"Better fitness found, generation = {generation}, new best fitness = {best_fitness[0]:.4f}")
+            model_template.printMessage(f"Better fitness found, generation = {generation}, new best fitness = {best_fitness[0]:.4f}")
             current_overall_best_fitness = best_fitness[0] # 
             generations_no_change = 0
         else:
             generations_no_change += 1 
-            print(f"No change in fitness for {generations_no_change} generations, best fitness = {current_overall_best_fitness:.4f}")
+            model_template.printMessage(f"No change in fitness for {generations_no_change} generations, best fitness = {current_overall_best_fitness:.4f}")
     print(f"-- End of GA component at {time.asctime()} --") 
     # get current best individual
     cur_best_ind =  heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)[0]
@@ -318,14 +313,14 @@ def run_GA(model_template: Templater.template)-> Templater.model:
         best_inds = []
         for i in best_index: # need deepcopy?
             best_inds.append(copy(Models[i]))
-        # temp_Models = deepcopy(popFullBits) # deepcopy, keep pop unchanaged will copy best later# temp_pop is fullbinary here
+         
         new_models, worst_inds = run_downhill.run_downhill(Models) 
         for i in range(len(new_models)): 
             fitnesses[worst_inds[i]] = new_models[i].fitness
       
         best_index = heapq.nsmallest(Models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__)[0]
-        print(f"Done with final downhill step, {generation}. best fitness = {fitnesses[best_index]}")      
-        #best_index = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)[0]
+        model_template.printMessage(f"Done with final downhill step, {generation}. best fitness = {fitnesses[best_index]}")      
+         
         single_best_model = copy(Models[best_index])
         if single_best_model.fitness < final_model.fitness:
             final_model = copy(single_best_model)
@@ -335,16 +330,16 @@ def run_GA(model_template: Templater.template)-> Templater.model:
     resultFilePath = os.path.join(GlobalVars.BestModel.template.homeDir,"InterimresultFile.lst")
     with open(resultFilePath,'w') as result:
         result.write(GlobalVars.BestModelOutput)     
-    print(f"-- End of Optimization at {time.asctime()}--")  
+    model_template.printMessage(f"-- End of Optimization at {time.asctime()}--")  
     elapsed = time.time() - GlobalVars.StartTime 
-    print(f"Elapse time = " + str(timedelta(seconds=elapsed)) + "\n") 
-    print(f'Best individual GA is {str(final_model.model_code.FullBinCode)} with fitness of {final_model.fitness:4f}') 
-    print(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
+    model_template.printMessage(f"Elapse time = " + str(timedelta(seconds=elapsed)) + "\n") 
+    model_template.printMessage(f'Best individual GA is {str(final_model.model_code.FullBinCode)} with fitness of {final_model.fitness:4f}') 
+    model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
     with open(os.path.join(model_template.homeDir,"finalControlFile.mod"),'w') as control:
         control.write(final_model.control)
     resultFilePath = os.path.join(model_template.homeDir,"finalresultFile.lst")
     with open(resultFilePath,'w') as result:
          result.write(GlobalVars.BestModelOutput)
-    print(f"Final outout from best model is in {resultFilePath}")
+    model_template.printMessage(f"Final outout from best model is in {resultFilePath}")
     return final_model 
  

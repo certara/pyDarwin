@@ -1,0 +1,11 @@
+Options file found at C:/fda/FDA-OGD-ML/examples/RateExample/exhaustiveoptions74.json
+Cannot find c:\fda\FDA-OGD-ML\examples\rateExample\apr18.json, setting models list to empty
+Writing intermediate output to c:\fda\FDA-OGD-ML\examples\rateExample\results.csv
+Data set for FIRST MODEL ONLY C:\fda\FDA-OGD-ML\examples\RateExample\datalarge.csv was found
+NMFE found at c:/nm744/util/nmfe74.bat 
+Run Directory for first model is c:\fda\FDA-OGD-ML\examples\rateExample\0\0
+Elapse time = 1.0 minutes 
+
+Best overall fitness = 4818.765583, model 4
+Final outout from best model is in c:\fda\FDA-OGD-ML\examples\rateExample\finalresultFile.lst
+Unique model list in  c:/fda/FDA-OGD-ML/examples/rateExample/apr18.json

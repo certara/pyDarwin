@@ -20,5 +20,6 @@ def Set_up_Objects():
     allModelsDict = dict()  
     TimeToBest = 0
     BestModelOutput = "No output yet"  
+    SavedModelsFile = None
     gc.collect()     
       

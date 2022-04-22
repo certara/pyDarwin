@@ -802,7 +802,7 @@ class model:
             # save results
         self.MakeJsonList()
         return
-
+    
     def MakeJsonList(self):
         """assembles what goes into the JSON file of saved models"""
         self.jsonListRecord = {"control": self.control, "fitness": self.fitness, "ofv": self.ofv,

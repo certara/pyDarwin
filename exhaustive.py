@@ -50,14 +50,15 @@ def exhaustive(model_template):
     best_fitness = fitnesses[best[0]]
     best_model = Models[best[0]].makeCopy()
     elapsed = time.time() - GlobalVars.StartTime
-    print(f"Elapse time = {elapsed / 60:.1f} minutes \n")
-    print(f"Best overall fitness = {best_fitness:4f}, model {best_model.modelNum}")
+    Models[0].template.printMessage(f"Elapse time = {elapsed / 60:.1f} minutes \n")
+    Models[0].template.printMessage(f"Best overall fitness = {best_fitness:4f}, model {best_model.modelNum}")
     with open(os.path.join(model_template.homeDir, "finalControlFile.mod"), 'w') as control:
         control.write(best_model.control)
     resultFilePath = os.path.join(model_template.homeDir, "finalresultFile.lst")
     with open(resultFilePath, 'w') as result:
         result.write(GlobalVars.BestModelOutput)
-    print(f"Final outout from best model is in {resultFilePath}")
+    Models[0].template.printMessage(f"Final outout from best model is in {resultFilePath}")
+    model_template.printMessage(f"Unique model list in  {GlobalVars.SavedModelsFile}") 
     Models = None  # free up memory??   stil not working
     gc.collect()
     return best_model

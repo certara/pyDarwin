@@ -103,7 +103,8 @@ class template:
         self.version = None
         self.gene_max = []  ## zero based
         self.gene_length = []  ## length is 1 based
-        self.getGeneLength()
+        self.getGeneLength()  
+        self.check_omega_search()
 
         for this_group in self.tokens:
             # build list of names from first token in each set
@@ -154,11 +155,29 @@ class template:
         ''' argument is the token sets, returns maximum value of token sets and number of bits'''
         tokenKeys = self.tokens.keys()
         for thisset in tokenKeys:
-            val = len(self.tokens[thisset])
-            self.gene_max.append(val - 1)  # max is zero based!!!!, everything is zero based (gacode, intcode, gene_max)
-            self.gene_length.append(math.ceil(math.log(val, 2)))
+            if( thisset.strip() != "Search_OMEGA" and thisset.strip() != "max_Omega_size" ):
+                val = len(self.tokens[thisset])
+                self.gene_max.append(val - 1)  # max is zero based!!!!, everything is zero based (gacode, intcode, gene_max)
+                self.gene_length.append(math.ceil(math.log(val, 2)))
 
-
+    def check_omega_search(self):
+        """see if Search_OMEGA and Omega_band_width are in the token set
+        if so, find how many bits needed for band width, and add that gene
+        final gene in genome is omega band width, values 0 to max omega size -1"""
+        if "Search_OMEGA" in self.tokens.keys():
+            self.search_omega_band = True
+            if "max_Omega_size" in self.tokens.keys():
+                self.omega_bandwidth = self.tokens['max_Omega_size']
+                self.gene_max.append(self.omega_bandwidth-1)
+                self.gene_length.append(math.ceil(math.log(self.omega_bandwidth, 2)))               
+                self.printMessage(f"Including search of band OMEGA, with width up to {self.omega_bandwidth-1}")  
+                del self.tokens['max_Omega_size']
+            else:
+                self.printMessage("Cannot find omega size in tokens set, but omega band width search request \n, omitting omega band width search")
+                ## remove max_Omega_size and  Search_OMEGA from token sets
+            del self.tokens['Search_OMEGA'] 
+        else: 
+            self.search_omega_band = false
 def getFixedParms(Template):
     NFixedTHETA, THETABlock = getFixedBlock(Template, "$THETA")
     NFixedOMEGA, OMEGABlock = getFixedBlock(Template, "$OMEGA")

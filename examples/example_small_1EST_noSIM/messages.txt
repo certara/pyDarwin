@@ -1,0 +1,4 @@
+Options file found at C:/fda/FDA-OGD-ML/examples/search_omega/omega_options.json
+Including search of band OMEGA, with width up to 2
+Cannot find c:\fda\fda-OGD-ML\examples\example_small_1est_nosim\Apr15.json, setting models list to empty
+Writing intermediate output to c:/fda/FDA-OGD-ML/examples/example_small_1EST_noSIM\results.csv

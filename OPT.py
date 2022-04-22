@@ -53,7 +53,7 @@ def run_skopt(model_template:Templater.template) -> Templater.model:
         model_template.printMessage(f"Starting generation/iteration {this_iter}, {model_template.options['algorithm']} algorithm at {time.asctime()}" )
          
         suggestion_start_time = time.time()
-        # will need to ask for 1/10 of the total models
+        # will need to ask for 1/10 of the total models if run 10  way parallel
         suggested = opt.ask(n_points = model_template.options['popSize'])
         model_template.printMessage("Elapse time for sampling step # %d =  %.1f seconds" % (this_iter, (time.time() - suggestion_start_time)))
         Models = [] # some other method to clear memory??

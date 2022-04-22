@@ -49,5 +49,7 @@
 		["+EPS(RESERRA)",
 			"  3000 \t; EPS(RESERRA) additive error"
 		]
-	]
+	],
+	"Search_OMEGA": true,
+	"max_Omega_size": 3
 }

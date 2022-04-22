@@ -51,7 +51,7 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Templ
     GlobalVars.BestModel.fitness = model_template.options['crash_value'] + 1
     algorithm = model_template.options['algorithm']
 
-    print(f"Search start time = {time.asctime()}")
+    model_template.printMessage(f"Search start time = {time.asctime()}")
 
     if algorithm in ["GBRT", "RF", "GP"]:
         import OPT
@@ -69,10 +69,10 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Templ
         print(f"Algorithm {algorithm} is not available")
         sys.exit()
 
-    print(f"Number of unique models to best model = {GlobalVars.UniqueModelsToBest}")
-    print(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
+    model_template.printMessage(f"Number of unique models to best model = {GlobalVars.UniqueModelsToBest}")
+    model_template.printMessage(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
 
-    print(f"Search end time = {time.asctime()}")
+    model_template.printMessage(f"Search end time = {time.asctime()}")
     gc.collect()
 
     return final
@@ -87,10 +87,13 @@ if __name__ == '__main__':
     # best_modelEx2 = run_search("C:/fda/FDA-OGD-ML/examples/ga/example5_template.txt",
     #                            "C:/fda/FDA-OGD-ML/examples/ga/example5_tokens.json",
     #                            "C:/fda/FDA-OGD-ML/examples/GA/gaoptions.json")
-    # print(f"#\n#\n# Start RF for example5, at {time.asctime()}")
-    # best_modelEx3 = run_search("C:/fda/FDA-OGD-ML/examples/RF/example5_template.txt",
-    #                            "C:/fda/FDA-OGD-ML/examples/RF/example5_tokens.json",
-    #                            "C:/fda/FDA-OGD-ML/examples/RF/RFoptions.json")
-    best_modelEx4 = run_search("C:/fda/FDA-OGD-ML/examples/example5/example5_template.txt",
-                               "C:/fda/FDA-OGD-ML/examples/example5/example5_tokens.json",
-                               "C:/fda/FDA-OGD-ML/examples/example5/exhaustiveoptions74.json")
+    # print(f"#\n#\n# Start GP for example5, at {time.asctime()}")
+    best_modelEx3 = run_search("C:/fda/FDA-OGD-ML/examples/GP/example5_template.txt",
+                               "C:/fda/FDA-OGD-ML/examples/GP/example5_tokens.json",
+                               "C:/fda/FDA-OGD-ML/examples/GP/GPoptions.json")
+    # best_modelEx4 = run_search("C:/fda/FDA-OGD-ML/examples/example5/example5_template.txt",
+    #                            "C:/fda/FDA-OGD-ML/examples/example5/example5_tokens.json",
+    #                            "C:/fda/FDA-OGD-ML/examples/example5/exhaustiveoptions74.json")
+    # best_modelEx5 = run_search("C:/fda/FDA-OGD-ML/examples/search_omega/example_small_1est_nosim_template.txt",
+    #                            "C:/fda/FDA-OGD-ML/examples/search_omega/example_small_tokens.json",
+    #                            "C:/fda/FDA-OGD-ML/examples/search_omega/omega_options.json")

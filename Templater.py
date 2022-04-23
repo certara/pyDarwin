@@ -1,4 +1,5 @@
 import shlex
+import sys
 import importlib
 import re
 from cmath import nan
@@ -63,25 +64,25 @@ class template:
                 self.printMessage(f"Options file found at {options_file}")
             else:  # can't write to homeDir if can't open options
                 print(f"!!!!!Options file {options_file} seems to be missing, exiting")
-                quit()
+                sys.exit()
 
         except Exception as error:
             self.errMsgs.append("Failed to parse JSON tokens in " + options_file)
-            self.printMessage("Failed to parse JSON tokens in " + options_file)
-            quit()
+            self.printMessage("Failed to parse JSON tokens in " + options_file + ", exiting")
+            sys.exit()
         try:  ## should this be absolute path or path from homeDir??
             self.TemplateText = open(template_file, 'r').read()
         except Exception as error:
-            self.errMsgs.append("Failed to open Template file " + template_file)
-            self.printMessage("Failed to open Template file " + template_file)
-            quit()
+            self.errMsgs.append("Failed to open Template file " + template_file + ", exiting")
+            self.printMessage("Failed to open Template file " + template_file + ", exiting")
+            sys.exit()
         try:
             self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
 
         except Exception as error:
             self.errMsgs.append("Failed to parse JSON tokens in " + tokens_file)
-            self.printMessage("Failed to parse JSON tokens in " + tokens_file)
-            quit()
+            self.printMessage("Failed to parse JSON tokens in " + tokens_file + ", exiting")
+            sys.exit()
 
             # write out space, to use in test for exhaustive search
         # self.space = []
@@ -89,7 +90,7 @@ class template:
             if not os.path.isfile(self.options['postRunPythonCode'] + ".py"):
                 self.printMessage(
                     f"!!!!!postRunPythonCode {os.path.join(os.getcwd(), self.options['postRunPythonCode'])}.py was not found, exiting")
-                quit()
+                sys.exit()
             else:
                 self.printMessage(
                     "postRunPythonCode " + os.path.join(os.getcwd(), self.options['postRunPythonCode']) + ".py found")
@@ -337,7 +338,7 @@ class model:
                 if not exists(self.dataset_path):
                     self.template.printMessage(
                         f"!!!!!Data set for FIRST MODEL {self.dataset_path} seems to be missing, exiting at {time.asctime()}")
-                    quit()
+                    sys.exit()
                 else:
                     self.template.printMessage(f"Data set for FIRST MODEL ONLY {self.dataset_path} was found")
             except:
@@ -346,23 +347,26 @@ class model:
         if not exists(self.template.options['nmfePath']):
             self.template.printMessage(
                 f"NMFE path ({self.template.options['nmfePath']} seems to be missing, exiting at {time.asctime()}")
-            quit()
+            sys.exit()
         else:
             self.template.printMessage(f"NMFE found at {self.template.options['nmfePath']}")
-        if not exists(self.template.options['RScriptPath']):
-            self.template.printMessage(
-                f"RScript.exe path ({self.template.options['RScriptPath']} seems to be missing, exiting at {time.asctime()}")
-            quit()
-        else:
-            print(f"RScript.exe found at {self.template.options['RScriptPath']}")
         if self.template.options['useR']:
-            if not exists(self.template.options['postRunRCode']):
+            if not exists(self.template.options['RScriptPath']):
                 self.template.printMessage(
-                    f"Post Run R code path ({self.template.options['postRunRCode']} seems to be missing, exiting at {time.asctime()}")
-                quit()
+                    f"RScript.exe path ({self.template.options['RScriptPath']} seems to be missing, exiting at {time.asctime()}")
+                sys.exit()
             else:
-                self.template.printMessage(f"postRunRCode file found at {self.template.options['postRunRCode']}")
-
+                print(f"RScript.exe found at {self.template.options['RScriptPath']}")
+            if self.template.options['useR']:
+                if not exists(self.template.options['postRunRCode']):
+                    self.template.printMessage(
+                        f"Post Run R code path ({self.template.options['postRunRCode']} seems to be missing, exiting at {time.asctime()}")
+                    sys.exit()
+                else:
+                    self.template.printMessage(f"postRunRCode file found at {self.template.options['postRunRCode']}")
+        else:
+            self.template.printMessage(
+                        "Not using PostRun R code")
         return
 
     def copyResults(self, prevResults):
@@ -650,9 +654,8 @@ class model:
                         # and get the first two
                         majorversion = float(self.template.version[:dots[1]])  # float
                         if majorversion < 7.4 or majorversion > 7.5:
-                            print("NONMEM is version " + self.template.version + ", Code requires NONMEM 7.4 or 7.5, "
-                                                                                 "exiting")
-                            quit()
+                            print("NONMEM is version " + self.template.version + ", Code requires NONMEM 7.4 or 7.5, exiting")
+                            sys.exit()
 
                             # if 0 in problem_dict: # more than one problem, e.g. with simulation
                 # it seems that if there is only one problem, this is orderedDict

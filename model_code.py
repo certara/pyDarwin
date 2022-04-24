@@ -8,7 +8,7 @@ class model_code:
     """
 
     def __init__(self, code, which_type, gene_max, length):
-        assert which_type in ["FullBinary", "MinBinary", "Int", "None"],\
+        assert which_type in ["FullBinary", "MinBinary", "Int"],\
             "Type of code must be one of 'FullBinary','MinBinary','Int'"
         assert isinstance(code, list), "'code' must list of integers or (0|1 if FullBinary or MinBinary)"
         assert isinstance(gene_max, list), "'gene_max' must list of integers "

@@ -1,4 +1,5 @@
 import shlex
+import Omega_utils
 import importlib
 import re
 from cmath import nan
@@ -8,7 +9,7 @@ import xmltodict
 import concurrent.futures 
 import re
 import math
-from pharmpy.modeling import read_model  ## v 0.62.0 works
+from pharmpy.modeling import read_model , read_model_from_string ## v 0.66.0 works
 from sympy import false, true 
 #import numpy as np
 from typing import OrderedDict
@@ -26,7 +27,7 @@ import utils
 import GlobalVars
 from copy import copy
 import gc
-
+import sys
 from model_code import model_code
 
 logger = logging.getLogger(__name__)
@@ -62,26 +63,26 @@ class template:
 
                 self.printMessage(f"Options file found at {options_file}")
             else:  # can't write to homeDir if can't open options
-                print(f"!!!!!Options file {options_file} seems to be missing, exiting")
-                quit()
+                self.printMessage(f"!!!!!Options file {options_file} seems to be missing, exiting")
+                sys.exit()
 
         except Exception as error:
             self.errMsgs.append("Failed to parse JSON tokens in " + options_file)
             self.printMessage("Failed to parse JSON tokens in " + options_file)
-            quit()
+            sys.exit()
         try:  ## should this be absolute path or path from homeDir??
             self.TemplateText = open(template_file, 'r').read()
         except Exception as error:
             self.errMsgs.append("Failed to open Template file " + template_file)
             self.printMessage("Failed to open Template file " + template_file)
-            quit()
+            sys.exit()
         try:
             self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
 
         except Exception as error:
             self.errMsgs.append("Failed to parse JSON tokens in " + tokens_file)
             self.printMessage("Failed to parse JSON tokens in " + tokens_file)
-            quit()
+            sys.exit()
 
             # write out space, to use in test for exhaustive search
         # self.space = []
@@ -89,7 +90,7 @@ class template:
             if not os.path.isfile(self.options['postRunPythonCode'] + ".py"):
                 self.printMessage(
                     f"!!!!!postRunPythonCode {os.path.join(os.getcwd(), self.options['postRunPythonCode'])}.py was not found, exiting")
-                quit()
+                sys.exit()
             else:
                 self.printMessage(
                     "postRunPythonCode " + os.path.join(os.getcwd(), self.options['postRunPythonCode']) + ".py found")
@@ -100,20 +101,24 @@ class template:
             self.isGA = True
         else:
             self.isGA = False
+        if self.options['algorithm'] == "PSO":
+            self.isPSO = True
+        else:
+            self.isPSO = False
         self.version = None
         self.gene_max = []  ## zero based
         self.gene_length = []  ## length is 1 based
         self.getGeneLength()  
         self.check_omega_search()
 
-        for this_group in self.tokens:
+       # for this_group in self.tokens:
             # build list of names from first token in each set
             # note that first token need not be unique, so have to include token set number
-            names = []
-            set_num = 0
-            for this_token in self.tokens[this_group]:
-                names.append(this_group + "[" + str(set_num) + "] =" + this_token[0])
-                set_num += 1
+            # names = []
+            # set_num = 0
+            # for this_token in self.tokens[this_group]:
+            #     names.append(this_group + "[" + str(set_num) + "] =" + this_token[0])
+            #     set_num += 1
         if not os.path.isdir(self.homeDir):
             os.mkdir(self.homeDir)
         os.chdir(self.homeDir)
@@ -260,8 +265,7 @@ class model:
         self.post_run_Pythonpenalty = self.post_run_Rpenalty = self.Condition_num_test = self.condition_num = self.num_THETAs = self.num_non_fixed_THETAs = self.num_OMEGAs = self.num_SIGMAs = self.ofv = 0
         self.jsonListRecord = None  # this is a list of key values to be saved to json file, for subsequent runs and to avoid running the same mdoel
         self.Num_noninfluential_tokens = 0  # home many tokens, due to nesting have a parameter that doesn't end up in the control file?
-        self.token_Non_influential = [True] * len(
-            self.template.tokens)  # does each token result in a change? does it containt a parameter, if token has a parameter, but doesn't
+        self.token_Non_influential = [True] * len(self.template.tokens)  # does each token result in a change? does it containt a parameter, if token has a parameter, but doesn't
         # default is true, will change to false if: 1. doesn't contain parameters (in check_contains_parms) is put into control file (in utils.replaceTokens)
         self.startTime = time.time()
         self.elapseTime = None
@@ -902,7 +906,9 @@ class model:
         return
 
     def MakeControl(self):
-        "constructs control file from intcode"""
+        """constructs control file from intcode
+        ignore last value if self_search_omega_bands """
+        # this appears to be OK with search_omega_bands
         self.phenotype = OrderedDict(zip(self.template.tokens.keys(), self.model_code.IntCode))
         self.check_contains_parms()  # fill in whether any token in each token set contains THETA,OMEGA SIGMA
 
@@ -926,7 +932,7 @@ class model:
                                         self.template.lastFixedETA, "ETA")
         self.control = utils.matchRands(self.control, self.template.tokens, self.template.varSIGMABlock, self.phenotype,
                                         self.template.lastFixedEPS, "EPS")
-        if self.template.isGA:
+        if self.template.isGA or self.template.isPSO:
             self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; Genotype \n ;; " + str(
                 self.model_code.FullBinCode) + \
                             "\n;; Num influential tokens = " + str(self.token_Non_influential)
@@ -934,6 +940,13 @@ class model:
             self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; code \n ;; " + str(
                 self.model_code.IntCode) + \
                             "\n;; Num Non influential tokens = " + str(self.token_Non_influential)
+        # add band OMEGA
+        if self.template.search_omega_band:
+            ## bandwidth must be last gene
+            bandwidth = self.model_code.IntCode[-1]
+            omega_block,self.template.search_omega_band = Omega_utils.set_omega_bands(self.control,bandwidth)
+            if self.template.search_omega_band:
+                self.control = Omega_utils.insert_omega_block(self.control,omega_block)
         if not (token_found):  
             self.template.printMessage("No tokens found, exiting")
             self.errMsgs.append("No tokens found")

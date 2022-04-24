@@ -15,6 +15,9 @@ def exhaustive(model_template):
     for thisKey in model_template.tokens.keys():
         tokenGroup = model_template.tokens.get(thisKey)
         Num_Groups.append(list(range(len(tokenGroup))))
+    # need to add another group if searching on omega bands
+    if model_template.search_omega_band:
+        Num_Groups.append(list(range(model_template.omega_bandwidth)))
     codes = np.array(np.meshgrid(*Num_Groups)).T.reshape(-1, len(Num_Groups))
     # convert to regular list
     codes = codes.tolist()

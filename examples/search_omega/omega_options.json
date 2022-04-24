@@ -1,6 +1,6 @@
 {
 	"author": "Mark Sale",
-	"homeDir": "c:/fda/FDA-OGD-ML/examples/example_small_1EST_noSIM",
+	"homeDir": "c:/fda/FDA-OGD-ML/examples/search_omega",
 	"algorithm":"EXHAUSTIVE",
 	"random_seed": 11, 
 	"popSize": 40,
@@ -41,6 +41,6 @@
 	"usePython": false,  
 	"postRunPythonCode": "simplefunc", 
 	"nmfePath": "c:/nm744/util/nmfe74.bat " ,
-	"RScriptPath": "c:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe"  
+	"RScriptPath": "c:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe" 
 }
  

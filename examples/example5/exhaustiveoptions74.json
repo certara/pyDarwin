@@ -1,6 +1,6 @@
 {
 	"author": "Mark Sale",
-	"homeDir": "c:\\fda\\FDA-OGD-ML\\example5",
+	"homeDir": "c:\\fda\\FDA-OGD-ML\\examples\\example5",
 	"algorithm":"EXHAUSTIVE",
 	"random_seed": 11, 
 	"popSize": 40,

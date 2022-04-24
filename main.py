@@ -65,7 +65,7 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Templ
         final = exhaustive.exhaustive(model_template)
     elif algorithm == "PSO":
         import PSO
-        final = PSO.run_pso(model_template)
+        final = PSO.run_PSO(model_template)
     else:
         print(f"Algorithm {algorithm} is not available")
         sys.exit()
@@ -80,21 +80,28 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Templ
 
 
 if __name__ == '__main__':
-    # best_modelEx = run_search(
-    #     "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/example_small_2est_withsim_template.txt",
-    #     "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/example_small_tokens.json",
-    #     "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/exhaustiveoptions74.json")
-    # print(f"#\n#\n# Start GA for example5, at {time.asctime()}")
+    print(f"#\n#\n# Start small example 2 est, with sim, at {time.asctime()}")
+    best_modelEx = run_search("C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/example_small_2est_withsim_template.txt",
+                              "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/example_small_tokens.json",
+                              "C:/fda/FDA-OGD-ML/examples/example_small_2est_withsim/exhaustiveoptions74.json")
+    # print(f"#\n#\n# Start small example 1 est, no sim, at {time.asctime()}")
+    # best_modelEx5 = run_search("C:/fda/FDA-OGD-ML/examples/search_omega/example_small_1est_nosim_template.txt",
+    #                            "C:/fda/FDA-OGD-ML/examples/search_omega/example_small_tokens.json",
+    #                            "C:/fda/FDA-OGD-ML/examples/search_omega/omega_options.json")
+    # print(f"#\n#\n# Start GA for example5 GA, at {time.asctime()}")
     # best_modelEx2 = run_search("C:/fda/FDA-OGD-ML/examples/ga/example5_template.txt",
     #                            "C:/fda/FDA-OGD-ML/examples/ga/example5_tokens.json",
     #                            "C:/fda/FDA-OGD-ML/examples/GA/gaoptions.json")
-    # print(f"#\n#\n# Start GP for example5, at {time.asctime()}")
+    # print(f"#\n#\n# Start GP for example5 GP, at {time.asctime()}")
     # best_modelEx3 = run_search("C:/fda/FDA-OGD-ML/examples/GP/example5_template.txt",
     #                            "C:/fda/FDA-OGD-ML/examples/GP/example5_tokens.json",
     #                            "C:/fda/FDA-OGD-ML/examples/GP/GPoptions.json")
+    # print(f"#\n#\n# Start exhaustive for example5 PSO, at {time.asctime()}")
+    best_modelEx4 = run_search("C:/fda/FDA-OGD-ML/examples/pso/example5_template.txt",
+                               "C:/fda/FDA-OGD-ML/examples/pso/example5_tokens.json",
+                               "C:/fda/FDA-OGD-ML/examples/pso/psoOptions.json")
+    # print(f"#\n#\n# Start exhaustive for example5, at {time.asctime()}")
     # best_modelEx4 = run_search("C:/fda/FDA-OGD-ML/examples/example5/example5_template.txt",
     #                            "C:/fda/FDA-OGD-ML/examples/example5/example5_tokens.json",
     #                            "C:/fda/FDA-OGD-ML/examples/example5/exhaustiveoptions74.json")
-    best_modelEx5 = run_search("C:/fda/FDA-OGD-ML/examples/search_omega/example_small_1est_nosim_template.txt",
-                               "C:/fda/FDA-OGD-ML/examples/search_omega/example_small_tokens.json",
-                               "C:/fda/FDA-OGD-ML/examples/search_omega/omega_options.json")
+ 

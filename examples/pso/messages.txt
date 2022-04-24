@@ -1,5 +1,0 @@
-Options file found at C:/fda/FDA-OGD-ML/examples/pso/psoOptions.json
-Models will be saved as JSON c:/fda/fda-OGD-ML/examples/PSO/Apr20.json
-Data set for FIRST MODEL ONLY C:\fda\FDA-OGD-ML\examples\pso\datalarge.csv was found
-NMFE found at c:/nm744/util/nmfe74.bat 
-Run Directory for first model is c:/fda/FDA-OGD-ML/examples/PSO\0\0

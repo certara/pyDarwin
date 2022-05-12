@@ -1,7 +1,6 @@
 # from https://pyswarms.readthedocs.io/en/development/examples/basic_optimization.html
 # Import modules
 from os import popen
-import numpy as np
 import Templater
 import time    
 import runAllModels 
@@ -58,7 +57,6 @@ R.C. Eberhart in Particle Swarm Optimization [SMC1997]_.
     Conference on Systems, Man, and Cybernetics, 1997.
 """
 
-#import pyswarms.backend as P
 from pyswarms.backend.operators import compute_pbest, compute_objective_function
 from pyswarms.backend.topology import Ring
 from pyswarms.backend.handlers import BoundaryHandler, VelocityHandler

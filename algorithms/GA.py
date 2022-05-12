@@ -2,10 +2,9 @@
 # deap seems to need python 3.7.3
 #from ast import Global
 import model_code
-import run_downhill
+from run_downhill import run_downhill
 import GlobalVars
-import random
-from copy import deepcopy, copy  
+from copy import deepcopy, copy
 from datetime import timedelta
 import runAllModels
 import random
@@ -260,11 +259,11 @@ def run_GA(model_template: Templater.template)-> Templater.model:
             for i in best_index:  
                 best_inds.append(copy(Models[i]))
            
-            new_models, worst_inds = run_downhill.run_downhill(Models) 
+            new_models, worst_inds = run_downhill(Models)
             model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
             # replace worst_inds with new_inds, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
-            # rundownhill return on the fitness and the integer representation!!, need to make GA model from that
+            # run_downhill return on the fitness and the integer representation!!, need to make GA model from that
             # which means back calculate GA/full bit string reprentation 
             for i in range(len(new_models)): 
                 Models[worst_inds[i]] = copy(new_models[i])
@@ -314,7 +313,7 @@ def run_GA(model_template: Templater.template)-> Templater.model:
         for i in best_index: # need deepcopy?
             best_inds.append(copy(Models[i]))
          
-        new_models, worst_inds = run_downhill.run_downhill(Models) 
+        new_models, worst_inds = run_downhill(Models)
         for i in range(len(new_models)): 
             fitnesses[worst_inds[i]] = new_models[i].fitness
       

@@ -9,7 +9,7 @@ import os
 import gc
 
 
-def exhaustive(model_template):
+def run_exhaustive(model_template):
     GlobalVars.StartTime = time.time()
     Num_Groups = []
     for thisKey in model_template.tokens.keys():

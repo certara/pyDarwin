@@ -15,14 +15,20 @@ ModifiedBy:
     Details: added omega bands
     Effective
 """
-import GlobalVars
-import Templater
 import logging
-import model_code
 import time
 import sys
 
 import gc
+
+import GlobalVars
+import Templater
+import model_code
+
+from algorithms.exhaustive import run_exhaustive
+from algorithms.GA import run_GA
+from algorithms.OPT import run_skopt
+from algorithms.PSO import run_PSO
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +53,7 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Templ
     # this many include one (last one) for OMEGA band width
 
     # initialize a trivial model for the global best
-    null_code = model_code.model_code([0] * len(model_template.gene_length),"Int", model_template.gene_max, model_template.gene_length)
+    null_code = model_code.model_code([0] * len(model_template.gene_length), "Int", model_template.gene_max, model_template.gene_length)
     GlobalVars.BestModel = Templater.model(model_template, null_code, -99, True, -99)
     GlobalVars.BestModel.fitness = model_template.options['crash_value'] + 1
     algorithm = model_template.options['algorithm']
@@ -55,17 +61,13 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Templ
     model_template.printMessage(f"Search start time = {time.asctime()}")
 
     if algorithm in ["GBRT", "RF", "GP"]:
-        import OPT
-        final = OPT.run_skopt(model_template)
+        final = run_skopt(model_template)
     elif algorithm == "GA":
-        import GA
-        final = GA.run_GA(model_template)
+        final = run_GA(model_template)
     elif algorithm == "EXHAUSTIVE":
-        import exhaustive
-        final = exhaustive.exhaustive(model_template)
+        final = run_exhaustive(model_template)
     elif algorithm == "PSO":
-        import PSO
-        final = PSO.run_PSO(model_template)
+        final = run_PSO(model_template)
     else:
         print(f"Algorithm {algorithm} is not available")
         sys.exit()

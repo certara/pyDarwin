@@ -1,25 +1,21 @@
-from os import error
 import model_code
 import GlobalVars
 import numpy as np
 import skopt
-# install packages for specific version of python, e.g c:\users\msale\appdata\local\programs\python\python38\python -m pip install scikit-optimize
-from skopt import Optimizer
-import run_downhill
-from copy import deepcopy, copy 
-print("\n\n\n\n\n\nNew Model")
+from run_downhill import run_downhill
+from copy import copy
 import Templater
 import runAllModels
 import time
 import logging
 import heapq
-import warnings
-import os # not needed in 3.10
-from datetime import timedelta 
+import os  # not needed in 3.10
+
 logger = logging.getLogger(__name__)
-Models = [] # hold NONMEM models # will put models here to query them and not rerun models, will eventually be a MongoDB
-#def get_max_values(model_template):
-# run paralell? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
+Models = []  # hold NONMEM models # will put models here to query them and not rerun models, will eventually be a MongoDB
+
+
+# run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
 def run_skopt(model_template:Templater.template) -> Templater.model: 
     """run any of  the three skopt algorithms. Algorithm is define in template.options['algorithm'], which is read from the options json file
     returns the single best model after the search """
@@ -72,9 +68,9 @@ def run_skopt(model_template:Templater.template) -> Templater.model:
             model_template.printMessage(f"Starting downhill, iteration = {this_iter} at {time.asctime()}")
             # can only use all models in GP, not in RF or GA
             if model_template.options['algorithm'] == "GP":
-                new_models, worst_inds, all_models = run_downhill.run_downhill(Models, return_all = True) 
+                new_models, worst_inds, all_models = run_downhill(Models, return_all = True)
             else:
-                new_models, worst_inds = run_downhill.run_downhill(Models, return_all = False) 
+                new_models, worst_inds = run_downhill(Models, return_all = False)
             # replace worst_inds with new_inds, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
             ## rundownhill returns on the fitness and the integer representation!!, need to make GA model from that
@@ -101,9 +97,9 @@ def run_skopt(model_template:Templater.template) -> Templater.model:
         model_template.printMessage(f"Starting final downhill, iteration = {this_iter}")
             # can only use all models in GP, not in RF or GA
         if model_template.options['algorithm'] == "GP":
-            new_models, worst_inds, all_models = run_downhill.run_downhill(Models, return_all = True) 
+            new_models, worst_inds, all_models = run_downhill(Models, return_all = True)
         else:
-            new_models, worst_inds = run_downhill.run_downhill(Models, return_all = False) 
+            new_models, worst_inds = run_downhill(Models, return_all = False)
         for i in range(len(new_models)):
             Models[worst_inds[i]] = copy(new_models[i])
             fitnesses[worst_inds[i]] = new_models[i].fitness 

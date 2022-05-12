@@ -48,7 +48,7 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Templ
         logger.error(e)
         raise
 
-    GlobalVars.Set_up_Objects()
+    GlobalVars.init_global_vars()
     genome_length = sum(model_template.gene_length)
     # this many include one (last one) for OMEGA band width
 

@@ -10,8 +10,8 @@ Environment:
 Input:
 Output:
 Notes:  
-ModifiedBy:
-    Date: 23 Apr, 2022
+Modified By: Mark Sale
+    Date: 8 May, 2022
     Details: added omega bands
     Effective
 """
@@ -21,7 +21,7 @@ import logging
 import model_code
 import time
 import sys
-
+import runAllModels
 import gc
 
 logger = logging.getLogger(__name__)
@@ -70,38 +70,27 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Templ
         print(f"Algorithm {algorithm} is not available")
         sys.exit()
 
-    model_template.printMessage(f"Number of unique models to best model = {GlobalVars.UniqueModelsToBest}")
-    model_template.printMessage(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
+    model_template.printMessage(f"Number of unique models to best model = {runAllModels.UniqueModelsToBest}")
+    model_template.printMessage(f"Time to best model = {runAllModels.TimeToBest / 60:0.1f} minutes")
 
     model_template.printMessage(f"Search end time = {time.asctime()}")
     gc.collect()
-
+    
     return final
 
 
 if __name__ == '__main__':
-    print(f"#\n#\n# Start small example 2 est, with sim, at {time.asctime()}")
-    best_modelEx = run_search("../FDA-OGD-ML-examples/example_small_2est_withsim/example_small_2est_withsim_template.txt",
-                              "../FDA-OGD-ML-examples/example_small_2est_withsim/example_small_tokens.json",
-                              "../FDA-OGD-ML-examples/example_small_2est_withsim/exhaustiveoptions74.json")
-    # print(f"#\n#\n# Start small example 1 est, no sim, at {time.asctime()}")
-    # best_modelEx5 = run_search("../FDA-OGD-ML-examples/search_omega/example_small_1est_nosim_template.txt",
-    #                            "../FDA-OGD-ML-examples/search_omega/example_small_tokens.json",
-    #                            "../FDA-OGD-ML-examples/search_omega/omega_options.json")
-    # print(f"#\n#\n# Start GA for example5 GA, at {time.asctime()}")
-    # best_modelEx2 = run_search("../FDA-OGD-ML-examples/ga/example5_template.txt",
-    #                            "../FDA-OGD-ML-examples/ga/example5_tokens.json",
-    #                            "../FDA-OGD-ML-examples/GA/gaoptions.json")
-    # print(f"#\n#\n# Start GP for example5 GP, at {time.asctime()}")
-    # best_modelEx3 = run_search("../FDA-OGD-ML-examples/GP/example5_template.txt",
-    #                            "../FDA-OGD-ML-examples/GP/example5_tokens.json",
-    #                            "../FDA-OGD-ML-examples/GP/GPoptions.json")
-    # print(f"#\n#\n# Start exhaustive for example5 PSO, at {time.asctime()}")
-    # best_modelEx4 = run_search("../FDA-OGD-ML-examples/pso/example5_template.txt",
-    #                            "../FDA-OGD-ML-examples/pso/example5_tokens.json",
-    #                            "../FDA-OGD-ML-examples/pso/psoOptions.json")
-    # print(f"#\n#\n# Start exhaustive for example5, at {time.asctime()}")
-    # best_modelEx4 = run_search("../FDA-OGD-ML-examples/example5/example5_template.txt",
-    #                            "../FDA-OGD-ML-examples/example5/example5_tokens.json",
-    #                            "../FDA-OGD-ML-examples/example5/exhaustiveoptions74.json")
+    print(f"#\n#\n# Start dmag, at {time.asctime()}")
+    
+   # try making allmodels dict prive to all model? _allmodel??
+   # https://stackoverflow.com/questions/1977362/how-to-create-module-wide-variables-in-python
+
+    # command line is python main.py 
+    # # don't need arguments "../catie data/dmag/dmag_template.txt"  "../catie data/dmag/dmag_tokens.json" "../catie data/dmag/dmag_options.json")
+    # best_modelEx4 = run_search("../catie data/dmag/dmag_template.txt",
+    #                            "../catie data/dmag/dmag_tokens.json",
+	#                                      "../catie data/dmag/dmag_options.json")
+    best_model = run_search("C:\\fda\\FDA-OGD-ML-examples\\example5\\example5_template.txt",
+                               "C:\\fda\\FDA-OGD-ML-examples\\example5\\example5_tokens.json",
+	                                     "C:\\fda\\FDA-OGD-ML-examples\\example5\\exhaustiveoptions74.json")
  

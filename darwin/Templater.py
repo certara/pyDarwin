@@ -28,7 +28,7 @@ from .Omega_utils import set_omega_bands, insert_omega_block
 logger = logging.getLogger(__name__)
 
 
-def import_postprocessing(path: str):
+def _import_postprocessing(path: str):
     import importlib.util
     spec = importlib.util.spec_from_file_location("postprocessing.module", path)
     module = importlib.util.module_from_spec(spec)
@@ -36,8 +36,20 @@ def import_postprocessing(path: str):
 
     return module.post_process
 
+
+def _go_to_folder(folder: str):
+    if folder:
+        os.chdir(folder)
+
+        if not os.path.isdir(folder):
+            os.mkdir(folder)
+
+        print("Changing directory to " + folder)
+        os.chdir(folder)
+
+
 class template:
-    def __init__(self, template_file: str, tokens_file: str, options_file: str):
+    def __init__(self, template_file: str, tokens_file: str, options_file: str, folder: str = None):
         """
         template contains all the results of the template file and the tokens, and the options
         Tokens are parsed to define the search space. The template object is inherited by the model object
@@ -48,13 +60,16 @@ class template:
         Failed = False
         self.homeDir = '<NONE>'
 
-        # need to start in original folder, in case python module must be loaded
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        # if running in folder, options_file may be a relative path, so need to cd to the folder first
+        _go_to_folder(folder)
 
         try:
             if os.path.exists(options_file):
                 self.options = json.loads(open(options_file, 'r').read())
-                self.homeDir = self.options['homeDir']  # just to make it easier
+
+                # just to make it easier
+                self.homeDir = folder or self.options['homeDir']
+                self.postRunRCode = os.path.abspath(self.options['postRunRCode'])
 
                 # remove messages file
                 if os.path.exists(os.path.join(self.homeDir, "messages.txt")):
@@ -69,11 +84,9 @@ class template:
             self.printMessage("Failed to parse JSON tokens in " + options_file)
             Failed = True
 
-        if not os.path.isdir(self.homeDir):
-            os.mkdir(self.homeDir)
-
-        self.printMessage("Changing directory to " + self.homeDir)
-        os.chdir(self.homeDir)
+        # if folder is not provided, then it must be set in options
+        if not folder:
+            _go_to_folder(self.homeDir)
 
         try:  # should this be absolute path or path from homeDir??
             self.TemplateText = open(template_file, 'r').read()
@@ -98,7 +111,7 @@ class template:
                 Failed = True
             else:
                 self.printMessage("postRunPythonCode " + python_postrpocess_path + " found")
-                self.python_postprocess = import_postprocessing(self.options['postRunPythonCode'])
+                self.python_postprocess = _import_postprocessing(self.options['postRunPythonCode'])
 
         if Failed:
             self.printMessage("Error in required file found, exiting")
@@ -348,27 +361,29 @@ class model:
                     self.template.printMessage(f"Data set for FIRST MODEL ONLY {self.dataset_path} was found")
             except:
                 self.template.printMessage(f"Unable to check if data set is present with current version of NONMEM")
+
         # check nmfe?
         if not exists(self.template.options['nmfePath']):
             self.template.printMessage(
-                f"NMFE path ({self.template.options['nmfePath']} seems to be missing, exiting at {time.asctime()}")
+                f"NMFE path {self.template.options['nmfePath']} seems to be missing, exiting at {time.asctime()}")
             sys.exit()
         else:
             self.template.printMessage(f"NMFE found at {self.template.options['nmfePath']}")
+
         if self.template.options['useR']:
             if not exists(self.template.options['RScriptPath']):
                 self.template.printMessage(
-                    f"RScript.exe path ({self.template.options['RScriptPath']} seems to be missing, exiting at {time.asctime()}")
+                    f"RScript.exe path {self.template.options['RScriptPath']} seems to be missing, exiting at {time.asctime()}")
                 sys.exit()
             else:
                 print(f"RScript.exe found at {self.template.options['RScriptPath']}")
-            if self.template.options['useR']:
-                if not exists(self.template.options['postRunRCode']):
-                    self.template.printMessage(
-                        f"Post Run R code path ({self.template.options['postRunRCode']} seems to be missing, exiting at {time.asctime()}")
-                    sys.exit()
-                else:
-                    self.template.printMessage(f"postRunRCode file found at {self.template.options['postRunRCode']}")
+
+            if not exists(self.template.postRunRCode):
+                self.template.printMessage(
+                    f"Post Run R code path {self.template.postRunRCode} seems to be missing, exiting at {time.asctime()}")
+                sys.exit()
+            else:
+                self.template.printMessage(f"postRunRCode file found at {self.template.postRunRCode}")
         else:
             self.template.printMessage(
                 "Not using PostRun R code")
@@ -467,7 +482,7 @@ class model:
         R is called by subprocess call to Rscript.exe. User must supply path to Rscript.exe
         Presence of Rscript.exe is check in the files_present"""
 
-        command = [self.template.options['RScriptPath'], self.template.options['postRunRCode']]
+        command = [self.template.options['RScriptPath'], self.template.postRunRCode]
         os.chdir(self.runDir)  # just to make sure it is reading the right data
         try:
             self.RProcess = Popen(command, stdout=PIPE, stderr=PIPE)

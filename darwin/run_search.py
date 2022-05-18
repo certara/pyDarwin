@@ -17,24 +17,10 @@ from .algorithms.PSO import run_PSO
 logger = logging.getLogger(__name__)
 
 
-def run_search(template_file: str, tokens_file: str, options_file: str) -> model:
-    """
-    run algorithm selected in options_file, based on template_file and tokens_file
-    At the end, write best control and output file to homeDir (specified in options_file) 
-    options_file path name should, in general, be absolute, other file names can be absolute path
-    or path relative to the homeDir
-    function returns the final model object
-    """
-
-    try:  # path to tokens/template is relative to homeDir, probably need to give full path to template/tokens??
-        model_template = template(template_file, tokens_file, options_file)
-    except Exception as e:
-        logger.error(e)
-        raise
-
+def _run_template(model_template: template) -> model:
     GlobalVars.init_global_vars()
     genome_length = sum(model_template.gene_length)
-    # this many include one (last one) for OMEGA band width
+    # this many include one (last one) for OMEGA bandwidth
 
     # initialize a trivial model for the global best
     null_code = model_code([0] * len(model_template.gene_length), "Int", model_template.gene_max, model_template.gene_length)
@@ -63,3 +49,35 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> model
     gc.collect()
 
     return final
+
+
+def run_search(template_file: str, tokens_file: str, options_file: str) -> model:
+    """
+    run algorithm selected in options_file, based on template_file and tokens_file
+    At the end, write best control and output file to homeDir (specified in options_file)
+    options_file path name should, in general, be absolute, other file names can be absolute path
+    or path relative to the homeDir
+    function returns the final model object
+    """
+
+    try:
+        model_template = template(template_file, tokens_file, options_file)
+    except Exception as e:
+        logger.error(e)
+        raise
+
+    return _run_template(model_template)
+
+
+def run_search_in_folder(
+        folder: str,
+        template_file: str = 'template.txt', tokens_file: str = 'tokens.json', options_file: str = 'options.json'
+) -> model:
+
+    try:
+        model_template = template(template_file, tokens_file, options_file, folder)
+    except Exception as e:
+        logger.error(e)
+        raise
+
+    return _run_template(model_template)

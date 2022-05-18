@@ -1,15 +1,13 @@
-import model_code
-from os import error
-import numpy as np 
-from copy import deepcopy, copy  
-import Templater 
-import runAllModels 
+import numpy as np
+from copy import copy
 import heapq
-import utils
-import os # not needed in 3.10
-from datetime import timedelta  
-from itertools import compress
-from scipy.spatial import distance_matrix 
+from scipy.spatial import distance_matrix
+
+from .Templater import model
+from .runAllModels import run_all
+from .model_code import model_code
+
+
 def get_best_in_niche(pop: list):
     """find the best in each of num_niches, return the full model
     argument is pop - list of full models
@@ -96,11 +94,11 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
         maxes  = pop[0].template.gene_max
         lengths  = pop[0].template.gene_length
         for thisMinBits,model_num in zip(test_models,range(len(test_models))):
-            code = model_code.model_code(thisMinBits,"MinBinary",maxes,lengths)
-            Models.append(Templater.model(pop[0].template,code,model_num,False,generation=str(pop[0].generation)+"_downhill_"+ str(this_step)))
+            code = model_code(thisMinBits,"MinBinary",maxes,lengths)
+            Models.append(model(pop[0].template,code,model_num,False,generation=str(pop[0].generation)+"_downhill_"+ str(this_step)))
         if len(Models)> 0:
             print(f"Starting downhill step {this_step}")
-            runAllModels.run_all(Models)   
+            run_all(Models)
             # check, for each niche, if any in the fitnesses is better, if so, that become the source for the next round
             # repeat until no more better (all(done))      
             for this_niche in range(current_num_niches):
@@ -189,7 +187,8 @@ def ChangeEachBit(sourcemodels:list,radius: int): ## only need upper triangle, a
     print(f"{len(models)} models in local exhaustive search, {radius -1} bits")
     return models, radius
 
-def FullSearch(best_pre:Templater.model )-> Templater.model: 
+
+def FullSearch(best_pre: model) -> model:
     """perform 2 bit search (radius should always be 2 bits), will always be called after rundownhill (1 bit search),  
     argument is:
     best_pre - base model for search 
@@ -215,9 +214,9 @@ def FullSearch(best_pre:Templater.model )-> Templater.model:
         maxes  = model_template.gene_max
         lengths  = model_template.gene_length
         for thisMinBits,model_num in zip(test_models,range(len(test_models))):
-            code = model_code.model_code(thisMinBits,"MinBinary",maxes,lengths)
-            Models.append(Templater.model(model_template,code,model_num,False,generation= str(generation) +"_Search_"+ str(this_step)))
-        runAllModels.run_all(Models) #,model_template,round(generation+(0.01*this_step)+0.01,2),isAlreadyInt= True) # not sure isMinimalBinary is ever used? run_all is always called with int
+            code = model_code(thisMinBits,"MinBinary",maxes,lengths)
+            Models.append(model(model_template,code,model_num,False,generation= str(generation) +"_Search_"+ str(this_step)))
+        run_all(Models) #,model_template,round(generation+(0.01*this_step)+0.01,2),isAlreadyInt= True) # not sure isMinimalBinary is ever used? run_all is always called with int
         fitnesses = []
         for i in range(len(Models)):
             fitnesses.append(Models[i].fitness) 
@@ -225,8 +224,8 @@ def FullSearch(best_pre:Templater.model )-> Templater.model:
         Current_Best_fitness = fitnesses[best[0]]
         if Current_Best_fitness < Last_Best_fitness: 
              
-            Current_Best_Model =  Models[best[0]].model_code.MinBinCode #copy(Overall_Best_Model)
-            Current_Best_fitness =  Models[best[0]].fitness
+            Current_Best_Model = Models[best[0]].model_code.MinBinCode #copy(Overall_Best_Model)
+            Current_Best_fitness = Models[best[0]].fitness
         if Current_Best_fitness < OverallBestModel.fitness:
             OverallBestModel = copy(Models[best[0]])
         this_step += 1       

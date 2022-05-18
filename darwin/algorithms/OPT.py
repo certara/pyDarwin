@@ -1,22 +1,24 @@
-import model_code
-import GlobalVars
 import numpy as np
 import skopt
-from run_downhill import run_downhill
 from copy import copy
-import Templater
-import runAllModels
 import time
 import logging
 import heapq
 import os  # not needed in 3.10
+
+import darwin.GlobalVars as GlobalVars
+
+from darwin.model_code import model_code
+from darwin.run_downhill import run_downhill
+from darwin.Templater import model, template
+from darwin.runAllModels import InitModellist, run_all
 
 logger = logging.getLogger(__name__)
 Models = []  # hold NONMEM models # will put models here to query them and not rerun models, will eventually be a MongoDB
 
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
-def run_skopt(model_template:Templater.template) -> Templater.model: 
+def run_skopt(model_template:template) -> model:
     """run any of  the three skopt algorithms. Algorithm is define in template.options['algorithm'], which is read from the options json file
     returns the single best model after the search """
     np.random.seed(model_template.options['random_seed'])
@@ -35,7 +37,7 @@ def run_skopt(model_template:Templater.template) -> Templater.model:
     # command to install is pip install scikit-optimize
     from skopt import Optimizer
     
-    runAllModels.InitModellist(model_template)
+    InitModellist(model_template)
     #opt = Optimizer(Num_Groups,n_jobs = 1, base_estimator="GBRT")
     # for parallel, will need and array of N number of optimizaer,  n_jobs doesn't seem to do anything
     opt = Optimizer(Num_Groups,n_jobs = 1, base_estimator=model_template.options['algorithm'])
@@ -54,9 +56,9 @@ def run_skopt(model_template:Templater.template) -> Templater.model:
         model_template.printMessage("Elapse time for sampling step # %d =  %.1f seconds" % (this_iter, (time.time() - suggestion_start_time)))
         Models = [] # some other method to clear memory??
         for thisInts,model_num in zip(suggested,range(len(suggested))):
-            code = model_code.model_code(thisInts,"Int",maxes,lengths)
-            Models.append(Templater.model(model_template,code,model_num,True,this_iter))
-        runAllModels.run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+            code = model_code(thisInts,"Int",maxes,lengths)
+            Models.append(model(model_template,code,model_num,True,this_iter))
+        run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
         # copy fitnesses back
         fitnesses = [None]*len(suggested)
         for i in range(len(suggested)):

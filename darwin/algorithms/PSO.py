@@ -1,11 +1,6 @@
 # from https://pyswarms.readthedocs.io/en/development/examples/basic_optimization.html
 # Import modules
-from os import popen
-import Templater
-import time    
-import runAllModels 
-import GlobalVars
-import model_code
+
 r"""
 A Binary Particle Swarm Optimization (binary PSO) algorithm.
 
@@ -70,7 +65,14 @@ import numpy as np
 import multiprocessing as mp
 
 from collections import deque
- 
+
+import time
+
+import darwin.GlobalVars as GlobalVars
+
+from darwin.Templater import model, template
+from darwin.runAllModels import InitModellist, run_all
+from darwin.model_code import model_code
 
 
 class BinaryPSO(DiscreteSwarmOptimizer):
@@ -148,7 +150,6 @@ class BinaryPSO(DiscreteSwarmOptimizer):
         self.top = Ring(static=False)
         self.vh = VelocityHandler(strategy=vh_strategy)
         self.name = __name__
-
 
     def optimize(self,  objective_func, iters, model_template ):
         """Optimize the swarm for a number of iterations
@@ -302,9 +303,9 @@ def f(x,model_template,iteration):
     for i in range(n_particles):
         popFullBits.append(x[i].tolist()) # needs to be list, not numpy array
     for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
-        code = model_code.model_code(thisFullBits,"FullBinary",maxes,lengths)
-        Models.append(Templater.model(model_template,code,model_num,True,iteration))
-    runAllModels.run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+        code = model_code(thisFullBits,"FullBinary",maxes,lengths)
+        Models.append(model(model_template,code,model_num,True,iteration))
+    run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
     j = []
     for i in range(n_particles):
         j.append(Models[i].fitness) 
@@ -313,11 +314,11 @@ def f(x,model_template,iteration):
 # Initialize swarm, arbitrary 
   
 
-def run_PSO(model_template: Templater.template)-> Templater.model:  
+def run_PSO(model_template: template) -> model:
     """ Runs PSO, 
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
-    runAllModels.InitModellist(model_template)
+    InitModellist(model_template)
     pop_size = model_template.options['popSize']  
     best_fitness = crash_value = model_template.options['crash_value']  
     downhill_q = model_template.options['downhill_q']  

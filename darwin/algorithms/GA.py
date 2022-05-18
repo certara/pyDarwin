@@ -1,30 +1,31 @@
 # https://programtalk.com/python-examples/deap.tools.HallOfFame/
 # deap seems to need python 3.7.3
-#from ast import Global
-import model_code
-from run_downhill import run_downhill
-import GlobalVars
 from copy import deepcopy, copy
 from datetime import timedelta
-import runAllModels
 import random
 from itertools import compress
 import deap
 from deap import base 
 from deap import creator
 from deap import tools 
-import Templater 
-import os 
+import os
 import time
 import logging 
 import numpy as np 
 from scipy.spatial import distance_matrix
 import heapq
-#from pathlib import Path
-#import utils
-np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning) 
+
+import darwin.GlobalVars as GlobalVars
+
+from darwin.model_code import model_code
+from darwin.run_downhill import run_downhill
+from darwin.runAllModels import InitModellist, run_all
+from darwin.Templater import model, template
+
+np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
 logger = logging.getLogger(__name__) 
    
+
 def get_best_in_niche(pop:list,temp_fitnesses:list,num_niches:int,niche_radius:int,crash_value:float):
     """finds the best model (by fitness) in each niche (defined by the niche radius), Starts with the best model, then finds all models within
     niche_radius of that model. That becomes the first niche. Then, finds the best model that is not in the first niche, then all models withint
@@ -93,11 +94,11 @@ def add_sharing_penalty(pop,niche_radius,sharing_alpha,niche_penalty):
             ind[0].fitness.values = (ind[0].fitness.values[0] + penalty), # weighted values (wvalues) changes with this
     return 
  
-def run_GA(model_template: Templater.template)-> Templater.model:  
+def run_GA(model_template: template)-> model:
     """ Runs GA, 
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
-    runAllModels.InitModellist(model_template)
+    InitModellist(model_template)
     pop_size = model_template.options['popSize'] 
     best_fitness = crash_value = model_template.options['crash_value'] 
     #num_niches = model_template.options['num_niches']
@@ -165,9 +166,9 @@ def run_GA(model_template: Templater.template)-> Templater.model:
     maxes = model_template.gene_max
     lengths = model_template.gene_length
     for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
-        code = model_code.model_code(thisFullBits,"FullBinary",maxes,lengths)
-        Models.append(Templater.model(model_template,code,model_num,True,0))
-    runAllModels.run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+        code = model_code(thisFullBits,"FullBinary",maxes,lengths)
+        Models.append(model(model_template,code,model_num,True,0))
+    run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
     print(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
      
     fitnesses = [None]*len(Models)
@@ -232,9 +233,9 @@ def run_GA(model_template: Templater.template)-> Templater.model:
         
         Models = []  
         for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
-            code = model_code.model_code(thisFullBits,"FullBinary",maxes,lengths)
-            Models.append(Templater.model(model_template,code,model_num,True,generation ))
-        runAllModels.run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+            code = model_code(thisFullBits,"FullBinary",maxes,lengths)
+            Models.append(model(model_template,code,model_num,True,generation ))
+        run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
         model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
         
         fitnesses = [None]*len(Models)

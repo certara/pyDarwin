@@ -1,20 +1,14 @@
 import shlex
-import Omega_utils
 import importlib
 import re
-from cmath import nan
-from distutils.log import error
 import json
 import xmltodict
 import concurrent.futures 
 import math
 from pharmpy.modeling import read_model   ## v 0.66.0 works
 from sympy import false, true 
-#import numpy as np
 from typing import OrderedDict
 import collections
-from unittest.mock import seal
-import utils
 import psutil
 import os, shutil
 from os.path import exists
@@ -22,12 +16,15 @@ from subprocess import DEVNULL, STDOUT, Popen, PIPE
 import time
 import glob
 import logging
-import utils
-import GlobalVars
 from copy import copy
 import gc
 import sys
-from model_code import model_code
+
+import darwin.utils as utils
+import darwin.GlobalVars as GlobalVars
+
+from .model_code import model_code
+from .Omega_utils import set_omega_bands, insert_omega_block
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +44,7 @@ class template:
         self.isFirstModel = True
         self.errMsgs = []
         self.warnings = []
+        self.homeDir = '<NONE>'
 
         # need to start in original folder, in case python module must be loaded
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -64,20 +62,20 @@ class template:
             else:  # can't write to homeDir if can't open options
                 self.printMessage(f"!!!!!Options file {options_file} seems to be missing, exiting") 
                 sys.exit()
-
         except Exception as error:
             self.errMsgs.append("Failed to parse JSON tokens in " + options_file) 
             self.printMessage("Failed to parse JSON tokens in " + options_file + ", exiting")
             sys.exit()
-        try:  ## should this be absolute path or path from homeDir??
+
+        try:  # should this be absolute path or path from homeDir??
             self.TemplateText = open(template_file, 'r').read()
         except Exception as error: 
             self.errMsgs.append("Failed to open Template file " + template_file + ", exiting")
             self.printMessage("Failed to open Template file " + template_file + ", exiting")
             sys.exit()
+
         try:
             self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
-
         except Exception as error:
             self.errMsgs.append("Failed to parse JSON tokens in " + tokens_file)
             self.printMessage("Failed to parse JSON tokens in " + tokens_file + ", exiting")
@@ -945,9 +943,9 @@ class model:
         if self.template.search_omega_band:
             ## bandwidth must be last gene
             bandwidth = self.model_code.IntCode[-1]
-            omega_block,self.template.search_omega_band = Omega_utils.set_omega_bands(self.control,bandwidth)
+            omega_block,self.template.search_omega_band = set_omega_bands(self.control,bandwidth)
             if self.template.search_omega_band:
-                self.control = Omega_utils.insert_omega_block(self.control,omega_block)
+                self.control = insert_omega_block(self.control,omega_block)
         if not (token_found):  
             self.template.printMessage("No tokens found, exiting")
             self.errMsgs.append("No tokens found")

@@ -1,18 +1,20 @@
 import gc
-import Templater
 import time
 import json
 import os
-import GlobalVars
 from copy import copy
 import numpy as np
 from pathlib import Path
+
+import darwin.GlobalVars as GlobalVars
+
+from .Templater import model, template
 
 np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
 BestModelOutput = ""
 
 
-def InitModellist(model_template:Templater.template):
+def InitModellist(model_template:template):
     'Initializes model from template. Need Options first''' 
     if "usePreviousModelsList" in model_template.options.keys():
         if model_template.options['usePreviousModelsList']:
@@ -63,7 +65,9 @@ def InitModellist(model_template:Templater.template):
                 # delete the model if it is there
         if os.path.exists(GlobalVars.SavedModelsFile ):
             os.remove(GlobalVars.SavedModelsFile )
-def Copy_to_Best(current_model: Templater.model):
+
+
+def Copy_to_Best(current_model: model):
     '''copies current model to the global best model
     argumen is a template.model'''
     GlobalVars.TimeToBest = time.time() -GlobalVars.StartTime

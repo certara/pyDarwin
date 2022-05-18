@@ -1,5 +1,4 @@
 import shlex
-import importlib
 import re
 import json
 import xmltodict
@@ -28,6 +27,14 @@ from .Omega_utils import set_omega_bands, insert_omega_block
 
 logger = logging.getLogger(__name__)
 
+
+def import_postprocessing(path: str):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("postprocessing.module", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    return module.post_process
 
 class template:
     def __init__(self, template_file: str, tokens_file: str, options_file: str):
@@ -62,6 +69,12 @@ class template:
             self.printMessage("Failed to parse JSON tokens in " + options_file)
             Failed = True
 
+        if not os.path.isdir(self.homeDir):
+            os.mkdir(self.homeDir)
+
+        self.printMessage("Changing directory to " + self.homeDir)
+        os.chdir(self.homeDir)
+
         try:  # should this be absolute path or path from homeDir??
             self.TemplateText = open(template_file, 'r').read()
             self.printMessage(f"Template file found at {template_file}")
@@ -78,18 +91,15 @@ class template:
             self.printMessage("Failed to parse JSON tokens in " + tokens_file)
             Failed = True
 
-            # write out space, to use in test for exhaustive search
-        # self.space = []
         if self.options['usePython']:
-            if not os.path.isfile(self.options['postRunPythonCode'] + ".py"):
-                self.printMessage(
-                    f"!!!!!postRunPythonCode {os.path.join(os.getcwd(), self.options['postRunPythonCode'])}.py was not found")
+            python_postrpocess_path = self.options['postRunPythonCode']
+            if not os.path.isfile(python_postrpocess_path):
+                self.printMessage("!!!!!postRunPythonCode " + python_postrpocess_path + " was not found")
                 Failed = True
             else:
-                self.printMessage(
-                    "postRunPythonCode " + os.path.join(os.getcwd(), self.options['postRunPythonCode']) + ".py found")
-                self.python_mod = importlib.import_module(self.options[
-                                                              'postRunPythonCode'])  # MUST be in home directory, a python rule, and cannot have the .py extension
+                self.printMessage("postRunPythonCode " + python_postrpocess_path + " found")
+                self.python_postprocess = import_postprocessing(self.options['postRunPythonCode'])
+
         if Failed:
             self.printMessage("Error in required file found, exiting")
             sys.exit()
@@ -107,9 +117,6 @@ class template:
         self.getGeneLength()
         self.check_omega_search()
 
-        if not os.path.isdir(self.homeDir):
-            os.mkdir(self.homeDir)
-        os.chdir(self.homeDir)
         self.control = self.controlBaseTokens = None
         self.status = "Not initialized"
         self.lastFixedTHETA = None  ## fixed THETA do not count toward penalty
@@ -471,7 +478,7 @@ class model:
     def check_done_postRunPython(self):
         if self.future.done():
             try:
-                self.post_run_Pythonpenalty, self.post_run_Pythontext = self.template.python_mod.PostRunPython()
+                self.post_run_Pythonpenalty, self.post_run_Pythontext = self.template.python_postprocess()
                 self.status = "Done"
                 with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
                     f.write(f"Post run Python code Penalty = {str(self.post_run_Pythonpenalty)}\n")
@@ -520,7 +527,7 @@ class model:
 
     def StartPostPython(self):
         with concurrent.futures.ThreadPoolExecutor() as executor:  # each model object has it's own future for running user defined python code
-            self.future = executor.submit(self.template.python_mod.PostRunPython())
+            self.future = executor.submit(self.template.python_postprocess)
         self.status = "Running_post_Pythoncode"
 
     def check_all_done(self):

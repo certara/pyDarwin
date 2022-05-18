@@ -24,6 +24,7 @@ def run_exhaustive(model_template):
     # convert to regular list
     codes = codes.tolist()
     NumModels = len(codes)
+    model_template.printMessage(f"Total of {NumModels} to be run in exhaustive search")
     maxes = model_template.gene_max
     lengths = model_template.gene_length
     # break into smaller list, for memory management
@@ -36,6 +37,7 @@ def run_exhaustive(model_template):
         current_last = NumModels
     InitModellist(model_template)
     fitnesses = []
+    best_fitness = model_template.options['crash_value']
     while current_last <= NumModels:
         if current_last > len(codes):
             current_last = len(codes)
@@ -48,12 +50,15 @@ def run_exhaustive(model_template):
             thisModel += 1
         run_all(Models)
         for i in range(len(Models)):
+            if Models[i].fitness < best_fitness:
+                best_fitness = Models[i].fitness
+                best_model = Models[i].makeCopy()
             fitnesses.append(Models[i].fitness)
+        model_template.printMessage(f"Current Best fitness = {best_fitness}")
         current_start = current_last
         current_last = current_start + MaxModels
-    best = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)
-    best_fitness = fitnesses[best[0]]
-    best_model = Models[best[0]].makeCopy()
+    #best = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)
+    #best_fitness = fitnesses[best[0]] 
     elapsed = time.time() - GlobalVars.StartTime
     Models[0].template.printMessage(f"Elapse time = {elapsed / 60:.1f} minutes \n")
     Models[0].template.printMessage(f"Best overall fitness = {best_fitness:4f}, model {best_model.modelNum}")

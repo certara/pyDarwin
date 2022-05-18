@@ -1,20 +1,3 @@
-""""
-Sponsor:FDA OGD 
-Program:
-Programmer’s Name: Mark Sale
-Date:13Apr2022
-Purpose:
-Brief Description:
-Platform: Windows
-Environment: 
-Input:
-Output:
-Notes:  
-ModifiedBy:
-    Date: 23 Apr, 2022
-    Details: added omega bands
-    Effective
-"""
 import logging
 import time
 import sys

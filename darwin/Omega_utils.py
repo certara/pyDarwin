@@ -1,4 +1,3 @@
-#from pharmpy.modeling import read_model_from_string ## v 0.66.0 works
 import re  
 import numpy as np
 def is_pos_def(x):

@@ -1,20 +1,13 @@
 import shlex
-import Omega_utils
-import importlib
 import re
-from cmath import nan
-from distutils.log import error
 import json
 import xmltodict
-import concurrent.futures 
+import concurrent.futures
 import math
-from pharmpy.modeling import read_model   ## only used to find data file path before 1st run - can we eliminate this??
+from pharmpy.modeling import read_model   ## v 0.66.0 works
 from sympy import false, true 
-#import numpy as np
 from typing import OrderedDict
 import collections
-from unittest.mock import seal
-import utils
 import psutil
 import os, shutil
 from os.path import exists
@@ -22,21 +15,26 @@ from subprocess import DEVNULL, STDOUT, Popen, PIPE
 import time
 import glob
 import logging
-import utils
-import GlobalVars 
 from copy import copy
 import gc
 import sys
-from model_code import model_code
+
+import darwin.utils as utils
+import darwin.GlobalVars as GlobalVars
+
+from .model_code import model_code
+from .Omega_utils import set_omega_bands, insert_omega_block
 
 logger = logging.getLogger(__name__)
 
 
-class Object:
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__,
-                          sort_keys=True, indent=4)
+def import_postprocessing(path: str):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("postprocessing.module", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
 
+    return module.post_process
 
 class template:
     def __init__(self, template_file: str, tokens_file: str, options_file: str):
@@ -47,7 +45,9 @@ class template:
         self.isFirstModel = True
         self.errMsgs = []
         self.warnings = []
-        Failed =  False 
+        Failed = False
+        self.homeDir = '<NONE>'
+
         # need to start in original folder, in case python module must be loaded
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -62,40 +62,44 @@ class template:
 
                 self.printMessage(f"Options file found at {options_file}")
             else:  # can't write to homeDir if can't open options
-                self.printMessage(f"!!!!!Options file {options_file} seems to be missing") 
-                Failed=True
-
+                self.printMessage(f"!!!!!Options file {options_file} seems to be missing")
+                Failed = True
         except Exception as error:
-            self.errMsgs.append("Failed to parse JSON tokens in " + options_file) 
+            self.errMsgs.append("Failed to parse JSON tokens in " + options_file)
             self.printMessage("Failed to parse JSON tokens in " + options_file)
             Failed = True
-        try:  ## should this be absolute path or path from homeDir??
+
+        if not os.path.isdir(self.homeDir):
+            os.mkdir(self.homeDir)
+
+        self.printMessage("Changing directory to " + self.homeDir)
+        os.chdir(self.homeDir)
+
+        try:  # should this be absolute path or path from homeDir??
             self.TemplateText = open(template_file, 'r').read()
             self.printMessage(f"Template file found at {template_file}")
-        except Exception as error: 
+        except Exception as error:
             self.errMsgs.append("Failed to open Template file " + template_file)
             self.printMessage("Failed to open Template file " + template_file)
             Failed = True
+
         try:
-            self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read())) 
+            self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
             self.printMessage(f"Tokens file found at {tokens_file}")
         except Exception as error:
             self.errMsgs.append("Failed to parse JSON tokens in " + tokens_file)
-            self.printMessage("Failed to parse JSON tokens in " + tokens_file) 
+            self.printMessage("Failed to parse JSON tokens in " + tokens_file)
             Failed = True
 
-            # write out space, to use in test for exhaustive search
-        # self.space = []
         if self.options['usePython']:
-            if not os.path.isfile(self.options['postRunPythonCode'] + ".py"):
-                self.printMessage(
-                    f"!!!!!postRunPythonCode {os.path.join(os.getcwd(), self.options['postRunPythonCode'])}.py was not found")
+            python_postrpocess_path = self.options['postRunPythonCode']
+            if not os.path.isfile(python_postrpocess_path):
+                self.printMessage("!!!!!postRunPythonCode " + python_postrpocess_path + " was not found")
                 Failed = True
             else:
-                self.printMessage(
-                    "postRunPythonCode " + os.path.join(os.getcwd(), self.options['postRunPythonCode']) + ".py found")
-                self.python_mod = importlib.import_module(self.options[
-                                                              'postRunPythonCode'])  # MUST be in home directory, a python rule, and cannot have the .py extension
+                self.printMessage("postRunPythonCode " + python_postrpocess_path + " found")
+                self.python_postprocess = import_postprocessing(self.options['postRunPythonCode'])
+
         if Failed:
             self.printMessage("Error in required file found, exiting")
             sys.exit()
@@ -110,20 +114,9 @@ class template:
         self.version = None
         self.gene_max = []  ## zero based
         self.gene_length = []  ## length is 1 based
-        self.getGeneLength()  
+        self.getGeneLength()
         self.check_omega_search()
 
-       # for this_group in self.tokens:
-            # build list of names from first token in each set
-            # note that first token need not be unique, so have to include token set number
-            # names = []
-            # set_num = 0
-            # for this_token in self.tokens[this_group]:
-            #     names.append(this_group + "[" + str(set_num) + "] =" + this_token[0])
-            #     set_num += 1
-        if not os.path.isdir(self.homeDir):
-            os.mkdir(self.homeDir)
-        os.chdir(self.homeDir)
         self.control = self.controlBaseTokens = None
         self.status = "Not initialized"
         self.lastFixedTHETA = None  ## fixed THETA do not count toward penalty
@@ -162,9 +155,10 @@ class template:
         ''' argument is the token sets, returns maximum value of token sets and number of bits'''
         tokenKeys = self.tokens.keys()
         for thisset in tokenKeys:
-            if( thisset.strip() != "Search_OMEGA" and thisset.strip() != "max_Omega_size" ):
+            if (thisset.strip() != "Search_OMEGA" and thisset.strip() != "max_Omega_size"):
                 val = len(self.tokens[thisset])
-                self.gene_max.append(val - 1)  # max is zero based!!!!, everything is zero based (gacode, intcode, gene_max)
+                self.gene_max.append(
+                    val - 1)  # max is zero based!!!!, everything is zero based (gacode, intcode, gene_max)
                 self.gene_length.append(math.ceil(math.log(val, 2)))
 
     def check_omega_search(self):
@@ -175,16 +169,19 @@ class template:
             self.search_omega_band = True
             if "max_Omega_size" in self.tokens.keys():
                 self.omega_bandwidth = self.tokens['max_Omega_size']
-                self.gene_max.append(self.omega_bandwidth-1)
-                self.gene_length.append(math.ceil(math.log(self.omega_bandwidth, 2)))               
-                self.printMessage(f"Including search of band OMEGA, with width up to {self.omega_bandwidth-1}")  
+                self.gene_max.append(self.omega_bandwidth - 1)
+                self.gene_length.append(math.ceil(math.log(self.omega_bandwidth, 2)))
+                self.printMessage(f"Including search of band OMEGA, with width up to {self.omega_bandwidth - 1}")
                 del self.tokens['max_Omega_size']
             else:
-                self.printMessage("Cannot find omega size in tokens set, but omega band width search request \n, omitting omega band width search")
+                self.printMessage(
+                    "Cannot find omega size in tokens set, but omega band width search request \n, omitting omega band width search")
                 ## remove max_Omega_size and  Search_OMEGA from token sets
-            del self.tokens['Search_OMEGA'] 
-        else: 
+            del self.tokens['Search_OMEGA']
+        else:
             self.search_omega_band = false
+
+
 def getFixedParms(Template):
     NFixedTHETA, THETABlock = getFixedBlock(Template, "$THETA")
     NFixedOMEGA, OMEGABlock = getFixedBlock(Template, "$OMEGA")
@@ -229,7 +226,7 @@ def getFixedBlock(Code, key):
     for thisline in lines:
         ### remove blanks, options and tokens, comments
         thisline = utils.removeComments(thisline).strip()
-        ## count fixed only, n 
+        ## count fixed only, n
         # visual studio code showing warning for "\$" below, but that is just literal $ at beginning of line, eg., $THETA
         if (thisline != "" and (not (re.search("^{.+}", thisline)))) and not re.search("^\$.+", thisline):
             nfixed += 1
@@ -237,7 +234,7 @@ def getFixedBlock(Code, key):
 
 
 class model:
-    """The full model, used for GA, GP, RF, GBRF and exhaustive 
+    """The full model, used for GA, GP, RF, GBRF and exhaustive
     inheirates the template object"""
 
     def __init__(self, template: template, code: model_code, model_num: int, is_ga: bool,
@@ -256,19 +253,20 @@ class model:
         self.model_code = copy(code)
         self.RSTDOUT = self.RSTDERR = self.NMSTDOUT = self.NMSTDERR = None  # standard output and standard error from NONMEM run
         # all required representations of model are done here
-        # GA -> integer, 
+        # GA -> integer,
         # integer is just copied
-        # minimal binary is generated, just in case this is a downhill step 
+        # minimal binary is generated, just in case this is a downhill step
         self.success = self.covariance = self.correlation = False
         self.OMEGA = self.SIGMA = None
         self.post_run_Rtext = self.post_run_Pythontext = self.NMtranMSG = self.PRDERR = ""
         # self.Rfuture = None # hold future for running R code
         self.fitness = self.template.options['crash_value']
         self.post_run_Pythonpenalty = self.post_run_Rpenalty = self.Condition_num_test = self.condition_num = 0
-        self.num_THETAs = self.num_non_fixed_THETAs = self.num_OMEGAs = self.num_non_fixed_OMEGAs = self.num_SIGMAs =self.num_non_fixed_SIGMAs = self.ofv = 0
+        self.num_THETAs = self.num_non_fixed_THETAs = self.num_OMEGAs = self.num_non_fixed_OMEGAs = self.num_SIGMAs = self.num_non_fixed_SIGMAs = self.ofv = 0
         self.jsonListRecord = None  # this is a list of key values to be saved to json file, for subsequent runs and to avoid running the same mdoel
         self.Num_noninfluential_tokens = 0  # home many tokens, due to nesting have a parameter that doesn't end up in the control file?
-        self.token_Non_influential = [True] * len(self.template.tokens)  # does each token result in a change? does it containt a parameter, if token has a parameter, but doesn't
+        self.token_Non_influential = [True] * len(
+            self.template.tokens)  # does each token result in a change? does it containt a parameter, if token has a parameter, but doesn't
         # default is true, will change to false if: 1. doesn't contain parameters (in check_contains_parms) is put into control file (in utils.replaceTokens)
         self.startTime = time.time()
         self.elapseTime = None
@@ -373,7 +371,7 @@ class model:
                     self.template.printMessage(f"postRunRCode file found at {self.template.options['postRunRCode']}")
         else:
             self.template.printMessage(
-                        "Not using PostRun R code")
+                "Not using PostRun R code")
         return
 
     def copyResults(self, prevResults):
@@ -421,6 +419,7 @@ class model:
             os.chdir(self.runDir)
         except:
             self.template.printMessage(f"Error removing run files/folders for {self.runDir}, is that file/folder open?")
+
         for filename in os.listdir(self.runDir):
             file_path = os.path.join(self.runDir, filename)
             try:
@@ -461,8 +460,7 @@ class model:
         self.post_run_Rpenalty = float(val[0])
         # penalty is always first, but may be addition /r/n in array? get the last?
         Num_vals = len(val)
-        self.post_run_Rtext = val[Num_vals-1]
-
+        self.post_run_Rtext = val[Num_vals - 1]
 
     def StartPostR(self):
         """Run R code specified in the file options['postRunCode'], return penalty from R code
@@ -480,7 +478,7 @@ class model:
     def check_done_postRunPython(self):
         if self.future.done():
             try:
-                self.post_run_Pythonpenalty, self.post_run_Pythontext = self.template.python_mod.PostRunPython()
+                self.post_run_Pythonpenalty, self.post_run_Pythontext = self.template.python_postprocess()
                 self.status = "Done"
                 with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
                     f.write(f"Post run Python code Penalty = {str(self.post_run_Pythonpenalty)}\n")
@@ -529,13 +527,13 @@ class model:
 
     def StartPostPython(self):
         with concurrent.futures.ThreadPoolExecutor() as executor:  # each model object has it's own future for running user defined python code
-            self.future = executor.submit(self.template.python_mod.PostRunPython())
+            self.future = executor.submit(self.template.python_postprocess)
         self.status = "Running_post_Pythoncode"
 
     def check_all_done(self):
-        """Check is the model is done running, uses the Process of the object. Process.poll() return of 107 or 110 
-        seems to mean failed to start. Process.poll() of 0 is finished  
-        if done, reads xml file to collect results, then either calls run_post_Code (if applicable) 
+        """Check is the model is done running, uses the Process of the object. Process.poll() return of 107 or 110
+        seems to mean failed to start. Process.poll() of 0 is finished
+        if done, reads xml file to collect results, then either calls run_post_Code (if applicable)
         or calls calcFitness."""
         if self.status == "Done":  # if done here, then already has post run code results
             return True
@@ -592,141 +590,6 @@ class model:
             self.calcFitness()
             return True
 
-    # def get_results_pharmpy(self):
-    #     try:
-    #         os.chdir(self.runDir)
-    #         result = read_model(self.controlFileName)
-    #         # fixed thetas/omega/sigmas from parmeters.fix
-    #         fixed_parms = result.parameters.fix
-    #         thetas = [value for key, value in fixed_parms.items() if 'THETA' in key.upper()]
-    #         omegas = [value for key, value in fixed_parms.items() if 'OMEGA' in key.upper()]
-    #         sigmas = [value for key, value in fixed_parms.items() if 'SIGMA' in key.upper()]
-    #         self.num_THETAs = len(thetas)
-    #         self.num_OMEGAs = len(omegas)
-    #         self.num_SIGMAs = len(sigmas)
-    #         self.num_non_fixed_THETAs = self.num_THETAs - sum(thetas)
-    #         self.num_non_fixed_OMEGAs = self.num_OMEGAs - sum(omegas)
-    #         self.num_non_fixed_SIGMAs = self.num_SIGMAs - sum(sigmas)
-    #         if False: # getattr(result,"modelfit_results","missing") != "missing":
-    #             model_fit = result.modelfit_results
-    #             try:
-    #                 self.ofv = model_fit.ofv
-    #                 self.success = model_fit.minimization_successful
-    #                 try:
-    #                     if model_fit.correlation_matrix.isnull().values.any():
-    #                         self.covariance = False
-    #                         self.correlation = False
-    #                         self.condition_num = self.template.options['crash_value']
-    #                         self.Condition_num_test = False
-    #                     else:
-    #                         self.covariance = True
-    #                         correlation_matrix = model_fit.correlation_matrix.values
-    #                         size = model_fit.correlation_matrix.shape[0]
-    #                         self.correlation = True  # passes correlation test
-    #                         for row in range(1, size):
-    #                             if self.correlation == False:
-    #                                 break
-    #                             for col in range(row):
-    #                                 if correlation_matrix[row, col] > self.template.options['correlationLimit']:
-    #                                     self.correlation = False
-    #                                     break
-    #                 except:
-    #                     self.covariance = False
-    #                     self.correlation = False
-    #                     self.condition_num = self.template.options['crash_value']
-    #                     self.Condition_num_test = False
-    #             except:
-    #                 self.ofv = self.template.options['crash_value']
-    #                 self.covariance = False
-    #                 self.correlation = False
-    #                 self.condition_num = self.template.options['crash_value']
-    #                 self.Condition_num_test = False
-    #         else:
-    #         # need to get all from xml file
-    #             if not exists(self.xml_file):
-    #                 self.ofv = self.template.options['crash_value']
-    #                 self.success = False
-    #                 self.covariance = False
-    #                 self.correlation = False
-    #                 self.condition_num = self.template.options['crash_value']
-    #                 self.Condition_num_test = False 
-    #                 return ()   
-    #             else:
-
-    #     except:
-    #         self.ofv = self.template.options['crash_value']
-    #         self.covariance = False
-    #         self.correlation = False
-    #         self.condition_num = self.template.options['crash_value']
-    #         self.Condition_num_test = False
-         
-    #         # need to read xml for eigenvalues, not in pharmpy output (???)
-    #         # xml file should have eigen values if covariance is succesfull
-    #         # but need to verify this 
-
-    #     if not exists(self.xml_file):
-    #         self.Condition_num_test = False
-    #         self.condition_num = self.template.options['crash_value']
-    #         return ()
-    #     else:
-    #         try:
-    #             with open(self.xml_file) as xml_file:
-    #                 data_dict = xmltodict.parse(xml_file.read())
-    #                 if self.template.version is None:
-    #                     self.template.version = data_dict['nm:output']['nm:nonmem']['@nm:version']  # string
-    #                     print("NONMEM version = " + self.template.version)
-    #                     # keep first two digits
-    #                     dots = [_.start() for _ in re.finditer("\.", self.template.version)]
-    #                     # and get the first two
-    #                     majorversion = float(self.template.version[:dots[1]])  # float
-    #                     if majorversion < 7.4 or majorversion > 7.5:
-    #                         print("NONMEM is version " + self.template.version + ", NONMEM 7.4 and 7.5 are supported, exiting")
-    #                         sys.exit()
-
-    #                         # if 0 in problem_dict: # more than one problem, e.g. with simulation
-    #             # it seems that if there is only one problem, this is orderedDict
-    #             # is multiple problems, is just a plain list, if > 0, assume the FIRST IS THE $EST
-    #             problem_dict = data_dict['nm:output']['nm:nonmem']['nm:problem']
-    #             if isinstance(problem_dict, list):
-    #                 problem_dict = problem_dict[0]
-    #             estimations = problem_dict['nm:estimation']
-
-    #             # similar, may be more than one estimation, if > 1, we want the final one
-    #             if isinstance(estimations, list):  # > 1 one $EST
-    #                 n_estimation = len(estimations)
-    #                 last_estimation = estimations[n_estimation - 1]
-    #             else:
-    #                 last_estimation = estimations
-
-    #                 # a
-    #             if 'nm:eigenvalues' in last_estimation:
-    #                 # if last_estimation['nm:eigenvalues'] is None:
-    #                 Eigens = last_estimation['nm:eigenvalues']['nm:val']
-    #                 max = -9999999
-    #                 min = 9999999
-    #                 for i in Eigens:
-    #                     val = float(i['#text'])
-    #                     if val < min: min = val
-    #                     if val > max: max = val
-    #                 self.condition_num = max / min
-    #                 if self.condition_num > 1000:  # should 1000 be an option??
-    #                     self.Condition_num_test = False
-    #                 else:
-    #                     self.Condition_num_test = True
-    #             else:
-    #                 self.condition_num = self.template.options['crash_value']
-    #                 self.Condition_num_test = False
-    #         except:
-    #             self.Condition_num_test = False
-    #             self.condition_num = self.template.options['crash_value']
-    #             self.PRDERR += " .xml file not present, likely crash in estimation step"
-        
-         
-    #     gc.collect()
-        # except:
-        #     self.num_THETAs = self.num_OMEGAs =   self.num_SIGMAs =  99
-        #     self.num_non_fixed_THETAs =  self.num_non_fixed_OMEGAs = self.num_non_fixed_SIGMAs = 99
-        # return ()
     def read_xml(self):
         if not exists(self.xml_file):
             self.ofv = self.template.options['crash_value']
@@ -734,9 +597,9 @@ class model:
             self.covariance = False
             self.correlation = False
             self.condition_num = self.template.options['crash_value']
-            self.Condition_num_test = False 
+            self.Condition_num_test = False
             self.num_THETAs = self.num_non_fixed_THETAs = self.num_OMEGAs = self.num_non_fixed_OMEGAs = self.num_SIGMAs = self.num_non_fixed_SIGMAs = 99
-            return ()   
+            return ()
         else:
             try:
                 with open(self.xml_file) as xml_file:
@@ -750,20 +613,21 @@ class model:
                         # and get the first two
                         majorversion = float(self.template.version[:dots[1]])  # float
                         if majorversion < 7.4 or majorversion > 7.5:
-                            print("NONMEM is version " + self.template.version + ", NONMEM 7.4 and 7.5 are supported, exiting")
+                            print(
+                                "NONMEM is version " + self.template.version + ", NONMEM 7.4 and 7.5 are supported, exiting")
                             sys.exit()
 
                             # if 0 in problem_dict: # more than one problem, e.g. with simulation
                 # it seems that if there is only one problem, this is orderedDict
                 # is multiple problems, is just a plain list, if > 0, assume the FIRST IS THE $EST
-                
+
                 problem_dict = data_dict['nm:output']['nm:nonmem']['nm:problem']
                 if "nm:problem_options" in problem_dict[0]:
                     problem_options = problem_dict[0]['nm:problem_options']
                 else:
                     if "nm:problem_options" in problem_dict:
-                        problem_options = problem_dict['nm:problem_options'] 
-                    else: # unable to read
+                        problem_options = problem_dict['nm:problem_options']
+                    else:  # unable to read
                         self.ofv = self.template.options['crash_value']
                         self.success = False
                         self.covariance = False
@@ -771,31 +635,31 @@ class model:
                         self.Condition_num_test = False
                         self.condition_num = self.template.options['crash_value']
                         self.PRDERR += " .xml file not present, perhaps crash in estimation step"
-                        self.num_non_fixed_THETAs =  self.num_non_fixed_OMEGAs =  self.num_SIGMAs = 99
-                        self.num_THETAs =  self.num_OMEGAs =  self.num_SIGMAs = 99
+                        self.num_non_fixed_THETAs = self.num_non_fixed_OMEGAs = self.num_SIGMAs = 99
+                        self.num_THETAs = self.num_OMEGAs = self.num_SIGMAs = 99
                 ## read omegas from clt file, any non zero diagonals are estimated
-                parms_file = open(self.cltFileName,"r")
+                parms_file = open(self.cltFileName, "r")
                 lines = parms_file.readlines()
                 parms_file.close()
-                     # fixed format, parse on space
+                # fixed format, parse on space
                 parm_names = lines[1].split()
                 num_parms = len(parm_names)
-                for this_row in range(2,num_parms+2):
+                for this_row in range(2, num_parms + 2):
                     currow = lines[this_row].split()
-                    if "THETA" in parm_names[this_row-2]:
-                        self.num_THETAs += 1 
+                    if "THETA" in parm_names[this_row - 2]:
+                        self.num_THETAs += 1
                         if float(currow[-1]) != 0.000000:
                             self.num_non_fixed_THETAs += 1
                         continue
-                    if "OMEGA" in parm_names[this_row-2]:
-                        self.num_OMEGAs += 1 # total size of OMEGA
+                    if "OMEGA" in parm_names[this_row - 2]:
+                        self.num_OMEGAs += 1  # total size of OMEGA
                         if float(currow[-1]) != 0.000000:
                             self.num_non_fixed_OMEGAs += 1
                         continue
-                    if "SIGMA" in parm_names[this_row-2]:
-                        self.num_SIGMAs += 1 
+                    if "SIGMA" in parm_names[this_row - 2]:
+                        self.num_SIGMAs += 1
                         if float(currow[-1]) != 0.000000:
-                            self.num_non_fixed_SIGMAs += 1       
+                            self.num_non_fixed_SIGMAs += 1
                         continue
                 self.num_THETAs = int(problem_options['@nm:nthetat'])
                 self.num_SIGMAs = int(problem_options['@nm:sigma_diagdim'])
@@ -809,7 +673,7 @@ class model:
                     last_estimation = estimations[n_estimation - 1]
                 else:
                     last_estimation = estimations
-            # ofv, success, covariance 
+                # ofv, success, covariance
                 self.ofv = float(last_estimation['nm:final_objective_function'])
                 if last_estimation['nm:termination_status'] == '0':
                     self.success = True
@@ -822,10 +686,10 @@ class model:
                 corr_data = last_estimation['nm:correlation']["nm:row"]
                 num_rows = len(corr_data)
                 self.correlation = True
-                for this_row in range(1,num_rows):
+                for this_row in range(1, num_rows):
                     thisrow = corr_data[this_row]['nm:col'][:-1]
-                    # get abs 
-                    absfunction = lambda t: abs(t)> self.template.options['correlationLimit']
+                    # get abs
+                    absfunction = lambda t: abs(t) > self.template.options['correlationLimit']
                     thisrow = [absfunction(float(x['#text'])) for x in thisrow]
                     if any(thisrow):
                         self.correlation = False
@@ -855,8 +719,7 @@ class model:
                 self.Condition_num_test = False
                 self.condition_num = self.template.options['crash_value']
                 self.PRDERR += " .xml file not present, likely crash in estimation step"
-        
-         
+
         gc.collect()
         return ()
 
@@ -865,7 +728,7 @@ class model:
         try:
             if (os.path.exists(os.path.join(self.runDir, "FMSG"))):
                 with open(os.path.join(self.runDir, "FMSG"), 'r') as file:
-                    # to do remove all empty (\n) lines 
+                    # to do remove all empty (\n) lines
                     msg = file.readlines()
                 warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n', \
                             ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n', \
@@ -931,16 +794,16 @@ class model:
         need to look in output file for parameter at boundary and parameter non positive """
 
         try:
-            self.get_NMTRAN_msgs() # read from FMSG, in case run fails, will still have NMTRAN messages
-            #self.get_PRDERR()
-            self.read_xml()  
-            #self.get_results_pharmpy() # only for num fixed theta, omega etc, get the rest directly from the xml file
+            self.get_NMTRAN_msgs()  # read from FMSG, in case run fails, will still have NMTRAN messages
+            # self.get_PRDERR()
+            self.read_xml()
+            # self.get_results_pharmpy() # only for num fixed theta, omega etc, get the rest directly from the xml file
             if (self.ofv == None):
                 self.fitness = self.template.options['crash_value']
                 return
             else:
                 self.fitness = self.ofv
-                # non influential tokens penalties                    
+                # non influential tokens penalties
                 self.fitness += self.Num_noninfluential_tokens * self.template.options['non_influential_tokens_penalty']
                 self.ofv = min(self.ofv, self.template.options['crash_value'])
         except:
@@ -948,7 +811,6 @@ class model:
             return
 
         try:
-
             if not self.success:
                 self.fitness += self.template.options['covergencePenalty']
 
@@ -966,9 +828,9 @@ class model:
             self.fitness += self.num_non_fixed_THETAs * self.template.options['THETAPenalty']
             self.fitness += self.num_OMEGAs * self.template.options['OMEGAPenalty']
             self.fitness += self.num_SIGMAs * self.template.options['SIGMAPenalty']
-
         except:
             self.fitness = self.template.options['crash_value']
+
         if self.template.options['useR']:
             try:
                 self.fitness += self.post_run_Rpenalty
@@ -985,7 +847,7 @@ class model:
             self.fitness = self.template.options['crash_value']
             # save results
             # write to output
-        output = open(self.outputFileName,"a")
+        output = open(self.outputFileName, "a")
         output.write(f"OFV = {self.ofv}\n")
         output.write(f"success = {self.success}\n")
         output.write(f"covariance = {self.covariance}\n")
@@ -996,11 +858,11 @@ class model:
         output.write(f"Num Non fixed SIGMAs = {self.num_non_fixed_SIGMAs}\n")
         output.flush()
         output.close()
+
         self.MakeJsonList()
-        
 
         return
-    
+
     def MakeJsonList(self):
         """assembles what goes into the JSON file of saved models"""
         self.jsonListRecord = {"control": self.control, "fitness": self.fitness, "ofv": self.ofv,
@@ -1009,9 +871,9 @@ class model:
                                "post_run_Pythontext": self.post_run_Pythontext,
                                "post_run_Pythonpenalty": self.post_run_Pythonpenalty,
                                "correlation": self.correlation, "num_THETAs": self.num_THETAs,
-                               "num_non_fixed_THETAs":self.num_non_fixed_THETAs,
-                               "num_non_fixed_OMEGAs":self.num_non_fixed_OMEGAs,
-                               "num_non_fixed_SIGMAs":self.num_non_fixed_SIGMAs,
+                               "num_non_fixed_THETAs": self.num_non_fixed_THETAs,
+                               "num_non_fixed_OMEGAs": self.num_non_fixed_OMEGAs,
+                               "num_non_fixed_SIGMAs": self.num_non_fixed_SIGMAs,
                                "num_OMEGAs": self.num_OMEGAs, "num_SIGMAs": self.num_SIGMAs,
                                "condition_num": self.condition_num,
                                "NMtranMSG": self.NMtranMSG}
@@ -1022,15 +884,18 @@ class model:
         no argument, no return value """
         try:
             del self.NMProcess
-        except: 
+        except:
             self.template.printMessage(f"failed to delete process for {self.modelNum}")
+
         if self.source == "saved":
             self.template.printMessage(f"called clean up for saveed model, # {self.modelNum}")
             return  # ideally shouldn't be called for saved models, but just in case
+
         try:
             os.chdir(self.template.homeDir)
         except OSError as e:
             self.template.printMessage(f"OS Error {e} in call to cleanup")
+
         try:
             if self.template.options['remove_run_dir'] == "True":
                 try:
@@ -1067,6 +932,7 @@ class model:
                 shutil.rmtree(os.path.join(self.runDir, "temp_dir"))
         except OSError as e:
             self.template.printMessage(f"OS Error {e}")
+
         return
 
     def check_contains_parms(self):
@@ -1105,9 +971,9 @@ class model:
             self.Num_noninfluential_tokens = sum(self.token_Non_influential)
             token_found = token_found or anyFound
         if anyFound:
-            self.template.printMessage("It appears that there is more than one level of nested tokens, only one level is supported, exiting")
+            self.template.printMessage(
+                "It appears that there is more than one level of nested tokens, only one level is supported, exiting")
             raise RuntimeError("Is there more than 1 level of nested tokens??")
-
 
         self.control = utils.matchTHETAs(self.control, self.template.tokens, self.template.varTHETABlock,
                                          self.phenotype, self.template.lastFixedTHETA)
@@ -1127,10 +993,11 @@ class model:
         if self.template.search_omega_band:
             ## bandwidth must be last gene
             bandwidth = self.model_code.IntCode[-1]
-            omega_block,self.template.search_omega_band = Omega_utils.set_omega_bands(self.control,bandwidth)
+            omega_block, self.template.search_omega_band = set_omega_bands(self.control, bandwidth)
             if self.template.search_omega_band:
-                self.control = Omega_utils.insert_omega_block(self.control,omega_block)
-        if not (token_found):  
+                self.control = insert_omega_block(self.control, omega_block)
+        if not (token_found):
             self.template.printMessage("No tokens found, exiting")
             self.errMsgs.append("No tokens found")
+
         return

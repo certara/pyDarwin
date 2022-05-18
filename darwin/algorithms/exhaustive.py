@@ -1,15 +1,17 @@
-import numpy as np
-import Templater
 import time
-import GlobalVars
-import model_code
-import runAllModels
-import heapq
 import os
 import gc
+import heapq
+import numpy as np
+
+import darwin.GlobalVars as GlobalVars
+
+from darwin.Templater import model
+from darwin.model_code import model_code
+from darwin.runAllModels import InitModellist, run_all
 
 
-def exhaustive(model_template):
+def run_exhaustive(model_template):
     GlobalVars.StartTime = time.time()
     Num_Groups = []
     for thisKey in model_template.tokens.keys():
@@ -33,7 +35,7 @@ def exhaustive(model_template):
     if current_last > NumModels:
         MaxModels = NumModels
         current_last = NumModels
-    runAllModels.InitModellist(model_template)
+    InitModellist(model_template)
     fitnesses = []
     best_fitness = model_template.options['crash_value']
     while current_last <= NumModels:
@@ -43,10 +45,10 @@ def exhaustive(model_template):
         thisModel = 0
         Models = [None] * MaxModels
         for thisInts, model_num in zip(codes[current_start:current_last], range(current_start, current_last)):
-            code = model_code.model_code(thisInts, "Int", maxes, lengths)
-            Models[thisModel] = Templater.model(model_template, code, model_num, True, 0)
+            code = model_code(thisInts, "Int", maxes, lengths)
+            Models[thisModel] = model(model_template, code, model_num, True, 0)
             thisModel += 1
-        runAllModels.run_all(Models)
+        run_all(Models)
         for i in range(len(Models)):
             if Models[i].fitness < best_fitness:
                 best_fitness = Models[i].fitness

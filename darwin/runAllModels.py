@@ -1,19 +1,24 @@
 import gc
-import Templater
 import time
 import json
 import os
-import GlobalVars
- 
-#import model_code
-from copy import copy 
+from copy import copy
 import numpy as np
-np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning) 
 from pathlib import Path
-BestModelOutput = ""
-allModelsDict = dict() 
-def InitModellist(model_template:Templater.template): 
-    'Initializes model from template. Need Options first''' 
+
+import darwin.GlobalVars as GlobalVars
+
+from .Templater import model, template
+
+np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
+allModelsDict = dict()
+
+
+def InitModellist(model_template: template):
+    """Initializes model from template. Need Options first"""
+
+    global allModelsDict
+
     if "usePreviousModelsList" in model_template.options.keys():
         if model_template.options['usePreviousModelsList']:
             try:
@@ -63,10 +68,13 @@ def InitModellist(model_template:Templater.template):
                 # delete the model if it is there
         if os.path.exists(GlobalVars.SavedModelsFile ):
             os.remove(GlobalVars.SavedModelsFile )
-def Copy_to_Best(current_model: Templater.model):
-    '''copies current model to the global best model
-    argumen is a template.model'''
-    GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
+
+
+def Copy_to_Best(current_model: model):
+    """copies current model to the global best model
+    argument is a template.model"""
+
+    GlobalVars.TimeToBest = time.time() -GlobalVars.StartTime
     GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
     GlobalVars.BestModel.fitness = current_model.fitness
     GlobalVars.BestModel.control = current_model.control
@@ -86,21 +94,21 @@ def Copy_to_Best(current_model: Templater.model):
     GlobalVars.BestModel.Condition_num_test = current_model.Condition_num_test
     if current_model.source == "new":
         with open(os.path.join(current_model.runDir,current_model.outputFileName)) as file: # Use file to refer to the file object
-            BestModelOutput = file.read() # only save best model, not all models, other models can be reproduced if needed.
+            GlobalVars.BestModelOutput = file.read() # only save best model, not all models, other models can be reproduced if needed.
     return
 
 
-def run_all(Models:Templater.model):
+def run_all(models):
     """runs the models, always runs from integer representation, so for GA will need to convert to integer, for downhill, will need to
     convert to minimal binary, then to integer 
     all_results maybe full binary (GA) or integer (not GA) or minimal binary (downhill)
     no return value, just updates Models"""
-    start_model_num = Models[0].modelNum # will be 0 unless this is exhaustive and the model list is broken up into smaller lists
-    fitnesses = [None]*len(Models)   # all_results is full GA/DEAP individual, with fitness.values as tuple (currently empty)
+    start_model_num = models[0].modelNum # will be 0 unless this is exhaustive and the model list is broken up into smaller lists
+    fitnesses = [None]*len(models)   # all_results is full GA/DEAP individual, with fitness.values as tuple (currently empty)
    # will keep resutls in all_results, note that fitness MUST be assigned after call to this
-    num_parallel = min(len(Models), Models[0].template.options['num_parallel']) 
+    num_parallel = min(len(models), models[0].template.options['num_parallel'])
     slots = [] 
-    num_models = len(Models)
+    num_models = len(models)
     started = [False]*num_models
     cur_model_num = 0 
     for cur_model_num in range(num_parallel) : 
@@ -111,7 +119,7 @@ def run_all(Models:Templater.model):
         # current model has only fitness  (scalar), not fitness.values (tuple)
         # all_results has fitness.values (a tuple)
         # check if already done here
-        current_model = Models[cur_model_num]
+        current_model = models[cur_model_num]
         current_model.slot = cur_model_num # defines which slot, which R object to use
         current_code = str(current_model.model_code.IntCode) 
         current_model.slot = cur_model_num
@@ -131,8 +139,7 @@ def run_all(Models:Templater.model):
         started[cur_model_num] = True
         slots.append(current_model) # slots are the local/general model type, will need to copy fitness to all_results 
      
-      
-    while not all(started):  
+    while not all(started):
         for slot_being_checked in range(num_parallel): 
             current_model = slots[slot_being_checked] # shallow copy, still linked to all_results
             # note that at this point, w are using local models, not GA/DEAP models, addressed in the object initialization
@@ -172,7 +179,7 @@ def run_all(Models:Templater.model):
                 # start new model  
                 if cur_model_num < (num_models-1):  
                     cur_model_num += 1
-                    current_model = Models[cur_model_num] # by reference
+                    current_model = models[cur_model_num] # by reference
                     current_model.slot = current_slot
                     current_code = str(current_model.model_code.IntCode)
                     if current_code in allModelsDict: 
@@ -229,15 +236,14 @@ def run_all(Models:Templater.model):
                     gc.collect()
                     done[slot_being_checked] = True 
 
-    with open(os.path.join(Models[0].template.homeDir,"allModels.json"),'w',encoding = 'utf-8') as f:
+    with open(os.path.join(models[0].template.homeDir, "allModels.json"), 'w', encoding ='utf-8') as f:
         json.dump(allModelsDict,f,indent=4, sort_keys=True, ensure_ascii=False)
     # write best model to output
     try:
-        with open(os.path.join(Models[0].template.homeDir,"InterimBestControl.mod"),'w' ) as f:
+        with open(os.path.join(models[0].template.homeDir, "InterimBestControl.mod"), 'w') as f:
             f.write(GlobalVars.BestModel.control)
-        if BestModelOutput != None:
-            with open(os.path.join(Models[0].template.homeDir,"InterimBestOutput.mod"),'w' ) as f:
-                f.write(BestModelOutput)
+        with open(os.path.join(models[0].template.homeDir, "InterimBestOutput.mod"), 'w') as f:
+            f.write(GlobalVars.BestModelOutput)
     except:
         pass
      

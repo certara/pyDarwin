@@ -4,7 +4,7 @@ import shutil
 import shlex
 import xmltodict
 import concurrent.futures
-from pharmpy.modeling import read_model   ## v 0.66.0 works
+from pharmpy.modeling import read_model   # v 0.66.0 works
 from typing import OrderedDict
 import psutil
 from os.path import exists
@@ -72,7 +72,7 @@ class Model:
         self.executableFileName = None
         self.status = "Not Started"
 
-    def makeCopy(self):
+    def make_copy(self):
         newmodel = Model(self.template, self.model_code, self.modelNum, self.template.isGA, self.generation)
         newmodel.fitness = self.fitness
         newmodel.ofv = self.ofv
@@ -166,7 +166,7 @@ class Model:
                 "Not using PostRun R code")
         return
 
-    def copyResults(self, prevResults):
+    def copy_results(self, prevResults):
         try:
             self.fitness = prevResults['fitness']
             self.ofv = prevResults['ofv']
@@ -189,7 +189,7 @@ class Model:
         except:
             return False
 
-    def startModel(self):
+    def start_model(self):
         self.filestem = 'NMModel_' + str(self.generation) + "_" + str(self.modelNum)
         self.runDir = os.path.join(self.template.homeDir, str(self.generation), str(self.modelNum))
         self.controlFileName = self.filestem + ".mod"
@@ -197,7 +197,7 @@ class Model:
         self.cltFileName = os.path.join(self.runDir, self.filestem + ".clt")
         self.xml_file = os.path.join(self.runDir, self.filestem + ".xml")
         self.executableFileName = self.filestem + ".exe"  # os.path.join(self.runDir,self.filestem +".exe")
-        self.MakeControl()
+        self.make_control()
 
         # in case the new folder name is a file
         try:
@@ -245,7 +245,7 @@ class Model:
 
         return
 
-    def DecodeRSTOUT(self):
+    def decode_r_stdout(self):
         newval = self.RSTDOUT.decode("utf-8").replace("[1]", "").strip()
         # comes back a single string, need to parse by ""
         val = shlex.split(newval)
@@ -254,7 +254,7 @@ class Model:
         Num_vals = len(val)
         self.post_run_Rtext = val[Num_vals - 1]
 
-    def StartPostR(self):
+    def start_post_r(self):
         """Run R code specified in the file options['postRunCode'], return penalty from R code
         R is called by subprocess call to Rscript.exe. User must supply path to Rscript.exe
         Presence of Rscript.exe is check in the files_present"""
@@ -267,7 +267,7 @@ class Model:
             self.post_run_Rpenalty = self.template.options['crash_value']
         return
 
-    def check_done_postRunPython(self):
+    def check_done_post_run_python(self):
         if self.future.done():
             try:
                 self.post_run_Pythonpenalty, self.post_run_Pythontext = self.template.python_postprocess()
@@ -288,7 +288,7 @@ class Model:
         else:
             return False
 
-    def check_done_postRunR(self):
+    def check_done_post_run_r(self):
         """Is the post run call (R only for now) done?"""
         try:
             count = 0
@@ -299,7 +299,7 @@ class Model:
                     self.RSTDOUT, self.RSTDERR = self.RProcess.communicate()
                     time.sleep(0.1)
                     count += 1
-                self.DecodeRSTOUT()
+                self.decode_r_stdout()
                 self.RProcess = None
                 gc.collect()
 
@@ -317,7 +317,7 @@ class Model:
                 f.write("Post run R code crashed\n")
             return True
 
-    def StartPostPython(self):
+    def start_post_python(self):
         with concurrent.futures.ThreadPoolExecutor() as executor:  # each model object has it's own future for running user defined python code
             self.future = executor.submit(self.template.python_postprocess)
         self.status = "Running_post_Pythoncode"
@@ -356,30 +356,30 @@ class Model:
 
         if self.status == "Done_running_NM":
             if self.template.options['useR']:
-                self.StartPostR()
+                self.start_post_r()
                 self.status = "Running_post_Rcode"
                 return False
             else:
                 self.status = "Done_running_PostR"
         if self.status == "Running_post_Rcode":
-            if self.check_done_postRunR():
+            if self.check_done_post_run_r():
                 self.status = "Done_running_PostR"
             else:
                 return False
         if self.status == "Done_running_PostR":
             if self.template.options['usePython']:
-                self.StartPostPython()
+                self.start_post_python()
                 self.status = "Running_post_Pythoncode"
                 return False
             else:
                 self.status = "Done"
         if self.status == "Running_post_Pythoncode":
-            if self.check_done_postRunPython():
+            if self.check_done_post_run_python():
                 self.status = "Done"
             else:
                 return False
         if self.status == "Done":
-            self.calcFitness()
+            self.calc_fitness()
             return True
 
     def read_xml(self):
@@ -405,8 +405,8 @@ class Model:
                         # and get the first two
                         majorversion = float(self.template.version[:dots[1]])  # float
                         if majorversion < 7.4 or majorversion > 7.5:
-                            print(
-                                "NONMEM is version " + self.template.version + ", NONMEM 7.4 and 7.5 are supported, exiting")
+                            print("NONMEM is version "
+                                  + self.template.version + ", NONMEM 7.4 and 7.5 are supported, exiting")
                             sys.exit()
 
                             # if 0 in problem_dict: # more than one problem, e.g. with simulation
@@ -414,6 +414,7 @@ class Model:
                 # is multiple problems, is just a plain list, if > 0, assume the FIRST IS THE $EST
 
                 problem_dict = data_dict['nm:output']['nm:nonmem']['nm:problem']
+                problem_options = dict()
                 if "nm:problem_options" in problem_dict[0]:
                     problem_options = problem_dict[0]['nm:problem_options']
                 else:
@@ -515,15 +516,15 @@ class Model:
         gc.collect()
         return ()
 
-    def get_NMTRAN_msgs(self):
+    def get_nmtran_msgs(self):
         self.NMtranMSG = ""
         try:
             if (os.path.exists(os.path.join(self.runDir, "FMSG"))):
                 with open(os.path.join(self.runDir, "FMSG"), 'r') as file:
                     # to do remove all empty (\n) lines
                     msg = file.readlines()
-                warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n', \
-                            ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n', \
+                warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
+                            ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n',
                             ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n']
                 shortwarnings = ['NON-FIXED OMEGA ', 'NON-FIXED PARAMETER ', 'NON-FIXED THETA']
                 for thiswarning, thisshortwarning in zip(warnings, shortwarnings):
@@ -565,13 +566,13 @@ class Model:
             ## try to sort relevant message?
             # key are (WARNING  31) - non fixed OMEGA and (WARNING  41) non fixed parameter and (WARNING  40) non fixed theta
 
-    def get_PRDERR(self):
+    def get_prderr(self):
         try:
             if (os.path.exists(os.path.join(self.runDir, "PRDERR"))):
                 with open(os.path.join(self.runDir, "PRDERR"), 'r') as file:
                     msg = file.readlines()
-                warnings = ['PK PARAMETER FOR', \
-                            'IS TOO CLOSE TO AN EIGENVALUE', \
+                warnings = ['PK PARAMETER FOR',
+                            'IS TOO CLOSE TO AN EIGENVALUE',
                             'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)']
                 for thiswarning in warnings:
                     for thisline in msg:
@@ -581,12 +582,12 @@ class Model:
             pass
         return
 
-    def calcFitness(self):
+    def calc_fitness(self):
         """calculates the fitness, based on the model output, and the penalties (from the options file)
         need to look in output file for parameter at boundary and parameter non positive """
 
         try:
-            self.get_NMTRAN_msgs()  # read from FMSG, in case run fails, will still have NMTRAN messages
+            self.get_nmtran_msgs()  # read from FMSG, in case run fails, will still have NMTRAN messages
             # self.get_PRDERR()
             self.read_xml()
             # self.get_results_pharmpy() # only for num fixed theta, omega etc, get the rest directly from the xml file
@@ -651,11 +652,11 @@ class Model:
         output.flush()
         output.close()
 
-        self.MakeJsonList()
+        self.make_json_list()
 
         return
 
-    def MakeJsonList(self):
+    def make_json_list(self):
         """assembles what goes into the JSON file of saved models"""
         self.jsonListRecord = {"control": self.control, "fitness": self.fitness, "ofv": self.ofv,
                                "success": self.success, "covariance": self.covariance,
@@ -746,7 +747,7 @@ class Model:
             tokensetNum += 1
         return
 
-    def MakeControl(self):
+    def make_control(self):
         """constructs control file from intcode
         ignore last value if self_search_omega_bands """
         # this appears to be OK with search_omega_bands
@@ -757,11 +758,11 @@ class Model:
         self.control = self.template.TemplateText
         token_found = False  # error check to see if any tokens are present
         for _ in range(3):  # always need 2, and won't do more than 2, only support 1 level of nested loops
-            anyFound = False
             anyFound, self.control = utils.replaceTokens(self.template.tokens, self.control, self.phenotype,
                                                          self.token_Non_influential)
             self.Num_noninfluential_tokens = sum(self.token_Non_influential)
             token_found = token_found or anyFound
+
         if anyFound:
             self.template.printMessage(
                 "It appears that there is more than one level of nested tokens, only one level is supported, exiting")

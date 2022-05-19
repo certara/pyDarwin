@@ -125,16 +125,16 @@ def run_all(models):
         current_code = str(current_model.model_code.IntCode)
         current_model.slot = cur_model_num
         if current_code in allModelsDict:
-            if current_model.copyResults(allModelsDict[current_code]): # returns True if copy is successful
+            if current_model.copy_results(allModelsDict[current_code]): # returns True if copy is successful
                 current_model.source = "saved"
                 if GlobalVars.BestModel is None or current_model.fitness < GlobalVars.BestModel.fitness:
                     Copy_to_Best(current_model)
             else:
-                current_model.startModel()
+                current_model.start_model()
                 current_model.source = "new"
                 GlobalVars.UniqueModels += 1
         else:
-            current_model.startModel()
+            current_model.start_model()
             current_model.source = "new"
             GlobalVars.UniqueModels += 1
         started[cur_model_num] = True
@@ -184,13 +184,13 @@ def run_all(models):
                     current_model.slot = current_slot
                     current_code = str(current_model.model_code.IntCode)
                     if current_code in allModelsDict:
-                        if current_model.copyResults(allModelsDict[current_code]): # returns True if copy is successful
+                        if current_model.copy_results(allModelsDict[current_code]): # returns True if copy is successful
                             current_model.source = "saved"
                         else:
-                            current_model.startModel() # current model is the geneneral model type (not GA/DEAP model)
+                            current_model.start_model() # current model is the geneneral model type (not GA/DEAP model)
                             current_model.source = "new"
                     else:
-                        current_model.startModel() # current model is the geneneral model type (not GA/DEAP model)
+                        current_model.start_model() # current model is the geneneral model type (not GA/DEAP model)
                         current_model.source = "new"
                     started[cur_model_num] = True
                     slots[slot_being_checked] = current_model

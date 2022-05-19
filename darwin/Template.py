@@ -122,15 +122,15 @@ class Template:
         self.THETAmatchesSequence = {}  # dictionary of source (alpha) theta indices and sequence
         # e.g. THETA(ABC) is first in $THETA template, then THETA(DEF)
         self.THETABlock = self.NMtranMSG = None
-        nFixedTHETA, nFixedETA, nFixedEPS, THETABlock, OMEGABlock, SIGMABlock = get_fixed_params(self.TemplateText)
+        nFixedTHETA, nFixedETA, nFixedEPS, THETABlock, OMEGABlock, SIGMABlock = _get_fixed_params(self.TemplateText)
 
-        self.varTHETABlock = get_variable_block(
+        self.varTHETABlock = _get_variable_block(
             THETABlock)  # list of only the variable tokens in $THETA in template, will population with
         # tokens below
-        self.varOMEGABlock = get_variable_block(
+        self.varOMEGABlock = _get_variable_block(
             OMEGABlock)  # list of only the variable tokens in $THETA in template, will population with
         # tokens below
-        self.varSIGMABlock = get_variable_block(
+        self.varSIGMABlock = _get_variable_block(
             SIGMABlock)  # list of only the variable tokens in $THETA in template, will population with
         # tokens below
 
@@ -179,15 +179,15 @@ class Template:
             self.search_omega_band = false
 
 
-def get_fixed_params(template_text):
-    NFixedTHETA, THETABlock = get_fixed_block(template_text, "$THETA")
-    NFixedOMEGA, OMEGABlock = get_fixed_block(template_text, "$OMEGA")
-    NFixedSIGMA, SIGMABlock = get_fixed_block(template_text, "$SIGMA")
+def _get_fixed_params(template_text):
+    NFixedTHETA, THETABlock = _get_fixed_block(template_text, "$THETA")
+    NFixedOMEGA, OMEGABlock = _get_fixed_block(template_text, "$OMEGA")
+    NFixedSIGMA, SIGMABlock = _get_fixed_block(template_text, "$SIGMA")
 
     return NFixedTHETA, NFixedOMEGA, NFixedSIGMA, THETABlock, OMEGABlock, SIGMABlock
 
 
-def get_variable_block(code):
+def _get_variable_block(code):
     cleanCode = utils.removeComments(code)
     lines = cleanCode.splitlines()
     ## remove any blanks
@@ -203,7 +203,7 @@ def get_variable_block(code):
     return varBlock
 
 
-def get_fixed_block(code, key):
+def _get_fixed_block(code, key):
     nkeys = code.count(key)
     # get the block from NONMEM control/temlate
     # e.g., $THETA, even if $THETA is in several sections

@@ -70,9 +70,10 @@ import time
 
 import darwin.GlobalVars as GlobalVars
 
-from darwin.Templater import model, template
+from darwin.Template import Template
+from darwin.Model import Model
 from darwin.runAllModels import InitModellist, run_all
-from darwin.model_code import model_code
+from darwin.ModelCode import ModelCode
 
 
 class BinaryPSO(DiscreteSwarmOptimizer):
@@ -303,8 +304,8 @@ def f(x,model_template,iteration):
     for i in range(n_particles):
         popFullBits.append(x[i].tolist()) # needs to be list, not numpy array
     for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
-        code = model_code(thisFullBits,"FullBinary",maxes,lengths)
-        Models.append(model(model_template,code,model_num,True,iteration))
+        code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
+        Models.append(Model(model_template, code, model_num, True, iteration))
     run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
     j = []
     for i in range(n_particles):
@@ -314,7 +315,7 @@ def f(x,model_template,iteration):
 # Initialize swarm, arbitrary 
   
 
-def run_PSO(model_template: template) -> model:
+def run_PSO(model_template: Template) -> Model:
     """ Runs PSO, 
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    

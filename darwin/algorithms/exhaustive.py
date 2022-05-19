@@ -1,13 +1,12 @@
 import time
 import os
 import gc
-import heapq
 import numpy as np
 
 import darwin.GlobalVars as GlobalVars
 
-from darwin.Templater import model
-from darwin.model_code import model_code
+from darwin.Model import Model
+from darwin.ModelCode import ModelCode
 from darwin.runAllModels import InitModellist, run_all
 
 
@@ -45,8 +44,8 @@ def run_exhaustive(model_template):
         thisModel = 0
         Models = [None] * MaxModels
         for thisInts, model_num in zip(codes[current_start:current_last], range(current_start, current_last)):
-            code = model_code(thisInts, "Int", maxes, lengths)
-            Models[thisModel] = model(model_template, code, model_num, True, 0)
+            code = ModelCode(thisInts, "Int", maxes, lengths)
+            Models[thisModel] = Model(model_template, code, model_num, True, 0)
             thisModel += 1
         run_all(Models)
         for i in range(len(Models)):

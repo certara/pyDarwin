@@ -8,9 +8,10 @@ import os  # not needed in 3.10
 
 import darwin.GlobalVars as GlobalVars
 
-from darwin.model_code import model_code
+from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
-from darwin.Templater import model, template
+from darwin.Template import Template
+from darwin.Model import Model
 from darwin.runAllModels import InitModellist, run_all
 
 logger = logging.getLogger(__name__)
@@ -18,8 +19,8 @@ Models = []  # hold NONMEM models # will put models here to query them and not r
 
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
-def run_skopt(model_template:template) -> model:
-    """run any of  the three skopt algorithms. Algorithm is define in template.options['algorithm'], which is read from the options json file
+def run_skopt(model_template: Template) -> Model:
+    """run any of  the three skopt algorithms. Algorithm is define in Template.options['algorithm'], which is read from the options json file
     returns the single best model after the search """
     np.random.seed(model_template.options['random_seed'])
     downhill_q = model_template.options['downhill_q'] 
@@ -56,8 +57,8 @@ def run_skopt(model_template:template) -> model:
         model_template.printMessage("Elapse time for sampling step # %d =  %.1f seconds" % (this_iter, (time.time() - suggestion_start_time)))
         Models = [] # some other method to clear memory??
         for thisInts,model_num in zip(suggested,range(len(suggested))):
-            code = model_code(thisInts,"Int",maxes,lengths)
-            Models.append(model(model_template,code,model_num,True,this_iter))
+            code = ModelCode(thisInts, "Int", maxes, lengths)
+            Models.append(Model(model_template, code, model_num, True, this_iter))
         run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
         # copy fitnesses back
         fitnesses = [None]*len(suggested)

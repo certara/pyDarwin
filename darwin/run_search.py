@@ -6,8 +6,9 @@ import gc
 
 import darwin.GlobalVars as GlobalVars
 
-from .Templater import model, template
-from .model_code import model_code
+from .Template import Template
+from .Model import Model
+from .ModelCode import ModelCode
 
 from .algorithms.exhaustive import run_exhaustive
 from .algorithms.GA import run_GA
@@ -17,14 +18,13 @@ from .algorithms.PSO import run_PSO
 logger = logging.getLogger(__name__)
 
 
-def _run_template(model_template: template) -> model:
+def _run_template(model_template: Template) -> Model:
     GlobalVars.init_global_vars()
-    genome_length = sum(model_template.gene_length)
-    # this many include one (last one) for OMEGA bandwidth
 
     # initialize a trivial model for the global best
-    null_code = model_code([0] * len(model_template.gene_length), "Int", model_template.gene_max, model_template.gene_length)
-    GlobalVars.BestModel = model(model_template, null_code, -99, True, -99)
+    null_code = ModelCode([0] * len(model_template.gene_length), "Int",
+                          model_template.gene_max, model_template.gene_length)
+    GlobalVars.BestModel = Model(model_template, null_code, -99, True, -99)
     GlobalVars.BestModel.fitness = model_template.options['crash_value'] + 1
     algorithm = model_template.options['algorithm']
 
@@ -51,7 +51,7 @@ def _run_template(model_template: template) -> model:
     return final
 
 
-def run_search(template_file: str, tokens_file: str, options_file: str) -> model:
+def run_search(template_file: str, tokens_file: str, options_file: str) -> Model:
     """
     run algorithm selected in options_file, based on template_file and tokens_file
     At the end, write best control and output file to homeDir (specified in options_file)
@@ -61,7 +61,7 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> model
     """
 
     try:
-        model_template = template(template_file, tokens_file, options_file)
+        model_template = Template(template_file, tokens_file, options_file)
     except Exception as e:
         logger.error(e)
         raise
@@ -72,10 +72,10 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> model
 def run_search_in_folder(
         folder: str,
         template_file: str = 'template.txt', tokens_file: str = 'tokens.json', options_file: str = 'options.json'
-) -> model:
+) -> Model:
 
     try:
-        model_template = template(template_file, tokens_file, options_file, folder)
+        model_template = Template(template_file, tokens_file, options_file, folder)
     except Exception as e:
         logger.error(e)
         raise

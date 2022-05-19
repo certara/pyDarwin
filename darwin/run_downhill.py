@@ -3,9 +3,9 @@ from copy import copy
 import heapq
 from scipy.spatial import distance_matrix
 
-from .Templater import model
+from .Model import Model
 from .runAllModels import run_all
-from .model_code import model_code
+from .ModelCode import ModelCode
 
 
 def get_best_in_niche(pop: list):
@@ -94,8 +94,8 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
         maxes  = pop[0].template.gene_max
         lengths  = pop[0].template.gene_length
         for thisMinBits,model_num in zip(test_models,range(len(test_models))):
-            code = model_code(thisMinBits,"MinBinary",maxes,lengths)
-            Models.append(model(pop[0].template,code,model_num,False,generation=str(pop[0].generation)+"_downhill_"+ str(this_step)))
+            code = ModelCode(thisMinBits, "MinBinary", maxes, lengths)
+            Models.append(Model(pop[0].template, code, model_num, False, generation=str(pop[0].generation) + "_downhill_" + str(this_step)))
         if len(Models)> 0:
             print(f"Starting downhill step {this_step}")
             run_all(Models)
@@ -152,7 +152,7 @@ def ChangeEachBit(sourcemodels:list,radius: int): ## only need upper triangle, a
     arguments are:
     base_models - list o MinBinCode (not full models)
     radius - integer of both wide to search, should always be 2?
-    model_template - template
+    model_template - Template
     returns:
     list of all MinBinCode and radius"""
     ## get MinBinCode list 
@@ -188,7 +188,7 @@ def ChangeEachBit(sourcemodels:list,radius: int): ## only need upper triangle, a
     return models, radius
 
 
-def FullSearch(best_pre: model) -> model:
+def FullSearch(best_pre: Model) -> Model:
     """perform 2 bit search (radius should always be 2 bits), will always be called after rundownhill (1 bit search),  
     argument is:
     best_pre - base model for search 
@@ -214,8 +214,8 @@ def FullSearch(best_pre: model) -> model:
         maxes  = model_template.gene_max
         lengths  = model_template.gene_length
         for thisMinBits,model_num in zip(test_models,range(len(test_models))):
-            code = model_code(thisMinBits,"MinBinary",maxes,lengths)
-            Models.append(model(model_template,code,model_num,False,generation= str(generation) +"_Search_"+ str(this_step)))
+            code = ModelCode(thisMinBits, "MinBinary", maxes, lengths)
+            Models.append(Model(model_template, code, model_num, False, generation=str(generation) + "_Search_" + str(this_step)))
         run_all(Models) #,model_template,round(generation+(0.01*this_step)+0.01,2),isAlreadyInt= True) # not sure isMinimalBinary is ever used? run_all is always called with int
         fitnesses = []
         for i in range(len(Models)):

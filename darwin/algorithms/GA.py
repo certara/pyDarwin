@@ -17,10 +17,11 @@ import heapq
 
 import darwin.GlobalVars as GlobalVars
 
-from darwin.model_code import model_code
+from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
 from darwin.runAllModels import InitModellist, run_all
-from darwin.Templater import model, template
+from darwin.Template import Template
+from darwin.Model import Model
 
 np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
 logger = logging.getLogger(__name__) 
@@ -94,7 +95,7 @@ def add_sharing_penalty(pop,niche_radius,sharing_alpha,niche_penalty):
             ind[0].fitness.values = (ind[0].fitness.values[0] + penalty), # weighted values (wvalues) changes with this
     return 
  
-def run_GA(model_template: template)-> model:
+def run_GA(model_template: Template)-> Model:
     """ Runs GA, 
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
@@ -166,8 +167,8 @@ def run_GA(model_template: template)-> model:
     maxes = model_template.gene_max
     lengths = model_template.gene_length
     for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
-        code = model_code(thisFullBits,"FullBinary",maxes,lengths)
-        Models.append(model(model_template,code,model_num,True,0))
+        code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
+        Models.append(Model(model_template, code, model_num, True, 0))
     run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
     print(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
      
@@ -233,8 +234,8 @@ def run_GA(model_template: template)-> model:
         
         Models = []  
         for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
-            code = model_code(thisFullBits,"FullBinary",maxes,lengths)
-            Models.append(model(model_template,code,model_num,True,generation ))
+            code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
+            Models.append(Model(model_template, code, model_num, True, generation))
         run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
         model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
         

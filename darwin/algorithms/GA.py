@@ -19,7 +19,7 @@ import darwin.GlobalVars as GlobalVars
 
 from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
-from darwin.runAllModels import InitModellist, run_all
+from darwin.runAllModels import init_model_list, run_all
 from darwin.Template import Template
 from darwin.Model import Model
 
@@ -99,7 +99,7 @@ def run_GA(model_template: Template)-> Model:
     """ Runs GA, 
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
-    InitModellist(model_template)
+    init_model_list(model_template)
     pop_size = model_template.options['popSize'] 
     best_fitness = crash_value = model_template.options['crash_value'] 
     #num_niches = model_template.options['num_niches']

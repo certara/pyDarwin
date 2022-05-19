@@ -72,7 +72,7 @@ import darwin.GlobalVars as GlobalVars
 
 from darwin.Template import Template
 from darwin.Model import Model
-from darwin.runAllModels import InitModellist, run_all
+from darwin.runAllModels import init_model_list, run_all
 from darwin.ModelCode import ModelCode
 
 
@@ -319,7 +319,7 @@ def run_PSO(model_template: Template) -> Model:
     """ Runs PSO, 
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
-    InitModellist(model_template)
+    init_model_list(model_template)
     pop_size = model_template.options['popSize']  
     best_fitness = crash_value = model_template.options['crash_value']  
     downhill_q = model_template.options['downhill_q']  

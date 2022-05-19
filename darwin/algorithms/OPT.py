@@ -12,7 +12,7 @@ from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
 from darwin.Template import Template
 from darwin.Model import Model
-from darwin.runAllModels import InitModellist, run_all
+from darwin.runAllModels import init_model_list, run_all
 
 logger = logging.getLogger(__name__)
 Models = []  # hold NONMEM models # will put models here to query them and not rerun models, will eventually be a MongoDB
@@ -38,7 +38,7 @@ def run_skopt(model_template: Template) -> Model:
     # command to install is pip install scikit-optimize
     from skopt import Optimizer
     
-    InitModellist(model_template)
+    init_model_list(model_template)
     #opt = Optimizer(Num_Groups,n_jobs = 1, base_estimator="GBRT")
     # for parallel, will need and array of N number of optimizaer,  n_jobs doesn't seem to do anything
     opt = Optimizer(Num_Groups,n_jobs = 1, base_estimator=model_template.options['algorithm'])

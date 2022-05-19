@@ -15,7 +15,7 @@ np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
 allModelsDict = dict()
 
 
-def InitModellist(model_template: Template):
+def init_model_list(model_template: Template):
     """Initializes model from template. Need Options first"""
 
     global allModelsDict

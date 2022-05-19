@@ -44,7 +44,7 @@ def InitModellist(model_template: Template):
                 model_template.printMessage(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
                 GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir,"allmodels.json")
                 allModelsDict = dict()
-            results_file = os.path.join(model_template.options['homeDir'] ,"results.csv")
+            results_file = os.path.join(model_template.homeDir, "results.csv")
             with open(results_file  ,"w") as f:
                 f.write(f"Model num,Fitness,Model,generation,ofv,success,covar,correlation #,ntheta,condition,RPenalty,PythonPenalty,NMTran messages\n")
                 model_template.printMessage(f"Writing intermediate output to {results_file}")
@@ -207,7 +207,7 @@ def run_all(models):
                         current_model.cleanup() # changes back to home_dir
                         allModelsDict[str(current_model.model_code.IntCode)] = current_model.jsonListRecord
 
-                    with open(os.path.join(current_model.template.options['homeDir'], "results.csv"),"a") as f: # unfortunately, below needs to be all on one line
+                    with open(os.path.join(current_model.template.homeDir, "results.csv"), "a") as f: # unfortunately, below needs to be all on one line
                         f.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
                         f.flush()
                     nmtranMsgs = current_model.NMtranMSG

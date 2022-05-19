@@ -23,8 +23,6 @@ def _import_postprocessing(path: str):
 
 def _go_to_folder(folder: str):
     if folder:
-        os.chdir(folder)
-
         if not os.path.isdir(folder):
             os.mkdir(folder)
 

@@ -305,7 +305,7 @@ def f(x,model_template,iteration):
         popFullBits.append(x[i].tolist()) # needs to be list, not numpy array
     for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
         code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
-        Models.append(Model(model_template, code, model_num, True, iteration))
+        Models.append(Model(model_template, code, model_num, iteration))
     run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
     j = []
     for i in range(n_particles):

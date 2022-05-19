@@ -58,7 +58,7 @@ def run_skopt(model_template: Template) -> Model:
         Models = [] # some other method to clear memory??
         for thisInts,model_num in zip(suggested,range(len(suggested))):
             code = ModelCode(thisInts, "Int", maxes, lengths)
-            Models.append(Model(model_template, code, model_num, True, this_iter))
+            Models.append(Model(model_template, code, model_num, this_iter))
         run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
         # copy fitnesses back
         fitnesses = [None]*len(suggested)

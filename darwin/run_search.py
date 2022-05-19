@@ -24,7 +24,7 @@ def _run_template(model_template: Template) -> Model:
     # initialize a trivial model for the global best
     null_code = ModelCode([0] * len(model_template.gene_length), "Int",
                           model_template.gene_max, model_template.gene_length)
-    GlobalVars.BestModel = Model(model_template, null_code, -99, True, -99)
+    GlobalVars.BestModel = Model(model_template, null_code, -99, -99)
     GlobalVars.BestModel.fitness = model_template.options['crash_value'] + 1
     algorithm = model_template.options['algorithm']
 

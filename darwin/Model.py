@@ -27,8 +27,7 @@ class Model:
     """The full model, used for GA, GP, RF, GBRF and exhaustive
     inheirates the Template object"""
 
-    def __init__(self, template: Template, code: ModelCode, model_num: int, is_ga: bool,
-                 generation=None):  # for ga, code is full GA/DEAP individual, with fitness
+    def __init__(self, template: Template, code: ModelCode, model_num: int, generation=None):  # for ga, code is full GA/DEAP individual, with fitness
         """code is a model_code object, type defines whether it is full binary (for GA), minimal binary (for downhill)
         or integer.
         makecontrol always used intcode"""
@@ -73,7 +72,7 @@ class Model:
         self.status = "Not Started"
 
     def make_copy(self):
-        newmodel = Model(self.template, self.model_code, self.modelNum, self.template.isGA, self.generation)
+        newmodel = Model(self.template, self.model_code, self.modelNum, self.generation)
         newmodel.fitness = self.fitness
         newmodel.ofv = self.ofv
         newmodel.condition_num = self.condition_num

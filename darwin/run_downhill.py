@@ -95,7 +95,8 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
         lengths  = pop[0].template.gene_length
         for thisMinBits,model_num in zip(test_models,range(len(test_models))):
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths)
-            Models.append(Model(pop[0].template, code, model_num, False, generation=str(pop[0].generation) + "_downhill_" + str(this_step)))
+            Models.append(Model(pop[0].template, code, model_num,
+                                generation=str(pop[0].generation) + "_downhill_" + str(this_step)))
         if len(Models)> 0:
             print(f"Starting downhill step {this_step}")
             run_all(Models)
@@ -215,7 +216,8 @@ def FullSearch(best_pre: Model) -> Model:
         lengths  = model_template.gene_length
         for thisMinBits,model_num in zip(test_models,range(len(test_models))):
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths)
-            Models.append(Model(model_template, code, model_num, False, generation=str(generation) + "_Search_" + str(this_step)))
+            Models.append(
+                Model(model_template, code, model_num, generation=str(generation) + "_Search_" + str(this_step)))
         run_all(Models) #,model_template,round(generation+(0.01*this_step)+0.01,2),isAlreadyInt= True) # not sure isMinimalBinary is ever used? run_all is always called with int
         fitnesses = []
         for i in range(len(Models)):

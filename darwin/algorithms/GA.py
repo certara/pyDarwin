@@ -37,7 +37,7 @@ def get_best_in_niche(pop:list,temp_fitnesses:list,num_niches:int,niche_radius:i
     not_in_niche = [True]*len(fitnesses) 
     for _ in range(num_niches):
         # below should exclude those already in a niche, as  the fitness should be set to 999999
-        this_best =  heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__) 
+        this_best =  heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)
         # get the best in the current population
         cur_ind = copy(pop[this_best[0]])
         # add the best in this_niche to the list of best
@@ -168,7 +168,7 @@ def run_GA(model_template: Template)-> Model:
     lengths = model_template.gene_length
     for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
         code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
-        Models.append(Model(model_template, code, model_num, True, 0))
+        Models.append(Model(model_template, code, model_num, 0))
     run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
     print(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
      
@@ -235,7 +235,7 @@ def run_GA(model_template: Template)-> Model:
         Models = []  
         for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
             code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
-            Models.append(Model(model_template, code, model_num, True, generation))
+            Models.append(Model(model_template, code, model_num, generation))
         run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
         model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
         

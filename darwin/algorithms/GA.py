@@ -3,7 +3,6 @@
 from copy import deepcopy, copy
 from datetime import timedelta
 import random
-from itertools import compress
 import deap
 from deap import base 
 from deap import creator
@@ -27,49 +26,16 @@ np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
 logger = logging.getLogger(__name__) 
    
 
-def get_best_in_niche(pop:list,temp_fitnesses:list,num_niches:int,niche_radius:int,crash_value:float):
-    """finds the best model (by fitness) in each niche (defined by the niche radius), Starts with the best model, then finds all models within
-    niche_radius of that model. That becomes the first niche. Then, finds the best model that is not in the first niche, then all models withint
-    niche radius of that model, etc. Returns a list of the models and list of their fitnesses"""
-    fitnesses = copy(temp_fitnesses) 
-    best = []  ## hold the best in each niche
-    best_fitnesses = [] 
-    not_in_niche = [True]*len(fitnesses) 
-    for _ in range(num_niches):
-        # below should exclude those already in a niche, as  the fitness should be set to 999999
-        this_best =  heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)
-        # get the best in the current population
-        cur_ind = copy(pop[this_best[0]])
-        # add the best in this_niche to the list of best
-        best.append(cur_ind)
-        best_fitnesses.append((fitnesses[this_best][0],))      # return array of tuples  
-        # get the distance of all from the best
-        distance = distance_matrix( [cur_ind], pop)[0]
-        # get list of all < niche radius
-        in_niche = (distance <= niche_radius)  
-        # and remove those already a niche 
-        in_niche = np.array(list(compress(in_niche,not_in_niche)))
-        in_niche = np.array([i for i, x in enumerate(in_niche) if x]) 
-         
-        # add those in a niche to the list of not already in niche
-        not_in_niche[in_niche[0]] = False
-        # set the fitness of all in this niche to large value, so they aren't in the next seach for best
-        # change fitness of those in this niche to 9999999
-        fitnesses[in_niche[0]] = crash_value
-        # set the fitness of all in this niche to large value, so they aren't in the next seach for best 
-        if all(fitnesses == crash_value): # check if all are already in a niche
-            break
-    return best, best_fitnesses
-    
-
-
-def sharing(distance:float,niche_radius:int,sharing_alpha:float)-> float:
+def sharing(distance: float, niche_radius: int, sharing_alpha: float) -> float:
     res = 0
-    if distance<=niche_radius:
+
+    if distance <= niche_radius:
         res += 1 - (distance/niche_radius)**sharing_alpha
+
     return res
 
-def add_sharing_penalty(pop,niche_radius,sharing_alpha,niche_penalty):
+
+def add_sharing_penalty(pop, niche_radius, sharing_alpha, niche_penalty):
     """issue with negative sign, if OFV/fitness is +ive, then sharing improves it
      if OFV/fitness is negative, it makes it worse (larger)
      and penalty should be on additive scale, as OFV may cross 0
@@ -77,40 +43,53 @@ def add_sharing_penalty(pop,niche_radius,sharing_alpha,niche_penalty):
      keep the best individual in any niche better than the best individual in the next niche.
      all the other MAY be lower.
      so:
-       first identify which individualas are in niches.
+       first identify which individuals are in niches.
        then, find difference between best in this niche and best in next niche.
        line by distance from best ( 0 for best) and worst in this niche
        with max niche penalty
        subtract from fitness"""
    
- 
-    for ind in zip(pop): 
+    for ind in zip(pop):
         dists = distance_matrix(ind, pop)[0]
-        tmp = [sharing(d,niche_radius,sharing_alpha) for d in dists]
+        tmp = [sharing(d, niche_radius, sharing_alpha) for d in dists]
         crowding = sum(tmp)
-        penalty = np.exp((crowding-1)*niche_penalty)-1 # sometimes deap object fitness has values,and sometimes just a tuple?
-        if isinstance(ind[0].fitness,tuple):
-            ind[0].fitness = (ind[0].fitness.values[0] + penalty), # weighted values (wvalues) changes with this
+
+        # sometimes deap object fitness has values, and sometimes just a tuple?
+        penalty = np.exp((crowding-1)*niche_penalty)-1
+
+        if isinstance(ind[0].fitness, tuple):
+            ind[0].fitness = (ind[0].fitness.values[0] + penalty),  # weighted values changes with this
         else: 
-            ind[0].fitness.values = (ind[0].fitness.values[0] + penalty), # weighted values (wvalues) changes with this
-    return 
- 
-def run_GA(model_template: Template)-> Model:
+            ind[0].fitness.values = (ind[0].fitness.values[0] + penalty),  # weighted values changes with this
+
+    return
+
+
+def _get_n_best_index(n, arr):
+    return heapq.nsmallest(n, range(len(arr)), arr.__getitem__)
+
+
+def _get_n_worst_index(n, arr):
+    return heapq.nlargest(n, range(len(arr)), arr.__getitem__)
+
+
+def run_GA(model_template: Template) -> Model:
     """ Runs GA, 
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
     init_model_list(model_template)
     pop_size = model_template.options['popSize'] 
-    best_fitness = crash_value = model_template.options['crash_value'] 
-    #num_niches = model_template.options['num_niches']
-    niche_radius = model_template.options['niche_radius']  
+    crash_value = model_template.options['crash_value']
+    num_niches = model_template.options['num_niches']
+    niche_radius = model_template.options['niche_radius']
     downhill_q = model_template.options['downhill_q'] 
     elitist_num = model_template.options['elitist_num'] 
     sharing_alpha = model_template.options['sharing_alpha']
     niche_penalty = model_template.options['niche_penalty']   
-    numBits = int(np.sum(model_template.gene_length))
+    num_bits = int(np.sum(model_template.gene_length))
     
     print("\n\n\n\nNew Model")
+
     creator.create("FitnessMin", deap.base.Fitness, weights=(-1.0,))
     creator.create("Individual", list, fitness=creator.FitnessMin)
 
@@ -126,20 +105,19 @@ def run_GA(model_template: Template)-> Model:
     # Structure initializers
     #                         define 'individual' to be an individual
     #                         consisting of 100 'attr_bool' elements ('genes')
-    
-    
-    toolbox.register("individual", tools.initRepeat, creator.Individual, 
-        toolbox.attr_bool, numBits)
+
+    toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, num_bits)
 
     # define the population to be a list of individuals
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
     # the goal ('fitness') function to be maximized  
-    #models = json.loads(open('e:\\msale\\fda\\ga_niche_downhill\\models.json','r').read()) 
+
     # register the crossover operator
     if model_template.options['xover'] == "cxOnePoint":
         toolbox.register("mate", tools.cxOnePoint)
-    ## other cross over options here
+
+    # other cross over options here
     # register a mutation operator with a probability to
     # flip each attribute/gene of 0.05
     if model_template.options['mutate'] == "flipBit":
@@ -154,61 +132,72 @@ def run_GA(model_template: Template)-> Model:
  
     # create an initial population of pop_size individuals (where
     # each individual is a list of bits [0|1])
-    popFullBits = toolbox.population(n=pop_size)   
+    pop_full_bits = toolbox.population(n=pop_size)
     best_for_elitism = toolbox.population(n=elitist_num)   
     # CXPB  is the probability with which two individuals
     #       are crossed
     #
     # MUTPB is the probability for mutating an individual
     CXPB = model_template.options['crossOver'] 
-    MUTPB =model_template.options['mutationRate']      
-    ## argumen tot run_all is integer codes!!!!!
-    Models = []
+    MUTPB = model_template.options['mutationRate']
+
+    # argument to run_all is integer codes!!!!!
+    models = []
     maxes = model_template.gene_max
     lengths = model_template.gene_length
-    for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
+
+    for thisFullBits, model_num in zip(pop_full_bits, range(len(pop_full_bits))):
         code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
-        Models.append(Model(model_template, code, model_num, 0))
-    run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
-    print(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
+        models.append(Model(model_template, code, model_num, 0))
+
+    run_all(models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+
+    print(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
      
-    fitnesses = [None]*len(Models)
-    for ind,pop,fit in zip(Models,popFullBits,range(len(Models))):    
-        pop.fitness.values = (ind.fitness,)  
+    fitnesses = [None]*len(models)
+
+    for ind, pop, fit in zip(models, pop_full_bits, range(len(models))):
+        pop.fitness.values = (ind.fitness,)
         fitnesses[fit] = (ind.fitness,)
-    best_index = heapq.nsmallest(elitist_num, range(len(fitnesses)), fitnesses.__getitem__)
+
+    best_index = _get_n_best_index(elitist_num, fitnesses)
+
+    for i in range(elitist_num):  # best_index:
+        best_for_elitism[i] = deepcopy(pop_full_bits[best_index[i]])
      
-    for i in range(elitist_num): #best_index:  
-            best_for_elitism[i] = deepcopy(popFullBits[best_index[i]]) 
-     
-    allbest =  copy(popFullBits[heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)[0]].fitness.values[0])
+    all_best = copy(pop_full_bits[best_index[0]].fitness.values[0])
+
     # Variable keeping track of the number of generations
     generation = 0
-    # Begin evolution 
+
+    # Begin evolution
 
     generations_no_change = 0
     current_overall_best_fitness = crash_value
-    model_template.printMessage(f"generation 0 fitness = {allbest:.4f}")
-    num_generations  = model_template.options['num_generations']
+    model_template.printMessage(f"generation 0 fitness = {all_best:.4f}")
+    num_generations = model_template.options['num_generations']
+
     while generation < num_generations:
         # A new generation
         generation += 1 
         model_template.printMessage("-- Starting Generation %i --" % generation)
         
-        add_sharing_penalty(popFullBits,niche_radius,sharing_alpha,niche_penalty) # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
-                             # so fitnesses in pop are only used for selection in GA
+        # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
+        # so fitnesses in pop are only used for selection in GA
+        add_sharing_penalty(pop_full_bits, niche_radius, sharing_alpha, niche_penalty)
+
         # do not copy new fitness to models, models should be just the "real" fitness
         # Select the next generation individuals
-        offspring = toolbox.select(popFullBits, len(popFullBits))
-        # Clone the selected individuals, otherwise will linked to orginal, by reference    
+        offspring = toolbox.select(pop_full_bits, len(pop_full_bits))
+        # Clone the selected individuals, otherwise will be linked to original, by reference
         offspring = list(map(toolbox.clone, offspring))
     
         # Apply crossover and mutation on the offspring
         for child1, child2 in zip(offspring[::2], offspring[1::2]):
             # cross two individuals with probability CXPB
-             # dont need to copy child1, child2 back to offspring, done internally by DEAP
+            # don't need to copy child1, child2 back to offspring, done internally by DEAP
             # from https://deap.readthedocs.io/en/master/examples/ga_onemax.html
-            #  "In addition they modify those individuals within the toolbox container and we do not need to reassign their results.""
+            # "In addition they modify those individuals within the toolbox container, and we do not need to reassign their results.""
   
             if random.random() < CXPB:
                 toolbox.mate(child1, child2)
@@ -222,125 +211,155 @@ def run_GA(model_template: Template)-> Model:
     
         # Evaluate the individuals with an invalid fitness 
         # will run entire population, but, at some point, check a database to see if already run
-        popFullBits = offspring
+        pop_full_bits = offspring
+
         # add hof back in at first  positions, maybe should be random???
-        # looks like we need to do this manually when we add in niches, can't use hof., replace worst, based on original fitness (without niche penalty)
-        worst_inds = heapq.nlargest(elitist_num, range(len(fitnesses)), fitnesses.__getitem__)
-        # put elitist back in in place of worst
+        # looks like we need to do this manually when we add in niches, can't use hof.,
+        # replace worst, based on original fitness (without niche penalty)
+        worst_individuals = _get_n_worst_index(elitist_num, fitnesses)
+
+        # put elitist back in place of worst
         for i in range(elitist_num):
-            popFullBits[worst_inds[i]] = copy(best_for_elitism[i]) # hof.items need the fitness as well?
+            pop_full_bits[worst_individuals[i]] = copy(best_for_elitism[i])  # hof.items need the fitness as well?
         
-        cur_gen_best_ind = -1 
-        
-        Models = []  
-        for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
+        models = []
+
+        for thisFullBits, model_num in zip(pop_full_bits, range(len(pop_full_bits))):
             code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
-            Models.append(Model(model_template, code, model_num, generation))
-        run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
-        model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
+            models.append(Model(model_template, code, model_num, generation))
+
+        run_all(models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+
+        model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
         
-        fitnesses = [None]*len(Models)
-        for ind,pop,fit in zip(Models,popFullBits,range(len(Models))):    
+        fitnesses = [None]*len(models)
+
+        for ind, pop, fit in zip(models, pop_full_bits, range(len(models))):
             pop.fitness.values = (ind.fitness,)  
             fitnesses[fit] = (ind.fitness,)
-        best_index = heapq.nsmallest(elitist_num, range(len(fitnesses)), fitnesses.__getitem__)
-     
-        for i in range(elitist_num): #best_index:  
-            best_for_elitism[i] = deepcopy(popFullBits[best_index[i]]) 
+
+        best_index = _get_n_best_index(elitist_num, fitnesses)
+
+        for i in range(elitist_num):  # best_index:
+            best_for_elitism[i] = deepcopy(pop_full_bits[best_index[i]])
         
-        best_index = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)[0]
-        single_best_model = copy(Models[best_index])
-        if generation % downhill_q == 0 and generation > 0: 
+        if generation % downhill_q == 0 and generation > 0:
             # pop will have the fitnesses without the niche penalty here
-            # add local exhausitve search here??
-            # temp_fitnessses = copy(fitnesses)
+            # add local exhaustive search here??
+            # temp_fitnesses = copy(fitnesses)
             # downhill with NumNiches best models
             model_template.printMessage(f"Starting downhill generation = {generation}  at {time.asctime()}")
-            best_index = heapq.nsmallest(Models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__)
-            best_inds = []
-            for i in best_index:  
-                best_inds.append(copy(Models[i]))
+
+            best_index = _get_n_best_index(num_niches, fitnesses)
+            best_individuals = []
+
+            for i in best_index:
+                best_individuals.append(copy(models[i]))
            
-            new_models, worst_inds = run_downhill(Models)
-            model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
+            new_models, worst_individuals = run_downhill(models)
+
+            model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
+
             # replace worst_inds with new_inds, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
             # run_downhill return on the fitness and the integer representation!!, need to make GA model from that
-            # which means back calculate GA/full bit string reprentation 
+            # which means back calculate GA/full bit string representation
             for i in range(len(new_models)): 
-                Models[worst_inds[i]] = copy(new_models[i])
+                models[worst_individuals[i]] = copy(new_models[i])
                 # sometimes fitness is float, sometimes tuple
                 if isinstance(new_models[i].fitness, tuple): 
-                    fitnesses[worst_inds[i]] = new_models[i].fitness[0]
+                    fitnesses[worst_individuals[i]] = new_models[i].fitness[0]
                 else:
-                    fitnesses[worst_inds[i]] = (new_models[i].fitness,)
-            best_index = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)[0]
-            model_template.printMessage(f"Done with downhill step, {generation}. best fitness = {fitnesses[best_index]}")      
-            
-            single_best_model = copy(Models[best_index])
-            ## redo best_for_elitism, after downhill
-    
-            best_index = heapq.nsmallest(elitist_num, range(len(fitnesses)), fitnesses.__getitem__)
-            num_bits = len(Models[best_index[i]].model_code.FullBinCode)
-            for i in range(elitist_num): #best_index:  
-                best_for_elitism[i][0:num_bits] = Models[best_index[i]].model_code.FullBinCode # this is GA , so need fullbinary code
-                best_for_elitism[i].fitness.values =  (Models[best_index[i]].fitness,)
+                    fitnesses[worst_individuals[i]] = (new_models[i].fitness,)
 
-        cur_gen_best_ind =  heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__) 
-        best_fitness = fitnesses[cur_gen_best_ind[0]]
+            best_index = _get_n_best_index(elitist_num, fitnesses)
+
+            model_template.printMessage(f"Done with downhill step, {generation}. best fitness = {fitnesses[best_index[0]]}")
+            
+            # redo best_for_elitism, after downhill
+    
+            num_bits = len(models[best_index[-1]].model_code.FullBinCode)
+
+            for i in range(elitist_num):  # best_index:
+                best_for_elitism[i][0:num_bits] = models[best_index[i]].model_code.FullBinCode  # this is GA, so need full binary code
+                best_for_elitism[i].fitness.values = (models[best_index[i]].fitness,)
+
+        cur_gen_best_ind = _get_n_best_index(1, fitnesses)[0]
+
+        best_fitness = fitnesses[cur_gen_best_ind]
+
         # here expects fitnesses to be tuple, but isn't after downhill
         if not type(best_fitness) is tuple:
             best_fitness = (best_fitness,) 
-        model_template.printMessage(f"Current generation best genome = {Models[cur_gen_best_ind[0]].model_code.FullBinCode}, best fit = {best_fitness[0]:.4f}")
+
+        model_template.printMessage(f"Current generation best genome = {models[cur_gen_best_ind].model_code.FullBinCode}, best fit = {best_fitness[0]:.4f}")
         
         if best_fitness[0] < current_overall_best_fitness:
             model_template.printMessage(f"Better fitness found, generation = {generation}, new best fitness = {best_fitness[0]:.4f}")
-            current_overall_best_fitness = best_fitness[0] # 
+            current_overall_best_fitness = best_fitness[0]
             generations_no_change = 0
         else:
             generations_no_change += 1 
             model_template.printMessage(f"No change in fitness for {generations_no_change} generations, best fitness = {current_overall_best_fitness:.4f}")
-    print(f"-- End of GA component at {time.asctime()} --") 
+
+    print(f"-- End of GA component at {time.asctime()} --")
+
     # get current best individual
-    cur_best_ind =  heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)[0]
-    final_model = copy(Models[cur_best_ind])
+    cur_best_ind = _get_n_best_index(1, fitnesses)[0]
+
+    final_model = copy(models[cur_best_ind])
    
-    if  model_template.options["final_fullExhaustiveSearch"]:
+    if model_template.options["final_fullExhaustiveSearch"]:
         # start with standard downhill 
         # change generation of models to final
-        for i in range(len(Models)):
-            Models[i].generation = "final"
-        best_index = heapq.nsmallest(Models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__)
-        best_inds = []
-        for i in best_index: # need deepcopy?
-            best_inds.append(copy(Models[i]))
+        for i in range(len(models)):
+            models[i].generation = "final"
+
+        best_index = _get_n_best_index(num_niches, fitnesses)
+
+        best_individuals = []
+
+        for i in best_index:  # need deepcopy?
+            best_individuals.append(copy(models[i]))
          
-        new_models, worst_inds = run_downhill(Models)
-        for i in range(len(new_models)): 
-            fitnesses[worst_inds[i]] = new_models[i].fitness
+        new_models, worst_individuals = run_downhill(models)
+
+        for i in range(len(new_models)):
+            fitnesses[worst_individuals[i]] = new_models[i].fitness
       
-        best_index = heapq.nsmallest(Models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__)[0]
-        model_template.printMessage(f"Done with final downhill step, {generation}. best fitness = {fitnesses[best_index]}")      
+        best_index = _get_n_best_index(num_niches, fitnesses)
+
+        model_template.printMessage(f"Done with final downhill step, {generation}. best fitness = {fitnesses[best_index[0]]}")
          
-        single_best_model = copy(Models[best_index])
+        single_best_model = copy(models[best_index[0]])
+
         if single_best_model.fitness < final_model.fitness:
             final_model = copy(single_best_model)
        
-    with open(os.path.join(model_template.homeDir,"InterimControlFile.mod"),'w') as control:
+    with open(os.path.join(model_template.homeDir, "InterimControlFile.mod"), 'w') as control:
         control.write(GlobalVars.BestModel.control)
-    resultFilePath = os.path.join(GlobalVars.BestModel.template.homeDir,"InterimresultFile.lst")
-    with open(resultFilePath,'w') as result:
+
+    result_file_path = os.path.join(GlobalVars.BestModel.template.homeDir, "InterimresultFile.lst")
+
+    with open(result_file_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)     
-    model_template.printMessage(f"-- End of Optimization at {time.asctime()}--")  
-    elapsed = time.time() - GlobalVars.StartTime 
-    model_template.printMessage(f"Elapse time = " + str(timedelta(seconds=elapsed)) + "\n") 
+
+    model_template.printMessage(f"-- End of Optimization at {time.asctime()}--")
+
+    elapsed = time.time() - GlobalVars.StartTime
+
+    model_template.printMessage(f"Elapse time = " + str(timedelta(seconds=elapsed)) + "\n")
     model_template.printMessage(f'Best individual GA is {str(final_model.model_code.FullBinCode)} with fitness of {final_model.fitness:4f}') 
-    model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
-    with open(os.path.join(model_template.homeDir,"finalControlFile.mod"),'w') as control:
+    model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
+
+    with open(os.path.join(model_template.homeDir, "finalControlFile.mod"), 'w') as control:
         control.write(final_model.control)
-    resultFilePath = os.path.join(model_template.homeDir,"finalresultFile.lst")
-    with open(resultFilePath,'w') as result:
-         result.write(GlobalVars.BestModelOutput)
-    model_template.printMessage(f"Final outout from best model is in {resultFilePath}")
-    return final_model 
- 
+
+    result_file_path = os.path.join(model_template.homeDir, "finalresultFile.lst")
+
+    with open(result_file_path, 'w') as result:
+        result.write(GlobalVars.BestModelOutput)
+
+    model_template.printMessage(f"Final out from best model is in {result_file_path}")
+
+    return final_model

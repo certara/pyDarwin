@@ -79,7 +79,7 @@ def run_exhaustive(model_template):
         with open(os.path.join(model_template.homeDir, "finalControlFile.mod"), 'w') as control:
             control.write(best_model.control)
 
-    result_file_path = os.path.join(model_template.homeDir, "finalresultFile.lst")
+    result_file_path = os.path.join(model_template.homeDir, "finalResultFile.lst")
 
     with open(result_file_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)

@@ -71,10 +71,11 @@ def _get_n_worst_index(n, arr):
     return heapq.nlargest(n, range(len(arr)), arr.__getitem__)
 
 
-def run_GA(model_template: Template) -> Model:
+def run_ga(model_template: Template) -> Model:
     """ Runs GA, 
     Argument is model_template, which has all the needed information """
-    GlobalVars.StartTime = time.time()    
+
+    GlobalVars.StartTime = time.time()
     init_model_list(model_template)
     pop_size = model_template.options['popSize'] 
     crash_value = model_template.options['crash_value']
@@ -132,12 +133,8 @@ def run_GA(model_template: Template) -> Model:
     # each individual is a list of bits [0|1])
     pop_full_bits = toolbox.population(n=pop_size)
     best_for_elitism = toolbox.population(n=elitist_num)   
-    # CXPB  is the probability with which two individuals
-    #       are crossed
-    #
-    # MUTPB is the probability for mutating an individual
-    CXPB = model_template.options['crossOver'] 
-    MUTPB = model_template.options['mutationRate']
+    crossover_probability = model_template.options['crossOver']
+    mutation_probability = model_template.options['mutationRate']
 
     # argument to run_all is integer codes!!!!!
     models = []
@@ -150,7 +147,8 @@ def run_GA(model_template: Template) -> Model:
 
     run_all(models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
 
-    print(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
+    print(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
+          f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
      
     fitnesses = [None]*len(models)
 
@@ -192,18 +190,19 @@ def run_GA(model_template: Template) -> Model:
     
         # Apply crossover and mutation on the offspring
         for child1, child2 in zip(offspring[::2], offspring[1::2]):
-            # cross two individuals with probability CXPB
+            # cross two individuals
             # don't need to copy child1, child2 back to offspring, done internally by DEAP
             # from https://deap.readthedocs.io/en/master/examples/ga_onemax.html
-            # "In addition they modify those individuals within the toolbox container, and we do not need to reassign their results.""
+            # "In addition they modify those individuals within the toolbox container,
+            # and we do not need to reassign their results."
   
-            if random.random() < CXPB:
+            if random.random() < crossover_probability:
                 toolbox.mate(child1, child2)
   
         for mutant in offspring:
 
-            # mutate an individual with probability MUTPB
-            if random.random() < MUTPB:
+            # mutate an individual
+            if random.random() < mutation_probability:
                 toolbox.mutate(mutant)
                 del mutant.fitness.values
     
@@ -228,7 +227,9 @@ def run_GA(model_template: Template) -> Model:
 
         run_all(models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
 
-        model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
+        model_template.printMessage(
+            f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
+            f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
         
         fitnesses = [None]*len(models)
 
@@ -256,9 +257,11 @@ def run_GA(model_template: Template) -> Model:
            
             new_models, worst_individuals = run_downhill(models)
 
-            model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
+            model_template.printMessage(
+                f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
+                f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
 
-            # replace worst_inds with new_inds, after hof update
+            # replace worst_individuals with new_individuals, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
             # run_downhill return on the fitness and the integer representation!!, need to make GA model from that
             # which means back calculate GA/full bit string representation
@@ -279,7 +282,8 @@ def run_GA(model_template: Template) -> Model:
             num_bits = len(models[best_index[-1]].model_code.FullBinCode)
 
             for i in range(elitist_num):  # best_index:
-                best_for_elitism[i][0:num_bits] = models[best_index[i]].model_code.FullBinCode  # this is GA, so need full binary code
+                # this is GA, so need full binary code
+                best_for_elitism[i][0:num_bits] = models[best_index[i]].model_code.FullBinCode
                 best_for_elitism[i].fitness.values = (models[best_index[i]].fitness,)
 
         cur_gen_best_ind = _get_n_best_index(1, fitnesses)[0]
@@ -334,10 +338,10 @@ def run_GA(model_template: Template) -> Model:
         if single_best_model.fitness < final_model.fitness:
             final_model = copy(single_best_model)
        
-    with open(os.path.join(model_template.homeDir, "InterimControlFile.mod"), 'w') as control:
+    with open(os.path.join(model_template.homeDir, "interimControlFile.mod"), 'w') as control:
         control.write(GlobalVars.BestModel.control)
 
-    result_file_path = os.path.join(GlobalVars.BestModel.template.homeDir, "InterimresultFile.lst")
+    result_file_path = os.path.join(GlobalVars.BestModel.template.homeDir, "interimResultFile.lst")
 
     with open(result_file_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)     
@@ -353,7 +357,7 @@ def run_GA(model_template: Template) -> Model:
     with open(os.path.join(model_template.homeDir, "finalControlFile.mod"), 'w') as control:
         control.write(final_model.control)
 
-    result_file_path = os.path.join(model_template.homeDir, "finalresultFile.lst")
+    result_file_path = os.path.join(model_template.homeDir, "finalResultFile.lst")
 
     with open(result_file_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)

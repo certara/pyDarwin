@@ -11,7 +11,7 @@ from .Model import Model
 from .ModelCode import ModelCode
 
 from .algorithms.exhaustive import run_exhaustive
-from .algorithms.GA import run_GA
+from .algorithms.GA import run_ga
 from .algorithms.OPT import run_skopt
 from .algorithms.PSO import run_PSO
 
@@ -33,7 +33,7 @@ def _run_template(model_template: Template) -> Model:
     if algorithm in ["GBRT", "RF", "GP"]:
         final = run_skopt(model_template)
     elif algorithm == "GA":
-        final = run_GA(model_template)
+        final = run_ga(model_template)
     elif algorithm == "EXHAUSTIVE":
         final = run_exhaustive(model_template)
     elif algorithm == "PSO":

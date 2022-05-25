@@ -1,19 +1,17 @@
-import re
+import sys
 import os
+from os.path import exists
+import re
 import shutil
 import shlex
 import xmltodict
-import concurrent.futures
-from pharmpy.modeling import read_model   # v 0.66.0 works
 from typing import OrderedDict
-import psutil
-from os.path import exists
-from subprocess import DEVNULL, STDOUT, Popen, PIPE
+from subprocess import DEVNULL, STDOUT, TimeoutExpired, run
 import time
 import glob
 from copy import copy
-import gc
-import sys
+
+from pharmpy.modeling import read_model   # v 0.66.0 works
 
 import darwin.utils as utils
 import darwin.GlobalVars as GlobalVars
@@ -21,6 +19,8 @@ import darwin.GlobalVars as GlobalVars
 from .Template import Template
 from .ModelCode import ModelCode
 from .Omega_utils import set_omega_bands, insert_omega_block
+
+files_checked = False
 
 
 class Model:
@@ -40,6 +40,7 @@ class Model:
         self.modelNum = model_num
         self.errMsgs = []
         self.model_code = copy(code)
+        self.RProcess = None
         self.RSTDOUT = self.RSTDERR = self.NMSTDOUT = self.NMSTDERR = None  # standard output and standard error from NONMEM run
         # all required representations of model are done here
         # GA -> integer,
@@ -59,17 +60,18 @@ class Model:
         # default is true, will change to false if: 1. doesn't contain parameters (in check_contains_parms) is put into control file (in utils.replaceTokens)
         self.startTime = time.time()
         self.elapseTime = None
-        self.filestem = None
-        self.outputFileName = None
-        self.runDir = None
         self.phenotype = None
-        self.xml_file = None
         self.control = None
-        self.controlFileName = None
-        self.cltFileName = None
         self.datafile_name = None
-        self.executableFileName = None
         self.status = "Not Started"
+
+        self.file_stem = 'NMModel_' + str(self.generation) + "_" + str(self.modelNum)
+        self.runDir = os.path.join(self.template.homeDir, str(self.generation), str(self.modelNum))
+        self.controlFileName = self.file_stem + ".mod"
+        self.outputFileName = self.file_stem + ".lst"
+        self.cltFileName = os.path.join(self.runDir, self.file_stem + ".clt")
+        self.xml_file = os.path.join(self.runDir, self.file_stem + ".xml")
+        self.executableFileName = self.file_stem + ".exe"  # os.path.join(self.runDir,self.filestem +".exe")
 
     def make_copy(self):
         newmodel = Model(self.template, self.model_code, self.modelNum, self.generation)
@@ -90,7 +92,7 @@ class Model:
         newmodel.jsonListRecord = copy(self.jsonListRecord)
         newmodel.NMtranMSG = copy(self.NMtranMSG)
         newmodel.errMsgs = copy(self.errMsgs)
-        newmodel.filestem = copy(self.filestem)
+        newmodel.file_stem = copy(self.file_stem)
         newmodel.outputFileName = self.outputFileName
         newmodel.num_non_fixed_THETAs = self.num_non_fixed_THETAs
         newmodel.num_THETAs = self.num_THETAs
@@ -107,63 +109,6 @@ class Model:
         newmodel.success = copy(self.success)
         newmodel.xml_file = copy(self.xml_file)
         return newmodel
-
-    def __del__(self):
-        gc.collect()
-
-    def files_present(self):
-        """is the data file specified in the control file present? """
-        # make sure control file is there:
-        count = 0
-        file_exists = exists(self.controlFileName)
-        while not file_exists and count < 20:
-            time.sleep(0.1)
-            count += 1
-            file_exists = exists(self.controlFileName)
-        if not file_exists:
-            self.template.printMessage("Cannot find " + self.controlFileName + " to check for data file")
-        else:
-            result = read_model(self.controlFileName)
-            try:
-                if hasattr(result, "dataset_path"):
-                    self.dataset_path = result.dataset_path
-                else:
-                    self.dataset_path = result._read_dataset_path()
-                if not exists(self.dataset_path):
-                    self.template.printMessage(
-                        f"!!!!!Data set for FIRST MODEL {self.dataset_path} seems to be missing, exiting at {time.asctime()}")
-                    sys.exit()
-                else:
-                    self.template.printMessage(f"Data set for FIRST MODEL ONLY {self.dataset_path} was found")
-            except:
-                self.template.printMessage(f"Unable to check if data set is present with current version of NONMEM")
-
-        # check nmfe?
-        if not exists(self.template.options['nmfePath']):
-            self.template.printMessage(
-                f"NMFE path {self.template.options['nmfePath']} seems to be missing, exiting at {time.asctime()}")
-            sys.exit()
-        else:
-            self.template.printMessage(f"NMFE found at {self.template.options['nmfePath']}")
-
-        if self.template.options['useR']:
-            if not exists(self.template.options['RScriptPath']):
-                self.template.printMessage(
-                    f"RScript.exe path {self.template.options['RScriptPath']} seems to be missing, exiting at {time.asctime()}")
-                sys.exit()
-            else:
-                print(f"RScript.exe found at {self.template.options['RScriptPath']}")
-
-            if not exists(self.template.postRunRCode):
-                self.template.printMessage(
-                    f"Post Run R code path {self.template.postRunRCode} seems to be missing, exiting at {time.asctime()}")
-                sys.exit()
-            else:
-                self.template.printMessage(f"postRunRCode file found at {self.template.postRunRCode}")
-        else:
-            self.template.printMessage(
-                "Not using PostRun R code")
-        return
 
     def copy_results(self, prevResults):
         try:
@@ -184,30 +129,27 @@ class Model:
             self.NMtranMSG = prevResults['NMtranMSG']
             self.NMtranMSG = "From saved model " + self.NMtranMSG  # ["","","","output from previous model"]
             self.status = "Done"
-            return True
         except:
             return False
 
-    def start_model(self):
-        self.filestem = 'NMModel_' + str(self.generation) + "_" + str(self.modelNum)
-        self.runDir = os.path.join(self.template.homeDir, str(self.generation), str(self.modelNum))
-        self.controlFileName = self.filestem + ".mod"
-        self.outputFileName = self.filestem + ".lst"
-        self.cltFileName = os.path.join(self.runDir, self.filestem + ".clt")
-        self.xml_file = os.path.join(self.runDir, self.filestem + ".xml")
-        self.executableFileName = self.filestem + ".exe"  # os.path.join(self.runDir,self.filestem +".exe")
-        self.make_control()
+        return True
+
+    def make_control_file(self):
+        self._make_control()
+
+        self.source = "new"
 
         # in case the new folder name is a file
         try:
             if os.path.isfile(os.path.join(self.template.homeDir, str(self.generation))) or os.path.islink(
                     os.path.join(self.template.homeDir, str(self.generation))):
                 os.unlink(os.path.join(self.template.homeDir, str(self.generation)))
+
             if os.path.isfile(self.runDir) or os.path.islink(self.runDir):
                 os.unlink(self.runDir)
+
             if not os.path.isdir(self.runDir):
                 os.makedirs(self.runDir)
-            os.chdir(self.runDir)
         except:
             self.template.printMessage(f"Error removing run files/folders for {self.runDir}, is that file/folder open?")
 
@@ -220,166 +162,135 @@ class Model:
                     shutil.rmtree(file_path)
             except Exception as e:
                 self.template.printMessage('Failed to delete %s. Reason: %s' % (self.runDir, e))
-        ## check key file, just to make sure
+        # check key file, just to make sure
 
         if os.path.exists(self.controlFileName):
             os.remove(self.controlFileName)
+
         if os.path.exists(self.outputFileName):
             os.remove(self.outputFileName)
-        with open(self.controlFileName, 'w+') as f:
+
+        with open(f"{self.runDir}/{self.controlFileName}", 'w+') as f:
             f.write(self.control)
             f.flush()
 
-        if self.template.isFirstModel:
-            self.files_present()
-            self.template.isFirstModel = False
-            self.template.printMessage("Run Directory for first model is " + self.runDir)
+    def run_model(self):
+        self.make_control_file()
+
         command = [self.template.options['nmfePath'], self.controlFileName, self.outputFileName,
-                   " -nmexec=" + self.executableFileName]
+                   "-nmexec=" + self.executableFileName, f'-rundir={self.runDir}']
+
         GlobalVars.UniqueModels += 1
 
-        self.NMProcess = Popen(command, stdout=DEVNULL, stderr=STDOUT)
-        self.start = time.time()
-        self.status = "Running_NM"
+        flags = 0x4000 if sys.platform == "win32" else 0
+
+        try:
+            self.status = "Running_NM"
+
+            os.chdir(self.runDir)
+
+            run(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.runDir, creationflags=flags,
+                timeout=int(self.template.options['timeout_sec']))
+
+            self.status = "Done_running_NM"
+        except TimeoutExpired:
+            self.template.printMessage(f'run {self.modelNum} has timed out')
+            self.status = "NM_timed_out"
 
         return
 
-    def decode_r_stdout(self):
+    def _decode_r_stdout(self):
         newval = self.RSTDOUT.decode("utf-8").replace("[1]", "").strip()
+
         # comes back a single string, need to parse by ""
         val = shlex.split(newval)
+
         self.post_run_Rpenalty = float(val[0])
+
         # penalty is always first, but may be addition /r/n in array? get the last?
         Num_vals = len(val)
+
         self.post_run_Rtext = val[Num_vals - 1]
 
-    def start_post_r(self):
+    def _post_run_r(self):
         """Run R code specified in the file options['postRunCode'], return penalty from R code
         R is called by subprocess call to Rscript.exe. User must supply path to Rscript.exe
         Presence of Rscript.exe is check in the files_present"""
 
         command = [self.template.options['RScriptPath'], self.template.postRunRCode]
-        os.chdir(self.runDir)  # just to make sure it is reading the right data
+
         try:
-            self.RProcess = Popen(command, stdout=PIPE, stderr=PIPE)
+            os.chdir(self.runDir)  # just to make sure it is reading the right data
+
+            self.status = "Running_post_Rcode"
+
+            flags = 0x4000 if sys.platform == "win32" else 0
+
+            self.RProcess = run(command, capture_output=True, cwd=self.runDir, creationflags=flags, timeout=10)
+
+        except TimeoutExpired:
+            self.template.printMessage(f'!!! Post run R code for run {self.modelNum} has timed out')
+            self.status = "post_run_r_timed_out"
         except:
+            self.template.printMessage("!!! Post run R code crashed in " + self.runDir)
+            self.status = "post_run_r_failed"
+
+        if self.RProcess is None or self.RProcess.returncode != 0:
             self.post_run_Rpenalty = self.template.options['crash_value']
-        return
 
-    def check_done_post_run_python(self):
-        if self.future.done():
-            try:
-                self.post_run_Pythonpenalty, self.post_run_Pythontext = self.template.python_postprocess()
-                self.status = "Done"
-                with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
-                    f.write(f"Post run Python code Penalty = {str(self.post_run_Pythonpenalty)}\n")
-                    f.write(f"Post run Python code text = {str(self.post_run_Pythontext)}\n")
-                return True
-            except:
-                self.post_run_Pythonpenalty = self.template.options['crash_value']
-                self.status = "Done"
-                with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
-                    print("!!!Post run Python code crashed in " + self.runDir)
-                    f.write("Post run Python code crashed\n")
-                return True
-            finally:
-                self.status = "Done"
-        else:
-            return False
-
-    def check_done_post_run_r(self):
-        """Is the post run call (R only for now) done?"""
-        try:
-            count = 0
-            if self.RProcess.poll() is None:
-                return False
-            else:
-                while self.RSTDOUT is None and count < 100:
-                    self.RSTDOUT, self.RSTDERR = self.RProcess.communicate()
-                    time.sleep(0.1)
-                    count += 1
-                self.decode_r_stdout()
-                self.RProcess = None
-                gc.collect()
-
-                with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
-                    f.write(f"Post run R code Penalty = {str(self.post_run_Rpenalty)}\n")
-                    f.write(f"Post run R code text = {str(self.post_run_Rtext)}\n")
-                if count >= 99:
-                    self.post_run_Rpenalty = self.template.options['crash_value']
-                    self.template.printMessage("!!!Post run R code failed return a value in " + self.runDir)
-                return True
-        except:
-            self.post_run_Rpenalty = self.template.options['crash_value']
-            self.template.printMessage("!!!Post run R code crashed in " + self.runDir)
             with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
-                f.write("Post run R code crashed\n")
-            return True
+                f.write("Post run R code failed\n")
+        else:
+            self.RSTDOUT = self.RProcess.stdout
+            self._decode_r_stdout()
+            self.RProcess = None
 
-    def start_post_python(self):
-        with concurrent.futures.ThreadPoolExecutor() as executor:  # each model object has it's own future for running user defined python code
-            self.future = executor.submit(self.template.python_postprocess)
-        self.status = "Running_post_Pythoncode"
+            with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
+                f.write(f"Post run R code Penalty = {str(self.post_run_Rpenalty)}\n")
+                f.write(f"Post run R code text = {str(self.post_run_Rtext)}\n")
+
+    def _post_run_python(self):
+        try:
+            self.post_run_Pythonpenalty, self.post_run_Pythontext = self.template.python_postprocess()
+
+            with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
+                f.write(f"Post run Python code Penalty = {str(self.post_run_Pythonpenalty)}\n")
+                f.write(f"Post run Python code text = {str(self.post_run_Pythontext)}\n")
+
+        except:
+            self.post_run_Pythonpenalty = self.template.options['crash_value']
+
+            self.status = "post_run_python_failed"
+
+            with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
+                print("!!! Post run Python code crashed in " + self.runDir)
+                f.write("Post run Python code crashed\n")
+
+        self.status = "Done"
 
     def check_all_done(self):
         """Check is the model is done running, uses the Process of the object. Process.poll() return of 107 or 110
         seems to mean failed to start. Process.poll() of 0 is finished
         if done, reads xml file to collect results, then either calls run_post_Code (if applicable)
         or calls calcFitness."""
+
+        self.template.printMessage(f'model {self.modelNum} status: {self.status}, source: {self.source}')
+
         if self.status == "Done":  # if done here, then already has post run code results
             return True
-        if self.status == "Running_NM":
-            if not self.NMProcess.poll() is None:  ## == 107 or self.NMProcess.poll() == 110 or self.NMProcess.poll() == 0:
-                # done with NM, create the model here, before any post code run
-                # GET NMTRAN MESSAGES HERE, THEY WON'T SHOW UP IN XML FILE IF NONMEM CRASHES
-                self.NMProcess = None
-                ## see url https://github.com/python/cpython/issues/72352
-                ## https://stackoverflow.com/questions/16341047/how-to-clean-up-subprocess-popen-instances-upon-process-termination
-                gc.collect()
-                self.status = "Done_running_NM"
-            else:  # has timeout expired?
-                end = time.time()
-                if (end - self.start) > int(self.template.options['timeout_sec']):
-                    self.template.printMessage(f"Allowed NM run time exceeded, model in {self.runDir}")
-                    try:
-                        p = psutil.Process(self.NMProcess.pid)
-                        p.terminate()
-                        self.NMProcess = None
-                        gc.collect()
-                    except:
-                        pass
-                    finally:
-                        self.status = "Done_running_NM"
-                else:
-                    return False
 
-        if self.status == "Done_running_NM":
+        elif self.status == "Done_running_NM":
             if self.template.options['useR']:
-                self.start_post_r()
-                self.status = "Running_post_Rcode"
-                return False
-            else:
-                self.status = "Done_running_PostR"
-        if self.status == "Running_post_Rcode":
-            if self.check_done_post_run_r():
-                self.status = "Done_running_PostR"
-            else:
-                return False
-        if self.status == "Done_running_PostR":
+                self._post_run_r()
+
             if self.template.options['usePython']:
-                self.start_post_python()
-                self.status = "Running_post_Pythoncode"
-                return False
-            else:
-                self.status = "Done"
-        if self.status == "Running_post_Pythoncode":
-            if self.check_done_post_run_python():
-                self.status = "Done"
-            else:
-                return False
-        if self.status == "Done":
+                self._post_run_python()
+
             self.calc_fitness()
+
             return True
+
+        return False
 
     def read_xml(self):
         if not exists(self.xml_file):
@@ -512,7 +423,6 @@ class Model:
                 self.condition_num = self.template.options['crash_value']
                 self.PRDERR += " .xml file not present, likely crash in estimation step"
 
-        gc.collect()
         return ()
 
     def get_nmtran_msgs(self):
@@ -590,7 +500,8 @@ class Model:
             # self.get_PRDERR()
             self.read_xml()
             # self.get_results_pharmpy() # only for num fixed theta, omega etc, get the rest directly from the xml file
-            if (self.ofv == None):
+
+            if (self.ofv is None):
                 self.fitness = self.template.options['crash_value']
                 return
             else:
@@ -615,7 +526,7 @@ class Model:
                     self.fitness += self.template.options['correlationPenalty']
                 if not self.Condition_num_test:  #
                     self.fitness += self.template.options['conditionNumberPenalty']
-                    ## parsimony penalties
+                    # parsimony penalties
 
             self.fitness += self.num_non_fixed_THETAs * self.template.options['THETAPenalty']
             self.fitness += self.num_OMEGAs * self.template.options['OMEGAPenalty']
@@ -674,11 +585,6 @@ class Model:
     def cleanup(self):
         """deletes all unneeded files after run
         no argument, no return value """
-        try:
-            del self.NMProcess
-        except:
-            self.template.printMessage(f"failed to delete process for {self.modelNum}")
-
         if self.source == "saved":
             self.template.printMessage(f"called clean up for saveed model, # {self.modelNum}")
             return  # ideally shouldn't be called for saved models, but just in case
@@ -696,18 +602,18 @@ class Model:
                 except OSError:
                     self.template.printMessage("Cannot remove folder {self.runDir} in call to cleanup")
             else:
-                file_to_delete = [self.filestem + ".ext",
-                                  self.filestem + ".clt",
-                                  self.filestem + ".coi",
-                                  self.filestem + ".cor",
-                                  self.filestem + ".cov",
-                                  self.filestem + ".cpu",
-                                  self.filestem + ".grd",
-                                  self.filestem + ".phi",
-                                  self.filestem + ".shm",
-                                  self.filestem + ".smt",
-                                  self.filestem + ".shk",
-                                  self.filestem + ".rmt",
+                file_to_delete = [self.file_stem + ".ext",
+                                  self.file_stem + ".clt",
+                                  self.file_stem + ".coi",
+                                  self.file_stem + ".cor",
+                                  self.file_stem + ".cov",
+                                  self.file_stem + ".cpu",
+                                  self.file_stem + ".grd",
+                                  self.file_stem + ".phi",
+                                  self.file_stem + ".shm",
+                                  self.file_stem + ".smt",
+                                  self.file_stem + ".shk",
+                                  self.file_stem + ".rmt",
                                   self.executableFileName,
                                   "PRSIZES.F90",
                                   "ifort.txt",
@@ -746,7 +652,7 @@ class Model:
             tokensetNum += 1
         return
 
-    def make_control(self):
+    def _make_control(self):
         """constructs control file from intcode
         ignore last value if self_search_omega_bands """
         # this appears to be OK with search_omega_bands
@@ -781,15 +687,148 @@ class Model:
             self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; code \n ;; " + str(
                 self.model_code.IntCode) + \
                             "\n;; Num Non influential tokens = " + str(self.token_Non_influential)
+
         # add band OMEGA
         if self.template.search_omega_band:
-            ## bandwidth must be last gene
+            # bandwidth must be last gene
             bandwidth = self.model_code.IntCode[-1]
             omega_block, self.template.search_omega_band = set_omega_bands(self.control, bandwidth)
             if self.template.search_omega_band:
                 self.control = insert_omega_block(self.control, omega_block)
-        if not (token_found):
+
+        if not token_found:
             self.template.printMessage("No tokens found, exiting")
             self.errMsgs.append("No tokens found")
 
         return
+
+
+def check_files_present(model):
+    global files_checked
+
+    if files_checked:
+        return
+
+    template = model.template
+
+    model.make_control_file()
+
+    cwd = os.getcwd()
+
+    os.chdir(model.runDir)
+
+    template.printMessage("Checking files in " + os.getcwd())
+
+    if not exists(model.controlFileName):
+        template.printMessage("Cannot find " + model.controlFileName + " to check for data file")
+        sys.exit()
+
+    try:
+        result = read_model(model.controlFileName)
+
+        model.dataset_path = result.datainfo.path
+
+        if not exists(model.dataset_path):
+            template.printMessage(f"!!! Data set for FIRST MODEL {model.dataset_path} seems to be missing, exiting")
+            sys.exit()
+        else:
+            template.printMessage(f"Data set for FIRST MODEL ONLY {model.dataset_path} was found")
+    except:
+        template.printMessage(f"Unable to check if data set is present with current version of NONMEM")
+        sys.exit()
+
+    os.chdir(cwd)
+
+    nmfe_path = model.template.options['nmfePath']
+
+    if not exists(nmfe_path):
+        template.printMessage(f"NMFE path {nmfe_path} seems to be missing, exiting")
+        sys.exit()
+
+    template.printMessage(f"NMFE found at {nmfe_path}")
+
+    if model.template.options['useR']:
+        rscript_path = model.template.options['RScriptPath']
+
+        if not exists(rscript_path):
+            template.printMessage(f"RScript.exe path {rscript_path} seems to be missing, exiting")
+            sys.exit()
+
+        template.printMessage(f"RScript.exe found at {rscript_path}")
+
+        if not exists(model.template.postRunRCode):
+            template.printMessage(f"Post Run R code path {model.template.postRunRCode} seems to be missing, exiting")
+            sys.exit()
+
+        template.printMessage(f"postRunRCode file found at {model.template.postRunRCode}")
+    else:
+        template.printMessage("Not using PostRun R code")
+
+    files_checked = True
+
+
+def start_new_model(model, all_models):
+    current_code = str(model.model_code.IntCode)
+
+    if current_code in all_models and model.copy_results(all_models[current_code]):
+        model.source = "saved"
+    else:
+        model.run_model()  # current model is the general model type (not GA/DEAP model)
+
+    if model.check_all_done():  # model finished, collect results, start new on, IF not yet done
+        nmtran_msgs = model.NMtranMSG
+
+        if GlobalVars.BestModel is None or model.fitness < GlobalVars.BestModel.fitness:
+            _copy_to_best(model)
+
+        if model.source == "new":
+            model.cleanup()  # changes back to home_dir
+            # Integer code is common denominator for all, entered into dictionary with this
+            all_models[str(model.model_code.IntCode)] = model.jsonListRecord
+
+        if model.template.isGA:
+            step_name = "Generation"
+        else:
+            step_name = "Iteration"
+
+        if len(model.PRDERR) > 0:
+            prderr_text = " PRDERR = " + model.PRDERR
+        else:
+            prderr_text = ""
+
+        fitness_crashed = model.fitness == model.template.options['crash_value']
+        fitness_text = f"{model.fitness:.0f}" if fitness_crashed else f"{model.fitness:.3f}"
+
+        model.template.printMessage(
+            f"{step_name} = {model.generation}, Model {model.modelNum:5},"
+            f"\t fitness = {fitness_text}, \t NMTRANMSG = {nmtran_msgs.strip()},{prderr_text}"
+        )
+
+
+def _copy_to_best(current_model: Model):
+    """copies current model to the global best model"""
+
+    GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
+    GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
+    GlobalVars.BestModel.fitness = current_model.fitness
+    GlobalVars.BestModel.control = current_model.control
+    GlobalVars.BestModel.generation = current_model.generation
+    GlobalVars.BestModel.modelNum = current_model.modelNum
+    GlobalVars.BestModel.model_code = copy(current_model.model_code)
+    GlobalVars.BestModel.ofv = current_model.ofv
+    GlobalVars.BestModel.success = current_model.success
+    GlobalVars.BestModel.covariance = current_model.covariance
+    GlobalVars.BestModel.num_THETAs = current_model.num_THETAs
+    GlobalVars.BestModel.OMEGA = current_model.OMEGA
+    GlobalVars.BestModel.SIGMA = current_model.SIGMA
+    GlobalVars.BestModel.num_OMEGAs = current_model.num_OMEGAs
+    GlobalVars.BestModel.num_SIGMAs = current_model.num_SIGMAs
+    GlobalVars.BestModel.correlation = current_model.correlation
+    GlobalVars.BestModel.condition_num = current_model.condition_num
+    GlobalVars.BestModel.Condition_num_test = current_model.Condition_num_test
+
+    if current_model.source == "new":
+        with open(os.path.join(current_model.runDir, current_model.outputFileName)) as file:
+            GlobalVars.BestModelOutput = file.read()  # only save best model, other models can be reproduced if needed
+
+    return

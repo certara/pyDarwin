@@ -36,7 +36,6 @@ class Template:
         Template contains all the results of the template file and the tokens, and the options
         Tokens are parsed to define the search space. The Template object is inherited by the model object
         """
-        self.isFirstModel = True
         self.errMsgs = []
         self.warnings = []
         failed = False

@@ -9,8 +9,7 @@ from deap import creator
 from deap import tools 
 import os
 import time
-import logging 
-import numpy as np 
+import numpy as np
 from scipy.spatial import distance_matrix
 import heapq
 
@@ -23,8 +22,7 @@ from darwin.Template import Template
 from darwin.Model import Model
 
 np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
-logger = logging.getLogger(__name__) 
-   
+
 
 def sharing(distance: float, niche_radius: int, sharing_alpha: float) -> float:
     res = 0

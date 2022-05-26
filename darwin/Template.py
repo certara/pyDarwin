@@ -118,7 +118,7 @@ class Template:
         self.check_omega_search()
 
         self.control = self.controlBaseTokens = None
-        self.status = "Not initialized"
+        #self.status = "Not initialized"
         self.lastFixedTHETA = None  ## fixed THETA do not count toward penalty
         self.lastFixedETA = self.lastFixedEPS = None
         self.variableTHETAIndices = []  # for each token set does if have THETA(*) alphanumeric indices in THETA(*)

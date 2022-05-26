@@ -1,15 +1,13 @@
+import os
+import sys
 import re
 import json
 import math
 from sympy import false
 import collections
-import os
-import logging
-import sys
 
 import darwin.utils as utils
-
-logger = logging.getLogger(__name__)
+from darwin.Log import log
 
 
 def _import_postprocessing(path: str):
@@ -36,8 +34,6 @@ class Template:
         Template contains all the results of the template file and the tokens, and the options
         Tokens are parsed to define the search space. The Template object is inherited by the model object
         """
-        self.errMsgs = []
-        self.warnings = []
         failed = False
         self.homeDir = '<NONE>'
 
@@ -55,60 +51,55 @@ class Template:
                 # remove messages file
                 if os.path.exists(os.path.join(self.homeDir, "messages.txt")):
                     os.remove(os.path.join(self.homeDir, "messages.txt"))
-
-                self.printMessage(f"Options file found at {options_file}")
             else:  # can't write to homeDir if can't open options
-                self.printMessage(f"!!!!!Options file {options_file} seems to be missing")
+                print(f"!!! Options file {options_file} seems to be missing")
                 failed = True
         except Exception as error:
-            self.errMsgs.append("Failed to parse JSON tokens in " + options_file)
-            self.printMessage("Failed to parse JSON tokens in " + options_file)
+            print("!!! Failed to parse JSON options in " + options_file)
             failed = True
 
         # if folder is not provided, then it must be set in options
         if not folder:
             _go_to_folder(self.homeDir)
 
+        log.initialize(os.path.join(self.homeDir, "messages.txt"))
+        
+        log.message(f"Options file found at {options_file}")
+
         try:  # should this be absolute path or path from homeDir??
             self.TemplateText = open(template_file, 'r').read()
-            self.printMessage(f"Template file found at {template_file}")
+            log.message(f"Template file found at {template_file}")
         except Exception as error:
-            self.errMsgs.append("Failed to open Template file " + template_file)
-            self.printMessage("Failed to open Template file " + template_file)
+            log.error("Failed to open Template file " + template_file)
             failed = True
 
         try:
             self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
-            self.printMessage(f"Tokens file found at {tokens_file}")
+            log.message(f"Tokens file found at {tokens_file}")
         except Exception as error:
-            self.errMsgs.append("Failed to parse JSON tokens in " + tokens_file)
-            self.printMessage("Failed to parse JSON tokens in " + tokens_file)
+            log.error("Failed to parse JSON tokens in " + tokens_file)
             failed = True
 
         if self.options['usePython']:
             python_postrpocess_path = self.options['postRunPythonCode']
             if not os.path.isfile(python_postrpocess_path):
-                self.printMessage("!!!!!postRunPythonCode " + python_postrpocess_path + " was not found")
+                log.error("postRunPythonCode " + python_postrpocess_path + " was not found")
                 failed = True
             else:
-                self.printMessage("postRunPythonCode " + python_postrpocess_path + " found")
+                log.message("postRunPythonCode " + python_postrpocess_path + " found")
                 self.python_postprocess = _import_postprocessing(self.options['postRunPythonCode'])
 
         if failed:
-            self.printMessage("Error in required file found, exiting")
+            log.error("Error in required file found, exiting")
             sys.exit()
-        if self.options['algorithm'] == "GA":
-            self.isGA = True
-        else:
-            self.isGA = False
-        if self.options['algorithm'] == "PSO":
-            self.isPSO = True
-        else:
-            self.isPSO = False
+
+        self.isGA = self.options['algorithm'] == "GA"
+        self.isPSO = self.options['algorithm'] == "PSO"
+
         self.version = None
         self.gene_max = []  ## zero based
         self.gene_length = []  ## length is 1 based
-        self.getGeneLength()
+        self._get_gene_length()
         self.check_omega_search()
 
         self.control = self.controlBaseTokens = None
@@ -135,24 +126,14 @@ class Template:
         self.lastFixedETA = nFixedETA
         self.lastFixedEPS = nFixedEPS
 
-    def printMessage(self, message):
-        print(message)
-        try:
-            with open(os.path.join(self.homeDir, "messages.txt"), "a") as f:
-                f.write(message + "\n")
-                f.flush()
-        except:
-            msg = os.path.join(self.homeDir, "message.txt")
-            print(f"unable to write to {msg}")
+    def _get_gene_length(self):
+        """ argument is the token sets, returns maximum value of token sets and number of bits"""
 
-    def getGeneLength(self):
-        ''' argument is the token sets, returns maximum value of token sets and number of bits'''
-        tokenKeys = self.tokens.keys()
-        for thisset in tokenKeys:
-            if (thisset.strip() != "Search_OMEGA" and thisset.strip() != "max_Omega_size"):
-                val = len(self.tokens[thisset])
-                self.gene_max.append(
-                    val - 1)  # max is zero based!!!!, everything is zero based (gacode, intcode, gene_max)
+        for this_set in self.tokens.keys():
+            if this_set.strip() != "Search_OMEGA" and this_set.strip() != "max_Omega_size":
+                val = len(self.tokens[this_set])
+                # max is zero based!!!!, everything is zero based (gacode, intcode, gene_max)
+                self.gene_max.append(val - 1)
                 self.gene_length.append(math.ceil(math.log(val, 2)))
 
     def check_omega_search(self):
@@ -165,10 +146,10 @@ class Template:
                 self.omega_bandwidth = self.tokens['max_Omega_size']
                 self.gene_max.append(self.omega_bandwidth - 1)
                 self.gene_length.append(math.ceil(math.log(self.omega_bandwidth, 2)))
-                self.printMessage(f"Including search of band OMEGA, with width up to {self.omega_bandwidth - 1}")
+                log.message(f"Including search of band OMEGA, with width up to {self.omega_bandwidth - 1}")
                 del self.tokens['max_Omega_size']
             else:
-                self.printMessage(
+                log.message(
                     "Cannot find omega size in tokens set, but omega band width search request \n, omitting omega band width search")
                 # remove max_Omega_size and Search_OMEGA from token sets
             del self.tokens['Search_OMEGA']

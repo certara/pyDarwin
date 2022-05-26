@@ -19,6 +19,7 @@ import darwin.GlobalVars as GlobalVars
 from .Template import Template
 from .ModelCode import ModelCode
 from .Omega_utils import set_omega_bands, insert_omega_block
+from .Log import log
 
 files_checked = False
 
@@ -151,7 +152,7 @@ class Model:
             if not os.path.isdir(self.runDir):
                 os.makedirs(self.runDir)
         except:
-            self.template.printMessage(f"Error removing run files/folders for {self.runDir}, is that file/folder open?")
+            log.error(f"Error removing run files/folders for {self.runDir}, is that file/folder open?")
 
         for filename in os.listdir(self.runDir):
             file_path = os.path.join(self.runDir, filename)
@@ -161,7 +162,7 @@ class Model:
                 elif os.path.isdir(file_path):
                     shutil.rmtree(file_path)
             except Exception as e:
-                self.template.printMessage('Failed to delete %s. Reason: %s' % (self.runDir, e))
+                log.error('Failed to delete %s. Reason: %s' % (self.runDir, e))
         # check key file, just to make sure
 
         if os.path.exists(self.controlFileName):
@@ -194,7 +195,7 @@ class Model:
 
             self.status = "Done_running_NM"
         except TimeoutExpired:
-            self.template.printMessage(f'run {self.modelNum} has timed out')
+            log.error(f'run {self.modelNum} has timed out')
             self.status = "NM_timed_out"
 
         return
@@ -229,10 +230,10 @@ class Model:
             self.RProcess = run(command, capture_output=True, cwd=self.runDir, creationflags=flags, timeout=10)
 
         except TimeoutExpired:
-            self.template.printMessage(f'!!! Post run R code for run {self.modelNum} has timed out')
+            log.error(f'Post run R code for run {self.modelNum} has timed out')
             self.status = "post_run_r_timed_out"
         except:
-            self.template.printMessage("!!! Post run R code crashed in " + self.runDir)
+            log.error("Post run R code crashed in " + self.runDir)
             self.status = "post_run_r_failed"
 
         if self.RProcess is None or self.RProcess.returncode != 0:
@@ -263,7 +264,7 @@ class Model:
             self.status = "post_run_python_failed"
 
             with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
-                print("!!! Post run Python code crashed in " + self.runDir)
+                log.error("Post run Python code crashed in " + self.runDir)
                 f.write("Post run Python code crashed\n")
 
         self.status = "Done"
@@ -274,7 +275,7 @@ class Model:
         if done, reads xml file to collect results, then either calls run_post_Code (if applicable)
         or calls calcFitness."""
 
-        self.template.printMessage(f'model {self.modelNum} status: {self.status}, source: {self.source}')
+        log.message(f'model {self.modelNum} status: {self.status}, source: {self.source}')
 
         if self.status == "Done":  # if done here, then already has post run code results
             return True
@@ -460,8 +461,7 @@ class Model:
                             full_error_text = msg[startline:]
                             for error_line in full_error_text:
                                 error_text = error_text + ", " + error_line
-                            self.template.printMessage(
-                                "!!!ERROR in Model " + str(self.modelNum) + ", " + error_text + "!!!")
+                            log.error("ERROR in Model " + str(self.modelNum) + ": " + error_text)
                             self.NMtranMSG += error_text
                             break
                         else:
@@ -586,13 +586,13 @@ class Model:
         """deletes all unneeded files after run
         no argument, no return value """
         if self.source == "saved":
-            self.template.printMessage(f"called clean up for saveed model, # {self.modelNum}")
+            log.message(f"called clean up for saved model, # {self.modelNum}")
             return  # ideally shouldn't be called for saved models, but just in case
 
         try:
             os.chdir(self.template.homeDir)
         except OSError as e:
-            self.template.printMessage(f"OS Error {e} in call to cleanup")
+            log.error(f"OS Error {e} in call to cleanup")
 
         try:
             if self.template.options['remove_run_dir'] == "True":
@@ -600,7 +600,7 @@ class Model:
                     if os.path.isdir(self.runDir):
                         shutil.rmtree(self.runDir)
                 except OSError:
-                    self.template.printMessage("Cannot remove folder {self.runDir} in call to cleanup")
+                    log.error(f"Cannot remove folder {self.runDir} in call to cleanup")
             else:
                 file_to_delete = [self.file_stem + ".ext",
                                   self.file_stem + ".clt",
@@ -629,7 +629,7 @@ class Model:
             if os.path.isdir(os.path.join(self.runDir, "temp_dir")):
                 shutil.rmtree(os.path.join(self.runDir, "temp_dir"))
         except OSError as e:
-            self.template.printMessage(f"OS Error {e}")
+            log.error(f"OS Error {e}")
 
         return
 
@@ -669,7 +669,7 @@ class Model:
             token_found = token_found or anyFound
 
         if anyFound:
-            self.template.printMessage(
+            log.message(
                 "It appears that there is more than one level of nested tokens, only one level is supported, exiting")
             raise RuntimeError("Is there more than 1 level of nested tokens??")
 
@@ -697,7 +697,7 @@ class Model:
                 self.control = insert_omega_block(self.control, omega_block)
 
         if not token_found:
-            self.template.printMessage("No tokens found, exiting")
+            log.message("No tokens found, exiting")
             self.errMsgs.append("No tokens found")
 
         return
@@ -709,18 +709,16 @@ def check_files_present(model):
     if files_checked:
         return
 
-    template = model.template
-
     model.make_control_file()
 
     cwd = os.getcwd()
 
     os.chdir(model.runDir)
 
-    template.printMessage("Checking files in " + os.getcwd())
+    log.message("Checking files in " + os.getcwd())
 
     if not exists(model.controlFileName):
-        template.printMessage("Cannot find " + model.controlFileName + " to check for data file")
+        log.error("Cannot find " + model.controlFileName + " to check for data file")
         sys.exit()
 
     try:
@@ -729,12 +727,12 @@ def check_files_present(model):
         model.dataset_path = result.datainfo.path
 
         if not exists(model.dataset_path):
-            template.printMessage(f"!!! Data set for FIRST MODEL {model.dataset_path} seems to be missing, exiting")
+            log.error(f"Data set for FIRST MODEL {model.dataset_path} seems to be missing, exiting")
             sys.exit()
         else:
-            template.printMessage(f"Data set for FIRST MODEL ONLY {model.dataset_path} was found")
+            log.message(f"Data set for FIRST MODEL ONLY {model.dataset_path} was found")
     except:
-        template.printMessage(f"Unable to check if data set is present with current version of NONMEM")
+        log.error(f"Unable to check if data set is present with current version of NONMEM")
         sys.exit()
 
     os.chdir(cwd)
@@ -742,27 +740,27 @@ def check_files_present(model):
     nmfe_path = model.template.options['nmfePath']
 
     if not exists(nmfe_path):
-        template.printMessage(f"NMFE path {nmfe_path} seems to be missing, exiting")
+        log.error(f"NMFE path {nmfe_path} seems to be missing, exiting")
         sys.exit()
 
-    template.printMessage(f"NMFE found at {nmfe_path}")
+    log.message(f"NMFE found at {nmfe_path}")
 
     if model.template.options['useR']:
         rscript_path = model.template.options['RScriptPath']
 
         if not exists(rscript_path):
-            template.printMessage(f"RScript.exe path {rscript_path} seems to be missing, exiting")
+            log.error(f"RScript.exe path {rscript_path} seems to be missing, exiting")
             sys.exit()
 
-        template.printMessage(f"RScript.exe found at {rscript_path}")
+        log.message(f"RScript.exe found at {rscript_path}")
 
         if not exists(model.template.postRunRCode):
-            template.printMessage(f"Post Run R code path {model.template.postRunRCode} seems to be missing, exiting")
+            log.error(f"Post Run R code path {model.template.postRunRCode} seems to be missing, exiting")
             sys.exit()
 
-        template.printMessage(f"postRunRCode file found at {model.template.postRunRCode}")
+        log.message(f"postRunRCode file found at {model.template.postRunRCode}")
     else:
-        template.printMessage("Not using PostRun R code")
+        log.message("Not using PostRun R code")
 
     files_checked = True
 
@@ -799,7 +797,7 @@ def start_new_model(model, all_models):
         fitness_crashed = model.fitness == model.template.options['crash_value']
         fitness_text = f"{model.fitness:.0f}" if fitness_crashed else f"{model.fitness:.3f}"
 
-        model.template.printMessage(
+        log.message(
             f"{step_name} = {model.generation}, Model {model.modelNum:5},"
             f"\t fitness = {fitness_text}, \t NMTRANMSG = {nmtran_msgs.strip()},{prderr_text}"
         )

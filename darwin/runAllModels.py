@@ -8,6 +8,7 @@ import darwin.GlobalVars as GlobalVars
 
 from .Template import Template
 from .Model import Model, check_files_present, start_new_model
+from .Log import log
 
 all_models = dict()
 
@@ -31,21 +32,20 @@ def init_model_list(model_template: Template):
                 else:
                     if models_list.is_file() and not models_list.name.lower() == "none":
                         with open(models_list) as json_file:
-                            model_template.printMessage(f"Using Saved model list from  {GlobalVars.SavedModelsFile}")
+                            log.message(f"Using Saved model list from  {GlobalVars.SavedModelsFile}")
 
                             all_models = json.load(json_file)
 
                             GlobalVars.SavedModelsFile = model_template.options['PreviousModelsList']
                     else:
-                        model_template.printMessage(f"Cannot find {models_list}, setting models list to empty")
+                        log.message(f"Cannot find {models_list}, setting models list to empty")
 
                         all_models = dict()
 
                         GlobalVars.SavedModelsFile = model_template.options['PreviousModelsList']
             except:
-                model_template.printMessage(
-                    f"Cannot read {model_template.options['input_model_json']}, setting models list to empty")
-                model_template.printMessage(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
+                log.message(f"Cannot read {model_template.options['input_model_json']}, setting models list to empty")
+                log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
 
                 all_models = dict()
 
@@ -57,7 +57,7 @@ def init_model_list(model_template: Template):
                 f.write(
                     "Model num,Fitness,Model,generation,ofv,success,covar,correlation #,"
                     "ntheta,condition,RPenalty,PythonPenalty,NMTran messages\n")
-                model_template.printMessage(f"Writing intermediate output to {results_file}")
+                log.message(f"Writing intermediate output to {results_file}")
                 f.flush()
             return
         else:
@@ -74,7 +74,7 @@ def init_model_list(model_template: Template):
             if os.path.exists(GlobalVars.SavedModelsFile):
                 os.remove(GlobalVars.SavedModelsFile)
 
-        model_template.printMessage(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
+        log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
     else:
         GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir, "allmodels.json")
 

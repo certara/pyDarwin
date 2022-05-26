@@ -15,7 +15,9 @@ from .algorithms.GA import run_ga
 from .algorithms.OPT import run_skopt
 from .algorithms.PSO import run_PSO
 
-logger = logging.getLogger(__name__)
+from .Log import log
+
+_log = logging.getLogger(__name__)
 
 
 def _run_template(model_template: Template) -> Model:
@@ -28,7 +30,7 @@ def _run_template(model_template: Template) -> Model:
     GlobalVars.BestModel.fitness = model_template.options['crash_value'] + 1
     algorithm = model_template.options['algorithm']
 
-    model_template.printMessage(f"Search start time = {time.asctime()}")
+    log.message(f"Search start time = {time.asctime()}")
 
     if algorithm in ["GBRT", "RF", "GP"]:
         final = run_skopt(model_template)
@@ -42,10 +44,10 @@ def _run_template(model_template: Template) -> Model:
         print(f"Algorithm {algorithm} is not available")
         sys.exit()
 
-    model_template.printMessage(f"Number of unique models to best model = {GlobalVars.UniqueModelsToBest}")
-    model_template.printMessage(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
+    log.message(f"Number of unique models to best model = {GlobalVars.UniqueModelsToBest}")
+    log.message(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
 
-    model_template.printMessage(f"Search end time = {time.asctime()}")
+    log.message(f"Search end time = {time.asctime()}")
     gc.collect()
 
     return final
@@ -63,7 +65,7 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Model
     try:
         model_template = Template(template_file, tokens_file, options_file)
     except Exception as e:
-        logger.error(e)
+        _log.error(e)
         raise
 
     return _run_template(model_template)
@@ -77,7 +79,7 @@ def run_search_in_folder(
     try:
         model_template = Template(template_file, tokens_file, options_file, folder)
     except Exception as e:
-        logger.error(e)
+        _log.error(e)
         raise
 
     return _run_template(model_template)

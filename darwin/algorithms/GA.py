@@ -20,6 +20,7 @@ from darwin.run_downhill import run_downhill
 from darwin.runAllModels import init_model_list, run_all
 from darwin.Template import Template
 from darwin.Model import Model
+from darwin.Log import log
 
 np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
 
@@ -170,13 +171,13 @@ def run_ga(model_template: Template) -> Model:
 
     generations_no_change = 0
     current_overall_best_fitness = crash_value
-    model_template.printMessage(f"generation 0 fitness = {all_best:.4f}")
+    log.message(f"generation 0 fitness = {all_best:.4f}")
     num_generations = model_template.options['num_generations']
 
     while generation < num_generations:
         # A new generation
         generation += 1 
-        model_template.printMessage("-- Starting Generation %i --" % generation)
+        log.message("-- Starting Generation %i --" % generation)
         
         # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
         # so fitnesses in pop are only used for selection in GA
@@ -227,7 +228,7 @@ def run_ga(model_template: Template) -> Model:
 
         run_all(models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
 
-        model_template.printMessage(
+        log.message(
             f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
             f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
         
@@ -247,7 +248,7 @@ def run_ga(model_template: Template) -> Model:
             # add local exhaustive search here??
             # temp_fitnesses = copy(fitnesses)
             # downhill with NumNiches best models
-            model_template.printMessage(f"Starting downhill generation = {generation}  at {time.asctime()}")
+            log.message(f"Starting downhill generation = {generation}  at {time.asctime()}")
 
             best_index = _get_n_best_index(num_niches, fitnesses)
             best_individuals = []
@@ -257,7 +258,7 @@ def run_ga(model_template: Template) -> Model:
            
             new_models, worst_individuals = run_downhill(models)
 
-            model_template.printMessage(
+            log.message(
                 f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
                 f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
 
@@ -275,7 +276,7 @@ def run_ga(model_template: Template) -> Model:
 
             best_index = _get_n_best_index(elitist_num, fitnesses)
 
-            model_template.printMessage(f"Done with downhill step, {generation}. best fitness = {fitnesses[best_index[0]]}")
+            log.message(f"Done with downhill step, {generation}. best fitness = {fitnesses[best_index[0]]}")
             
             # redo best_for_elitism, after downhill
     
@@ -294,15 +295,17 @@ def run_ga(model_template: Template) -> Model:
         if not type(best_fitness) is tuple:
             best_fitness = (best_fitness,) 
 
-        model_template.printMessage(f"Current generation best genome = {models[cur_gen_best_ind].model_code.FullBinCode}, best fit = {best_fitness[0]:.4f}")
+        log.message(f"Current generation best genome = {models[cur_gen_best_ind].model_code.FullBinCode},"
+                    f" best fit = {best_fitness[0]:.4f}")
         
         if best_fitness[0] < current_overall_best_fitness:
-            model_template.printMessage(f"Better fitness found, generation = {generation}, new best fitness = {best_fitness[0]:.4f}")
+            log.message(f"Better fitness found, generation = {generation}, new best fitness = {best_fitness[0]:.4f}")
             current_overall_best_fitness = best_fitness[0]
             generations_no_change = 0
         else:
             generations_no_change += 1 
-            model_template.printMessage(f"No change in fitness for {generations_no_change} generations, best fitness = {current_overall_best_fitness:.4f}")
+            log.message(f"No change in fitness for {generations_no_change} generations,"
+                        f" best fitness = {current_overall_best_fitness:.4f}")
 
     print(f"-- End of GA component at {time.asctime()} --")
 
@@ -331,7 +334,7 @@ def run_ga(model_template: Template) -> Model:
       
         best_index = _get_n_best_index(num_niches, fitnesses)
 
-        model_template.printMessage(f"Done with final downhill step, {generation}. best fitness = {fitnesses[best_index[0]]}")
+        log.message(f"Done with final downhill step, {generation}. best fitness = {fitnesses[best_index[0]]}")
          
         single_best_model = copy(models[best_index[0]])
 
@@ -346,13 +349,15 @@ def run_ga(model_template: Template) -> Model:
     with open(result_file_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)     
 
-    model_template.printMessage(f"-- End of Optimization at {time.asctime()}--")
+    log.message(f"-- End of Optimization at {time.asctime()}--")
 
     elapsed = time.time() - GlobalVars.StartTime
 
-    model_template.printMessage(f"Elapse time = " + str(timedelta(seconds=elapsed)) + "\n")
-    model_template.printMessage(f'Best individual GA is {str(final_model.model_code.FullBinCode)} with fitness of {final_model.fitness:4f}') 
-    model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
+    log.message(f"Elapse time = " + str(timedelta(seconds=elapsed)) + "\n")
+    log.message(f'Best individual GA is {str(final_model.model_code.FullBinCode)}'
+                f' with fitness of {final_model.fitness:4f}')
+    log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
+                f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
 
     with open(os.path.join(model_template.homeDir, "finalControlFile.mod"), 'w') as control:
         control.write(final_model.control)
@@ -362,6 +367,6 @@ def run_ga(model_template: Template) -> Model:
     with open(result_file_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)
 
-    model_template.printMessage(f"Final out from best model is in {result_file_path}")
+    log.message(f"Final out from best model is in {result_file_path}")
 
     return final_model

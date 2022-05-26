@@ -256,11 +256,12 @@ def run_GA(model_template: Template)-> Model:
             # temp_fitnessses = copy(fitnesses)
             # downhill with NumNiches best models
             model_template.printMessage(f"Starting downhill generation = {generation}  at {time.asctime()}")
-            best_index = heapq.nsmallest(Models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__)
+            best_index = heapq.nsmallest(Models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__) 
             best_inds = []
+            model_template.printMessage(f"current best model(s) =")
             for i in best_index:  
                 best_inds.append(copy(Models[i]))
-           
+                model_template.printMessage(f"generation {Models[i].generation}, ind {Models[i].modelNum}, fitness = {Models[i].fitness}")
             new_models, worst_inds = run_downhill(Models)
             model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
             # replace worst_inds with new_inds, after hof update
@@ -309,7 +310,7 @@ def run_GA(model_template: Template)-> Model:
         # start with standard downhill 
         # change generation of models to final
         for i in range(len(Models)):
-            Models[i].generation = "final"
+            Models[i].generation = "FN"
         best_index = heapq.nsmallest(Models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__)
         best_inds = []
         for i in best_index: # need deepcopy?
@@ -317,7 +318,10 @@ def run_GA(model_template: Template)-> Model:
          
         new_models, worst_inds = run_downhill(Models)
         for i in range(len(new_models)): 
-            fitnesses[worst_inds[i]] = new_models[i].fitness
+            if type(new_models[i].fitness) is tuple:
+                fitnesses[worst_inds[i]] = new_models[i].fitness
+            else:
+                fitnesses[worst_inds[i]] = (new_models[i].fitness,)
       
         best_index = heapq.nsmallest(Models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__)[0]
         model_template.printMessage(f"Done with final downhill step, {generation}. best fitness = {fitnesses[best_index]}")      

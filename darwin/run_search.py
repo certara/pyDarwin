@@ -1,7 +1,6 @@
 import logging
 import time
-import sys
-
+import sys 
 import gc
 
 import darwin.GlobalVars as GlobalVars
@@ -18,12 +17,12 @@ from .algorithms.PSO import run_PSO
 logger = logging.getLogger(__name__)
 
 
-def _run_template(model_template: Template) -> Model:
-    GlobalVars.init_global_vars()
+def _run_template(model_template: Template) -> Model: 
 
+    GlobalVars.init_global_vars(model_template.options['num_parallel'])
     # initialize a trivial model for the global best
     null_code = ModelCode([0] * len(model_template.gene_length), "Int",
-                          model_template.gene_max, model_template.gene_length)
+                          model_template.gene_max, model_template.gene_length) 
     GlobalVars.BestModel = Model(model_template, null_code, -99, -99)
     GlobalVars.BestModel.fitness = model_template.options['crash_value'] + 1
     algorithm = model_template.options['algorithm']
@@ -34,7 +33,7 @@ def _run_template(model_template: Template) -> Model:
         final = run_skopt(model_template)
     elif algorithm == "GA":
         final = run_GA(model_template)
-    elif algorithm == "EXHAUSTIVE":
+    elif algorithm in ["EX","EXHAUSTIVE"]:
         final = run_exhaustive(model_template)
     elif algorithm == "PSO":
         final = run_PSO(model_template)
@@ -46,6 +45,7 @@ def _run_template(model_template: Template) -> Model:
     model_template.printMessage(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
 
     model_template.printMessage(f"Search end time = {time.asctime()}")
+  
     gc.collect()
 
     return final

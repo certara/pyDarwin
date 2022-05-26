@@ -1,11 +1,11 @@
-import gc
-import time
+import gc 
 import json
 import os
 from copy import copy
 import numpy as np
 from pathlib import Path
-
+import threading
+from time import sleep, time
 import darwin.GlobalVars as GlobalVars
 
 from .Template import Template
@@ -17,7 +17,18 @@ allModelsDict = dict()
 
 def init_model_list(model_template: Template):
     """Initializes model from template. Need Options first"""
-
+    # write header to results file
+    results_file = os.path.join(model_template.homeDir, "results.csv")
+    if os.path.exists(results_file):
+        try:
+            os.remove(results_file)
+        except OSError:
+            pass
+    with open(results_file  ,"w") as resultsfile:
+        resultsfile.write(f"Run Directory,Fitness,Model,ofv,success,covar,correlation #,ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages\n")
+        model_template.printMessage(f"Writing intermediate output to {results_file}")
+        resultsfile.flush()
+        resultsfile.close()
     global allModelsDict
 
     if "usePreviousModelsList" in model_template.options.keys():
@@ -44,11 +55,7 @@ def init_model_list(model_template: Template):
                 model_template.printMessage(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
                 GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir,"allmodels.json")
                 allModelsDict = dict()
-            results_file = os.path.join(model_template.homeDir, "results.csv")
-            with open(results_file  ,"w") as f:
-                f.write(f"Model num,Fitness,Model,generation,ofv,success,covar,correlation #,ntheta,condition,RPenalty,PythonPenalty,NMTran messages\n")
-                model_template.printMessage(f"Writing intermediate output to {results_file}")
-                f.flush()
+           
             return
         else:
             allModelsDict = dict()
@@ -74,7 +81,7 @@ def init_model_list(model_template: Template):
 def Copy_to_Best(current_model: Model):
     """copies current model to the global best model"""
 
-    GlobalVars.TimeToBest = time.time() -GlobalVars.StartTime
+    GlobalVars.TimeToBest = time() -GlobalVars.StartTime
     GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
     GlobalVars.BestModel.fitness = current_model.fitness
     GlobalVars.BestModel.control = current_model.control
@@ -98,7 +105,6 @@ def Copy_to_Best(current_model: Model):
             GlobalVars.BestModelOutput = file.read()  # only save best model, other models can be reproduced if needed
     return
 
-
 def run_all(models):
     """runs the models, always runs from integer representation, so for GA will need to convert to integer,
     for downhill, will need to convert to minimal binary, then to integer
@@ -112,6 +118,9 @@ def run_all(models):
     num_models = len(models)
     started = [False]*num_models
     cur_model_num = 0
+    models_list = []
+    start_times = [] 
+    #num_models = 0
     for cur_model_num in range(num_parallel) :
         # current_model = all_results_int[cur_model_num] # shallow copy, still linked but just bit string for GA
         # or downhill, integer string for others returns a model object = to be consistent with GP, RF, GBRF etc,
@@ -121,30 +130,54 @@ def run_all(models):
         # all_results has fitness.values (a tuple)
         # check if already done here
         current_model = models[cur_model_num]
+        models_list.append(models[cur_model_num])
         current_model.slot = cur_model_num # defines which slot, which R object to use
         current_code = str(current_model.model_code.IntCode)
-        current_model.slot = cur_model_num
+         
         if current_code in allModelsDict:
-            if current_model.copy_results(allModelsDict[current_code]): # returns True if copy is successful
-                current_model.source = "saved"
-                if GlobalVars.BestModel is None or current_model.fitness < GlobalVars.BestModel.fitness:
-                    Copy_to_Best(current_model)
+            # make sure that the save model is complete
+            if isinstance(allModelsDict[current_code], dict) and isinstance(allModelsDict[current_code]['fitness'],float):
+                if current_model.copy_results(allModelsDict[current_code]): # returns True if copy is successful
+                    current_model.copy_model()
+                    current_model.source = "saved"
+                    slots.append(threading.Thread(target=current_model.start_model, daemon=True))
+                    start_times.append(time()) 
+                    ## but don't run, just here as placeholder, is_alive will be False as it is never started
+                    if GlobalVars.BestModel is None or current_model.fitness < GlobalVars.BestModel.fitness:
+                        Copy_to_Best(current_model)
+                else:
+                    slots.append(threading.Thread(target=current_model.start_model, daemon=True))
+                    slots[cur_model_num].start()  
+                    start_times.append(time())  
+                    current_model.source = "new"
+                    GlobalVars.UniqueModels += 1
             else:
-                current_model.start_model()
+                
+                slots.append(threading.Thread(target=current_model.start_model, daemon=True))
+                slots[cur_model_num].start()  
+                start_times.append(time())  
                 current_model.source = "new"
                 GlobalVars.UniqueModels += 1
         else:
-            current_model.start_model()
+              
+            sleep(0.5) # not sure why this is needed, but seem to take a little while to create the thread??
+            #current_model.slot = cur_model_num
+            slots.append(threading.Thread(target=current_model.start_model, daemon=True))
+            slots[cur_model_num].start()  
+            start_times.append(time())   
+            #num_models += 1  
             current_model.source = "new"
             GlobalVars.UniqueModels += 1
         started[cur_model_num] = True
-        slots.append(current_model)  # slots are the local/general model type, will need to copy fitness to all_results
+        #slots.append(current_model)  # slots are the local/general model type, will need to copy fitness to all_results
 
     while not all(started):
         for slot_being_checked in range(num_parallel):
-            current_model = slots[slot_being_checked] # shallow copy, still linked to all_results
+            current_slot = slots[slot_being_checked] # shallow copy, still linked to all_results
+            current_model = models_list[slot_being_checked]
             # note that at this point, w are using local models, not GA/DEAP models, addressed in the object initialization
-            if current_model.check_all_done() == True: # model finished, collect results, start new on, IF not yet done
+            if not current_slot.is_alive(): # model finished, collect results, start new on, IF not yet done
+           # if current_model.check_all_done() == True: # model finished, collect results, start new on, IF not yet done
 
                 nmtranMsgs = current_model.NMtranMSG
                 fitnesses[current_model.modelNum-start_model_num] = current_model.fitness  # all we do with this fitness is print out the best, this fitness is not returned separately
@@ -153,11 +186,14 @@ def run_all(models):
                 if current_model.source == "new":
                     current_model.cleanup() # changes back to home_dir
                     # Integer code is common denominator for all, entered into dictionary with this 
-                    allModelsDict[str(current_model.model_code.IntCode)] = current_model.jsonListRecord
+                    if isinstance(current_model.jsonListRecord, dict):
+                        allModelsDict[str(current_model.model_code.IntCode)] = current_model.jsonListRecord
+                 
 
-                with open(os.path.join(current_model.template.homeDir, "results.csv"),"a") as f: # unfortunately, below needs to be all on one line
-                    f.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
-                    f.flush()
+                with open(os.path.join(current_model.template.homeDir, "results.csv"),"a") as resultfile: # unfortunately, below needs to be all on one line, otherwise writes a new line
+                    resultfile.write(f"{current_model.runDir},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.num_OMEGAs},{current_model.num_SIGMAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
+                    resultfile.flush()
+                    
                 if current_model.template.isGA:
                     step_name = "Generation"
                 else:
@@ -175,48 +211,82 @@ def run_all(models):
 
                 current_slot = current_model.slot # keep slot number of next model
 
-                current_model.__del__()
-                gc.collect()
+                #current_model.__del__()
+                #gc.collect()
                 # start new model  
-                if cur_model_num < (num_models-1):
+                if not all(started): #cur_model_num < (num_models-1):
                     cur_model_num += 1
-                    current_model = models[cur_model_num] # by reference
-                    current_model.slot = current_slot
-                    current_code = str(current_model.model_code.IntCode)
+                    
+                    models_list[current_slot] = models[cur_model_num]
+                    #current_model = models[cur_model_num] # by reference
+  
+                    current_code = str(models_list[current_slot].model_code.IntCode)
+    
+                    models_list[current_slot].slot = current_slot # dont' think we need this anymore
                     if current_code in allModelsDict:
-                        if current_model.copy_results(allModelsDict[current_code]): # returns True if copy is successful
-                            current_model.source = "saved"
-                        else:
-                            current_model.start_model() # current model is the geneneral model type (not GA/DEAP model)
-                            current_model.source = "new"
-                    else:
-                        current_model.start_model() # current model is the geneneral model type (not GA/DEAP model)
-                        current_model.source = "new"
-                    started[cur_model_num] = True
-                    slots[slot_being_checked] = current_model
+                         
 
+                        if isinstance(allModelsDict[current_code], dict) and isinstance(allModelsDict[current_code]['fitness'],float):
+                            if current_model.copy_results(allModelsDict[current_code]): # returns True if copy is successful
+                                current_model.copy_model()
+                                current_model.source = "saved"
+                                slots.append(threading.Thread(target=current_model.start_model, daemon=True))
+                                start_times.append(time()) 
+                                ## but don't run, just here as placeholder, is_alive will be False
+                                if GlobalVars.BestModel is None or current_model.fitness < GlobalVars.BestModel.fitness:
+                                    Copy_to_Best(current_model)
+                            else:
+                                slots.append(threading.Thread(target=current_model.start_model, daemon=True))
+                                slots[cur_model_num].start()  
+                                start_times.append(time())  
+                                current_model.source = "new"
+                                GlobalVars.UniqueModels += 1                                                                                                
+ 
+                        else: 
+                            slots[current_slot] = threading.Thread(target=models_list[current_slot].start_model, daemon=True)
+                            slots[current_slot].start()  
+                            start_times.append(time())  
+                            current_model.source = "new"
+                            GlobalVars.UniqueModels += 1
+                    else:
+                        
+                        sleep(0.5) # not sure why this is needed, but seem to take a little while to create the thread??
+                        #current_model.slot = cur_model_num
+                        slots[current_slot] = threading.Thread(target=models_list[current_slot].start_model, daemon=True)
+                        slots[current_slot].start()  
+                        start_times[current_slot] = time()
+                        #num_models += 1  
+                        current_model.source = "new"
+                        GlobalVars.UniqueModels += 1
+ 
+                    started[cur_model_num] = True
+ 
         # wait for all to finish
     done = [False] * num_parallel
     while not all(done):
         for slot_being_checked in range(num_parallel):
-            if not done[slot_being_checked]:
-                current_model = slots[slot_being_checked] ## still linked to all_results
+            
+            if not done[slot_being_checked]: 
                 #current model is the model object, not the same as in all_results
-                if current_model.check_all_done() == True: # model finished, collect results, start new on, IF not yet done
+                if not slots[slot_being_checked].is_alive(): # current_model.check_all_done() == True: # model finished, collect results, start new on, IF not yet done
+                    
+                    current_model = models_list[slot_being_checked] ## still linked to all_results
                     if current_model.source == "new":
                         current_model.cleanup() # changes back to home_dir
-                        allModelsDict[str(current_model.model_code.IntCode)] = current_model.jsonListRecord
+                        
+                        if isinstance(current_model.jsonListRecord, dict):
+                            allModelsDict[str(current_model.model_code.IntCode)] = current_model.jsonListRecord
 
-                    with open(os.path.join(current_model.template.homeDir, "results.csv"), "a") as f: # unfortunately, below needs to be all on one line
-                        f.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
-                        f.flush()
+                    with open(os.path.join(current_model.template.homeDir, "results.csv"), "a") as resultfile: # unfortunately, below needs to be all on one line
+                        resultfile.write(f"{current_model.runDir},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.num_OMEGAs},{current_model.num_SIGMAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
+                        resultfile.flush()
                     nmtranMsgs = current_model.NMtranMSG
                     fitnesses[current_model.modelNum-start_model_num] = current_model.fitness
                     if GlobalVars.BestModel == None or current_model.fitness < GlobalVars.BestModel.fitness:
                         Copy_to_Best(current_model)
-                    with open(os.path.join(current_model.template.homeDir, "results.csv")   ,"a") as f:
-                        f.write(f"{current_model.modelNum},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.generation},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
-                        f.flush()
+                    with open(os.path.join(current_model.template.homeDir, "results.csv")   ,"a") as resultfile:
+                        resultfile.write(f"{current_model.runDir},{current_model.fitness:.6f},{''.join(map(str, current_model.model_code.IntCode))},{current_model.ofv},{current_model.success},{current_model.covariance},{current_model.correlation},{current_model.num_THETAs},{current_model.num_OMEGAs},{current_model.num_SIGMAs},{current_model.condition_num},{current_model.post_run_Rpenalty},{current_model.post_run_Pythonpenalty},{current_model.NMtranMSG}\n")
+                        resultfile.flush()
                     if current_model.template.isGA:
                         step_name = "Generation"
                     else:
@@ -233,7 +303,7 @@ def run_all(models):
                     else:
                         current_model.template.printMessage(f"{step_name} = {current_model.generation}, Model {current_model.modelNum:5},\t fitness = {current_model.fitness:.3f}, \t NMTRANMSG = {nmtranMsgs.strip()},{PRDERR_text}")
 
-                    current_model=None
+                    current_model = slots[slot_being_checked] = None
                     gc.collect()
                     done[slot_being_checked] = True
 

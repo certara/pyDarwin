@@ -52,7 +52,7 @@ def run_exhaustive(model_template):
     while current_last <= num_models:
         if current_last > len(codes):
             current_last = len(codes)
-
+        models = []
         for thisInts, model_num in zip(codes[current_start:current_last], range(current_start, current_last)):
             code = ModelCode(thisInts, "Int", maxes, lengths)
             models.append(Model(model_template, code, model_num, 0))

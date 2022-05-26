@@ -59,6 +59,7 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
     arguments are the current population of models and whether to return all models (not implemented, maybe can be used for GP??)
     return is the single best model, the worst models (length num_niches) +/- the entire list of models"""
     generation = pop[0].generation
+    saved_generation = generation # to assign downhill generation names
     this_step = 0
     fitnesses = [None]*len(pop)
     for i in range(len(pop)):
@@ -73,10 +74,13 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
     while not all(done) and this_step < 100:     # up to 99 steps 
         test_models = [] 
         which_niche =  []
+        niches_this_loop = 0
         for this_niche in range(current_num_niches):
-            if not done[this_niche]: 
+            if not done[this_niche]:  
+                niches_this_loop += 1
                 # only need to identify niches so we can do downhill on the best in each niche
                 cur_ind = copy(best_MinBinary[this_niche]) #just code, no fitness
+                pop[0].template.printMessage(f"code for niche (minimal binary) {this_niche} = {cur_ind}, fitness = {best_fitnesses[this_niche]}")
                 # will always be minimal binary at this point
                 for this_bit in range(len(cur_ind)):
                     which_niche.append(this_niche)
@@ -96,9 +100,10 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
         for thisMinBits,model_num in zip(test_models,range(len(test_models))):
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths)
             Models.append(Model(pop[0].template, code, model_num,
-                                generation=str(pop[0].generation) + "_downhill_" + str(this_step)))
+                                generation=str(pop[0].generation) + "D" + str(this_step)))
         if len(Models)> 0:
-            print(f"Starting downhill step {this_step}")
+            pop[0].template.printMessage(f"Starting downhill step {this_step}, total of {len(Models)} in {niches_this_loop} niches to be run.")
+ 
             run_all(Models)
             # check, for each niche, if any in the fitnesses is better, if so, that become the source for the next round
             # repeat until no more better (all(done))      
@@ -119,19 +124,18 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
                             best_fitnesses[this_niche] = Models[New_best_Model_num].fitness
                             done[this_niche] = False
                         else:
-                            done[this_niche] = True 
+                            done[this_niche] = True     
         else:
             done = [True]*len(done)
         this_step += 1
             ## best_in_niches is just minimal binary at this point
     if pop[0].template.options["fullExhaustiveSearch_qdownhill"]:
-        step = 0
         best_model_index = heapq.nsmallest(1, range(len(best_fitnesses)), best_fitnesses.__getitem__)[0]
         model_for_search = copy(best_Models_in_niches[best_model_index])  
         Last_Best_fitness = model_for_search.fitness
-        print(f"Begin exhaustive search, search radius = {pop[0].template.options['niche_radius']}, generation = {generation},step = {step}")
- 
-        model_for_search = FullSearch(model_for_search)
+        pop[0].template.printMessage(f"Begin local exhaustive search, search radius = {pop[0].template.options['niche_radius']}, generation = {generation},step = {this_step}")
+        pop[0].template.printMessage(f"Model for local exhaustive search = {model_for_search.generation}, phenotype = {model_for_search.phenotype} model Num = {model_for_search.modelNum}, fitness = {model_for_search.fitness}")
+        model_for_search = FullSearch(model_for_search,saved_generation,(this_step-1))
         ## fitness should already be added to allresults here, gets added by fullsearch after call to runallGA
         # and only use the fullbest  
         # replace the niche this one came from, to preseve diversity 
@@ -139,7 +143,7 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
             best_MinBinary[this_niche] = copy(model_for_search.model_code.MinBinCode)
             best_Models_in_niches[this_niche] = copy(model_for_search) # don't seem to need deepcopy, copy entire model
             best_fitnesses[this_niche] = model_for_search.fitness 
-        step += 1
+        #step += 1
     if return_all:
         return best_Models_in_niches, worst, -999 # returning all models not  yet implemented
     else:
@@ -189,7 +193,7 @@ def ChangeEachBit(sourcemodels:list,radius: int): ## only need upper triangle, a
     return models, radius
 
 
-def FullSearch(best_pre: Model) -> Model:
+def FullSearch(best_pre: Model,base_generation,base_step) -> Model:
     """perform 2 bit search (radius should always be 2 bits), will always be called after rundownhill (1 bit search),  
     argument is:
     best_pre - base model for search 
@@ -206,6 +210,7 @@ def FullSearch(best_pre: Model) -> Model:
     Current_Best_Model = best_pre.model_code.MinBinCode
     radius = model_template.options['niche_radius'] 
     while Current_Best_fitness < Last_Best_fitness or this_step == 0: # run at least once  
+        full_generation = str(base_generation) + "S" +str(base_step) + "" + str(this_step)
         Last_Best_fitness = Current_Best_fitness
         curradius = 1  
         test_models = Current_Best_Model # start with just one, then call recurivaly for each radius
@@ -215,9 +220,9 @@ def FullSearch(best_pre: Model) -> Model:
         maxes  = model_template.gene_max
         lengths  = model_template.gene_length
         for thisMinBits,model_num in zip(test_models,range(len(test_models))):
-            code = ModelCode(thisMinBits, "MinBinary", maxes, lengths)
+            code = ModelCode(thisMinBits, "MinBinary", maxes, lengths) 
             Models.append(
-                Model(model_template, code, model_num, generation=str(generation) + "_Search_" + str(this_step)))
+                Model(model_template, code, model_num, generation=full_generation))
         run_all(Models) #,model_template,round(generation+(0.01*this_step)+0.01,2),isAlreadyInt= True) # not sure isMinimalBinary is ever used? run_all is always called with int
         fitnesses = []
         for i in range(len(Models)):

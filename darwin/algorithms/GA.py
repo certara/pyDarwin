@@ -249,14 +249,18 @@ def run_GA(model_template: Template) -> Model:
             # temp_fitnesses = copy(fitnesses)
             # downhill with NumNiches best models
             model_template.printMessage(f"Starting downhill generation = {generation}  at {time.asctime()}")
-            best_index = heapq.nsmallest(models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__) 
-            best_inds = []
+
+            best_index = _get_n_best_index(num_niches, fitnesses)
+            best_individuals = []
+
             model_template.printMessage(f"current best model(s) =")
             for i in best_index:  
-                best_inds.append(copy(models[i]))
+                best_individuals.append(copy(models[i]))
                 model_template.printMessage(f"generation {models[i].generation}, ind {models[i].modelNum}, fitness = {models[i].fitness}")
-            new_models, worst_inds = run_downhill(models)
+            new_models, worst_individuals = run_downhill(models)
+
             model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
+
             # replace worst_inds with new_inds, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
             # run_downhill return on the fitness and the integer representation!!, need to make GA model from that
@@ -311,17 +315,21 @@ def run_GA(model_template: Template) -> Model:
         # change generation of models to final
         for i in range(len(models)):
             models[i].generation = "FN"
-        best_index = heapq.nsmallest(models[0].template.options['num_niches'], range(len(fitnesses)), fitnesses.__getitem__)
-        best_inds = []
-        for i in best_index: # need deepcopy?
-            best_inds.append(copy(models[i]))
+
+        best_index = _get_n_best_index(num_niches, fitnesses)
+
+        best_individuals = []
+
+        for i in best_index:  # need deepcopy?
+            best_individuals.append(copy(models[i]))
          
-        new_models, worst_inds = run_downhill(models)
+        new_models, worst_individuals = run_downhill(models)
+
         for i in range(len(new_models)): 
             if type(new_models[i].fitness) is tuple:
-                fitnesses[worst_inds[i]] = new_models[i].fitness
+                fitnesses[worst_individuals[i]] = new_models[i].fitness
             else:
-                fitnesses[worst_inds[i]] = (new_models[i].fitness,)
+                fitnesses[worst_individuals[i]] = (new_models[i].fitness,)
       
         best_index = _get_n_best_index(num_niches, fitnesses)
 

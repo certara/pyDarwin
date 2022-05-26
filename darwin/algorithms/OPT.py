@@ -26,25 +26,27 @@ def run_skopt(model_template: Template) -> Model:
     np.random.seed(model_template.options['random_seed'])
     downhill_q = model_template.options['downhill_q']
     # just get list of numbers, of len of each token group
-    Num_Groups = []
+    num_groups = []
     # Keys = model_template.tokens.keys()
     for thisKey in model_template.tokens.keys():
-        tokenGroup = model_template.tokens.get(thisKey)
-        numerical_group = list(range(len(tokenGroup)))
+        token_group = model_template.tokens.get(thisKey)
+        numerical_group = list(range(len(token_group)))
         this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
-        Num_Groups.append(this_x)
+        num_groups.append(this_x)
 
     GlobalVars.StartTime = time.time()
-    # from doc https://scikit-optimize.github.io/dev//_downloads/scikit-optimize-docs.pdf
-    # command to install is pip install scikit-optimize
 
     init_model_list(model_template)
+
     # opt = Optimizer(Num_Groups,n_jobs = 1, base_estimator="GBRT")
-    # for parallel, will need and array of N number of optimizaer,  n_jobs doesn't seem to do anything
+    # for parallel, will need and array of N number of optimizer,  n_jobs doesn't seem to do anything
     algorithm = model_template.options['algorithm']
-    opt = Optimizer(Num_Groups, n_jobs=1, base_estimator=algorithm)
+
     log.message(f"Algorithm is {algorithm}")
-    # https://scikit-optimize.github.io/stable/auto_examples/ask-and-tell.html 
+
+    opt = Optimizer(num_groups, n_jobs=1, base_estimator=algorithm)
+
+    # https://scikit-optimize.github.io/stable/auto_examples/ask-and-tell.html
 
     niter_no_change = 0
     maxes = model_template.gene_max
@@ -58,9 +60,12 @@ def run_skopt(model_template: Template) -> Model:
         suggestion_start_time = time.time()
         # will need to ask for 1/10 of the total models if run 10 way parallel
         suggested = opt.ask(n_points=model_template.options['popSize'])
-        log.message(
-            "Elapse time for sampling step # %d =  %.1f seconds" % (this_iter, (time.time() - suggestion_start_time)))
+
+        log.message("Elapse time for sampling step # %d =  %.1f seconds"
+                    % (this_iter, (time.time() - suggestion_start_time)))
+
         Models = []  # some other method to clear memory??
+
         for thisInts, model_num in zip(suggested, range(len(suggested))):
             code = ModelCode(thisInts, "Int", maxes, lengths)
             Models.append(Model(model_template, code, model_num, this_iter))
@@ -77,20 +82,23 @@ def run_skopt(model_template: Template) -> Model:
             # pop will have the fitnesses without the niche penalty here
 
             log.message(f"Starting downhill, iteration = {this_iter} at {time.asctime()}")
+
             # can only use all models in GP, not in RF or GA
             if algorithm == "GP":
                 new_models, worst_inds, all_models = run_downhill(Models, return_all=True)
             else:
                 new_models, worst_inds = run_downhill(Models, return_all=False)
+
             # replace worst_inds with new_inds, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
             # run_downhill returns on the fitness and the integer representation!!, need to make GA model from that
-            # which means back calculate GA/full bit string reprentation
+            # which means back calculate GA/full bit string representation
             # full_bit_inds = []
             for i in range(len(new_models)):
                 Models[worst_inds[i]] = copy(new_models[i])
                 fitnesses[worst_inds[i]] = new_models[i].fitness
                 suggested[worst_inds[i]] = new_models[i].model_code.IntCode
+
             if algorithm == "GP":
                 log.message("add in all models to suggested and fitness for GP")
 
@@ -108,7 +116,7 @@ def run_skopt(model_template: Template) -> Model:
                     f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
 
     if model_template.options["final_fullExhaustiveSearch"]:
-        log.message(f"Starting final downhill, iteration = {this_iter}")
+        log.message(f"Starting final downhill")
 
         # can only use all models in GP, not in RF or GA
         if algorithm == "GP":
@@ -120,10 +128,13 @@ def run_skopt(model_template: Template) -> Model:
             Models[worst_inds[i]] = copy(new_models[i])
             fitnesses[worst_inds[i]] = new_models[i].fitness
             # need max values to convert int to bits
+
     with open(os.path.join(model_template.homeDir, "interimControlFile.mod"), 'w') as control:
         control.write(GlobalVars.BestModel.control)
-    resultFilePath = os.path.join(GlobalVars.BestModel.template.homeDir, "InterimresultFile.lst")
-    with open(resultFilePath, 'w') as result:
+
+    result_file_path = os.path.join(GlobalVars.BestModel.template.homeDir, "InterimresultFile.lst")
+
+    with open(result_file_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)
 
     # elapsed = time.time() - GlobalVars.StartTime
@@ -131,16 +142,22 @@ def run_skopt(model_template: Template) -> Model:
         niter_no_change = 0
     else:
         niter_no_change += 1
+
     log.message(f'No change in fitness in {niter_no_change} iteration')
     log.message(f"total time = {(time.time() - GlobalVars.StartTime) / 60:.2f} minutes")
+
     with open(os.path.join(model_template.homeDir, "finalControlFile.mod"), 'w') as control:
         control.write(GlobalVars.BestModel.control)
-    resultFilePath = os.path.join(GlobalVars.BestModel.template.homeDir, "finalresultFile.lst")
-    with open(resultFilePath, 'w') as result:
+
+    result_file_path = os.path.join(GlobalVars.BestModel.template.homeDir, "finalresultFile.lst")
+
+    with open(result_file_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)
-    log.message(f"Final output from best model is in {resultFilePath}")
+
+    log.message(f"Final output from best model is in {result_file_path}")
     log.message(f'Best overall solution =[{GlobalVars.BestModel.model_code.IntCode}],'
                 f' Best overall fitness ={GlobalVars.BestModel.fitness:.6f} ')
+
     final_model = copy(GlobalVars.BestModel)
 
     return final_model

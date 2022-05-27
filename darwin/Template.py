@@ -6,9 +6,7 @@ import collections
 import os
 import logging
 import sys
-
 import darwin.utils as utils
-
 logger = logging.getLogger(__name__)
 
 
@@ -51,7 +49,10 @@ class Template:
 
                 # just to make it easier
                 self.homeDir = folder or self.options['homeDir']
-                self.postRunRCode = os.path.abspath(self.options['postRunRCode'])
+                if self.options['useR']:
+                    self.postRunRCode = os.path.abspath(self.options['postRunRCode'])
+                if self.options['usePython']:
+                    self.postRunRCode = os.path.abspath(self.options['postRunPythonCode'])
 
                 # remove messages file
                 if os.path.exists(os.path.join(self.homeDir, "messages.txt")):
@@ -61,11 +62,13 @@ class Template:
             else:  # can't write to homeDir if can't open options
                 self.printMessage(f"!!!!!Options file {options_file} seems to be missing")
                 failed = True
+                sys.exit()
         except Exception as error:
             self.errMsgs.append("Failed to parse JSON tokens in " + options_file)
             self.printMessage("Failed to parse JSON tokens in " + options_file)
             failed = True
-
+            sys.exit()
+            
         # if folder is not provided, then it must be set in options
         if not folder:
             _go_to_folder(self.homeDir)
@@ -76,8 +79,8 @@ class Template:
         except Exception as error:
             self.errMsgs.append("Failed to open Template file " + template_file)
             self.printMessage("Failed to open Template file " + template_file)
-            failed = True
-
+            failed = True 
+            sys.exit()
         try:
             self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
             self.printMessage(f"Tokens file found at {tokens_file}")
@@ -85,7 +88,9 @@ class Template:
             self.errMsgs.append("Failed to parse JSON tokens in " + tokens_file)
             self.printMessage("Failed to parse JSON tokens in " + tokens_file)
             failed = True
-
+        if self.options['downhill_q'] == 0 or self.options['downhill_q'] < 0 :
+            self.printMessage("downhill_q value must be > 0")
+            failed = True
         if self.options['usePython']:
             python_postrpocess_path = self.options['postRunPythonCode']
             if not os.path.isfile(python_postrpocess_path):
@@ -113,7 +118,7 @@ class Template:
         self.check_omega_search()
 
         self.control = self.controlBaseTokens = None
-        self.status = "Not initialized"
+        #self.status = "Not initialized"
         self.lastFixedTHETA = None  ## fixed THETA do not count toward penalty
         self.lastFixedETA = self.lastFixedEPS = None
         self.variableTHETAIndices = []  # for each token set does if have THETA(*) alphanumeric indices in THETA(*)
@@ -139,9 +144,9 @@ class Template:
     def printMessage(self, message):
         print(message)
         try:
-            with open(os.path.join(self.homeDir, "messages.txt"), "a") as f:
-                f.write(message + "\n")
-                f.flush()
+            with open(os.path.join(self.homeDir, "messages.txt"), "a") as msgs:
+                msgs.write(message + "\n")
+                msgs.flush()
         except:
             msg = os.path.join(self.homeDir, "message.txt")
             print(f"unable to write to {msg}")

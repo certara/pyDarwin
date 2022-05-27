@@ -253,12 +253,13 @@ def run_GA(model_template: Template) -> Model:
             best_index = _get_n_best_index(num_niches, fitnesses)
             best_individuals = []
 
-            for i in best_index:
+            model_template.printMessage(f"current best model(s) =")
+            for i in best_index:  
                 best_individuals.append(copy(models[i]))
-           
+                model_template.printMessage(f"generation {models[i].generation}, ind {models[i].modelNum}, fitness = {models[i].fitness}")
             new_models, worst_individuals = run_downhill(models)
 
-            model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
+            model_template.printMessage(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
 
             # replace worst_inds with new_inds, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
@@ -313,7 +314,7 @@ def run_GA(model_template: Template) -> Model:
         # start with standard downhill 
         # change generation of models to final
         for i in range(len(models)):
-            models[i].generation = "final"
+            models[i].generation = "FN"
 
         best_index = _get_n_best_index(num_niches, fitnesses)
 
@@ -324,8 +325,11 @@ def run_GA(model_template: Template) -> Model:
          
         new_models, worst_individuals = run_downhill(models)
 
-        for i in range(len(new_models)):
-            fitnesses[worst_individuals[i]] = new_models[i].fitness
+        for i in range(len(new_models)): 
+            if type(new_models[i].fitness) is tuple:
+                fitnesses[worst_individuals[i]] = new_models[i].fitness
+            else:
+                fitnesses[worst_individuals[i]] = (new_models[i].fitness,)
       
         best_index = _get_n_best_index(num_niches, fitnesses)
 

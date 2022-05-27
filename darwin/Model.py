@@ -603,8 +603,7 @@ class Model:
             self.get_nmtran_msgs()  # read from FMSG, in case run fails, will still have NMTRAN messages
             self.get_PRDERR()
 
-            # self.get_results_pharmpy() # only for num fixed theta, omega etc, get the rest directly from the xml file
-            if (self.ofv == None):
+            if self.ofv is None:
                 self.fitness = self.template.options['crash_value']
                 return
             else:

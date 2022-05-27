@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def _run_template(model_template: Template) -> Model: 
 
-    GlobalVars.init_global_vars(model_template.options['num_parallel'])
+    GlobalVars.init_global_vars()
     # initialize a trivial model for the global best
     null_code = ModelCode([0] * len(model_template.gene_length), "Int",
                           model_template.gene_max, model_template.gene_length) 

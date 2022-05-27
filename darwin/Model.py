@@ -1,17 +1,12 @@
-from urllib.parse import _NetlocResultMixinStr
-import numpy as np
-from ast import Global
-from cmath import nan, isnan
+from cmath import isnan
 import re
 import os
 import shutil
 import shlex
-from numpy import NaN
 import xmltodict
 import concurrent.futures
 from pharmpy.modeling import read_model   # v 0.71.0 works
 from typing import OrderedDict
-#import psutil
 from os.path import exists
 from subprocess import DEVNULL, STDOUT, Popen, PIPE
 import time
@@ -339,12 +334,11 @@ class Model:
         Presence of Rscript.exe is check in the files_present"""
 
         command = [self.template.options['RScriptPath'], self.template.postRunRCode]
-        #os.chdir(self.runDir)  # just to make sure it is reading the right data
+
         try:
-            #self.RProcess = Popen(command, stdout=PIPE, stderr=PIPE)
-            lastdir = os.curdir()
+            lastdir = os.getcwd()
             os.chdir(self.runDir)
-            p = Popen(command, stdout=PIPE, stderr=PIPE, cwd = self.runDir) 
+            p = Popen(command, stdout=PIPE, stderr=PIPE, cwd = self.runDir)
 
             # from https://gist.github.com/jerblack/a459b011903def8a9f47    
             handle = OpenProcess( c_uint( 0x0200 | 0x0400 ), c_bool( False ), c_uint( p.pid  ) )
@@ -471,7 +465,7 @@ class Model:
     def get_results_pharmpy(self):
         try:
             #os.chdir(self.runDir)
-            result = read_model(os.path.join(self.runDir,self.controlFileName))
+            result = read_model(os.path.join(self.runDir, self.controlFileName))
             # fixed thetas/omega/sigmas from parmeters.fix
             fixed_parms = result.parameters.fix 
             thetas = [value for key, value in fixed_parms.items() if 'THETA' in key.upper()]
@@ -578,20 +572,9 @@ class Model:
                 self.Condition_num_test = False
                 self.condition_num = self.template.options['crash_value']  
                 self.PRDERR += " .xml file not present, likely crash in estimation step"
-        #if exists(self.xml_file):
-        #    os.remove(self.xml_file)
+
         gc.collect()
         return()
-    
-
-
-
-
-
-
-
-
-
 
     def calc_fitness(self):
         """calculates the fitness, based on the model output, and the penalties (from the options file)

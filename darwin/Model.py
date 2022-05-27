@@ -214,37 +214,6 @@ class Model:
             return True
         except:
             return False 
-    def read_data_file_name(self):
-        try:
-            with open(self.controlFileName, "r") as f: 
-                datalines = [] 
-                for ln in f:
-                    if ln.strip().startswith("$DATA"):
-                        line = ln.strip()
-                        line = line.replace("$DATA ","").strip()
-                        #remove comments
-                        if ";" in line:
-                            pos = line.index(";")
-                            line = line[:pos]
-                        # look for quotes, single or double. if no quotes, find first white space
-                        if "\"" in line:
-                            l = line.split('"')[1::2]
-                            datalines.append(l[0].strip())
-                        elif "\'" in line:
-                            l = line.split("'")[1::2]
-                            datalines.append(l[0].strip())
-                        else: 
-                            # find first while space
-                            result = re.search('\s', line)
-                            if result is None:
-                                datalines.append(line.strip())
-                            else:
-                                datalines.append(line[:result.regs[0][0]].strip())
-                        #
-    
-            return datalines
-        except:
-            return None
     def copy_model(self):
         self.filestem = 'NM' + str(self.generation) + "_" + str(self.modelNum)
         newdir = os.path.join(self.template.homeDir, str(self.generation), str(self.modelNum))

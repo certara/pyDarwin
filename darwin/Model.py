@@ -4,16 +4,17 @@ import os
 import shutil
 import shlex
 import xmltodict
-import concurrent.futures
 from pharmpy.modeling import read_model   # v 0.71.0 works
 from typing import OrderedDict
 from os.path import exists
-from subprocess import DEVNULL, STDOUT, Popen, PIPE
+from subprocess import DEVNULL, STDOUT, TimeoutExpired, run
 import time
 import glob
 from copy import copy
 import gc
 import sys
+
+import traceback
 
 import darwin.utils as utils
 import darwin.GlobalVars as GlobalVars
@@ -22,11 +23,9 @@ from .Template import Template
 from .ModelCode import ModelCode
 from .Omega_utils import set_omega_bands, insert_omega_block
 
-platform = sys.platform
-if platform== "win32": 
-    from ctypes import windll,c_bool,c_uint 
-    SetPriorityClass    = windll.kernel32.SetPriorityClass
-    OpenProcess         = windll.kernel32.OpenProcess 
+files_checked = False
+
+
 class Model:
     """The full model, used for GA, GP, RF, GBRF and exhaustive
     inheirates the Template object"""
@@ -47,7 +46,6 @@ class Model:
         self.modelNum = model_num
         self.errMsgs = []
         self.model_code = copy(code)
-        self.RSTDOUT = self.RSTDERR = self.NMSTDOUT = self.NMSTDERR = None  # standard output and standard error from NONMEM run
         # all required representations of model are done here
         # GA -> integer,
         # integer is just copied
@@ -55,7 +53,6 @@ class Model:
         self.success = self.covariance = self.correlation = False
         self.OMEGA = self.SIGMA = None
         self.post_run_Rtext = self.post_run_Pythontext = self.NMtranMSG = self.PRDERR = ""
-        # self.Rfuture = None # hold future for running R code
         self.fitness = self.template.options['crash_value']
         self.post_run_Pythonpenalty = self.post_run_Rpenalty = self.Condition_num_test = self.condition_num = 0
         self.num_THETAs = self.num_non_fixed_THETAs = self.num_OMEGAs = self.num_non_fixed_OMEGAs = self.num_SIGMAs = self.num_non_fixed_SIGMAs = self.ofv = 0
@@ -64,19 +61,19 @@ class Model:
         self.token_Non_influential = [True] * len(
             self.template.tokens)  # does each token result in a change? does it containt a parameter, if token has a parameter, but doesn't
         # default is true, will change to false if: 1. doesn't contain parameters (in check_contains_parms) is put into control file (in utils.replaceTokens)
-        self.startTime = time.time()
         self.elapseTime = None
-        self.filestem = None
-        self.outputFileName = None
-        self.runDir = None
         self.phenotype = None
-        self.xml_file = None
         self.control = None
-        self.controlFileName = None
-        self.cltFileName = None
         self.datafile_name = None
-        self.executableFileName = None
         self.status = "Not Started"
+
+        self.file_stem = f'NM_{self.generation}_{self.modelNum}'
+        self.runDir = os.path.join(self.template.homeDir, str(self.generation), str(self.modelNum))
+        self.controlFileName = self.file_stem + ".mod"
+        self.outputFileName = self.file_stem + ".lst"
+        self.cltFileName = os.path.join(self.runDir, self.file_stem + ".clt")
+        self.xml_file = os.path.join(self.runDir, self.file_stem + ".xml")
+        self.executableFileName = self.file_stem + ".exe"  # os.path.join(self.runDir,self.filestem +".exe")
 
     def make_copy(self):
         newmodel = Model(self.template, self.model_code, self.modelNum, self.generation)
@@ -97,7 +94,7 @@ class Model:
         newmodel.jsonListRecord = copy(self.jsonListRecord)
         newmodel.NMtranMSG = copy(self.NMtranMSG)
         newmodel.errMsgs = copy(self.errMsgs)
-        newmodel.filestem = copy(self.filestem)
+        newmodel.file_stem = copy(self.file_stem)
         newmodel.outputFileName = self.outputFileName
         newmodel.num_non_fixed_THETAs = self.num_non_fixed_THETAs
         newmodel.num_THETAs = self.num_THETAs
@@ -115,107 +112,40 @@ class Model:
         newmodel.xml_file = copy(self.xml_file)
         return newmodel
 
-    def __del__(self):
-        gc.collect()
-
-    def files_present(self):
-        """is the data file specified in the control file present? """
-        # make sure control file is there:
-        count = 0
-        controlfile = os.path.join(self.runDir,self.controlFileName)
-        file_exists = exists(controlfile)
-        while not file_exists and count < 20:
-            time.sleep(0.1)
-            count += 1 
-            file_exists = exists(controlfile)
-        if not file_exists:
-            self.template.printMessage("Cannot find " + controlfile + " to check for data file")
-        else:
-            result = read_model(controlfile) # probably get rid of this? parse control file for data file without pharmpy
-            try:
-                if hasattr(result, "dataset_path"):
-                    self.dataset_path = result.dataset_path
-                else:
-                    self.dataset_path = result._read_dataset_path()
-                if not exists(self.dataset_path):
-                    self.template.printMessage(
-                        f"!!!!!Data set for FIRST MODEL {self.dataset_path} seems to be missing, exiting at {time.asctime()}")
-                    sys.exit()
-                else:
-                    self.template.printMessage(f"Data set for FIRST MODEL ONLY {self.dataset_path} was found")
-            except:
-                self.template.printMessage(f"Unable to check if data set is present with current version of NONMEM")
-
-        # check nmfe?
-        if not exists(self.template.options['nmfePath']):
-            self.template.printMessage(
-                f"NMFE path {self.template.options['nmfePath']} seems to be missing, exiting at {time.asctime()}")
-            sys.exit()
-        else:
-            self.template.printMessage(f"NMFE found at {self.template.options['nmfePath']}")
-
-        if self.template.options['useR']:
-            if not exists(self.template.options['RScriptPath']):
-                self.template.printMessage(
-                    f"RScript.exe path {self.template.options['RScriptPath']} seems to be missing, exiting at {time.asctime()}")
-                sys.exit()
-            else:
-                print(f"RScript.exe found at {self.template.options['RScriptPath']}")
-
-            if not exists(self.template.postRunRCode):
-                self.template.printMessage(
-                    f"Post Run R code path {self.template.postRunRCode} seems to be missing, exiting at {time.asctime()}")
-                sys.exit()
-            else:
-                self.template.printMessage(f"postRunRCode file found at {self.template.postRunRCode}")
-        else:
-            self.template.printMessage(
-                "Not using PostRun R code")
-        if self.template.options['usePython']: 
-            if not exists(self.template.postRunPythonCode):
-                self.template.printMessage(
-                    f"Post Run Python code path {self.template.postRunPythonCode} seems to be missing, exiting at {time.asctime()}")
-                sys.exit()
-            else:
-                self.template.printMessage(f"postRunPythonCode file found at {self.template.postRunPythonCode}")
-        else:
-            self.template.printMessage(
-                "Not using PostRun Python code")
-        return
-
-    def copy_results(self, prevResults):
+    def copy_results(self, src):
         try:
-            self.fitness = prevResults['fitness']
-            self.ofv = prevResults['ofv']
-            self.control = prevResults['control']
-            self.success = prevResults['success']
-            self.covariance = prevResults['covariance']
-            self.correlation = prevResults['correlation']
-            self.num_THETAs = prevResults['num_THETAs']
-            self.num_OMEGAs = prevResults['num_OMEGAs']
-            self.num_SIGMAs = prevResults['num_SIGMAs']
-            self.condition_num = prevResults['condition_num']
-            self.post_run_Rtext = prevResults['post_run_Rtext']
-            self.post_run_Rpenalty = prevResults['post_run_Rpenalty']
-            self.post_run_Pythontext = prevResults['post_run_Pythontext']
-            self.post_run_Pythonpenalty = prevResults['post_run_Pythontext']
-            self.NMtranMSG = prevResults['NMtranMSG']
-            self.runDir = prevResults['runDir']
-            self.controlFileName = prevResults['control_file_name'] 
-            self.outputFileName = prevResults['output_file_name']
-            self.NMtranMSG = "From saved model " + self.runDir + " " + self.controlFileName + ": "  + prevResults['NMtranMSG']  # ["","","","output from previous model"]
-            #self.status = "Done"
-             
+            self.fitness = src['fitness']
+            self.ofv = src['ofv']
+            self.control = src['control']
+            self.success = src['success']
+            self.covariance = src['covariance']
+            self.correlation = src['correlation']
+            self.num_THETAs = src['num_THETAs']
+            self.num_OMEGAs = src['num_OMEGAs']
+            self.num_SIGMAs = src['num_SIGMAs']
+            self.condition_num = src['condition_num']
+            self.post_run_Rtext = src['post_run_Rtext']
+            self.post_run_Rpenalty = src['post_run_Rpenalty']
+            self.post_run_Pythontext = src['post_run_Pythontext']
+            self.post_run_Pythonpenalty = src['post_run_Pythontext']
+            self.NMtranMSG = src['NMtranMSG']
+            self.runDir = src['runDir']
+            self.controlFileName = src['control_file_name']
+            self.outputFileName = src['output_file_name']
+            self.NMtranMSG = "From saved model " + self.runDir + " " + self.controlFileName + ": " + src['NMtranMSG']  # ["","","","output from previous model"]
+
             return True
         except:
-            return False 
+            traceback.print_exc()
+
+        return False
+
     def copy_model(self):
-        self.filestem = 'NM' + str(self.generation) + "_" + str(self.modelNum)
         newdir = os.path.join(self.template.homeDir, str(self.generation), str(self.modelNum))
         self.oldcontrolfile = self.controlFileName
         self.oldoutputfile = self.outputFileName
-        self.controlFileName = self.filestem + ".mod"
-        self.outputFileName = self.filestem + ".lst"
+        self.controlFileName = self.file_stem + ".mod"
+        self.outputFileName = self.file_stem + ".lst"
         try:
             if os.path.isfile(os.path.join(self.template.homeDir, str(self.generation))) or os.path.islink(
                     os.path.join(self.template.homeDir, str(self.generation))):
@@ -227,41 +157,36 @@ class Model:
         except:
             self.template.printMessage(f"Error removing run files/folders for {newdir}, is that file/folder open?")
 
-         
-        ## check key file, just to make sure
-
         if os.path.exists(os.path.join(newdir,self.controlFileName)):
             os.remove(os.path.join(newdir,self.controlFileName))
         if os.path.exists(os.path.join(newdir,self.outputFileName)):
             os.remove(os.path.join(newdir,self.outputFileName))
+
         # and copy
         try:
-            shutil.copyfile(os.path.join(self.runDir,self.oldoutputfile),os.path.join(newdir,self.filestem + ".lst"))
-            shutil.copyfile(os.path.join(self.runDir,self.oldcontrolfile),os.path.join(newdir,self.filestem + ".mod"))
-            with open(os.path.join(newdir,self.filestem + ".lst"),'a') as outfile:
+            shutil.copyfile(os.path.join(self.runDir,self.oldoutputfile), os.path.join(newdir, self.file_stem + ".lst"))
+            shutil.copyfile(os.path.join(self.runDir,self.oldcontrolfile), os.path.join(newdir, self.file_stem + ".mod"))
+            with open(os.path.join(newdir, self.file_stem + ".lst"), 'a') as outfile:
                 outfile.write(f"!!! Saved model, Orginally run as {self.oldcontrolfile} in {self.runDir}")
         except:
             pass
-    def start_model(self): 
-        self.filestem = 'NM' + str(self.generation) + "_" + str(self.modelNum)
-        self.runDir = os.path.join(self.template.homeDir, str(self.generation), str(self.modelNum))
-        self.controlFileName = self.filestem + ".mod"
-        self.outputFileName = self.filestem + ".lst"
-        self.cltFileName = os.path.join(self.runDir, self.filestem + ".clt")
-        self.xml_file = os.path.join(self.runDir, self.filestem + ".xml")
-        self.executableFileName = self.filestem + ".exe"  # os.path.join(self.runDir,self.filestem +".exe")
-        self.make_control()
+
+    def make_control_file(self):
+        self._make_control()
+
+        self.source = "new"
 
         # in case the new folder name is a file
         try:
             if os.path.isfile(os.path.join(self.template.homeDir, str(self.generation))) or os.path.islink(
                     os.path.join(self.template.homeDir, str(self.generation))):
                 os.unlink(os.path.join(self.template.homeDir, str(self.generation)))
+
             if os.path.isfile(self.runDir) or os.path.islink(self.runDir):
                 os.unlink(self.runDir)
+
             if not os.path.isdir(self.runDir):
                 os.makedirs(self.runDir)
-            #os.chdir(self.runDir)
         except:
             self.template.printMessage(f"Error removing run files/folders for {self.runDir}, is that file/folder open?")
 
@@ -274,53 +199,62 @@ class Model:
                     shutil.rmtree(file_path)
             except Exception as e:
                 self.template.printMessage('Failed to delete %s. Reason: %s' % (self.runDir, e))
-        ## check key file, just to make sure
 
-        if os.path.exists(os.path.join(self.runDir,self.controlFileName)):
-            os.remove(os.path.join(self.runDir,self.controlFileName))
-        if os.path.exists(os.path.join(self.runDir,self.outputFileName)):
-            os.remove(os.path.join(self.runDir,self.outputFileName))
-        with open(os.path.join(self.runDir,self.controlFileName), 'w+') as controlfile:
-            controlfile.write(self.control)
-            controlfile.flush()
+        if os.path.exists(self.controlFileName):
+            os.remove(self.controlFileName)
 
-        #if self.template.isFirstModel:
-        if GlobalVars.isFirstMModel:
-            GlobalVars.isFirstMModel = False
-            time.sleep(0.1)
-            self.files_present()  
-            self.template.printMessage("Run Directory for first model is " + self.runDir) 
-        GlobalVars.UniqueModels += 1  
-        
-        self.start = time.time()
-        command = [self.template.options['nmfePath'], os.path.join(self.runDir,self.controlFileName), os.path.join(self.runDir,self.outputFileName),
-                   " -nmexec=" + self.executableFileName, " -rundir=" + self.runDir]
-        #os.chdir(self.runDir)
-        p = Popen(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.runDir)
-        #GlobalVars.process_ids[self.slot] = p.pid 
-    # from https://gist.github.com/jerblack/a459b011903def8a9f47
-        handle = OpenProcess( c_uint( 0x0200 | 0x0400 ), c_bool( False ), c_uint(p.pid))
-        if platform == "win32": 
-            SetPriorityClass(handle, c_uint( 0x4000 ) )
-        else: # linux only ???
-            pass 
-        p.wait() 
-        # count = 0
-        # while not os.path.exists(self.xml_file) and count < 30:
-        #     time.sleep(0.05)
-        #     count += 1
-        # if os.path.exists(self.xml_file):
-        #     shutil.copyfile(self.xml_file, os.path.join(self.runDir,"save.xml"))
-        p = None
+        if os.path.exists(self.outputFileName):
+            os.remove(self.outputFileName)
+
+        with open(f"{self.runDir}/{self.controlFileName}", 'w+') as f:
+            f.write(self.control)
+            f.flush()
+
+    def run_model(self):
+        self.make_control_file()
+
+        command = [self.template.options['nmfePath'], os.path.join(self.runDir, self.controlFileName),
+                   os.path.join(self.runDir, self.outputFileName),
+                   " -nmexec=" + self.executableFileName, f'-rundir={self.runDir}']
+
+        GlobalVars.UniqueModels += 1
+
+        flags = 0x4000 if sys.platform == "win32" else 0
+
+        nm = None
+
+        try:
+            self.status = "Running_NM"
+
+            os.chdir(self.runDir)
+
+            nm = run(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.runDir, creationflags=flags,
+                     timeout=int(self.template.options['timeout_sec']))
+
+            self.status = "Done_running_NM"
+        except TimeoutExpired:
+            self.template.printMessage(f'run {self.modelNum} has timed out')
+            self.status = "NM_timed_out"
+        except:
+            pass
+
+        if nm is None or nm.returncode != 0:
+            self.template.printMessage(f'run {self.modelNum} has failed')
+            return
+
         if self.template.options['useR']:
-            self.start_post_r() 
+            self._post_run_r()
         if self.template.options['usePython']:
-            self.start_post_python()
+            self._post_run_python()
+
         self.calc_fitness()
+
+        self.status = "Done"
+
         return
 
-    def decode_r_stdout(self):
-        newval = self.RSTDOUT.decode("utf-8").replace("[1]", "").strip()
+    def _decode_r_stdout(self, r_stdout):
+        newval = r_stdout.decode("utf-8").replace("[1]", "").strip()
         # comes back a single string, need to parse by ""
         val = shlex.split(newval)
         self.post_run_Rpenalty = float(val[0])
@@ -328,74 +262,62 @@ class Model:
         Num_vals = len(val)
         self.post_run_Rtext = val[Num_vals - 1]
 
-    def start_post_r(self):
+    def _post_run_r(self):
         """Run R code specified in the file options['postRunCode'], return penalty from R code
         R is called by subprocess call to Rscript.exe. User must supply path to Rscript.exe
         Presence of Rscript.exe is check in the files_present"""
 
         command = [self.template.options['RScriptPath'], self.template.postRunRCode]
 
+        r_process = None
+
         try:
-            lastdir = os.getcwd()
-            os.chdir(self.runDir)
-            p = Popen(command, stdout=PIPE, stderr=PIPE, cwd = self.runDir)
+            self.status = "Running_post_Rcode"
 
-            # from https://gist.github.com/jerblack/a459b011903def8a9f47    
-            handle = OpenProcess( c_uint( 0x0200 | 0x0400 ), c_bool( False ), c_uint( p.pid  ) )
-            if platform == "win32": 
-                SetPriorityClass(handle, c_uint( 0x4000 ) )
-            else: # linux only ???
-                pass
-            p.wait()
+            flags = 0x4000 if sys.platform == "win32" else 0
+
+            r_process = run(command, capture_output=True, cwd=self.runDir, creationflags=flags, timeout=15)
+
+            self.status = "Done_post_Rcode"
+
+        except TimeoutExpired:
+            self.template.printMessage(f'!!! Post run R code for run {self.modelNum} has timed out')
+            self.status = "post_run_r_timed_out"
         except:
-            self.post_run_Rpenalty = self.template.options['crash_value']
-            return
-        count = 0
-        self.RSTDOUT, self.RSTDERR = p.communicate()
-        while self.RSTDOUT is None and count < 100:
-                self.RSTDOUT, self.RSTDERR = p.communicate()
-                #self.RSTDOUT, self.RSTDERR = p.communicate()
-                time.sleep(0.1)
-                count += 1
-        self.decode_r_stdout()
-        p = None
-        os.chdir(lastdir)
-        gc.collect()
+            self.template.printMessage("!!! Post run R code crashed in " + self.runDir)
+            self.status = "post_run_r_failed"
 
-        with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
-            f.write(f"Post run R code Penalty = {str(self.post_run_Rpenalty)}\n")
-            f.write(f"Post run R code text = {str(self.post_run_Rtext)}\n")
-        if count >= 99:
+        if r_process is None or r_process.returncode != 0:
             self.post_run_Rpenalty = self.template.options['crash_value']
-            self.template.printMessage("!!!Post run R code failed return a value in " + self.runDir)
-        return
 
-    def check_done_post_run_python(self):
-        if self.future.done():
-            try:
-                self.post_run_Pythonpenalty, self.post_run_Pythontext = self.template.python_postprocess()
-                self.status = "Done"
-                with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
-                    f.write(f"Post run Python code Penalty = {str(self.post_run_Pythonpenalty)}\n")
-                    f.write(f"Post run Python code text = {str(self.post_run_Pythontext)}\n")
-                return True
-            except:
-                self.post_run_Pythonpenalty = self.template.options['crash_value']
-                self.status = "Done"
-                with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
-                    print("!!!Post run Python code crashed in " + self.runDir)
-                    f.write("Post run Python code crashed\n")
-                return True
-            #finally:
-                #self.status = "Done"
+            with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
+                f.write("Post run R code failed\n")
         else:
-            return False
+            self._decode_r_stdout(r_process.stdout)
 
-    def start_post_python(self):    
-        with concurrent.futures.ThreadPoolExecutor() as executor:  # each model object has it's own future for running user defined python code
-            self.future = executor.submit(self.template.python_postprocess)
-        #self.status = "Running_post_Pythoncode"
- 
+            with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
+                f.write(f"Post run R code Penalty = {str(self.post_run_Rpenalty)}\n")
+                f.write(f"Post run R code text = {str(self.post_run_Rtext)}\n")
+
+    def _post_run_python(self):
+        try:
+            self.post_run_Pythonpenalty, self.post_run_Pythontext = self.template.python_postprocess()
+
+            with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
+                f.write(f"Post run Python code Penalty = {str(self.post_run_Pythonpenalty)}\n")
+                f.write(f"Post run Python code text = {str(self.post_run_Pythontext)}\n")
+
+            self.status = "Done_post_Python"
+
+        except:
+            self.post_run_Pythonpenalty = self.template.options['crash_value']
+
+            self.status = "post_run_python_failed"
+
+            with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
+                print("!!! Post run Python code crashed in " + self.runDir)
+                f.write("Post run Python code crashed\n")
+
     def get_nmtran_msgs(self):
         self.NMtranMSG = ""
         try:
@@ -464,9 +386,8 @@ class Model:
                         
     def get_results_pharmpy(self):
         try:
-            #os.chdir(self.runDir)
             result = read_model(os.path.join(self.runDir, self.controlFileName))
-            # fixed thetas/omega/sigmas from parmeters.fix
+            # fixed thetas/omega/sigmas from parameters.fix
             fixed_parms = result.parameters.fix 
             thetas = [value for key, value in fixed_parms.items() if 'THETA' in key.upper()]
             omegas = [value for key, value in fixed_parms.items() if 'OMEGA' in key.upper()]
@@ -481,13 +402,13 @@ class Model:
             try:
                 if isnan(model_fit.ofv):
                     self.ofv = self.condition_num = self.template.options['crash_value']  
-                    self.success =  self.covariance =  self.correlation = self.Condition_num_test = False 
+                    self.success = self.covariance = self.correlation = self.Condition_num_test = False
                 else:
                     self.ofv = model_fit.ofv 
                     self.success = model_fit.minimization_successful 
                     try:
                         if model_fit.correlation_matrix.isnull().values.any():  
-                            self.covariance =  self.correlation = self.Condition_num_test =False
+                            self.covariance = self.correlation = self.Condition_num_test =False
                             self.condition_num = self.template.options['crash_value'] 
                         else:   
                             self.covariance = True
@@ -498,25 +419,26 @@ class Model:
                                 if self.correlation == False:
                                     break
                                 for col in range(row):
-                                    if correlation_matrix[row,col] > self.template.options['correlationLimit']:
+                                    if correlation_matrix[row, col] > self.template.options['correlationLimit']:
                                         self.correlation = False
                                         break
                     except: 
-                        self.covariance =  self.correlation =  self.Condition_num_test =False
+                        self.covariance = self.correlation = self.Condition_num_test =False
                         self.condition_num = self.template.options['crash_value'] 
             
             except:
                 self.ofv = self.condition_num = self.template.options['crash_value']  
-                self.Condition_num_test = self.covariance =  self.correlation = False 
+                self.Condition_num_test = self.covariance = self.correlation = False
                 
                 
                 # need to read xml for eigenvalues, not in pharmpy output (???)
                 # xml file should have eigen values if covariance is succesfull
                 # but need to verify this 
         except:
-                self.ofv = self.condition_num = self.template.options['crash_value']  
-                self.success =  self.covariance =  self.correlation = self.Condition_num_test = False 
-        if not exists(self.xml_file): 
+            self.ofv = self.condition_num = self.template.options['crash_value']
+            self.success = self.covariance = self.correlation = self.Condition_num_test = False
+
+        if not exists(self.xml_file):
             self.Condition_num_test = False
             self.condition_num = 9999999    
             return()     
@@ -578,9 +500,8 @@ class Model:
 
     def calc_fitness(self):
         """calculates the fitness, based on the model output, and the penalties (from the options file)
-        need to look in output file for parameter at boundary and parameter non positive """
-        
-        
+        need to look in output file for parameter at boundary and parameter non-positive """
+
         try:
             self.get_results_pharmpy()
             self.get_nmtran_msgs()  # read from FMSG, in case run fails, will still have NMTRAN messages
@@ -635,7 +556,8 @@ class Model:
             self.fitness = self.template.options['crash_value']
             # save results
             # write to output 
-        with open(os.path.join(self.runDir,self.outputFileName)  ,"a") as ouputfile: 
+
+        with open(os.path.join(self.runDir,self.outputFileName)  ,"a") as ouputfile:
             ouputfile.write(f"OFV = {self.ofv}\n")
             ouputfile.write(f"success = {self.success}\n")
             ouputfile.write(f"covariance = {self.covariance}\n")
@@ -646,13 +568,12 @@ class Model:
             ouputfile.write(f"Num Non fixed SIGMAs = {self.num_non_fixed_SIGMAs}\n")
             ouputfile.write(f"Original run directory = {self.runDir}\n")
             ouputfile.flush()
-            ouputfile.close()
 
-        self.make_json_list()
+        self._make_json_list()
 
         return
 
-    def make_json_list(self):
+    def _make_json_list(self):
         """assembles what goes into the JSON file of saved models"""
         self.jsonListRecord = {"control": self.control, "fitness": self.fitness, "ofv": self.ofv,
                                "success": self.success, "covariance": self.covariance,
@@ -680,11 +601,6 @@ class Model:
             self.template.printMessage(f"called clean up for saved model, # {self.modelNum}")
             return  # ideally shouldn't be called for saved models, but just in case
 
-        # try:
-        #     os.chdir(self.template.homeDir)
-        # except OSError as e:
-        #     self.template.printMessage(f"OS Error {e} in call to cleanup")
-
         try:
             if self.template.options['remove_run_dir'] == "True" and not (self.runDir is None):
                 try:
@@ -693,52 +609,60 @@ class Model:
                 except OSError:
                     self.template.printMessage("Cannot remove folder {self.runDir} in call to cleanup")
             else:
-                if not self.filestem is None:
-                    file_to_delete = [self.filestem + ".ext",
-                                    self.filestem + ".clt",
-                                    self.filestem + ".coi",
-                                    self.filestem + ".cor",
-                                    self.filestem + ".cov",
-                                    self.filestem + ".cpu",
-                                    self.filestem + ".grd",
-                                    self.filestem + ".phi",
-                                    self.filestem + ".shm",
-                                    self.filestem + ".smt",
-                                    self.filestem + ".shk",
-                                    self.filestem + ".rmt",
-                                    self.executableFileName,
-                                    "PRSIZES.F90",
-                                    "GFCOMPILE.BAT",
-                                    "FSTREAM",
-                                    "FSUBS",
-                                    "fsubs.f90",
-                                    "FDATA",
-                                    "FCON",
-                                    "FREPORT",
-                                    "LINK.LNK",
-                                    "FSIZES"
-                                    "ifort.txt",
-                                    "nmpathlist.txt",
-                                    "nmprd4p.mod",
-                                    "PRSIZES.f90",
-                                    "INTER"]
-                    file_to_delete = file_to_delete + glob.glob('F*') + glob.glob('W*.*') + glob.glob('*.lnk')
-                    for f in file_to_delete:
-                        try:
-                            os.remove(os.path.join(self.runDir, f))
-                        except OSError:
-                            pass
-            if not self.runDir is None:
-                if os.path.isdir(os.path.join(self.runDir, "temp_dir")) :
+                file_to_delete = [
+                    "PRSIZES.F90",
+                    "GFCOMPILE.BAT",
+                    "FSTREAM",
+                    "FSUBS",
+                    "fsubs.f90",
+                    "FDATA",
+                    "FCON",
+                    "FREPORT",
+                    "LINK.LNK",
+                    "FSIZES"
+                    "ifort.txt",
+                    "nmpathlist.txt",
+                    "nmprd4p.mod",
+                    "PRSIZES.f90",
+                    "INTER"
+                ]
+
+                file_to_delete = file_to_delete + glob.glob('F*') + glob.glob('W*.*') + glob.glob('*.lnk')
+
+                if self.file_stem is not None:
+                    file_to_delete = file_to_delete + [
+                        self.file_stem + ".ext",
+                        self.file_stem + ".clt",
+                        self.file_stem + ".coi",
+                        self.file_stem + ".cor",
+                        self.file_stem + ".cov",
+                        self.file_stem + ".cpu",
+                        self.file_stem + ".grd",
+                        self.file_stem + ".phi",
+                        self.file_stem + ".shm",
+                        self.file_stem + ".smt",
+                        self.file_stem + ".shk",
+                        self.file_stem + ".rmt",
+                        self.executableFileName
+                    ]
+
+                for f in file_to_delete:
+                    try:
+                        os.remove(os.path.join(self.runDir, f))
+                    except OSError:
+                        pass
+            if self.runDir is not None:
+                if os.path.isdir(os.path.join(self.runDir, "temp_dir")):
                     shutil.rmtree(os.path.join(self.runDir, "temp_dir"))
         except OSError as e:
             self.template.printMessage(f"OS Error {e}")
 
         return
 
-    def check_contains_parms(self):
-        """ looks at a token set to see if it contains and OMEGA/SIGMA/THETA/ETA/EPS or ERR, if so it is influential. If not (
-            e.g., the token is empty) it is non-influential"""
+    def _check_contains_parms(self):
+        """ looks at a token set to see if it contains and OMEGA/SIGMA/THETA/ETA/EPS or ERR, if so it is influential.
+         If not (e.g., the token is empty) it is non-influential"""
+
         tokensetNum = 0
         for thisKey in self.template.tokens.keys():
             tokenSet = self.template.tokens.get(thisKey)[self.phenotype[thisKey]]
@@ -755,12 +679,12 @@ class Model:
             tokensetNum += 1
         return
 
-    def make_control(self):
+    def _make_control(self):
         """constructs control file from intcode
         ignore last value if self_search_omega_bands """
         # this appears to be OK with search_omega_bands
         self.phenotype = OrderedDict(zip(self.template.tokens.keys(), self.model_code.IntCode))
-        self.check_contains_parms()  # fill in whether any token in each token set contains THETA,OMEGA SIGMA
+        self._check_contains_parms()  # fill in whether any token in each token set contains THETA,OMEGA SIGMA
 
         anyFound = True  # keep looping, looking for nested tokens
         self.control = self.template.TemplateText
@@ -802,3 +726,154 @@ class Model:
             self.errMsgs.append("No tokens found")
 
         return
+
+
+def check_files_present(model):
+    global files_checked
+
+    if files_checked:
+        return
+
+    template = model.template
+
+    model.make_control_file()
+
+    cwd = os.getcwd()
+
+    os.chdir(model.runDir)
+
+    template.printMessage("Checking files in " + os.getcwd())
+
+    if not exists(model.controlFileName):
+        template.printMessage("Cannot find " + model.controlFileName + " to check for data file")
+        sys.exit()
+
+    try:
+        result = read_model(model.controlFileName)
+
+        model.dataset_path = result.datainfo.path
+
+        if not exists(model.dataset_path):
+            template.printMessage(f"!!! Data set for FIRST MODEL {model.dataset_path} seems to be missing, exiting")
+            sys.exit()
+        else:
+            template.printMessage(f"Data set for FIRST MODEL ONLY {model.dataset_path} was found")
+    except:
+        template.printMessage(f"Unable to check if data set is present with current version of NONMEM")
+        sys.exit()
+
+    os.chdir(cwd)
+
+    nmfe_path = model.template.options['nmfePath']
+
+    if not exists(nmfe_path):
+        template.printMessage(f"NMFE path {nmfe_path} seems to be missing, exiting")
+        sys.exit()
+
+    template.printMessage(f"NMFE found at {nmfe_path}")
+
+    if model.template.options['useR']:
+        rscript_path = model.template.options['RScriptPath']
+
+        if not exists(rscript_path):
+            template.printMessage(f"RScript.exe path {rscript_path} seems to be missing, exiting")
+            sys.exit()
+
+        template.printMessage(f"RScript.exe found at {rscript_path}")
+
+        if not exists(model.template.postRunRCode):
+            template.printMessage(f"Post Run R code path {model.template.postRunRCode} seems to be missing, exiting")
+            sys.exit()
+
+        template.printMessage(f"postRunRCode file found at {model.template.postRunRCode}")
+    else:
+        template.printMessage("Not using PostRun R code")
+
+    if template.options['usePython']:
+        if not exists(template.postRunPythonCode):
+            template.printMessage(
+                f"Post Run Python code path {template.postRunPythonCode} seems to be missing, exiting at {time.asctime()}")
+            sys.exit()
+        else:
+            template.printMessage(f"postRunPythonCode file found at {template.postRunPythonCode}")
+    else:
+        template.printMessage("Not using PostRun Python code")
+
+    files_checked = True
+
+
+def start_new_model(model: Model, all_models):
+    current_code = str(model.model_code.IntCode)
+
+    if current_code in all_models and model.copy_results(all_models[current_code]):
+        model.source = "saved"
+        model.copy_model()
+        model.status = "Done"
+    else:
+        model.run_model()  # current model is the general model type (not GA/DEAP model)
+
+    if model.status == "Done":
+        nmtran_msgs = model.NMtranMSG
+
+        if GlobalVars.BestModel is None or model.fitness < GlobalVars.BestModel.fitness:
+            _copy_to_best(model)
+
+        if model.source == "new":
+            model.cleanup()  # changes back to home_dir
+            # Integer code is common denominator for all, entered into dictionary with this
+            if isinstance(model.jsonListRecord, dict):
+                all_models[str(model.model_code.IntCode)] = model.jsonListRecord
+
+        if model.template.isGA:
+            step_name = "Generation"
+        else:
+            step_name = "Iteration"
+
+        if len(model.PRDERR) > 0:
+            prderr_text = " PRDERR = " + model.PRDERR
+        else:
+            prderr_text = ""
+
+        with open(os.path.join(model.template.homeDir, "results.csv"),"a") as result_file:
+            result_file.write(f"{model.runDir},{model.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
+                              f"{model.ofv},{model.success},{model.covariance},{model.correlation},{model.num_THETAs},"
+                              f"{model.num_OMEGAs},{model.num_SIGMAs},{model.condition_num},{model.post_run_Rpenalty},"
+                              f"{model.post_run_Pythonpenalty},{model.NMtranMSG}\n")
+            result_file.flush()
+
+        fitness_crashed = model.fitness == model.template.options['crash_value']
+        fitness_text = f"{model.fitness:.0f}" if fitness_crashed else f"{model.fitness:.3f}"
+
+        model.template.printMessage(
+            f"{step_name} = {model.generation}, Model {model.modelNum:5},"
+            f"\t fitness = {fitness_text}, \t NMTRANMSG = {nmtran_msgs.strip()},{prderr_text}"
+        )
+
+
+def _copy_to_best(current_model: Model):
+    """copies current model to the global best model"""
+
+    GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
+    GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
+    GlobalVars.BestModel.fitness = current_model.fitness
+    GlobalVars.BestModel.control = current_model.control
+    GlobalVars.BestModel.generation = current_model.generation
+    GlobalVars.BestModel.modelNum = current_model.modelNum
+    GlobalVars.BestModel.model_code = copy(current_model.model_code)
+    GlobalVars.BestModel.ofv = current_model.ofv
+    GlobalVars.BestModel.success = current_model.success
+    GlobalVars.BestModel.covariance = current_model.covariance
+    GlobalVars.BestModel.num_THETAs = current_model.num_THETAs
+    GlobalVars.BestModel.OMEGA = current_model.OMEGA
+    GlobalVars.BestModel.SIGMA = current_model.SIGMA
+    GlobalVars.BestModel.num_OMEGAs = current_model.num_OMEGAs
+    GlobalVars.BestModel.num_SIGMAs = current_model.num_SIGMAs
+    GlobalVars.BestModel.correlation = current_model.correlation
+    GlobalVars.BestModel.condition_num = current_model.condition_num
+    GlobalVars.BestModel.Condition_num_test = current_model.Condition_num_test
+
+    if current_model.source == "new":
+        with open(os.path.join(current_model.runDir, current_model.outputFileName)) as file:
+            GlobalVars.BestModelOutput = file.read()  # only save best model, other models can be reproduced if needed
+
+    return

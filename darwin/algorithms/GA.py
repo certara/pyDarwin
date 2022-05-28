@@ -355,14 +355,12 @@ def run_ga(model_template: Template) -> Model:
     log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
                 f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
 
-    with open(os.path.join(model_template.homeDir, "FinalControlFile.mod"), 'w') as control:
+    with open(GlobalVars.FinalControlFile, 'w') as control:
         control.write(final_model.control)
 
-    result_file_path = os.path.join(model_template.homeDir, "FinalResultFile.lst")
-
-    with open(result_file_path, 'w') as result:
+    with open(GlobalVars.FinalResultFile, 'w') as result:
         result.write(GlobalVars.BestModelOutput)
 
-    log.message(f"Final out from best model is in {result_file_path}")
+    log.message(f"Final out from best model is in {GlobalVars.FinalResultFile}")
 
     return final_model

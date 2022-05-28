@@ -1,5 +1,4 @@
 import time
-import os
 import numpy as np
 
 import darwin.GlobalVars as GlobalVars
@@ -47,7 +46,6 @@ def run_exhaustive(model_template):
     init_model_list(model_template)
 
     fitnesses = []
-    models = []
     best_fitness = model_template.options['crash_value']
     best_model = None
 
@@ -78,15 +76,13 @@ def run_exhaustive(model_template):
     if best_model:
         log.message(f"Best overall fitness = {best_fitness:4f}, model {best_model.modelNum}")
 
-        with open(os.path.join(model_template.homeDir, "finalControlFile.mod"), 'w') as control:
+        with open(GlobalVars.FinalControlFile, 'w') as control:
             control.write(best_model.control)
 
-    result_file_path = os.path.join(model_template.homeDir, "finalresultFile.lst")
-
-    with open(result_file_path, 'w') as result:
+    with open(GlobalVars.FinalResultFile, 'w') as result:
         result.write(GlobalVars.BestModelOutput)
 
-    log.message(f"Final output from best model is in {result_file_path}")
+    log.message(f"Final output from best model is in {GlobalVars.FinalResultFile}")
     log.message(f"Unique model list in  {GlobalVars.SavedModelsFile}") 
 
     return best_model

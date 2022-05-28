@@ -111,23 +111,30 @@ def run_skopt(model_template: Template) -> Model:
             # need max values to convert int to bits
     with open(os.path.join(model_template.homeDir,"InterimControlFile.mod"),'w') as control:
         control.write(GlobalVars.BestModel.control)
-    resultFilePath = os.path.join(GlobalVars.BestModel.template.homeDir,"InterimresultFile.lst")
-    with open(resultFilePath,'w') as result:
+
+    resultFilePath = os.path.join(GlobalVars.BestModel.template.homeDir, "InterimresultFile.lst")
+
+    with open(resultFilePath, 'w') as result:
         result.write(GlobalVars.BestModelOutput)
-    #elapsed = time.time() - GlobalVars.StartTime 
+
     if niter_no_change > GlobalVars.BestModel.fitness:
-        last_best_fitness = GlobalVars.BestModel.fitness
         niter_no_change = 0
     else:
         niter_no_change += 1
+
     log.message(f'No change in fitness in {niter_no_change} iteration')
     log.message(f"total time = {(time.time() - GlobalVars.StartTime)/60:.2f} minutes")
-    with open(os.path.join(model_template.homeDir,"finalControlFile.mod"),'w') as control:
+
+    with open(GlobalVars.FinalControlFile, 'w') as control:
         control.write(GlobalVars.BestModel.control)
-    resultFilePath = os.path.join(GlobalVars.BestModel.template.homeDir,"finalresultFile.lst")
-    with open(resultFilePath,'w') as result:
+
+    with open(GlobalVars.FinalResultFile, 'w') as result:
         result.write(GlobalVars.BestModelOutput)
-    log.message(f"Final outout from best model is in {resultFilePath}") 
-    log.message(f'Best overall solution =[{GlobalVars.BestModel.model_code.IntCode}], Best overall fitness ={GlobalVars.BestModel.fitness:.6f} ') 
+
+    log.message(f"Final output from best model is in {GlobalVars.FinalResultFile}")
+    log.message(f'Best overall solution =[{GlobalVars.BestModel.model_code.IntCode}],'
+                f' Best overall fitness ={GlobalVars.BestModel.fitness:.6f} ')
+
     final_model = copy(GlobalVars.BestModel)
-    return  final_model 
+
+    return final_model

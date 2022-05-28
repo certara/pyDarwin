@@ -839,7 +839,7 @@ def start_new_model(model: Model, all_models):
         else:
             prderr_text = ""
 
-        with open(os.path.join(model.template.homeDir, "results.csv"),"a") as result_file:
+        with open(GlobalVars.output, "a") as result_file:
             result_file.write(f"{model.runDir},{model.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
                               f"{model.ofv},{model.success},{model.covariance},{model.correlation},{model.num_THETAs},"
                               f"{model.num_OMEGAs},{model.num_SIGMAs},{model.condition_num},{model.post_run_Rpenalty},"

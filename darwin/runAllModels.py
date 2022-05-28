@@ -12,79 +12,54 @@ from darwin.Log import log
 from .Template import Template
 from .Model import Model, check_files_present, start_new_model
 
+ALL_MODELS_FILE = "models.json"
+
 all_models = dict()
 
 
-def init_model_list(model_template: Template):
+def init_model_list(template: Template):
     """Initializes model from template. Need Options first"""
 
     global all_models
 
-    results_file = os.path.join(model_template.homeDir, "results.csv")
+    all_models = dict()
+
+    default_models_file = os.path.join(template.homeDir, ALL_MODELS_FILE)
+
+    GlobalVars.SavedModelsFile = default_models_file
+
+    results_file = GlobalVars.output
 
     if os.path.exists(results_file):
-        try:
-            os.remove(results_file)
-        except OSError:
-            pass
+        os.remove(results_file)
+
+    if os.path.exists(default_models_file):
+        os.remove(default_models_file)
 
     with open(results_file, "w") as resultsfile:
         resultsfile.write(f"Run Directory,Fitness,Model,ofv,success,covar,correlation #,"
                           f"ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages\n")
         log.message(f"Writing intermediate output to {results_file}")
 
-    if "usePreviousModelsList" in model_template.options.keys():
-        if model_template.options['usePreviousModelsList']:
-            try:
-                models_list = Path(model_template.options['PreviousModelsList'])
-                if models_list.name.lower() == "none":
-                    # remove default file name if no model specified and set name to default
-                    if os.path.exists(os.path.join(model_template.homeDir, "allmodels.json")):
-                        os.remove(os.path.join(model_template.homeDir, "allmodels.json"))
-                    GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir, "allmodels.json")
-                else:
-                    if models_list.is_file() and not models_list.name.lower() == "none":
-                        with open(models_list) as json_file:
-                            all_models = json.load(json_file)
-                            GlobalVars.SavedModelsFile = model_template.options['PreviousModelsList']
-                            log.message(f"Using Saved model list from  {GlobalVars.SavedModelsFile}")
-                    else:
-                        log.message(f"Cannot find {models_list}, setting models list to empty")
-                        GlobalVars.SavedModelsFile = model_template.options['PreviousModelsList']
+    prev_list = template.options.get('PreviousModelsList', 'none')
 
-                        all_models = dict()
-            except:
-                log.message(f"Cannot read {model_template.options['input_model_json']}, setting models list to empty")
-                log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
+    if template.options.get("usePreviousModelsList", False) and prev_list.lower() != 'none':
+        try:
+            models_list = Path(prev_list)
 
-                GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir, "allmodels.json")
+            if models_list.is_file():
+                with open(models_list) as json_file:
+                    all_models = json.load(json_file)
 
-                all_models = dict()
-           
-            return
-        else:
-            all_models = dict()
+                    log.message(f"Using Saved model list from {models_list}")
 
-            if "PreviousModelsList" in model_template.options:
-                if not model_template.options['PreviousModelsList'].lower() == "none":
-                    GlobalVars.SavedModelsFile = model_template.options['PreviousModelsList']
-
-                else:
-                    GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir, "allmodels.json")
+                    GlobalVars.SavedModelsFile = models_list
             else:
-                GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir, "allmodels.json")
-                # delete the model if it is there
+                log.error(f"Cannot find {models_list}, setting models list to empty")
+        except:
+            log.error(f"Cannot read {prev_list}, setting models list to empty")
 
-            if os.path.exists(GlobalVars.SavedModelsFile):
-                os.remove(GlobalVars.SavedModelsFile)
-
-        log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
-    else:
-        GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir, "allmodels.json")
-
-        # delete the model if it is there
-        if os.path.exists(GlobalVars.SavedModelsFile):
-            os.remove(GlobalVars.SavedModelsFile)
+    log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
 
 
 def _start_model_wrapper(model: Model):
@@ -120,17 +95,16 @@ def run_all(models):
 
     _process_models(models, num_parallel)
 
-    with open(os.path.join(models[0].template.homeDir, "allmodels.json"), 'w', encoding='utf-8') as f:
+    with open(GlobalVars.SavedModelsFile, 'w', encoding='utf-8') as f:
         json.dump(all_models, f, indent=4, sort_keys=True, ensure_ascii=False)
 
     # write best model to output
     try:
-        with open(os.path.join(models[0].template.homeDir, "InterimBestControl.mod"), 'w') as f:
+        with open(os.path.join(template.homeDir, "InterimBestControl.mod"), 'w') as f:
             f.write(GlobalVars.BestModel.control)
-        with open(os.path.join(models[0].template.homeDir, "InterimBestOutput.mod"), 'w') as f:
+        with open(os.path.join(template.homeDir, "InterimBestOutput.mod"), 'w') as f:
             f.write(GlobalVars.BestModelOutput)
     except:
-        pass
+        traceback.print_exc()
 
     return
-

@@ -1,30 +1,23 @@
-import gc 
 import time
+import os
 
-output = None  # file for results.csv, opened and closed in main.RunSearch
+output = None
 BestModel = None
 TotalModels = 0  # whether run or found in json
-UniqueModels = 0  # anything not found in allmodels.json nor already run
+UniqueModels = 0  # anything not found in models.json nor already run
 UniqueModelsToBest = 0
 TimeToBest = 0
 BestModelOutput = "No output yet"
 StartTime = 0
 SavedModelsFile = ''
-isFirstMModel = True
 
 
-def init_global_vars():
+def init_global_vars(home_dir: str):
     global StartTime
-    global output
     global TimeToBest
+    global output
     global BestModelOutput
-    global SavedModelsFile
-    global isFirstMModel
     StartTime = time.time()
-    output = None  # file for results.csv, opened and closed in main.RunSearch
     TimeToBest = 0
+    output = os.path.join(home_dir, "results.csv")
     BestModelOutput = "No output yet"
-    SavedModelsFile = ''
-
-    gc.collect()
-      

@@ -51,36 +51,43 @@ class Template:
                     self.postRunRCode = os.path.abspath(self.options['postRunRCode'])
                 if self.options['usePython']:
                     self.postRunPythonCode = os.path.abspath(self.options['postRunPythonCode'])
-
-                # remove messages file
-                if os.path.exists(os.path.join(self.homeDir, "messages.txt")):
-                    os.remove(os.path.join(self.homeDir, "messages.txt"))
             else:  # can't write to homeDir if can't open options
                 log.error(f"Options file {options_file} seems to be missing")
                 sys.exit()
         except Exception as error:
-            log.error(f"Failed to parse JSON tokens in {options_file}, exiting")
+            log.error(str(error))
+            log.error(f"Failed to parse JSON options in {options_file}, exiting")
             sys.exit()
             
         # if folder is not provided, then it must be set in options
         if not folder:
             _go_to_folder(self.homeDir)
 
-        log.initialize(os.path.join(self.homeDir, "messages.txt"))
+        log_file = os.path.join(self.homeDir, "messages.txt")
+
+        # remove messages file
+        if os.path.exists(log_file):
+            os.remove(log_file)
+
+        log.initialize(log_file)
 
         log.message(f"Options file found at {options_file}")
 
         try:  # should this be absolute path or path from homeDir??
             self.TemplateText = open(template_file, 'r').read()
+
             log.message(f"Template file found at {template_file}")
         except Exception as error:
+            log.error(str(error))
             log.error("Failed to open Template file " + template_file)
             sys.exit()
 
         try:
             self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
+
             log.message(f"Tokens file found at {tokens_file}")
         except Exception as error:
+            log.error(str(error))
             log.error("Failed to parse JSON tokens in " + tokens_file)
             failed = True
 

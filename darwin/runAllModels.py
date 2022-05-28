@@ -1,15 +1,13 @@
-import gc 
 import json
 import os
-from copy import copy
 from pathlib import Path
-import threading
-from time import sleep, time
 
 from multiprocessing.dummy import Pool as ThreadPool
 import traceback
 
 import darwin.GlobalVars as GlobalVars
+
+from darwin.Log import log
 
 from .Template import Template
 from .Model import Model, check_files_present, start_new_model
@@ -33,7 +31,7 @@ def init_model_list(model_template: Template):
     with open(results_file, "w") as resultsfile:
         resultsfile.write(f"Run Directory,Fitness,Model,ofv,success,covar,correlation #,"
                           f"ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages\n")
-        model_template.printMessage(f"Writing intermediate output to {results_file}")
+        log.message(f"Writing intermediate output to {results_file}")
 
     if "usePreviousModelsList" in model_template.options.keys():
         if model_template.options['usePreviousModelsList']:
@@ -49,15 +47,15 @@ def init_model_list(model_template: Template):
                         with open(models_list) as json_file:
                             all_models = json.load(json_file)
                             GlobalVars.SavedModelsFile = model_template.options['PreviousModelsList']
-                            model_template.printMessage(f"Using Saved model list from  {GlobalVars.SavedModelsFile}")
+                            log.message(f"Using Saved model list from  {GlobalVars.SavedModelsFile}")
                     else:
-                        model_template.printMessage(f"Cannot find {models_list}, setting models list to empty")
+                        log.message(f"Cannot find {models_list}, setting models list to empty")
                         GlobalVars.SavedModelsFile = model_template.options['PreviousModelsList']
 
                         all_models = dict()
             except:
-                model_template.printMessage(f"Cannot read {model_template.options['input_model_json']}, setting models list to empty")
-                model_template.printMessage(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
+                log.message(f"Cannot read {model_template.options['input_model_json']}, setting models list to empty")
+                log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
 
                 GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir, "allmodels.json")
 
@@ -80,7 +78,7 @@ def init_model_list(model_template: Template):
             if os.path.exists(GlobalVars.SavedModelsFile):
                 os.remove(GlobalVars.SavedModelsFile)
 
-        model_template.printMessage(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
+        log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
     else:
         GlobalVars.SavedModelsFile = os.path.join(model_template.homeDir, "allmodels.json")
 

@@ -3,6 +3,8 @@ from copy import copy
 import heapq
 from scipy.spatial import distance_matrix
 
+from darwin.Log import log
+
 from .Model import Model
 from .runAllModels import run_all
 from .ModelCode import ModelCode
@@ -80,7 +82,7 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
                 niches_this_loop += 1
                 # only need to identify niches so we can do downhill on the best in each niche
                 cur_ind = copy(best_MinBinary[this_niche]) #just code, no fitness
-                pop[0].template.printMessage(f"code for niche (minimal binary) {this_niche} = {cur_ind}, fitness = {best_fitnesses[this_niche]}")
+                log.message(f"code for niche (minimal binary) {this_niche} = {cur_ind}, fitness = {best_fitnesses[this_niche]}")
                 # will always be minimal binary at this point
                 for this_bit in range(len(cur_ind)):
                     which_niche.append(this_niche)
@@ -91,7 +93,7 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
                     # and run test_ind
                 # and run all of them
         #global model_num
-        model_num = 0 # global, incremented in eval, should be a better way to do this? 
+        model_num = 0 # global, incremented in eval, should be a better way to do this?
  
         ## need to create models
         Models = []  
@@ -101,8 +103,9 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths)
             Models.append(Model(pop[0].template, code, model_num,
                                 generation=str(pop[0].generation) + "D" + str(this_step)))
-        if len(Models)> 0:
-            pop[0].template.printMessage(f"Starting downhill step {this_step}, total of {len(Models)} in {niches_this_loop} niches to be run.")
+        if len(Models) > 0:
+            log.message(f"Starting downhill step {this_step},"
+                        f" total of {len(Models)} in {niches_this_loop} niches to be run.")
  
             run_all(Models)
             # check, for each niche, if any in the fitnesses is better, if so, that become the source for the next round
@@ -133,8 +136,11 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
         best_model_index = heapq.nsmallest(1, range(len(best_fitnesses)), best_fitnesses.__getitem__)[0]
         model_for_search = copy(best_Models_in_niches[best_model_index])  
         Last_Best_fitness = model_for_search.fitness
-        pop[0].template.printMessage(f"Begin local exhaustive search, search radius = {pop[0].template.options['niche_radius']}, generation = {generation},step = {this_step}")
-        pop[0].template.printMessage(f"Model for local exhaustive search = {model_for_search.generation}, phenotype = {model_for_search.phenotype} model Num = {model_for_search.modelNum}, fitness = {model_for_search.fitness}")
+        log.message(f"Begin local exhaustive search, search radius = {pop[0].template.options['niche_radius']},"
+                    f" generation = {generation},step = {this_step}")
+        log.message(f"Model for local exhaustive search = {model_for_search.generation},"
+                    f" phenotype = {model_for_search.phenotype} model Num = {model_for_search.modelNum},"
+                    f" fitness = {model_for_search.fitness}")
         model_for_search = FullSearch(model_for_search,saved_generation,(this_step-1))
         ## fitness should already be added to allresults here, gets added by fullsearch after call to runallGA
         # and only use the fullbest  
@@ -189,7 +195,9 @@ def ChangeEachBit(sourcemodels:list,radius: int): ## only need upper triangle, a
             new_model[this_bit] = 1 - new_model[this_bit]
             #new_model.fitness.values = model_template.options['crash_value'], # don't really need this
             models.append(copy(new_model))
-    print(f"{len(models)} models in local exhaustive search, {radius -1} bits")
+
+    log.message(f"{len(models)} models in local exhaustive search, {radius -1} bits")
+
     return models, radius
 
 

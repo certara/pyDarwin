@@ -19,6 +19,8 @@ import traceback
 import darwin.utils as utils
 import darwin.GlobalVars as GlobalVars
 
+from darwin.Log import log
+
 from .Template import Template
 from .ModelCode import ModelCode
 from .Omega_utils import set_omega_bands, insert_omega_block
@@ -155,7 +157,7 @@ class Model:
             if not os.path.isdir(newdir):
                 os.makedirs(newdir) 
         except:
-            self.template.printMessage(f"Error removing run files/folders for {newdir}, is that file/folder open?")
+            log.error(f"Error removing run files/folders for {newdir}, is that file/folder open?")
 
         if os.path.exists(os.path.join(newdir,self.controlFileName)):
             os.remove(os.path.join(newdir,self.controlFileName))
@@ -188,7 +190,7 @@ class Model:
             if not os.path.isdir(self.runDir):
                 os.makedirs(self.runDir)
         except:
-            self.template.printMessage(f"Error removing run files/folders for {self.runDir}, is that file/folder open?")
+            log.error(f"Error removing run files/folders for {self.runDir}, is that file/folder open?")
 
         for filename in os.listdir(self.runDir):
             file_path = os.path.join(self.runDir, filename)
@@ -198,7 +200,7 @@ class Model:
                 elif os.path.isdir(file_path):
                     shutil.rmtree(file_path)
             except Exception as e:
-                self.template.printMessage('Failed to delete %s. Reason: %s' % (self.runDir, e))
+                log.error('Failed to delete %s. Reason: %s' % (self.runDir, e))
 
         if os.path.exists(self.controlFileName):
             os.remove(self.controlFileName)
@@ -233,13 +235,13 @@ class Model:
 
             self.status = "Done_running_NM"
         except TimeoutExpired:
-            self.template.printMessage(f'run {self.modelNum} has timed out')
+            log.error(f'run {self.modelNum} has timed out')
             self.status = "NM_timed_out"
         except:
             pass
 
         if nm is None or nm.returncode != 0:
-            self.template.printMessage(f'run {self.modelNum} has failed')
+            log.error(f'run {self.modelNum} has failed')
             return
 
         if self.template.options['useR']:
@@ -281,10 +283,10 @@ class Model:
             self.status = "Done_post_Rcode"
 
         except TimeoutExpired:
-            self.template.printMessage(f'!!! Post run R code for run {self.modelNum} has timed out')
+            log.error(f'Post run R code for run {self.modelNum} has timed out')
             self.status = "post_run_r_timed_out"
         except:
-            self.template.printMessage("!!! Post run R code crashed in " + self.runDir)
+            log.error("Post run R code crashed in " + self.runDir)
             self.status = "post_run_r_failed"
 
         if r_process is None or r_process.returncode != 0:
@@ -315,7 +317,7 @@ class Model:
             self.status = "post_run_python_failed"
 
             with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
-                print("!!! Post run Python code crashed in " + self.runDir)
+                log.error("Post run Python code crashed in " + self.runDir)
                 f.write("Post run Python code crashed\n")
 
     def get_nmtran_msgs(self):
@@ -353,8 +355,7 @@ class Model:
                             full_error_text = msg[startline:]
                             for error_line in full_error_text:
                                 error_text = error_text + ", " + error_line
-                            self.template.printMessage(
-                                "!!!ERROR in Model " + str(self.modelNum) + ", " + error_text + "!!!")
+                            log.error("ERROR in Model " + str(self.modelNum) + ": " + error_text)
                             self.NMtranMSG += error_text
                             break
                         else:
@@ -448,14 +449,15 @@ class Model:
                     data_dict = xmltodict.parse(xml_file.read()) 
                     if self.template.version is None:
                         self.template.version = data_dict['nm:output']['nm:nonmem']['@nm:version'] # string
-                        print("NONMEM version = " + self.template.version)
+                        log.message("NONMEM version = " + self.template.version)
                         # keep first two digits
                         dots = [_.start() for _ in re.finditer("\.", self.template.version)] 
                         # and get the first two
                         majorversion = float(self.template.version[:dots[1]]) # float
                         if majorversion < 7.4 or majorversion > 7.5:
-                            print("NONMEM is version " + self.template.version  + ", Code requires NONMEM 7.4 or 7.5, exiting")
-                            quit() 
+                            log.error(f"NONMEM is version {self.template.version},"
+                                      f" Code requires NONMEM 7.4 or 7.5, exiting")
+                            sys.exit()
                        
                 #if 0 in problem_dict: # more than one problem, e.g. with simulation
                 # it seems that if there is only one problem, this is orderedDict
@@ -598,7 +600,7 @@ class Model:
         no argument, no return value """
          
         if self.source == "saved":
-            self.template.printMessage(f"called clean up for saved model, # {self.modelNum}")
+            log.message(f"called clean up for saved model, # {self.modelNum}")
             return  # ideally shouldn't be called for saved models, but just in case
 
         try:
@@ -607,7 +609,7 @@ class Model:
                     if os.path.isdir(self.runDir):
                         shutil.rmtree(self.runDir)
                 except OSError:
-                    self.template.printMessage("Cannot remove folder {self.runDir} in call to cleanup")
+                    log.error(f"Cannot remove folder {self.runDir} in call to cleanup")
             else:
                 file_to_delete = [
                     "PRSIZES.F90",
@@ -655,7 +657,7 @@ class Model:
                 if os.path.isdir(os.path.join(self.runDir, "temp_dir")):
                     shutil.rmtree(os.path.join(self.runDir, "temp_dir"))
         except OSError as e:
-            self.template.printMessage(f"OS Error {e}")
+            log.error(f"OS Error {e}")
 
         return
 
@@ -696,9 +698,9 @@ class Model:
             token_found = token_found or anyFound
 
         if anyFound:
-            self.template.printMessage(
-                "It appears that there is more than one level of nested tokens, only one level is supported, exiting")
-            raise RuntimeError("Is there more than 1 level of nested tokens??")
+            log.error("It appears that there is more than one level of nested tokens."
+                      " Only one level is supported, exiting")
+            raise RuntimeError("Is there more than 1 level of nested tokens?")
 
         self.control = utils.matchTHETAs(self.control, self.template.tokens, self.template.varTHETABlock,
                                          self.phenotype, self.template.lastFixedTHETA)
@@ -714,16 +716,20 @@ class Model:
             self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; code \n ;; " + str(
                 self.model_code.IntCode) + \
                             "\n;; Num Non influential tokens = " + str(self.token_Non_influential)
+
         # add band OMEGA
         if self.template.search_omega_band:
-            ## bandwidth must be last gene
+            # bandwidth must be last gene
             bandwidth = self.model_code.IntCode[-1]
             omega_block, self.template.search_omega_band = set_omega_bands(self.control, bandwidth)
+
             if self.template.search_omega_band:
                 self.control = insert_omega_block(self.control, omega_block)
-        if not (token_found):
-            self.template.printMessage("No tokens found, exiting")
+
+        if not token_found:
+            log.error("No tokens found, exiting")
             self.errMsgs.append("No tokens found")
+            raise RuntimeError("No tokens found")
 
         return
 
@@ -742,10 +748,10 @@ def check_files_present(model):
 
     os.chdir(model.runDir)
 
-    template.printMessage("Checking files in " + os.getcwd())
+    log.message("Checking files in " + os.getcwd())
 
     if not exists(model.controlFileName):
-        template.printMessage("Cannot find " + model.controlFileName + " to check for data file")
+        log.error("Cannot find " + model.controlFileName + " to check for data file")
         sys.exit()
 
     try:
@@ -754,12 +760,12 @@ def check_files_present(model):
         model.dataset_path = result.datainfo.path
 
         if not exists(model.dataset_path):
-            template.printMessage(f"!!! Data set for FIRST MODEL {model.dataset_path} seems to be missing, exiting")
+            log.error(f"Data set for FIRST MODEL {model.dataset_path} seems to be missing, exiting")
             sys.exit()
         else:
-            template.printMessage(f"Data set for FIRST MODEL ONLY {model.dataset_path} was found")
+            log.message(f"Data set for FIRST MODEL ONLY {model.dataset_path} was found")
     except:
-        template.printMessage(f"Unable to check if data set is present with current version of NONMEM")
+        log.error(f"Unable to check if data set is present with current version of NONMEM")
         sys.exit()
 
     os.chdir(cwd)
@@ -767,37 +773,36 @@ def check_files_present(model):
     nmfe_path = model.template.options['nmfePath']
 
     if not exists(nmfe_path):
-        template.printMessage(f"NMFE path {nmfe_path} seems to be missing, exiting")
+        log.error(f"NMFE path {nmfe_path} seems to be missing, exiting")
         sys.exit()
 
-    template.printMessage(f"NMFE found at {nmfe_path}")
+    log.message(f"NMFE found at {nmfe_path}")
 
     if model.template.options['useR']:
         rscript_path = model.template.options['RScriptPath']
 
         if not exists(rscript_path):
-            template.printMessage(f"RScript.exe path {rscript_path} seems to be missing, exiting")
+            log.error(f"RScript.exe path {rscript_path} seems to be missing, exiting")
             sys.exit()
 
-        template.printMessage(f"RScript.exe found at {rscript_path}")
+        log.message(f"RScript.exe found at {rscript_path}")
 
         if not exists(model.template.postRunRCode):
-            template.printMessage(f"Post Run R code path {model.template.postRunRCode} seems to be missing, exiting")
+            log.error(f"Post Run R code path {model.template.postRunRCode} seems to be missing, exiting")
             sys.exit()
 
-        template.printMessage(f"postRunRCode file found at {model.template.postRunRCode}")
+        log.message(f"postRunRCode file found at {model.template.postRunRCode}")
     else:
-        template.printMessage("Not using PostRun R code")
+        log.message("Not using PostRun R code")
 
     if template.options['usePython']:
         if not exists(template.postRunPythonCode):
-            template.printMessage(
-                f"Post Run Python code path {template.postRunPythonCode} seems to be missing, exiting at {time.asctime()}")
+            log.error(f"Post Run Python code path {template.postRunPythonCode} seems to be missing, exiting")
             sys.exit()
         else:
-            template.printMessage(f"postRunPythonCode file found at {template.postRunPythonCode}")
+            log.message(f"postRunPythonCode file found at {template.postRunPythonCode}")
     else:
-        template.printMessage("Not using PostRun Python code")
+        log.message("Not using PostRun Python code")
 
     files_checked = True
 
@@ -844,7 +849,7 @@ def start_new_model(model: Model, all_models):
         fitness_crashed = model.fitness == model.template.options['crash_value']
         fitness_text = f"{model.fitness:.0f}" if fitness_crashed else f"{model.fitness:.3f}"
 
-        model.template.printMessage(
+        log.message(
             f"{step_name} = {model.generation}, Model {model.modelNum:5},"
             f"\t fitness = {fitness_text}, \t NMTRANMSG = {nmtran_msgs.strip()},{prderr_text}"
         )

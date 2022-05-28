@@ -1,13 +1,14 @@
+import os
+import sys
 import re
 import json
 import math
 from sympy import false
 import collections
-import os
-import logging
-import sys
+
 import darwin.utils as utils
-logger = logging.getLogger(__name__)
+
+from darwin.Log import log
 
 
 def _import_postprocessing(path: str):
@@ -24,7 +25,7 @@ def _go_to_folder(folder: str):
         if not os.path.isdir(folder):
             os.mkdir(folder)
 
-        print("Changing directory to " + folder)
+        log.message("Changing directory to " + folder)
         os.chdir(folder)
 
 
@@ -34,9 +35,6 @@ class Template:
         Template contains all the results of the template file and the tokens, and the options
         Tokens are parsed to define the search space. The Template object is inherited by the model object
         """
-        self.isFirstModel = True
-        self.errMsgs = []
-        self.warnings = []
         failed = False
         self.homeDir = '<NONE>'
 
@@ -57,66 +55,62 @@ class Template:
                 # remove messages file
                 if os.path.exists(os.path.join(self.homeDir, "messages.txt")):
                     os.remove(os.path.join(self.homeDir, "messages.txt"))
-
-                self.printMessage(f"Options file found at {options_file}")
             else:  # can't write to homeDir if can't open options
-                self.printMessage(f"!!!!!Options file {options_file} seems to be missing")
+                log.error(f"Options file {options_file} seems to be missing")
                 sys.exit()
         except Exception as error:
-            self.errMsgs.append("Failed to parse JSON tokens in " + options_file)
-            self.printMessage("Failed to parse JSON tokens in " + options_file)
+            log.error(f"Failed to parse JSON tokens in {options_file}, exiting")
             sys.exit()
             
         # if folder is not provided, then it must be set in options
         if not folder:
             _go_to_folder(self.homeDir)
 
+        log.initialize(os.path.join(self.homeDir, "messages.txt"))
+
+        log.message(f"Options file found at {options_file}")
+
         try:  # should this be absolute path or path from homeDir??
             self.TemplateText = open(template_file, 'r').read()
-            self.printMessage(f"Template file found at {template_file}")
+            log.message(f"Template file found at {template_file}")
         except Exception as error:
-            self.errMsgs.append("Failed to open Template file " + template_file)
-            self.printMessage("Failed to open Template file " + template_file)
-            failed = True 
+            log.error("Failed to open Template file " + template_file)
             sys.exit()
+
         try:
             self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
-            self.printMessage(f"Tokens file found at {tokens_file}")
+            log.message(f"Tokens file found at {tokens_file}")
         except Exception as error:
-            self.errMsgs.append("Failed to parse JSON tokens in " + tokens_file)
-            self.printMessage("Failed to parse JSON tokens in " + tokens_file)
+            log.error("Failed to parse JSON tokens in " + tokens_file)
             failed = True
+
         if self.options['downhill_q'] == 0 or self.options['downhill_q'] < 0 :
-            self.printMessage("downhill_q value must be > 0")
+            log.error("downhill_q value must be > 0")
             failed = True
+
         if self.options['usePython']:
             python_postrpocess_path = self.options['postRunPythonCode']
             if not os.path.isfile(python_postrpocess_path):
-                self.printMessage("!!!!!postRunPythonCode " + python_postrpocess_path + " was not found")
+                log.error("postRunPythonCode " + python_postrpocess_path + " was not found")
                 failed = True
             else:
-                self.printMessage("postRunPythonCode " + python_postrpocess_path + " found")
+                log.message("postRunPythonCode " + python_postrpocess_path + " found")
                 self.python_postprocess = _import_postprocessing(self.options['postRunPythonCode'])
 
         if failed:
-            self.printMessage("Error in required file found, exiting")
+            log.error("Error in required file found, exiting")
             sys.exit()
-        if self.options['algorithm'] == "GA":
-            self.isGA = True
-        else:
-            self.isGA = False
-        if self.options['algorithm'] == "PSO":
-            self.isPSO = True
-        else:
-            self.isPSO = False
+
+        self.isGA = self.options['algorithm'] == "GA"
+        self.isPSO = self.options['algorithm'] == "PSO"
+
         self.version = None
-        self.gene_max = []  ## zero based
-        self.gene_length = []  ## length is 1 based
-        self.getGeneLength()
-        self.check_omega_search()
+        self.gene_max = []  # zero based
+        self.gene_length = []  # length is 1 based
+        self._get_gene_length()
+        self._check_omega_search()
 
         self.control = self.controlBaseTokens = None
-        #self.status = "Not initialized"
         self.lastFixedTHETA = None  ## fixed THETA do not count toward penalty
         self.lastFixedETA = self.lastFixedEPS = None
         self.variableTHETAIndices = []  # for each token set does if have THETA(*) alphanumeric indices in THETA(*)
@@ -139,27 +133,17 @@ class Template:
         self.lastFixedETA = nFixedETA
         self.lastFixedEPS = nFixedEPS
 
-    def printMessage(self, message):
-        print(message)
-        try:
-            with open(os.path.join(self.homeDir, "messages.txt"), "a") as msgs:
-                msgs.write(message + "\n")
-                msgs.flush()
-        except:
-            msg = os.path.join(self.homeDir, "message.txt")
-            print(f"unable to write to {msg}")
+    def _get_gene_length(self):
+        """ argument is the token sets, returns maximum value of token sets and number of bits"""
 
-    def getGeneLength(self):
-        ''' argument is the token sets, returns maximum value of token sets and number of bits'''
-        tokenKeys = self.tokens.keys()
-        for thisset in tokenKeys:
-            if (thisset.strip() != "Search_OMEGA" and thisset.strip() != "max_Omega_size"):
-                val = len(self.tokens[thisset])
-                self.gene_max.append(
-                    val - 1)  # max is zero based!!!!, everything is zero based (gacode, intcode, gene_max)
+        for this_set in self.tokens.keys():
+            if this_set.strip() != "Search_OMEGA" and this_set.strip() != "max_Omega_size":
+                val = len(self.tokens[this_set])
+                # max is zero based!!!!, everything is zero based (gacode, intcode, gene_max)
+                self.gene_max.append(val - 1)
                 self.gene_length.append(math.ceil(math.log(val, 2)))
 
-    def check_omega_search(self):
+    def _check_omega_search(self):
         """see if Search_OMEGA and Omega_band_width are in the token set
         if so, find how many bits needed for band width, and add that gene
         final gene in genome is omega band width, values 0 to max omega size -1"""
@@ -169,11 +153,11 @@ class Template:
                 self.omega_bandwidth = self.tokens['max_Omega_size']
                 self.gene_max.append(self.omega_bandwidth - 1)
                 self.gene_length.append(math.ceil(math.log(self.omega_bandwidth, 2)))
-                self.printMessage(f"Including search of band OMEGA, with width up to {self.omega_bandwidth - 1}")
+                log.message(f"Including search of band OMEGA, with width up to {self.omega_bandwidth - 1}")
                 del self.tokens['max_Omega_size']
             else:
-                self.printMessage(
-                    "Cannot find omega size in tokens set, but omega band width search request \n, omitting omega band width search")
+                log.message("Cannot find omega size in tokens set, but omega band width search request \n,"
+                            " omitting omega band width search")
                 # remove max_Omega_size and Search_OMEGA from token sets
             del self.tokens['Search_OMEGA']
         else:
@@ -189,45 +173,50 @@ def _get_fixed_params(template_text):
 
 
 def _get_variable_block(code):
-    cleanCode = utils.removeComments(code)
-    lines = cleanCode.splitlines()
-    ## remove any blanks
-    while ("" in lines):
+    clean_code = utils.removeComments(code)
+    lines = clean_code.splitlines()
+
+    # remove any blanks
+    while "" in lines:
         lines.remove("")
-    varBlock = []
-    ## how many $ blocks - assume only 1 (for now??)
 
-    for thisline in lines:
-        if re.search("{.+}", thisline) != None:
-            varBlock.append(thisline)
+    var_block = []
 
-    return varBlock
+    # how many $ blocks - assume only 1 (for now??)
+
+    for line in lines:
+        if re.search("{.+}", line) is not None:
+            var_block.append(line)
+
+    return var_block
 
 
 def _get_fixed_block(code, key):
     nkeys = code.count(key)
-    # get the block from NONMEM control/temlate
+    # get the block from NONMEM control/template
     # e.g., $THETA, even if $THETA is in several sections
     # were key is $THETA,$OMEGA,$SIGMA
     block = ""
     start = 0
-    FullBlock = []
+    full_block = []
+
     for _ in range(nkeys):
         start = code.find(key, start)
         end = code.find("$", start + 1)
         block = block + code[start: end] + '\n'
         start = end
         # remove blank lines, and trim
+
     lines = block.splitlines()
-    FullBlock.append(lines)
-    code = []
-    nfixed = 0
-    for thisline in lines:
+    full_block.append(lines)
+    fixed_count = 0
+
+    for line in lines:
         # remove blanks, options and tokens, comments
-        thisline = utils.removeComments(thisline).strip()
+        line = utils.removeComments(line).strip()
         # count fixed only, n
         # visual studio code showing warning for "\$" below, but that is just literal $ at beginning of line, eg., $THETA
-        if (thisline != "" and (not (re.search("^{.+}", thisline)))) and not re.search("^\$.+", thisline):
-            nfixed += 1
+        if (line != "" and (not (re.search("^{.+}", line)))) and not re.search("^\$.+", line):
+            fixed_count += 1
 
-    return nfixed, FullBlock
+    return fixed_count, full_block

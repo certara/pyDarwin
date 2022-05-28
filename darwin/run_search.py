@@ -5,6 +5,8 @@ import gc
 
 import darwin.GlobalVars as GlobalVars
 
+from darwin.Log import log
+
 from .Template import Template
 from .Model import Model
 from .ModelCode import ModelCode
@@ -27,7 +29,7 @@ def _run_template(model_template: Template) -> Model:
     GlobalVars.BestModel.fitness = model_template.options['crash_value'] + 1
     algorithm = model_template.options['algorithm']
 
-    model_template.printMessage(f"Search start time = {time.asctime()}")
+    log.message(f"Search start time = {time.asctime()}")
 
     if algorithm in ["GBRT", "RF", "GP"]:
         final = run_skopt(model_template)
@@ -38,13 +40,13 @@ def _run_template(model_template: Template) -> Model:
     elif algorithm == "PSO":
         final = run_PSO(model_template)
     else:
-        print(f"Algorithm {algorithm} is not available")
+        log.message(f"Algorithm {algorithm} is not available")
         sys.exit()
 
-    model_template.printMessage(f"Number of unique models to best model = {GlobalVars.UniqueModelsToBest}")
-    model_template.printMessage(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
+    log.message(f"Number of unique models to best model = {GlobalVars.UniqueModelsToBest}")
+    log.message(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
 
-    model_template.printMessage(f"Search end time = {time.asctime()}")
+    log.message(f"Search end time = {time.asctime()}")
   
     gc.collect()
 

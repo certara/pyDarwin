@@ -1,5 +1,4 @@
 # from https://pyswarms.readthedocs.io/en/development/examples/basic_optimization.html
-# Import modules
 
 r"""
 A Binary Particle Swarm Optimization (binary PSO) algorithm.
@@ -69,6 +68,8 @@ from collections import deque
 import time
 
 import darwin.GlobalVars as GlobalVars
+
+from darwin.Log import log
 
 from darwin.Template import Template
 from darwin.Model import Model
@@ -352,5 +353,4 @@ def run_PSO(model_template: Template) -> Model:
     cost, pos = optimizer.optimize(f ,iters=model_template.options['num_generations'], model_template=model_template)
     #optimizer = BinaryPSO(n_particles=20, dimensions=20, options=options,ftol = 0, ftol_iter= 5)
  
-    print("best fitness " + str(cost) + ", model "+ str(pos))
- 
+    log.message(f"best fitness {str(cost)}, model {str(pos)}")

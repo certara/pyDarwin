@@ -75,7 +75,7 @@ def _get_n_worst_index(n, arr):
     return heapq.nlargest(n, range(len(arr)), arr.__getitem__)
 
 
-def run_GA(model_template: Template) -> Model:
+def run_ga(model_template: Template) -> Model:
     """ Runs GA, 
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
@@ -136,12 +136,8 @@ def run_GA(model_template: Template) -> Model:
     # each individual is a list of bits [0|1])
     pop_full_bits = toolbox.population(n=pop_size)
     best_for_elitism = toolbox.population(n=elitist_num)   
-    # CXPB  is the probability with which two individuals
-    #       are crossed
-    #
-    # MUTPB is the probability for mutating an individual
-    CXPB = model_template.options['crossOver'] 
-    MUTPB = model_template.options['mutationRate']
+    crossover_probability = model_template.options['crossOver']
+    mutation_probability = model_template.options['mutationRate']
 
     # argument to run_all is integer codes!!!!!
     models = []
@@ -197,18 +193,18 @@ def run_GA(model_template: Template) -> Model:
     
         # Apply crossover and mutation on the offspring
         for child1, child2 in zip(offspring[::2], offspring[1::2]):
-            # cross two individuals with probability CXPB
+            # cross two individuals
             # don't need to copy child1, child2 back to offspring, done internally by DEAP
             # from https://deap.readthedocs.io/en/master/examples/ga_onemax.html
-            # "In addition they modify those individuals within the toolbox container, and we do not need to reassign their results.""
+            # "In addition they modify those individuals within the toolbox container,
+            # and we do not need to reassign their results.""
   
-            if random.random() < CXPB:
+            if random.random() < crossover_probability:
                 toolbox.mate(child1, child2)
   
         for mutant in offspring:
-
-            # mutate an individual with probability MUTPB
-            if random.random() < MUTPB:
+            # mutate an individual
+            if random.random() < mutation_probability:
                 toolbox.mutate(mutant)
                 del mutant.fitness.values
     
@@ -231,9 +227,10 @@ def run_GA(model_template: Template) -> Model:
             code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
             models.append(Model(model_template, code, model_num, generation))
 
-        run_all(models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+        run_all(models)
 
-        log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
+        log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
+                    f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
         
         fitnesses = [None]*len(models)
 
@@ -254,17 +251,18 @@ def run_GA(model_template: Template) -> Model:
             log.message(f"Starting downhill generation = {generation}  at {time.asctime()}")
 
             best_index = _get_n_best_index(num_niches, fitnesses)
-            best_individuals = []
 
             log.message(f"current best model(s) =")
-            for i in best_index:  
-                best_individuals.append(copy(models[i]))
-                log.message(f"generation {models[i].generation}, ind {models[i].modelNum}, fitness = {models[i].fitness}")
+
+            for model in map(lambda idx: models[idx], best_index):
+                log.message(f"generation {model.generation}, ind {model.modelNum}, fitness = {model.fitness}")
+
             new_models, worst_individuals = run_downhill(models)
 
-            log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
+            log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
+                        f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
 
-            # replace worst_inds with new_inds, after hof update
+            # replace worst_individuals with new_models, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
             # run_downhill return on the fitness and the integer representation!!, need to make GA model from that
             # which means back calculate GA/full bit string representation
@@ -285,7 +283,8 @@ def run_GA(model_template: Template) -> Model:
             num_bits = len(models[best_index[-1]].model_code.FullBinCode)
 
             for i in range(elitist_num):  # best_index:
-                best_for_elitism[i][0:num_bits] = models[best_index[i]].model_code.FullBinCode  # this is GA, so need full binary code
+                # this is GA, so need full binary code
+                best_for_elitism[i][0:num_bits] = models[best_index[i]].model_code.FullBinCode
                 best_for_elitism[i].fitness.values = (models[best_index[i]].fitness,)
 
         cur_gen_best_ind = _get_n_best_index(1, fitnesses)[0]
@@ -296,7 +295,8 @@ def run_GA(model_template: Template) -> Model:
         if not type(best_fitness) is tuple:
             best_fitness = (best_fitness,) 
 
-        log.message(f"Current generation best genome = {models[cur_gen_best_ind].model_code.FullBinCode}, best fit = {best_fitness[0]:.4f}")
+        log.message(f"Current generation best genome = {models[cur_gen_best_ind].model_code.FullBinCode},"
+                    f" best fitness = {best_fitness[0]:.4f}")
         
         if best_fitness[0] < current_overall_best_fitness:
             log.message(f"Better fitness found, generation = {generation}, new best fitness = {best_fitness[0]:.4f}")
@@ -304,7 +304,8 @@ def run_GA(model_template: Template) -> Model:
             generations_no_change = 0
         else:
             generations_no_change += 1 
-            log.message(f"No change in fitness for {generations_no_change} generations, best fitness = {current_overall_best_fitness:.4f}")
+            log.message(f"No change in fitness for {generations_no_change} generations,"
+                        f" best fitness = {current_overall_best_fitness:.4f}")
 
     log.message(f"-- End of GA component at {time.asctime()} --")
 
@@ -319,13 +320,6 @@ def run_GA(model_template: Template) -> Model:
         for i in range(len(models)):
             models[i].generation = "FN"
 
-        best_index = _get_n_best_index(num_niches, fitnesses)
-
-        best_individuals = []
-
-        for i in best_index:  # need deepcopy?
-            best_individuals.append(copy(models[i]))
-         
         new_models, worst_individuals = run_downhill(models)
 
         for i in range(len(new_models)): 
@@ -346,7 +340,7 @@ def run_GA(model_template: Template) -> Model:
     with open(os.path.join(model_template.homeDir, "InterimControlFile.mod"), 'w') as control:
         control.write(GlobalVars.BestModel.control)
 
-    result_file_path = os.path.join(GlobalVars.BestModel.template.homeDir, "InterimresultFile.lst")
+    result_file_path = os.path.join(GlobalVars.BestModel.template.homeDir, "InterimResultFile.lst")
 
     with open(result_file_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)     
@@ -356,13 +350,15 @@ def run_GA(model_template: Template) -> Model:
     elapsed = time.time() - GlobalVars.StartTime
 
     log.message(f"Elapse time = " + str(timedelta(seconds=elapsed)) + "\n")
-    log.message(f'Best individual GA is {str(final_model.model_code.FullBinCode)} with fitness of {final_model.fitness:4f}') 
-    log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
+    log.message(f'Best individual GA is {str(final_model.model_code.FullBinCode)}'
+                f' with fitness of {final_model.fitness:4f}')
+    log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
+                f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
 
-    with open(os.path.join(model_template.homeDir, "finalControlFile.mod"), 'w') as control:
+    with open(os.path.join(model_template.homeDir, "FinalControlFile.mod"), 'w') as control:
         control.write(final_model.control)
 
-    result_file_path = os.path.join(model_template.homeDir, "finalresultFile.lst")
+    result_file_path = os.path.join(model_template.homeDir, "FinalResultFile.lst")
 
     with open(result_file_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)

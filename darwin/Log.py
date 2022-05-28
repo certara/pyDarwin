@@ -1,3 +1,6 @@
+import datetime
+
+
 class Log:
     def __init__(self):
         self.file_path = None
@@ -12,6 +15,8 @@ class Log:
         self.file = open(self.file_path, "a")
 
     def message(self, message):
+        message = datetime.datetime.now().strftime("[%H:%M:%S] ") + message
+
         print(message)
 
         if self.file:

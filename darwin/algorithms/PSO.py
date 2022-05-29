@@ -321,7 +321,7 @@ def run_PSO(model_template: Template) -> Model:
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
     init_model_list(model_template)
-    pop_size = model_template.options['popSize']  
+    pop_size = model_template.options['population_size']
     best_fitness = crash_value = model_template.options['crash_value']  
     downhill_q = model_template.options['downhill_q']  
     numBits = int(np.sum(model_template.gene_length)) 

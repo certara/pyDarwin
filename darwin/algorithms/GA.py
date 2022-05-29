@@ -123,7 +123,7 @@ def run_ga(model_template: Template) -> Model:
     # register a mutation operator with a probability to
     # flip each attribute/gene of 0.05
     if model_template.options['mutate'] == "flipBit":
-        toolbox.register("mutate", tools.mutFlipBit, indpb=model_template.options['indpb'])
+        toolbox.register("mutate", tools.mutFlipBit, indpb=model_template.options['attribute_mutation_probability'])
 
     # operator for selecting individuals for breeding the next
     # generation: each individual of the current generation

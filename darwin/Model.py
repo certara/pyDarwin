@@ -7,11 +7,11 @@ import xmltodict
 from pharmpy.modeling import read_model   # v 0.71.0 works
 from typing import OrderedDict
 from os.path import exists
-from subprocess import DEVNULL, STDOUT, TimeoutExpired, run
+import subprocess
+from subprocess import DEVNULL, STDOUT, TimeoutExpired
 import time
 import glob
 from copy import copy
-import gc
 import sys
 
 import traceback
@@ -221,8 +221,6 @@ class Model:
 
         GlobalVars.UniqueModels += 1
 
-        flags = 0x4000 if sys.platform == "win32" else 0
-
         nm = None
 
         try:
@@ -230,8 +228,8 @@ class Model:
 
             os.chdir(self.runDir)
 
-            nm = run(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.runDir, creationflags=flags,
-                     timeout=int(self.template.options.get('NM_timeout_sec', 1200)))
+            nm = subprocess.run(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.runDir,
+                                creationflags=self.template.nm_priority, timeout=self.template.nm_timeout)
 
             self.status = "Done_running_NM"
         except TimeoutExpired:
@@ -276,10 +274,8 @@ class Model:
         try:
             self.status = "Running_post_Rcode"
 
-            flags = 0x4000 if sys.platform == "win32" else 0
-
-            r_process = run(command, capture_output=True, cwd=self.runDir, creationflags=flags,
-                            timeout=int(self.template.options.get('R_timeout_sec', 30)))
+            r_process = subprocess.run(command, capture_output=True, cwd=self.runDir,
+                                       creationflags=self.template.nm_priority, timeout=self.template.r_timeout)
 
             self.status = "Done_post_Rcode"
 
@@ -498,7 +494,6 @@ class Model:
                 self.condition_num = self.template.options['crash_value']  
                 self.PRDERR += " .xml file not present, likely crash in estimation step"
 
-        gc.collect()
         return()
 
     def calc_fitness(self):

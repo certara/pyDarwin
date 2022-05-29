@@ -5,6 +5,7 @@ import json
 import math
 from sympy import false
 import collections
+import subprocess
 
 import darwin.utils as utils
 
@@ -140,6 +141,11 @@ class Template:
         self.lastFixedETA = nFixedETA
         self.lastFixedEPS = nFixedEPS
 
+        self.nm_priority = _get_priority_class(self.options)
+        self.nm_timeout = int(self.options.get('NM_timeout_sec', 1200))
+        self.r_timeout = int(self.options.get('R_timeout_sec', 30))
+
+
     def _get_gene_length(self):
         """ argument is the token sets, returns maximum value of token sets and number of bits"""
 
@@ -227,3 +233,26 @@ def _get_fixed_block(code, key):
             fixed_count += 1
 
     return fixed_count, full_block
+
+
+PRIORITIES = {
+    'idle': subprocess.IDLE_PRIORITY_CLASS,
+    'below_normal': subprocess.BELOW_NORMAL_PRIORITY_CLASS,
+    'normal': subprocess.NORMAL_PRIORITY_CLASS,
+    'above_normal': subprocess.ABOVE_NORMAL_PRIORITY_CLASS,
+    'high': subprocess.HIGH_PRIORITY_CLASS
+}
+
+
+def _get_priority_class(options: dict):
+    if sys.platform != "win32":
+        return 0
+
+    priority = str(options.get('NM_priority_class', 'normal')).lower()
+
+    if priority not in PRIORITIES:
+        priority = 'normal'
+
+    log.message(f'NM priority is {priority}')
+
+    return PRIORITIES[priority]

@@ -231,7 +231,7 @@ class Model:
             os.chdir(self.runDir)
 
             nm = run(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.runDir, creationflags=flags,
-                     timeout=int(self.template.options['timeout_sec']))
+                     timeout=int(self.template.options.get('NM_timeout_sec', 1200)))
 
             self.status = "Done_running_NM"
         except TimeoutExpired:
@@ -278,7 +278,8 @@ class Model:
 
             flags = 0x4000 if sys.platform == "win32" else 0
 
-            r_process = run(command, capture_output=True, cwd=self.runDir, creationflags=flags, timeout=15)
+            r_process = run(command, capture_output=True, cwd=self.runDir, creationflags=flags,
+                            timeout=int(self.template.options.get('R_timeout_sec', 30)))
 
             self.status = "Done_post_Rcode"
 

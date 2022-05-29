@@ -116,7 +116,7 @@ def run_ga(model_template: Template) -> Model:
     # the goal ('fitness') function to be maximized  
 
     # register the crossover operator
-    if model_template.options['xover'] == "cxOnePoint":
+    if model_template.options['crossoverOperator'] == "cxOnePoint":
         toolbox.register("mate", tools.cxOnePoint)
 
     # other cross over options here
@@ -136,7 +136,7 @@ def run_ga(model_template: Template) -> Model:
     # each individual is a list of bits [0|1])
     pop_full_bits = toolbox.population(n=pop_size)
     best_for_elitism = toolbox.population(n=elitist_num)   
-    crossover_probability = model_template.options['crossOver']
+    crossover_probability = model_template.options['crossoverRate']
     mutation_probability = model_template.options['mutationRate']
 
     # argument to run_all is integer codes!!!!!

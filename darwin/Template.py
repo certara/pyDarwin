@@ -239,7 +239,7 @@ PRIORITIES = {
     'idle': subprocess.IDLE_PRIORITY_CLASS,
     'below_normal': subprocess.BELOW_NORMAL_PRIORITY_CLASS,
     'normal': subprocess.NORMAL_PRIORITY_CLASS,
-    'above_normal': subprocess.ABOVE_NORMAL_PRIORITY_CLASS,
+    'above_normal': subprocess.ABOVE_NORMAL_PRIORITY_CLASS, # probably shouldn't have the option to set to above normal priorty
     'high': subprocess.HIGH_PRIORITY_CLASS
 }
 

@@ -3,8 +3,7 @@ import re
 import os
 import shutil
 import shlex
-import xmltodict
-from pharmpy.modeling import read_model   # v 0.71.0 works
+import xmltodict 
 from typing import OrderedDict
 from os.path import exists
 import subprocess
@@ -163,11 +162,18 @@ class Model:
             os.remove(os.path.join(newdir,self.controlFileName))
         if os.path.exists(os.path.join(newdir,self.outputFileName)):
             os.remove(os.path.join(newdir,self.outputFileName))
+        if os.path.exists(os.path.join(newdir,"FMSG")):
+            os.remove(os.path.join(newdir,"FMSG"))
+        if os.path.exists(os.path.join(newdir,"PRDERR")):
+            os.remove(os.path.join(newdir,"PRDERR"))
 
         # and copy
         try:
             shutil.copyfile(os.path.join(self.runDir,self.oldoutputfile), os.path.join(newdir, self.file_stem + ".lst"))
             shutil.copyfile(os.path.join(self.runDir,self.oldcontrolfile), os.path.join(newdir, self.file_stem + ".mod"))
+            shutil.copyfile(os.path.join(self.runDir,"FMSG"), os.path.join(newdir, "FMSG"))
+            if os.path.exists(os.path.join(self.runDir,"PRDERR")):
+                shutil.copyfile(os.path.join(self.runDir,"PRDERR"), os.path.join(newdir, "PRDERR")) 
             with open(os.path.join(newdir, self.file_stem + ".lst"), 'a') as outfile:
                 outfile.write(f"!!! Saved model, Orginally run as {self.oldcontrolfile} in {self.runDir}")
         except:
@@ -381,127 +387,223 @@ class Model:
         except:
             self.PRDERR += f"Unable to read PDERR in {self.runDir}"
         return
-                        
-    def get_results_pharmpy(self):
-        try:
-            result = read_model(os.path.join(self.runDir, self.controlFileName))
-            # fixed thetas/omega/sigmas from parameters.fix
-            fixed_parms = result.parameters.fix 
-            thetas = [value for key, value in fixed_parms.items() if 'THETA' in key.upper()]
-            omegas = [value for key, value in fixed_parms.items() if 'OMEGA' in key.upper()]
-            sigmas = [value for key, value in fixed_parms.items() if 'SIGMA' in key.upper()] 
-            self.num_THETAs = len(thetas)
-            self.num_OMEGAs = len(omegas)
-            self.num_SIGMAs = len(sigmas)
-            self.num_non_fixed_THETAs = self.num_THETAs - sum(thetas)
-            self.num_non_fixed_OMEGAs = self.num_OMEGAs - sum(omegas)           
-            self.num_non_fixed_SIGMAs = self.num_SIGMAs - sum(sigmas)
-            model_fit = result.modelfit_results 
+                         
+    def read_xml(self):
+        xml_file = self.xml_file
+        if not os.path.exists (xml_file):
+            self.ofv = self.condition_num = self.template.options['crash_value'] 
+            self.success = self.covariance  = self.correlation = False  
+             
+        else:
             try:
-                if isnan(model_fit.ofv):
-                    self.ofv = self.condition_num = self.template.options['crash_value']  
-                    self.success = self.covariance = self.correlation = self.Condition_num_test = False
+                with open(xml_file) as xml_file: 
+                    data_dict = xmltodict.parse(xml_file.read())
+                    #if template.version is None:
+                    version = data_dict['nm:output']['nm:nonmem']['@nm:version']  # string
+                    #print("NONMEM version = " +version)
+                    # keep first two digits
+                    dots = [_.start() for _ in re.finditer("\.", version)]
+                    # and get the first two
+                    majorversion = float(version[:dots[1]])  # float
+                    if majorversion < 7.4 or majorversion > 7.5:
+                        print("NONMEM is version "
+                                + version + ", NONMEM 7.4 and 7.5 are supported, exiting")
+                problem =  data_dict['nm:output']['nm:nonmem']['nm:problem']
+                # if more than one problem, use the first, assume that is the estimation, assume final is simulation
+                # really not sure what to do if there is more than one estimation problem
+                if isinstance(problem, list):  # > 1 one $PROB
+                    problem = problem[0]       # use the first
+                estimations = problem['nm:estimation'] 
+                # similar, may be more than one estimation, if > 1, we want the final one
+                if isinstance(estimations, list):  # > 1 one $EST
+                    last_estimation = estimations[-1]
                 else:
-                    self.ofv = model_fit.ofv 
-                    self.success = model_fit.minimization_successful 
-                    try:
-                        if model_fit.correlation_matrix.isnull().values.any():  
-                            self.covariance = self.correlation = self.Condition_num_test =False
-                            self.condition_num = self.template.options['crash_value'] 
-                        else:   
-                            self.covariance = True
-                            correlation_matrix = model_fit.correlation_matrix.values
-                            size = model_fit.correlation_matrix.shape[0]
-                            self.correlation = True #passes correlation test
-                            for row in range(1,size):
-                                if self.correlation == False:
-                                    break
-                                for col in range(row):
-                                    if correlation_matrix[row, col] > self.template.options['correlationLimit']:
-                                        self.correlation = False
-                                        break
-                    except: 
-                        self.covariance = self.correlation = self.Condition_num_test =False
-                        self.condition_num = self.template.options['crash_value'] 
+                    last_estimation = estimations
             
+                if 'nm:final_objective_function' in last_estimation:
+                    self.ofv = float(last_estimation['nm:final_objective_function'])
+                    if last_estimation['nm:termination_status'] == '0':
+                        self.success = True
+                    else:
+                        self.success = False
+                else:
+                    self.ofv = self.template.options['crash_value']
+                    self.success = False 
+                    self.covariance = False
+                    self.correlation = False 
+                    self.condition_num =  self.template.options['crash_value']     
+                    
+                     
+                # IS COVARIANCE REQUESTED:
+                if 'nm:covariance_status' in last_estimation:
+                    if last_estimation['nm:covariance_status']['@nm:error'] == '0':
+                        self.covariance = True
+                    else:
+                        self.covariance = False
+                    corr_data = last_estimation['nm:correlation']["nm:row"]
+                    num_rows = len(corr_data)
+                    self.correlation = True
+                    for this_row in range(1, num_rows):
+                        thisrow = corr_data[this_row]['nm:col'][:-1]
+                        # get abs
+                        absfunction = lambda t: abs(t) >  99999 #['correlationLimit']
+                        thisrow = [absfunction(float(x['#text'])) for x in thisrow]
+                        if any(thisrow):
+                            self.correlation = False
+                            break
+                    if 'nm:eigenvalues' in last_estimation:
+                        # if last_estimation['nm:eigenvalues'] is None:
+                        Eigens = last_estimation['nm:eigenvalues']['nm:val']
+                        max = -9999999
+                        min = 9999999
+                        for i in Eigens:
+                            val = float(i['#text'])
+                            if val < min: min = val
+                            if val > max: max = val
+                        self.condition_num = max / min 
+                    else:
+                        self.condition_num =  self.template.options['crash_value']  
+                else:
+                    self.covariance = False 
+                    self.correlation = False
+                    self.condition_num =  self.template.options['crash_value'] 
+            except:
+                self.ofv =  self.template.options['crash_value']  #['crash_value']here
+                self.success = False
+                self.covariance = False
+                self.correlation = False 
+                self.condition_num = self.template.options['crash_value']
+              
+
+    def get_block(self,start,fcon,fixed = False):
+        # how many lines? find next RNBL 
+        rnbl_block = fcon[start:]
+        rest_of_block = fcon[(1+start):]
+        next_start = [bool(re.search("^RNBL", n)) for n in rest_of_block]
+        if any(next_start):
+            rnbl_start_lines = [i for i, x in enumerate(next_start) if x][0] # RNBL lines
+            this_block = rnbl_block[:(rnbl_start_lines + 1)] 
+        else:  
+            next_start = [bool(re.search("^\S+", n)) for n in rest_of_block]   
+            next_start = [i for i, x in enumerate(next_start) if x][0] # RNBL lines 
+            this_block = rnbl_block[:(next_start + 1)]  
+        # if next_start:
+        this_block = " ".join(this_block)
+        if fixed:
+            # remvoe 1 i posiiton 7
+            this_block = list(this_block) 
+            this_block[7] = ' ' 
+            this_block = "".join(this_block)
+        this_block = this_block[4:].strip().replace("\n","," ) 
+        this_block = this_block.split(",")
+        # convert to float
+        this_block = [float(a) for a in this_block]
+        # have to remove any 0's they will be 0's for band OMEGA
+        this_block =[i for i in this_block if i != 0]
+        nvals = len(this_block) 
+        return nvals
+
+    def read_model(self): 
+        if not os.path.exists(os.path.join(self.runDir,"FCON")):
+            self.ofv = self.condition_num = self.template.options['crash_value'] 
+            self.success = self.covariance  = self.correlation = False 
+            self.num_THETA=self.num_OMEGA=self.num_SIGMA=self.n_estimated_theta=self.n_estimated_omega=self.n_estimated_sigma = 999
+        
+        else:
+            try:
+                with open(os.path.join(self.runDir,"FCON"),"r") as fcon:
+                    fconlines = fcon.readlines()  
+                #IF MORE THAN ONE PROB only use first, the number of parameters will be the same, although
+                # the values in subsequen THTA etc willbe different
+                PROBS = [bool(re.search("^PROB", i)) for i in fconlines] 
+                PROBs_lines = [i for i, x in enumerate(PROBS) if x]
+                if len(PROBs_lines)>1:  
+                    fconlines = fconlines[PROBs_lines[1]:]
+                # replace all BLST or DIAG with RNBL (randomd block) - they will be treated the same 
+                strclines = [idx for idx in fconlines if idx[0:4] == "STRC"]  
+                self.num_THETA = int(strclines[0][9:12]) 
+                THTA_start = [bool(re.search("^THTA", i)) for i in fconlines] 
+                THTA_start_line = [i for i, x in enumerate(THTA_start) if x][0]
+                # HOW MAY LINES IN THTA BLOCK:
+                LOWR_start = [bool(re.search("^LOWR", i)) for i in fconlines] 
+                LOWR_start_line = [i for i, x in enumerate(LOWR_start) if x][0] 
+                lines_in_block = LOWR_start_line -THTA_start_line
+                THTAl = fconlines[THTA_start_line:LOWR_start_line]
+                THTA = " ".join(THTAl).replace("THTA","").strip().replace("\n","," ) # initial values, don't actually use these
+                # remove "," at end
+                THTA = THTA.split(",")
+                # convert to float
+                THTA = [float(a) for a in THTA]
+                UPPR_START = [bool(re.search("^UPPR", i)) for i in fconlines]
+                UPPR_start_line = [i for i, x in enumerate(UPPR_START) if x][0]
+                LOWRL = fconlines[LOWR_start_line:UPPR_start_line]
+                LOWR = " ".join(LOWRL).replace("LOWR","").strip().replace("\n","," )
+                # remove "," at end
+                LOWR = LOWR.split(",")
+                # convert to float
+                LOWR = [float(a) for a in LOWR]
+                UPPRL = fconlines[UPPR_start_line:(UPPR_start_line+ lines_in_block)]
+                UPPR = " ".join(UPPRL).replace("UPPR","").strip().replace("\n","," )
+                # remove "," at end
+                UPPR = UPPR.split(",")
+                # convert to float
+                UPPR = [float(a) for a in UPPR]
+                self.n_estimated_theta = self.num_THETA
+                for i in range(self.num_THETA):
+                    self.n_estimated_theta -= (LOWR[i]==UPPR[i]) # if upper == lower than this is fixed, not estimated
+                    
+                fconlines =   [w.replace('BLST', 'RNBL') for w in fconlines]
+                fconlines =   [w.replace('DIAG', 'RNBL') for w in fconlines]
+            # and all rangdom blocks 
+                
+                rnbl_start = [bool(re.search("^RNBL", n)) for n in fconlines] 
+                rnbl_start_lines = [i for i, x in enumerate(rnbl_start) if x]
+                
+                nomegablocks = int(strclines [0][32:36]) # field 7, 0 or blank if diagonal, otherwise # of blocks for omega
+                if nomegablocks ==0:
+                    nomegablocks = 1
+                nsigmablocks = int(strclines [0][40:44]) # field 9, 0 or 1 if diagonal, otherwise # of blocks for sigma
+                
+                if nsigmablocks == 0:
+                    nsigmablocks = 1
+                self.n_estimated_sigma = n_estimated_omega = 0
+                self.num_OMEGA = num_SIGMA = 0
+
+                for thisomega in range(nomegablocks):
+                    #if postion 8 == 1,   this block is fixed, need to remove that value to parse
+                    
+                    if fconlines[rnbl_start_lines[thisomega]][7] == '1':  
+                        vals_this_block = self.get_block(rnbl_start_lines[thisomega],fconlines, True)  
+                    else:  
+                        vals_this_block = self.get_block(rnbl_start_lines[thisomega],fconlines, False)
+                        n_estimated_omega += vals_this_block  
+                    self.num_OMEGA += vals_this_block 
+                
+                for thissigma in range(nomegablocks,(nomegablocks+nsigmablocks)): 
+                    if fconlines[rnbl_start_lines[thissigma]][7] == '1':  
+                        vals_this_block = self.get_block(rnbl_start_lines[thissigma],fconlines, True)
+                    else:
+                        vals_this_block = self.get_block(rnbl_start_lines[thissigma],fconlines, False)
+                        self.n_estimated_sigma += vals_this_block  
+                    num_SIGMA += vals_this_block 
+            
+                self.read_xml()
+
+                
             except:
                 self.ofv = self.condition_num = self.template.options['crash_value']  
-                self.Condition_num_test = self.covariance = self.correlation = False
-                
-                
-                # need to read xml for eigenvalues, not in pharmpy output (???)
-                # xml file should have eigen values if covariance is succesfull
-                # but need to verify this 
-        except:
-            self.ofv = self.condition_num = self.template.options['crash_value']
-            self.success = self.covariance = self.correlation = self.Condition_num_test = False
-
-        if not exists(self.xml_file):
-            self.Condition_num_test = False
-            self.condition_num = 9999999    
-            return()     
-        else:       
-            try:
-                with open(self.xml_file) as xml_file:
-                    data_dict = xmltodict.parse(xml_file.read()) 
-                    if self.template.version is None:
-                        self.template.version = data_dict['nm:output']['nm:nonmem']['@nm:version'] # string
-                        log.message("NONMEM version = " + self.template.version)
-                        # keep first two digits
-                        dots = [_.start() for _ in re.finditer("\.", self.template.version)] 
-                        # and get the first two
-                        majorversion = float(self.template.version[:dots[1]]) # float
-                        if majorversion < 7.4 or majorversion > 7.5:
-                            log.error(f"NONMEM is version {self.template.version},"
-                                      f" Code requires NONMEM 7.4 or 7.5, exiting")
-                            sys.exit()
-                       
-                #if 0 in problem_dict: # more than one problem, e.g. with simulation
-                # it seems that if there is only one problem, this is orderedDict
-                # is multiple problems, is just a plain list, if > 0, assume the FIRST IS THE $EST
-                problem_dict = data_dict['nm:output']['nm:nonmem']['nm:problem']  
-                if isinstance(problem_dict,list): 
-                    problem_dict = problem_dict[0]
-                estimations = problem_dict['nm:estimation']   
-
-                    # similar, may be more than one estimation, if > 1, we want the final one
-                if isinstance(estimations,list): # > 1 one $EST
-                    n_estimation = len(estimations)  
-                    last_estimation = estimations [n_estimation-1]
-                else:
-                    last_estimation = estimations 
+                self.success = self.covariance  = self.correlation = False 
+                self.num_THETA=self.num_OMEGA=self.num_SIGMA=self.n_estimated_theta=self.n_estimated_omega=self.n_estimated_sigma = 999
                  
-                # a
-                if 'nm:eigenvalues' in last_estimation: 
-                #if last_estimation['nm:eigenvalues'] is None: 
-                    Eigens = last_estimation['nm:eigenvalues']['nm:val'] 
-                    max = -9999999
-                    min = 9999999
-                    for i in Eigens:
-                        val = float(i['#text']) 
-                        if val < min: min = val
-                        if val > max: max = val 
-                    self.condition_num = max/min
-                    if self.condition_num > 1000: # should 1000 be an option??
-                        self.Condition_num_test = False
-                    else:
-                        self.Condition_num_test = True
-                else: 
-                    self.condition_num = self.template.options['crash_value']
-                    self.Condition_num_test = False                    
-            except:            
-                self.Condition_num_test = False
-                self.condition_num = self.template.options['crash_value']  
-                self.PRDERR += " .xml file not present, likely crash in estimation step"
-
-        return()
+            return
 
     def calc_fitness(self):
         """calculates the fitness, based on the model output, and the penalties (from the options file)
         need to look in output file for parameter at boundary and parameter non-positive """
 
         try:
-            self.get_results_pharmpy()
+            self.read_model()
+            #self.get_results_pharmpy()
             self.get_nmtran_msgs()  # read from FMSG, in case run fails, will still have NMTRAN messages
             self.get_PRDERR()
 
@@ -610,9 +712,9 @@ class Model:
                 file_to_delete = [
                     "PRSIZES.F90",
                     "GFCOMPILE.BAT",
-                    "FSTREAM",
-                    "FSUBS",
-                    "fsubs.f90",
+                    "FSTREAM", 
+                    "fsubs.90",
+                    "compile.lnk",
                     "FDATA",
                     "FCON",
                     "FREPORT",
@@ -625,7 +727,9 @@ class Model:
                     "INTER"
                 ]
 
-                file_to_delete = file_to_delete + glob.glob('F*') + glob.glob('W*.*') + glob.glob('*.lnk')
+                file_to_delete = file_to_delete + glob.glob('FILE*') + glob.glob('WK*.*') + glob.glob('*.lnk') + glob.glob("FSUB*.*")
+                 
+
 
                 if self.file_stem is not None:
                     file_to_delete = file_to_delete + [
@@ -704,6 +808,8 @@ class Model:
                                         self.template.lastFixedETA, "ETA")
         self.control = utils.matchRands(self.control, self.template.tokens, self.template.varSIGMABlock, self.phenotype,
                                         self.template.lastFixedEPS, "EPS")
+        self.control = utils.matchRands(self.control, self.template.tokens, self.template.varSIGMABlock, self.phenotype,
+                                        self.template.lastFixedEPS, "ERR") # check for ERRo as well
         if self.template.isGA or self.template.isPSO:
             self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; Genotype \n ;; " + str(
                 self.model_code.FullBinCode) + \
@@ -727,7 +833,38 @@ class Model:
             self.errMsgs.append("No tokens found")
             raise RuntimeError("No tokens found")
 
-        return
+        return 
+
+def read_data_file_name(model):
+    with open(model.controlFileName, "r") as f: 
+        datalines = []
+        
+        for ln in f:
+            if ln.strip().startswith("$DATA"):
+                line = ln.strip()
+                line = line.replace("$DATA ","").strip()
+                #remove comments
+                if ";" in line:
+                    pos = line.index(";")
+                    line = line[:pos]
+                # look for quotes, single or double. if no quotes, find first white space
+                if "\"" in line:
+                    l = line.split('"')[1::2]
+                    datalines.append(l[0].strip())
+                elif "\'" in line:
+                    l = line.split("'")[1::2]
+                    datalines.append(l[0].strip())
+                else: 
+                    # find first while space
+                    result = re.search('\s', line)
+                    if result is None:
+                        datalines.append(line.strip())
+                    else:
+                        datalines.append(line[:result.regs[0][0]].strip())
+                # 
+
+    return datalines
+
 
 
 def check_files_present(model):
@@ -751,15 +888,16 @@ def check_files_present(model):
         sys.exit()
 
     try:
-        result = read_model(model.controlFileName)
+        #result = read_model(model.controlFileName)
+        data_files_path = read_data_file_name(model)
+        #model.dataset_path = result.datainfo.path
 
-        model.dataset_path = result.datainfo.path
-
-        if not exists(model.dataset_path):
-            log.error(f"Data set for FIRST MODEL {model.dataset_path} seems to be missing, exiting")
-            sys.exit()
-        else:
-            log.message(f"Data set for FIRST MODEL ONLY {model.dataset_path} was found")
+        for this_file in data_files_path:
+            if not exists(this_file):
+                log.error(f"Data set for FIRST MODEL {this_file} seems to be missing, exiting")
+                sys.exit()
+            else:
+                log.message(f"Data set for FIRST MODEL ONLY {this_file} was found")
     except:
         log.error(f"Unable to check if data set is present with current version of NONMEM")
         sys.exit()

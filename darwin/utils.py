@@ -252,9 +252,12 @@ def getTHETAMatches(expandedTHETABlock,tokens,phenotype):
             fullIndices = re.findall("THETA\(.+\)", fullToken)
     
             for i in range(len(fullIndices)):
-                THETAIndex = fullIndices[i].replace("THETA(","").replace(")","")
+                # have to get only part between THETA( and )
+                start_theta = fullIndices[i].find("THETA(") + 6
+                last_parens = fullIndices[i].find(")",(start_theta-2))
+                THETAIndex = fullIndices[i][start_theta:last_parens] #.replace("THETA(","").replace(")","")
                 thetaMatchs[THETAIndex] = curTHETA
-                curTHETA +=1
+                curTHETA += 1
             allCheckedTokens.append(stem)  
         thisTHETARow = tokens[stem][phenotype[stem]-1][index-1]
         ## number should match #of rows with stem in expandedTHETABlock
@@ -271,21 +274,28 @@ def getRandVarMatches(expandedBlock,tokens,phenotype,whichRand):
         ## get all THETA(alpha) indices in other tokens in this token set
         stem,index = getTokenParts(thisRandRow)
         thisPhenotype = phenotype[stem]
-        fullToken = "" # assemble full token, except the one in $THETA, to search for THETA(alpha)
+        fullToken = "" # assemble full token, except the one in $THETA, to search for THETA(alpha) 
+
+
         if not(any(stem in s for s in allCheckedTokens)): # add if not already in list
             #for thisToken in range(len(tokens[stem][thisPhenotype-1])): 
             for thisToken in range(len(tokens[stem][thisPhenotype])): 
                 if thisToken != index-1:
-                    newString = tokens[stem][thisPhenotype][thisToken].replace(" ", "")
+                    newString = tokens[stem][thisPhenotype][thisToken]#replace(" ", "") # can't always replace spaces, sometimes needed
                     newString = removeComments(newString).strip()
                     fullToken = fullToken +  newString + "\n"
+                    ### if this is repalcebnoreplace THETA with XXXXXX so it doesn't conflict with ETA
+                    if whichRand == "ETA":
+                        fullToken = fullToken.replace("THETA","XXXXX")
             ## get ETA/EPS(alphas)
             fullIndices = re.findall(whichRand+"\(.+?\)", fullToken) # non greedy with ?
     
-            for i in range(len(fullIndices)):
-                randIndex = fullIndices[i].replace(whichRand + "(","").replace(")","")
+            for i in range(len(fullIndices)): 
+                start = fullIndices[i].find((whichRand + "(")) + 4
+                last_parens = fullIndices[i].find(")",(start-2))
+                randIndex = fullIndices[i][start:last_parens]  
                 randMatchs[randIndex] = curRand
-                curRand +=1
+                curRand += 1
             allCheckedTokens.append(stem)  
         thisRandRow = tokens[stem][phenotype[stem]-1][index-1]
         ## number should match #of rows with stem in expandedTHETABlock

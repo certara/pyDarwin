@@ -102,7 +102,7 @@ def run_all(models):
     try:
         with open(os.path.join(template.homeDir, "InterimBestControl.mod"), 'w') as f:
             f.write(GlobalVars.BestModel.control)
-        with open(os.path.join(template.homeDir, "InterimBestOutput.mod"), 'w') as f:
+        with open(os.path.join(template.homeDir, "InterimBestOutput.lst"), 'w') as f:
             f.write(GlobalVars.BestModelOutput)
     except:
         traceback.print_exc()

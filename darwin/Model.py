@@ -517,8 +517,9 @@ class Model:
                 # the values in subsequen THTA etc willbe different
                 PROBS = [bool(re.search("^PROB", i)) for i in fconlines] 
                 PROBs_lines = [i for i, x in enumerate(PROBS) if x]
+                # assume only first problem is estiamtion, subsequent are simulation?
                 if len(PROBs_lines)>1:  
-                    fconlines = fconlines[PROBs_lines[1]:]
+                    fconlines = fconlines[:PROBs_lines[1]]
                 # replace all BLST or DIAG with RNBL (randomd block) - they will be treated the same 
                 strclines = [idx for idx in fconlines if idx[0:4] == "STRC"]  
                 self.num_THETA = int(strclines[0][9:12]) 
@@ -542,7 +543,12 @@ class Model:
                 LOWR = LOWR.split(",")
                 # convert to float
                 LOWR = [float(a) for a in LOWR]
-                UPPRL = fconlines[UPPR_start_line:(UPPR_start_line+ lines_in_block)]
+                # find end of UPPR, next will be anything with char in 0-4
+                rest_after_UPPR_start = fconlines[(UPPR_start_line+1):] 
+                end_of_UPPR_bool = [bool(re.search("^\S{4}", i)) for i in rest_after_UPPR_start]  # does line start with non blank?
+                end_of_UPPR_line = [i for i, x in enumerate(end_of_UPPR_bool) if x]  
+                end_of_UPPR = end_of_UPPR_line[0]
+                UPPRL = fconlines[UPPR_start_line:(UPPR_start_line + end_of_UPPR + 1 )]
                 UPPR = " ".join(UPPRL).replace("UPPR","").strip().replace("\n","," )
                 # remove "," at end
                 UPPR = UPPR.split(",")
@@ -891,13 +897,14 @@ def check_files_present(model):
         #result = read_model(model.controlFileName)
         data_files_path = read_data_file_name(model)
         #model.dataset_path = result.datainfo.path
-
+        this_data_set = 1
         for this_file in data_files_path:
             if not exists(this_file):
-                log.error(f"Data set for FIRST MODEL {this_file} seems to be missing, exiting")
+                log.error(f"Data set # {this_data_set} for FIRST MODEL {this_file} seems to be missing, exiting")
                 sys.exit()
             else:
-                log.message(f"Data set for FIRST MODEL ONLY {this_file} was found")
+                log.message(f"Data set # {this_data_set} for FIRST MODEL ONLY {this_file} was found")
+                this_data_set += 1  
     except:
         log.error(f"Unable to check if data set is present with current version of NONMEM")
         sys.exit()

@@ -1,10 +1,9 @@
-from cmath import isnan
 import re
 import os
 import shutil
 import shlex
 import xmltodict 
-from typing import OrderedDict
+from collections import OrderedDict
 from os.path import exists
 import subprocess
 from subprocess import DEVNULL, STDOUT, TimeoutExpired

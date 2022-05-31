@@ -90,7 +90,7 @@ def run_all(models):
 
     check_files_present(models[0])
 
-    num_parallel = min(len(models), options['num_parallel'])
+    num_parallel = min(len(models), options.num_parallel)
 
     _process_models(models, num_parallel)
 

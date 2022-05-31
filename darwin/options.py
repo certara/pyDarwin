@@ -66,6 +66,8 @@ class Options:
     def _init_options(self, folder, opts: dict):
         self._options = opts
 
+        self.num_parallel = opts.get('num_parallel', 4)
+
         self.homeDir = folder or opts.get('homeDir')
         self.crash_value = opts.get('crash_value', 99999999)
 

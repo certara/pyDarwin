@@ -76,6 +76,11 @@ class Options:
         self.isGA = self.algorithm == "GA"
         self.isPSO = self.algorithm == "PSO"
 
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
+            self.population_size = opts.get('population_size')
+            if not self.population_size:
+                raise RuntimeError(f"population_size is mandatory for {self.algorithm}")
+
         self.downhill_q = _get_mandatory_option(opts, 'downhill_q')
 
         if self.downhill_q <= 0:

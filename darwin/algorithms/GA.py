@@ -81,7 +81,7 @@ def run_ga(model_template: Template) -> Model:
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
     init_model_list(model_template)
-    pop_size = options['population_size']
+    pop_size = options.population_size
     num_niches = options['num_niches']
     niche_radius = options['niche_radius']
     downhill_q = options.downhill_q

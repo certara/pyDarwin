@@ -53,7 +53,7 @@ R.C. Eberhart in Particle Swarm Optimization [SMC1997]_.
 
 from pyswarms.backend.operators import compute_pbest, compute_objective_function
 from pyswarms.backend.topology import Ring
-from pyswarms.backend.handlers import BoundaryHandler, VelocityHandler
+from pyswarms.backend.handlers import VelocityHandler
 from pyswarms.base import DiscreteSwarmOptimizer
 from pyswarms.utils.reporter import Reporter
 # Import standard library
@@ -181,18 +181,17 @@ class BinaryPSO(DiscreteSwarmOptimizer):
             swarm.
         """
         # Apply verbosity
-        n_processes=None
-        verbose=False,
+        n_processes = None
+        verbose = False
+
         if verbose:
             log_level = logging.INFO
         else:
             log_level = logging.NOTSET
 
-        #self.rep.log("Obj. func. args: {}".format(kwargs), lvl=logging.DEBUG)
-        self.rep.log(
-            "Optimize for {} iters with {}".format(iters, self.options),
-            lvl=log_level,
-        )
+        # self.rep.log("Obj. func. args: {}".format(kwargs), lvl=logging.DEBUG)
+        self.rep.log("Optimize for {} iterations with {}".format(iters, self.options), lvl=log_level,)
+
         # Populate memory of the handlers
         self.vh.memory = self.swarm.position
 
@@ -206,7 +205,7 @@ class BinaryPSO(DiscreteSwarmOptimizer):
             # Compute cost for current position and personal best
             self.swarm.current_cost = compute_objective_function(
                # self.swarm, objective_func, pool, **kwargs
-                self.swarm, objective_func, pool, model_template = model_template, iteration = i
+                self.swarm, objective_func, pool, model_template = model_template, iteration=i
             )
             self.swarm.pbest_pos, self.swarm.pbest_cost = compute_pbest(
                 self.swarm
@@ -247,17 +246,14 @@ class BinaryPSO(DiscreteSwarmOptimizer):
             self.swarm.pbest_cost.argmin()
         ].copy()
         self.rep.log(
-            "Optimization finished | best cost: {}, best pos: {}".format(
-                final_best_cost, final_best_pos
-            ),
+            "Optimization finished | best cost: {}, best pos: {}".format(final_best_cost, final_best_pos),
             lvl=log_level,
         )
         # Close Pool of Processes
         if n_processes is not None:
             pool.close()
 
-        return (final_best_cost, final_best_pos)
-
+        return final_best_cost, final_best_pos
 
     def _compute_position(self, swarm):
         """Update the position matrix of the swarm
@@ -295,61 +291,65 @@ class BinaryPSO(DiscreteSwarmOptimizer):
 # solution = np.random.randint(0, high=2, size=size) 
  
 
-def f(x,model_template,iteration):
+def f(x, model_template, iteration):
     n_particles = x.shape[0]
     # create models
-    num_bits = x.shape[1]
-    Models = []
+    models = []
     maxes = model_template.gene_max
     lengths = model_template.gene_length
-    popFullBits = []
+    pop_full_bits = []
+
     for i in range(n_particles):
-        popFullBits.append(x[i].tolist()) # needs to be list, not numpy array
-    for thisFullBits,model_num in zip(popFullBits,range(len(popFullBits))):
+        pop_full_bits.append(x[i].tolist()) # needs to be list, not numpy array
+
+    for thisFullBits,model_num in zip(pop_full_bits,range(len(pop_full_bits))):
         code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
-        Models.append(Model(model_template, code, model_num, iteration))
-    run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+        models.append(Model(model_template, code, model_num, iteration))
+
+    run_all(models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+
     j = []
+
     for i in range(n_particles):
-        j.append(Models[i].fitness) 
+        j.append(models[i].fitness)
+
     return np.array(j)
 
 # Initialize swarm, arbitrary 
   
 
-def run_PSO(model_template: Template) -> Model:
+def run_pso(model_template: Template) -> Model:
     """ Runs PSO, 
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
     init_model_list(model_template)
-    pop_size = options['population_size']
+    pop_size = options.population_size
     numBits = int(np.sum(model_template.gene_length))
 
     pso_options = {'c1': 0.5, 'c2': 0.5, 'w':0.9, 'k': numBits, 'p':2}
     # k determines how local the search is - how many neighbors does the algorithm evaluate?
 
-                # * c1 : float
-                #     cognitive parameter
-                # * c2 : float
-                #     social parameter
-                # * w : float
-                #     inertia parameter
-                # * k : int
-                #     number of neighbors to be considered. Must be a
-                #     positive integer less than :code:`n_particles`
-                # * p: int {1,2}
-                #     the Minkowski p-norm to use. 1 is the
-                #     sum-of-absolute values (or L1 distance) while 2 is
-                #     the Euclidean (or L2) distance.
+    # * c1 : float
+    #     cognitive parameter
+    # * c2 : float
+    #     social parameter
+    # * w : float
+    #     inertia parameter
+    # * k : int
+    #     number of neighbors to be considered. Must be a
+    #     positive integer less than :code:`n_particles`
+    # * p: int {1,2}
+    #     the Minkowski p-norm to use. 1 is the
+    #     sum-of-absolute values (or L1 distance) while 2 is
+    #     the Euclidean (or L2) distance.
     
     optimizer = BinaryPSO(n_particles=pop_size, dimensions=numBits, options=pso_options, ftol=0, ftol_iter=5)
     # n_particles must be > k (# of neighbors evaluated)    
     # no improvement for 5 iterations
 
-# Perform optimization
-## doc for local vs global search at
-# https://pyswarms.readthedocs.io/en/development/_modules/pyswarms/discrete/binary.html?highlight=local#
+    # Perform optimization
+    # doc for local vs global search at
+    # https://pyswarms.readthedocs.io/en/development/_modules/pyswarms/discrete/binary.html?highlight=local#
     cost, pos = optimizer.optimize(f, iters=options['num_generations'], model_template=model_template)
-    #optimizer = BinaryPSO(n_particles=20, dimensions=20, options=options,ftol = 0, ftol_iter= 5)
- 
+
     log.message(f"best fitness {str(cost)}, model {str(pos)}")

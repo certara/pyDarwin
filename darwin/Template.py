@@ -8,6 +8,7 @@ import collections
 import subprocess
 
 import darwin.utils as utils
+from darwin.options import options
 
 from darwin.Log import log
 
@@ -37,40 +38,33 @@ class Template:
         Tokens are parsed to define the search space. The Template object is inherited by the model object
         """
         failed = False
-        self.homeDir = '<NONE>'
 
         # if running in folder, options_file may be a relative path, so need to cd to the folder first
         _go_to_folder(folder)
 
-        try:
-            if os.path.exists(options_file):
-                self.options = json.loads(open(options_file, 'r').read())
+        options.initialize(folder, options_file)
 
-                # just to make it easier
-                self.homeDir = folder or self.options['homeDir']
-                if self.options['useR']:
-                    self.postRunRCode = os.path.abspath(self.options['postRunRCode'])
-                if self.options['usePython']:
-                    self.postRunPythonCode = os.path.abspath(self.options['postRunPythonCode'])
-            else:  # can't write to homeDir if can't open options
-                log.error(f"Options file {options_file} seems to be missing")
-                sys.exit()
-        except Exception as error:
-            log.error(str(error))
-            log.error(f"Failed to parse JSON options in {options_file}, exiting")
-            sys.exit()
-            
+        os.chdir(options.homeDir)
+
+        self.options = options
+
+        log_file = os.path.join(options.homeDir, "messages.txt")
+
         # if folder is not provided, then it must be set in options
         if not folder:
-            _go_to_folder(self.homeDir)
-
-        log_file = os.path.join(self.homeDir, "messages.txt")
+            _go_to_folder(options.homeDir)
 
         # remove messages file
         if os.path.exists(log_file):
             os.remove(log_file)
 
         log.initialize(log_file)
+
+        # just to make it easier
+        if options['useR']:
+            self.postRunRCode = os.path.abspath(options['postRunRCode'])
+        if options['usePython']:
+            self.postRunPythonCode = os.path.abspath(options['postRunPythonCode'])
 
         log.message(f"Options file found at {options_file}")
 

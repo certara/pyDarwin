@@ -322,9 +322,7 @@ def run_PSO(model_template: Template) -> Model:
     GlobalVars.StartTime = time.time()    
     init_model_list(model_template)
     pop_size = model_template.options['population_size']
-    best_fitness = crash_value = model_template.options['crash_value']  
-    downhill_q = model_template.options['downhill_q']  
-    numBits = int(np.sum(model_template.gene_length)) 
+    numBits = int(np.sum(model_template.gene_length))
 
     options = {'c1': 0.5, 'c2': 0.5, 'w':0.9, 'k': numBits, 'p':2}
     # k determines how local the search is - how many neighbors does the algorithm evaluate?

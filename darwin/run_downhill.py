@@ -4,6 +4,7 @@ import heapq
 from scipy.spatial import distance_matrix
 
 from darwin.Log import log
+from darwin.options import options
 
 from .Model import Model
 from .runAllModels import run_all
@@ -16,7 +17,7 @@ def get_best_in_niche(pop: list):
     return value is list of models, of length num_niches"""
     num_niches = pop[0].template.options['num_niches']
     niche_radius = pop[0].template.options['num_niches']
-    crash_value = pop[0].template.options['crash_value']
+    crash_value = options.crash_value
     fitnesses = [None]*len(pop)
     for i in range(len(pop)):
         fitnesses[i] = pop[i].fitness

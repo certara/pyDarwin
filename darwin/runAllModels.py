@@ -8,6 +8,7 @@ import traceback
 import darwin.GlobalVars as GlobalVars
 
 from darwin.Log import log
+from darwin.options import options
 
 from .Template import Template
 from .Model import Model, check_files_present, start_new_model
@@ -24,7 +25,7 @@ def init_model_list(template: Template):
 
     all_models = dict()
 
-    default_models_file = os.path.join(template.homeDir, ALL_MODELS_FILE)
+    default_models_file = os.path.join(options.homeDir, ALL_MODELS_FILE)
 
     GlobalVars.SavedModelsFile = default_models_file
 
@@ -100,9 +101,9 @@ def run_all(models):
 
     # write best model to output
     try:
-        with open(os.path.join(template.homeDir, "InterimBestControl.mod"), 'w') as f:
+        with open(os.path.join(options.homeDir, "InterimBestControl.mod"), 'w') as f:
             f.write(GlobalVars.BestModel.control)
-        with open(os.path.join(template.homeDir, "InterimBestOutput.lst"), 'w') as f:
+        with open(os.path.join(options.homeDir, "InterimBestOutput.lst"), 'w') as f:
             f.write(GlobalVars.BestModelOutput)
     except:
         traceback.print_exc()

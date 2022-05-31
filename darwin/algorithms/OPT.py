@@ -7,6 +7,7 @@ import heapq
 import os  # not needed in 3.10
 
 from darwin.Log import log
+from darwin.options import options
 
 import darwin.GlobalVars as GlobalVars
 
@@ -109,10 +110,10 @@ def run_skopt(model_template: Template) -> Model:
             Models[worst_inds[i]] = copy(new_models[i])
             fitnesses[worst_inds[i]] = new_models[i].fitness 
             # need max values to convert int to bits
-    with open(os.path.join(model_template.homeDir,"InterimControlFile.mod"),'w') as control:
+    with open(os.path.join(options.homeDir,"InterimControlFile.mod"),'w') as control:
         control.write(GlobalVars.BestModel.control)
 
-    resultFilePath = os.path.join(GlobalVars.BestModel.template.homeDir, "InterimresultFile.lst")
+    resultFilePath = os.path.join(options.homeDir, "InterimresultFile.lst")
 
     with open(resultFilePath, 'w') as result:
         result.write(GlobalVars.BestModelOutput)

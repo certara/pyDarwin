@@ -6,6 +6,7 @@ import gc
 import darwin.GlobalVars as GlobalVars
 
 from darwin.Log import log
+from darwin.options import options
 
 from .Template import Template
 from .Model import Model
@@ -21,12 +22,12 @@ logger = logging.getLogger(__name__)
 
 def _run_template(model_template: Template) -> Model: 
 
-    GlobalVars.init_global_vars(model_template.homeDir)
+    GlobalVars.init_global_vars(options.homeDir)
     # initialize a trivial model for the global best
     null_code = ModelCode([0] * len(model_template.gene_length), "Int",
                           model_template.gene_max, model_template.gene_length) 
     GlobalVars.BestModel = Model(model_template, null_code, -99, -99)
-    GlobalVars.BestModel.fitness = model_template.options['crash_value'] + 1
+    GlobalVars.BestModel.fitness = options.crash_value + 1
     algorithm = model_template.options['algorithm']
 
     log.message(f"Search start time = {time.asctime()}")

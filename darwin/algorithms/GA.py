@@ -17,6 +17,7 @@ import heapq
 import darwin.GlobalVars as GlobalVars
 
 from darwin.Log import log
+from darwin.options import options
 
 from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
@@ -81,7 +82,6 @@ def run_ga(model_template: Template) -> Model:
     GlobalVars.StartTime = time.time()    
     init_model_list(model_template)
     pop_size = model_template.options['population_size']
-    crash_value = model_template.options['crash_value']
     num_niches = model_template.options['num_niches']
     niche_radius = model_template.options['niche_radius']
     downhill_q = model_template.options['downhill_q'] 
@@ -172,7 +172,7 @@ def run_ga(model_template: Template) -> Model:
     # Begin evolution
 
     generations_no_change = 0
-    current_overall_best_fitness = crash_value
+    current_overall_best_fitness = options.crash_value
     log.message(f"generation 0 fitness = {all_best:.4f}")
     num_generations = model_template.options['num_generations']
 
@@ -337,10 +337,10 @@ def run_ga(model_template: Template) -> Model:
         if single_best_model.fitness < final_model.fitness:
             final_model = copy(single_best_model)
        
-    with open(os.path.join(model_template.homeDir, "InterimControlFile.mod"), 'w') as control:
+    with open(os.path.join(options.homeDir, "InterimControlFile.mod"), 'w') as control:
         control.write(GlobalVars.BestModel.control)
 
-    result_file_path = os.path.join(GlobalVars.BestModel.template.homeDir, "InterimResultFile.lst")
+    result_file_path = os.path.join(options.homeDir, "InterimResultFile.lst")
 
     with open(result_file_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)     

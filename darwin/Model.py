@@ -18,6 +18,7 @@ import darwin.utils as utils
 import darwin.GlobalVars as GlobalVars
 
 from darwin.Log import log
+from darwin.options import options
 
 from .Template import Template
 from .ModelCode import ModelCode
@@ -53,7 +54,7 @@ class Model:
         self.success = self.covariance = self.correlation = False
         self.OMEGA = self.SIGMA = None
         self.post_run_Rtext = self.post_run_Pythontext = self.NMtranMSG = self.PRDERR = ""
-        self.fitness = self.template.options['crash_value']
+        self.fitness = options.crash_value
         self.post_run_Pythonpenalty = self.post_run_Rpenalty = self.Condition_num_test = self.condition_num = 0
         self.num_THETAs = self.num_non_fixed_THETAs = self.num_OMEGAs = self.num_non_fixed_OMEGAs = self.num_SIGMAs = self.num_non_fixed_SIGMAs = self.ofv = 0
         self.jsonListRecord = None  # this is a list of key values to be saved to json file, for subsequent runs and to avoid running the same mdoel
@@ -68,7 +69,7 @@ class Model:
         self.status = "Not Started"
 
         self.file_stem = f'NM_{self.generation}_{self.modelNum}'
-        self.runDir = os.path.join(self.template.homeDir, str(self.generation), str(self.modelNum))
+        self.runDir = os.path.join(options.homeDir, str(self.generation), str(self.modelNum))
         self.controlFileName = self.file_stem + ".mod"
         self.outputFileName = self.file_stem + ".lst"
         self.cltFileName = os.path.join(self.runDir, self.file_stem + ".clt")
@@ -141,39 +142,43 @@ class Model:
         return False
 
     def copy_model(self):
-        newdir = os.path.join(self.template.homeDir, str(self.generation), str(self.modelNum))
+        new_dir = os.path.join(options.homeDir, str(self.generation), str(self.modelNum))
+
         self.oldcontrolfile = self.controlFileName
         self.oldoutputfile = self.outputFileName
         self.controlFileName = self.file_stem + ".mod"
         self.outputFileName = self.file_stem + ".lst"
         try:
-            if os.path.isfile(os.path.join(self.template.homeDir, str(self.generation))) or os.path.islink(
-                    os.path.join(self.template.homeDir, str(self.generation))):
-                os.unlink(os.path.join(self.template.homeDir, str(self.generation)))
-            if os.path.isfile(newdir) or os.path.islink(newdir):
-                os.unlink(newdir)
-            if not os.path.isdir(newdir):
-                os.makedirs(newdir) 
-        except:
-            log.error(f"Error removing run files/folders for {newdir}, is that file/folder open?")
+            gen_path = os.path.join(options.homeDir, str(self.generation))
 
-        if os.path.exists(os.path.join(newdir,self.controlFileName)):
-            os.remove(os.path.join(newdir,self.controlFileName))
-        if os.path.exists(os.path.join(newdir,self.outputFileName)):
-            os.remove(os.path.join(newdir,self.outputFileName))
-        if os.path.exists(os.path.join(newdir,"FMSG")):
-            os.remove(os.path.join(newdir,"FMSG"))
-        if os.path.exists(os.path.join(newdir,"PRDERR")):
-            os.remove(os.path.join(newdir,"PRDERR"))
+            if os.path.isfile(gen_path) or os.path.islink(gen_path):
+                os.unlink(gen_path)
+
+            if os.path.isfile(new_dir) or os.path.islink(new_dir):
+                os.unlink(new_dir)
+
+            if not os.path.isdir(new_dir):
+                os.makedirs(new_dir)
+        except:
+            log.error(f"Error removing run files/folders for {new_dir}, is that file/folder open?")
+
+        if os.path.exists(os.path.join(new_dir,self.controlFileName)):
+            os.remove(os.path.join(new_dir,self.controlFileName))
+        if os.path.exists(os.path.join(new_dir,self.outputFileName)):
+            os.remove(os.path.join(new_dir,self.outputFileName))
+        if os.path.exists(os.path.join(new_dir,"FMSG")):
+            os.remove(os.path.join(new_dir,"FMSG"))
+        if os.path.exists(os.path.join(new_dir,"PRDERR")):
+            os.remove(os.path.join(new_dir,"PRDERR"))
 
         # and copy
         try:
-            shutil.copyfile(os.path.join(self.runDir,self.oldoutputfile), os.path.join(newdir, self.file_stem + ".lst"))
-            shutil.copyfile(os.path.join(self.runDir,self.oldcontrolfile), os.path.join(newdir, self.file_stem + ".mod"))
-            shutil.copyfile(os.path.join(self.runDir,"FMSG"), os.path.join(newdir, "FMSG"))
+            shutil.copyfile(os.path.join(self.runDir,self.oldoutputfile), os.path.join(new_dir, self.file_stem + ".lst"))
+            shutil.copyfile(os.path.join(self.runDir,self.oldcontrolfile), os.path.join(new_dir, self.file_stem + ".mod"))
+            shutil.copyfile(os.path.join(self.runDir,"FMSG"), os.path.join(new_dir, "FMSG"))
             if os.path.exists(os.path.join(self.runDir,"PRDERR")):
-                shutil.copyfile(os.path.join(self.runDir,"PRDERR"), os.path.join(newdir, "PRDERR")) 
-            with open(os.path.join(newdir, self.file_stem + ".lst"), 'a') as outfile:
+                shutil.copyfile(os.path.join(self.runDir,"PRDERR"), os.path.join(new_dir, "PRDERR"))
+            with open(os.path.join(new_dir, self.file_stem + ".lst"), 'a') as outfile:
                 outfile.write(f"!!! Saved model, Orginally run as {self.oldcontrolfile} in {self.runDir}")
         except:
             pass
@@ -185,9 +190,9 @@ class Model:
 
         # in case the new folder name is a file
         try:
-            if os.path.isfile(os.path.join(self.template.homeDir, str(self.generation))) or os.path.islink(
-                    os.path.join(self.template.homeDir, str(self.generation))):
-                os.unlink(os.path.join(self.template.homeDir, str(self.generation)))
+            if os.path.isfile(os.path.join(options.homeDir, str(self.generation))) or os.path.islink(
+                    os.path.join(options.homeDir, str(self.generation))):
+                os.unlink(os.path.join(options.homeDir, str(self.generation)))
 
             if os.path.isfile(self.runDir) or os.path.islink(self.runDir):
                 os.unlink(self.runDir)
@@ -292,7 +297,7 @@ class Model:
             self.status = "post_run_r_failed"
 
         if r_process is None or r_process.returncode != 0:
-            self.post_run_Rpenalty = self.template.options['crash_value']
+            self.post_run_Rpenalty = options.crash_value
 
             with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
                 f.write("Post run R code failed\n")
@@ -314,7 +319,7 @@ class Model:
             self.status = "Done_post_Python"
 
         except:
-            self.post_run_Pythonpenalty = self.template.options['crash_value']
+            self.post_run_Pythonpenalty = options.crash_value
 
             self.status = "post_run_python_failed"
 
@@ -390,7 +395,7 @@ class Model:
     def read_xml(self):
         xml_file = self.xml_file
         if not os.path.exists (xml_file):
-            self.ofv = self.condition_num = self.template.options['crash_value'] 
+            self.ofv = self.condition_num = options.crash_value 
             self.success = self.covariance  = self.correlation = False  
              
         else:
@@ -426,11 +431,11 @@ class Model:
                     else:
                         self.success = False
                 else:
-                    self.ofv = self.template.options['crash_value']
+                    self.ofv = options.crash_value
                     self.success = False 
                     self.covariance = False
                     self.correlation = False 
-                    self.condition_num =  self.template.options['crash_value']     
+                    self.condition_num =  options.crash_value     
                     
                      
                 # IS COVARIANCE REQUESTED:
@@ -461,17 +466,17 @@ class Model:
                             if val > max: max = val
                         self.condition_num = max / min 
                     else:
-                        self.condition_num =  self.template.options['crash_value']  
+                        self.condition_num =  options.crash_value  
                 else:
                     self.covariance = False 
                     self.correlation = False
-                    self.condition_num =  self.template.options['crash_value'] 
+                    self.condition_num =  options.crash_value 
             except:
-                self.ofv =  self.template.options['crash_value']  #['crash_value']here
+                self.ofv = options.crash_value
                 self.success = False
                 self.covariance = False
                 self.correlation = False 
-                self.condition_num = self.template.options['crash_value']
+                self.condition_num = options.crash_value
               
 
     def get_block(self,start,fcon,fixed = False):
@@ -504,7 +509,7 @@ class Model:
 
     def read_model(self): 
         if not os.path.exists(os.path.join(self.runDir,"FCON")):
-            self.ofv = self.condition_num = self.template.options['crash_value'] 
+            self.ofv = self.condition_num = options.crash_value
             self.success = self.covariance  = self.correlation = False 
             self.num_THETA=self.num_OMEGA=self.num_SIGMA=self.n_estimated_theta=self.n_estimated_omega=self.n_estimated_sigma = 999
         
@@ -596,7 +601,7 @@ class Model:
 
                 
             except:
-                self.ofv = self.condition_num = self.template.options['crash_value']  
+                self.ofv = self.condition_num = options.crash_value
                 self.success = self.covariance  = self.correlation = False 
                 self.num_THETA=self.num_OMEGA=self.num_SIGMA=self.n_estimated_theta=self.n_estimated_omega=self.n_estimated_sigma = 999
                  
@@ -613,15 +618,15 @@ class Model:
             self.get_PRDERR()
 
             if self.ofv is None:
-                self.fitness = self.template.options['crash_value']
+                self.fitness = options.crash_value
                 return
             else:
                 self.fitness = self.ofv
                 # non influential tokens penalties
                 self.fitness += self.Num_noninfluential_tokens * self.template.options['non_influential_tokens_penalty']
-                self.ofv = min(self.ofv, self.template.options['crash_value'])
+                self.ofv = min(self.ofv, options.crash_value)
         except:
-            self.fitness = self.template.options['crash_value']
+            self.fitness = options.crash_value
             return
 
         try:
@@ -643,22 +648,22 @@ class Model:
             self.fitness += self.num_OMEGAs * self.template.options['OMEGAPenalty']
             self.fitness += self.num_SIGMAs * self.template.options['SIGMAPenalty']
         except:
-            self.fitness = self.template.options['crash_value']
+            self.fitness = options.crash_value
 
         if self.template.options['useR']:
             try:
                 self.fitness += self.post_run_Rpenalty
             except:
-                self.fitness = self.template.options['crash_value']
+                self.fitness = options.crash_value
 
         if self.template.options['usePython']:
             try:
                 self.fitness += self.post_run_Pythonpenalty
             except:
-                self.fitness = self.template.options['crash_value']
+                self.fitness = options.crash_value
 
-        if self.fitness > self.template.options['crash_value']:
-            self.fitness = self.template.options['crash_value']
+        if self.fitness > options.crash_value:
+            self.fitness = options.crash_value
             # save results
             # write to output 
 
@@ -986,7 +991,7 @@ def start_new_model(model: Model, all_models):
                               f"{model.post_run_Pythonpenalty},{model.NMtranMSG}\n")
             result_file.flush()
 
-        fitness_crashed = model.fitness == model.template.options['crash_value']
+        fitness_crashed = model.fitness == options.crash_value
         fitness_text = f"{model.fitness:.0f}" if fitness_crashed else f"{model.fitness:.3f}"
 
         log.message(

@@ -4,6 +4,7 @@ import numpy as np
 import darwin.GlobalVars as GlobalVars
 
 from darwin.Log import log
+from darwin.options import options
 
 from darwin.Model import Model
 from darwin.ModelCode import ModelCode
@@ -46,7 +47,7 @@ def run_exhaustive(model_template):
     init_model_list(model_template)
 
     fitnesses = []
-    best_fitness = model_template.options['crash_value']
+    best_fitness = options.crash_value
     best_model = None
 
     while current_last <= num_models:

@@ -74,7 +74,7 @@ class Model:
         self.outputFileName = self.file_stem + ".lst"
         self.cltFileName = os.path.join(self.runDir, self.file_stem + ".clt")
         self.xml_file = os.path.join(self.runDir, self.file_stem + ".xml")
-        self.executableFileName = self.file_stem + ".exe"  # os.path.join(self.runDir,self.filestem +".exe")
+        self.executableFileName = self.file_stem + ".exe"
 
     def make_copy(self):
         newmodel = Model(self.template, self.model_code, self.modelNum, self.generation)
@@ -707,7 +707,7 @@ class Model:
             return  # ideally shouldn't be called for saved models, but just in case
 
         try:
-            if options['remove_run_dir'] == "True" and not (self.runDir is None):
+            if options['remove_run_dir'] == "True":
                 try:
                     if os.path.isdir(self.runDir):
                         shutil.rmtree(self.runDir)
@@ -729,29 +729,23 @@ class Model:
                     "nmpathlist.txt",
                     "nmprd4p.mod",
                     "PRSIZES.f90",
-                    "INTER"
+                    "INTER",
+                    self.file_stem + ".ext",
+                    self.file_stem + ".clt",
+                    self.file_stem + ".coi",
+                    self.file_stem + ".cor",
+                    self.file_stem + ".cov",
+                    self.file_stem + ".cpu",
+                    self.file_stem + ".grd",
+                    self.file_stem + ".phi",
+                    self.file_stem + ".shm",
+                    self.file_stem + ".smt",
+                    self.file_stem + ".shk",
+                    self.file_stem + ".rmt",
+                    self.executableFileName
                 ]
 
                 file_to_delete = file_to_delete + glob.glob('FILE*') + glob.glob('WK*.*') + glob.glob('*.lnk') + glob.glob("FSUB*.*")
-                 
-
-
-                if self.file_stem is not None:
-                    file_to_delete = file_to_delete + [
-                        self.file_stem + ".ext",
-                        self.file_stem + ".clt",
-                        self.file_stem + ".coi",
-                        self.file_stem + ".cor",
-                        self.file_stem + ".cov",
-                        self.file_stem + ".cpu",
-                        self.file_stem + ".grd",
-                        self.file_stem + ".phi",
-                        self.file_stem + ".shm",
-                        self.file_stem + ".smt",
-                        self.file_stem + ".shk",
-                        self.file_stem + ".rmt",
-                        self.executableFileName
-                    ]
 
                 for f in file_to_delete:
                     try:

@@ -1,3 +1,4 @@
+import os
 import logging
 import time
 import sys 
@@ -54,6 +55,35 @@ def _run_template(model_template: Template) -> Model:
     return final
 
 
+def _go_to_folder(folder: str):
+    if folder:
+        if not os.path.isdir(folder):
+            os.mkdir(folder)
+
+        log.message("Changing directory to " + folder)
+        os.chdir(folder)
+
+
+def _init_app(options_file: str, folder: str = None):
+    # if running in folder, options_file may be a relative path, so need to cd to the folder first
+    _go_to_folder(folder)
+
+    options.initialize(folder, options_file)
+
+    # if folder is not provided, then it must be set in options
+    if not folder:
+        _go_to_folder(options.homeDir)
+
+    log_file = os.path.join(options.homeDir, "messages.txt")
+
+    if os.path.exists(log_file):
+        os.remove(log_file)
+
+    log.initialize(log_file)
+
+    log.message(f"Options file found at {options_file}")
+
+
 def run_search(template_file: str, tokens_file: str, options_file: str) -> Model:
     """
     run algorithm selected in options_file, based on template_file and tokens_file
@@ -63,8 +93,10 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Model
     function returns the final model object
     """
 
+    _init_app(options_file)
+
     try:
-        model_template = Template(template_file, tokens_file, options_file)
+        model_template = Template(template_file, tokens_file)
     except Exception as e:
         logger.error(e)
         raise
@@ -77,8 +109,10 @@ def run_search_in_folder(
         template_file: str = 'template.txt', tokens_file: str = 'tokens.json', options_file: str = 'options.json'
 ) -> Model:
 
+    _init_app(options_file, folder)
+
     try:
-        model_template = Template(template_file, tokens_file, options_file, folder)
+        model_template = Template(template_file, tokens_file)
     except Exception as e:
         logger.error(e)
         raise

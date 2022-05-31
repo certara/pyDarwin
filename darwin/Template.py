@@ -5,47 +5,18 @@ import json
 import math
 from sympy import false
 import collections
-import subprocess
 
 import darwin.utils as utils
-from darwin.options import options
 
 from darwin.Log import log
 
 
-def _go_to_folder(folder: str):
-    if folder:
-        if not os.path.isdir(folder):
-            os.mkdir(folder)
-
-        log.message("Changing directory to " + folder)
-        os.chdir(folder)
-
-
 class Template:
-    def __init__(self, template_file: str, tokens_file: str, options_file: str, folder: str = None):
+    def __init__(self, template_file: str, tokens_file: str):
         """
         Template contains all the results of the template file and the tokens, and the options
         Tokens are parsed to define the search space. The Template object is inherited by the model object
         """
-
-        # if running in folder, options_file may be a relative path, so need to cd to the folder first
-        _go_to_folder(folder)
-
-        options.initialize(folder, options_file)
-
-        # if folder is not provided, then it must be set in options
-        if not folder:
-            _go_to_folder(options.homeDir)
-
-        log_file = os.path.join(options.homeDir, "messages.txt")
-
-        if os.path.exists(log_file):
-            os.remove(log_file)
-
-        log.initialize(log_file)
-
-        log.message(f"Options file found at {options_file}")
 
         try:
             self.TemplateText = open(template_file, 'r').read()

@@ -707,7 +707,7 @@ class Model:
             return  # ideally shouldn't be called for saved models, but just in case
 
         try:
-            if options['remove_run_dir'] == "True":
+            if options.remove_run_dir:
                 try:
                     if os.path.isdir(self.runDir):
                         shutil.rmtree(self.runDir)

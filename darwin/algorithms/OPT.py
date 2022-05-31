@@ -43,8 +43,8 @@ def run_skopt(model_template: Template) -> Model:
     
     init_model_list(model_template)
     #opt = Optimizer(Num_Groups,n_jobs = 1, base_estimator="GBRT")
-    # for parallel, will need and array of N number of optimizaer,  n_jobs doesn't seem to do anything
-    opt = Optimizer(Num_Groups,n_jobs = 1, base_estimator=options.algorithm)
+    # for parallel, will need and array of N number of optimizer,  n_jobs doesn't seem to do anything
+    opt = Optimizer(Num_Groups, n_jobs=1, base_estimator=options.algorithm)
     log.message(f"Algorithm is {options.algorithm}")
     # https://scikit-optimize.github.io/stable/auto_examples/ask-and-tell.html 
     
@@ -63,29 +63,33 @@ def run_skopt(model_template: Template) -> Model:
             code = ModelCode(thisInts, "Int", maxes, lengths)
             Models.append(Model(model_template, code, model_num, this_iter))
         run_all(Models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+
         # copy fitnesses back
         fitnesses = [None]*len(suggested)
+
         for i in range(len(suggested)):
             fitnesses[i] = Models[i].fitness
-        # run downhill??
+
+        # run downhill?
         if this_iter % downhill_q == 0 and this_iter > 0: 
             # pop will have the fitnesses without the niche penalty here
             
             log.message(f"Starting downhill, iteration = {this_iter} at {time.asctime()}")
             # can only use all models in GP, not in RF or GA
             if options.algorithm == "GP":
-                new_models, worst_inds, all_models = run_downhill(Models, return_all = True)
+                new_models, worst_individuals, all_models = run_downhill(Models, return_all=True)
             else:
-                new_models, worst_inds = run_downhill(Models, return_all = False)
-            # replace worst_inds with new_inds, after hof update
+                new_models, worst_individuals = run_downhill(Models, return_all=False)
+
+            # replace worst_individuals with new_individuals, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
-            ## rundownhill returns on the fitness and the integer representation!!, need to make GA model from that
-            ## which means back calculate GA/full bit string reprentation
-            #full_bit_inds = []
+            # run_downhill returns on the fitness and the integer representation!!, need to make GA model from that
+            # which means back calculate GA/full bit string representation
             for i in range(len(new_models)):
-                Models[worst_inds[i]] = copy(new_models[i])
-                fitnesses[worst_inds[i]] = new_models[i].fitness
-                suggested[worst_inds[i]] = new_models[i].model_code.IntCode
+                Models[worst_individuals[i]] = copy(new_models[i])
+                fitnesses[worst_individuals[i]] = new_models[i].fitness
+                suggested[worst_individuals[i]] = new_models[i].model_code.IntCode
+
             if options.algorithm == "GP":
                 log.message("add in all models to suggested and fitness for GP")
  
@@ -99,16 +103,19 @@ def run_skopt(model_template: Template) -> Model:
         best = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)
         log.message(f"Best fitness this iteration = {fitnesses[best[0]]:4f}  at {time.asctime()}" )
         log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
+
     if options["final_fullExhaustiveSearch"]:
         log.message(f"Starting final downhill, iteration = {this_iter}")
         # can only use all models in GP, not in RF or GA
+
         if options.algorithm == "GP":
-            new_models, worst_inds, all_models = run_downhill(Models, return_all = True)
+            new_models, worst_individuals, all_models = run_downhill(Models, return_all = True)
         else:
-            new_models, worst_inds = run_downhill(Models, return_all = False)
+            new_models, worst_individuals = run_downhill(Models, return_all = False)
+
         for i in range(len(new_models)):
-            Models[worst_inds[i]] = copy(new_models[i])
-            fitnesses[worst_inds[i]] = new_models[i].fitness 
+            Models[worst_individuals[i]] = copy(new_models[i])
+            fitnesses[worst_individuals[i]] = new_models[i].fitness
             # need max values to convert int to bits
     with open(os.path.join(options.homeDir,"InterimControlFile.mod"),'w') as control:
         control.write(GlobalVars.BestModel.control)

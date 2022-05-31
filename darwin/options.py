@@ -8,15 +8,16 @@ from os.path import exists
 from darwin.Log import log
 
 
-def _get_mandatory_option(opts: dict, name):
-    # Options ctor doesn't have any opts
-    if not opts:
-        return None
-
+def _get_mandatory_option(opts: dict, name, for_what=None):
     res = opts.get(name)
 
     if res is None:
-        raise RuntimeError(f'{name} must be set')
+        err = f'{name} is mandatory'
+
+        if for_what:
+            err += f' for {for_what}'
+
+        raise RuntimeError(err)
 
     return res
 
@@ -70,6 +71,7 @@ class Options:
 
         self.homeDir = folder or opts.get('homeDir')
         self.crash_value = opts.get('crash_value', 99999999)
+        self.remove_run_dir = opts.get('remove_run_dir', False)
 
         self.algorithm = _get_mandatory_option(opts, 'algorithm')
 
@@ -77,14 +79,15 @@ class Options:
         self.isPSO = self.algorithm == "PSO"
 
         if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
-            self.population_size = opts.get('population_size')
-            if not self.population_size:
-                raise RuntimeError(f"population_size is mandatory for {self.algorithm}")
+            self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)
 
-        self.downhill_q = _get_mandatory_option(opts, 'downhill_q')
+        if self.algorithm in ["GA", "GBRT", "RF", "GP"]:
+            self.downhill_q = _get_mandatory_option(opts, 'downhill_q', self.algorithm)
+            self.num_niches = _get_mandatory_option(opts, 'num_niches', self.algorithm)
+            self.niche_radius = _get_mandatory_option(opts, 'niche_radius', self.algorithm)
 
-        if self.downhill_q <= 0:
-            raise RuntimeError("downhill_q value must be > 0")
+            if self.downhill_q <= 0:
+                raise RuntimeError("downhill_q value must be > 0")
 
         self.use_r = opts.get('useR', False)
         self.use_python = opts.get('usePython', False)

@@ -82,8 +82,6 @@ def run_ga(model_template: Template) -> Model:
     GlobalVars.StartTime = time.time()    
     init_model_list(model_template)
     pop_size = options.population_size
-    num_niches = options['num_niches']
-    niche_radius = options['niche_radius']
     downhill_q = options.downhill_q
     elitist_num = options['elitist_num'] 
     sharing_alpha = options['sharing_alpha']
@@ -183,7 +181,7 @@ def run_ga(model_template: Template) -> Model:
         
         # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
         # so fitnesses in pop are only used for selection in GA
-        add_sharing_penalty(pop_full_bits, niche_radius, sharing_alpha, niche_penalty)
+        add_sharing_penalty(pop_full_bits, options.niche_radius, sharing_alpha, niche_penalty)
 
         # do not copy new fitness to models, models should be just the "real" fitness
         # Select the next generation individuals
@@ -250,7 +248,7 @@ def run_ga(model_template: Template) -> Model:
             # downhill with NumNiches best models
             log.message(f"Starting downhill generation = {generation}  at {time.asctime()}")
 
-            best_index = _get_n_best_index(num_niches, fitnesses)
+            best_index = _get_n_best_index(options.num_niches, fitnesses)
 
             log.message(f"current best model(s) =")
 
@@ -328,7 +326,7 @@ def run_ga(model_template: Template) -> Model:
             else:
                 fitnesses[worst_individuals[i]] = (new_models[i].fitness,)
       
-        best_index = _get_n_best_index(num_niches, fitnesses)
+        best_index = _get_n_best_index(options.num_niches, fitnesses)
 
         log.message(f"Done with final downhill step, {generation}. best fitness = {fitnesses[best_index[0]]}")
          

@@ -35,7 +35,7 @@ def run_exhaustive(model_template):
     log.message(f"Total of {num_models} to be run in exhaustive search")
 
     # break into smaller list, for memory management
-    max_models = model_template.options['max_model_list_size']
+    max_models = options['max_model_list_size']
 
     current_start = 0
     current_last = current_start + max_models

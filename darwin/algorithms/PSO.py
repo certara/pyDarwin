@@ -70,6 +70,7 @@ import time
 import darwin.GlobalVars as GlobalVars
 
 from darwin.Log import log
+from darwin.options import options
 
 from darwin.Template import Template
 from darwin.Model import Model
@@ -321,10 +322,10 @@ def run_PSO(model_template: Template) -> Model:
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
     init_model_list(model_template)
-    pop_size = model_template.options['population_size']
+    pop_size = options['population_size']
     numBits = int(np.sum(model_template.gene_length))
 
-    options = {'c1': 0.5, 'c2': 0.5, 'w':0.9, 'k': numBits, 'p':2}
+    pso_options = {'c1': 0.5, 'c2': 0.5, 'w':0.9, 'k': numBits, 'p':2}
     # k determines how local the search is - how many neighbors does the algorithm evaluate?
 
                 # * c1 : float
@@ -341,14 +342,14 @@ def run_PSO(model_template: Template) -> Model:
                 #     sum-of-absolute values (or L1 distance) while 2 is
                 #     the Euclidean (or L2) distance.
     
-    optimizer = BinaryPSO(n_particles=pop_size, dimensions=numBits, options=options,ftol = 0, ftol_iter = 5)
+    optimizer = BinaryPSO(n_particles=pop_size, dimensions=numBits, options=pso_options, ftol=0, ftol_iter=5)
     # n_particles must be > k (# of neighbors evaluated)    
     # no improvement for 5 iterations
 
 # Perform optimization
 ## doc for local vs global search at
 # https://pyswarms.readthedocs.io/en/development/_modules/pyswarms/discrete/binary.html?highlight=local#
-    cost, pos = optimizer.optimize(f ,iters=model_template.options['num_generations'], model_template=model_template)
+    cost, pos = optimizer.optimize(f, iters=options['num_generations'], model_template=model_template)
     #optimizer = BinaryPSO(n_particles=20, dimensions=20, options=options,ftol = 0, ftol_iter= 5)
  
     log.message(f"best fitness {str(cost)}, model {str(pos)}")

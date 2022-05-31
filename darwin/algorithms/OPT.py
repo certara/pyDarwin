@@ -23,10 +23,10 @@ Models = []  # will put models here to query them and not rerun models, will eve
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
 def run_skopt(model_template: Template) -> Model:
-    """run any of  the three skopt algorithms. Algorithm is define in Template.options['algorithm'], which is read from the options json file
+    """run any of  the three skopt algorithms. Algorithm is defined in options.
     returns the single best model after the search """
-    np.random.seed(model_template.options['random_seed'])
-    downhill_q = model_template.options['downhill_q'] 
+    np.random.seed(options['random_seed'])
+    downhill_q = options.downhill_q 
     # just get list of numbers, of len of each token group
     Num_Groups = []
     #Keys = model_template.tokens.keys() 
@@ -44,36 +44,36 @@ def run_skopt(model_template: Template) -> Model:
     init_model_list(model_template)
     #opt = Optimizer(Num_Groups,n_jobs = 1, base_estimator="GBRT")
     # for parallel, will need and array of N number of optimizaer,  n_jobs doesn't seem to do anything
-    opt = Optimizer(Num_Groups,n_jobs = 1, base_estimator=model_template.options['algorithm'])
-    log.message(f"Algorithm is {model_template.options['algorithm']}")
+    opt = Optimizer(Num_Groups,n_jobs = 1, base_estimator=options.algorithm)
+    log.message(f"Algorithm is {options.algorithm}")
     # https://scikit-optimize.github.io/stable/auto_examples/ask-and-tell.html 
     
     niter_no_change = 0 
     maxes = model_template.gene_max
     lengths = model_template.gene_length
-    for this_iter in range(model_template.options['num_generations']): 
-        log.message(f"Starting generation/iteration {this_iter}, {model_template.options['algorithm']} algorithm at {time.asctime()}" )
+    for this_iter in range(options['num_generations']):
+        log.message(f"Starting generation/iteration {this_iter}, {options.algorithm} algorithm at {time.asctime()}" )
          
         suggestion_start_time = time.time()
         # will need to ask for 1/10 of the total models if run 10  way parallel
-        suggested = opt.ask(n_points = model_template.options['population_size'])
+        suggested = opt.ask(n_points=options['population_size'])
         log.message("Elapse time for sampling step # %d =  %.1f seconds" % (this_iter, (time.time() - suggestion_start_time)))
-        Models = [] # some other method to clear memory??
-        for thisInts,model_num in zip(suggested,range(len(suggested))):
+        Models = []  # some other method to clear memory??
+        for thisInts, model_num in zip(suggested,range(len(suggested))):
             code = ModelCode(thisInts, "Int", maxes, lengths)
             Models.append(Model(model_template, code, model_num, this_iter))
-        run_all(Models) #popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+        run_all(Models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
         # copy fitnesses back
         fitnesses = [None]*len(suggested)
         for i in range(len(suggested)):
             fitnesses[i] = Models[i].fitness
-         ### run downhill??
+        # run downhill??
         if this_iter % downhill_q == 0 and this_iter > 0: 
             # pop will have the fitnesses without the niche penalty here
             
             log.message(f"Starting downhill, iteration = {this_iter} at {time.asctime()}")
             # can only use all models in GP, not in RF or GA
-            if model_template.options['algorithm'] == "GP":
+            if options.algorithm == "GP":
                 new_models, worst_inds, all_models = run_downhill(Models, return_all = True)
             else:
                 new_models, worst_inds = run_downhill(Models, return_all = False)
@@ -86,7 +86,7 @@ def run_skopt(model_template: Template) -> Model:
                 Models[worst_inds[i]] = copy(new_models[i])
                 fitnesses[worst_inds[i]] = new_models[i].fitness
                 suggested[worst_inds[i]] = new_models[i].model_code.IntCode
-            if model_template.options['algorithm'] == "GP":
+            if options.algorithm == "GP":
                 log.message("add in all models to suggested and fitness for GP")
  
         tell_start_time = time.time() 
@@ -99,10 +99,10 @@ def run_skopt(model_template: Template) -> Model:
         best = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)
         log.message(f"Best fitness this iteration = {fitnesses[best[0]]:4f}  at {time.asctime()}" )
         log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f}, iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}" )
-    if  model_template.options["final_fullExhaustiveSearch"]:
+    if options["final_fullExhaustiveSearch"]:
         log.message(f"Starting final downhill, iteration = {this_iter}")
-            # can only use all models in GP, not in RF or GA
-        if model_template.options['algorithm'] == "GP":
+        # can only use all models in GP, not in RF or GA
+        if options.algorithm == "GP":
             new_models, worst_inds, all_models = run_downhill(Models, return_all = True)
         else:
             new_models, worst_inds = run_downhill(Models, return_all = False)

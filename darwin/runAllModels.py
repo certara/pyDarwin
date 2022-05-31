@@ -42,9 +42,9 @@ def init_model_list(template: Template):
                           f"ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages\n")
         log.message(f"Writing intermediate output to {results_file}")
 
-    prev_list = template.options.get('PreviousModelsList', 'none')
+    prev_list = options.get('PreviousModelsList', 'none')
 
-    if template.options.get("usePreviousModelsList", False) and prev_list.lower() != 'none':
+    if options.get("usePreviousModelsList", False) and prev_list.lower() != 'none':
         try:
             models_list = Path(prev_list)
 
@@ -88,11 +88,9 @@ def run_all(models):
     all_results maybe full binary (GA) or integer (not GA) or minimal binary (downhill)
     no return value, just updates Models"""
 
-    template = models[0].template
-
     check_files_present(models[0])
 
-    num_parallel = min(len(models), template.options['num_parallel'])
+    num_parallel = min(len(models), options['num_parallel'])
 
     _process_models(models, num_parallel)
 

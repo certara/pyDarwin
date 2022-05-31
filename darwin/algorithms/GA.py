@@ -81,13 +81,13 @@ def run_ga(model_template: Template) -> Model:
     Argument is model_template, which has all the needed information """
     GlobalVars.StartTime = time.time()    
     init_model_list(model_template)
-    pop_size = model_template.options['population_size']
-    num_niches = model_template.options['num_niches']
-    niche_radius = model_template.options['niche_radius']
-    downhill_q = model_template.options['downhill_q'] 
-    elitist_num = model_template.options['elitist_num'] 
-    sharing_alpha = model_template.options['sharing_alpha']
-    niche_penalty = model_template.options['niche_penalty']   
+    pop_size = options['population_size']
+    num_niches = options['num_niches']
+    niche_radius = options['niche_radius']
+    downhill_q = options.downhill_q
+    elitist_num = options['elitist_num'] 
+    sharing_alpha = options['sharing_alpha']
+    niche_penalty = options['niche_penalty']   
     num_bits = int(np.sum(model_template.gene_length))
     
     log.message("\n\n\n\nNew Model")
@@ -101,7 +101,7 @@ def run_ga(model_template: Template) -> Model:
     #                      which corresponds to integers sampled uniformly
     #                      from the range [0,1] (i.e. 0 or 1 with equal
     #                      probability) 
-    random.seed(model_template.options['random_seed'])
+    random.seed(options['random_seed'])
     toolbox.register("attr_bool", random.randint, 0, 1)
 
     # Structure initializers
@@ -116,28 +116,28 @@ def run_ga(model_template: Template) -> Model:
     # the goal ('fitness') function to be maximized  
 
     # register the crossover operator
-    if model_template.options['crossoverOperator'] == "cxOnePoint":
+    if options['crossoverOperator'] == "cxOnePoint":
         toolbox.register("mate", tools.cxOnePoint)
 
     # other cross over options here
     # register a mutation operator with a probability to
     # flip each attribute/gene of 0.05
-    if model_template.options['mutate'] == "flipBit":
-        toolbox.register("mutate", tools.mutFlipBit, indpb=model_template.options['attribute_mutation_probability'])
+    if options['mutate'] == "flipBit":
+        toolbox.register("mutate", tools.mutFlipBit, indpb=options['attribute_mutation_probability'])
 
     # operator for selecting individuals for breeding the next
     # generation: each individual of the current generation
     # is replaced by the 'fittest' (best) of three individuals
     # drawn randomly from the current generation.
-    if model_template.options['selection'] == "tournament":
-        toolbox.register("select", tools.selTournament, tournsize=model_template.options['selection_size'])
+    if options['selection'] == "tournament":
+        toolbox.register("select", tools.selTournament, tournsize=options['selection_size'])
  
     # create an initial population of pop_size individuals (where
     # each individual is a list of bits [0|1])
     pop_full_bits = toolbox.population(n=pop_size)
     best_for_elitism = toolbox.population(n=elitist_num)   
-    crossover_probability = model_template.options['crossoverRate']
-    mutation_probability = model_template.options['mutationRate']
+    crossover_probability = options['crossoverRate']
+    mutation_probability = options['mutationRate']
 
     # argument to run_all is integer codes!!!!!
     models = []
@@ -174,7 +174,7 @@ def run_ga(model_template: Template) -> Model:
     generations_no_change = 0
     current_overall_best_fitness = options.crash_value
     log.message(f"generation 0 fitness = {all_best:.4f}")
-    num_generations = model_template.options['num_generations']
+    num_generations = options['num_generations']
 
     while generation < num_generations:
         # A new generation
@@ -314,7 +314,7 @@ def run_ga(model_template: Template) -> Model:
 
     final_model = copy(models[cur_best_ind])
    
-    if model_template.options["final_fullExhaustiveSearch"]:
+    if options["final_fullExhaustiveSearch"]:
         # start with standard downhill 
         # change generation of models to final
         for i in range(len(models)):

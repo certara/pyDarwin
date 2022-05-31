@@ -13,15 +13,6 @@ from darwin.options import options
 from darwin.Log import log
 
 
-def _import_postprocessing(path: str):
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("postprocessing.module", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-
-    return module.post_process
-
-
 def _go_to_folder(folder: str):
     if folder:
         if not os.path.isdir(folder):
@@ -37,44 +28,32 @@ class Template:
         Template contains all the results of the template file and the tokens, and the options
         Tokens are parsed to define the search space. The Template object is inherited by the model object
         """
-        failed = False
 
         # if running in folder, options_file may be a relative path, so need to cd to the folder first
         _go_to_folder(folder)
 
         options.initialize(folder, options_file)
 
-        os.chdir(options.homeDir)
-
-        self.options = options
-
-        log_file = os.path.join(options.homeDir, "messages.txt")
-
         # if folder is not provided, then it must be set in options
         if not folder:
             _go_to_folder(options.homeDir)
 
-        # remove messages file
+        log_file = os.path.join(options.homeDir, "messages.txt")
+
         if os.path.exists(log_file):
             os.remove(log_file)
 
         log.initialize(log_file)
 
-        # just to make it easier
-        if options['useR']:
-            self.postRunRCode = os.path.abspath(options['postRunRCode'])
-        if options['usePython']:
-            self.postRunPythonCode = os.path.abspath(options['postRunPythonCode'])
-
         log.message(f"Options file found at {options_file}")
 
-        try:  # should this be absolute path or path from homeDir??
+        try:
             self.TemplateText = open(template_file, 'r').read()
 
             log.message(f"Template file found at {template_file}")
         except Exception as error:
             log.error(str(error))
-            log.error("Failed to open Template file " + template_file)
+            log.error("Failed to open Template file: " + template_file)
             sys.exit()
 
         try:
@@ -84,61 +63,21 @@ class Template:
         except Exception as error:
             log.error(str(error))
             log.error("Failed to parse JSON tokens in " + tokens_file)
-            failed = True
-
-        if self.options['downhill_q'] == 0 or self.options['downhill_q'] < 0 :
-            log.error("downhill_q value must be > 0")
-            failed = True
-
-        if self.options['usePython']:
-            python_postrpocess_path = self.options['postRunPythonCode']
-            if not os.path.isfile(python_postrpocess_path):
-                log.error("postRunPythonCode " + python_postrpocess_path + " was not found")
-                failed = True
-            else:
-                log.message("postRunPythonCode " + python_postrpocess_path + " found")
-                self.python_postprocess = _import_postprocessing(self.options['postRunPythonCode'])
-
-        if failed:
-            log.error("Error in required file found, exiting")
             sys.exit()
 
-        self.isGA = self.options['algorithm'] == "GA"
-        self.isPSO = self.options['algorithm'] == "PSO"
-
-        self.version = None
         self.gene_max = []  # zero based
         self.gene_length = []  # length is 1 based
+
         self._get_gene_length()
         self._check_omega_search()
 
-        self.control = self.controlBaseTokens = None
-        self.lastFixedTHETA = None  ## fixed THETA do not count toward penalty
-        self.lastFixedETA = self.lastFixedEPS = None
-        self.variableTHETAIndices = []  # for each token set does if have THETA(*) alphanumeric indices in THETA(*)
-        self.THETAmatchesSequence = {}  # dictionary of source (alpha) theta indices and sequence
-        # e.g. THETA(ABC) is first in $THETA template, then THETA(DEF)
-        self.THETABlock = self.NMtranMSG = None
-        nFixedTHETA, nFixedETA, nFixedEPS, THETABlock, OMEGABlock, SIGMABlock = _get_fixed_params(self.TemplateText)
+        self.lastFixedTHETA, self.lastFixedETA, self.lastFixedEPS, THETABlock, OMEGABlock, SIGMABlock\
+            = _get_fixed_params(self.TemplateText)
 
-        self.varTHETABlock = _get_variable_block(
-            THETABlock)  # list of only the variable tokens in $THETA in template, will population with
-        # tokens below
-        self.varOMEGABlock = _get_variable_block(
-            OMEGABlock)  # list of only the variable tokens in $THETA in template, will population with
-        # tokens below
-        self.varSIGMABlock = _get_variable_block(
-            SIGMABlock)  # list of only the variable tokens in $THETA in template, will population with
-        # tokens below
-
-        self.lastFixedTHETA = nFixedTHETA
-        self.lastFixedETA = nFixedETA
-        self.lastFixedEPS = nFixedEPS
-
-        self.nm_priority = _get_priority_class(self.options)
-        self.nm_timeout = int(self.options.get('NM_timeout_sec', 1200))
-        self.r_timeout = int(self.options.get('R_timeout_sec', 30))
-
+        # list of only the variable tokens in $THETA in template, will population with
+        self.varTHETABlock = _get_variable_block(THETABlock)
+        self.varOMEGABlock = _get_variable_block(OMEGABlock)
+        self.varSIGMABlock = _get_variable_block(SIGMABlock)
 
     def _get_gene_length(self):
         """ argument is the token sets, returns maximum value of token sets and number of bits"""
@@ -222,31 +161,8 @@ def _get_fixed_block(code, key):
         # remove blanks, options and tokens, comments
         line = utils.removeComments(line).strip()
         # count fixed only, n
-        # visual studio code showing warning for "\$" below, but that is just literal $ at beginning of line, eg., $THETA
+        # visual studio code shows warning for "\$" below, but that is just literal $ at beginning of line, eg., $THETA
         if (line != "" and (not (re.search("^{.+}", line)))) and not re.search("^\$.+", line):
             fixed_count += 1
 
     return fixed_count, full_block
-
-
-PRIORITIES = {
-    'idle': subprocess.IDLE_PRIORITY_CLASS,
-    'below_normal': subprocess.BELOW_NORMAL_PRIORITY_CLASS,
-    'normal': subprocess.NORMAL_PRIORITY_CLASS,
-    'above_normal': subprocess.ABOVE_NORMAL_PRIORITY_CLASS, # probably shouldn't have the option to set to above normal priorty
-    'high': subprocess.HIGH_PRIORITY_CLASS
-}
-
-
-def _get_priority_class(options: dict):
-    if sys.platform != "win32":
-        return 0
-
-    priority = str(options.get('NM_priority_class', 'normal')).lower()
-
-    if priority not in PRIORITIES:
-        priority = 'normal'
-
-    log.message(f'NM priority is {priority}')
-
-    return PRIORITIES[priority]

@@ -28,7 +28,7 @@ def _run_template(model_template: Template) -> Model:
                           model_template.gene_max, model_template.gene_length) 
     GlobalVars.BestModel = Model(model_template, null_code, -99, -99)
     GlobalVars.BestModel.fitness = options.crash_value + 1
-    algorithm = model_template.options['algorithm']
+    algorithm = options.algorithm
 
     log.message(f"Search start time = {time.asctime()}")
 
@@ -36,12 +36,12 @@ def _run_template(model_template: Template) -> Model:
         final = run_skopt(model_template)
     elif algorithm == "GA":
         final = run_ga(model_template)
-    elif algorithm in ["EX","EXHAUSTIVE"]:
+    elif algorithm in ["EX", "EXHAUSTIVE"]:
         final = run_exhaustive(model_template)
     elif algorithm == "PSO":
         final = run_PSO(model_template)
     else:
-        log.message(f"Algorithm {algorithm} is not available")
+        log.error(f"Algorithm {algorithm} is not available")
         sys.exit()
 
     log.message(f"Number of unique models to best model = {GlobalVars.UniqueModelsToBest}")

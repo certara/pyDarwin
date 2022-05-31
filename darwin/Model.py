@@ -225,7 +225,7 @@ class Model:
     def run_model(self):
         self.make_control_file()
 
-        command = [self.template.options['nmfePath'], os.path.join(self.runDir, self.controlFileName),
+        command = [options.nmfe_path, os.path.join(self.runDir, self.controlFileName),
                    os.path.join(self.runDir, self.outputFileName),
                    " -nmexec=" + self.executableFileName, f'-rundir={self.runDir}']
 
@@ -239,7 +239,7 @@ class Model:
             os.chdir(self.runDir)
 
             nm = subprocess.run(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.runDir,
-                                creationflags=self.template.nm_priority, timeout=self.template.nm_timeout)
+                                creationflags=options.nm_priority, timeout=options.nm_timeout)
 
             self.status = "Done_running_NM"
         except TimeoutExpired:
@@ -252,12 +252,10 @@ class Model:
             log.error(f'run {self.modelNum} has failed')
             return
 
-        if self.template.options['useR']:
-            self._post_run_r()
-        if self.template.options['usePython']:
-            self._post_run_python()
+        self._post_run_r()
+        self._post_run_python()
 
-        self.calc_fitness()
+        self._calc_fitness()
 
         self.status = "Done"
 
@@ -277,7 +275,10 @@ class Model:
         R is called by subprocess call to Rscript.exe. User must supply path to Rscript.exe
         Presence of Rscript.exe is check in the files_present"""
 
-        command = [self.template.options['RScriptPath'], self.template.postRunRCode]
+        if not options.use_r:
+            return
+
+        command = [options.rscript_path, options.postRunRCode]
 
         r_process = None
 
@@ -285,7 +286,7 @@ class Model:
             self.status = "Running_post_Rcode"
 
             r_process = subprocess.run(command, capture_output=True, cwd=self.runDir,
-                                       creationflags=self.template.nm_priority, timeout=self.template.r_timeout)
+                                       creationflags=options.nm_priority, timeout=options.r_timeout)
 
             self.status = "Done_post_Rcode"
 
@@ -309,8 +310,11 @@ class Model:
                 f.write(f"Post run R code text = {str(self.post_run_Rtext)}\n")
 
     def _post_run_python(self):
+        if not options.use_python:
+            return
+
         try:
-            self.post_run_Pythonpenalty, self.post_run_Pythontext = self.template.python_postprocess()
+            self.post_run_Pythonpenalty, self.post_run_Pythontext = options.python_post_process()
 
             with open(os.path.join(self.runDir, self.outputFileName), "a") as f:
                 f.write(f"Post run Python code Penalty = {str(self.post_run_Pythonpenalty)}\n")
@@ -607,7 +611,7 @@ class Model:
                  
             return
 
-    def calc_fitness(self):
+    def _calc_fitness(self):
         """calculates the fitness, based on the model output, and the penalties (from the options file)
         need to look in output file for parameter at boundary and parameter non-positive """
 
@@ -623,7 +627,7 @@ class Model:
             else:
                 self.fitness = self.ofv
                 # non influential tokens penalties
-                self.fitness += self.Num_noninfluential_tokens * self.template.options['non_influential_tokens_penalty']
+                self.fitness += self.Num_noninfluential_tokens * options['non_influential_tokens_penalty']
                 self.ofv = min(self.ofv, options.crash_value)
         except:
             self.fitness = options.crash_value
@@ -631,36 +635,27 @@ class Model:
 
         try:
             if not self.success:
-                self.fitness += self.template.options['covergencePenalty']
+                self.fitness += options['covergencePenalty']
 
             if not self.covariance:  # covariance_step['completed'] != True:
-                self.fitness += self.template.options['covariancePenalty']
-                self.fitness += self.template.options['correlationPenalty']
-                self.fitness += self.template.options['conditionNumberPenalty']
+                self.fitness += options['covariancePenalty']
+                self.fitness += options['correlationPenalty']
+                self.fitness += options['conditionNumberPenalty']
             else:
                 if not self.correlation:
-                    self.fitness += self.template.options['correlationPenalty']
+                    self.fitness += options['correlationPenalty']
                 if not self.Condition_num_test:  #
-                    self.fitness += self.template.options['conditionNumberPenalty']
-                    ## parsimony penalties
+                    self.fitness += options['conditionNumberPenalty']
+                    # parsimony penalties
 
-            self.fitness += self.num_non_fixed_THETAs * self.template.options['THETAPenalty']
-            self.fitness += self.num_OMEGAs * self.template.options['OMEGAPenalty']
-            self.fitness += self.num_SIGMAs * self.template.options['SIGMAPenalty']
+            self.fitness += self.num_non_fixed_THETAs * options['THETAPenalty']
+            self.fitness += self.num_OMEGAs * options['OMEGAPenalty']
+            self.fitness += self.num_SIGMAs * options['SIGMAPenalty']
         except:
             self.fitness = options.crash_value
 
-        if self.template.options['useR']:
-            try:
-                self.fitness += self.post_run_Rpenalty
-            except:
-                self.fitness = options.crash_value
-
-        if self.template.options['usePython']:
-            try:
-                self.fitness += self.post_run_Pythonpenalty
-            except:
-                self.fitness = options.crash_value
+        self.fitness += self.post_run_Rpenalty
+        self.fitness += self.post_run_Pythonpenalty
 
         if self.fitness > options.crash_value:
             self.fitness = options.crash_value
@@ -712,7 +707,7 @@ class Model:
             return  # ideally shouldn't be called for saved models, but just in case
 
         try:
-            if self.template.options['remove_run_dir'] == "True" and not (self.runDir is None):
+            if options['remove_run_dir'] == "True" and not (self.runDir is None):
                 try:
                     if os.path.isdir(self.runDir):
                         shutil.rmtree(self.runDir)
@@ -819,8 +814,9 @@ class Model:
         self.control = utils.matchRands(self.control, self.template.tokens, self.template.varSIGMABlock, self.phenotype,
                                         self.template.lastFixedEPS, "EPS")
         self.control = utils.matchRands(self.control, self.template.tokens, self.template.varSIGMABlock, self.phenotype,
-                                        self.template.lastFixedEPS, "ERR") # check for ERRo as well
-        if self.template.isGA or self.template.isPSO:
+                                        self.template.lastFixedEPS, "ERR")  # check for ERRo as well
+
+        if options.isGA or options.isPSO:
             self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; Genotype \n ;; " + str(
                 self.model_code.FullBinCode) + \
                             "\n;; Num influential tokens = " + str(self.token_Non_influential)
@@ -853,7 +849,7 @@ def read_data_file_name(model):
             if ln.strip().startswith("$DATA"):
                 line = ln.strip()
                 line = line.replace("$DATA ","").strip()
-                #remove comments
+                # remove comments
                 if ";" in line:
                     pos = line.index(";")
                     line = line[:pos]
@@ -871,10 +867,8 @@ def read_data_file_name(model):
                         datalines.append(line.strip())
                     else:
                         datalines.append(line[:result.regs[0][0]].strip())
-                # 
 
     return datalines
-
 
 
 def check_files_present(model):
@@ -882,8 +876,6 @@ def check_files_present(model):
 
     if files_checked:
         return
-
-    template = model.template
 
     model.make_control_file()
 
@@ -898,10 +890,9 @@ def check_files_present(model):
         sys.exit()
 
     try:
-        #result = read_model(model.controlFileName)
         data_files_path = read_data_file_name(model)
-        #model.dataset_path = result.datainfo.path
         this_data_set = 1
+
         for this_file in data_files_path:
             if not exists(this_file):
                 log.error(f"Data set # {this_data_set} for FIRST MODEL {this_file} seems to be missing, exiting")
@@ -914,40 +905,6 @@ def check_files_present(model):
         sys.exit()
 
     os.chdir(cwd)
-
-    nmfe_path = model.template.options['nmfePath']
-
-    if not exists(nmfe_path):
-        log.error(f"NMFE path {nmfe_path} seems to be missing, exiting")
-        sys.exit()
-
-    log.message(f"NMFE found at {nmfe_path}")
-
-    if model.template.options['useR']:
-        rscript_path = model.template.options['RScriptPath']
-
-        if not exists(rscript_path):
-            log.error(f"RScript.exe path {rscript_path} seems to be missing, exiting")
-            sys.exit()
-
-        log.message(f"RScript.exe found at {rscript_path}")
-
-        if not exists(model.template.postRunRCode):
-            log.error(f"Post Run R code path {model.template.postRunRCode} seems to be missing, exiting")
-            sys.exit()
-
-        log.message(f"postRunRCode file found at {model.template.postRunRCode}")
-    else:
-        log.message("Not using PostRun R code")
-
-    if template.options['usePython']:
-        if not exists(template.postRunPythonCode):
-            log.error(f"Post Run Python code path {template.postRunPythonCode} seems to be missing, exiting")
-            sys.exit()
-        else:
-            log.message(f"postRunPythonCode file found at {template.postRunPythonCode}")
-    else:
-        log.message("Not using PostRun Python code")
 
     files_checked = True
 
@@ -963,7 +920,7 @@ def start_new_model(model: Model, all_models):
         model.run_model()  # current model is the general model type (not GA/DEAP model)
 
     if model.status == "Done":
-        nmtran_msgs = model.NMtranMSG
+        nm_tran_msgs = model.NMtranMSG
 
         if GlobalVars.BestModel is None or model.fitness < GlobalVars.BestModel.fitness:
             _copy_to_best(model)
@@ -974,15 +931,14 @@ def start_new_model(model: Model, all_models):
             if isinstance(model.jsonListRecord, dict):
                 all_models[str(model.model_code.IntCode)] = model.jsonListRecord
 
-        if model.template.isGA:
+        step_name = "Iteration"
+        prderr_text = ""
+
+        if options.isGA:
             step_name = "Generation"
-        else:
-            step_name = "Iteration"
 
         if len(model.PRDERR) > 0:
             prderr_text = " PRDERR = " + model.PRDERR
-        else:
-            prderr_text = ""
 
         with open(GlobalVars.output, "a") as result_file:
             result_file.write(f"{model.runDir},{model.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
@@ -996,7 +952,7 @@ def start_new_model(model: Model, all_models):
 
         log.message(
             f"{step_name} = {model.generation}, Model {model.modelNum:5},"
-            f"\t fitness = {fitness_text}, \t NMTRANMSG = {nmtran_msgs.strip()},{prderr_text}"
+            f"\t fitness = {fitness_text}, \t NMTRANMSG = {nm_tran_msgs.strip()},{prderr_text}"
         )
 
 

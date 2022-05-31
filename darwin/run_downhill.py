@@ -15,8 +15,8 @@ def get_best_in_niche(pop: list):
     """find the best in each of num_niches, return the full model
     argument is pop - list of full models
     return value is list of models, of length num_niches"""
-    num_niches = pop[0].template.options['num_niches']
-    niche_radius = pop[0].template.options['num_niches']
+    num_niches = options['num_niches']
+    niche_radius = options['niche_radius']
     crash_value = options.crash_value
     fitnesses = [None]*len(pop)
     for i in range(len(pop)):
@@ -62,12 +62,12 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
     arguments are the current population of models and whether to return all models (not implemented, maybe can be used for GP??)
     return is the single best model, the worst models (length num_niches) +/- the entire list of models"""
     generation = pop[0].generation
-    saved_generation = generation # to assign downhill generation names
+    saved_generation = generation  # to assign downhill generation names
     this_step = 0
     fitnesses = [None]*len(pop)
     for i in range(len(pop)):
         fitnesses[i] = pop[i].fitness
-    num_niches = pop[0].template.options['num_niches']
+    num_niches = options['num_niches']
     done = [False]*num_niches  
     best_MinBinary ,best_fitnesses, best_Models_in_niches = get_best_in_niche(pop)  
     # may be less than num_nicnes 
@@ -133,11 +133,11 @@ def run_downhill(pop: list,return_all = False): # only return new models - best 
             done = [True]*len(done)
         this_step += 1
             ## best_in_niches is just minimal binary at this point
-    if pop[0].template.options["fullExhaustiveSearch_qdownhill"]:
+    if options["fullExhaustiveSearch_qdownhill"]:
         best_model_index = heapq.nsmallest(1, range(len(best_fitnesses)), best_fitnesses.__getitem__)[0]
         model_for_search = copy(best_Models_in_niches[best_model_index])  
         Last_Best_fitness = model_for_search.fitness
-        log.message(f"Begin local exhaustive search, search radius = {pop[0].template.options['niche_radius']},"
+        log.message(f"Begin local exhaustive search, search radius = {options['niche_radius']},"
                     f" generation = {generation},step = {this_step}")
         log.message(f"Model for local exhaustive search = {model_for_search.generation},"
                     f" phenotype = {model_for_search.phenotype} model Num = {model_for_search.modelNum},"
@@ -217,7 +217,7 @@ def FullSearch(best_pre: Model,base_generation,base_step) -> Model:
     #Overall_Best_Model = best_pre
     OverallBestModel = best_pre
     Current_Best_Model = best_pre.model_code.MinBinCode
-    radius = model_template.options['niche_radius'] 
+    radius = options['niche_radius']
     while Current_Best_fitness < Last_Best_fitness or this_step == 0: # run at least once  
         full_generation = str(base_generation) + "S" +str(base_step) + "" + str(this_step)
         Last_Best_fitness = Current_Best_fitness

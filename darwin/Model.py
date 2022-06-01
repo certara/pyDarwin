@@ -977,3 +977,11 @@ def _copy_to_best(current_model: Model):
             GlobalVars.BestModelOutput = file.read()  # only save best model, other models can be reproduced if needed
 
     return
+
+
+def write_best_model_files(control_path, result_path):
+    with open(control_path, 'w') as control:
+        control.write(GlobalVars.BestModel.control)
+
+    with open(result_path, 'w') as result:
+        result.write(GlobalVars.BestModelOutput)

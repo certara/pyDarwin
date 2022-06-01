@@ -4,10 +4,7 @@ from copy import deepcopy, copy
 from datetime import timedelta
 import random
 import deap
-from deap import base 
-from deap import creator
-from deap import tools 
-import os
+from deap import base, creator, tools
 import time
 import logging 
 import numpy as np 
@@ -23,7 +20,7 @@ from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
 from darwin.runAllModels import init_model_list, run_all
 from darwin.Template import Template
-from darwin.Model import Model
+from darwin.Model import Model, write_best_model_files
 
 np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
 logger = logging.getLogger(__name__) 
@@ -229,7 +226,7 @@ def run_ga(model_template: Template) -> Model:
 
         log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
                     f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
-        
+
         fitnesses = [None]*len(models)
 
         for ind, pop, fit in zip(models, pop_full_bits, range(len(models))):
@@ -314,9 +311,9 @@ def run_ga(model_template: Template) -> Model:
    
     if options["final_fullExhaustiveSearch"]:
         # start with standard downhill 
-        # change generation of models to final
-        for i in range(len(models)):
-            models[i].generation = "FN"
+
+        for model in models:
+            model.generation = "FN"
 
         new_models, worst_individuals = run_downhill(models)
 
@@ -335,14 +332,6 @@ def run_ga(model_template: Template) -> Model:
         if single_best_model.fitness < final_model.fitness:
             final_model = copy(single_best_model)
        
-    with open(os.path.join(options.homeDir, "InterimControlFile.mod"), 'w') as control:
-        control.write(GlobalVars.BestModel.control)
-
-    result_file_path = os.path.join(options.homeDir, "InterimResultFile.lst")
-
-    with open(result_file_path, 'w') as result:
-        result.write(GlobalVars.BestModelOutput)     
-
     log.message(f"-- End of Optimization at {time.asctime()}--")
 
     elapsed = time.time() - GlobalVars.StartTime
@@ -353,11 +342,7 @@ def run_ga(model_template: Template) -> Model:
     log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
                 f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.modelNum}")
 
-    with open(GlobalVars.FinalControlFile, 'w') as control:
-        control.write(final_model.control)
-
-    with open(GlobalVars.FinalResultFile, 'w') as result:
-        result.write(GlobalVars.BestModelOutput)
+    write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
 
     log.message(f"Final out from best model is in {GlobalVars.FinalResultFile}")
 

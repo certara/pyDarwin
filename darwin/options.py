@@ -31,27 +31,26 @@ def _import_postprocessing(path: str):
     return module.post_process
 
 
-PRIORITIES = {
-    'idle': subprocess.IDLE_PRIORITY_CLASS,
-    'below_normal': subprocess.BELOW_NORMAL_PRIORITY_CLASS,
-    'normal': subprocess.NORMAL_PRIORITY_CLASS,
-    'above_normal': subprocess.ABOVE_NORMAL_PRIORITY_CLASS,
-    'high': subprocess.HIGH_PRIORITY_CLASS
-}
-
-
 def _get_priority_class(opts: dict):
     if sys.platform != "win32":
         return 0
 
+    priorities = {
+        'idle': subprocess.IDLE_PRIORITY_CLASS,
+        'below_normal': subprocess.BELOW_NORMAL_PRIORITY_CLASS,
+        'normal': subprocess.NORMAL_PRIORITY_CLASS,
+        'above_normal': subprocess.ABOVE_NORMAL_PRIORITY_CLASS,
+        'high': subprocess.HIGH_PRIORITY_CLASS
+    }
+
     priority = str(opts.get('NM_priority_class', 'normal')).lower()
 
-    if priority not in PRIORITIES:
+    if priority not in priorities:
         priority = 'normal'
 
     log.message(f'NM priority is {priority}')
 
-    return PRIORITIES[priority]
+    return priorities[priority]
 
 
 class Options:

@@ -11,7 +11,7 @@ from darwin.Log import log
 from darwin.options import options
 
 from .Template import Template
-from .Model import Model, check_files_present, start_new_model
+from .Model import Model, check_files_present, start_new_model, write_best_model_files
 
 ALL_MODELS_FILE = "models.json"
 
@@ -99,10 +99,7 @@ def run_all(models):
 
     # write best model to output
     try:
-        with open(os.path.join(options.homeDir, "InterimBestControl.mod"), 'w') as f:
-            f.write(GlobalVars.BestModel.control)
-        with open(os.path.join(options.homeDir, "InterimBestOutput.lst"), 'w') as f:
-            f.write(GlobalVars.BestModelOutput)
+        write_best_model_files(GlobalVars.InterimControlFile, GlobalVars.InterimResultFile)
     except:
         traceback.print_exc()
 

@@ -49,6 +49,7 @@ def _get_best_in_niche(pop: list):
         # set the fitness of all in this niche to large value, so they aren't in the next seach for best 
         if all(x == crash_value for x in fitnesses):  # check if all are already in a niche
             break
+
     return best, best_fitnesses, best_models
     
 
@@ -100,31 +101,33 @@ def run_downhill(pop: list, return_all=False):  # only return new models - best 
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths)
             models.append(Model(pop[0].template, code, model_num,
                                 generation=str(pop[0].generation) + "D" + str(this_step)))
+
         if len(models) > 0:
             log.message(f"Starting downhill step {this_step},"
                         f" total of {len(models)} in {niches_this_loop} niches to be run.")
  
             run_all(models)
+
             # check, for each niche, if any in the fitnesses is better, if so, that become the source for the next round
             # repeat until no more better (all(done))      
             for this_niche in range(current_num_niches):
-                    ## check if any niches are done
-                    if not done[this_niche]:
-                        # pull out fitness from just this niche 
-                        this_niche_indices = np.array([i for i, x in enumerate(which_niche) if x == this_niche]) 
-                        #cur_niche_test_models = [test_models[i] for i in this_niche_indices] # shallow copy, still linked
-                        cur_niche_fitnesses = [models[i].fitness for i in this_niche_indices]
-                        new_best_in_niche =  heapq.nsmallest(1, range(len(cur_niche_fitnesses)), cur_niche_fitnesses.__getitem__)[0]
-                        New_best_Model_num = this_niche_indices[new_best_in_niche]
-                        # new_best_fitness = cur_niche_fitnesses[new_best_in_niche[0]]
-                        # # create grid of all better than previous best for local search     
-                        if models[New_best_Model_num].fitness < best_fitnesses[this_niche]:
-                            best_MinBinary[this_niche] = copy(models[New_best_Model_num].model_code.MinBinCode)
-                            best_Models_in_niches[this_niche] = copy(models[New_best_Model_num]) # don't seem to need deepcopy, copy entire model
-                            best_fitnesses[this_niche] = models[New_best_Model_num].fitness
-                            done[this_niche] = False
-                        else:
-                            done[this_niche] = True     
+                # check if any niches are done
+                if not done[this_niche]:
+                    # pull out fitness from just this niche
+                    this_niche_indices = np.array([i for i, x in enumerate(which_niche) if x == this_niche])
+                    cur_niche_fitnesses = [models[i].fitness for i in this_niche_indices]
+                    new_best_in_niche = heapq.nsmallest(1, range(len(cur_niche_fitnesses)), cur_niche_fitnesses.__getitem__)[0]
+                    New_best_Model_num = this_niche_indices[new_best_in_niche]
+
+                    # new_best_fitness = cur_niche_fitnesses[new_best_in_niche[0]]
+                    # # create grid of all better than previous best for local search
+                    if models[New_best_Model_num].fitness < best_fitnesses[this_niche]:
+                        best_MinBinary[this_niche] = copy(models[New_best_Model_num].model_code.MinBinCode)
+                        best_Models_in_niches[this_niche] = copy(models[New_best_Model_num]) # don't seem to need deepcopy, copy entire model
+                        best_fitnesses[this_niche] = models[New_best_Model_num].fitness
+                        done[this_niche] = False
+                    else:
+                        done[this_niche] = True
         else:
             done = [True]*len(done)
 

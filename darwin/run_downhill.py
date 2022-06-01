@@ -17,7 +17,7 @@ def _get_best_in_niche(pop: list):
     return value is list of models, of length num_niches"""
 
     crash_value = options.crash_value
-    fitnesses = map(lambda m: m.fithess, pop)
+    fitnesses = list(map(lambda m: m.fitness, pop))
     best = []  # hold the best in each niche
     best_fitnesses = [] 
     best_models = []
@@ -63,7 +63,7 @@ def run_downhill(pop: list, return_all=False):  # only return new models - best 
     generation = pop[0].generation
     saved_generation = generation  # to assign downhill generation names
     this_step = 0
-    fitnesses = map(lambda m: m.fithess, pop)
+    fitnesses = list(map(lambda m: m.fitness, pop))
     done = [False]*options.num_niches
     best_MinBinary, best_fitnesses, best_Models_in_niches = _get_best_in_niche(pop)
     # may be less than num_niches

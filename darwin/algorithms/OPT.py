@@ -20,6 +20,7 @@ from darwin.runAllModels import init_model_list, run_all
 logger = logging.getLogger(__name__)
 Models = []  # will put models here to query them and not rerun models, will eventually be a MongoDB
 
+import warnings 
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
 def run_skopt(model_template: Template) -> Model:
@@ -50,13 +51,16 @@ def run_skopt(model_template: Template) -> Model:
     
     niter_no_change = 0 
     maxes = model_template.gene_max
-    lengths = model_template.gene_length
+    lengths = model_template.gene_length 
     for this_iter in range(options['num_generations']):
         log.message(f"Starting generation/iteration {this_iter}, {options.algorithm} algorithm at {time.asctime()}" )
          
         suggestion_start_time = time.time()
-        # will need to ask for 1/10 of the total models if run 10  way parallel
+        # will need to ask for 1/10 of the total models if run 10  way parallel 
+         
+        warnings.simplefilter("ignore")
         suggested = opt.ask(n_points=options.population_size)
+        warnings.simplefilter("default")
         log.message("Elapse time for sampling step # %d =  %.1f seconds" % (this_iter, (time.time() - suggestion_start_time)))
         Models = []  # some other method to clear memory??
         for thisInts, model_num in zip(suggested,range(len(suggested))):

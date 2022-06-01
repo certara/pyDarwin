@@ -395,228 +395,235 @@ class Model:
             self.PRDERR += f"Unable to read PDERR in {self.runDir}"
         return
                          
-    def read_xml(self):
-        xml_file = self.xml_file
-        if not os.path.exists (xml_file):
-            self.ofv = self.condition_num = options.crash_value 
-            self.success = self.covariance  = self.correlation = False  
-             
-        else:
-            try:
-                with open(xml_file) as xml_file: 
-                    data_dict = xmltodict.parse(xml_file.read())
-                    #if template.version is None:
-                    version = data_dict['nm:output']['nm:nonmem']['@nm:version']  # string
-                    #print("NONMEM version = " +version)
-                    # keep first two digits
-                    dots = [_.start() for _ in re.finditer("\.", version)]
-                    # and get the first two
-                    majorversion = float(version[:dots[1]])  # float
-                    if majorversion < 7.4 or majorversion > 7.5:
-                        print("NONMEM is version "
-                                + version + ", NONMEM 7.4 and 7.5 are supported, exiting")
-                problem =  data_dict['nm:output']['nm:nonmem']['nm:problem']
-                # if more than one problem, use the first, assume that is the estimation, assume final is simulation
-                # really not sure what to do if there is more than one estimation problem
-                if isinstance(problem, list):  # > 1 one $PROB
-                    problem = problem[0]       # use the first
-                estimations = problem['nm:estimation'] 
-                # similar, may be more than one estimation, if > 1, we want the final one
-                if isinstance(estimations, list):  # > 1 one $EST
-                    last_estimation = estimations[-1]
-                else:
-                    last_estimation = estimations
-            
-                if 'nm:final_objective_function' in last_estimation:
-                    self.ofv = float(last_estimation['nm:final_objective_function'])
-                    if last_estimation['nm:termination_status'] == '0':
-                        self.success = True
-                    else:
-                        self.success = False
-                else:
-                    self.ofv = options.crash_value
-                    self.success = False 
-                    self.covariance = False
-                    self.correlation = False 
-                    self.condition_num =  options.crash_value     
-                    
-                     
-                # IS COVARIANCE REQUESTED:
-                if 'nm:covariance_status' in last_estimation:
-                    if last_estimation['nm:covariance_status']['@nm:error'] == '0':
-                        self.covariance = True
-                    else:
-                        self.covariance = False
-                    corr_data = last_estimation['nm:correlation']["nm:row"]
-                    num_rows = len(corr_data)
-                    self.correlation = True
-                    for this_row in range(1, num_rows):
-                        thisrow = corr_data[this_row]['nm:col'][:-1]
-                        # get abs
-                        absfunction = lambda t: abs(t) >  99999 #['correlationLimit']
-                        thisrow = [absfunction(float(x['#text'])) for x in thisrow]
-                        if any(thisrow):
-                            self.correlation = False
-                            break
-                    if 'nm:eigenvalues' in last_estimation:
-                        # if last_estimation['nm:eigenvalues'] is None:
-                        Eigens = last_estimation['nm:eigenvalues']['nm:val']
-                        max = -9999999
-                        min = 9999999
-                        for i in Eigens:
-                            val = float(i['#text'])
-                            if val < min: min = val
-                            if val > max: max = val
-                        self.condition_num = max / min 
-                    else:
-                        self.condition_num =  options.crash_value  
-                else:
-                    self.covariance = False 
-                    self.correlation = False
-                    self.condition_num =  options.crash_value 
-            except:
-                self.ofv = options.crash_value
-                self.success = False
-                self.covariance = False
-                self.correlation = False 
-                self.condition_num = options.crash_value
-              
+    def _read_xml(self):
+        self.success = False
+        self.covariance = False
+        self.correlation = False
+        self.ofv = options.crash_value
+        self.condition_num = options.crash_value
 
-    def get_block(self,start,fcon,fixed = False):
+        if not os.path.exists(self.xml_file):
+            return
+
+        try:
+            with open(self.xml_file) as xml_file:
+                data_dict = xmltodict.parse(xml_file.read())
+                version = data_dict['nm:output']['nm:nonmem']['@nm:version']  # string
+                # keep first two digits
+                dots = [_.start() for _ in re.finditer("\.", version)]
+                # and get the first two
+                major_version = float(version[:dots[1]])  # float
+
+                if major_version < 7.4 or major_version > 7.5:
+                    log.error(f"NONMEM is version {version}, NONMEM 7.4 and 7.5 are supported, exiting")
+                    sys.exit()
+
+            problem = data_dict['nm:output']['nm:nonmem']['nm:problem']
+
+            # if more than one problem, use the first, assume that is the estimation, assume final is simulation
+            # really not sure what to do if there is more than one estimation problem
+            if isinstance(problem, list):  # > 1 one $PROB
+                problem = problem[0]       # use the first
+
+            estimations = problem['nm:estimation']
+
+            # similar, may be more than one estimation, if > 1, we want the final one
+            if isinstance(estimations, list):  # > 1 one $EST
+                last_estimation = estimations[-1]
+            else:
+                last_estimation = estimations
+
+            if 'nm:final_objective_function' in last_estimation:
+                self.ofv = float(last_estimation['nm:final_objective_function'])
+
+                if last_estimation['nm:termination_status'] == '0':
+                    self.success = True
+
+            # IS COVARIANCE REQUESTED:
+            if 'nm:covariance_status' in last_estimation:
+                if last_estimation['nm:covariance_status']['@nm:error'] == '0':
+                    self.covariance = True
+
+                corr_data = last_estimation.get('nm:correlation', {}).get('nm:row', [])
+                num_rows = len(corr_data)
+
+                self.correlation = num_rows > 0
+
+                for this_row in range(1, num_rows):
+                    row_data = corr_data[this_row]['nm:col'][:-1]
+
+                    def abs_function(t):
+                        return abs(t) > 99999
+
+                    row_data = [abs_function(float(x['#text'])) for x in row_data]
+
+                    if any(row_data):
+                        self.correlation = False
+                        break
+
+                if 'nm:eigenvalues' in last_estimation:
+                    # if last_estimation['nm:eigenvalues'] is None:
+                    Eigens = last_estimation['nm:eigenvalues']['nm:val']
+                    max_val = -9999999
+                    min_val = 9999999
+
+                    for i in Eigens:
+                        val = float(i['#text'])
+                        if val < min_val:
+                            min_val = val
+                        if val > max_val:
+                            max_val = val
+
+                    self.condition_num = max_val / min_val
+        except:
+            self.success = False
+            self.covariance = False
+            self.correlation = False
+            self.ofv = options.crash_value
+            self.condition_num = options.crash_value
+
+    def get_block(self, start, fcon, fixed=False):
         # how many lines? find next RNBL 
         rnbl_block = fcon[start:]
         rest_of_block = fcon[(1+start):]
         next_start = [bool(re.search("^RNBL", n)) for n in rest_of_block]
+
         if any(next_start):
-            rnbl_start_lines = [i for i, x in enumerate(next_start) if x][0] # RNBL lines
+            rnbl_start_lines = [i for i, x in enumerate(next_start) if x][0]  # RNBL lines
             this_block = rnbl_block[:(rnbl_start_lines + 1)] 
         else:  
             next_start = [bool(re.search("^\S+", n)) for n in rest_of_block]   
-            next_start = [i for i, x in enumerate(next_start) if x][0] # RNBL lines 
+            next_start = [i for i, x in enumerate(next_start) if x][0]  # RNBL lines
             this_block = rnbl_block[:(next_start + 1)]  
+
         # if next_start:
         this_block = " ".join(this_block)
+
         if fixed:
             # remvoe 1 i posiiton 7
             this_block = list(this_block) 
             this_block[7] = ' ' 
             this_block = "".join(this_block)
-        this_block = this_block[4:].strip().replace("\n","," ) 
+
+        this_block = this_block[4:].strip().replace("\n", ",")
         this_block = this_block.split(",")
+
         # convert to float
         this_block = [float(a) for a in this_block]
+
         # have to remove any 0's they will be 0's for band OMEGA
-        this_block =[i for i in this_block if i != 0]
-        nvals = len(this_block) 
-        return nvals
+        this_block = [i for i in this_block if i != 0]
 
-    def read_model(self): 
-        if not os.path.exists(os.path.join(self.runDir,"FCON")):
-            self.ofv = self.condition_num = options.crash_value
-            self.success = self.covariance  = self.correlation = False 
-            self.num_THETA=self.num_OMEGA=self.num_SIGMA=self.n_estimated_theta=self.n_estimated_omega=self.n_estimated_sigma = 999
-        
-        else:
-            try:
-                with open(os.path.join(self.runDir,"FCON"),"r") as fcon:
-                    fconlines = fcon.readlines()  
-                #IF MORE THAN ONE PROB only use first, the number of parameters will be the same, although
-                # the values in subsequen THTA etc willbe different
-                PROBS = [bool(re.search("^PROB", i)) for i in fconlines] 
-                PROBs_lines = [i for i, x in enumerate(PROBS) if x]
-                # assume only first problem is estiamtion, subsequent are simulation?
-                if len(PROBs_lines)>1:  
-                    fconlines = fconlines[:PROBs_lines[1]]
-                # replace all BLST or DIAG with RNBL (randomd block) - they will be treated the same 
-                strclines = [idx for idx in fconlines if idx[0:4] == "STRC"]  
-                self.num_THETA = int(strclines[0][9:12]) 
-                THTA_start = [bool(re.search("^THTA", i)) for i in fconlines] 
-                THTA_start_line = [i for i, x in enumerate(THTA_start) if x][0]
-                # HOW MAY LINES IN THTA BLOCK:
-                LOWR_start = [bool(re.search("^LOWR", i)) for i in fconlines] 
-                LOWR_start_line = [i for i, x in enumerate(LOWR_start) if x][0] 
-                lines_in_block = LOWR_start_line -THTA_start_line
-                THTAl = fconlines[THTA_start_line:LOWR_start_line]
-                THTA = " ".join(THTAl).replace("THTA","").strip().replace("\n","," ) # initial values, don't actually use these
-                # remove "," at end
-                THTA = THTA.split(",")
-                # convert to float
-                THTA = [float(a) for a in THTA]
-                UPPR_START = [bool(re.search("^UPPR", i)) for i in fconlines]
-                UPPR_start_line = [i for i, x in enumerate(UPPR_START) if x][0]
-                LOWRL = fconlines[LOWR_start_line:UPPR_start_line]
-                LOWR = " ".join(LOWRL).replace("LOWR","").strip().replace("\n","," )
-                # remove "," at end
-                LOWR = LOWR.split(",")
-                # convert to float
-                LOWR = [float(a) for a in LOWR]
-                # find end of UPPR, next will be anything with char in 0-4
-                rest_after_UPPR_start = fconlines[(UPPR_start_line+1):] 
-                end_of_UPPR_bool = [bool(re.search("^\S{4}", i)) for i in rest_after_UPPR_start]  # does line start with non blank?
-                end_of_UPPR_line = [i for i, x in enumerate(end_of_UPPR_bool) if x]  
-                end_of_UPPR = end_of_UPPR_line[0]
-                UPPRL = fconlines[UPPR_start_line:(UPPR_start_line + end_of_UPPR + 1 )]
-                UPPR = " ".join(UPPRL).replace("UPPR","").strip().replace("\n","," )
-                # remove "," at end
-                UPPR = UPPR.split(",")
-                # convert to float
-                UPPR = [float(a) for a in UPPR]
-                self.n_estimated_theta = self.num_THETA
-                for i in range(self.num_THETA):
-                    self.n_estimated_theta -= (LOWR[i]==UPPR[i]) # if upper == lower than this is fixed, not estimated
-                    
-                fconlines =   [w.replace('BLST', 'RNBL') for w in fconlines]
-                fconlines =   [w.replace('DIAG', 'RNBL') for w in fconlines]
-            # and all rangdom blocks 
-                
-                rnbl_start = [bool(re.search("^RNBL", n)) for n in fconlines] 
-                rnbl_start_lines = [i for i, x in enumerate(rnbl_start) if x]
-                
-                nomegablocks = int(strclines [0][32:36]) # field 7, 0 or blank if diagonal, otherwise # of blocks for omega
-                if nomegablocks ==0:
-                    nomegablocks = 1
-                nsigmablocks = int(strclines [0][40:44]) # field 9, 0 or 1 if diagonal, otherwise # of blocks for sigma
-                
-                if nsigmablocks == 0:
-                    nsigmablocks = 1
-                self.n_estimated_sigma = n_estimated_omega = 0
-                self.num_OMEGA = num_SIGMA = 0
+        return len(this_block)
 
-                for thisomega in range(nomegablocks):
-                    #if postion 8 == 1,   this block is fixed, need to remove that value to parse
-                    
-                    if fconlines[rnbl_start_lines[thisomega]][7] == '1':  
-                        vals_this_block = self.get_block(rnbl_start_lines[thisomega],fconlines, True)  
-                    else:  
-                        vals_this_block = self.get_block(rnbl_start_lines[thisomega],fconlines, False)
-                        n_estimated_omega += vals_this_block  
-                    self.num_OMEGA += vals_this_block 
-                
-                for thissigma in range(nomegablocks,(nomegablocks+nsigmablocks)): 
-                    if fconlines[rnbl_start_lines[thissigma]][7] == '1':  
-                        vals_this_block = self.get_block(rnbl_start_lines[thissigma],fconlines, True)
-                    else:
-                        vals_this_block = self.get_block(rnbl_start_lines[thissigma],fconlines, False)
-                        self.n_estimated_sigma += vals_this_block  
-                    num_SIGMA += vals_this_block 
-            
-                self.read_xml()
+    def _read_model(self):
+        self.ofv = self.condition_num = options.crash_value
+        self.success = self.covariance = self.correlation = False
+        self.num_THETA = self.num_OMEGA = self.num_SIGMA = self.n_estimated_theta = self.n_estimated_omega = self.n_estimated_sigma = 999
 
-                
-            except:
-                self.ofv = self.condition_num = options.crash_value
-                self.success = self.covariance  = self.correlation = False 
-                self.num_THETA=self.num_OMEGA=self.num_SIGMA=self.n_estimated_theta=self.n_estimated_omega=self.n_estimated_sigma = 999
-                 
+        if not os.path.exists(os.path.join(self.runDir, "FCON")):
             return
+
+        try:
+            with open(os.path.join(self.runDir, "FCON"), "r") as fcon:
+                fcon_lines = fcon.readlines()
+
+            # IF MORE THAN ONE PROB only use first, the number of parameters will be the same, although
+            # the values in subsequent THTA etc will be different
+            PROBS = [bool(re.search("^PROB", i)) for i in fcon_lines]
+            PROBs_lines = [i for i, x in enumerate(PROBS) if x]
+            # assume only first problem is estiamtion, subsequent are simulation?
+            if len(PROBs_lines)>1:
+                fcon_lines = fcon_lines[:PROBs_lines[1]]
+
+            # replace all BLST or DIAG with RNBL (randomd block) - they will be treated the same
+            strc_lines = [idx for idx in fcon_lines if idx[0:4] == "STRC"]
+
+            self.num_THETA = int(strc_lines[0][9:12])
+
+            # HOW MAY LINES IN THTA BLOCK:
+            LOWR_start = [bool(re.search("^LOWR", i)) for i in fcon_lines]
+            LOWR_start_line = [i for i, x in enumerate(LOWR_start) if x][0]
+            UPPR_START = [bool(re.search("^UPPR", i)) for i in fcon_lines]
+            UPPR_start_line = [i for i, x in enumerate(UPPR_START) if x][0]
+
+            LOWRL = fcon_lines[LOWR_start_line:UPPR_start_line]
+            LOWR = " ".join(LOWRL).replace("LOWR", "").strip().replace("\n", "," )
+            # remove "," at end
+            LOWR = LOWR.split(",")
+            # convert to float
+            LOWR = [float(a) for a in LOWR]
+
+            # find end of UPPR, next will be anything with char in 0-4
+            rest_after_UPPR_start = fcon_lines[(UPPR_start_line+1):]
+            end_of_UPPR_bool = [bool(re.search("^\S{4}", i)) for i in rest_after_UPPR_start]  # does line start with non blank?
+            end_of_UPPR_line = [i for i, x in enumerate(end_of_UPPR_bool) if x]
+            end_of_UPPR = end_of_UPPR_line[0]
+
+            UPPRL = fcon_lines[UPPR_start_line:(UPPR_start_line + end_of_UPPR + 1)]
+            UPPR = " ".join(UPPRL).replace("UPPR", "").strip().replace("\n", "," )
+            # remove "," at end
+            UPPR = UPPR.split(",")
+            # convert to float
+            UPPR = [float(a) for a in UPPR]
+
+            self.n_estimated_theta = self.num_THETA
+
+            for i in range(self.num_THETA):
+                self.n_estimated_theta -= (LOWR[i] == UPPR[i])  # if upper == lower than this is fixed, not estimated
+
+            fcon_lines = [w.replace('BLST', 'RNBL') for w in fcon_lines]
+            fcon_lines = [w.replace('DIAG', 'RNBL') for w in fcon_lines]
+            # and all random blocks
+
+            rnbl_start = [bool(re.search("^RNBL", n)) for n in fcon_lines]
+            rnbl_start_lines = [i for i, x in enumerate(rnbl_start) if x]
+
+            nomegablocks = int(strc_lines[0][32:36]) # field 7, 0 or blank if diagonal, otherwise # of blocks for omega
+
+            if nomegablocks == 0:
+                nomegablocks = 1
+
+            nsigmablocks = int(strc_lines[0][40:44])  # field 9, 0 or 1 if diagonal, otherwise # of blocks for sigma
+
+            if nsigmablocks == 0:
+                nsigmablocks = 1
+
+            self.n_estimated_sigma = n_estimated_omega = 0
+            self.num_OMEGA = num_SIGMA = 0
+
+            for this_omega in range(nomegablocks):
+                # if position 8 == 1,this block is fixed, need to remove that value to parse
+
+                if fcon_lines[rnbl_start_lines[this_omega]][7] == '1':
+                    vals_this_block = self.get_block(rnbl_start_lines[this_omega], fcon_lines, True)
+                else:
+                    vals_this_block = self.get_block(rnbl_start_lines[this_omega], fcon_lines, False)
+                    n_estimated_omega += vals_this_block
+                self.num_OMEGA += vals_this_block
+
+            for thissigma in range(nomegablocks,(nomegablocks+nsigmablocks)):
+                if fcon_lines[rnbl_start_lines[thissigma]][7] == '1':
+                    vals_this_block = self.get_block(rnbl_start_lines[thissigma], fcon_lines, True)
+                else:
+                    vals_this_block = self.get_block(rnbl_start_lines[thissigma], fcon_lines, False)
+                    self.n_estimated_sigma += vals_this_block
+
+                num_SIGMA += vals_this_block
+
+            self._read_xml()
+
+        except:
+            self.ofv = self.condition_num = options.crash_value
+            self.success = self.covariance = self.correlation = False
+            self.num_THETA = self.num_OMEGA = self.num_SIGMA = self.n_estimated_theta = self.n_estimated_omega = self.n_estimated_sigma = 999
 
     def _calc_fitness(self):
         """calculates the fitness, based on the model output, and the penalties (from the options file)
         need to look in output file for parameter at boundary and parameter non-positive """
 
         try:
-            self.read_model()
-            #self.get_results_pharmpy()
+            self._read_model()
             self.get_nmtran_msgs()  # read from FMSG, in case run fails, will still have NMTRAN messages
             self.get_PRDERR()
 

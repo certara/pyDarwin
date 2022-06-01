@@ -36,9 +36,8 @@ class Model:
         or integer.
         makecontrol always used intcode"""
         self.oldoutputfile = None
-        self.oldcontrolfile= None # where did a saved model come from
-        self.slot = -99 # which slot is this running in, need this to keep track of process ids (in GlobalVars)
-        self.ofv = self.crash = None
+        self.oldcontrolfile = None  # where did a saved model come from
+        self.ofv = None
         self.dataset_path = None
         self.template = template
         self.source = "new"  # new if new run, "saved" if from saved model, will be no results and no output file - consider saving output file?

@@ -16,7 +16,7 @@ from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
 from darwin.Template import Template
 from darwin.Model import Model, write_best_model_files
-from darwin.runAllModels import init_model_list, run_all
+from darwin.runAllModels import run_all
 
 logger = logging.getLogger(__name__)
 Models = []  # will put models here to query them and not rerun models, will eventually be a MongoDB
@@ -37,10 +37,6 @@ def run_skopt(model_template: Template) -> Model:
         numerical_group = list(range(len(token_group)))
         this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
         num_groups.append(this_x)
-
-    GlobalVars.StartTime = time.time()
-
-    init_model_list(model_template)
 
     # for parallel, will need and array of N number of optimizer,  n_jobs doesn't seem to do anything
     opt = Optimizer(num_groups, n_jobs=1, base_estimator=options.algorithm)

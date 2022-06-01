@@ -8,12 +8,10 @@ from darwin.options import options
 
 from darwin.Model import Model
 from darwin.ModelCode import ModelCode
-from darwin.runAllModels import init_model_list, run_all
+from darwin.runAllModels import run_all
 
 
 def run_exhaustive(model_template):
-    GlobalVars.StartTime = time.time()
-
     num_groups = []
 
     for thisKey in model_template.tokens.keys():
@@ -43,8 +41,6 @@ def run_exhaustive(model_template):
     if current_last > num_models:
         max_models = num_models
         current_last = num_models
-
-    init_model_list(model_template)
 
     fitnesses = []
     best_fitness = options.crash_value

@@ -74,7 +74,7 @@ from darwin.options import options
 
 from darwin.Template import Template
 from darwin.Model import Model
-from darwin.runAllModels import init_model_list, run_all
+from darwin.runAllModels import run_all
 from darwin.ModelCode import ModelCode
 
 
@@ -321,8 +321,6 @@ def f(x, model_template, iteration):
 def run_pso(model_template: Template) -> Model:
     """ Runs PSO, 
     Argument is model_template, which has all the needed information """
-    GlobalVars.StartTime = time.time()    
-    init_model_list(model_template)
     pop_size = options.population_size
     numBits = int(np.sum(model_template.gene_length))
 

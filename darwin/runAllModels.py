@@ -10,7 +10,6 @@ import darwin.GlobalVars as GlobalVars
 from darwin.Log import log
 from darwin.options import options
 
-from .Template import Template
 from .Model import Model, check_files_present, start_new_model, write_best_model_files
 
 ALL_MODELS_FILE = "models.json"
@@ -18,7 +17,7 @@ ALL_MODELS_FILE = "models.json"
 all_models = dict()
 
 
-def init_model_list(template: Template):
+def init_model_list():
     """Initializes model from template. Need Options first"""
 
     global all_models

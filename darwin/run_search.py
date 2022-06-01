@@ -13,6 +13,8 @@ from .Template import Template
 from .Model import Model
 from .ModelCode import ModelCode
 
+from .runAllModels import init_model_list
+
 from .algorithms.exhaustive import run_exhaustive
 from .algorithms.GA import run_ga
 from .algorithms.OPT import run_skopt
@@ -23,7 +25,6 @@ logger = logging.getLogger(__name__)
 
 def _run_template(model_template: Template) -> Model: 
 
-    GlobalVars.init_global_vars(options.homeDir)
     # initialize a trivial model for the global best
     null_code = ModelCode([0] * len(model_template.gene_length), "Int",
                           model_template.gene_max, model_template.gene_length) 
@@ -82,6 +83,10 @@ def _init_app(options_file: str, folder: str = None):
     log.initialize(log_file)
 
     log.message(f"Options file found at {options_file}")
+
+    GlobalVars.init_global_vars(options.homeDir)
+
+    init_model_list()
 
 
 def run_search(template_file: str, tokens_file: str, options_file: str) -> Model:

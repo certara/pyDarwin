@@ -18,7 +18,7 @@ from darwin.options import options
 
 from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
-from darwin.runAllModels import init_model_list, run_all
+from darwin.runAllModels import run_all
 from darwin.Template import Template
 from darwin.Model import Model, write_best_model_files
 
@@ -76,8 +76,6 @@ def _get_n_worst_index(n, arr):
 def run_ga(model_template: Template) -> Model:
     """ Runs GA, 
     Argument is model_template, which has all the needed information """
-    GlobalVars.StartTime = time.time()    
-    init_model_list(model_template)
     pop_size = options.population_size
     downhill_q = options.downhill_q
     elitist_num = options['elitist_num'] 

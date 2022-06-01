@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 Models = []  # will put models here to query them and not rerun models, will eventually be a MongoDB
 
 import warnings 
-
+warnings.filterwarnings("ignore", message="The objective has been evaluated ")
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
 def run_skopt(model_template: Template) -> Model:
     """run any of  the three skopt algorithms. Algorithm is defined in options.
@@ -57,10 +57,8 @@ def run_skopt(model_template: Template) -> Model:
          
         suggestion_start_time = time.time()
         # will need to ask for 1/10 of the total models if run 10  way parallel 
-         
-        warnings.simplefilter("ignore")
-        suggested = opt.ask(n_points=options.population_size)
-        warnings.simplefilter("default")
+          
+        suggested = opt.ask(n_points=options.population_size) 
         log.message("Elapse time for sampling step # %d =  %.1f seconds" % (this_iter, (time.time() - suggestion_start_time)))
         Models = []  # some other method to clear memory??
         for thisInts, model_num in zip(suggested,range(len(suggested))):

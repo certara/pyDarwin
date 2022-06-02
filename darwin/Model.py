@@ -6,7 +6,7 @@ import xmltodict
 from collections import OrderedDict
 from os.path import exists
 import subprocess
-from subprocess import DEVNULL, STDOUT, TimeoutExpired
+from subprocess import DEVNULL, STDOUT, TimeoutExpired, Popen
 import time
 import glob
 from copy import copy
@@ -213,13 +213,13 @@ class Model:
 
             os.chdir(self.runDir)
 
-            nm = subprocess.run(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.runDir,
-                                creationflags=options.nm_priority, timeout=options.nm_timeout)
+            nm = Popen(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.runDir, creationflags=options.nm_priority)
+
+            nm.communicate(timeout=options.nm_timeout)
 
             self.status = "Done_running_NM"
         except TimeoutExpired:
-            if sys.platform == "win32":
-                _terminate_process(os.path.join(self.runDir, self.executableFileName))
+            _terminate_process(nm.pid)
             log.error(f'run {self.modelNum} has timed out')
             self.status = "NM_timed_out"
         except Exception as e:
@@ -974,7 +974,10 @@ def write_best_model_files(control_path, result_path):
         result.write(GlobalVars.BestModelOutput)
 
 
-def _terminate_process(path: str):
-    for proc in psutil.process_iter(['exe']):
-        if proc.info['exe'] == path:
-            proc.terminate()
+def _terminate_process(pid):
+    proc = psutil.Process(pid)
+
+    for p in proc.children(True):
+        p.terminate()
+
+    proc.terminate()

@@ -1,141 +1,38 @@
-
-from distutils.command.clean import clean
-from lib2to3.pgen2 import token
-import re   
-import math
-
-# def convert_full_bin_int(bin_pop,gene_max,length): 
-#     ''' 
-#     converts a "full binary" (e.g., from GA to integer (used to select token sets))
-#     arguments are:
-#     bin_pop - population of binaries
-#     gene_max - integer list,maximum value- number of tokens sets in that token group
-#     length - integer list, how long each gene is
-#     return integer array of which token goes into this model
-#     ''' 
-#     start = 0 
-#     phenotype = []
-#     for thisNumBits,this_max in zip(length,gene_max):  
-#        # max = gene_max[gene_num]  # user specified maximum value of gene - how many token sets are there, max is 0 based?
-#         thisGene = bin_pop[start:start+thisNumBits]      
-#         baseInt  = int("".join(str(x) for x in thisGene), 2)  
-#         maxValue = 2**len(thisGene) - 1 ## # zero based, max number possible from bit string , 0 based (has the -1)
-#         maxnumDropped = maxValue-this_max  # maximum possoible number of indexes that must be skipped to get max values to fit into fullMax possible values.
-#         numDropped = math.floor(maxnumDropped*(baseInt/maxValue))
-#         full_int_val = baseInt - numDropped 
-#         phenotype.append(full_int_val) ## value here???
-#         start += thisNumBits 
-#     return  phenotype
- 
-# def int2bin(n,length):
-#     value = bin(n)[2:]
-#     value = list(value.rjust(length,"0"))
-#     value = map(int, value)
-#     value = list(value)
-#     return value
-# def convert_int_full_bin(int_pop,gene_max,length):
-#     ''' 
-#     converts an integer arry to "full binary" (e.g., from integer (used to select token sets) back to GA compatible code, opposite of convert_full_bin_int)
-#     arguments are:
-#     int_pop - population of integers
-#     gene_max - integer list,maximum value- number of tokens sets in that token group
-#     length - integer list, how long each gene is
-#     return array of binaries compatible with GA
-#     '''  
-#     result = []
-#     for baseInt,this_max,this_length in zip(int_pop,gene_max,length): 
-#         maxValue = (2**this_length)-1 # zero based
-#         maxnumAdded = maxValue-this_max  # max is zero based 
-#         numAdded = math.floor(maxnumAdded*(baseInt/(maxValue-maxnumAdded)))
-#         full_int_val = baseInt + numAdded 
-#         full_bin_val = int2bin(full_int_val,this_length)
-        
-#         result.extend(full_bin_val)
-#     return result 
-
- 
- 
-# def convert_min_bin_int(bin_pop,max,length):
-#     ''' 
-#     converts a "minimal binary" (e.g., used for downhill, just the integer value converted to binary - doesn't fill in the entire n bit array)
-#     arguments are:
-#     bin_pop - population of minimal binaries
-#     max - integer list,maximum value- number of tokens sets in that token group
-#     length - integer list, how long each gene is
-#     return integer array of which token goes into this model
-#     ''' 
-#     start = 0
-#     result = []
-#     for this_gene,this_max in zip(length,max):
-#         # max is 0 based, everything is zero based
-#         last = start + this_gene    
-#         binary =  bin_pop[start:last] 
-#         string_ints = [str(int) for int in binary]  
-#         x = "".join(string_ints)
-#         int_val = int(x,2)
-#         start = last
-#         if int_val > this_max: # int_val and this_max are both zero based
-#             int_val -=this_max -1 # e.g if 1,1, converts to 3, if max is 2 (3 values, 0,1,2) then rolls over to 0, so need to subtractg one more
-#                                      # of value is 7 and max is 4 (5 options), should wrap to 2
-#         result.append(int_val)
-#     return result 
-
- 
-
-# def convert_int_min_bin(int_pop,length):
-#     ''' 
-#     converts an integer arry to "minimal binary"  (e.g., used for downhill, just the integer value converted to binary - doesn't fill in the entire n bit array)
-#     arguments are:
-#     int_pop - population of integers 
-#     length - integer list, how long each gene is
-#     return array of binaries, same length as the full binary
-#     '''  
- 
-#     full_results = [] 
-#     if isinstance(int_pop[0],list): # FULL POPULATION if first element is list, will be int if just one individual
-#         for ind in int_pop: 
-#             results = [] 
-#             for thisgene,this_length in zip(ind,length): 
-#                 results.extend(int2bin(thisgene,this_length)) 
-#             full_results.append(results) 
-#     else: # just on individual
-#         cur_gene = 0
-#         for this_length in length: 
-#             this_gene = int_pop[cur_gene]
-#             full_results.extend(int2bin(this_gene,this_length))  
-#             cur_gene += 1
-#     return full_results
+import os
+import re
+import shutil
 
 
-def replaceTokens(tokens,text,phenotype,tokenSet_Non_influential):
-    '''
+def replaceTokens(tokens, text, phenotype, tokenSet_Non_influential):
+    """
     note zero based phenotype, all representations are zero based.
-    '''
-    anyFound = False
-    curtokenSet = 0
-    for thisKey in tokens.keys():   
-        tokenSet = tokens.get(thisKey)[phenotype[thisKey]] ## 
+    """
+
+    any_found = False
+    current_token_set = 0
+
+    for thisKey in tokens.keys():
+        tokenSet = tokens.get(thisKey)[phenotype[thisKey]]
         tokenNum = 1
          
-        for thistoken in tokenSet:  
-            replacementText = thistoken  
-            #if replacement has THETA/OMEGA and sigma in it but it doesn't end up getting inserted, increment
-            
-             
+        for this_token in tokenSet:
+            replacement_text = this_token
+            # if replacement has THETA/OMEGA and sigma in it but it doesn't end up getting inserted, increment
+
             fullKey = "{" + thisKey + "[" + str(tokenNum)+"]"+"}"
+
             if fullKey in text:
-                #tempTemplate=tempTemplate.replace(fullKey,replacementText) \
-                text=text.replace(fullKey,replacementText)
-                anyFound = True 
-                #if containsParm:
-                #    cur_tokenSet_influential = True # if influential once, then this token set is always influential for this model
-                tokenSet_Non_influential[curtokenSet] = False  # is influential
+                text = text.replace(fullKey, replacement_text)
+                any_found = True
+                tokenSet_Non_influential[current_token_set] = False  # is influential
             
             tokenNum = tokenNum + 1  
             
-        curtokenSet += 1 
-    return(anyFound,text) 
+        current_token_set += 1
+
+    return any_found, text
  
+
 def getTokenParts(token):
     match = re.search("{.+\[",token).span()
     stem = token[match[0]+1:match[1]-1]  
@@ -181,7 +78,7 @@ def expandTokens(tokens,textBlock,phenotype):
                 newToken = line[match[0]:match[1]] 
                 expandedTextBlock.append(newToken) 
             
-    return(expandedTextBlock) 
+    return expandedTextBlock
   
 
 def removeComments(Code):
@@ -200,6 +97,7 @@ def removeComments(Code):
         if thisline.find(";") > -1:
             thisline = thisline[:thisline.find(";")]
         newCode = newCode + thisline.strip() + '\n' 
+
     return newCode
 
 
@@ -215,7 +113,8 @@ def matchTHETAs(control,tokens,varTHETABlock,phenotype,lastFixedTHETA):
         # add last fixed theta value to all
         # and put into control file
         control = control.replace("THETA(" + k +")", "THETA(" + str(v + lastFixedTHETA) +")") 
-    return(control)
+
+    return control
 
 
 def getTHETAMatches(expandedTHETABlock,tokens,phenotype):
@@ -302,6 +201,7 @@ def getRandVarMatches(expandedBlock,tokens,phenotype,whichRand):
          
     return randMatchs
  
+
 def matchRands(control,tokens,varRandBlock,phenotype,lastFixedRand,stem):
     expandedRandBlock  = expandTokens(tokens,varRandBlock,phenotype) 
         ## then look at each  token, get THETA(alpha) from non-THETA block tokens
@@ -311,4 +211,15 @@ def matchRands(control,tokens,varRandBlock,phenotype,lastFixedRand,stem):
         # add last fixed random parm value to all
         # and put into control file
         control = control.replace(stem +"(" + k+")", stem +"(" + str(v + lastFixedRand) +")") 
-    return(control)
+
+    return control
+
+
+def remove_file(file_path: str):
+    if os.path.isfile(file_path) or os.path.islink(file_path):
+        os.unlink(file_path)
+
+
+def remove_dir(file_path: str):
+    if os.path.isdir(file_path):
+        shutil.rmtree(file_path)

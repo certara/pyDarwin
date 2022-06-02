@@ -35,17 +35,17 @@ class Model:
         """code is a model_code object, type defines whether it is full binary (for GA), minimal binary (for downhill)
         or integer.
         makecontrol always used intcode"""
-        self.oldoutputfile = None
-        self.oldcontrolfile = None  # where did a saved model come from
+        self.oldOutputFile = None
+        self.oldControlFile = None  # where did a saved model come from
         self.ofv = None
-        self.dataset_path = None
         self.template = template
-        self.source = "new"  # new if new run, "saved" if from saved model, will be no results and no output file - consider saving output file?
+        # "new" if new run, "saved" if from saved model
+        # will be no results and no output file - consider saving output file?
+        self.source = "new"
         self.generation = generation
         # get model number and phenotype
         self.modelNum = model_num
-        self.errMsgs = []
-        self.model_code = copy(code)
+        self.modelCode = copy(code)
         # all required representations of model are done here
         # GA -> integer,
         # integer is just copied
@@ -56,27 +56,29 @@ class Model:
         self.fitness = options.crash_value
         self.post_run_Pythonpenalty = self.post_run_Rpenalty = self.Condition_num_test = self.condition_num = 0
         self.num_THETAs = self.num_non_fixed_THETAs = self.num_OMEGAs = self.num_non_fixed_OMEGAs = self.num_SIGMAs = self.num_non_fixed_SIGMAs = self.ofv = 0
-        self.jsonListRecord = None  # this is a list of key values to be saved to json file, for subsequent runs and to avoid running the same mdoel
-        self.Num_noninfluential_tokens = 0  # home many tokens, due to nesting have a parameter that doesn't end up in the control file?
-        self.token_Non_influential = [True] * len(
-            self.template.tokens)  # does each token result in a change? does it containt a parameter, if token has a parameter, but doesn't
-        # default is true, will change to false if: 1. doesn't contain parameters (in check_contains_parms) is put into control file (in utils.replaceTokens)
+        # this is a list of key values to be saved to json file, for subsequent runs and to avoid running the same model
+        self.jsonListRecord = None
+        # home many tokens, due to nesting have a parameter that doesn't end up in the control file?
+        self.Num_noninfluential_tokens = 0
+        # does each token result in a change? does it contain a parameter, if token has a parameter, but doesn't
+        # default is true, will change to false if:
+        # 1. doesn't contain parameters (in check_contains_parms) is put into control file (in utils.replaceTokens)
+        self.token_Non_influential = [True] * len(self.template.tokens)
         self.elapseTime = None
         self.phenotype = None
         self.control = None
-        self.datafile_name = None
         self.status = "Not Started"
 
-        self.file_stem = f'NM_{self.generation}_{self.modelNum}'
+        self.fileStem = f'NM_{self.generation}_{self.modelNum}'
         self.runDir = os.path.join(options.homeDir, str(self.generation), str(self.modelNum))
-        self.controlFileName = self.file_stem + ".mod"
-        self.outputFileName = self.file_stem + ".lst"
-        self.cltFileName = os.path.join(self.runDir, self.file_stem + ".clt")
-        self.xml_file = os.path.join(self.runDir, self.file_stem + ".xml")
-        self.executableFileName = self.file_stem + ".exe"
+        self.controlFileName = self.fileStem + ".mod"
+        self.outputFileName = self.fileStem + ".lst"
+        self.cltFileName = os.path.join(self.runDir, self.fileStem + ".clt")
+        self.xmlFile = os.path.join(self.runDir, self.fileStem + ".xml")
+        self.executableFileName = self.fileStem + ".exe"
 
     def make_copy(self):
-        newmodel = Model(self.template, self.model_code, self.modelNum, self.generation)
+        newmodel = Model(self.template, self.modelCode, self.modelNum, self.generation)
         newmodel.fitness = self.fitness
         newmodel.ofv = self.ofv
         newmodel.condition_num = self.condition_num
@@ -85,16 +87,13 @@ class Model:
         newmodel.Condition_num_test = copy(self.Condition_num_test)
         newmodel.correlation = copy(self.correlation)
         newmodel.covariance = copy(self.covariance)
-        newmodel.datafile_name = copy(self.datafile_name)
         newmodel.elapseTime = copy(self.elapseTime)
-        newmodel.errMsgs = copy(self.errMsgs)
         newmodel.executableFileName = copy(self.executableFileName)
         newmodel.generation = self.generation
         newmodel.modelNum = self.modelNum
         newmodel.jsonListRecord = copy(self.jsonListRecord)
         newmodel.NMtranMSG = copy(self.NMtranMSG)
-        newmodel.errMsgs = copy(self.errMsgs)
-        newmodel.file_stem = copy(self.file_stem)
+        newmodel.fileStem = copy(self.fileStem)
         newmodel.outputFileName = self.outputFileName
         newmodel.num_non_fixed_THETAs = self.num_non_fixed_THETAs
         newmodel.num_THETAs = self.num_THETAs
@@ -109,7 +108,7 @@ class Model:
         newmodel.runDir = copy(self.runDir)
         newmodel.status = "Done"
         newmodel.success = copy(self.success)
-        newmodel.xml_file = copy(self.xml_file)
+        newmodel.xmlFile = copy(self.xmlFile)
         return newmodel
 
     def copy_results(self, src):
@@ -140,45 +139,48 @@ class Model:
 
         return False
 
-    def copy_model(self):
-        new_dir = os.path.join(options.homeDir, str(self.generation), str(self.modelNum))
-
-        self.oldcontrolfile = self.controlFileName
-        self.oldoutputfile = self.outputFileName
-        self.controlFileName = self.file_stem + ".mod"
-        self.outputFileName = self.file_stem + ".lst"
+    def _cleanup_run_dir(self):
         try:
             gen_path = os.path.join(options.homeDir, str(self.generation))
 
-            if os.path.isfile(gen_path) or os.path.islink(gen_path):
-                os.unlink(gen_path)
+            utils.remove_file(gen_path)
 
-            if os.path.isfile(new_dir) or os.path.islink(new_dir):
-                os.unlink(new_dir)
+            utils.remove_file(self.runDir)
+            utils.remove_dir(self.runDir)
 
-            if not os.path.isdir(new_dir):
-                os.makedirs(new_dir)
+            if not os.path.isdir(self.runDir):
+                os.makedirs(self.runDir)
         except:
-            log.error(f"Error removing run files/folders for {new_dir}, is that file/folder open?")
+            log.error(f"Error removing run files/folders for {self.runDir}")
 
-        if os.path.exists(os.path.join(new_dir,self.controlFileName)):
-            os.remove(os.path.join(new_dir,self.controlFileName))
-        if os.path.exists(os.path.join(new_dir,self.outputFileName)):
-            os.remove(os.path.join(new_dir,self.outputFileName))
-        if os.path.exists(os.path.join(new_dir,"FMSG")):
-            os.remove(os.path.join(new_dir,"FMSG"))
-        if os.path.exists(os.path.join(new_dir,"PRDERR")):
-            os.remove(os.path.join(new_dir,"PRDERR"))
+    def copy_model(self):
+        new_dir = self.runDir = os.path.join(options.homeDir, str(self.generation), str(self.modelNum))
+
+        self.oldControlFile = self.controlFileName
+        self.oldOutputFile = self.outputFileName
+        self.controlFileName = self.fileStem + ".mod"
+        self.outputFileName = self.fileStem + ".lst"
+
+        self._cleanup_run_dir()
+
+        utils.remove_file(os.path.join(new_dir, self.controlFileName))
+        utils.remove_file(os.path.join(new_dir, self.outputFileName))
+        utils.remove_file(os.path.join(new_dir, "FMSG"))
+        utils.remove_file(os.path.join(new_dir, "PRDERR"))
 
         # and copy
         try:
-            shutil.copyfile(os.path.join(self.runDir,self.oldoutputfile), os.path.join(new_dir, self.file_stem + ".lst"))
-            shutil.copyfile(os.path.join(self.runDir,self.oldcontrolfile), os.path.join(new_dir, self.file_stem + ".mod"))
-            shutil.copyfile(os.path.join(self.runDir,"FMSG"), os.path.join(new_dir, "FMSG"))
-            if os.path.exists(os.path.join(self.runDir,"PRDERR")):
-                shutil.copyfile(os.path.join(self.runDir,"PRDERR"), os.path.join(new_dir, "PRDERR"))
-            with open(os.path.join(new_dir, self.file_stem + ".lst"), 'a') as outfile:
-                outfile.write(f"!!! Saved model, Orginally run as {self.oldcontrolfile} in {self.runDir}")
+            shutil.copyfile(os.path.join(self.runDir, self.oldOutputFile),
+                            os.path.join(new_dir, self.fileStem + ".lst"))
+            shutil.copyfile(os.path.join(self.runDir, self.oldControlFile),
+                            os.path.join(new_dir, self.fileStem + ".mod"))
+            shutil.copyfile(os.path.join(self.runDir, "FMSG"), os.path.join(new_dir, "FMSG"))
+
+            if os.path.exists(os.path.join(self.runDir, "PRDERR")):
+                shutil.copyfile(os.path.join(self.runDir, "PRDERR"), os.path.join(new_dir, "PRDERR"))
+
+            with open(os.path.join(new_dir, self.fileStem + ".lst"), 'a') as outfile:
+                outfile.write(f"!!! Saved model, originally run as {self.oldControlFile} in {self.runDir}")
         except:
             pass
 
@@ -187,39 +189,13 @@ class Model:
 
         self.source = "new"
 
-        # in case the new folder name is a file
-        try:
-            if os.path.isfile(os.path.join(options.homeDir, str(self.generation))) or os.path.islink(
-                    os.path.join(options.homeDir, str(self.generation))):
-                os.unlink(os.path.join(options.homeDir, str(self.generation)))
+        self._cleanup_run_dir()
 
-            if os.path.isfile(self.runDir) or os.path.islink(self.runDir):
-                os.unlink(self.runDir)
+        utils.remove_file(self.controlFileName)
+        utils.remove_file(self.outputFileName)
 
-            if not os.path.isdir(self.runDir):
-                os.makedirs(self.runDir)
-        except:
-            log.error(f"Error removing run files/folders for {self.runDir}, is that file/folder open?")
-
-        for filename in os.listdir(self.runDir):
-            file_path = os.path.join(self.runDir, filename)
-            try:
-                if os.path.isfile(file_path) or os.path.islink(file_path):
-                    os.unlink(file_path)
-                elif os.path.isdir(file_path):
-                    shutil.rmtree(file_path)
-            except Exception as e:
-                log.error('Failed to delete %s. Reason: %s' % (self.runDir, e))
-
-        if os.path.exists(self.controlFileName):
-            os.remove(self.controlFileName)
-
-        if os.path.exists(self.outputFileName):
-            os.remove(self.outputFileName)
-
-        with open(f"{self.runDir}/{self.controlFileName}", 'w+') as f:
+        with open(os.path.join(self.runDir, self.controlFileName), 'w+') as f:
             f.write(self.control)
-            f.flush()
 
     def run_model(self):
         self.make_control_file()
@@ -243,8 +219,8 @@ class Model:
         except TimeoutExpired:
             log.error(f'run {self.modelNum} has timed out')
             self.status = "NM_timed_out"
-        except:
-            pass
+        except Exception as e:
+            log.error(str(e))
 
         if nm is None or nm.returncode != 0:
             log.error(f'run {self.modelNum} has failed')
@@ -331,8 +307,9 @@ class Model:
 
     def get_nmtran_msgs(self):
         self.NMtranMSG = ""
+
         try:
-            if (os.path.exists(os.path.join(self.runDir, "FMSG"))):
+            if os.path.exists(os.path.join(self.runDir, "FMSG")):
                 with open(os.path.join(self.runDir, "FMSG"), 'r') as file:
                     # to do remove all empty (\n) lines
                     msg = file.readlines()
@@ -343,7 +320,8 @@ class Model:
                 for thiswarning, thisshortwarning in zip(warnings, shortwarnings):
                     if thiswarning in msg:
                         self.NMtranMSG += thisshortwarning
-            if (os.path.exists(os.path.join(self.runDir, "PRDERR"))):
+
+            if os.path.exists(os.path.join(self.runDir, "PRDERR")):
                 with open(os.path.join(self.runDir, "PRDERR"), 'r') as file:
                     msg = file.readlines()
                 warnings = ['PK PARAMETER FOR',
@@ -353,7 +331,9 @@ class Model:
                     for thisline in msg:
                         if thiswarning in thisline and not (thisline.strip() + " ") in self.PRDERR:
                             self.PRDERR += thisline.strip() + " "
+
             errors = [' AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.']
+
             # if an error is found, print out the rest of the text immediately, and add to errors
             for thiserror in errors:
                 if thiserror in msg:
@@ -380,7 +360,7 @@ class Model:
 
     def get_PRDERR(self):
         try:
-            if (os.path.exists(os.path.join(self.runDir, "PRDERR"))):
+            if os.path.exists(os.path.join(self.runDir, "PRDERR")):
                 with open(os.path.join(self.runDir, "PRDERR"), 'r') as file:
                     msg = file.readlines()
                 warnings = ['PK PARAMETER FOR',
@@ -401,11 +381,11 @@ class Model:
         self.ofv = options.crash_value
         self.condition_num = options.crash_value
 
-        if not os.path.exists(self.xml_file):
+        if not os.path.exists(self.xmlFile):
             return
 
         try:
-            with open(self.xml_file) as xml_file:
+            with open(self.xmlFile) as xml_file:
                 data_dict = xmltodict.parse(xml_file.read())
                 version = data_dict['nm:output']['nm:nonmem']['@nm:version']  # string
                 # keep first two digits
@@ -667,17 +647,16 @@ class Model:
             # save results
             # write to output 
 
-        with open(os.path.join(self.runDir,self.outputFileName)  ,"a") as ouputfile:
-            ouputfile.write(f"OFV = {self.ofv}\n")
-            ouputfile.write(f"success = {self.success}\n")
-            ouputfile.write(f"covariance = {self.covariance}\n")
-            ouputfile.write(f"correlation = {self.correlation}\n")
-            ouputfile.write(f"Condition # = {self.condition_num}\n")
-            ouputfile.write(f"Num Non fixed THETAs = {self.num_non_fixed_THETAs}\n")
-            ouputfile.write(f"Num Non fixed OMEGAs = {self.num_non_fixed_OMEGAs}\n")
-            ouputfile.write(f"Num Non fixed SIGMAs = {self.num_non_fixed_SIGMAs}\n")
-            ouputfile.write(f"Original run directory = {self.runDir}\n")
-            ouputfile.flush()
+        with open(os.path.join(self.runDir, self.outputFileName), "a") as output:
+            output.write(f"OFV = {self.ofv}\n")
+            output.write(f"success = {self.success}\n")
+            output.write(f"covariance = {self.covariance}\n")
+            output.write(f"correlation = {self.correlation}\n")
+            output.write(f"Condition # = {self.condition_num}\n")
+            output.write(f"Num Non fixed THETAs = {self.num_non_fixed_THETAs}\n")
+            output.write(f"Num Non fixed OMEGAs = {self.num_non_fixed_OMEGAs}\n")
+            output.write(f"Num Non fixed SIGMAs = {self.num_non_fixed_SIGMAs}\n")
+            output.write(f"Original run directory = {self.runDir}\n")
 
         self._make_json_list()
 
@@ -714,8 +693,7 @@ class Model:
         try:
             if options.remove_run_dir:
                 try:
-                    if os.path.isdir(self.runDir):
-                        shutil.rmtree(self.runDir)
+                    utils.remove_dir(self.runDir)
                 except OSError:
                     log.error(f"Cannot remove folder {self.runDir} in call to cleanup")
             else:
@@ -735,18 +713,18 @@ class Model:
                     "nmprd4p.mod",
                     "PRSIZES.f90",
                     "INTER",
-                    self.file_stem + ".ext",
-                    self.file_stem + ".clt",
-                    self.file_stem + ".coi",
-                    self.file_stem + ".cor",
-                    self.file_stem + ".cov",
-                    self.file_stem + ".cpu",
-                    self.file_stem + ".grd",
-                    self.file_stem + ".phi",
-                    self.file_stem + ".shm",
-                    self.file_stem + ".smt",
-                    self.file_stem + ".shk",
-                    self.file_stem + ".rmt",
+                    self.fileStem + ".ext",
+                    self.fileStem + ".clt",
+                    self.fileStem + ".coi",
+                    self.fileStem + ".cor",
+                    self.fileStem + ".cov",
+                    self.fileStem + ".cpu",
+                    self.fileStem + ".grd",
+                    self.fileStem + ".phi",
+                    self.fileStem + ".shm",
+                    self.fileStem + ".smt",
+                    self.fileStem + ".shk",
+                    self.fileStem + ".rmt",
                     self.executableFileName
                 ]
 
@@ -757,9 +735,8 @@ class Model:
                         os.remove(os.path.join(self.runDir, f))
                     except OSError:
                         pass
-            if self.runDir is not None:
-                if os.path.isdir(os.path.join(self.runDir, "temp_dir")):
-                    shutil.rmtree(os.path.join(self.runDir, "temp_dir"))
+
+                utils.remove_dir(os.path.join(self.runDir, "temp_dir"))
         except OSError as e:
             log.error(f"OS Error {e}")
 
@@ -789,7 +766,7 @@ class Model:
         """constructs control file from intcode
         ignore last value if self_search_omega_bands """
         # this appears to be OK with search_omega_bands
-        self.phenotype = OrderedDict(zip(self.template.tokens.keys(), self.model_code.IntCode))
+        self.phenotype = OrderedDict(zip(self.template.tokens.keys(), self.modelCode.IntCode))
         self._check_contains_parms()  # fill in whether any token in each token set contains THETA,OMEGA SIGMA
 
         anyFound = True  # keep looping, looking for nested tokens
@@ -817,17 +794,17 @@ class Model:
 
         if options.isGA or options.isPSO:
             self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; Genotype \n ;; " + str(
-                self.model_code.FullBinCode) + \
+                self.modelCode.FullBinCode) + \
                             "\n;; Num influential tokens = " + str(self.token_Non_influential)
         else:
             self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; code \n ;; " + str(
-                self.model_code.IntCode) + \
+                self.modelCode.IntCode) + \
                             "\n;; Num Non influential tokens = " + str(self.token_Non_influential)
 
         # add band OMEGA
         if self.template.search_omega_band:
             # bandwidth must be last gene
-            bandwidth = self.model_code.IntCode[-1]
+            bandwidth = self.modelCode.IntCode[-1]
             omega_block, self.template.search_omega_band = set_omega_bands(self.control, bandwidth)
 
             if self.template.search_omega_band:
@@ -835,7 +812,6 @@ class Model:
 
         if not token_found:
             log.error("No tokens found, exiting")
-            self.errMsgs.append("No tokens found")
             raise RuntimeError("No tokens found")
 
         return 
@@ -909,7 +885,7 @@ def check_files_present(model):
 
 
 def start_new_model(model: Model, all_models):
-    current_code = str(model.model_code.IntCode)
+    current_code = str(model.modelCode.IntCode)
 
     if current_code in all_models and model.copy_results(all_models[current_code]):
         model.source = "saved"
@@ -928,7 +904,7 @@ def start_new_model(model: Model, all_models):
             model.cleanup()  # changes back to home_dir
             # Integer code is common denominator for all, entered into dictionary with this
             if isinstance(model.jsonListRecord, dict):
-                all_models[str(model.model_code.IntCode)] = model.jsonListRecord
+                all_models[str(model.modelCode.IntCode)] = model.jsonListRecord
 
         step_name = "Iteration"
         prderr_text = ""
@@ -940,11 +916,10 @@ def start_new_model(model: Model, all_models):
             prderr_text = " PRDERR = " + model.PRDERR
 
         with open(GlobalVars.output, "a") as result_file:
-            result_file.write(f"{model.runDir},{model.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
+            result_file.write(f"{model.runDir},{model.fitness:.6f},{''.join(map(str, model.modelCode.IntCode))},"
                               f"{model.ofv},{model.success},{model.covariance},{model.correlation},{model.num_THETAs},"
                               f"{model.num_OMEGAs},{model.num_SIGMAs},{model.condition_num},{model.post_run_Rpenalty},"
                               f"{model.post_run_Pythonpenalty},{model.NMtranMSG}\n")
-            result_file.flush()
 
         fitness_crashed = model.fitness == options.crash_value
         fitness_text = f"{model.fitness:.0f}" if fitness_crashed else f"{model.fitness:.3f}"
@@ -964,7 +939,7 @@ def _copy_to_best(current_model: Model):
     GlobalVars.BestModel.control = current_model.control
     GlobalVars.BestModel.generation = current_model.generation
     GlobalVars.BestModel.modelNum = current_model.modelNum
-    GlobalVars.BestModel.model_code = copy(current_model.model_code)
+    GlobalVars.BestModel.modelCode = copy(current_model.modelCode)
     GlobalVars.BestModel.ofv = current_model.ofv
     GlobalVars.BestModel.success = current_model.success
     GlobalVars.BestModel.covariance = current_model.covariance

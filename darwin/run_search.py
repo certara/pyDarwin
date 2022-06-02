@@ -5,6 +5,7 @@ import sys
 import gc
 
 import darwin.GlobalVars as GlobalVars
+import darwin.utils as utils
 
 from darwin.Log import log
 from darwin.options import options
@@ -77,8 +78,7 @@ def _init_app(options_file: str, folder: str = None):
 
     log_file = os.path.join(options.homeDir, "messages.txt")
 
-    if os.path.exists(log_file):
-        os.remove(log_file)
+    utils.remove_file(log_file)
 
     log.initialize(log_file)
 

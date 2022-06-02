@@ -6,6 +6,7 @@ from multiprocessing.dummy import Pool as ThreadPool
 import traceback
 
 import darwin.GlobalVars as GlobalVars
+import darwin.utils as utils
 
 from darwin.Log import log
 from darwin.options import options
@@ -30,11 +31,8 @@ def init_model_list():
 
     results_file = GlobalVars.output
 
-    if os.path.exists(results_file):
-        os.remove(results_file)
-
-    if os.path.exists(default_models_file):
-        os.remove(default_models_file)
+    utils.remove_file(results_file)
+    utils.remove_file(default_models_file)
 
     with open(results_file, "w") as resultsfile:
         resultsfile.write(f"Run Directory,Fitness,Model,ofv,success,covar,correlation #,"

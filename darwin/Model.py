@@ -11,6 +11,7 @@ import time
 import glob
 from copy import copy
 import sys
+import psutil
 
 import traceback
 
@@ -217,6 +218,8 @@ class Model:
 
             self.status = "Done_running_NM"
         except TimeoutExpired:
+            if sys.platform == "win32":
+                _terminate_process(os.path.join(self.runDir, self.executableFileName))
             log.error(f'run {self.modelNum} has timed out')
             self.status = "NM_timed_out"
         except Exception as e:
@@ -969,3 +972,9 @@ def write_best_model_files(control_path, result_path):
 
     with open(result_path, 'w') as result:
         result.write(GlobalVars.BestModelOutput)
+
+
+def _terminate_process(path: str):
+    for proc in psutil.process_iter(['exe']):
+        if proc.info['exe'] == path:
+            proc.terminate()

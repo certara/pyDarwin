@@ -53,7 +53,7 @@ class Model:
         # minimal binary is generated, just in case this is a downhill step
         self.success = self.covariance = self.correlation = False
         self.OMEGA = self.SIGMA = None
-        self.post_run_Rtext = self.post_run_Pythontext = self.NMtranMSG = self.PRDERR = ""
+        self.post_run_Rtext = self.post_run_Pythontext = self.nmTranslationMessage = self.PRDERR = ""
         self.fitness = options.crash_value
         self.post_run_Pythonpenalty = self.post_run_Rpenalty = self.Condition_num_test = self.condition_num = 0
         self.num_THETAs = self.num_non_fixed_THETAs = self.num_OMEGAs = self.num_non_fixed_OMEGAs = self.num_SIGMAs = self.num_non_fixed_SIGMAs = self.ofv = 0
@@ -93,7 +93,7 @@ class Model:
         newmodel.generation = self.generation
         newmodel.modelNum = self.modelNum
         newmodel.jsonListRecord = copy(self.jsonListRecord)
-        newmodel.NMtranMSG = copy(self.NMtranMSG)
+        newmodel.nmTranslationMessage = copy(self.nmTranslationMessage)
         newmodel.fileStem = copy(self.fileStem)
         newmodel.outputFileName = self.outputFileName
         newmodel.num_non_fixed_THETAs = self.num_non_fixed_THETAs
@@ -128,11 +128,11 @@ class Model:
             self.post_run_Rpenalty = src['post_run_Rpenalty']
             self.post_run_Pythontext = src['post_run_Pythontext']
             self.post_run_Pythonpenalty = src['post_run_Pythontext']
-            self.NMtranMSG = src['NMtranMSG']
+            self.nmTranslationMessage = src['NMtranMSG']
             self.runDir = src['runDir']
             self.controlFileName = src['control_file_name']
             self.outputFileName = src['output_file_name']
-            self.NMtranMSG = "From saved model " + self.runDir + " " + self.controlFileName + ": " + src['NMtranMSG']  # ["","","","output from previous model"]
+            self.nmTranslationMessage = "From saved model " + self.runDir + " " + self.controlFileName + ": " + src['NMtranMSG']  # ["","","","output from previous model"]
 
             return True
         except:
@@ -309,57 +309,45 @@ class Model:
                 f.write("Post run Python code crashed\n")
 
     def get_nmtran_msgs(self):
-        self.NMtranMSG = ""
+        self.nmTranslationMessage = ""
 
-        try:
-            if os.path.exists(os.path.join(self.runDir, "FMSG")):
-                with open(os.path.join(self.runDir, "FMSG"), 'r') as file:
-                    # to do remove all empty (\n) lines
-                    msg = file.readlines()
-                warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
-                            ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n',
-                            ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n']
-                short_warnings = ['NON-FIXED OMEGA ', 'NON-FIXED PARAMETER ', 'NON-FIXED THETA']
+        errors = ['PK PARAMETER FOR',
+                    'IS TOO CLOSE TO AN EIGENVALUE',
+                    'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)']
 
-                for warning, short_warning in zip(warnings, short_warnings):
-                    if warning in msg:
-                        self.NMtranMSG += short_warning
+        for error in errors:
+            for line in _file_to_lines(os.path.join(self.runDir, "PRDERR")):
+                if error in line and not (line.strip() + " ") in self.PRDERR:
+                    self.PRDERR += line.strip() + " "
 
-            if os.path.exists(os.path.join(self.runDir, "PRDERR")):
-                with open(os.path.join(self.runDir, "PRDERR"), 'r') as file:
-                    msg = file.readlines()
+        warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
+                    ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n',
+                    ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n']
+        short_warnings = ['NON-FIXED OMEGA ', 'NON-FIXED PARAMETER ', 'NON-FIXED THETA']
 
-                warnings = ['PK PARAMETER FOR',
-                            'IS TOO CLOSE TO AN EIGENVALUE',
-                            'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)']
+        f_msg = _file_to_lines(os.path.join(self.runDir, "FMSG"))
 
-                for warning in warnings:
-                    for line in msg:
-                        if warning in line and not (line.strip() + " ") in self.PRDERR:
-                            self.PRDERR += line.strip() + " "
+        for warning, short_warning in zip(warnings, short_warnings):
+            if warning in f_msg:
+                self.nmTranslationMessage += short_warning
 
-            errors = [' AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.']
+        errors = [' AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.']
 
-            # if an error is found, print out the rest of the text immediately, and add to errors
-            for error in errors:
-                if error in msg:
-                    start = 0
-                    for line in msg:
-                        if error in line:  # printout rest of text
-                            error_text = ", ".join(msg[start:])
+        # if an error is found, print out the rest of the text immediately, and add to errors
+        for error in errors:
+            if error in f_msg:
+                start = f_msg.index(error)
 
-                            log.error("ERROR in Model " + str(self.modelNum) + ": " + error_text)
+                error_text = ", ".join(f_msg[start:])
 
-                            self.NMtranMSG += error_text
+                log.error("ERROR in Model " + str(self.modelNum) + ": " + error_text)
 
-                            break
-                        else:
-                            start += 1
+                self.nmTranslationMessage += error_text
 
-            if self.NMtranMSG == "" or self.NMtranMSG.strip() == ",":
-                self.NMtranMSG = "No important warnings"
-        except:
-            self.NMtranMSG = "Failed to get translation errors"
+                break
+
+        if self.nmTranslationMessage == "" or self.nmTranslationMessage.strip() == ",":
+            self.nmTranslationMessage = "No important warnings"
 
         # try to sort relevant message?
         # key are
@@ -367,22 +355,6 @@ class Model:
         # (WARNING  41) - non fixed parameter
         # (WARNING  40) - non fixed theta
 
-    def get_PRDERR(self):
-        try:
-            if os.path.exists(os.path.join(self.runDir, "PRDERR")):
-                with open(os.path.join(self.runDir, "PRDERR"), 'r') as file:
-                    msg = file.readlines()
-                warnings = ['PK PARAMETER FOR',
-                            'IS TOO CLOSE TO AN EIGENVALUE',
-                            'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)']
-                for thiswarning in warnings:
-                    for thisline in msg:
-                        if thiswarning in thisline and not (thisline.strip() + " ") in self.PRDERR:
-                            self.PRDERR += thisline.strip() + " "
-        except:
-            self.PRDERR += f"Unable to read PDERR in {self.runDir}"
-        return
-                         
     def _read_xml(self):
         self.success = False
         self.covariance = False
@@ -613,7 +585,6 @@ class Model:
         try:
             self._read_model()
             self.get_nmtran_msgs()  # read from FMSG, in case run fails, will still have NMTRAN messages
-            self.get_PRDERR()
 
             if self.ofv is None:
                 self.fitness = options.crash_value
@@ -684,7 +655,7 @@ class Model:
                                "num_non_fixed_SIGMAs": self.num_non_fixed_SIGMAs,
                                "num_OMEGAs": self.num_OMEGAs, "num_SIGMAs": self.num_SIGMAs,
                                "condition_num": self.condition_num,
-                               "NMtranMSG": self.NMtranMSG, 
+                               "NMtranMSG": self.nmTranslationMessage,
                                "runDir": self.runDir, # original run directory
                                "control_file_name": self.controlFileName, # this is just file, not path
                                "output_file_name": self.outputFileName 
@@ -926,14 +897,14 @@ def start_new_model(model: Model, all_models):
             result_file.write(f"{model.runDir},{model.fitness:.6f},{''.join(map(str, model.modelCode.IntCode))},"
                               f"{model.ofv},{model.success},{model.covariance},{model.correlation},{model.num_THETAs},"
                               f"{model.num_OMEGAs},{model.num_SIGMAs},{model.condition_num},{model.post_run_Rpenalty},"
-                              f"{model.post_run_Pythonpenalty},{model.NMtranMSG}\n")
+                              f"{model.post_run_Pythonpenalty},{model.nmTranslationMessage}\n")
 
         fitness_crashed = model.fitness == options.crash_value
         fitness_text = f"{model.fitness:.0f}" if fitness_crashed else f"{model.fitness:.3f}"
 
         log.message(
             f"{step_name} = {model.generation}, Model {model.modelNum:5},"
-            f"\t fitness = {fitness_text}, \t NMTRANMSG = {model.NMtranMSG.strip()}{prderr_text}"
+            f"\t fitness = {fitness_text}, \t NMTRANMSG = {model.nmTranslationMessage.strip()}{prderr_text}"
         )
 
 
@@ -981,3 +952,11 @@ def _terminate_process(pid):
         p.terminate()
 
     proc.terminate()
+
+
+def _file_to_lines(file_name: str):
+    if os.path.exists(file_name):
+        with open(file_name, 'r') as file:
+            return file.readlines()
+
+    return []

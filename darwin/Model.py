@@ -224,8 +224,7 @@ class Model:
     def run_model(self):
         self.make_control_file()
 
-        command = [options.nmfe_path, os.path.join(self.runDir, self.controlFileName),
-                   os.path.join(self.runDir, self.outputFileName),
+        command = [options.nmfe_path, self.controlFileName, self.outputFileName,
                    " -nmexec=" + self.executableFileName, f'-rundir={self.runDir}']
 
         GlobalVars.UniqueModels += 1

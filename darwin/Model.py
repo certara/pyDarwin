@@ -316,47 +316,53 @@ class Model:
                 warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
                             ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n',
                             ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n']
-                shortwarnings = ['NON-FIXED OMEGA ', 'NON-FIXED PARAMETER ', 'NON-FIXED THETA']
-                for thiswarning, thisshortwarning in zip(warnings, shortwarnings):
-                    if thiswarning in msg:
-                        self.NMtranMSG += thisshortwarning
+                short_warnings = ['NON-FIXED OMEGA ', 'NON-FIXED PARAMETER ', 'NON-FIXED THETA']
+
+                for warning, short_warning in zip(warnings, short_warnings):
+                    if warning in msg:
+                        self.NMtranMSG += short_warning
 
             if os.path.exists(os.path.join(self.runDir, "PRDERR")):
                 with open(os.path.join(self.runDir, "PRDERR"), 'r') as file:
                     msg = file.readlines()
+
                 warnings = ['PK PARAMETER FOR',
                             'IS TOO CLOSE TO AN EIGENVALUE',
                             'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)']
-                for thiswarning in warnings:
-                    for thisline in msg:
-                        if thiswarning in thisline and not (thisline.strip() + " ") in self.PRDERR:
-                            self.PRDERR += thisline.strip() + " "
+
+                for warning in warnings:
+                    for line in msg:
+                        if warning in line and not (line.strip() + " ") in self.PRDERR:
+                            self.PRDERR += line.strip() + " "
 
             errors = [' AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.']
 
             # if an error is found, print out the rest of the text immediately, and add to errors
-            for thiserror in errors:
-                if thiserror in msg:
-                    startline = 0
-                    for thisline in msg:
-                        if thiserror in thisline:  # printout rest of text
-                            error_text = ""
-                            full_error_text = msg[startline:]
-                            for error_line in full_error_text:
-                                error_text = error_text + ", " + error_line
+            for error in errors:
+                if error in msg:
+                    start = 0
+                    for line in msg:
+                        if error in line:  # printout rest of text
+                            error_text = ", ".join(msg[start:])
+
                             log.error("ERROR in Model " + str(self.modelNum) + ": " + error_text)
+
                             self.NMtranMSG += error_text
+
                             break
                         else:
-                            startline += 1
+                            start += 1
+
             if self.NMtranMSG == "" or self.NMtranMSG.strip() == ",":
                 self.NMtranMSG = "No important warnings"
         except:
-            self.NMtranMSG = "FMSG file not found"
+            self.NMtranMSG = "Failed to get translation errors"
 
-            return
-            ## try to sort relevant message?
-            # key are (WARNING  31) - non fixed OMEGA and (WARNING  41) non fixed parameter and (WARNING  40) non fixed theta
+        # try to sort relevant message?
+        # key are
+        # (WARNING  31) - non fixed OMEGA
+        # (WARNING  41) - non fixed parameter
+        # (WARNING  40) - non fixed theta
 
     def get_PRDERR(self):
         try:
@@ -895,8 +901,6 @@ def start_new_model(model: Model, all_models):
         model.run_model()  # current model is the general model type (not GA/DEAP model)
 
     if model.status == "Done":
-        nm_tran_msgs = model.NMtranMSG
-
         if GlobalVars.BestModel is None or model.fitness < GlobalVars.BestModel.fitness:
             _copy_to_best(model)
 
@@ -913,7 +917,7 @@ def start_new_model(model: Model, all_models):
             step_name = "Generation"
 
         if len(model.PRDERR) > 0:
-            prderr_text = " PRDERR = " + model.PRDERR
+            prderr_text = ", PRDERR = " + model.PRDERR
 
         with open(GlobalVars.output, "a") as result_file:
             result_file.write(f"{model.runDir},{model.fitness:.6f},{''.join(map(str, model.modelCode.IntCode))},"
@@ -926,7 +930,7 @@ def start_new_model(model: Model, all_models):
 
         log.message(
             f"{step_name} = {model.generation}, Model {model.modelNum:5},"
-            f"\t fitness = {fitness_text}, \t NMTRANMSG = {nm_tran_msgs.strip()},{prderr_text}"
+            f"\t fitness = {fitness_text}, \t NMTRANMSG = {model.NMtranMSG.strip()}{prderr_text}"
         )
 
 

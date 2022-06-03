@@ -73,7 +73,6 @@ partd===1.2.0
 pharmpy-core===0.62.0
 pickleshare===0.7.5
 Pillow===9.1.0
-pip===21.1.1
 prometheus-client===0.13.1
 prompt-toolkit===3.0.28
 psutil===5.9.0
@@ -93,6 +92,8 @@ PyYAML===6.0
 pyzmq===22.3.0
 requests===2.27.1
 rich===12.0.1
+scikit-learn===1.1.1
+scikit-optimize===0.9.0
 scipy===1.8.0
 Send2Trash===1.8.0
 six===1.16.0

@@ -94,38 +94,6 @@ class Model:
         self.xml_file = os.path.join(self.run_dir, self.file_stem + ".xml")
         self.executable_file_name = self.file_stem + ".exe"
 
-    def make_copy(self):
-        newmodel = Model(self.template, self.model_code, self.model_num, self.generation)
-        newmodel.fitness = self.fitness
-        newmodel.ofv = self.ofv
-        newmodel.condition_num = self.condition_num
-        newmodel.control = copy(self.control)
-        newmodel.control_file_name = copy(self.control_file_name)
-        newmodel.correlation = copy(self.correlation)
-        newmodel.covariance = copy(self.covariance)
-        newmodel.executable_file_name = copy(self.executable_file_name)
-        newmodel.generation = self.generation
-        newmodel.model_num = self.model_num
-        newmodel.json_record = copy(self.json_record)
-        newmodel.nm_translation_message = copy(self.nm_translation_message)
-        newmodel.file_stem = copy(self.file_stem)
-        newmodel.output_file_name = self.output_file_name
-        newmodel.estimated_theta_num = self.estimated_theta_num
-        newmodel.theta_num = self.theta_num
-        newmodel.omega_num = self.omega_num
-        newmodel.sigma_num = self.sigma_num
-        newmodel.phenotype = copy(self.phenotype)
-        newmodel.post_run_r_penalty = copy(self.post_run_r_penalty)
-        newmodel.post_run_r_text = copy(self.post_run_r_text)
-        newmodel.post_run_python_penalty = copy(self.post_run_python_penalty)
-        newmodel.post_run_python_penalty = copy(self.post_run_python_penalty)
-        newmodel.non_influential_tokens = copy(self.non_influential_tokens)
-        newmodel.run_dir = copy(self.run_dir)
-        newmodel.status = "Done"
-        newmodel.success = copy(self.success)
-        newmodel.xml_file = copy(self.xml_file)
-        return newmodel
-
     def from_dict(self, src):
         try:
             for attr in JSON_ATTRIBUTES:
@@ -864,19 +832,7 @@ def _copy_to_best(current_model: Model):
 
     GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
     GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
-    GlobalVars.BestModel.fitness = current_model.fitness
-    GlobalVars.BestModel.control = current_model.control
-    GlobalVars.BestModel.generation = current_model.generation
-    GlobalVars.BestModel.model_num = current_model.model_num
-    GlobalVars.BestModel.model_code = copy(current_model.model_code)
-    GlobalVars.BestModel.ofv = current_model.ofv
-    GlobalVars.BestModel.success = current_model.success
-    GlobalVars.BestModel.covariance = current_model.covariance
-    GlobalVars.BestModel.theta_num = current_model.theta_num
-    GlobalVars.BestModel.omega_num = current_model.omega_num
-    GlobalVars.BestModel.sigma_num = current_model.sigma_num
-    GlobalVars.BestModel.correlation = current_model.correlation
-    GlobalVars.BestModel.condition_num = current_model.condition_num
+    GlobalVars.BestModel = current_model
 
     if current_model.source == "new":
         with open(os.path.join(current_model.run_dir, current_model.output_file_name)) as file:

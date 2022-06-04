@@ -1,12 +1,13 @@
 import time
 import numpy as np
+from copy import copy
 
 import darwin.GlobalVars as GlobalVars
 
 from darwin.Log import log
 from darwin.options import options
 
-from darwin.Model import Model
+from darwin.Model import Model, write_best_model_files
 from darwin.ModelCode import ModelCode
 from darwin.runAllModels import run_all
 
@@ -44,7 +45,6 @@ def run_exhaustive(model_template):
 
     fitnesses = []
     best_fitness = options.crash_value
-    best_model = None
 
     while current_last <= num_models:
         if current_last > len(codes):
@@ -59,10 +59,10 @@ def run_exhaustive(model_template):
         for model in models:
             if model.fitness < best_fitness:
                 best_fitness = model.fitness
-                best_model = model.make_copy()
             fitnesses.append(model.fitness)
 
         log.message(f"Current Best fitness = {best_fitness}")
+
         current_start = current_last
         current_last = current_start + max_models
 
@@ -70,14 +70,11 @@ def run_exhaustive(model_template):
 
     log.message(f"Elapse time = {elapsed / 60:.1f} minutes \n")
 
-    if best_model:
-        log.message(f"Best overall fitness = {best_fitness:4f}, model {best_model.model_num}")
+    best_model = copy(GlobalVars.BestModel)
 
-        with open(GlobalVars.FinalControlFile, 'w') as control:
-            control.write(best_model.control)
+    log.message(f"Best overall fitness = {best_model.fitness:.6f}, model {best_model.model_num}")
 
-    with open(GlobalVars.FinalResultFile, 'w') as result:
-        result.write(GlobalVars.BestModelOutput)
+    write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
 
     log.message(f"Final output from best model is in {GlobalVars.FinalResultFile}")
     log.message(f"Unique model list in  {GlobalVars.SavedModelsFile}") 

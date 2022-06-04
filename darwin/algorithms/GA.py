@@ -330,7 +330,7 @@ def run_ga(model_template: Template) -> Model:
         if single_best_model.fitness < final_model.fitness:
             final_model = copy(single_best_model)
        
-    log.message(f"-- End of Optimization at {time.asctime()}--")
+    log.message(f"-- End of Optimization at {time.asctime()} --")
 
     elapsed = time.time() - GlobalVars.StartTime
 

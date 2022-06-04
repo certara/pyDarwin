@@ -127,20 +127,22 @@ class Model:
             self.success = src['success']
             self.covariance = src['covariance']
             self.correlation = src['correlation']
-            self.theta_num = src['num_THETAs']
-            self.omega_num = src['num_OMEGAs']
-            self.sigma_num = src['num_SIGMAs']
+            self.theta_num = src['theta_num']
+            self.omega_num = src['omega_num']
+            self.sigma_num = src['sigma_num']
+            self.estimated_theta_num = src['estimated_theta_num']
+            self.estimated_omega_num = src['estimated_omega_num']
+            self.estimated_sigma_num = src['estimated_sigma_num']
             self.condition_num = src['condition_num']
-            self.post_run_r_text = src['post_run_Rtext']
-            self.post_run_r_penalty = src['post_run_Rpenalty']
-            self.post_run_python_text = src['post_run_Pythontext']
-            self.post_run_python_penalty = src['post_run_Pythonpenalty']
-            self.nm_translation_message = src['NMtranMSG']
-            self.run_dir = src['runDir']
+            self.post_run_r_text = src['post_run_r_text']
+            self.post_run_r_penalty = src['post_run_r_penalty']
+            self.post_run_python_text = src['post_run_python_text']
+            self.post_run_python_penalty = src['post_run_python_penalty']
+            self.run_dir = src['run_dir']
             self.control_file_name = src['control_file_name']
             self.output_file_name = src['output_file_name']
             self.nm_translation_message = f"From saved model {self.run_dir} {self.control_file_name}:" \
-                                          f" {src['NMtranMSG']}"
+                                          f" {src['nm_translation_message']}"
 
             return True
 
@@ -559,47 +561,40 @@ class Model:
         """calculates the fitness, based on the model output, and the penalties (from the options file)
         need to look in output file for parameter at boundary and parameter non-positive """
 
+        self.fitness = options.crash_value
+
         try:
             self._read_model()
             self.get_nmtran_msgs()  # read from FMSG, in case run fails, will still have NMTRAN messages
 
-            if self.ofv is None:
-                self.fitness = options.crash_value
-                return
-            else:
-                self.fitness = self.ofv
-                # non influential tokens penalties
-                self.fitness += self.non_influential_token_num * options['non_influential_tokens_penalty']
-                self.ofv = min(self.ofv, options.crash_value)
-        except:
-            self.fitness = options.crash_value
-            return
+            fitness = self.ofv
+            # non influential tokens penalties
+            fitness += self.non_influential_token_num * options['non_influential_tokens_penalty']
 
-        try:
             if not self.success:
-                self.fitness += options['covergencePenalty']
+                fitness += options['covergencePenalty']
 
             if not self.covariance:
-                self.fitness += options['covariancePenalty']
-                self.fitness += options['correlationPenalty']
-                self.fitness += options['conditionNumberPenalty']
+                fitness += options['covariancePenalty']
+                fitness += options['correlationPenalty']
+                fitness += options['conditionNumberPenalty']
             else:
                 if not self.correlation:
-                    self.fitness += options['correlationPenalty']
+                    fitness += options['correlationPenalty']
 
-            self.fitness += self.estimated_theta_num * options['THETAPenalty']
-            self.fitness += self.omega_num * options['OMEGAPenalty']
-            self.fitness += self.sigma_num * options['SIGMAPenalty']
+            fitness += self.estimated_theta_num * options['THETAPenalty']
+            fitness += self.omega_num * options['OMEGAPenalty']
+            fitness += self.sigma_num * options['SIGMAPenalty']
+
+            fitness += self.post_run_r_penalty
+            fitness += self.post_run_python_penalty
+
+            if fitness > options.crash_value:
+                fitness = options.crash_value
+
+            self.fitness = fitness
         except:
-            self.fitness = options.crash_value
-
-        self.fitness += self.post_run_r_penalty
-        self.fitness += self.post_run_python_penalty
-
-        if self.fitness > options.crash_value:
-            self.fitness = options.crash_value
-            # save results
-            # write to output 
+            return
 
         with open(os.path.join(self.run_dir, self.output_file_name), "a") as output:
             output.write(f"OFV = {self.ofv}\n")
@@ -614,23 +609,21 @@ class Model:
 
         self._make_json_list()
 
-        return
-
     def _make_json_list(self):
         """assembles what goes into the JSON file of saved models"""
         self.json_record = {"control": self.control, "fitness": self.fitness, "ofv": self.ofv,
                             "success": self.success, "covariance": self.covariance,
-                            "post_run_Rtext": self.post_run_r_text, "post_run_Rpenalty": self.post_run_r_penalty,
-                            "post_run_Pythontext": self.post_run_python_text,
-                            "post_run_Pythonpenalty": self.post_run_python_penalty,
-                            "correlation": self.correlation, "num_THETAs": self.theta_num,
-                            "num_non_fixed_THETAs": self.estimated_theta_num,
-                            "num_non_fixed_OMEGAs": self.estimated_omega_num,
-                            "num_non_fixed_SIGMAs": self.estimated_sigma_num,
-                            "num_OMEGAs": self.omega_num, "num_SIGMAs": self.sigma_num,
+                            "post_run_r_text": self.post_run_r_text, "post_run_r_penalty": self.post_run_r_penalty,
+                            "post_run_python_text": self.post_run_python_text,
+                            "post_run_python_penalty": self.post_run_python_penalty,
+                            "correlation": self.correlation,
+                            "theta_num": self.theta_num, "omega_num": self.omega_num, "sigma_num": self.sigma_num,
+                            "estimated_theta_num": self.estimated_theta_num,
+                            "estimated_omega_num": self.estimated_omega_num,
+                            "estimated_sigma_num": self.estimated_sigma_num,
                             "condition_num": self.condition_num,
-                            "NMtranMSG": self.nm_translation_message,
-                            "runDir": self.run_dir,  # original run directory
+                            "nm_translation_message": self.nm_translation_message,
+                            "run_dir": self.run_dir,  # original run directory
                             "control_file_name": self.control_file_name,  # this is just file, not path
                             "output_file_name": self.output_file_name
                             }

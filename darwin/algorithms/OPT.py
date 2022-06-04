@@ -90,7 +90,7 @@ def run_skopt(model_template: Template) -> Model:
             for i in range(len(new_models)):
                 models[worst_individuals[i]] = copy(new_models[i])
                 fitnesses[worst_individuals[i]] = new_models[i].fitness
-                suggested[worst_individuals[i]] = new_models[i].modelCode.IntCode
+                suggested[worst_individuals[i]] = new_models[i].model_code.IntCode
 
             if options.algorithm == "GP":
                 log.message("add in all models to suggested and fitness for GP")
@@ -113,7 +113,7 @@ def run_skopt(model_template: Template) -> Model:
 
         log.message(f"Best fitness this iteration = {best_fitness:4f}  at {time.asctime()}")
         log.message(f"Best overall fitness = {best_model.fitness:4f},"
-                    f" iteration {best_model.generation}, model {best_model.modelNum}")
+                    f" iteration {best_model.generation}, model {best_model.model_num}")
 
     if options["final_fullExhaustiveSearch"]:
         log.message(f"Starting final downhill")
@@ -132,7 +132,7 @@ def run_skopt(model_template: Template) -> Model:
     write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
 
     log.message(f"Final output from best model is in {GlobalVars.FinalResultFile}")
-    log.message(f'Best overall solution =[{GlobalVars.BestModel.modelCode.IntCode}],'
+    log.message(f'Best overall solution =[{GlobalVars.BestModel.model_code.IntCode}],'
                 f' Best overall fitness ={GlobalVars.BestModel.fitness:.6f} ')
 
     final_model = copy(GlobalVars.BestModel)

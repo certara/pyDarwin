@@ -25,7 +25,7 @@ def init_model_list():
 
     all_models = dict()
 
-    default_models_file = os.path.join(options.homeDir, ALL_MODELS_FILE)
+    default_models_file = os.path.join(options.home_dir, ALL_MODELS_FILE)
 
     GlobalVars.SavedModelsFile = default_models_file
 

@@ -34,16 +34,16 @@ def replaceTokens(tokens, text, phenotype, tokenSet_Non_influential):
  
 
 def getTokenParts(token):
-    match = re.search("{.+\[",token).span()
+    match = re.search("{.+\[", token).span()
     stem = token[match[0]+1:match[1]-1]  
     restPart = token[match[1]:]
-    match = re.search("[0-9]+\]",restPart).span()
+    match = re.search("[0-9]+]", restPart).span()
     try:
         index = int(restPart[match[0]:match[1]-1]) ## should be integer
     except:  
-        return "none integer found in " + stem  + ", " +  token
-        ### json.load seems to return it's own error and exit immediately
-        ## this try/except doesn't do anything
+        return "none integer found in " + stem + ", " + token
+        # json.load seems to return it's own error and exit immediately
+        # this try/except doesn't do anything
 
     return stem,int(index)
 
@@ -56,7 +56,7 @@ def expandTokens(tokens,textBlock,phenotype):
         thiskey,thisIndex = getTokenParts(thisLine) 
         thisToken = tokens.get(thiskey)[phenotype[thiskey]][thisIndex-1] ## problem here??? 
         ## remove comments
-        thisToken = removeComments(thisToken).splitlines()
+        thisToken = remove_comments(thisToken).splitlines()
         ## any tokens?? {k23~WT}, if so stick in new textblock
         ## any line without a new token gets the old token
         ## and include the new token
@@ -81,9 +81,9 @@ def expandTokens(tokens,textBlock,phenotype):
     return expandedTextBlock
   
 
-def removeComments(Code):
-    if type(Code) != list:
-        lines = Code.splitlines()
+def remove_comments(code):
+    if type(code) != list:
+        lines = code.splitlines()
         newCode = ""
         for thisline in lines:
             if thisline.find(";") > -1:
@@ -91,7 +91,7 @@ def removeComments(Code):
             newCode = newCode + thisline.strip() + '\n' 
         return newCode
     else:
-        lines = Code
+        lines = code
     newCode = ""
     for thisline in lines[0]:
         if thisline.find(";") > -1:
@@ -145,7 +145,7 @@ def getTHETAMatches(expandedTHETABlock,tokens,phenotype):
                 if thisToken != index-1:
                   #  newString = tokens[stem][thisPhenotype-1][thisToken].replace(" ", "")
                     newString = tokens[stem][thisPhenotype][thisToken].replace(" ", "")
-                    newString = removeComments(newString).strip()
+                    newString = remove_comments(newString).strip()
                     fullToken = fullToken +  newString + "\n"
             ## get THETA(alphas)
             fullIndices = re.findall("THETA\(.+\)", fullToken)
@@ -181,7 +181,7 @@ def getRandVarMatches(expandedBlock,tokens,phenotype,whichRand):
             for thisToken in range(len(tokens[stem][thisPhenotype])): 
                 if thisToken != index-1:
                     newString = tokens[stem][thisPhenotype][thisToken]#replace(" ", "") # can't always replace spaces, sometimes needed
-                    newString = removeComments(newString).strip()
+                    newString = remove_comments(newString).strip()
                     fullToken = fullToken +  newString + "\n"
                     ### if this is repalcebnoreplace THETA with XXXXXX so it doesn't conflict with ETA
                     if whichRand == "ETA":

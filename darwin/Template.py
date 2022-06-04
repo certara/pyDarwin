@@ -1,4 +1,3 @@
-import os
 import sys
 import re
 import json
@@ -19,7 +18,7 @@ class Template:
         """
 
         try:
-            self.TemplateText = open(template_file, 'r').read()
+            self.template_text = open(template_file, 'r').read()
 
             log.message(f"Template file found at {template_file}")
         except Exception as error:
@@ -42,13 +41,13 @@ class Template:
         self._get_gene_length()
         self._check_omega_search()
 
-        self.lastFixedTHETA, self.lastFixedETA, self.lastFixedEPS, THETABlock, OMEGABlock, SIGMABlock\
-            = _get_fixed_params(self.TemplateText)
+        self.last_fixed_theta, self.last_fixed_eta, self.last_fixed_eps, theta_block, omega_block, sigma_block\
+            = _get_fixed_params(self.template_text)
 
         # list of only the variable tokens in $THETA in template, will population with
-        self.varTHETABlock = _get_variable_block(THETABlock)
-        self.varOMEGABlock = _get_variable_block(OMEGABlock)
-        self.varSIGMABlock = _get_variable_block(SIGMABlock)
+        self.var_theta_block = _get_variable_block(theta_block)
+        self.var_omega_block = _get_variable_block(omega_block)
+        self.var_sigma_block = _get_variable_block(sigma_block)
 
     def _get_gene_length(self):
         """ argument is the token sets, returns maximum value of token sets and number of bits"""
@@ -90,7 +89,7 @@ def _get_fixed_params(template_text):
 
 
 def _get_variable_block(code):
-    clean_code = utils.removeComments(code)
+    clean_code = utils.remove_comments(code)
     lines = clean_code.splitlines()
 
     # remove any blanks
@@ -130,7 +129,7 @@ def _get_fixed_block(code, key):
 
     for line in lines:
         # remove blanks, options and tokens, comments
-        line = utils.removeComments(line).strip()
+        line = utils.remove_comments(line).strip()
         # count fixed only, n
         # visual studio code shows warning for "\$" below, but that is just literal $ at beginning of line, eg., $THETA
         if (line != "" and (not (re.search("^{.+}", line)))) and not re.search("^\$.+", line):

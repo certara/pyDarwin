@@ -71,7 +71,7 @@ def run_exhaustive(model_template):
     log.message(f"Elapse time = {elapsed / 60:.1f} minutes \n")
 
     if best_model:
-        log.message(f"Best overall fitness = {best_fitness:4f}, model {best_model.modelNum}")
+        log.message(f"Best overall fitness = {best_fitness:4f}, model {best_model.model_num}")
 
         with open(GlobalVars.FinalControlFile, 'w') as control:
             control.write(best_model.control)

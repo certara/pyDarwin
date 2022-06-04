@@ -25,13 +25,13 @@ def _get_best_in_niche(pop: list):
     all_codes = [None]*len(pop)
 
     for i in range(len(pop)):
-        all_codes[i] = pop[i].modelCode.MinBinCode
+        all_codes[i] = pop[i].model_code.MinBinCode
 
     for _ in range(options.num_niches):
         # below should exclude those already in a niche, as  the fitness should be set to 999999
         this_best = heapq.nsmallest(1, range(len(fitnesses)), fitnesses.__getitem__)[0]
         # get the best in the current population
-        cur_ind = copy(pop[this_best].modelCode.MinBinCode)
+        cur_ind = copy(pop[this_best].model_code.MinBinCode)
         cur_fitness = pop[this_best].fitness
         # add the best in this_niche to the list of best
         best.append(cur_ind)
@@ -122,7 +122,7 @@ def run_downhill(pop: list, return_all=False):  # only return new models - best 
                     # new_best_fitness = cur_niche_fitnesses[new_best_in_niche[0]]
                     # # create grid of all better than previous best for local search
                     if models[New_best_Model_num].fitness < best_fitnesses[this_niche]:
-                        best_MinBinary[this_niche] = copy(models[New_best_Model_num].modelCode.MinBinCode)
+                        best_MinBinary[this_niche] = copy(models[New_best_Model_num].model_code.MinBinCode)
                         best_Models_in_niches[this_niche] = copy(models[New_best_Model_num]) # don't seem to need deepcopy, copy entire model
                         best_fitnesses[this_niche] = models[New_best_Model_num].fitness
                         done[this_niche] = False
@@ -142,14 +142,14 @@ def run_downhill(pop: list, return_all=False):  # only return new models - best 
         log.message(f"Begin local exhaustive search, search radius = {options.niche_radius},"
                     f" generation = {generation},step = {this_step}")
         log.message(f"Model for local exhaustive search = {model_for_search.generation},"
-                    f" phenotype = {model_for_search.phenotype} model Num = {model_for_search.modelNum},"
+                    f" phenotype = {model_for_search.phenotype} model Num = {model_for_search.model_num},"
                     f" fitness = {model_for_search.fitness}")
         model_for_search = _full_search(model_for_search, saved_generation, (this_step - 1))
         # fitness should already be added to all_results here, gets added by fullsearch after call to runallGA
         # and only use the fullbest  
         # replace the niche this one came from, to preserve diversity
         if model_for_search.fitness < Last_Best_fitness:
-            best_MinBinary[this_niche] = copy(model_for_search.modelCode.MinBinCode)
+            best_MinBinary[this_niche] = copy(model_for_search.model_code.MinBinCode)
             best_Models_in_niches[this_niche] = copy(model_for_search) # don't seem to need deepcopy, copy entire model
             best_fitnesses[this_niche] = model_for_search.fitness 
 
@@ -218,7 +218,7 @@ def _full_search(best_pre: Model, base_generation, base_step) -> Model:
     Current_Best_fitness = Best_Pre_fitness
     #Overall_Best_Model = best_pre
     OverallBestModel = best_pre
-    Current_Best_Model = best_pre.modelCode.MinBinCode
+    Current_Best_Model = best_pre.model_code.MinBinCode
     radius = options.niche_radius
     while Current_Best_fitness < Last_Best_fitness or this_step == 0: # run at least once  
         full_generation = str(base_generation) + "S" +str(base_step) + "" + str(this_step)
@@ -242,7 +242,7 @@ def _full_search(best_pre: Model, base_generation, base_step) -> Model:
         Current_Best_fitness = fitnesses[best[0]]
         if Current_Best_fitness < Last_Best_fitness: 
              
-            Current_Best_Model = Models[best[0]].modelCode.MinBinCode #copy(Overall_Best_Model)
+            Current_Best_Model = Models[best[0]].model_code.MinBinCode #copy(Overall_Best_Model)
             Current_Best_fitness = Models[best[0]].fitness
         if Current_Best_fitness < OverallBestModel.fitness:
             OverallBestModel = copy(Models[best[0]])

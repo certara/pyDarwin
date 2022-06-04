@@ -74,9 +74,9 @@ def _init_app(options_file: str, folder: str = None):
 
     # if folder is not provided, then it must be set in options
     if not folder:
-        _go_to_folder(options.homeDir)
+        _go_to_folder(options.home_dir)
 
-    log_file = os.path.join(options.homeDir, "messages.txt")
+    log_file = os.path.join(options.home_dir, "messages.txt")
 
     utils.remove_file(log_file)
 
@@ -84,7 +84,7 @@ def _init_app(options_file: str, folder: str = None):
 
     log.message(f"Options file found at {options_file}")
 
-    GlobalVars.init_global_vars(options.homeDir)
+    GlobalVars.init_global_vars(options.home_dir)
 
     init_model_list()
 

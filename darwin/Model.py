@@ -27,6 +27,13 @@ from .Omega_utils import set_omega_bands, insert_omega_block
 
 files_checked = False
 
+JSON_ATTRIBUTES = [
+    'fitness', 'ofv', 'control', 'success', 'covariance', 'correlation', 'theta_num', 'omega_num', 'sigma_num',
+    'estimated_theta_num', 'estimated_omega_num', 'estimated_sigma_num', 'condition_num',
+    'post_run_r_text', 'post_run_r_penalty', 'post_run_python_text', 'post_run_python_penalty',
+    'run_dir', 'control_file_name', 'output_file_name', 'nm_translation_message'
+]
+
 
 class Model:
     """
@@ -119,28 +126,11 @@ class Model:
         newmodel.xml_file = copy(self.xml_file)
         return newmodel
 
-    def copy_results(self, src):
+    def from_dict(self, src):
         try:
-            self.fitness = src['fitness']
-            self.ofv = src['ofv']
-            self.control = src['control']
-            self.success = src['success']
-            self.covariance = src['covariance']
-            self.correlation = src['correlation']
-            self.theta_num = src['theta_num']
-            self.omega_num = src['omega_num']
-            self.sigma_num = src['sigma_num']
-            self.estimated_theta_num = src['estimated_theta_num']
-            self.estimated_omega_num = src['estimated_omega_num']
-            self.estimated_sigma_num = src['estimated_sigma_num']
-            self.condition_num = src['condition_num']
-            self.post_run_r_text = src['post_run_r_text']
-            self.post_run_r_penalty = src['post_run_r_penalty']
-            self.post_run_python_text = src['post_run_python_text']
-            self.post_run_python_penalty = src['post_run_python_penalty']
-            self.run_dir = src['run_dir']
-            self.control_file_name = src['control_file_name']
-            self.output_file_name = src['output_file_name']
+            for attr in JSON_ATTRIBUTES:
+                self.__setattr__(attr, src[attr])
+
             self.nm_translation_message = f"From saved model {self.run_dir} {self.control_file_name}:" \
                                           f" {src['nm_translation_message']}"
 
@@ -607,26 +597,15 @@ class Model:
             output.write(f"Num Non fixed SIGMAs = {self.estimated_sigma_num}\n")
             output.write(f"Original run directory = {self.run_dir}\n")
 
-        self._make_json_list()
-
-    def _make_json_list(self):
+    def to_dict(self):
         """assembles what goes into the JSON file of saved models"""
-        self.json_record = {"control": self.control, "fitness": self.fitness, "ofv": self.ofv,
-                            "success": self.success, "covariance": self.covariance,
-                            "post_run_r_text": self.post_run_r_text, "post_run_r_penalty": self.post_run_r_penalty,
-                            "post_run_python_text": self.post_run_python_text,
-                            "post_run_python_penalty": self.post_run_python_penalty,
-                            "correlation": self.correlation,
-                            "theta_num": self.theta_num, "omega_num": self.omega_num, "sigma_num": self.sigma_num,
-                            "estimated_theta_num": self.estimated_theta_num,
-                            "estimated_omega_num": self.estimated_omega_num,
-                            "estimated_sigma_num": self.estimated_sigma_num,
-                            "condition_num": self.condition_num,
-                            "nm_translation_message": self.nm_translation_message,
-                            "run_dir": self.run_dir,  # original run directory
-                            "control_file_name": self.control_file_name,  # this is just file, not path
-                            "output_file_name": self.output_file_name
-                            }
+
+        res = {}
+
+        for attr in JSON_ATTRIBUTES:
+            res[attr] = self.__getattribute__(attr)
+
+        return res
 
     def cleanup(self):
         """deletes all unneeded files after run
@@ -840,7 +819,7 @@ def check_files_present(model: Model):
 def start_new_model(model: Model, all_models):
     current_code = str(model.model_code.IntCode)
 
-    if current_code in all_models and model.copy_results(all_models[current_code]):
+    if current_code in all_models and model.from_dict(all_models[current_code]):
         model.source = "saved"
         model.copy_model()
         model.status = "Done"
@@ -854,17 +833,16 @@ def start_new_model(model: Model, all_models):
         if model.source == "new":
             model.cleanup()  # changes back to home_dir
             # Integer code is common denominator for all, entered into dictionary with this
-            if isinstance(model.json_record, dict):
-                all_models[str(model.model_code.IntCode)] = model.json_record
+            all_models[str(model.model_code.IntCode)] = model.to_dict()
 
         step_name = "Iteration"
-        prderr_text = ""
+        prd_err_text = ""
 
         if options.isGA:
             step_name = "Generation"
 
         if len(model.prd_err) > 0:
-            prderr_text = ", PRDERR = " + model.prd_err
+            prd_err_text = ", PRDERR = " + model.prd_err
 
         with open(GlobalVars.output, "a") as result_file:
             result_file.write(f"{model.run_dir},{model.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
@@ -877,7 +855,7 @@ def start_new_model(model: Model, all_models):
 
         log.message(
             f"{step_name} = {model.generation}, Model {model.model_num:5},"
-            f"\t fitness = {fitness_text}, \t NMTRANMSG = {model.nm_translation_message.strip()}{prderr_text}"
+            f"\t fitness = {fitness_text}, \t NMTRANMSG = {model.nm_translation_message.strip()}{prd_err_text}"
         )
 
 

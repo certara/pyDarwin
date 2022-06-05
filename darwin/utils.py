@@ -33,8 +33,8 @@ def replace_tokens(tokens, text, phenotype, non_influential_tokens):
     return any_found, text
  
 
-def get_token_parts(token):
-    match = re.search("{.+\[", token).span()
+def _get_token_parts(token):
+    match = re.search(r"{.+\[", token).span()
     stem = token[match[0]+1:match[1]-1]  
     rest_part = token[match[1]:]
     match = re.search("[0-9]+]", rest_part).span()
@@ -49,12 +49,12 @@ def get_token_parts(token):
     return stem, int(index)
 
 
-def expand_tokens(tokens, text_block, phenotype):
+def _expand_tokens(tokens, text_block, phenotype):
     # only supports one level of nesting
     expanded_text_block = []
 
     for text_line in text_block:
-        key, index = get_token_parts(text_line)
+        key, index = _get_token_parts(text_line)
         token = tokens.get(key)[phenotype[key]][index-1]  # problem here???
         token = remove_comments(token).splitlines()
         # any tokens?? {k23~WT}, if so stick in new text block
@@ -86,29 +86,23 @@ def remove_comments(code):
 
     if type(code) != list:
         lines = code.splitlines()
-
-        for line in lines:
-            if line.find(";") > -1:
-                line = line[:line.find(";")]
-            new_code = new_code + line.strip() + '\n'
-        return new_code
     else:
-        lines = code
+        lines = code[0]
 
-    for line in lines[0]:
+    for line in lines:
         if line.find(";") > -1:
             line = line[:line.find(";")]
-        new_code = new_code + line.strip() + '\n'
+        new_code += line.strip() + '\n'
 
     return new_code
 
 
 def match_thetas(control, tokens, var_theta_block, phenotype, last_fixed_theta):
 
-    expanded_theta_block = expand_tokens(tokens, var_theta_block, phenotype)
+    expanded_theta_block = _expand_tokens(tokens, var_theta_block, phenotype)
   
     # then look at each  token, get THETA(alpha) from non-THETA block tokens
-    theta_indices = get_theta_matches(expanded_theta_block, tokens, phenotype)
+    theta_indices = _get_theta_matches(expanded_theta_block, tokens, phenotype)
 
     # add last fixed theta value to all
     for _, (k, v) in enumerate(theta_indices.items()):
@@ -119,7 +113,7 @@ def match_thetas(control, tokens, var_theta_block, phenotype, last_fixed_theta):
     return control
 
 
-def get_theta_matches(expanded_theta_block, tokens, full_phenotype):
+def _get_theta_matches(expanded_theta_block, tokens, full_phenotype):
     # shouldn't be any THETA(alpha) in expandedTHETABlock, should  be trimmed out
     # get stem and index, look in other tokens in this token set (phenotype)
     # tokens can be ignored here, they are already expanded, just list the alpha indices of each THETA(alpha) in order
@@ -134,19 +128,18 @@ def get_theta_matches(expanded_theta_block, tokens, full_phenotype):
     # TVCL = THETA()**CLPWR
     # TVQ  = THETA()**CLPWR
 
-    theta_matchs = {}
+    theta_matches = {}
     cur_theta = 1
     # keep track of added/check token, don't want to repeat them, otherwise sequence of THETA indices will be wrong
     all_checked_tokens = []
 
     for theta_row in expanded_theta_block:
         # get all THETA(alpha) indices in other tokens in this token set
-        stem, index = get_token_parts(theta_row)
+        stem, index = _get_token_parts(theta_row)
         phenotype = full_phenotype[stem]
         full_token = ""  # assemble full token, except the one in $THETA, to search for THETA(alpha)
 
         if not (any(stem in s for s in all_checked_tokens)):  # add if not already in list
-            # for thisToken in range(len(tokens[stem][thisPhenotype-1])):
             for token in range(len(tokens[stem][phenotype])):
                 if token != index - 1:
                     # newString = tokens[stem][thisPhenotype-1][thisToken].replace(" ", "")
@@ -155,23 +148,23 @@ def get_theta_matches(expanded_theta_block, tokens, full_phenotype):
                     full_token = full_token + new_string + "\n"
 
             # get THETA(alphas)
-            full_indices = re.findall("THETA\(.+\)", full_token)
+            full_indices = re.findall(r"THETA\(.+\)", full_token)
 
             for i in range(len(full_indices)):
                 # have to get only part between THETA( and )
                 start_theta = full_indices[i].find("THETA(") + 6
                 last_parens = full_indices[i].find(")", (start_theta - 2))
                 theta_index = full_indices[i][start_theta:last_parens]
-                theta_matchs[theta_index] = cur_theta
+                theta_matches[theta_index] = cur_theta
                 cur_theta += 1
             all_checked_tokens.append(stem)
 
         # number should match #of rows with stem in expandedTHETABlock
 
-    return theta_matchs
+    return theta_matches
 
 
-def get_rand_var_matches(expanded_block, tokens, full_phenotype, which_rand):
+def _get_rand_var_matches(expanded_block, tokens, full_phenotype, which_rand):
     rand_matches = {}
     cur_rand = 1
 
@@ -180,7 +173,7 @@ def get_rand_var_matches(expanded_block, tokens, full_phenotype, which_rand):
 
     for rand_row in expanded_block:
         # get all THETA(alpha) indices in other tokens in this token set
-        stem, index = get_token_parts(rand_row)
+        stem, index = _get_token_parts(rand_row)
         phenotype = full_phenotype[stem]
         full_token = ""  # assemble full token, except the one in $THETA, to search for THETA(alpha)
 
@@ -196,7 +189,7 @@ def get_rand_var_matches(expanded_block, tokens, full_phenotype, which_rand):
                         full_token = full_token.replace("THETA", "XXXXX")
 
             # get ETA/EPS(alphas)
-            full_indices = re.findall(which_rand + "\(.+?\)", full_token)  # non-greedy with ?
+            full_indices = re.findall(which_rand + r"\(.+?\)", full_token)  # non-greedy with ?
 
             for i in range(len(full_indices)):
                 start = full_indices[i].find((which_rand + "(")) + 4
@@ -212,10 +205,10 @@ def get_rand_var_matches(expanded_block, tokens, full_phenotype, which_rand):
 
 
 def match_rands(control, tokens, var_rand_block, phenotype, last_fixed_rand, stem):
-    expanded_rand_block = expand_tokens(tokens, var_rand_block, phenotype)
+    expanded_rand_block = _expand_tokens(tokens, var_rand_block, phenotype)
 
     # then look at each  token, get THETA(alpha) from non-THETA block tokens
-    rand_indices = get_rand_var_matches(expanded_rand_block, tokens, phenotype, stem)
+    rand_indices = _get_rand_var_matches(expanded_rand_block, tokens, phenotype, stem)
 
     # add last fixed theta value to all
     for i, (k, v) in enumerate(rand_indices.items()):

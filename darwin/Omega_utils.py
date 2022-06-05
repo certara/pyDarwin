@@ -1,7 +1,5 @@
 import re  
-import numpy as np
-def is_pos_def(x):
-    return np.all(np.linalg.eigvals(x) > 0)
+
 
 def set_omega_bands(control,bandwidth):
     model = read_model_from_string(control)
@@ -20,7 +18,7 @@ def set_omega_bands(control,bandwidth):
     # find OMEGAs
     Omega_inits = []
     for this_init in Inits:
-        if re.search("OMEGA\(",this_init): 
+        if re.search(r"OMEGA\(",this_init):
             Omega_inits.append(Inits[this_init])
     # construct new OMEGA block
     if bandwidth == 0:
@@ -49,11 +47,11 @@ def set_omega_bands(control,bandwidth):
     
     return OMEGA_block, True
 def insert_omega_block(control,omega_block):
-    omega_start = re.search("\n\s*\$OMEGA",control) 
+    omega_start = re.search(r"\n\s*\$OMEGA",control)
     omega_part = control[omega_start.regs[0][0]:]
     first_part = control[:omega_start.regs[0][0]]
     # find next $ that isn't $OMEGA
-    omega_end = re.search("\n\s*\$(?!OMEGA)",omega_part) # 
+    omega_end = re.search(r"\n\s*\$(?!OMEGA)",omega_part) #
     #re.search("\n\s*\$!OMEGA.*",omega_part) 
     last_part = omega_part[omega_end.regs[0][0]:]
     new_control = first_part + omega_block + last_part

@@ -81,11 +81,11 @@ class Template:
 
 
 def _get_fixed_params(template_text):
-    NFixedTHETA, THETABlock = _get_fixed_block(template_text, "$THETA")
-    NFixedOMEGA, OMEGABlock = _get_fixed_block(template_text, "$OMEGA")
-    NFixedSIGMA, SIGMABlock = _get_fixed_block(template_text, "$SIGMA")
+    n_fixed_theta, theta_block = _get_fixed_block(template_text, "$THETA")
+    n_fixed_omega, omega_block = _get_fixed_block(template_text, "$OMEGA")
+    n_fixed_sigma, sigma_block = _get_fixed_block(template_text, "$SIGMA")
 
-    return NFixedTHETA, NFixedOMEGA, NFixedSIGMA, THETABlock, OMEGABlock, SIGMABlock
+    return n_fixed_theta, n_fixed_omega, n_fixed_sigma, theta_block, omega_block, sigma_block
 
 
 def _get_variable_block(code):
@@ -131,8 +131,7 @@ def _get_fixed_block(code, key):
         # remove blanks, options and tokens, comments
         line = utils.remove_comments(line).strip()
         # count fixed only, n
-        # visual studio code shows warning for "\$" below, but that is just literal $ at beginning of line, eg., $THETA
-        if (line != "" and (not (re.search("^{.+}", line)))) and not re.search("^\$.+", line):
+        if (line != "" and (not (re.search("^{.+}", line)))) and not re.search(r"^\$.+", line):
             fixed_count += 1
 
     return fixed_count, full_block

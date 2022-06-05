@@ -336,7 +336,7 @@ class Model:
                 data_dict = xmltodict.parse(xml_file.read())
                 version = data_dict['nm:output']['nm:nonmem']['@nm:version']  # string
                 # keep first two digits
-                dots = [_.start() for _ in re.finditer("\.", version)]
+                dots = [_.start() for _ in re.finditer(r"\.", version)]
                 # and get the first two
                 major_version = float(version[:dots[1]])  # float
 
@@ -447,7 +447,7 @@ class Model:
             # find end of UPPR, next will be anything with char in 0-4
             rest_after_uppr_start = fcon_lines[(uppr_start_line+1):]
             # does line start with non-blank?
-            end_of_uppr_bool = [bool(re.search("^\S{4}", i)) for i in rest_after_uppr_start]
+            end_of_uppr_bool = [bool(re.search(r"^\S{4}", i)) for i in rest_after_uppr_start]
             end_of_uppr_line = [i for i, x in enumerate(end_of_uppr_bool) if x]
             end_of_uppr = end_of_uppr_line[0]
 
@@ -737,7 +737,7 @@ def read_data_file_name(model: Model):
                     datalines.append(ll[0].strip())
                 else:
                     # find first while space
-                    result = re.search('\s', line)
+                    result = re.search(r'\s', line)
                     if result is None:
                         datalines.append(line.strip())
                     else:
@@ -876,7 +876,7 @@ def _get_block(start, fcon, fixed=False):
         rnbl_start_lines = [i for i, x in enumerate(next_start) if x][0]  # RNBL lines
         this_block = rnbl_block[:(rnbl_start_lines + 1)]
     else:
-        next_start = [bool(re.search("^\S+", n)) for n in rest_of_block]
+        next_start = [bool(re.search(r"^\S+", n)) for n in rest_of_block]
         next_start = [i for i, x in enumerate(next_start) if x][0]  # RNBL lines
         this_block = rnbl_block[:(next_start + 1)]
 

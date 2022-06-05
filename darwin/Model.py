@@ -670,8 +670,8 @@ class Model:
         token_found = False  # error check to see if any tokens are present
 
         for _ in range(3):  # always need 2, and won't do more than 2, only support 1 level of nested loops
-            any_found, self.control = utils.replaceTokens(template.tokens, self.control, self.phenotype,
-                                                          self.non_influential_tokens)
+            any_found, self.control = utils.replace_tokens(template.tokens, self.control, self.phenotype,
+                                                           self.non_influential_tokens)
             self.non_influential_token_num = sum(self.non_influential_tokens)
             token_found = token_found or any_found
 
@@ -680,14 +680,14 @@ class Model:
                       " Only one level is supported, exiting")
             raise RuntimeError("Is there more than 1 level of nested tokens?")
 
-        self.control = utils.matchTHETAs(self.control, template.tokens, template.var_theta_block, self.phenotype,
-                                         template.last_fixed_theta)
-        self.control = utils.matchRands(self.control, template.tokens, template.var_omega_block, self.phenotype,
-                                        template.last_fixed_eta, "ETA")
-        self.control = utils.matchRands(self.control, template.tokens, template.var_sigma_block, self.phenotype,
-                                        template.last_fixed_eps, "EPS")
-        self.control = utils.matchRands(self.control, template.tokens, template.var_sigma_block, self.phenotype,
-                                        template.last_fixed_eps, "ERR")  # check for ERRo as well
+        self.control = utils.match_thetas(self.control, template.tokens, template.var_theta_block, self.phenotype,
+                                          template.last_fixed_theta)
+        self.control = utils.match_rands(self.control, template.tokens, template.var_omega_block, self.phenotype,
+                                         template.last_fixed_eta, "ETA")
+        self.control = utils.match_rands(self.control, template.tokens, template.var_sigma_block, self.phenotype,
+                                         template.last_fixed_eps, "EPS")
+        self.control = utils.match_rands(self.control, template.tokens, template.var_sigma_block, self.phenotype,
+                                         template.last_fixed_eps, "ERR")  # check for ERRo as well
 
         if options.isGA or options.isPSO:
             self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; Genotype \n ;; "\

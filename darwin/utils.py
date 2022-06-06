@@ -1,6 +1,7 @@
 import os
 import re
 import shutil
+import heapq
 
 
 def replace_tokens(tokens, text, phenotype, non_influential_tokens):
@@ -227,3 +228,11 @@ def remove_file(file_path: str):
 def remove_dir(file_path: str):
     if os.path.isdir(file_path):
         shutil.rmtree(file_path)
+
+
+def get_n_best_index(n, arr):
+    return heapq.nsmallest(n, range(len(arr)), arr.__getitem__)
+
+
+def get_n_worst_index(n, arr):
+    return heapq.nlargest(n, range(len(arr)), arr.__getitem__)

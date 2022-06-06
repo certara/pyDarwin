@@ -9,7 +9,6 @@ import time
 import logging 
 import numpy as np 
 from scipy.spatial import distance_matrix
-import heapq
 
 import darwin.GlobalVars as GlobalVars
 
@@ -21,6 +20,7 @@ from darwin.run_downhill import run_downhill
 from darwin.runAllModels import run_all
 from darwin.Template import Template
 from darwin.Model import Model, write_best_model_files
+from darwin.utils import get_n_best_index, get_n_worst_index
 
 np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
 logger = logging.getLogger(__name__) 
@@ -63,14 +63,6 @@ def add_sharing_penalty(pop, niche_radius, sharing_alpha, niche_penalty):
             ind[0].fitness.values = (ind[0].fitness.values[0] + penalty),  # weighted values changes with this
 
     return
-
-
-def _get_n_best_index(n, arr):
-    return heapq.nsmallest(n, range(len(arr)), arr.__getitem__)
-
-
-def _get_n_worst_index(n, arr):
-    return heapq.nlargest(n, range(len(arr)), arr.__getitem__)
 
 
 def run_ga(model_template: Template) -> Model:
@@ -152,7 +144,7 @@ def run_ga(model_template: Template) -> Model:
         pop.fitness.values = (ind.fitness,)
         fitnesses[fit] = (ind.fitness,)
 
-    best_index = _get_n_best_index(elitist_num, fitnesses)
+    best_index = get_n_best_index(elitist_num, fitnesses)
 
     for i in range(elitist_num):  # best_index:
         best_for_elitism[i] = deepcopy(pop_full_bits[best_index[i]])
@@ -208,7 +200,7 @@ def run_ga(model_template: Template) -> Model:
         # add hof back in at first  positions, maybe should be random???
         # looks like we need to do this manually when we add in niches, can't use hof.,
         # replace worst, based on original fitness (without niche penalty)
-        worst_individuals = _get_n_worst_index(elitist_num, fitnesses)
+        worst_individuals = get_n_worst_index(elitist_num, fitnesses)
 
         # put elitist back in place of worst
         for i in range(elitist_num):
@@ -231,7 +223,7 @@ def run_ga(model_template: Template) -> Model:
             pop.fitness.values = (ind.fitness,)  
             fitnesses[fit] = (ind.fitness,)
 
-        best_index = _get_n_best_index(elitist_num, fitnesses)
+        best_index = get_n_best_index(elitist_num, fitnesses)
 
         for i in range(elitist_num):  # best_index:
             best_for_elitism[i] = deepcopy(pop_full_bits[best_index[i]])
@@ -243,7 +235,7 @@ def run_ga(model_template: Template) -> Model:
             # downhill with NumNiches best models
             log.message(f"Starting downhill generation = {generation}  at {time.asctime()}")
 
-            best_index = _get_n_best_index(options.num_niches, fitnesses)
+            best_index = get_n_best_index(options.num_niches, fitnesses)
 
             log.message(f"current best model(s) =")
 
@@ -267,7 +259,7 @@ def run_ga(model_template: Template) -> Model:
                 else:
                     fitnesses[worst_individuals[i]] = (new_models[i].fitness,)
 
-            best_index = _get_n_best_index(elitist_num, fitnesses)
+            best_index = get_n_best_index(elitist_num, fitnesses)
 
             log.message(f"Done with downhill step, {generation}. best fitness = {fitnesses[best_index[0]]}")
             
@@ -280,7 +272,7 @@ def run_ga(model_template: Template) -> Model:
                 best_for_elitism[i][0:num_bits] = models[best_index[i]].model_code.FullBinCode
                 best_for_elitism[i].fitness.values = (models[best_index[i]].fitness,)
 
-        cur_gen_best_ind = _get_n_best_index(1, fitnesses)[0]
+        cur_gen_best_ind = get_n_best_index(1, fitnesses)[0]
 
         best_fitness = fitnesses[cur_gen_best_ind]
 
@@ -303,7 +295,7 @@ def run_ga(model_template: Template) -> Model:
     log.message(f"-- End of GA component at {time.asctime()} --")
 
     # get current best individual
-    cur_best_ind = _get_n_best_index(1, fitnesses)[0]
+    cur_best_ind = get_n_best_index(1, fitnesses)[0]
 
     final_model = copy(models[cur_best_ind])
    
@@ -321,7 +313,7 @@ def run_ga(model_template: Template) -> Model:
             else:
                 fitnesses[worst_individuals[i]] = (new_models[i].fitness,)
       
-        best_index = _get_n_best_index(options.num_niches, fitnesses)
+        best_index = get_n_best_index(options.num_niches, fitnesses)
 
         log.message(f"Done with final downhill step, {generation}. best fitness = {fitnesses[best_index[0]]}")
          

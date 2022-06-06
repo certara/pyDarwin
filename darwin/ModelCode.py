@@ -42,9 +42,11 @@ class ModelCode:
         return integer array of which token goes into this model"""
 
         start = 0
+
         phenotype = []
-        for thisNumBits, this_max in zip(self.length, self.max):
-            this_gene = self.FullBinCode[start:start + thisNumBits]
+
+        for this_num_bits, this_max in zip(self.length, self.max):
+            this_gene = self.FullBinCode[start:start + this_num_bits] or [0]
             base_int = int("".join(str(x) for x in this_gene), 2)
             max_value = 2 ** len(this_gene) - 1  # zero based, max number possible from bit string, 0 based (has the -1)
             # maximum possible number of indexes that must be skipped to get max values
@@ -52,8 +54,10 @@ class ModelCode:
             max_num_dropped = max_value - this_max
             num_dropped = math.floor(max_num_dropped * (base_int / max_value))
             full_int_val = base_int - num_dropped
+
             phenotype.append(full_int_val)  # value here???
-            start += thisNumBits
+
+            start += this_num_bits
 
         self.IntCode = phenotype
 
@@ -69,7 +73,12 @@ class ModelCode:
         for baseInt, this_max, this_length in zip(self.IntCode, self.max, self.length):
             max_value = (2 ** this_length) - 1  # zero based
             max_num_added = max_value - this_max  # max is zero based
-            num_added = math.floor(max_num_added * (baseInt / (max_value - max_num_added)))
+
+            num_added = 0
+
+            if this_max != 0:
+                num_added = math.floor(max_num_added * (baseInt / (max_value - max_num_added)))
+
             full_int_val = baseInt + num_added
             full_bin_val = _int_to_bin(full_int_val, this_length)
 
@@ -88,7 +97,7 @@ class ModelCode:
         for this_gene, this_max in zip(self.length, self.max):
             # max is 0 based, everything is zero based
             last = start + this_gene
-            binary = self.MinBinCode[start:last]
+            binary = self.MinBinCode[start:last] or [0]
             string_ints = [str(i) for i in binary]
             x = "".join(string_ints)
             int_val = int(x, 2)

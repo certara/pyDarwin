@@ -26,5 +26,8 @@ class Log:
     def error(self, message):
         self.message('!!! ' + message)
 
+    def warn(self, message):
+        self.message('+++ ' + message)
+
 
 log = Log()

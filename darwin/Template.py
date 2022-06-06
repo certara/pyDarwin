@@ -58,6 +58,8 @@ class Template:
                 # max is zero based!!!!, everything is zero based (gacode, intcode, gene_max)
                 self.gene_max.append(val - 1)
                 self.gene_length.append(math.ceil(math.log(val, 2)))
+                if val == 1:
+                    log.warn(f'Token {this_set} has the only option.')
 
     def _check_omega_search(self):
         """see if Search_OMEGA and Omega_band_width are in the token set
@@ -69,7 +71,12 @@ class Template:
                 self.omega_bandwidth = self.tokens['max_Omega_size']
                 self.gene_max.append(self.omega_bandwidth - 1)
                 self.gene_length.append(math.ceil(math.log(self.omega_bandwidth, 2)))
+
+                if self.omega_bandwidth == 1:
+                    log.warn('Token max_Omega_size has the one option.')
+
                 log.message(f"Including search of band OMEGA, with width up to {self.omega_bandwidth - 1}")
+
                 del self.tokens['max_Omega_size']
             else:
                 log.message("Cannot find omega size in tokens set, but omega band width search request \n,"

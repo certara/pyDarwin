@@ -2,7 +2,6 @@ import sys
 import re
 import json
 import math
-from sympy import false
 import collections
 
 import darwin.utils as utils
@@ -84,7 +83,7 @@ class Template:
                 # remove max_Omega_size and Search_OMEGA from token sets
             del self.tokens['Search_OMEGA']
         else:
-            self.search_omega_band = false
+            self.search_omega_band = False
 
 
 def _get_fixed_params(template_text):

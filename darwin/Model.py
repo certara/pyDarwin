@@ -36,14 +36,25 @@ JSON_ATTRIBUTES = [
 
 
 class Model:
-    """
+    '''
     The full model, used for GA, GP, RF, GBRF and exhaustive
-    """
+    Model takes a template as a arguement, aloing with the model code, model number and generation
+    function include constructing the control file, executing the control file, calculating the fitness/reward
+    :param template: template object, 
+    :type template: template
+    :param code: ModelCode object - will include integer code (for GB, RF, GBRT), full binary code (for GA or PSO) and minimal binary (for downhill search)
+    :type code: ModelCode
+    :param model_num: Model number
+    :type model_num: int
+    :param generation: Optional, default is 0. Which generation/iteration. For full exhaustive search, value will be 0, all models in the 0th iteration
+    :type generation: int
+    
+    '''
 
     def __init__(self, template: Template, code: ModelCode, model_num: int, generation=None):
-        """
-        needs better documentation
-        """
+        '''
+        Create model object from Template
+        ''' 
         self.template = template
         self.model_code = copy(code)
         self.model_num = model_num
@@ -124,6 +135,10 @@ class Model:
             log.error(f"Error removing run files/folders for {self.run_dir}")
 
     def copy_model(self):
+        '''
+        copies a the folder contents from a saved model to the new model destination, used so a model that has already been run  (and saved in the all_models dict)
+        is copied into the new run diretory and the control file name and output file name in the new model is updated.
+        '''
         new_dir = self.run_dir = os.path.join(options.home_dir, str(self.generation), str(self.model_num))
 
         self.old_control_file = self.control_file_name
@@ -155,6 +170,9 @@ class Model:
             pass
 
     def make_control_file(self):
+        '''
+        constructs the control file from the template and the model code
+        '''
         self._make_control()
 
         self.source = "new"
@@ -168,6 +186,11 @@ class Model:
             f.write(self.control)
 
     def run_model(self):
+        '''
+        run the model, will terminate model if the timeout option (timeout_sec) is exceeded
+        after model is run, the post run R code and post run Python code (is used) is run, and
+        the calc_fitness function is called to calculate the fitness/reward
+        '''
         self.make_control_file()
 
         command = [options.nmfe_path, self.control_file_name, self.output_file_name,
@@ -566,7 +589,9 @@ class Model:
             output.write(f"Original run directory = {self.run_dir}\n")
 
     def to_dict(self):
-        """assembles what goes into the JSON file of saved models"""
+        '''
+        assembles what goes into the JSON file of saved models
+        '''
 
         res = {}
 

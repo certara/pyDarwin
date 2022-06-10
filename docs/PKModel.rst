@@ -10,7 +10,7 @@ About starter Pokémon
 
 .. _startpoke:
 
-.. figure:: starter_pokemon.png
+.. figure:: MLSelection.png
 
    Starter Pokémon from the core series.
 

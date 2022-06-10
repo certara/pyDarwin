@@ -8,7 +8,7 @@ Welcome to pyDarwin's documentation
 
 .. toctree::
    :maxdepth: 2
-   :caption: CXXXXXontents:
+   :caption: Contents:
 
    Install 
    Theory
@@ -22,9 +22,9 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-`A cool website`_
+`self promotion`_
 
-.. _A cool website: http://sphinx-doc.org
+.. _self promotion: http://elainewines.com
 
 A cool bit of code::
 

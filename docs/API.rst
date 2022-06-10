@@ -1,17 +1,6 @@
 API
 ==============
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   darwin.algorithms
-
-Submodules
-----------
-
 darwin.GlobalVars module
 ------------------------
 

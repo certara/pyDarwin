@@ -7,12 +7,13 @@ import darwin.GlobalVars as GlobalVars
 from darwin.Log import log
 from darwin.options import options
 
+from darwin.Template import Template
 from darwin.Model import Model, write_best_model_files
 from darwin.ModelCode import ModelCode
 from darwin.runAllModels import run_all
 
 
-def run_exhaustive(model_template):
+def run_exhaustive(model_template: Template) -> Model:
     num_groups = []
 
     for thisKey in model_template.tokens.keys():

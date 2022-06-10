@@ -26,7 +26,7 @@ np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
 logger = logging.getLogger(__name__) 
    
 
-def sharing(distance: float, niche_radius: int, sharing_alpha: float) -> float:
+def _sharing(distance: float, niche_radius: int, sharing_alpha: float) -> float:
     res = 0
 
     if distance <= niche_radius:
@@ -35,23 +35,22 @@ def sharing(distance: float, niche_radius: int, sharing_alpha: float) -> float:
     return res
 
 
-def add_sharing_penalty(pop, niche_radius, sharing_alpha, niche_penalty):
+def _add_sharing_penalty(pop, niche_radius, sharing_alpha, niche_penalty):
     """issue with negative sign, if OFV/fitness is +ive, then sharing improves it
-     if OFV/fitness is negative, it makes it worse (larger)
-     and penalty should be on additive scale, as OFV may cross 0
-     goals are:
-     keep the best individual in any niche better than the best individual in the next niche.
-     all the other MAY be lower.
-     so:
-       first identify which individuals are in niches.
-       then, find difference between best in this niche and best in next niche.
-       line by distance from best ( 0 for best) and worst in this niche
-       with max niche penalty
-       subtract from fitness"""
+    if OFV/fitness is negative, it makes it worse (larger)
+    and penalty should be on additive scale, as OFV may cross 0
+    goals are:
+    keep the best individual in any niche better than the best individual in the next niche.
+    all the other MAY be lower.
+    so:
+    - first identify which individuals are in niches.
+    - then, find difference between best in this niche and best in next niche.
+    - line by distance from best ( 0 for best) and worst in this niche with max niche penalty
+    subtract from fitness"""
    
     for ind in zip(pop):
         dists = distance_matrix(ind, pop)[0]
-        tmp = [sharing(d, niche_radius, sharing_alpha) for d in dists]
+        tmp = [_sharing(d, niche_radius, sharing_alpha) for d in dists]
         crowding = sum(tmp)
 
         # sometimes deap object fitness has values, and sometimes just a tuple?
@@ -168,7 +167,7 @@ def run_ga(model_template: Template) -> Model:
         
         # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
         # so fitnesses in pop are only used for selection in GA
-        add_sharing_penalty(pop_full_bits, options.niche_radius, sharing_alpha, niche_penalty)
+        _add_sharing_penalty(pop_full_bits, options.niche_radius, sharing_alpha, niche_penalty)
 
         # do not copy new fitness to models, models should be just the "real" fitness
         # Select the next generation individuals

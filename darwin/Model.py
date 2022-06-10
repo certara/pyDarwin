@@ -86,9 +86,6 @@ class Model:
         self.omega_num = self.estimated_omega_num = 0
         self.sigma_num = self.estimated_sigma_num = 0
 
-        # this is a list of key values to be saved to json file, for subsequent runs and to avoid running the same model
-        self.json_record = None
-
         # home many tokens, due to nesting have a parameter that doesn't end up in the control file?
         self.non_influential_token_num = 0
         self.non_influential_tokens = [False] * len(self.template.tokens)

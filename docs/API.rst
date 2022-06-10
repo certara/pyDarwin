@@ -1,6 +1,30 @@
 API
 ==============
 
+darwin.algorithms.GA module
+---------------------------
+
+.. automodule:: darwin.algorithms.GA
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+darwin.algorithms.OPT module
+----------------------------
+
+.. automodule:: darwin.algorithms.OPT
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+darwin.algorithms.exhaustive module
+-----------------------------------
+
+.. automodule:: darwin.algorithms.exhaustive
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 darwin.GlobalVars module
 ------------------------
 

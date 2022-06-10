@@ -1,4 +1,4 @@
-# FDA-OGD-ML
+# pyDarwin
 Research repo for NONMEM GA 
 Python solution for using several machine learning methods to search a candidate solution space for the optimal population models in NONMEM. 
 

@@ -37,23 +37,55 @@ JSON_ATTRIBUTES = [
 
 class Model:
     '''
-    The full model, used for GA, GP, RF, GBRF and exhaustive
-    Model takes a template as a arguement, aloing with the model code, model number and generation
+    The full model, used for GA, GP, RF, GBRF and exhaustive search
+
+    Model instantiation takes a template as a arguement, along with the model code, model number and generation
     function include constructing the control file, executing the control file, calculating the fitness/reward
-    :param template: template object, 
-    :type template: template
-    :param code: ModelCode object - will include integer code (for GB, RF, GBRT), full binary code (for GA or PSO) and minimal binary (for downhill search)
-    :type code: ModelCode
-    :param model_num: Model number
-    :type model_num: int
-    :param generation: Optional, default is 0. Which generation/iteration. For full exhaustive search, value will be 0, all models in the 0th iteration
-    :type generation: int
-    
+
+    Attributes
+    ----------
+    template : model template
+        constructed from the template class
+    model_code : a ModelCode object
+        contains the bit string/integer string representation of the model. Includes the Fullbinary
+        string, integer string and minimal binary representation of the model (for GA, GP/RF/GBRT and downhill respectively)
+    generation : int
+        the current generation/iteration. This value is used to contruct both the control and executable name (NM_generation_modelNum.exe)
+        and the rundirectory (.\generation\modelnum)
+    model_num: int
+        Model number, within the generation, Generation + model_num creates a unique "file_stem" that 
+        is used to name the control file, the executable and the relative path from the home directory (home_dir)
+        to the run directory
+    file_stem: string
+        String used to create unique names for control files, executable and run directory. Defined as NM +generation + model_num
+    control_file_name: string
+        name of the control file, will be  file_stem + ".mod"
+    executable_file_anme: string
+        name of NONMEM executable, will be file_stem + ".exe"
+    home_dir: string
+        Starting directory for search. Sub directories will be by generation. Within Generation directories
+        will be subdirectories for specific models (the run_dir, where the models are actually run)
+    run_dir: string
+        relative path from the home_dir to the directory in which NONMEM is run. For all but downhill search, the
+        values (generation and model_num) will be integer. For downhill the run_dir will be generation + D + step,
+        for local exhaustive search the run_dir will be generation+S + base_step + search_step, where base_step is the
+        final step in the Downhill search. run_dir names will be based on the file_stem, which will unique for each model
+        in the search
+  
     '''
 
     def __init__(self, template: Template, code: ModelCode, model_num: int, generation=None):
         '''
         Create model object from Template
+        Parameters
+        ----------
+        template : template object on which to base the model
+             
+        code: ModelCode object
+            contains FullBinary, integer and minimal binary string representation of the model
+        model_num : int
+        generation: str, default = None
+             
         ''' 
         self.template = template
         self.model_code = copy(code)
@@ -298,6 +330,9 @@ class Model:
                 f.write("Post run Python code crashed\n")
 
     def get_nmtran_msgs(self):
+        '''
+        reads NMTRAN messages from the FMSG file and error messages from the PRDERR file
+        '''
         self.nm_translation_message = ""
 
         errors = ['PK PARAMETER FOR',
@@ -599,7 +634,11 @@ class Model:
 
     def cleanup(self):
         """deletes all unneeded files after run
-        no argument, no return value """
+        Note that an option "remove_run_dir" in the options file to remove the entire run_dir
+        By default, key files (.lst, .xml, mod and any $TABLE files are retained)
+        Note however than any files that starts 'FILE' or 'WK' will be removed even if remove_run_dir
+        is set to false.
+         """
 
         if self.source == "saved":
             log.message(f"called clean up for saved model, # {self.model_num}")
@@ -737,6 +776,14 @@ class Model:
 
 
 def read_data_file_name(model: Model):
+    '''
+    Parses the control file to read the data file name. 
+    
+    Arguments
+    ---------
+    Model :  A model object
+
+    '''
     with open(model.control_file_name, "r") as f:
         datalines = []
 
@@ -806,7 +853,16 @@ def check_files_present(model: Model):
     files_checked = True
 
 
-def start_new_model(model: Model, all_models):
+def start_new_model(model: Model, all_models: dict):
+    '''
+    Start the model run in the run_dir
+
+    Arguments
+    -----------
+    Model: a Model object
+    all_models: dictionare of previously run models. If the current model (based on the integer representation 
+    of the model) is present, the model is just copied from the previous run_dir to the current run_dir
+    '''
     current_code = str(model.model_code.IntCode)
 
     if current_code in all_models and model.from_dict(all_models[current_code]):
@@ -864,6 +920,14 @@ def _copy_to_best(current_model: Model):
 
 
 def write_best_model_files(control_path, result_path):
+    '''
+    copy the current model control file and output file to the home_directory
+
+    Arguments
+    -------------
+    control_path: string
+    result_path: string 
+    '''
     with open(control_path, 'w') as control:
         control.write(GlobalVars.BestModel.control)
 

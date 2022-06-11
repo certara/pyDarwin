@@ -4,10 +4,8 @@ ML Model Selection
 ================================== 
  
  
-.. _starterPK:
-
-Machine learning based Model selection.
----------------------------------------------
+.. _starterTheory:
+ 
 pyDarwin implements a number of machine learning algorithms for model selection. Machine learning algorithms are broadly divided into two categories:
 * Supervised learning
 * Unsupervised learning

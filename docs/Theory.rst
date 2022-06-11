@@ -31,23 +31,23 @@ regression has a derivatie, and quadi-Newton methods can be used to to a "downhi
 are sensitive to the initial estimates. 
 
 As the discrete space of model search does not have a derivative, other search methods must be used. The simplest, and the one traditionally used in model selection, is downhill. While efficient (requiring the fewest 
-function evaluations [models] to get the solution), it can be demonstrated that this method is not robust [1,2]. This lack of robustness is due to the violation of convexity assumption. That is, the downhill search assumes 
+function evaluations [models] to get the solution), it can be demonstrated that this method is not robust [#f1]_ [#f2]_. This lack of robustness is due to the violation of convexity assumption. That is, the downhill search assumes 
 that the optimal solution is continuously downhill from every other point in the search space. That is, there are no local minima, and you can start anywhere and you'll end up in the same place. With this assumption, 
 a covariate will or will not be "downhill", regardless of whether tested in a one compartment, two compartment; first order of zero order or any other base model, it's all downhill, it doesn't matter what sequence you test 
-hypotheses in, the answer will be the same. Wade [1] showed that the results of tests of hypotheses do indeed depend on other features in the model and Chen [2] showed that different sequences of tests will commonly yield different models.
+hypotheses in, the answer will be the same. Wade [#f1]_ showed that the results of tests of hypotheses do indeed depend on other features in the model and Chen [#f2]_ showed that different sequences of tests will commonly yield different models.
    
 
 In contrast to the traditional downhill/local search, all algorithms implemented in pyDarwin are global search algorithms that are expected to have a greater degree of robustness to local minima than downhill search. 
 Note howwever that all search algorithms (with the exception of exhaustive search) make assumptions about the search space. While none of the algorithms in pyDarwin assume convexity, none are completely robust, 
-and search spaces can be deceptive [3]. 
+and search spaces can be deceptive.[#f3]_ 
 For all algorithms, the basic process is the same, start at one or more random. Figure 1 depicts the process common to all algorithms.
  
  
  .. figure:: MLSelection.png
 
   
-[1] Wade JR, Beal SL, Sambol NC. 1994  Interaction between structural, statistical, and covariate models in population pharmacokinetic analysis. J Pharmacokinet Biopharm. 22(2):165-77 
+.. [#f1] Wade JR, Beal SL, Sambol NC. 1994  Interaction between structural, statistical, and covariate models in population pharmacokinetic analysis. J Pharmacokinet Biopharm. 22(2):165-77 
  
-[2] PAGE 30 (2022) Abstr 10091 [https://www.page-meeting.org/?abstract=10091]
+.. [#f2] PAGE 30 (2022) Abstr 10091 [https://www.page-meeting.org/?abstract=10091]
 
-[3] PAGE 30 (2022) Abstr 10053 [https://www.page-meeting.org/default.asp?abstract=10053]
+.. [#f3] PAGE 30 (2022) Abstr 10053 [https://www.page-meeting.org/default.asp?abstract=10053]

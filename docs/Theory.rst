@@ -45,6 +45,29 @@ For all algorithms, the basic process is the same, start at one or more random. 
  
  .. figure:: MLSelection.png
 
+The same 3 files are required for any search, whether exhausitve, GA, GP, RF or GBRF 
+.. _The Algorithms:
+
+Exhaustive Search
+-------------------------
+ 
+.. _Genetic Algorithm:
+
+Genetic Algorithm
+-------------------------
+ 
+.. _The Gaussian Process (Bayesian Optimization):
+
+Gaussian Process
+-------------------------
+.. _Random Forest:
+
+Random Forest
+-------------------------
+.. _Gradient Boosted Random Tree:
+
+Gradient Boosted Random Tree
+------------------------------
   
 .. [#f1] Wade JR, Beal SL, Sambol NC. 1994  Interaction between structural, statistical, and covariate models in population pharmacokinetic analysis. J Pharmacokinet Biopharm. 22(2):165-77 
  

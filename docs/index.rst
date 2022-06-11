@@ -12,13 +12,14 @@ Welcome to pyDarwin's documentation
 
    Install 
    Theory
-   TemplateStructure
-   TokensFileStructure
-   OptionsFile
-   PKModel1
+   Implementation
+   Required_files
+   PKModel1 
    PKModel2
+   PKModel3
    PDModel1
    API
+   Support
 
 Indices and tables
 ==================

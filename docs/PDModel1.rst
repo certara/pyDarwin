@@ -8,7 +8,7 @@ PD Model 1
 
 .. figure:: MLSelection.png
 
-   Starter model
+   Not sure, need an example, small ODE???
 
 As you can see in the :ref:`startpd1` image,  
- 
+   

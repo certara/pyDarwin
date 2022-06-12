@@ -9,12 +9,9 @@ import time
 import logging 
 import numpy as np 
 from scipy.spatial import distance_matrix
-
 import darwin.GlobalVars as GlobalVars
-
 from darwin.Log import log
 from darwin.options import options
-
 from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
 from darwin.runAllModels import run_all
@@ -26,7 +23,17 @@ np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
 logger = logging.getLogger(__name__) 
    
 
-def _sharing(distance: float, niche_radius: int, sharing_alpha: float) -> float:
+def _sharing(distance: float, niche_radius: int, sharing_alpha: float) -> float: 
+    """
+    :param distance: Hamming distance (https://en.wikipedia.org/wiki/Hamming_distance) between models    
+    :type distance: float
+    :param niche_radius: how close to models have to be be be considered in the same niche?
+    :type niche_radius:  int
+    :param sharing_alpha: weighting factor for niche penalty, exponenntial. 1 is linear
+    :type sharing_alpha: float
+    :return: the sharing penalty, as a fraction of the niche radius, adjusted for the sharing alpha (1 - (distance/niche_radius)**sharing_alpha)
+    :rtype: float
+    """    
     res = 0
 
     if distance <= niche_radius:
@@ -65,8 +72,15 @@ def _add_sharing_penalty(pop, niche_radius, sharing_alpha, niche_penalty):
 
 
 def run_ga(model_template: Template) -> Model:
-    """ Runs GA, 
-    Argument is model_template, which has all the needed information """
+    """
+    Runs the Genetic algorithm search, using the DEAP (https://github.com/deap/deap) packages.
+    All the required information is contained in the Template objects, plus the options module
+    This includes the control file template, and all the token groups
+    :param model_template: Template object for the search
+    :type model_template: Template
+    :return: _The single best model from the search
+    :rtype: Model
+    """    
     pop_size = options.population_size
     downhill_q = options.downhill_q
     elitist_num = options['elitist_num'] 

@@ -26,14 +26,17 @@ warnings.filterwarnings("ignore", message="The objective has been evaluated ")
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
 def run_skopt(model_template: Template) -> Model:
-    """_summary_
+    """
+    Run one of the scikit optimize (https://scikit-optimize.github.io/stable/) algorithms, specified in the options file 
+    "algorithm":"GP"
+    "algorithm":"RF"
+    "algorithm":"GBRT"
 
-    :param model_template: _description_
+    :param model_template: Model template to be run
     :type model_template: Template
-    :return: _description_
+    :return: return best model from search
     :rtype: Model
-    """    """run any of  the three skopt algorithms. Algorithm is defined in options.
-    returns the single best model after the search """
+    """     
     np.random.seed(options['random_seed'])
     downhill_q = options.downhill_q 
     # just get list of numbers, of len of each token group

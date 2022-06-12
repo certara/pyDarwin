@@ -79,6 +79,14 @@ from darwin.ModelCode import ModelCode
 
 
 class BinaryPSO(DiscreteSwarmOptimizer):
+    """
+    NOT YET STABLE
+    Run a binary Particle Swarm optimization (binary so it can use same full binary representation of the model that GA uses)
+
+
+    :param DiscreteSwarmOptimizer: _description_
+    :type DiscreteSwarmOptimizer: _type_
+    """    
     def __init__(
         self,
         n_particles,
@@ -319,8 +327,15 @@ def f(x, model_template, iteration):
   
 
 def run_pso(model_template: Template) -> Model:
-    """ Runs PSO, 
-    Argument is model_template, which has all the needed information """
+    """
+    Runs Particle Swarm Optimization (PSO), based on PySwarm (https://github.com/ljvmiranda921/pyswarms)
+    NOT YET STABLE
+    :param model_template: Model Template
+    :type model_template: Template
+    :return: Final/Best Model
+    :rtype: Model
+    """    
+    
     pop_size = options.population_size
     numBits = int(np.sum(model_template.gene_length))
 

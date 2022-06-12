@@ -73,7 +73,7 @@ def _add_sharing_penalty(pop, niche_radius, sharing_alpha, niche_penalty):
 
 def run_ga(model_template: Template) -> Model:
     """
-    Runs the Genetic algorithm search, using the DEAP (https://github.com/deap/deap) packages.
+    Run the Genetic Algorithm (GA) search, using the DEAP (https://github.com/deap/deap) packages.
     All the required information is contained in the Template objects, plus the options module
     This includes the control file template, and all the token groups
     :param model_template: Template object for the search

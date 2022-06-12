@@ -5,9 +5,9 @@
 
 Installation
 ====================================
-`A cool website`_
+`Self Promotion`_
 
-.. _A cool website: http://sphinx-doc.org
+.. _Self Promotion: http://elainewines.com
 
 A cool bit of code::
 

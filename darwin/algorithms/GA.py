@@ -76,6 +76,7 @@ def run_ga(model_template: Template) -> Model:
     Run the Genetic Algorithm (GA) search, using the DEAP (https://github.com/deap/deap) packages.
     All the required information is contained in the Template objects, plus the options module
     This includes the control file template, and all the token groups
+    Called from Darwin.run_search, _run_template
     :param model_template: Template object for the search
     :type model_template: Template
     :return: _The single best model from the search

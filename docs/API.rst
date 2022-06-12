@@ -1,6 +1,14 @@
 API
 ==============
 
+darwin.algorithms.exhaustive module
+-----------------------------------
+
+.. automodule:: darwin.algorithms.exhaustive
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 darwin.algorithms.GA module
 ---------------------------
 
@@ -17,14 +25,14 @@ darwin.algorithms.OPT module
    :undoc-members:
    :show-inheritance:
 
-darwin.algorithms.exhaustive module
------------------------------------
+darwin.algorithms.PSO module
+----------------------------
 
-.. automodule:: darwin.algorithms.exhaustive
+.. automodule:: darwin.algorithms.PSO
    :members:
    :undoc-members:
    :show-inheritance:
-
+ 
 darwin.GlobalVars module
 ------------------------
 

@@ -28,6 +28,8 @@ warnings.filterwarnings("ignore", message="The objective has been evaluated ")
 def run_skopt(model_template: Template) -> Model:
     """
     Run one of the scikit optimize (https://scikit-optimize.github.io/stable/) algorithms, specified in the options file 
+    
+    Called from Darwin.run_search, _run_template
     "algorithm":"GP"
     "algorithm":"RF"
     "algorithm":"GBRT"

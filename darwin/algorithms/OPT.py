@@ -26,7 +26,13 @@ warnings.filterwarnings("ignore", message="The objective has been evaluated ")
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
 def run_skopt(model_template: Template) -> Model:
-    """run any of  the three skopt algorithms. Algorithm is defined in options.
+    """_summary_
+
+    :param model_template: _description_
+    :type model_template: Template
+    :return: _description_
+    :rtype: Model
+    """    """run any of  the three skopt algorithms. Algorithm is defined in options.
     returns the single best model after the search """
     np.random.seed(options['random_seed'])
     downhill_q = options.downhill_q 

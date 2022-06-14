@@ -12,25 +12,25 @@ from darwin.options import options
 
 
 class Template:
-
-    """    
-    The Template object contains information common to all the model objects, including the template code (from the template file)
-    and the tokens set. It DOES NOT include and model specific informaiton, such as the phenotype, the control file text, or any of 
-    the output results from NONMEM.
-    Other housekeeping functions are performed, such as defining the gene structure (by counting the number of token groups for each token set), 
-    and parsing out the THETA/OMEGA/SIGMA blocks, and counting the number of fixed/non searched THETAs/OMEGAs/SIGMAs
+    """
+    The Template object contains information common to all the model objects, including the template code
+    (from the template file) and the tokens set. It DOES NOT include and model specific information,
+    such as the phenotype, the control file text, or any of the output results from NONMEM.
+    Other housekeeping functions are performed, such as defining the gene structure (by counting the number
+    of token groups for each token set), and parsing out the THETA/OMEGA/SIGMA blocks, and counting
+    the number of fixed/non searched THETAs/OMEGAs/SIGMAs
     :param template_file: path to the plain ascii text template file
     :type template_file: str
     :param tokens_file: path to the json tokens file 
-    
     """
+
     def __init__(self, template_file: str, tokens_file: str):
-        '''
+        """
         Template contains all the results of the template file and the tokens, and the options
         Tokens are parsed to define the search space. The Template object is inherited by the model object
         
         :raises: If the file paths do not exist, or the json file has syntax error, an error is raises
-        '''
+        """
 
         try:
             self.template_text = open(template_file, 'r').read()
@@ -84,15 +84,16 @@ class Template:
             self.search_omega_bands = True
             if "max_omega_band_width" in options._options.keys():
                 self.max_omega_band_width = options._options['max_omega_band_width']
-                if self.max_omega_band_width >= 1: 
-                    self.gene_max.append(self.max_omega_band_width ) # this is the number of off diagonal bands (diagonal is NOT included.
+                if self.max_omega_band_width >= 1:
+                    # this is the number of off diagonal bands (diagonal is NOT included)
+                    self.gene_max.append(self.max_omega_band_width)
                     
-                    self.gene_length.append(math.ceil(math.log(self.max_omega_band_width +1, 2)))
+                    self.gene_length.append(math.ceil(math.log(self.max_omega_band_width + 1, 2)))
  
                     log.message(f"Including search of band OMEGA, with width up to {self.max_omega_band_width}")
                 else:
-                    log.message("Max Omega Band width search must be at least 1 \n,"
-                            " omitting omega band width search")
+                    log.warn("Max Omega Band width search must be at least 1,\n"
+                             "omitting omega band width search")
                     del self.tokens['Search_OMEGA']
             else:
                 log.message("Cannot find max_omega_band_width in options file, but omega band width search request \n,"

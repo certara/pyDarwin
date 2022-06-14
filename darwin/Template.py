@@ -10,6 +10,7 @@ from darwin.Log import log
 
 from darwin.options import options 
 
+
 class Template:
 
     """    

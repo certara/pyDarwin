@@ -134,30 +134,25 @@ def match_thetas(control: str, tokens: dict, var_theta_block: str, phenotype: di
     (starting with the last_fixed_theta - the largest value used for THETA() in the fixed code)
 
     :param control: control file text
-
     :type control: str
 
     :param tokens: token groups
-
     :type tokens: dict
 
     :param var_theta_block: variable theta block
-
     :type var_theta_block: str
 
     :param phenotype: phenotype for model
-
     :type phenotype: dict
 
     :param last_fixed_theta: highest value used for THETA in fixed code. Fixed values for THETA must start with 1
-    and be continuous until the last fixed THETA
-
+        and be continuous until the last fixed THETA
     :type last_fixed_theta: int
 
     :return: new control file
-
     :rtype: str
     """
+
     expanded_theta_block = _expand_tokens(tokens, var_theta_block, phenotype)
   
     # then look at each  token, get THETA(alpha) from non-THETA block tokens

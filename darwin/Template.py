@@ -19,17 +19,18 @@ class Template:
     Other housekeeping functions are performed, such as defining the gene structure (by counting the number
     of token groups for each token set), and parsing out the THETA/OMEGA/SIGMA blocks, and counting
     the number of fixed/non searched THETAs/OMEGAs/SIGMAs
+
     :param template_file: path to the plain ascii text template file
     :type template_file: str
-    :param tokens_file: path to the json tokens file 
+    :param tokens_file: path to the json tokens file
     """
 
     def __init__(self, template_file: str, tokens_file: str):
         """
-        Template contains all the results of the template file and the tokens, and the options
-        Tokens are parsed to define the search space. The Template object is inherited by the model object
+        Template contains all the results of the template file and the tokens, and the options.
+        Tokens are parsed to define the search space. The Template object is inherited by the model object.
         
-        :raises: If the file paths do not exist, or the json file has syntax error, an error is raised
+        :raises: If the file paths do not exist, or the json file has syntax error, an error is raised.
         """
 
         try:

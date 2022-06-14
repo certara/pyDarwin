@@ -3,8 +3,8 @@ import math
 
 class ModelCode:
     """
-    class for model code, just to keep straight whether this is full binary, minimal binary or integer
-    and to interconvert between them
+    Class for model code, just to keep straight whether this is full binary, minimal binary or integer
+    and to interconvert between them.
     """
 
     def __init__(self, code, which_type, gene_max, length):
@@ -34,12 +34,14 @@ class ModelCode:
             self._convert_int_full_bin()
 
     def _convert_full_bin_int(self):
-        """converts a "full binary" (e.g., from GA to integer (used to select token sets))
+        """
+        Converts a "full binary" (e.g., from GA to integer (used to select token sets))
         arguments are:
         bin_pop - population of binaries
         gene_max - integer list,maximum value- number of tokens sets in that token group
         length - integer list, how long each gene is
-        return integer array of which token goes into this model"""
+        return integer array of which token goes into this model
+        """
 
         start = 0
 
@@ -64,10 +66,12 @@ class ModelCode:
         return
 
     def _convert_int_full_bin(self):
-        """converts an integer array to "full binary"
+        """
+        Converts an integer array to "full binary"
         (e.g., from integer (used to select token sets) back to GA compatible code, opposite of convert_full_bin_int)
         arguments are:
-        returns array of binaries compatible with GA"""
+        returns array of binaries compatible with GA
+        """
 
         result = []
         for baseInt, this_max, this_length in zip(self.IntCode, self.max, self.length):
@@ -88,7 +92,7 @@ class ModelCode:
 
     def _convert_min_bin_int(self):
         """
-        converts a "minimal binary"
+        Converts a "minimal binary"
         (e.g., used for downhill, just the integer value converted to binary - doesn't fill in the entire n bit array)
         returns integer array of which token goes into this model
         """
@@ -115,7 +119,7 @@ class ModelCode:
 
     def _convert_int_min_bin(self):
         """
-        converts an integer array to "minimal binary"
+        Converts an integer array to "minimal binary"
         (e.g., used for downhill, just the integer value converted to binary - doesn't fill in the entire n bit array)
         """
         full_results = []

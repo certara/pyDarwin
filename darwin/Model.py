@@ -36,66 +36,71 @@ JSON_ATTRIBUTES = [
 
 class Model:
     """
-    The full model, used for GA, GP, RF, GBRF and exhaustive search
+    The full model, used for GA, GP, RF, GBRF and exhaustive search.
 
     Model instantiation takes a template as an argument, along with the model code, model number and generation
-    function include constructing the control file, executing the control file, calculating the fitness/reward
+    function include constructing the control file, executing the control file, calculating the fitness/reward.
 
     template : model template
         constructed from the template class
+
     model_code : a ModelCode object
         contains the bit string/integer string representation of the model. Includes the Fullbinary
         string, integer string and minimal binary representation of the model
         (for GA, GP/RF/GBRT and downhill respectively)
+
     generation : int
-        the current generation/iteration. This value is used to construct both the control
-        and executable name (NM_generation_model_num.exe) and the run directory (./generation/model_num)
+        The current generation/iteration.
+
+        Generation + model_num creates a unique "file_stem"
+
     model_num: int
-        Model number, within the generation, Generation + model_num creates a unique "file_stem" that 
-        is used to name the control file, the executable and the relative path from the home directory (home_dir)
-        to the run directory
+        Model number, within the generation.
+
+        Generation + model_num creates a unique "file_stem"
+
     file_stem: string
-        String used to create unique names for control files, executable and run directory.
+        Prefix string used to create unique names for control files, executable and run directory.
         Defined as NM + generation + model_num.
+
     control_file_name: string
         name of the control file, will be  file_stem + ".mod"
+
     executable_file_name: string
         name of NONMEM executable, will be file_stem + ".exe"
+
     run_dir: string
-        relative path from the home_dir to the directory in which NONMEM is run. For all but downhill search, the
-        values (generation and model_num) will be integer. For downhill the run_dir will be generation + D + step,
-        for local exhaustive search the run_dir will be generation+S + base_step + search_step, where base_step is the
-        final step in the Downhill search. run_dir names will be based on the file_stem, which will be unique
-        for each model in the search
+        relative path from the home_dir to the directory in which NONMEM is run.
+
+        * For all but downhill search, the values (generation and model_num) will be integer
+
+        * For downhill the run_dir will be generation + D + step
+
+        * For local exhaustive search the run_dir will be generation + S + base_step + search_step, where base_step\
+        is the final step in the downhill search
+
+        run_dir names will be based on the file_stem, which will be unique for each model in the search
     """
 
     def __init__(self, template: Template, code: ModelCode, model_num: int, generation):
-        """Create model object from Template
+        """
+        Create model object from Template.
 
         :param template: Template object, constructed from the template class
-
         :type template: Template
 
         :param code: ModelCode Object, contains the bit string/integer string representation of the model.
-        Includes the Fullbinary string, integer string and minimal binary representation of the model
-        (for GA, GP/RF/GBRT and downhill respectively)
-
+            Includes the Fullbinary string, integer string and minimal binary representation of the model
+            (for GA, GP/RF/GBRT and downhill respectively)
         :type code: ModelCode
 
-        :param model_num:  Model number, within the generation, Generation + model_num creates a unique "file_stem" that 
-        is used to name the control file, the executable and the relative path from the home directory (home_dir)
-        to the run directory
-
+        :param model_num:  Model number, within the generation, Generation + model_num creates a unique "file_stem" that
+            is used to name the control file, the executable and the relative path from the home directory (home_dir)
+            to the run directory
         :type model_num: int
 
         :param generation: The current generation/iteration. This value is used to construct both the control
-        and executable name (NM_generation_modelNum.exe)
-        and the run directory (./generation/model_num)
-
-        Other attributes:
-        
-        String used to create unique names for control files, executable and run directory.
-        Defined as NM + generation + model_num
+            and executable name (NM_generation_modelNum.exe) and the run directory (./generation/model_num)
         """
 
         self.template = template
@@ -176,7 +181,7 @@ class Model:
 
     def copy_model(self):
         """
-        copies the folder contents from a saved model to the new model destination, used so a model that has already
+        Copies the folder contents from a saved model to the new model destination, used so a model that has already
         been run (and saved in the all_models dict) is copied into the new run directory and the control file name
         and output file name in the new model is updated.
         """
@@ -213,7 +218,7 @@ class Model:
 
     def make_control_file(self):
         """
-        Constructs the control file from the template and the model code
+        Constructs the control file from the template and the model code.
         Calls _make_control
         """        
         
@@ -231,9 +236,9 @@ class Model:
 
     def run_model(self):
         """
-        run the model, will terminate model if the timeout option (timeout_sec) is exceeded
-        after model is run, the post run R code and post run Python code (is used) is run, and
-        the calc_fitness function is called to calculate the fitness/reward
+        Runs the model. Will terminate model if the timeout option (timeout_sec) is exceeded.
+        After model is run, the post run R code and post run Python code (if used) is run, and
+        the calc_fitness function is called to calculate the fitness/reward.
         """
         self.make_control_file()
 
@@ -284,9 +289,10 @@ class Model:
         self.post_run_r_text = val[num_vals - 1]
 
     def _post_run_r(self):
-        """Run R code specified in the file options['postRunCode'], return penalty from R code
-        R is called by subprocess call to Rscript.exe. User must supply path to Rscript.exe
-        Presence of Rscript.exe is check in the files_present"""
+        """
+        Runs R code specified in the file options['postRunCode'], return penalty from R code.
+        R is called by subprocess call to Rscript.exe. User must supply path to Rscript.exe in options file.
+        """
 
         if not options.use_r:
             return
@@ -346,7 +352,7 @@ class Model:
 
     def get_nmtran_msgs(self):
         """
-        reads NMTRAN messages from the FMSG file and error messages from the PRDERR file
+        Reads NMTRAN messages from the FMSG file and error messages from the PRDERR file.
         """
         self.nm_translation_message = ""
 
@@ -586,8 +592,10 @@ class Model:
             pass
 
     def _calc_fitness(self):
-        """calculates the fitness, based on the model output, and the penalties (from the options file)
-        need to look in output file for parameter at boundary and parameter non-positive """
+        """
+        Calculates the fitness, based on the model output, and the penalties (from the options file).
+        Need to look in output file for parameter at boundary and parameter non-positive.
+        """
 
         self.fitness = options.crash_value
 
@@ -637,7 +645,7 @@ class Model:
 
     def to_dict(self):
         """
-        assembles what goes into the JSON file of saved models
+        Assembles what goes into the JSON file of saved models.
         """
 
         res = {}
@@ -648,12 +656,13 @@ class Model:
         return res
 
     def cleanup(self):
-        """deletes all unneeded files after run
-        Note that an option "remove_run_dir" in the options file to remove the entire run_dir
-        By default, key files (.lst, .xml, mod and any $TABLE files are retained)
-        Note however than any files that starts 'FILE' or 'WK' will be removed even if remove_run_dir
-        is set to false.
-         """
+        """
+        Deletes all unneeded files after run.
+        Note that an option "remove_run_dir" in the options file to remove the entire run_dir.
+        By default, key files (.lst, .xml, mod and any $TABLE files are retained).
+
+        Note however that any files that starts 'FILE' or 'WK' will be removed even if remove_run_dir is set to false.
+        """
 
         if self.source == "saved":
             log.message(f"called clean up for saved model, # {self.model_num}")
@@ -712,8 +721,10 @@ class Model:
         return
 
     def _check_contains_params(self):
-        """ looks at a token set to see if it contains and OMEGA/SIGMA/THETA/ETA/EPS or ERR, if so it is influential.
-         If not (e.g., the token is empty) it is non-influential"""
+        """
+        Looks at the token set to see if it contains OMEGA/SIGMA/THETA/ETA/EPS or ERR, if so it is influential.
+        If not (e.g., the token is empty) it is non-influential.
+        """
 
         token_set_num = 0
 
@@ -732,8 +743,10 @@ class Model:
             token_set_num += 1
 
     def _make_control(self):
-        """constructs control file from intcode
-        ignore last value if self_search_omega_bands """
+        """
+        Constructs control file from intcode.
+        Ignore last value if self_search_omega_bands.
+        """
         # this appears to be OK with search_omega_bands
         self.phenotype = OrderedDict(zip(self.template.tokens.keys(), self.model_code.IntCode))
         self._check_contains_params()  # fill in whether any token in each token set contains THETA,OMEGA SIGMA
@@ -791,17 +804,15 @@ class Model:
 
 
 def read_data_file_name(model: Model) -> list:
-    """Parses the control file to read the data file name
+    """
+    Parses the control file to read the data file name
 
     :param model: Model object
-
     :type model: Model
 
     :return: data file path string
-
     :rtype: list
-
-    """    
+    """
   
     with open(model.control_file_name, "r") as f:
         datalines = []
@@ -836,12 +847,12 @@ def read_data_file_name(model: Model) -> list:
 
 def check_files_present(model: Model):
     """
-    Check if required files are present
+    Checks if required files are present.
 
     :param model: Model object
-
     :type model: Model
     """    
+
     global files_checked
 
     if files_checked:
@@ -880,17 +891,15 @@ def check_files_present(model: Model):
 
 
 def start_new_model(model: Model, all_models: dict):
-    """Start the model run in the run_dir
+    """
+    Starts the model run in the run_dir.
 
     :param model: Model Object
-    
     :type model: Model
-    
+
     :param all_models: dict of all models that have completed, used to check if this model has already been run
-
     :type all_models: dict
-
-    """    
+    """
     
     current_code = str(model.model_code.IntCode)
 
@@ -935,10 +944,10 @@ def start_new_model(model: Model, all_models: dict):
 
 
 def _copy_to_best(current_model: Model):
-    """copies current model to the global best model
+    """
+    Copies current model to the global best model.
 
     :param current_model: Model to be saved as the current best
-
     :type current_model: Model
     """
 
@@ -954,17 +963,15 @@ def _copy_to_best(current_model: Model):
 
 
 def write_best_model_files(control_path: str, result_path: str):
-    """ copy the current model control file and output file to the home_directory
+    """
+    Copies the current model control file and output file to the home_directory.
 
     :param control_path: path to current best model control file
-
     :type control_path: str
 
     :param result_path: path to current best model result file
-
     :type result_path: str
-
-    """    
+    """
   
     with open(control_path, 'w') as control:
         control.write(GlobalVars.BestModel.control)
@@ -974,10 +981,10 @@ def write_best_model_files(control_path: str, result_path: str):
 
 
 def _terminate_process(pid: int):
-    """ kill the specified process (probably a NONMEM model)
+    """
+    Kills the specified process and its subprocesses.
 
     :param pid: PID
-
     :type pid: int
     """    
     proc = psutil.Process(pid)

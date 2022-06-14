@@ -47,15 +47,14 @@ darwin.Log module
 .. automodule:: darwin.Log
    :members:
    :undoc-members:
-   :show-inheritance:
 
 darwin.Model module
 -------------------
 
 .. automodule:: darwin.Model
    :members:
+   :special-members: __init__
    :undoc-members:
-   :show-inheritance:
 
 darwin.ModelCode module
 -----------------------
@@ -63,9 +62,9 @@ darwin.ModelCode module
 .. automodule:: darwin.ModelCode
    :members:
    :undoc-members:
-   :show-inheritance:
+   :private-members:
 
-darwin.Omega\_utils module
+darwin.omega\_utils module
 --------------------------
 
 .. automodule:: darwin.omega_utils
@@ -79,7 +78,7 @@ darwin.Template module
 .. automodule:: darwin.Template
    :members:
    :undoc-members:
-   :show-inheritance:
+   :special-members: __init__
 
 darwin.options module
 ---------------------
@@ -87,7 +86,6 @@ darwin.options module
 .. automodule:: darwin.options
    :members:
    :undoc-members:
-   :show-inheritance:
 
 darwin.runAllModels module
 --------------------------
@@ -117,14 +115,6 @@ darwin.utils module
 -------------------
 
 .. automodule:: darwin.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: darwin
    :members:
    :undoc-members:
    :show-inheritance:

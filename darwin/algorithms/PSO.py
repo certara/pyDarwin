@@ -168,8 +168,6 @@ class BinaryPSO(DiscreteSwarmOptimizer):
         Performs the optimization to evaluate the objective
         function :code:`f` for a number of iterations :code:`iter.`
 
-        Parameters
-        ----------
         objective_func : function
             objective function to be evaluated
         iters : int
@@ -182,8 +180,6 @@ class BinaryPSO(DiscreteSwarmOptimizer):
         kwargs : dict
             arguments for objective function
 
-        Returns
-        -------
         tuple
             the local best cost and the local best position among the
             swarm.

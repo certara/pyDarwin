@@ -4,8 +4,6 @@ import json
 import math
 import collections
 
-from pandas import options
-
 import darwin.utils as utils
 
 from darwin.Log import log

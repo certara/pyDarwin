@@ -17,7 +17,7 @@ Modified By: Mark Sale
 """
 import os
 import shutil
-from darwin.run_search import run_search, run_search_in_folder
+from darwin.run_search import run_search #, run_search_in_folder
 from darwin.options import options
   
 

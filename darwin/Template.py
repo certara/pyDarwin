@@ -4,10 +4,13 @@ import json
 import math
 import collections
 
+from pandas import options
+
 import darwin.utils as utils
 
 from darwin.Log import log
 
+from darwin.options import options 
 
 class Template:
 
@@ -74,30 +77,31 @@ class Template:
                 if val == 1:
                     log.warn(f'Token {this_set} has the only option.')
 
-    def _check_omega_search(self):
+    def _check_omega_search(self): 
         """see if Search_OMEGA and Omega_band_width are in the token set
         if so, find how many bits needed for band width, and add that gene
         final gene in genome is omega band width, values 0 to max omega size -1"""
-        if "Search_OMEGA" in self.tokens.keys():
-            self.search_omega_band = True
-            if "max_Omega_size" in self.tokens.keys():
-                self.omega_bandwidth = self.tokens['max_Omega_size']
-                self.gene_max.append(self.omega_bandwidth - 1)
-                self.gene_length.append(math.ceil(math.log(self.omega_bandwidth, 2)))
-
-                if self.omega_bandwidth == 1:
-                    log.warn('Token max_Omega_size has the one option.')
-
-                log.message(f"Including search of band OMEGA, with width up to {self.omega_bandwidth - 1}")
-
-                del self.tokens['max_Omega_size']
+        if "search_omega_bands" in options._options.keys():
+            self.search_omega_bands = True
+            if "max_omega_band_width" in options._options.keys():
+                self.max_omega_band_width = options._options['max_omega_band_width']
+                if self.max_omega_band_width >= 1: 
+                    self.gene_max.append(self.max_omega_band_width ) # this is the number of off diagonal bands (diagonal is NOT included.
+                    
+                    self.gene_length.append(math.ceil(math.log(self.max_omega_band_width +1, 2)))
+ 
+                    log.message(f"Including search of band OMEGA, with width up to {self.max_omega_band_width}")
+                else:
+                    log.message("Max Omega Band width search must be at least 1 \n,"
+                            " omitting omega band width search")
+                    del self.tokens['Search_OMEGA']
             else:
-                log.message("Cannot find omega size in tokens set, but omega band width search request \n,"
+                log.message("Cannot find max_omega_band_width in options file, but omega band width search request \n,"
                             " omitting omega band width search")
                 # remove max_Omega_size and Search_OMEGA from token sets
-            del self.tokens['Search_OMEGA']
+                del self.tokens['Search_OMEGA']
         else:
-            self.search_omega_band = False
+            self.search_omega_bands = False
 
 
 def _get_fixed_params(template_text):

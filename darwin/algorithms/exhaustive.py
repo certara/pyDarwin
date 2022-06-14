@@ -31,8 +31,8 @@ def run_exhaustive(model_template: Template) -> Model:
         num_groups.append(list(range(len(token_group))))
 
     # need to add another group if searching on omega bands
-    if model_template.search_omega_band:
-        num_groups.append(list(range(model_template.omega_bandwidth)))
+    if model_template.search_omega_bands:
+        num_groups.append(list(range(model_template.max_omega_band_width + 1)))
 
     codes = np.array(np.meshgrid(*num_groups)).T.reshape(-1, len(num_groups))
 

@@ -23,8 +23,7 @@ from darwin.options import options
 
 from .Template import Template
 from .ModelCode import ModelCode
-from .Omega_utils import set_omega_bands, insert_omega_block
-
+from .Omega_utils import set_omega_bands 
 files_checked = False
 
 JSON_ATTRIBUTES = [
@@ -42,8 +41,6 @@ class Model:
     Model instantiation takes a template as a arguement, along with the model code, model number and generation
     function include constructing the control file, executing the control file, calculating the fitness/reward
 
-    Attributes
-    ----------
     template : model template
         constructed from the template class
     model_code : a ModelCode object
@@ -75,18 +72,35 @@ class Model:
     '''
 
     def __init__(self, template: Template, code: ModelCode, model_num: int, generation=None):
-        '''
-        Create model object from Template
-        Parameters
-        ----------
-        template : template object on which to base the model
-             
-        code: ModelCode object
-            contains FullBinary, integer and minimal binary string representation of the model
-        model_num : int
-        generation: str, default = None
-             
-        ''' 
+        """Create model object from Template
+
+        :param template: Template object, constructed from the template class
+
+        :type template: Template
+
+        :param code: ModelCode Object, contains the bit string/integer string representation of the model. Includes the Fullbinary
+        string, integer string and minimal binary representation of the model (for GA, GP/RF/GBRT and downhill respectively)
+
+        :type code: ModelCode
+
+        :param model_num:  Model number, within the generation, Generation + model_num creates a unique "file_stem" that 
+        is used to name the control file, the executable and the relative path from the home directory (home_dir)
+        to the run directory
+
+        :type model_num: int
+
+        :param generation: The current generation/iteration. This value is used to contruct both the control and executable name (NM_generation_modelNum.exe)
+        and the rundirectory (.\generation\modelnum) defaults to None
+
+        :type generation: str, optional
+        
+        Other attrributes:
+        
+        String used to create unique names for control files, executable and run directory. Defined as NM +generation + model_num
+
+        """
+
+         
         self.template = template
         self.model_code = copy(code)
         self.model_num = model_num
@@ -199,9 +213,11 @@ class Model:
             pass
 
     def make_control_file(self):
-        '''
-        constructs the control file from the template and the model code
-        '''
+        """
+        Constructs the control file from the template and the model code
+        Calls _make_control
+        """        
+        
         self._make_control()
 
         self.source = "new"
@@ -730,16 +746,18 @@ class Model:
         any_found = True  # keep looping, looking for nested tokens
         token_found = False  # error check to see if any tokens are present
 
-        for _ in range(3):  # always need 2, and won't do more than 2, only support 1 level of nested loops
+        for _ in range(5):  # up to 4 levels of nesting?
+            
             any_found, self.control = utils.replace_tokens(template.tokens, self.control, self.phenotype,
                                                            self.non_influential_tokens)
             self.non_influential_token_num = sum(self.non_influential_tokens)
             token_found = token_found or any_found
-
+            if not any_found:
+                break
         if any_found:
-            log.error("It appears that there is more than one level of nested tokens."
-                      " Only one level is supported, exiting")
-            raise RuntimeError("Is there more than 1 level of nested tokens?")
+            log.error("It appears that there is more than four level of nested tokens."
+                      " Only four levels are supported, exiting")
+            raise RuntimeError("Are there more than 4 levels of nested tokens?")
 
         self.control = utils.match_thetas(self.control, template.tokens, template.var_theta_block, self.phenotype,
                                           template.last_fixed_theta)
@@ -760,13 +778,14 @@ class Model:
                             + "\n;; Num Non influential tokens = " + str(self.non_influential_tokens)
 
         # add band OMEGA
-        if self.template.search_omega_band:
+        if self.template.search_omega_bands:
             # bandwidth must be last gene
             bandwidth = self.model_code.IntCode[-1]
-            omega_block, self.template.search_omega_band = set_omega_bands(self.control, bandwidth)
+            
+            self.control, self.template.search_omega_bands , e = set_omega_bands(self.control, bandwidth) # need to return whether the insertion of bands was successful
 
-            if self.template.search_omega_band:
-                self.control = insert_omega_block(self.control, omega_block)
+            if not self.template.search_omega_bands:
+                log.message(f"Unable to construct band OMEGA block. removeing search omega band width from search, generation {self.generation}, model {self.model_num}, message = {e}")
 
         if not token_found:
             log.error("No tokens found, exiting")
@@ -775,15 +794,19 @@ class Model:
         return
 
 
-def read_data_file_name(model: Model):
-    '''
-    Parses the control file to read the data file name. 
-    
-    Arguments
-    ---------
-    Model :  A model object
+def read_data_file_name(model: Model) -> str:
+    """Parses the control file to read the data file name
 
-    '''
+    :param model: Model object
+
+    :type model: Model
+
+    :return: data file path string
+
+    :rtype: str
+
+    """    
+  
     with open(model.control_file_name, "r") as f:
         datalines = []
 
@@ -816,6 +839,13 @@ def read_data_file_name(model: Model):
 
 
 def check_files_present(model: Model):
+    """
+    Check if required files are present
+
+    :param model: Model object
+
+    :type model: Model
+    """    
     global files_checked
 
     if files_checked:
@@ -854,15 +884,18 @@ def check_files_present(model: Model):
 
 
 def start_new_model(model: Model, all_models: dict):
-    '''
-    Start the model run in the run_dir
+    """Start the model run in the run_dir
 
-    Arguments
-    -----------
-    Model: a Model object
-    all_models: dictionare of previously run models. If the current model (based on the integer representation 
-    of the model) is present, the model is just copied from the previous run_dir to the current run_dir
-    '''
+    :param model: Model Object
+    
+    :type model: Model
+    
+    :param all_models: dict of all models that have completed, used to check if this model has already been run
+
+    :type all_models: dict
+
+    """    
+    
     current_code = str(model.model_code.IntCode)
 
     if current_code in all_models and model.from_dict(all_models[current_code]):
@@ -906,7 +939,13 @@ def start_new_model(model: Model, all_models: dict):
 
 
 def _copy_to_best(current_model: Model):
-    """copies current model to the global best model"""
+    """copies current model to the global best model
+
+    :param current_model: Model to be saved as the current best
+
+    :type current_model: Model
+    """
+ 
 
     GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
     GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
@@ -919,15 +958,19 @@ def _copy_to_best(current_model: Model):
     return
 
 
-def write_best_model_files(control_path, result_path):
-    '''
-    copy the current model control file and output file to the home_directory
+def write_best_model_files(control_path: str , result_path: str):
+    """ copy the current model control file and output file to the home_directory
 
-    Arguments
-    -------------
-    control_path: string
-    result_path: string 
-    '''
+    :param control_path: path to current best model control file
+
+    :type control_path: str
+
+    :param result_path: path to current best model result file
+
+    :type result_path: str
+
+    """    
+  
     with open(control_path, 'w') as control:
         control.write(GlobalVars.BestModel.control)
 
@@ -935,7 +978,13 @@ def write_best_model_files(control_path, result_path):
         result.write(GlobalVars.BestModelOutput)
 
 
-def _terminate_process(pid):
+def _terminate_process(pid: int):
+    """ kill the specified process (probably a NONMEM model)
+
+    :param pid: PID
+
+    :type pid: int
+    """    
     proc = psutil.Process(pid)
 
     for p in proc.children(True):

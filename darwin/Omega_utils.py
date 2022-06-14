@@ -1,65 +1,105 @@
-import re
+import re 
+import math
+import numpy as np
+import copy
+from .utils import remove_comments 
 
+def set_omega_bands(control: str, bandwidth: int) -> str:
+    """Removes ALL existing omega blocks from control, then inserts a serirs of $OMEGAs. These will be unchanges if the source is BLOCK or DIAG. Not not specified
+    BLOCK or DIAG (and so is by default DIAG), will convert to BLOCK with the number of bands specified in the model code
 
-def set_omega_bands(control, bandwidth):
-    model = read_model_from_string(control)
-    # check if omega is diagonal
-    # can be multiple $OMEGA blocks, but overall OMEGA must be diagonal
-    omega_dict = model.random_variables.etas.parameter_names
-    omega_size = len(omega_dict)
-    # see if any of the values have n != m
-    for this_omega in omega_dict:
-        this_omega = this_omega.replace("OMEGA(", "").replace(")", "").split(",")
-        if this_omega[0] != this_omega[0]:
-            return control, False  # if not diagonal, just return control and False
-
-    init_vals = model.parameters.inits
-
-    # find OMEGAs
-    omega_init_vals = []
-
-    for this_init in init_vals:
-        if re.search(r"OMEGA\(", this_init):
-            omega_init_vals.append(init_vals[this_init])
-
-    # construct new OMEGA block
-    if bandwidth == 0:
-        omega_block = "\n$OMEGA DIAG(" + str(omega_size) + ")\n"
-        for this_row in range(1, omega_size + 1):
-            omega_block += str(omega_init_vals[this_row - 1]) + "\n"
-    else:
-        omega_block = "\n$OMEGA BLOCK(" + str(omega_size) + ")\n"
-        # for diagonal matrix of 1's, 1/(p−1)
-        # so take the maximum value of a diagonal, divide by size -1
-        # then take half of that, should be a modest +ive correlation
-        min_diag = min(omega_init_vals)
-        min_off_diag = 0.5 * min_diag / (omega_size - 1)
-        # and construct $OMEGA,one matrix only
-        for this_row in range(1, omega_size + 1):
-            line = " "
-            for this_col in range(1, this_row + 1):
-                if this_col == this_row:
-                    line += str(omega_init_vals[this_row - 1]) + " "
-                else:
-                    if (this_row - this_col) <= bandwidth:
-                        line += " " + str(min_off_diag) + " "
+    :param control: existing control file
+    :type control: str
+    :param bandwidth: require band width
+    :type bandwidth: int
+    :return: modified control file
+    :rtype: str
+    """
+   # try:
+    org_control = control # save in case this fails, return 
+    control_list = control.splitlines()
+    lines =  remove_comments(control).splitlines()
+    omega_starts = [idx for idx, element in enumerate(lines) if re.search("^\$OMEGA",element)] 
+    new_omega_block = [] 
+    omega_ends = []
+    omega_blocks = []
+    for thisstart in omega_starts: 
+        rest_of_text = lines[thisstart:]
+        next_block_start = [idx for idx, element in enumerate(rest_of_text[1:]) if re.search("^\$",element)]
+        if next_block_start is None:
+            next_block_start = len(rest_of_text)
+        else:
+            next_block_start = next_block_start[0]
+        this_omega_ends = next_block_start + thisstart + 1
+        omega_ends.append(this_omega_ends)
+        omega_blocks.append(copy.copy(lines[thisstart:this_omega_ends]))
+    all_omega_blocks = []
+    for thisstart in omega_blocks:
+        ## see if BLOCK(*) of DIAG appears, if user explicitly states it is DIAG, it will remain DIAG
+        is_block_or_diag = any(re.search("BLOCK",line) for line in thisstart) or any(re.search("DIAG",line) for line in thisstart)
+        # if so, keep block as is,
+        if is_block_or_diag:
+            all_omega_blocks.append(copy.deepcopy(thisstart))
+                
+        else: # is diagonal, but not explicity stated to be diagonal
+            # get values, start by replacing $OMEGA, and if present, DIAG
+            thisblock = copy.deepcopy(thisstart)
+            thisblock[0] = thisblock[0].replace("$OMEGA","")
+            # and collect the values, to be used on diagonal
+            thisblock = ' '.join([str(elem) for elem in thisblock]).replace("\n","").replace("  "," ").replace("  "," ").strip()
+            thisblock = thisblock.split(" ")
+            thisblock = np.array(thisblock, dtype=np.float32) # this_block.split(" ")
+            
+            size = len(thisblock)
+            # get max value, for first guess at diagonals
+            off_diag = math.sqrt(float(max(thisblock))/2) # no good reason to start here, assum +ive covariances
+            # build matrix, check if positive definate
+            is_pos_def = False
+            
+            count = 0
+            #this_band = 0
+            while not is_pos_def and count < 100:
+                off_diag *= 0.5 
+                matrix = np.zeros([size,size])
+                # bands up to bandwidth
+                for this_row in range(size-1):
+                    if this_row < bandwidth:
+                        val = off_diag
                     else:
-                        line += " 0 "
+                        val = 0 
+                    for this_col in range(this_row):
+                        matrix[this_row,this_col] = val
+                
+                np.fill_diagonal(matrix, thisblock)
+                is_pos_def = np.all(np.linalg.eigvals(matrix) > 0) # works if matrix is symetrical
+                count += 1
+            # only include band width up to band width
+            new_block = ["$OMEGA BLOCK(" + str(size) + ")"]
+            for this_eta in range(size):
+                new_block.append(np.array2string(matrix[this_eta][:(1+this_eta)]).replace("[","").replace("]",""))
+            new_omega_block = copy.copy(new_block)
+            new_omega_block  = '\n'.join(str(x) for x in new_omega_block) 
+            new_omega_block = new_omega_block.replace(",","\n").replace("[","").replace("]","")
+            all_omega_blocks.append(copy.deepcopy(new_omega_block))
+        # start from the bottom (so the line number doesn't change) delete all $OMEGA, but replace the first one with the new_omega_block
+            
+    num_omega_blocks = len(omega_starts) 
+    for num in range(num_omega_blocks):
+        line_in_block = 0
+        # split this omegablock into lines
+        this_new_omega_block = all_omega_blocks[num-1].split("\n")
+        for this_line in range(omega_starts[num-1],omega_ends[num-1]):
+            if line_in_block < len(this_new_omega_block):
+                control_list[this_line] = this_new_omega_block[line_in_block]
+            else:
+                control_list[this_line] = "; removed for band omega"
+            line_in_block += 1
+            # reassemble into a single string
+    control =  '\n'.join(control_list) 
+     
+    return (control,True, None) 
+    # except Exception as e:
+    #     return (org_control,False,str(e)) 
+        
 
-            omega_block += line + "\n"
-
-    return omega_block, True
-
-
-def insert_omega_block(control, omega_block):
-    omega_start = re.search(r"\n\s*\$OMEGA", control)
-    omega_part = control[omega_start.regs[0][0]:]
-    first_part = control[:omega_start.regs[0][0]]
-
-    # find next $ that isn't $OMEGA
-    omega_end = re.search(r"\n\s*\$(?!OMEGA)", omega_part)  #
-    last_part = omega_part[omega_end.regs[0][0]:]
-
-    new_control = first_part + omega_block + last_part
-
-    return new_control
+  

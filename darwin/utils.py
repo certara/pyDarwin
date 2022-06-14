@@ -4,10 +4,35 @@ import shutil
 import heapq
 
 
-def replace_tokens(tokens, text, phenotype, non_influential_tokens):
-    """
-    note zero based phenotype, all representations are zero based.
-    """
+def replace_tokens(tokens: dict, text: str, phenotype: list, non_influential_tokens: dict): 
+    """ 
+    Loops over tokens in a single token set, replace any token stem in the control file with the assigned token. 
+    Called once for each token group, until no more token stems are found. 
+    Also determines whether a token set is "influential", that is does the choice of token set results in a change 
+    in the resulting control file. A small penalty, is specified in the options file, e.g.,
+	"non_influential_tokens_penalty": 0.00001,
+    
+    :param tokens: a dictionaly of token sets
+
+    :type tokens: dict
+
+    :param text: current control file text
+
+    :type text: string
+
+    :param phenotype: integer array specifying which token set in the token group to substitute into the text
+
+    :type phenotype: list
+
+    :param non_influential_tokens: Boolean list of whether the token group appears in the control file
+
+    :type non_influential_tokens: list
+
+    :return: boolean - were any tokens substituted (and we need to loop over again), current control file text
+
+    :rtype: tuple
+    
+    """    
 
     any_found = False
     current_token_set = 0
@@ -16,21 +41,19 @@ def replace_tokens(tokens, text, phenotype, non_influential_tokens):
         token_set = tokens.get(thisKey)[phenotype[thisKey]]
         token_num = 1
          
-        for this_token in token_set:
-            replacement_text = this_token
+        for this_token in token_set: 
             # if replacement has THETA/OMEGA and sigma in it, but it doesn't end up getting inserted, increment
 
             full_key = "{" + thisKey + "[" + str(token_num)+"]"+"}"
 
             if full_key in text:
-                text = text.replace(full_key, replacement_text)
+                text = text.replace(full_key, this_token)
                 any_found = True
                 non_influential_tokens[current_token_set] = False  # is influential
             
-            token_num = token_num + 1
-            
+            token_num = token_num + 1 
         current_token_set += 1
-
+     
     return any_found, text
  
 
@@ -82,7 +105,14 @@ def _expand_tokens(tokens, text_block, phenotype):
     return expanded_text_block
   
 
-def remove_comments(code):
+def remove_comments(code: str) -> str:
+    """ remove any comments (";") from nonmem code
+
+    :param code: input code
+    :type code: str
+    :return: code with comments removed
+    :rtype: str
+    """    
     new_code = ""
 
     if type(code) != list:
@@ -98,8 +128,35 @@ def remove_comments(code):
     return new_code
 
 
-def match_thetas(control, tokens, var_theta_block, phenotype, last_fixed_theta):
+def match_thetas(control: str, tokens: dict, var_theta_block: str, phenotype: list, last_fixed_theta: int) -> str:
+    """
+    Parses current control file text, looking for THETA(*) and calculates the appropriate index for that THETA (starting with the last_fixed_theta - the largest
+    value used for THETA() in the fixd code)
 
+    :param control: control file text
+
+    :type control: str
+
+    :param tokens: token groups
+
+    :type tokens: dict
+
+    :param var_theta_block: variable theta block
+
+    :type var_theta_block: str
+
+    :param phenotype: phenotype for model
+
+    :type phenotype: list
+
+    :param last_fixed_theta: highest value used for THETA in fixed code. Fixed values for THETA must start with 1 and be continuous until the last fixed THETA
+
+    :type last_fixed_theta: int
+
+    :return: new control file
+
+    :rtype: str
+    """
     expanded_theta_block = _expand_tokens(tokens, var_theta_block, phenotype)
   
     # then look at each  token, get THETA(alpha) from non-THETA block tokens

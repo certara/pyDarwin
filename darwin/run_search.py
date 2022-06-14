@@ -90,13 +90,13 @@ def _init_app(options_file: str, folder: str = None):
 
 
 def run_search(template_file: str, tokens_file: str, options_file: str) -> Model:
-    '''
+    """
     The run_search function run algorithm selected in options_file, based on template_file and tokens_file
     At the end, write best control and output file to homeDir (specified in options_file)
     options_file path name should, in general, be absolute, other file names can be absolute path
     or path relative to the homeDir
     function returns the final model object
-    '''
+    """
 
     _init_app(options_file)
 

@@ -31,7 +31,7 @@ def run_skopt(model_template: Template) -> Model:
     
     Called from Darwin.run_search, _run_template.
     
-    Which algothm is used is defined in the options files, with the code for the algorithms being:
+    Which algorithm is used is defined in the options files, with the code for the algorithms being:
 
     -"algorithm":"GP"
 

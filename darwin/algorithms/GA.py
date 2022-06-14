@@ -29,7 +29,7 @@ def _sharing(distance: float, niche_radius: int, sharing_alpha: float) -> float:
     :type distance: float
     :param niche_radius: how close to models have to be be be considered in the same niche?
     :type niche_radius:  int
-    :param sharing_alpha: weighting factor for niche penalty, exponenntial. 1 is linear
+    :param sharing_alpha: weighting factor for niche penalty, exponential. 1 is linear
     :type sharing_alpha: float
     :return: the sharing penalty, as a fraction of the niche radius, adjusted for the sharing alpha (1 - (distance/niche_radius)**sharing_alpha)
     :rtype: float

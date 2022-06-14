@@ -102,6 +102,13 @@ class Options:
         self.nm_timeout = int(opts.get('NM_timeout_sec', 1200))
         self.r_timeout = int(opts.get('R_timeout_sec', 30))
 
+        self.search_omega_bands = opts.get('search_omega_bands', False)
+        self.max_omega_band_width = opts.get('max_omega_band_width', 0)
+
+        if self.search_omega_bands and self.max_omega_band_width < 1:
+            log.warn("max_omega_band_width must be at least 1, omitting omega band width search")
+            self.search_omega_bands = False
+
         if self.use_r:
             self.rscript_path = rscript_path = _get_mandatory_option(opts, 'RScriptPath')
 

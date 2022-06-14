@@ -77,31 +77,17 @@ class Template:
                     log.warn(f'Token {this_set} has the only option.')
 
     def _check_omega_search(self): 
-        """see if Search_OMEGA and Omega_band_width are in the token set
+        """
+        see if Search_OMEGA and omega_band_width are in the token set
         if so, find how many bits needed for band width, and add that gene
         final gene in genome is omega band width, values 0 to max omega size -1"""
-        if "search_omega_bands" in options._options.keys():
-            self.search_omega_bands = True
-            if "max_omega_band_width" in options._options.keys():
-                self.max_omega_band_width = options._options['max_omega_band_width']
-                if self.max_omega_band_width >= 1:
-                    # this is the number of off diagonal bands (diagonal is NOT included)
-                    self.gene_max.append(self.max_omega_band_width)
-                    
-                    self.gene_length.append(math.ceil(math.log(self.max_omega_band_width + 1, 2)))
- 
-                    log.message(f"Including search of band OMEGA, with width up to {self.max_omega_band_width}")
-                else:
-                    log.warn("Max Omega Band width search must be at least 1,\n"
-                             "omitting omega band width search")
-                    del self.tokens['Search_OMEGA']
-            else:
-                log.message("Cannot find max_omega_band_width in options file, but omega band width search request \n,"
-                            " omitting omega band width search")
-                # remove max_Omega_size and Search_OMEGA from token sets
-                del self.tokens['Search_OMEGA']
-        else:
-            self.search_omega_bands = False
+        if options.search_omega_bands:
+            # this is the number of off diagonal bands (diagonal is NOT included)
+            self.gene_max.append(options.max_omega_band_width)
+
+            self.gene_length.append(math.ceil(math.log(options.max_omega_band_width + 1, 2)))
+
+            log.message(f"Including search of band OMEGA, with width up to {options.max_omega_band_width}")
 
 
 def _get_fixed_params(template_text):

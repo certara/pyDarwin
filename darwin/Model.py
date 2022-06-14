@@ -777,16 +777,11 @@ class Model:
                             + "\n;; Num Non influential tokens = " + str(self.non_influential_tokens)
 
         # add band OMEGA
-        if template.search_omega_bands:
+        if options.search_omega_bands:
             # bandwidth must be last gene
             bandwidth = self.model_code.IntCode[-1]
 
-            # need to return whether the insertion of bands was successful
-            self.control, template.search_omega_bands, e = set_omega_bands(self.control, bandwidth)
-
-            if not self.template.search_omega_bands:
-                log.message("Unable to construct band OMEGA block. Removing search omega band width from search,"
-                            f" generation {self.generation}, model {self.model_num}, message = {e}")
+            self.control = set_omega_bands(self.control, bandwidth)
 
         if not token_found:
             log.error("No tokens found, exiting")

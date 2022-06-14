@@ -29,7 +29,7 @@ class Template:
         Template contains all the results of the template file and the tokens, and the options
         Tokens are parsed to define the search space. The Template object is inherited by the model object
         
-        :raises: If the file paths do not exist, or the json file has syntax error, an error is raises
+        :raises: If the file paths do not exist, or the json file has syntax error, an error is raised
         """
 
         try:

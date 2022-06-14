@@ -35,51 +35,50 @@ JSON_ATTRIBUTES = [
 
 
 class Model:
-    '''
+    """
     The full model, used for GA, GP, RF, GBRF and exhaustive search
 
-    Model instantiation takes a template as a arguement, along with the model code, model number and generation
+    Model instantiation takes a template as an argument, along with the model code, model number and generation
     function include constructing the control file, executing the control file, calculating the fitness/reward
 
     template : model template
         constructed from the template class
     model_code : a ModelCode object
         contains the bit string/integer string representation of the model. Includes the Fullbinary
-        string, integer string and minimal binary representation of the model (for GA, GP/RF/GBRT and downhill respectively)
+        string, integer string and minimal binary representation of the model
+        (for GA, GP/RF/GBRT and downhill respectively)
     generation : int
-        the current generation/iteration. This value is used to contruct both the control and executable name (NM_generation_modelNum.exe)
-        and the rundirectory (.\generation\modelnum)
+        the current generation/iteration. This value is used to construct both the control
+        and executable name (NM_generation_model_num.exe) and the run directory (./generation/model_num)
     model_num: int
         Model number, within the generation, Generation + model_num creates a unique "file_stem" that 
         is used to name the control file, the executable and the relative path from the home directory (home_dir)
         to the run directory
     file_stem: string
-        String used to create unique names for control files, executable and run directory. Defined as NM +generation + model_num
+        String used to create unique names for control files, executable and run directory.
+        Defined as NM + generation + model_num.
     control_file_name: string
         name of the control file, will be  file_stem + ".mod"
-    executable_file_anme: string
+    executable_file_name: string
         name of NONMEM executable, will be file_stem + ".exe"
-    home_dir: string
-        Starting directory for search. Sub directories will be by generation. Within Generation directories
-        will be subdirectories for specific models (the run_dir, where the models are actually run)
     run_dir: string
         relative path from the home_dir to the directory in which NONMEM is run. For all but downhill search, the
         values (generation and model_num) will be integer. For downhill the run_dir will be generation + D + step,
         for local exhaustive search the run_dir will be generation+S + base_step + search_step, where base_step is the
-        final step in the Downhill search. run_dir names will be based on the file_stem, which will unique for each model
-        in the search
-  
-    '''
+        final step in the Downhill search. run_dir names will be based on the file_stem, which will be unique
+        for each model in the search
+    """
 
-    def __init__(self, template: Template, code: ModelCode, model_num: int, generation=None):
+    def __init__(self, template: Template, code: ModelCode, model_num: int, generation):
         """Create model object from Template
 
         :param template: Template object, constructed from the template class
 
         :type template: Template
 
-        :param code: ModelCode Object, contains the bit string/integer string representation of the model. Includes the Fullbinary
-        string, integer string and minimal binary representation of the model (for GA, GP/RF/GBRT and downhill respectively)
+        :param code: ModelCode Object, contains the bit string/integer string representation of the model.
+        Includes the Fullbinary string, integer string and minimal binary representation of the model
+        (for GA, GP/RF/GBRT and downhill respectively)
 
         :type code: ModelCode
 
@@ -89,22 +88,20 @@ class Model:
 
         :type model_num: int
 
-        :param generation: The current generation/iteration. This value is used to contruct both the control and executable name (NM_generation_modelNum.exe)
-        and the rundirectory (.\generation\modelnum) defaults to None
+        :param generation: The current generation/iteration. This value is used to construct both the control
+        and executable name (NM_generation_modelNum.exe)
+        and the run directory (./generation/model_num)
 
-        :type generation: str, optional
+        Other attributes:
         
-        Other attrributes:
-        
-        String used to create unique names for control files, executable and run directory. Defined as NM +generation + model_num
-
+        String used to create unique names for control files, executable and run directory.
+        Defined as NM + generation + model_num
         """
 
-         
         self.template = template
         self.model_code = copy(code)
         self.model_num = model_num
-        self.generation = generation
+        self.generation = str(generation)
 
         self.ofv = options.crash_value
         self.fitness = options.crash_value
@@ -141,7 +138,7 @@ class Model:
         self.status = "Not Started"
 
         self.file_stem = f'NM_{self.generation}_{self.model_num}'
-        self.run_dir = os.path.join(options.home_dir, str(self.generation), str(self.model_num))
+        self.run_dir = os.path.join(options.home_dir, self.generation, str(self.model_num))
         self.control_file_name = self.file_stem + ".mod"
         self.output_file_name = self.file_stem + ".lst"
         self.clt_file_name = os.path.join(self.run_dir, self.file_stem + ".clt")
@@ -165,7 +162,7 @@ class Model:
 
     def _cleanup_run_dir(self):
         try:
-            gen_path = os.path.join(options.home_dir, str(self.generation))
+            gen_path = os.path.join(options.home_dir, self.generation)
 
             utils.remove_file(gen_path)
 
@@ -178,11 +175,13 @@ class Model:
             log.error(f"Error removing run files/folders for {self.run_dir}")
 
     def copy_model(self):
-        '''
-        copies a the folder contents from a saved model to the new model destination, used so a model that has already been run  (and saved in the all_models dict)
-        is copied into the new run diretory and the control file name and output file name in the new model is updated.
-        '''
-        new_dir = self.run_dir = os.path.join(options.home_dir, str(self.generation), str(self.model_num))
+        """
+        copies the folder contents from a saved model to the new model destination, used so a model that has already
+        been run (and saved in the all_models dict) is copied into the new run directory and the control file name
+        and output file name in the new model is updated.
+        """
+
+        new_dir = self.run_dir = os.path.join(options.home_dir, self.generation, str(self.model_num))
 
         self.old_control_file = self.control_file_name
         self.old_output_file = self.output_file_name
@@ -231,11 +230,11 @@ class Model:
             f.write(self.control)
 
     def run_model(self):
-        '''
+        """
         run the model, will terminate model if the timeout option (timeout_sec) is exceeded
         after model is run, the post run R code and post run Python code (is used) is run, and
         the calc_fitness function is called to calculate the fitness/reward
-        '''
+        """
         self.make_control_file()
 
         command = [options.nmfe_path, self.control_file_name, self.output_file_name,
@@ -346,9 +345,9 @@ class Model:
                 f.write("Post run Python code crashed\n")
 
     def get_nmtran_msgs(self):
-        '''
+        """
         reads NMTRAN messages from the FMSG file and error messages from the PRDERR file
-        '''
+        """
         self.nm_translation_message = ""
 
         errors = ['PK PARAMETER FOR',
@@ -490,14 +489,14 @@ class Model:
                 fcon_lines = fcon.readlines()
 
             # IF MORE THAN ONE PROB only use first, the number of parameters will be the same, although
-            # the values in subsequent THTA etc will be different
+            # the values in subsequent THTA etc. will be different
             prob = [bool(re.search("^PROB", i)) for i in fcon_lines]
             prob_lines = [i for i, x in enumerate(prob) if x]
-            # assume only first problem is estiamtion, subsequent are simulation?
+            # assume only first problem is estimation, subsequent are simulation?
             if len(prob_lines) > 1:
                 fcon_lines = fcon_lines[:prob_lines[1]]
 
-            # replace all BLST or DIAG with RNBL (randomd block) - they will be treated the same
+            # replace all BLST or DIAG with RNBL (random block) - they will be treated the same
             strc_lines = [idx for idx in fcon_lines if idx[0:4] == "STRC"]
 
             theta_num = int(strc_lines[0][9:12])
@@ -637,9 +636,9 @@ class Model:
             output.write(f"Original run directory = {self.run_dir}\n")
 
     def to_dict(self):
-        '''
+        """
         assembles what goes into the JSON file of saved models
-        '''
+        """
 
         res = {}
 
@@ -778,14 +777,16 @@ class Model:
                             + "\n;; Num Non influential tokens = " + str(self.non_influential_tokens)
 
         # add band OMEGA
-        if self.template.search_omega_bands:
+        if template.search_omega_bands:
             # bandwidth must be last gene
             bandwidth = self.model_code.IntCode[-1]
-            
-            self.control, self.template.search_omega_bands , e = set_omega_bands(self.control, bandwidth) # need to return whether the insertion of bands was successful
+
+            # need to return whether the insertion of bands was successful
+            self.control, template.search_omega_bands, e = set_omega_bands(self.control, bandwidth)
 
             if not self.template.search_omega_bands:
-                log.message(f"Unable to construct band OMEGA block. removeing search omega band width from search, generation {self.generation}, model {self.model_num}, message = {e}")
+                log.message("Unable to construct band OMEGA block. Removing search omega band width from search,"
+                            f" generation {self.generation}, model {self.model_num}, message = {e}")
 
         if not token_found:
             log.error("No tokens found, exiting")
@@ -794,7 +795,7 @@ class Model:
         return
 
 
-def read_data_file_name(model: Model) -> str:
+def read_data_file_name(model: Model) -> list:
     """Parses the control file to read the data file name
 
     :param model: Model object
@@ -803,7 +804,7 @@ def read_data_file_name(model: Model) -> str:
 
     :return: data file path string
 
-    :rtype: str
+    :rtype: list
 
     """    
   
@@ -945,7 +946,6 @@ def _copy_to_best(current_model: Model):
 
     :type current_model: Model
     """
- 
 
     GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
     GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
@@ -958,7 +958,7 @@ def _copy_to_best(current_model: Model):
     return
 
 
-def write_best_model_files(control_path: str , result_path: str):
+def write_best_model_files(control_path: str, result_path: str):
     """ copy the current model control file and output file to the home_directory
 
     :param control_path: path to current best model control file

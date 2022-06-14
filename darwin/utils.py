@@ -4,15 +4,15 @@ import shutil
 import heapq
 
 
-def replace_tokens(tokens: dict, text: str, phenotype: list, non_influential_tokens: dict): 
+def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list):
     """ 
     Loops over tokens in a single token set, replace any token stem in the control file with the assigned token. 
     Called once for each token group, until no more token stems are found. 
     Also determines whether a token set is "influential", that is does the choice of token set results in a change 
     in the resulting control file. A small penalty, is specified in the options file, e.g.,
-	"non_influential_tokens_penalty": 0.00001,
-    
-    :param tokens: a dictionaly of token sets
+    "non_influential_tokens_penalty": 0.00001,
+
+    :param tokens: a dictionary of token sets
 
     :type tokens: dict
 
@@ -22,7 +22,7 @@ def replace_tokens(tokens: dict, text: str, phenotype: list, non_influential_tok
 
     :param phenotype: integer array specifying which token set in the token group to substitute into the text
 
-    :type phenotype: list
+    :type phenotype: dict
 
     :param non_influential_tokens: Boolean list of whether the token group appears in the control file
 
@@ -128,10 +128,10 @@ def remove_comments(code: str) -> str:
     return new_code
 
 
-def match_thetas(control: str, tokens: dict, var_theta_block: str, phenotype: list, last_fixed_theta: int) -> str:
+def match_thetas(control: str, tokens: dict, var_theta_block: str, phenotype: dict, last_fixed_theta: int) -> str:
     """
-    Parses current control file text, looking for THETA(*) and calculates the appropriate index for that THETA (starting with the last_fixed_theta - the largest
-    value used for THETA() in the fixd code)
+    Parses current control file text, looking for THETA(*) and calculates the appropriate index for that THETA
+    (starting with the last_fixed_theta - the largest value used for THETA() in the fixed code)
 
     :param control: control file text
 
@@ -147,9 +147,10 @@ def match_thetas(control: str, tokens: dict, var_theta_block: str, phenotype: li
 
     :param phenotype: phenotype for model
 
-    :type phenotype: list
+    :type phenotype: dict
 
-    :param last_fixed_theta: highest value used for THETA in fixed code. Fixed values for THETA must start with 1 and be continuous until the last fixed THETA
+    :param last_fixed_theta: highest value used for THETA in fixed code. Fixed values for THETA must start with 1
+    and be continuous until the last fixed THETA
 
     :type last_fixed_theta: int
 
@@ -242,7 +243,7 @@ def _get_rand_var_matches(expanded_block, tokens, full_phenotype, which_rand):
                     new_string = remove_comments(new_string).strip()
                     full_token = full_token + new_string + "\n"
 
-                    # if this is repalcebnoreplace THETA with XXXXXX, so it doesn't conflict with ETA
+                    # if this is repalce THETA with XXXXXX, so it doesn't conflict with ETA
                     if which_rand == "ETA":
                         full_token = full_token.replace("THETA", "XXXXX")
 

@@ -60,14 +60,16 @@ def _get_best_in_niche(pop: list):
 
 
 def run_downhill(pop: list, return_all=False):  # only return new models - best _in_niches
-    """Run the downhill step, with full (2 bit) search if requested,
+    """
+    Run the downhill step, with full (2 bit) search if requested,
     arguments a population of full models
     return value is list of length num_niches full models after search 
     if return_all is true, will also return a list of ALL models
     to be used in GP only, to update the distribution, not helpful in other algorithms
     arguments are the current population of models
     and whether to return all models (not implemented, maybe can be used for GP??)
-    return is the single best model, the worst models (length num_niches) +/- the entire list of models"""
+    return is the single best model, the worst models (length num_niches) +/- the entire list of models
+    """
     generation = pop[0].generation
     template = pop[0].template
     this_step = 0
@@ -113,8 +115,7 @@ def run_downhill(pop: list, return_all=False):  # only return new models - best 
 
         for thisMinBits, model_num in zip(test_models, range(len(test_models))):
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths)
-            models.append(Model(template, code, model_num,
-                                generation=str(generation) + "D" + str(this_step)))
+            models.append(Model(template, code, model_num, str(generation) + "D" + str(this_step)))
 
         if len(models) > 0:
             log.message(f"Starting downhill step {this_step},"
@@ -250,7 +251,7 @@ def _full_search(best_pre: Model, base_generation, base_step) -> Model:
         for thisMinBits, model_num in zip(test_models, range(len(test_models))):
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths) 
             models.append(
-                Model(model_template, code, model_num, generation=full_generation))
+                Model(model_template, code, model_num, full_generation))
 
         run_all(models)
 

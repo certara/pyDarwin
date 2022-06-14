@@ -23,7 +23,7 @@ from darwin.options import options
 
 from .Template import Template
 from .ModelCode import ModelCode
-from .Omega_utils import set_omega_bands 
+from .omega_utils import set_omega_bands 
 files_checked = False
 
 JSON_ATTRIBUTES = [

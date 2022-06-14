@@ -68,7 +68,7 @@ darwin.ModelCode module
 darwin.Omega\_utils module
 --------------------------
 
-.. automodule:: darwin.Omega_utils
+.. automodule:: darwin.omega_utils
    :members:
    :undoc-members:
    :show-inheritance:

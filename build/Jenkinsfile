@@ -1,0 +1,259 @@
+import groovy.transform.Field
+
+@Field
+PACKAGE_NAME = "pydarwin"
+ARTIFACTORY_BUILD_NAME = "certara-pmx-pydarwin-package"
+ARTIFACTORY_CONFIG = "pydarwin"
+TEAMS_CHANNEL_NAME = "pydarwin"
+
+node {
+    stage('Initialize') {
+        withAWSParameterStore(credentialsId: '', naming: 'relative', path: '/CodeBuild', recursive: true, regionName: 'us-east-1') {
+            // TEAMS
+            def buildnotificationchannel = 'TEAMS_BUILD_CHANNEL_' + TEAMS_CHANNEL_NAME.toUpperCase()
+            TEAMS_HOOK = evaluate("${buildnotificationchannel}")
+            DEPLOYMENT_HOOK = BASE_RELEASE_APPROVAL_CHANNEL
+            SUBMITTER_GROUP = BASE_RELEASE_APPROVAL_GROUP
+        }
+    }
+}
+
+pipeline {
+    agent {
+        kubernetes {
+            yamlFile 'build/buildpods.yaml'
+        }
+    }
+    options {
+        office365ConnectorWebhooks([[
+            name: "LocalPipeline",
+            startNotification: true,
+            notifyAborted: true,
+            notifyRepeatedFailure: true,
+            notifyAborted: true,
+            notifyFailure: true,
+            notifySuccess: true,
+            timeout: "10000",
+            url: "${TEAMS_HOOK}"
+        ]])
+        disableConcurrentBuilds()
+    }
+    environment {
+        AWS_SDK_LOAD_CONFIG = 1
+    }
+    stages {
+        stage('Notify'){
+            when {
+                tag pattern: "[0-9]+.[0-9]+.[0-9]+", comparator: "REGEXP"
+            }
+            steps {
+                container('certara-python') {
+                    office365ConnectorSend color: "#ffff00", message: "Production Release Build ${BUILD_ID} deploy approval requested", webhookUrl: "${DEPLOYMENT_HOOK}"
+                }
+            }
+        }
+        stage('Approval') {
+            when {
+                beforeOptions true
+                beforeInput true
+                tag pattern: "[0-9]+.[0-9]+.[0-9]+", comparator: "REGEXP"
+            }
+            options {
+                timeout(time: 2, unit: 'HOURS')
+            }
+            input {
+                message "Approve Deploy?"
+                ok "Yes"
+                submitter "${SUBMITTER_GROUP}"
+                submitterParameter "APPROVER"
+            }
+            steps {
+                container('certara-python') {
+                    script {
+                        SUBMITTER_APPROVER = APPROVER
+                    }
+                    echo "Approval for deployment"
+                }
+            }
+            post {
+                success {
+                    office365ConnectorSend color: "#008000", message: "Production Release Build ${BUILD_ID} deploy approved by ${SUBMITTER_APPROVER}", webhookUrl: "${DEPLOYMENT_HOOK}"
+                }
+            }
+        }
+        stage('Config') {
+            steps {
+                mineRepository()
+                scmSkip(deleteBuild: true, skipPattern:'.*\\[skip build\\].*')
+                container('certara-python') {
+                    withAWSParameterStore(credentialsId: "", naming: "relative", path: "/CodeBuild/artifactory/${ARTIFACTORY_CONFIG}", recursive: true, regionName: "us-east-1") {
+                        script {
+                            // ARTIFACTORY - ASSIGN TO GLOBAL VARS
+                            ARTIFACTORY_SERVER_ID = SERVER_ID
+                            ARTIFACTORY_DEVELOP_REPOSITORY = REPOSITORY_NUGET_DEVELOP
+                            ARTIFACTORY_RELEASE_REPOSITORY = REPOSITORY_NUGET_RELEASE
+                            ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY = REPOSITORY_SERVICE_DEVELOP
+                            ARTIFACTORY_RELEASE_SERVICE_REPOSITORY = REPOSITORY_SERVICE_RELEASE
+                            ARTIFACTORY_DEVELOP_VIRTUAL_REPOSITORY_NPM = REPOSITORY_NPM_DEVELOP_VIRTUAL
+                            ARTIFACTORY_RELEASE_VIRTUAL_REPOSITORY_NPM = REPOSITORY_NPM_RELEASE_VIRTUAL
+                            ARTIFACTORY_DEVELOP_VIRTUAL_REPOSITORY_NUGET = REPOSITORY_NUGET_DEVELOP_VIRTUAL
+                            ARTIFACTORY_RELEASE_VIRTUAL_REPOSITORY_NUGET = REPOSITORY_NUGET_RELEASE_VIRTUAL
+                        }
+                    }
+                    withAWSParameterStore(credentialsId: '', naming: 'relative', path: '/CodeBuild', recursive: true, regionName: 'us-east-1') {
+                        script {
+                            // BUILD
+                            NODEJS_HOME = BASE_NODEJS_HOME
+                            TEST_RESULTS_DIR = BASE_TEST_RESULTS_DIR
+                            SERVERLESS_FILE = BASE_SERVERLESS_FILE
+                            ARTIFACTS_PACKAGE_DIR = BASE_ARTIFACTS_PACKAGE_DIR
+                            // ARTIFACTORY BASE
+                            ARTIFACTORY_URI = ARTIFACTORY_BASE_URI
+                            ARTIFACTORY_READ_ID = ARTIFACTORY_BASE_READ_ID
+                            ARTIFACTORY_READ_SERVER_ID = ARTIFACTORY_BASE_READ_SERVER_ID
+                            ARTIFACTORY_MAX_BUILD_COUNT = ARTIFACTORY_BASE_MAX_BUILD_COUNT
+                            // TAGGING
+                            REPO_SHORT = scm.getUserRemoteConfigs()[0].getUrl().tokenize('/').last().split("\\.")[0]
+                            PUBLIC_API = (REPO_SHORT.tokenize("-")[0] == "api") ? true : false
+                            ARTIFACT_NAME = sh (script: "sed -n 's/^.*name = //p' setup.cfg", returnStdout: true).trim()
+                            BUILD_VERSION = sh (script: "sed -n 's/^.*version = //p' setup.cfg", returnStdout: true).trim()
+                            if( env.TAG_NAME ) {
+                                def version_prefix = "${env.TAG_NAME}" =~ /[0-9]+.[0-9]+.[0-9]/
+                                def prefix_val = (version_prefix.find()?version_prefix.group():"not matched")
+                                echo "Requested Tag Base Version is: ${prefix_val}"
+                                echo "Project Base Version is: ${BUILD_VERSION}"
+                                if (BUILD_VERSION != prefix_val) {
+                                    currentBuild.result = 'FAILED'
+                                    error('Failed build: Mismatched git tag and project version')
+                                }
+                                switch(env.TAG_NAME) {
+                                    case ~/[0-9]+.[0-9]+.[0-9]+-rc+.+?\d+/:
+                                        ARTIFACTORY_RELEASE_TIER = "test"
+                                        break
+                                    case ~/[0-9]+.[0-9]+.[0-9]+/:
+                                        ARTIFACTORY_RELEASE_TIER = "release"
+                                        break
+                                    default:
+                                        currentBuild.result = 'FAILED'
+                                        error('Failed build with unsupported tag')
+                                        break
+                                }
+                                BUILD_VERSION = env.TAG_NAME
+                            } else {
+                                ARTIFACTORY_RELEASE_TIER = "dev"
+                                if( env.CHANGE_ID ) {
+                                    BUILD_VERSION = "${BUILD_VERSION}-pr.${CHANGE_ID}"
+                                }
+                                else {
+                                    BUILD_VERSION = "${BUILD_VERSION}-build.${BUILD_ID}"
+                                }
+                            }
+                        }
+                    }
+                    withAWSParameterStore(credentialsId: '', naming: 'relative', path: '/CodeBuild', recursive: true, regionName: 'us-east-1') {
+                        labelledShell label: 'Creating Test Results Directory', script: """
+                            set +x
+                            mkdir -p ${TEST_RESULTS_DIR}
+                            chown -R 1000:1000 ${TEST_RESULTS_DIR}
+                            set -x
+                        """
+                        labelledShell label: 'Creating Artifacts Directory', script: """
+                            set +x
+                            mkdir -p ${ARTIFACTS_PACKAGE_DIR}
+                            chown -R 1000:1000 ${ARTIFACTS_PACKAGE_DIR}
+                            set -x
+                        """
+                    }
+                    echo "Build Version: ${BUILD_VERSION}"
+                    milestone(label: 'Config Complete', ordinal: 1)
+                }
+            }
+        }
+        stage('Package Build') {
+                    steps {
+                        container('certara-python') {
+                            labelledShell label: 'Create Virtual Environment', script: """
+                                python -m venv venv
+                                venv\Scripts\activate.bat
+                            """
+                            labelledShell label: 'Update Build Package', script: """
+                                cd ${WORKSPACE}/src/
+                                pip install --upgrade build
+                            """
+                            labelledShell label: 'Build Darwin Package', script: """
+                                cd ${WORKSPACE}/src/
+                                python -m build
+                            """
+                             labelledShell label: "Copying Package", script: """
+                                cd ${WORKSPACE}/src
+                                // tar -czf ${PACKAGE_NAME}_${BUILD_VERSION}.tar.gz -C bundle .
+                                cp abc.tar.gz /artifacts
+                            """
+                        }
+                    }
+                }
+            }
+        }
+        stage('Artifact Store') {
+            when {
+                anyOf {
+                    allOf {
+                        not { changeRequest() }
+                        branch 'master'
+                    }
+                    buildingTag()
+                }
+            }
+            steps {
+                container('certara-python') {
+                    unstash 'pydarwin'
+                    rtBuildInfo(
+                        maxBuilds: "${ARTIFACTORY_MAX_BUILD_COUNT}",
+                        deleteBuildArtifacts: true,
+                        buildName: "${ARTIFACTORY_BUILD_NAME}",
+                        buildNumber: "${BUILD_VERSION}"
+                    )
+                    rtUpload(
+                        serverId: "${ARTIFACTORY_SERVER_ID}",
+                        spec: """{
+                            "files": [
+                                {
+                                    "pattern": "artifacts/${PACKAGE_NAME}_*.tar.gz",
+                                    "target": "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}/pydarwin/"
+                                }
+                            ]
+                        }""",
+                        failNoOp: true,
+                        buildName: "${ARTIFACTORY_BUILD_NAME}",
+                        buildNumber: "${BUILD_VERSION}"
+                    )
+                    rtPublishBuildInfo(
+                        serverId: "${ARTIFACTORY_SERVER_ID}",
+                        buildName: "${ARTIFACTORY_BUILD_NAME}",
+                        buildNumber: "${BUILD_VERSION}"
+                    )
+                }
+            }
+        }
+        stage('Release Artifact Promotion') {
+            when {
+                tag pattern: "[0-9]+.[0-9]+.[0-9]+", comparator: "REGEXP"
+            }
+            steps {
+                container('certara-python') {
+                    rtPromote(
+                        serverId: "${ARTIFACTORY_SERVER_ID}",
+                        targetRepo: "${ARTIFACTORY_RELEASE_SERVICE_REPOSITORY}",
+                        sourceRepo: "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}",
+                        comment: "Approved promotion by ${SUBMITTER_APPROVER}"
+                        status: "Released",
+                        failFast: true,
+                        copy: true,
+                        buildName: "${ARTIFACTORY_BUILD_NAME}",
+                        buildNumber: "${BUILD_VERSION}"
+                    )
+                }
+            }
+        }
+    }
+}

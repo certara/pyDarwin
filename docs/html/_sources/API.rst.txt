@@ -111,6 +111,14 @@ darwin.run\_search module
    :undoc-members:
    :show-inheritance:
 
+darwin.run\_search\_in\_folder module
+-------------------------------------
+
+.. automodule:: darwin.run_search_in_folder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 darwin.utils module
 -------------------
 

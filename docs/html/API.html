@@ -379,12 +379,6 @@ and output file name in the new model is updated.</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.Model.Model.get_nmtran_msgs">
-<span class="sig-name descname"><span class="pre">get_nmtran_msgs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Model.Model.get_nmtran_msgs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads NMTRAN messages from the FMSG file and error messages from the PRDERR file.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="darwin.Model.Model.make_control_file">
 <span class="sig-name descname"><span class="pre">make_control_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Model.Model.make_control_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs the control file from the template and the model code.
@@ -405,34 +399,6 @@ the calc_fitness function is called to calculate the fitness/reward.</p>
 <dd><p>Assembles what goes into the JSON file of saved models.</p>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="darwin.Model.check_files_present">
-<span class="sig-prename descclassname"><span class="pre">darwin.Model.</span></span><span class="sig-name descname"><span class="pre">check_files_present</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Model.check_files_present" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks if required files are present.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>model</strong> (<a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><em>Model</em></a>) – Model object</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="darwin.Model.read_data_file_name">
-<span class="sig-prename descclassname"><span class="pre">darwin.Model.</span></span><span class="sig-name descname"><span class="pre">read_data_file_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.Model.read_data_file_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parses the control file to read the data file name</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>model</strong> (<a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><em>Model</em></a>) – Model object</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>data file path string</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -648,6 +614,17 @@ function returns the final model object</p>
 </section>
 <section id="module-darwin.utils">
 <span id="darwin-utils-module"></span><h2>darwin.utils module<a class="headerlink" href="#module-darwin.utils" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="darwin.utils.AtomicFlag">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.utils.</span></span><span class="sig-name descname"><span class="pre">AtomicFlag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.utils.AtomicFlag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.utils.AtomicFlag.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.utils.AtomicFlag.set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.utils.get_n_best_index">
 <span class="sig-prename descclassname"><span class="pre">darwin.utils.</span></span><span class="sig-name descname"><span class="pre">get_n_best_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.utils.get_n_best_index" title="Permalink to this definition">¶</a></dt>

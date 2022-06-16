@@ -23,8 +23,9 @@ from darwin.options import options
 
 from .Template import Template
 from .ModelCode import ModelCode
-from .omega_utils import set_omega_bands 
-files_checked = False
+from .omega_utils import set_omega_bands
+
+files_checked = utils.AtomicFlag(False)
 
 JSON_ATTRIBUTES = [
     'fitness', 'ofv', 'control', 'success', 'covariance', 'correlation', 'theta_num', 'omega_num', 'sigma_num',
@@ -216,11 +217,10 @@ class Model:
         except:
             pass
 
-    def make_control_file(self):
+    def _make_control_file(self):
         """
         Constructs the control file from the template and the model code.
-        Calls _make_control
-        """        
+        """
         
         self._make_control()
 
@@ -234,13 +234,15 @@ class Model:
         with open(os.path.join(self.run_dir, self.control_file_name), 'w+') as f:
             f.write(self.control)
 
+        _check_files_present(self)
+
     def run_model(self):
         """
         Runs the model. Will terminate model if the timeout option (timeout_sec) is exceeded.
         After model is run, the post run R code and post run Python code (if used) is run, and
         the calc_fitness function is called to calculate the fitness/reward.
         """
-        self.make_control_file()
+        self._make_control_file()
 
         command = [options.nmfe_path, self.control_file_name, self.output_file_name,
                    " -nmexec=" + self.executable_file_name, f'-rundir={self.run_dir}']
@@ -350,7 +352,7 @@ class Model:
                 log.error("Post run Python code crashed in " + self.run_dir)
                 f.write("Post run Python code crashed\n")
 
-    def get_nmtran_msgs(self):
+    def _get_nmtran_msgs(self):
         """
         Reads NMTRAN messages from the FMSG file and error messages from the PRDERR file.
         """
@@ -601,7 +603,7 @@ class Model:
 
         try:
             self._read_model()
-            self.get_nmtran_msgs()  # read from FMSG, in case run fails, will still have NMTRAN messages
+            self._get_nmtran_msgs()  # read from FMSG, in case run fails, will still have NMTRAN messages
 
             fitness = self.ofv
             # non influential tokens penalties
@@ -780,14 +782,10 @@ class Model:
         self.control = utils.match_rands(self.control, template.tokens, template.var_sigma_block, self.phenotype,
                                          template.last_fixed_eps, "ERR")  # check for ERRo as well
 
-        if options.isGA or options.isPSO:
-            self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; Genotype \n ;; "\
-                            + str(self.model_code.FullBinCode)\
-                            + "\n;; Num influential tokens = " + str(self.non_influential_tokens)
-        else:
-            self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; code \n ;; "\
-                            + str(self.model_code.IntCode)\
-                            + "\n;; Num Non influential tokens = " + str(self.non_influential_tokens)
+        model_code = str(self.model_code.FullBinCode if (options.isGA or options.isPSO) else self.model_code.IntCode)
+
+        self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; Genotype \n ;; " + model_code\
+                        + "\n;; Num non-influential tokens = " + str(self.non_influential_tokens)
 
         # add band OMEGA
         if options.search_omega_bands:
@@ -803,7 +801,7 @@ class Model:
         return
 
 
-def read_data_file_name(model: Model) -> list:
+def _read_data_file_name(model: Model) -> list:
     """
     Parses the control file to read the data file name
 
@@ -845,7 +843,7 @@ def read_data_file_name(model: Model) -> list:
     return datalines
 
 
-def check_files_present(model: Model):
+def _check_files_present(model: Model):
     """
     Checks if required files are present.
 
@@ -855,10 +853,8 @@ def check_files_present(model: Model):
 
     global files_checked
 
-    if files_checked:
+    if files_checked.set(True):
         return
-
-    model.make_control_file()
 
     cwd = os.getcwd()
 
@@ -871,7 +867,7 @@ def check_files_present(model: Model):
         sys.exit()
 
     try:
-        data_files_path = read_data_file_name(model)
+        data_files_path = _read_data_file_name(model)
         this_data_set = 1
 
         for this_file in data_files_path:
@@ -886,8 +882,6 @@ def check_files_present(model: Model):
         sys.exit()
 
     os.chdir(cwd)
-
-    files_checked = True
 
 
 def start_new_model(model: Model, all_models: dict):

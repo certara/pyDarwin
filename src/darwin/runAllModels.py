@@ -11,7 +11,7 @@ import darwin.utils as utils
 from darwin.Log import log
 from darwin.options import options
 
-from .Model import Model, check_files_present, start_new_model, write_best_model_files
+from .Model import Model, start_new_model, write_best_model_files
 
 ALL_MODELS_FILE = "models.json"
 
@@ -84,8 +84,6 @@ def run_all(models):
     for downhill, will need to convert to minimal binary, then to integer
     all_results maybe full binary (GA) or integer (not GA) or minimal binary (downhill)
     no return value, just updates Models"""
-
-    check_files_present(models[0])
 
     num_parallel = min(len(models), options.num_parallel)
 

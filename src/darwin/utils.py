@@ -2,6 +2,7 @@ import os
 import re
 import shutil
 import heapq
+import threading
 
 
 def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list):
@@ -289,3 +290,15 @@ def get_n_best_index(n, arr):
 
 def get_n_worst_index(n, arr):
     return heapq.nlargest(n, range(len(arr)), arr.__getitem__)
+
+
+class AtomicFlag(object):
+    def __init__(self, initial):
+        self._value = initial
+        self._lock = threading.Lock()
+
+    def set(self, val):
+        with self._lock:
+            old_val = self._value
+            self._value = val
+            return old_val

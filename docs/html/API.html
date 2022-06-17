@@ -102,9 +102,8 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.algorithms.exhaustive.run_exhaustive">
 <span class="sig-prename descclassname"><span class="pre">darwin.algorithms.exhaustive.</span></span><span class="sig-name descname"><span class="pre">run_exhaustive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></span><a class="headerlink" href="#darwin.algorithms.exhaustive.run_exhaustive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run full exhaustive search on the Template, all possible combination
-All models will be run in generation/iteration number 0
-Called from Darwin.run_search, _run_template</p>
+<dd><p>Run full exhaustive search on the Template, all possible combination.
+All models will be run in generation/iteration number 0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>model_template</strong> (<a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><em>Template</em></a>) – Model Template</p>
@@ -307,8 +306,6 @@ NOT YET STABLE
 <p>Model instantiation takes a template as an argument, along with the model code, model number and generation
 function include constructing the control file, executing the control file, calculating the fitness/reward.</p>
 <dl>
-<dt>template<span class="classifier">model template</span></dt><dd><p>constructed from the template class</p>
-</dd>
 <dt>model_code<span class="classifier">a ModelCode object</span></dt><dd><p>contains the bit string/integer string representation of the model. Includes the Fullbinary
 string, integer string and minimal binary representation of the model
 (for GA, GP/RF/GBRT and downhill respectively)</p>
@@ -377,13 +374,6 @@ and output file name in the new model is updated.</p>
 <dt class="sig sig-object py" id="darwin.Model.Model.from_dict">
 <span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Model.Model.from_dict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="darwin.Model.Model.make_control_file">
-<span class="sig-name descname"><span class="pre">make_control_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Model.Model.make_control_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Constructs the control file from the template and the model code.
-Calls _make_control</p>
-</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.Model.Model.run_model">
@@ -568,10 +558,11 @@ Tokens are parsed to define the search space. The Template object is inherited b
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.runAllModels.run_all">
 <span class="sig-prename descclassname"><span class="pre">darwin.runAllModels.</span></span><span class="sig-name descname"><span class="pre">run_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.runAllModels.run_all" title="Permalink to this definition">¶</a></dt>
-<dd><p>runs the models, always runs from integer representation, so for GA will need to convert to integer,
-for downhill, will need to convert to minimal binary, then to integer
-all_results maybe full binary (GA) or integer (not GA) or minimal binary (downhill)
-no return value, just updates Models</p>
+<dd><p>Runs the models. Always runs from integer representation, so for GA will need to convert to integer,
+for downhill, will need to convert to minimal binary, then to integer.</p>
+<p>???
+all_results maybe full binary (GA) or integer (not GA) or minimal binary (downhill)</p>
+<p>No return value, just updates models.</p>
 </dd></dl>
 
 </section>
@@ -579,7 +570,7 @@ no return value, just updates Models</p>
 <span id="darwin-run-downhill-module"></span><h2>darwin.run_downhill module<a class="headerlink" href="#module-darwin.run_downhill" title="Permalink to this heading">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.run_downhill.run_downhill">
-<span class="sig-prename descclassname"><span class="pre">darwin.run_downhill.</span></span><span class="sig-name descname"><span class="pre">run_downhill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.run_downhill.run_downhill" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">darwin.run_downhill.</span></span><span class="sig-name descname"><span class="pre">run_downhill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.run_downhill.run_downhill" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the downhill step, with full (2 bit) search if requested,
 arguments a population of full models
 return value is list of length num_niches full models after search 

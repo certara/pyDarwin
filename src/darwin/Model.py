@@ -949,8 +949,6 @@ def _make_control(template: Template, model_code: ModelCode):
 
     non_influential_tokens = _get_non_inf_tokens(template.tokens, phenotype)
 
-    non_influential_token_num = sum(non_influential_tokens)
-
     control = template.template_text
 
     any_found = True  # keep looping, looking for nested tokens
@@ -962,6 +960,8 @@ def _make_control(template: Template, model_code: ModelCode):
 
         if not any_found:
             break
+
+    non_influential_token_num = sum(non_influential_tokens)
 
     if not token_found:
         log.error("No tokens found, exiting")

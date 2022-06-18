@@ -113,9 +113,6 @@ class Model:
         # will be no results and no output file - consider saving output file?
         self.source = "new"
 
-        self.old_output_file = None
-        self.old_control_file = None  # where did a saved model come from
-
         # get model number and phenotype
         # all required representations of model are done here
         # GA -> integer,
@@ -179,10 +176,11 @@ class Model:
         and output file name in the new model is updated.
         """
 
+        old_dir = self.run_dir
         new_dir = self.run_dir = os.path.join(options.home_dir, self.generation, str(self.model_num))
 
-        self.old_control_file = self.control_file_name
-        self.old_output_file = self.output_file_name
+        old_control_file = self.control_file_name
+        old_output_file = self.output_file_name
         self.control_file_name = self.file_stem + ".mod"
         self.output_file_name = self.file_stem + ".lst"
 
@@ -195,17 +193,18 @@ class Model:
 
         # and copy
         try:
-            shutil.copyfile(os.path.join(self.run_dir, self.old_output_file),
-                            os.path.join(new_dir, self.file_stem + ".lst"))
-            shutil.copyfile(os.path.join(self.run_dir, self.old_control_file),
-                            os.path.join(new_dir, self.file_stem + ".mod"))
-            shutil.copyfile(os.path.join(self.run_dir, "FMSG"), os.path.join(new_dir, "FMSG"))
+            shutil.copyfile(os.path.join(old_dir, old_output_file),
+                            os.path.join(new_dir, self.output_file_name))
+            shutil.copyfile(os.path.join(old_dir, old_control_file),
+                            os.path.join(new_dir, self.control_file_name))
+            shutil.copyfile(os.path.join(old_dir, "FMSG"), os.path.join(new_dir, "FMSG"))
 
-            if os.path.exists(os.path.join(self.run_dir, "PRDERR")):
-                shutil.copyfile(os.path.join(self.run_dir, "PRDERR"), os.path.join(new_dir, "PRDERR"))
+            if os.path.exists(os.path.join(old_dir, "PRDERR")):
+                shutil.copyfile(os.path.join(old_dir, "PRDERR"), os.path.join(new_dir, "PRDERR"))
 
-            with open(os.path.join(new_dir, self.file_stem + ".lst"), 'a') as outfile:
-                outfile.write(f"!!! Saved model, originally run as {self.old_control_file} in {self.run_dir}")
+            with open(os.path.join(new_dir, self.output_file_name), 'a') as outfile:
+                log.message(f"--- Saved model, originally run as {old_control_file} in {old_dir}")
+                outfile.write(f"!!! Saved model, originally run as {old_control_file} in {old_dir}")
         except:
             pass
 

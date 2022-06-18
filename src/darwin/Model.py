@@ -203,7 +203,6 @@ class Model:
                 shutil.copyfile(os.path.join(old_dir, "PRDERR"), os.path.join(new_dir, "PRDERR"))
 
             with open(os.path.join(new_dir, self.output_file_name), 'a') as outfile:
-                log.message(f"--- Saved model, originally run as {old_control_file} in {old_dir}")
                 outfile.write(f"!!! Saved model, originally run as {old_control_file} in {old_dir}")
         except:
             pass

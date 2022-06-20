@@ -75,14 +75,27 @@ class Population:
 
     def __init__(self, template: Template, name):
         self.name = name
-        self.models = []
         self.runs = []
         self.model_number = 0
         self.template = template
 
-    def add_model(self, code: ModelCode):
+    def add_model_run(self, code: ModelCode):
         model = adapter.create_new_model(self.template, code)
-        self.models.append(model)
+
+        genotype = str(model.genotype())
+
+        self.model_number += 1
+
+        run = deepcopy(self.all_runs.get(genotype))
+
+        if run:
+            run.model_num = self.model_number
+            run.result.nm_translation_message = f"From saved model {run.control_file_name}: " \
+                                                + run.result.nm_translation_message
+        else:
+            run = ModelRun(model, self.model_number, self.name, 'NM', adapter)
+
+        self.runs.append(run)
 
     def get_best_run(self) -> ModelRun:
         fitnesses = [r.result.fitness for r in self.runs]
@@ -122,25 +135,6 @@ class Population:
         except:
             traceback.print_exc()
 
-    def _register_model_run(self, model: Model) -> ModelRun:
-        with self._lock_all_runs:
-            genotype = str(model.genotype())
-
-            self.model_number += 1
-
-            run = deepcopy(self.all_runs.get(genotype))
-
-            if run:
-                run.model_num = self.model_number
-                run.result.nm_translation_message = f"From saved model {run.control_file_name}: "\
-                                                    + run.result.nm_translation_message
-            else:
-                run = ModelRun(model, self.model_number, self.name, 'NM', adapter)
-
-            self.runs.append(run)
-
-            return run
-
     def _save_model_run(self, run: ModelRun):
         with self._lock_all_runs:
             genotype = str(run.model.genotype())
@@ -149,15 +143,13 @@ class Population:
 
             self.all_runs[genotype] = run
 
-    def start_new_model(self, model: Model):
+    def _start_new_run(self, run: ModelRun):
         """
         Starts the model run in the run_dir.
 
-        :param model: Model Object
-        :type model: Model
+        :param run: Model run to start
+        :type run: ModelRun
         """
-
-        run = self._register_model_run(model)
 
         if run.status != 'Not Started':
             run.copy_model()
@@ -169,6 +161,7 @@ class Population:
             self._save_model_run(run)
 
         res = run.result
+        model = run.model
 
         if GlobalVars.BestRun is None or res.fitness < GlobalVars.BestRun.result.fitness:
             _copy_to_best(run)
@@ -196,19 +189,19 @@ class Population:
             f"\t fitness = {fitness_text}, \t NMTRANMSG = {res.nm_translation_message.strip()}{prd_err_text}"
         )
 
-    def _start_model_wrapper(self, model: Model):
+    def _start_model_wrapper(self, run: ModelRun):
         try:
-            self.start_new_model(model)
+            self._start_new_run(run)
         # if we don't catch it, pool will do it silently
         except:
             traceback.print_exc()
 
     def _process_models(self):
-        num_parallel = min(len(self.models), options.num_parallel)
+        num_parallel = min(len(self.runs), options.num_parallel)
 
         pool = ThreadPool(num_parallel)
 
-        pool.imap(self._start_model_wrapper, self.models)
+        pool.imap(self._start_model_wrapper, self.runs)
 
         pool.close()
         pool.join()

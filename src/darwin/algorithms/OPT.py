@@ -83,7 +83,7 @@ def run_skopt(model_template: Template) -> Model:
 
         for thisInts, model_num in zip(suggested, range(len(suggested))):
             code = ModelCode(thisInts, "Int", maxes, lengths)
-            population.add_model(code)
+            population.add_model_run(code)
 
         population.run_all()
 

@@ -120,11 +120,11 @@ def run_downhill(template: Template, pop: Population):  # only return new models
 
         for thisMinBits in test_models:
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths)
-            population.add_model(code)
+            population.add_model_run(code)
 
-        if len(population.models) > 0:
+        if len(population.runs) > 0:
             log.message(f"Starting downhill step {this_step},"
-                        f" total of {len(population.models)} in {niches_this_loop} niches to be run.")
+                        f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
 
             population.run_all()
 
@@ -254,7 +254,7 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
 
         for thisMinBits, model_num in zip(test_models, range(len(test_models))):
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths) 
-            population.add_model(code)
+            population.add_model_run(code)
 
         population.run_all()
 

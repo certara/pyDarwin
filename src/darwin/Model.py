@@ -178,7 +178,7 @@ class Model:
             if not os.path.isdir(self.run_dir):
                 os.makedirs(self.run_dir)
         except:
-            log.error(f"Error removing run files/folders for {self.run_dir}")
+            log.error(f"Warning, unable to remove run files/folders for {self.run_dir}")
 
     def copy_model(self):
         """
@@ -360,12 +360,20 @@ class Model:
 
         errors = ['PK PARAMETER FOR',
                   'IS TOO CLOSE TO AN EIGENVALUE',
-                  'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)']
-
-        for error in errors:
-            for line in _file_to_lines(os.path.join(self.run_dir, "PRDERR")):
-                if error in line and not (line.strip() + " ") in self.prd_err:
-                    self.prd_err += line.strip() + " "
+                  'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)',
+                  'OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0']
+         
+        if os.path.exists(os.path.join(self.run_dir, "PRDERR")):
+            found = False
+            lines = _file_to_lines(os.path.join(self.run_dir, "PRDERR"))
+            for error in errors: 
+                for line in lines:
+                    if error in line and not (line.strip() + " ") in self.prd_err:
+                        self.prd_err += line.strip() + " "
+                        found = True
+                    
+            if not found: # only write this once, if nothing is found
+                self.prd_err += f"Unidentifed error in PRDERR FOR MODEL {self.generation}, {self.model_num}\n"
 
         warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
                     ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n',

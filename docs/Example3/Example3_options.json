@@ -1,0 +1,22 @@
+{
+	"author": "Shuhua Hu",
+	"homeDir": "C:\\fda\\examples\\ode",
+	"algorithm":"EXHAUSTIVE",
+	"max_model_list_size": 500,
+	"num_parallel": 4,
+	"THETAPenalty": 2,
+	"OMEGAPenalty": 2,
+	"SIGMAPenalty": 2,
+	"covergencePenalty": 100,
+	"covariancePenalty": 100,
+	"correlationPenalty": 100,
+    "correlationLimit": 0.95,
+	"conditionNumberPenalty": 100,  
+	"non_influential_tokens_penalty": 0.00001,
+	"crash_value": 99999999999,
+	"remove_run_dir": false,
+    "NM_timeout_sec": 9600, 
+	"useR": false,  
+	"usePython": false,  
+	"nmfePath": "c:/nm744/util/nmfe74.bat "
+}

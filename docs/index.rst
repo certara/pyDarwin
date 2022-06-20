@@ -16,8 +16,8 @@ Welcome to pyDarwin's documentation
    Required_files
    PKModel1 
    PKModel2
-   PKModel3
-   PDModel1
+   PKModel3 
+   PKModel4 
    API 
    Support
 

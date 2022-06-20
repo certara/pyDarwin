@@ -2,7 +2,9 @@
 
 Support
 ==============================================
-  
+Development Support
+~~~~~~~~~~~~~~~~~~~~~
+
 
 .. _support:
  
@@ -26,3 +28,7 @@ Support
 `UB Web Site`_
 
 .. _UB Web Site: https://pharmacy.buffalo.edu/
+
+
+Help
+~~~~~

@@ -1,8 +1,27 @@
 
 
-PK Model 2, GA search
-==============================================
-  
+PK Model 2, Simulation model by GA with Python code
+====================================================
+ 
+ 
+
+The Template file
+~~~~~~~~~~~~~~~~~~~~~
+
+Example 2 template file :download:`text <./Example2/Example2_template.txt>`
+
+The Tokens file
+~~~~~~~~~~~~~~~~
+
+Example 2 tokens file :download:`json <./Example2/Example2_tokens.json>`
+
+The Options file
+~~~~~~~~~~~~~~~~
+
+Example 2 template file :download:`json <./Example2/Example2_options.json>`
+
+
+
 
 .. _startpk2:
 

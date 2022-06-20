@@ -100,7 +100,7 @@ class Options:
 
         self.nm_priority = _get_priority_class(opts)
         self.nm_timeout = int(opts.get('NM_timeout_sec', 1200))
-        self.r_timeout = int(opts.get('R_timeout_sec', 30))
+        self.r_timeout = int(opts.get('R_timeout_sec', 90))
 
         self.search_omega_bands = opts.get('search_omega_bands', False)
         self.max_omega_band_width = opts.get('max_omega_band_width', 0)

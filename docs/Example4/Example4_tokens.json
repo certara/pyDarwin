@@ -168,7 +168,7 @@
 	],
 	"RESERR": [
 		["*EXP(EPS(RESERRA))+EPS(RESERRB)",
-			" 0.1 \t; EPS(RESERRA) proportional error\n 100 \t; EPS(RESERRB) additive error"
+			" 0.1 \t; EPS(RESERRA) proportional error\n  100 \t; EPS(RESERRB) additive error"
 		],
 		["+EPS(RESERRA)",
 			" 200 \t; EPS(RESERRA) additive error"

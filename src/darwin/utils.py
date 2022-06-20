@@ -3,6 +3,7 @@ import re
 import shutil
 import heapq
 import threading
+import psutil
 
 
 def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list):
@@ -302,3 +303,18 @@ class AtomicFlag(object):
             old_val = self._value
             self._value = val
             return old_val
+
+
+def terminate_process(pid: int):
+    """
+    Kills the specified process and its subprocesses.
+
+    :param pid: PID
+    :type pid: int
+    """
+    proc = psutil.Process(pid)
+
+    for p in proc.children(True):
+        p.terminate()
+
+    proc.terminate()

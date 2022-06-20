@@ -11,9 +11,7 @@ from darwin.options import options
 
 from .Template import Template
 from .Model import Model
-from .ModelCode import ModelCode
-
-from .runAllModels import init_model_list
+from .Population import init_model_list
 
 from .algorithms.exhaustive import run_exhaustive
 from .algorithms.GA import run_ga
@@ -22,11 +20,7 @@ from .algorithms.PSO import run_pso
 
 
 def run_template(model_template: Template) -> Model:
-    # initialize a trivial model for the global best
-    null_code = ModelCode([0] * len(model_template.gene_length), "Int",
-                          model_template.gene_max, model_template.gene_length)
-    GlobalVars.BestModel = Model(model_template, null_code, -99, -99)
-    GlobalVars.BestModel.fitness = options.crash_value + 1
+
     algorithm = options.algorithm
 
     log.message(f"Search start time = {time.asctime()}")

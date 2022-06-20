@@ -14,7 +14,7 @@ from darwin.Log import log
 from darwin.options import options
 from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
-from darwin.runAllModels import run_all
+from darwin.Population import Population
 from darwin.Template import Template
 from darwin.Model import Model, write_best_model_files
 from darwin.utils import get_n_best_index, get_n_worst_index
@@ -145,24 +145,25 @@ def run_ga(model_template: Template) -> Model:
     mutation_probability = options['mutationRate']
 
     # argument to run_all is integer codes!!!!!
-    models = []
     maxes = model_template.gene_max
     lengths = model_template.gene_length
 
+    first_gen = Population(model_template, 0)
+
     for thisFullBits, model_num in zip(pop_full_bits, range(len(pop_full_bits))):
         code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
-        models.append(Model(model_template, code, model_num, 0))
+        first_gen.add_model(code)
 
-    run_all(models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+    first_gen.run_all()
 
-    log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
-                f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.model_num}")
+    log.message(f"Best overall fitness = {GlobalVars.BestRun.result.fitness:4f},"
+                f" iteration 0, model {GlobalVars.BestRun.model_num}")
 
-    fitnesses = [None]*len(models)
+    fitnesses = [None]*len(first_gen.runs)
 
-    for ind, pop, fit in zip(models, pop_full_bits, range(len(models))):
-        pop.fitness.values = (ind.fitness,)
-        fitnesses[fit] = (ind.fitness,)
+    for ind, pop, fit in zip(first_gen.runs, pop_full_bits, range(len(first_gen.runs))):
+        pop.fitness.values = (ind.result.fitness,)
+        fitnesses[fit] = ind.result.fitness
 
     best_index = get_n_best_index(elitist_num, fitnesses)
 
@@ -180,6 +181,9 @@ def run_ga(model_template: Template) -> Model:
     current_overall_best_fitness = options.crash_value
     log.message(f"generation 0 fitness = {all_best:.4f}")
     num_generations = options['num_generations']
+
+    population = Population(model_template, generation)
+    runs = []
 
     while generation < num_generations:
         # A new generation
@@ -220,28 +224,30 @@ def run_ga(model_template: Template) -> Model:
         # add hof back in at first  positions, maybe should be random???
         # looks like we need to do this manually when we add in niches, can't use hof.,
         # replace worst, based on original fitness (without niche penalty)
-        worst_individuals = get_n_worst_index(elitist_num, fitnesses)
+        worst_run_indices = get_n_worst_index(elitist_num, fitnesses)
 
         # put elitist back in place of worst
         for i in range(elitist_num):
-            pop_full_bits[worst_individuals[i]] = copy(best_for_elitism[i])  # hof.items need the fitness as well?
+            pop_full_bits[worst_run_indices[i]] = copy(best_for_elitism[i])  # hof.items need the fitness as well?
 
-        models = []
+        population = Population(model_template, generation)
 
         for thisFullBits, model_num in zip(pop_full_bits, range(len(pop_full_bits))):
             code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
-            models.append(Model(model_template, code, model_num, generation))
+            population.add_model(code)
 
-        run_all(models)
+        population.run_all()
 
-        log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
-                    f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.model_num}")
+        runs = population.runs
 
-        fitnesses = [None]*len(models)
+        log.message(f"Best overall fitness = {GlobalVars.BestRun.result.fitness:4f},"
+                    f" iteration {GlobalVars.BestRun.generation}, model {GlobalVars.BestRun.model_num}")
 
-        for ind, pop, fit in zip(models, pop_full_bits, range(len(models))):
-            pop.fitness.values = (ind.fitness,)
-            fitnesses[fit] = (ind.fitness,)
+        fitnesses = [None]*len(runs)
+
+        for ind, pop, fit in zip(runs, pop_full_bits, range(len(runs))):
+            pop.fitness.values = (ind.result.fitness,)
+            fitnesses[fit] = ind.result.fitness
 
         best_index = get_n_best_index(elitist_num, fitnesses)
 
@@ -259,25 +265,21 @@ def run_ga(model_template: Template) -> Model:
 
             log.message(f"current best model(s) =")
 
-            for model in map(lambda idx: models[idx], best_index):
-                log.message(f"generation {model.generation}, ind {model.model_num}, fitness = {model.fitness}")
+            for run in map(lambda idx: runs[idx], best_index):
+                log.message(f"generation {generation}, ind {run.model_num}, fitness = {run.result.fitness}")
 
-            new_models, worst_individuals = run_downhill(model_template, models)
+            new_runs, worst_run_indices = run_downhill(model_template, population)
 
-            log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
-                        f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.model_num}")
+            log.message(f"Best overall fitness = {GlobalVars.BestRun.result.fitness:4f},"
+                        f" iteration {GlobalVars.BestRun.generation}, model {GlobalVars.BestRun.model_num}")
 
             # replace worst_individuals with new_models, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
             # run_downhill return on the fitness and the integer representation!!, need to make GA model from that
             # which means back calculate GA/full bit string representation
-            for i in range(len(new_models)):
-                models[worst_individuals[i]] = copy(new_models[i])
-                # sometimes fitness is float, sometimes tuple
-                if isinstance(new_models[i].fitness, tuple):
-                    fitnesses[worst_individuals[i]] = new_models[i].fitness[0]
-                else:
-                    fitnesses[worst_individuals[i]] = (new_models[i].fitness,)
+            for i in range(len(new_runs)):
+                runs[worst_run_indices[i]] = copy(new_runs[i])
+                fitnesses[worst_run_indices[i]] = new_runs[i].result.fitness
 
             best_index = get_n_best_index(elitist_num, fitnesses)
 
@@ -285,12 +287,12 @@ def run_ga(model_template: Template) -> Model:
 
             # redo best_for_elitism, after downhill
 
-            num_bits = len(models[best_index[-1]].model_code.FullBinCode)
+            num_bits = len(runs[best_index[-1]].model.model_code.FullBinCode)
 
             for i in range(elitist_num):  # best_index:
                 # this is GA, so need full binary code
-                best_for_elitism[i][0:num_bits] = models[best_index[i]].model_code.FullBinCode
-                best_for_elitism[i].fitness.values = (models[best_index[i]].fitness,)
+                best_for_elitism[i][0:num_bits] = runs[best_index[i]].model.model_code.FullBinCode
+                best_for_elitism[i].fitness.values = (runs[best_index[i]].result.fitness,)
 
         cur_gen_best_ind = get_n_best_index(1, fitnesses)[0]
 
@@ -300,7 +302,7 @@ def run_ga(model_template: Template) -> Model:
         if not type(best_fitness) is tuple:
             best_fitness = (best_fitness,)
 
-        log.message(f"Current generation best genome = {models[cur_gen_best_ind].model_code.FullBinCode},"
+        log.message(f"Current generation best genome = {runs[cur_gen_best_ind].model.model_code.FullBinCode},"
                     f" best fitness = {best_fitness[0]:.4f}")
 
         if best_fitness[0] < current_overall_best_fitness:
@@ -317,43 +319,36 @@ def run_ga(model_template: Template) -> Model:
     # get current best individual
     cur_best_ind = get_n_best_index(1, fitnesses)[0]
 
-    final_model = copy(models[cur_best_ind])
+    final_ga_run = runs[cur_best_ind]
 
     if options["final_fullExhaustiveSearch"]:
         # start with standard downhill
 
-        for model in models:
-            model.generation = "FN"
+        population.name = 'FN'
 
-        new_models, worst_individuals = run_downhill(model_template, models)
+        new_runs, worst_run_indices = run_downhill(model_template, population)
 
-        for i in range(len(new_models)): 
-            if type(new_models[i].fitness) is tuple:
-                fitnesses[worst_individuals[i]] = new_models[i].fitness
-            else:
-                fitnesses[worst_individuals[i]] = (new_models[i].fitness,)
-      
-        best_index = get_n_best_index(options.num_niches, fitnesses)
+        for i in range(len(new_runs)):
+            runs[worst_run_indices[i]] = copy(new_runs[i])
 
-        log.message(f"Done with final downhill step, {generation}. best fitness = {fitnesses[best_index[0]]}")
-         
-        single_best_model = copy(models[best_index[0]])
+        best = population.get_best_run()
 
-        if single_best_model.fitness < final_model.fitness:
-            final_model = copy(single_best_model)
-       
+        log.message(f"Done with final downhill step, {generation}. best fitness = {best.result.fitness}")
+
     log.message(f"-- End of Optimization at {time.asctime()} --")
+
+    best_run = GlobalVars.BestRun
 
     elapsed = time.time() - GlobalVars.StartTime
 
     log.message(f"Elapse time = " + str(timedelta(seconds=elapsed)) + "\n")
-    log.message(f'Best individual GA is {str(final_model.model_code.FullBinCode)}'
-                f' with fitness of {final_model.fitness:4f}')
-    log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
-                f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.model_num}")
+    log.message(f'Best individual GA is {str(final_ga_run.model.model_code.FullBinCode)}'
+                f' with fitness of {final_ga_run.result.fitness:4f}')
+    log.message(f"Best overall fitness = {best_run.result.fitness:4f},"
+                f" iteration {best_run.generation}, model {best_run.model_num}")
 
     write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
 
     log.message(f"Final out from best model is in {GlobalVars.FinalResultFile}")
 
-    return final_model
+    return best_run.model

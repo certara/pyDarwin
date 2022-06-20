@@ -74,7 +74,7 @@ from darwin.options import options
 
 from darwin.Template import Template
 from darwin.Model import Model
-from darwin.runAllModels import run_all
+from darwin.Population import Population
 from darwin.ModelCode import ModelCode
 
 
@@ -310,7 +310,9 @@ def f(x, model_template, iteration):
         code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
         models.append(Model(model_template, code, model_num, iteration))
 
-    run_all(models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+    gen = Population()
+
+    gen.run_all(models)
 
     j = []
 

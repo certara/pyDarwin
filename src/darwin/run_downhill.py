@@ -79,7 +79,7 @@ def run_downhill(template: Template, pop: list, return_all=False):  # only retur
 
     # may be less than num_niches
     current_num_niches = len(best_min_binary)
-    last_niche = current_num_niches
+    last_niche = current_num_niches  
 
     # while we're here, get the worst in the population, to replace them later
     worst = get_n_worst_index(options.num_niches, fitnesses)
@@ -167,7 +167,7 @@ def run_downhill(template: Template, pop: list, return_all=False):  # only retur
         # and only use the fullbest  
         # replace the niche this one came from, to preserve diversity
         if model_for_search.fitness < last_best_fitness:
-            best_models_in_niches[last_niche] = copy(model_for_search)
+            best_models_in_niches[last_niche -1] = copy(model_for_search)
 
     if return_all:
         return best_models_in_niches, worst, -999  # returning all models not  yet implemented

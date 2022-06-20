@@ -5,12 +5,12 @@
 			";; THETA 1 compartment"
 		],
 		["ADVAN4 ;; advan4",
-			" K23=THETA(ADVANA){K23~WT[1]}\n K32=THETA(ADVANB){K23~WT[1]}",
-			"(0.001,0.02)  \t ;; THETA(ADVANA) K23 \n(0.001,0.3) \t ;; THETA(ADVANB) K32 \n{K23~WT[2]} \t ;; init for K23~WT "
+			"K23=THETA(ADVANA){K23~WT[1]}\n  K32=THETA(ADVANB){K23~WT[1]}",
+			"(0.001,0.02)  \t ; THETA(ADVANA) K23 \n (0.001,0.3) \t ; THETA(ADVANB) K32 \n{K23~WT[2]} \t ; init for K23~WT "
 		],
 		["ADVAN12 ;; advan12",
-			" K23=THETA(ADVANA){K23~WT[1]}\n  K32=THETA(ADVANB){K23~WT[1]}\n  K24=THETA(ADVANC)\n  K42=THETA(ADVAND)",
-			"(0.001,0.1) \t;; THETA(ADVANA) K23 \n(0.001,0.1) \t ;;THETA(ADVANB) k32 \n (0.001,0.1) \t;; THETA(ADVANC) k24  \n (0.001,0.1) \t;; THETA(ADVAND)k42  \n {K23~WT[2]} \t ;; init for K23~WT"
+			"K23=THETA(ADVANA){K23~WT[1]}\n  K32=THETA(ADVANB){K23~WT[1]}\n  K24=THETA(ADVANC)\n  K42=THETA(ADVAND)",
+			"(0.001,0.1) \t; THETA(ADVANA) K23 \n (0.001,0.1)\t; THETA(ADVANB) K32 \n (0.001,0.1) \t; THETA(ADVANC) K24  \n (0.001,0.1) \t; THETA(ADVAND) K42  \n {K23~WT[2]} \t ;; init for K23~WT"
 		]
 	],
 	"K23~WT": [
@@ -54,7 +54,7 @@
 			""
 		],
 		["*EXP(SEX*THETA(V2~SEX))",
-			"(-4,0.1) \t; THETA(V2~SEX) EXPONENTIAL volume ~SEX "
+			"(-4,0.1) \t; THETA(V2~SEX) EXPONENTIAL volume~SEX "
 		]
 	],
 	"V2~COV2": [
@@ -103,7 +103,7 @@
 	],
 	"IOVCL": [
 		["IF(OCC.EQ.1) IOVCL = ETA(IOVCLA) \n  IF(OCC.EQ.2) IOVCL = ETA(IOVCLB) \n  IF(OCC.EQ.3) IOVCL = ETA(IOVCLC)",
-			"$OMEGA BLOCK(1) \n 0.1 \n$OMEGA BLOCK SAME \n$OMEGA BLOCK SAME "
+			" $OMEGA BLOCK(1) \n 0.1 \n $OMEGA BLOCK SAME \n $OMEGA BLOCK SAME "
 	],
 	["IOVCL = 0",
 		";; no iov ON CL"

@@ -71,11 +71,11 @@ def run_skopt(model_template: Template) -> Model:
     models = []
 
     for this_iter in range(options['num_generations']):
-        log.message(f"Starting generation/iteration {this_iter}, {options.algorithm} algorithm at {time.asctime()}")
+        log.message(f"Starting generation/iteration ask step {this_iter}, {options.algorithm} algorithm at {time.asctime()}")
          
         suggestion_start_time = time.time()
         # will need to ask for 1/10 of the total models if run 10  way parallel 
-          
+           
         suggested = opt.ask(n_points=options.population_size) 
         log.message("Elapse time for sampling step # %d =  %.1f seconds"
                     % (this_iter, (time.time() - suggestion_start_time)))

@@ -19,6 +19,5 @@
 	"useR": false,  
 	"usePython": false,  
 	"nmfePath": "c:/nm741/util/nmfe74.bat " ,
-	"RScriptPath": "c:\\Program Files\\R\\R-4.0.4\\bin\\Rscript.exe",
 	"NM_priority_class": "below_normal"
 }

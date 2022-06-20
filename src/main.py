@@ -40,7 +40,7 @@ from darwin.options import options
 #     shutil.copyfile(os.path.join(final.run_dir, final.output_file_name),
 #                     os.path.join(options.home_dir, "finaloutput.lst"))
 
-# print("\n\n\n\n Example 2, Simple GA\n\n\n")
+# print("\n\n\n\n Example 2, Simple GP\n\n\n")
 
 
 # final = run_search("C:\\fda\\pyDarwin\\docs\\Example2\\Example2_template.txt",

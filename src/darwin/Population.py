@@ -85,11 +85,20 @@ class Population:
         self.models.append(model)
 
     def get_best_run(self) -> ModelRun:
-        fitnesses = list(map(lambda m: m.result.fitness, self.runs))
+        fitnesses = [r.result.fitness for r in self.runs]
 
         best = utils.get_n_best_index(1, fitnesses)[0]
 
         return self.runs[best]
+
+    def get_best_runs(self, n: int) -> list:
+        fitnesses = [r.result.fitness for r in self.runs]
+
+        best = utils.get_n_best_index(n, fitnesses)
+
+        res = [self.runs[i] for i in best]
+
+        return res
 
     def run_all(self):
         """

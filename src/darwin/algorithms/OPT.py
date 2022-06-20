@@ -1,6 +1,5 @@
 import numpy as np
 import skopt
-from copy import copy
 import time
 import logging
 import heapq
@@ -70,17 +69,17 @@ def run_skopt(model_template: Template) -> Model:
 
     population = Population(model_template, 0)
 
-    for this_iter in range(options['num_generations']):
-        log.message(f"Starting generation/iteration {this_iter}, {options.algorithm} algorithm at {time.asctime()}")
+    for generation in range(options['num_generations']):
+        log.message(f"Starting generation/iteration {generation}, {options.algorithm} algorithm at {time.asctime()}")
          
         suggestion_start_time = time.time()
         # will need to ask for 1/10 of the total models if run 10  way parallel 
           
         suggested = opt.ask(n_points=options.population_size) 
         log.message("Elapse time for sampling step # %d =  %.1f seconds"
-                    % (this_iter, (time.time() - suggestion_start_time)))
+                    % (generation, (time.time() - suggestion_start_time)))
 
-        population = Population(model_template, this_iter)
+        population = Population(model_template, generation)
 
         for thisInts, model_num in zip(suggested, range(len(suggested))):
             code = ModelCode(thisInts, "Int", maxes, lengths)
@@ -88,35 +87,27 @@ def run_skopt(model_template: Template) -> Model:
 
         population.run_all()
 
-        runs = population.runs
-
-        fitnesses = list(map(lambda m: m.result.fitness, runs))
-
         # run downhill?
-        if this_iter % downhill_q == 0 and this_iter > 0: 
+        if generation % downhill_q == 0 and generation > 0:
             # pop will have the fitnesses without the niche penalty here
             
-            log.message(f"Starting downhill, iteration = {this_iter} at {time.asctime()}")
+            log.message(f"Starting downhill, iteration = {generation} at {time.asctime()}")
 
-            new_runs, worst_individuals = run_downhill(model_template, population)
+            run_downhill(model_template, population)
 
-            # replace worst_individuals with new_individuals, after hof update
-            # run_downhill returns on the fitness and the integer representation!!, need to make GA model from that
-            # which means back calculate GA/full bit string representation
-            for i in range(len(new_runs)):
-                runs[worst_individuals[i]] = copy(new_runs[i])
-                fitnesses[worst_individuals[i]] = new_runs[i].result.fitness
-                suggested[worst_individuals[i]] = new_runs[i].model.model_code.IntCode
+            suggested = [r.model.model_code.IntCode for r in population.runs]
 
             if options.algorithm == "GP":
                 log.message("add in all models to suggested and fitness for GP")
+
+        fitnesses = [r.result.fitness for r in population.runs]
 
         tell_start_time = time.time()
 
         # I think you can tell with all models, but not sure
         opt.tell(suggested, fitnesses) 
         
-        log.message("Elapse time for tell step %d =  %.1f seconds ---" % (this_iter, (time.time() - tell_start_time)))
+        log.message("Elapse time for tell step %d =  %.1f seconds ---" % (generation, (time.time() - tell_start_time)))
 
         best_fitness = heapq.nsmallest(1, fitnesses)[0]
 

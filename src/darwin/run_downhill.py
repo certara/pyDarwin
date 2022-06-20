@@ -7,7 +7,6 @@ from darwin.options import options
 from darwin.utils import get_n_best_index, get_n_worst_index
 
 from .Template import Template
-from .Model import Model
 from .ModelRun import ModelRun
 from .Population import Population
 from .ModelCode import ModelCode
@@ -25,8 +24,8 @@ def _get_best_in_niche(runs: list):
     """
 
     crash_value = options.crash_value
-    fitnesses = list(map(lambda r: r.result.fitness, runs))
-    all_codes = list(map(lambda r: r.model.model_code.MinBinCode, runs))
+    fitnesses = [r.result.fitness for r in runs]
+    all_codes = [r.model.model_code.MinBinCode for r in runs]
 
     best = []  # hold the best in each niche
     best_fitnesses = [] 
@@ -75,11 +74,12 @@ def run_downhill(template: Template, pop: Population):  # only return new models
     and whether to return all models (not implemented, maybe can be used for GP??)
     return is the single best model, the worst models (length num_niches) +/- the entire list of models
     """
-    generation = pop.name
     this_step = 0
-    fitnesses = list(map(lambda m: m.result.fitness, pop.runs))
     done = [False]*options.num_niches
-    best_min_binary, best_fitnesses, best_models_in_niches = _get_best_in_niche(pop.runs)
+
+    generation = pop.name
+    fitnesses = [r.result.fitness for r in pop.runs]
+    best_min_binary, best_fitnesses, best_runs_in_niches = _get_best_in_niche(pop.runs)
 
     # may be less than num_niches
     current_num_niches = len(best_min_binary)
@@ -116,19 +116,19 @@ def run_downhill(template: Template, pop: Population):  # only return new models
         maxes = template.gene_max
         lengths = template.gene_length
 
-        gen = Population(template, str(generation) + "D" + str(this_step))
+        population = Population(template, str(generation) + "D" + str(this_step))
 
         for thisMinBits in test_models:
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths)
-            gen.add_model(code)
+            population.add_model(code)
 
-        if len(gen.models) > 0:
+        if len(population.models) > 0:
             log.message(f"Starting downhill step {this_step},"
-                        f" total of {len(gen.models)} in {niches_this_loop} niches to be run.")
+                        f" total of {len(population.models)} in {niches_this_loop} niches to be run.")
 
-            gen.run_all()
+            population.run_all()
 
-            runs = gen.runs
+            runs = population.runs
 
             # check, for each niche, if any in the fitnesses is better, if so, that become the source for the next round
             # repeat until no more better (all(done))      
@@ -144,7 +144,7 @@ def run_downhill(template: Template, pop: Population):  # only return new models
                     # create grid of all better than previous best for local search
                     if runs[new_best_model_num].result.fitness < best_fitnesses[this_niche]:
                         best_min_binary[this_niche] = copy(runs[new_best_model_num].model.model_code.MinBinCode)
-                        best_models_in_niches[this_niche] = copy(runs[new_best_model_num])
+                        best_runs_in_niches[this_niche] = copy(runs[new_best_model_num])
                         best_fitnesses[this_niche] = runs[new_best_model_num].result.fitness
 
                         done[this_niche] = False
@@ -159,24 +159,25 @@ def run_downhill(template: Template, pop: Population):  # only return new models
 
     if options["fullExhaustiveSearch_qdownhill"]:
         best_model_index = get_n_best_index(1, best_fitnesses)[0]
-        model_for_search = copy(best_models_in_niches[best_model_index])
-        last_best_fitness = model_for_search.fitness
+        run_for_search = copy(best_runs_in_niches[best_model_index])
+        last_best_fitness = run_for_search.result.fitness
 
         log.message(f"Begin local exhaustive search, search radius = {options.niche_radius},"
                     f" generation = {generation},step = {this_step}")
-        log.message(f"Model for local exhaustive search = {model_for_search.generation},"
-                    f" phenotype = {model_for_search.phenotype} model Num = {model_for_search.model_num},"
-                    f" fitness = {model_for_search.fitness}")
+        log.message(f"Model for local exhaustive search = {run_for_search.generation},"
+                    f" phenotype = {run_for_search.model.phenotype} model Num = {run_for_search.model_num},"
+                    f" fitness = {run_for_search.result.fitness}")
 
-        model_for_search = _full_search(template, model_for_search, generation, (this_step - 1))
+        run_for_search = _full_search(template, run_for_search, generation, (this_step - 1))
 
         # fitness should already be added to all_results here, gets added by _full_search after call to run_all GA
         # and only use the fullbest  
         # replace the niche this one came from, to preserve diversity
-        if model_for_search.result.fitness < last_best_fitness:
-            best_models_in_niches[last_niche] = copy(model_for_search)
+        if run_for_search.result.fitness < last_best_fitness:
+            best_runs_in_niches[last_niche - 1] = copy(run_for_search)
 
-    return best_models_in_niches, worst
+    for i in range(len(best_runs_in_niches)):
+        pop.runs[worst[i]] = copy(best_runs_in_niches[i])
 
 
 def _change_each_bit(source_models: list, radius: int):  # only need upper triangle, add start row here
@@ -233,7 +234,7 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
     best_pre_fitness = best_pre.result.fitness
     last_best_fitness = best_pre_fitness
     current_best_fitness = best_pre_fitness
-    overall_best_model = best_pre
+    overall_best_run = best_pre
     current_best_model = best_pre.model.model_code.MinBinCode
     niche_radius = options.niche_radius
 
@@ -249,24 +250,24 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
         maxes = model_template.gene_max
         lengths = model_template.gene_length
 
-        gen = Population(model_template, full_generation)
+        population = Population(model_template, full_generation)
 
         for thisMinBits, model_num in zip(test_models, range(len(test_models))):
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths) 
-            gen.add_model(code)
+            population.add_model(code)
 
-        gen.run_all()
+        population.run_all()
 
-        best = gen.get_best_run()
+        best = population.get_best_run()
 
         current_best_fitness = best.result.fitness
 
         if current_best_fitness < last_best_fitness:
             current_best_model = best.model.model_code.MinBinCode
 
-        if current_best_fitness < overall_best_model.result.fitness:
-            overall_best_model = copy(best)
+        if current_best_fitness < overall_best_run.result.fitness:
+            overall_best_run = copy(best)
 
         this_step += 1
 
-    return overall_best_model
+    return overall_best_run

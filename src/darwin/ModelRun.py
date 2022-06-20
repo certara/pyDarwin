@@ -66,7 +66,7 @@ class ModelRun(ABC):
         run_dir names will be based on the file_stem, which will be unique for each model in the search
     """
 
-    def __init__(self, model: Model, model_num: int, generation, stem_prefix: str, engine: ModelEngineAdapter):
+    def __init__(self, model: Model, model_num: int, generation, engine: ModelEngineAdapter):
         """
 
         :param model_num:  Model number, within the generation, Generation + model_num creates a unique "file_stem" that
@@ -85,7 +85,7 @@ class ModelRun(ABC):
         self.model_num = model_num
         self.generation = str(generation)
 
-        self.file_stem = f'{stem_prefix}_{self.generation}_{self.model_num}'
+        self.file_stem = engine.get_stem(generation, model_num)
 
         self.run_dir = os.path.join(options.home_dir, self.generation, str(self.model_num))
 
@@ -95,10 +95,7 @@ class ModelRun(ABC):
         # will be no results and no output file - consider saving output file?
         self.source = "new"
 
-        self.control_file_name = self.file_stem + ".mod"
-        self.output_file_name = self.file_stem + ".lst"
-        self.executable_file_name = self.file_stem + ".exe"
-        self.xml_file = os.path.join(self.run_dir, self.file_stem + ".xml")
+        self.control_file_name, self.output_file_name, self.executable_file_name = engine.get_file_names(self.file_stem)
 
     def _cleanup_run_dir(self):
         try:
@@ -175,32 +172,33 @@ class ModelRun(ABC):
 
         # self._check_files_present()
 
-        command = [options.nmfe_path, self.control_file_name, self.output_file_name,
-                   " -nmexec=" + self.executable_file_name, f'-rundir={self.run_dir}']
+        command = self.engine.get_model_run_command(self)
 
         GlobalVars.UniqueModels += 1
 
-        nm = None
+        run_process = None
 
         try:
-            self.status = "Running_NM"
+            self.status = "Running model"
 
             os.chdir(self.run_dir)
 
-            nm = Popen(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.run_dir, creationflags=options.nm_priority)
+            run_process = Popen(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.run_dir,
+                                creationflags=options.model_run_priority)
 
-            nm.communicate(timeout=options.nm_timeout)
+            run_process.communicate(timeout=options.model_run_timeout)
 
-            self.status = "Done_running_NM"
+            self.status = "Finished model run"
         except TimeoutExpired:
-            utils.terminate_process(nm.pid)
+            utils.terminate_process(run_process.pid)
             log.error(f'run {self.model_num} has timed out')
-            self.status = "NM_timed_out"
+            self.status = "Model run timed out"
         except Exception as e:
             log.error(str(e))
 
-        if nm is None or nm.returncode != 0:
+        if run_process is None or run_process.returncode != 0:
             log.error(f'run {self.model_num} has failed')
+            self.status = "Model run failed"
             return
 
         self._post_run_r()
@@ -240,19 +238,19 @@ class ModelRun(ABC):
         r_process = None
 
         try:
-            self.status = "Running_post_Rcode"
+            self.status = "Running post process R code"
 
             r_process = subprocess.run(command, capture_output=True, cwd=self.run_dir,
-                                       creationflags=options.nm_priority, timeout=options.r_timeout)
+                                       creationflags=options.model_run_priority, timeout=options.r_timeout)
 
-            self.status = "Done_post_Rcode"
+            self.status = "Done post process R code"
 
         except TimeoutExpired:
             log.error(f'Post run R code for run {self.model_num} has timed out')
-            self.status = "post_run_r_timed_out"
+            self.status = "Post process R timed out"
         except:
             log.error("Post run R code crashed in " + self.run_dir)
-            self.status = "post_run_r_failed"
+            self.status = "Post process R failed"
 
         res = self.result
 
@@ -281,12 +279,12 @@ class ModelRun(ABC):
                 f.write(f"Post run Python code Penalty = {str(res.post_run_python_penalty)}\n")
                 f.write(f"Post run Python code text = {str(res.post_run_python_text)}\n")
 
-            self.status = "Done_post_Python"
+            self.status = "Done post process Python"
 
         except:
             res.post_run_python_penalty = options.crash_value
 
-            self.status = "post_run_python_failed"
+            self.status = "Post process Python failed"
 
             with open(os.path.join(self.run_dir, self.output_file_name), "a") as f:
                 log.error("Post run Python code crashed in " + self.run_dir)

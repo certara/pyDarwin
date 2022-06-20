@@ -15,7 +15,7 @@ from darwin.Log import log
 from darwin.options import options
 
 from .Template import Template
-from .Model import Model, write_best_model_files
+from .Model import write_best_model_files
 from .ModelRun import ModelRun
 from .ModelCode import ModelCode
 from .NMEngineAdapter import NMEngineAdapter
@@ -93,7 +93,7 @@ class Population:
             run.result.nm_translation_message = f"From saved model {run.control_file_name}: " \
                                                 + run.result.nm_translation_message
         else:
-            run = ModelRun(model, self.model_number, self.name, 'NM', adapter)
+            run = ModelRun(model, self.model_number, self.name, adapter)
 
         self.runs.append(run)
 

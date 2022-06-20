@@ -197,8 +197,17 @@ class NMEngineAdapter(ModelEngineAdapter):
         return
 
     @staticmethod
+    def get_model_run_command(run: ModelRun) -> list:
+        return [options.nmfe_path, run.control_file_name, run.output_file_name,
+                " -nmexec=" + run.executable_file_name, f'-rundir={run.run_dir}']
+
+    @staticmethod
+    def get_stem(generation, model_num) -> str:
+        return f'NM_{generation}_{model_num}'
+
+    @staticmethod
     def get_file_names(stem: str):
-        pass
+        return stem + ".mod", stem + ".lst", stem + ".exe"
 
     @staticmethod
     def read_data_file_name(control_file_name: str) -> list:
@@ -245,12 +254,13 @@ class NMEngineAdapter(ModelEngineAdapter):
         ofv = condition_num = options.crash_value
 
         res = run.result
+        res_file = os.path.join(run.run_dir, run.file_stem + ".xml")
 
-        if not os.path.exists(run.xml_file):
+        if not os.path.exists(res_file):
             return
 
         try:
-            with open(run.xml_file) as xml_file:
+            with open(res_file) as xml_file:
                 data_dict = xmltodict.parse(xml_file.read())
                 version = data_dict['nm:output']['nm:nonmem']['@nm:version']  # string
                 # keep first two digits

@@ -60,6 +60,18 @@ class ModelEngineAdapter(ABC):
 
     @staticmethod
     @abstractmethod
+    def get_model_run_command(run) -> list:
+
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def get_stem(generation, model_num) -> str:
+
+        pass
+
+    @staticmethod
+    @abstractmethod
     def get_file_names(stem: str):
 
         pass

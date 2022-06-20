@@ -31,7 +31,8 @@ def _sharing(distance: float, niche_radius: int, sharing_alpha: float) -> float:
     :type niche_radius:  int
     :param sharing_alpha: weighting factor for niche penalty, exponential. 1 is linear
     :type sharing_alpha: float
-    :return: the sharing penalty, as a fraction of the niche radius, adjusted for the sharing alpha (1 - (distance/niche_radius)**sharing_alpha)
+    :return: the sharing penalty, as a fraction of the niche radius,
+     adjusted for the sharing alpha (1 - (distance/niche_radius)**sharing_alpha)
     :rtype: float
     """    
     res = 0
@@ -156,7 +157,7 @@ def run_ga(model_template: Template) -> Model:
 
     log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
                 f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.model_num}")
-     
+
     fitnesses = [None]*len(models)
 
     for ind, pop, fit in zip(models, pop_full_bits, range(len(models))):
@@ -167,7 +168,7 @@ def run_ga(model_template: Template) -> Model:
 
     for i in range(elitist_num):  # best_index:
         best_for_elitism[i] = deepcopy(pop_full_bits[best_index[i]])
-     
+
     all_best = copy(pop_full_bits[best_index[0]].fitness.values[0])
 
     # Variable keeping track of the number of generations
@@ -182,9 +183,9 @@ def run_ga(model_template: Template) -> Model:
 
     while generation < num_generations:
         # A new generation
-        generation += 1 
+        generation += 1
         log.message("-- Starting Generation %i --" % generation)
-        
+
         # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
         # so fitnesses in pop are only used for selection in GA
         _add_sharing_penalty(pop_full_bits, options.niche_radius, sharing_alpha, niche_penalty)
@@ -194,7 +195,7 @@ def run_ga(model_template: Template) -> Model:
         offspring = toolbox.select(pop_full_bits, len(pop_full_bits))
         # Clone the selected individuals, otherwise will be linked to original, by reference
         offspring = list(map(toolbox.clone, offspring))
-    
+
         # Apply crossover and mutation on the offspring
         for child1, child2 in zip(offspring[::2], offspring[1::2]):
             # cross two individuals
@@ -202,17 +203,17 @@ def run_ga(model_template: Template) -> Model:
             # from https://deap.readthedocs.io/en/master/examples/ga_onemax.html
             # "In addition they modify those individuals within the toolbox container,
             # and we do not need to reassign their results.""
-  
+
             if random.random() < crossover_probability:
                 toolbox.mate(child1, child2)
-  
+
         for mutant in offspring:
             # mutate an individual
             if random.random() < mutation_probability:
                 toolbox.mutate(mutant)
                 del mutant.fitness.values
-    
-        # Evaluate the individuals with an invalid fitness 
+
+        # Evaluate the individuals with an invalid fitness
         # will run entire population, but, at some point, check a database to see if already run
         pop_full_bits = offspring
 
@@ -224,7 +225,7 @@ def run_ga(model_template: Template) -> Model:
         # put elitist back in place of worst
         for i in range(elitist_num):
             pop_full_bits[worst_individuals[i]] = copy(best_for_elitism[i])  # hof.items need the fitness as well?
-        
+
         models = []
 
         for thisFullBits, model_num in zip(pop_full_bits, range(len(pop_full_bits))):
@@ -239,14 +240,14 @@ def run_ga(model_template: Template) -> Model:
         fitnesses = [None]*len(models)
 
         for ind, pop, fit in zip(models, pop_full_bits, range(len(models))):
-            pop.fitness.values = (ind.fitness,)  
+            pop.fitness.values = (ind.fitness,)
             fitnesses[fit] = (ind.fitness,)
 
         best_index = get_n_best_index(elitist_num, fitnesses)
 
         for i in range(elitist_num):  # best_index:
             best_for_elitism[i] = deepcopy(pop_full_bits[best_index[i]])
-        
+
         if generation % downhill_q == 0 and generation > 0:
             # pop will have the fitnesses without the niche penalty here
             # add local exhaustive search here??
@@ -261,7 +262,7 @@ def run_ga(model_template: Template) -> Model:
             for model in map(lambda idx: models[idx], best_index):
                 log.message(f"generation {model.generation}, ind {model.model_num}, fitness = {model.fitness}")
 
-            new_models, worst_individuals = run_downhill(models)
+            new_models, worst_individuals = run_downhill(model_template, models)
 
             log.message(f"Best overall fitness = {GlobalVars.BestModel.fitness:4f},"
                         f" iteration {GlobalVars.BestModel.generation}, model {GlobalVars.BestModel.model_num}")
@@ -270,10 +271,10 @@ def run_ga(model_template: Template) -> Model:
             # can't figure out why sometimes returns a tuple and sometimes a scalar
             # run_downhill return on the fitness and the integer representation!!, need to make GA model from that
             # which means back calculate GA/full bit string representation
-            for i in range(len(new_models)): 
+            for i in range(len(new_models)):
                 models[worst_individuals[i]] = copy(new_models[i])
                 # sometimes fitness is float, sometimes tuple
-                if isinstance(new_models[i].fitness, tuple): 
+                if isinstance(new_models[i].fitness, tuple):
                     fitnesses[worst_individuals[i]] = new_models[i].fitness[0]
                 else:
                     fitnesses[worst_individuals[i]] = (new_models[i].fitness,)
@@ -281,9 +282,9 @@ def run_ga(model_template: Template) -> Model:
             best_index = get_n_best_index(elitist_num, fitnesses)
 
             log.message(f"Done with downhill step, {generation}. best fitness = {fitnesses[best_index[0]]}")
-            
+
             # redo best_for_elitism, after downhill
-    
+
             num_bits = len(models[best_index[-1]].model_code.FullBinCode)
 
             for i in range(elitist_num):  # best_index:
@@ -297,17 +298,17 @@ def run_ga(model_template: Template) -> Model:
 
         # here expects fitnesses to be tuple, but isn't after downhill
         if not type(best_fitness) is tuple:
-            best_fitness = (best_fitness,) 
+            best_fitness = (best_fitness,)
 
         log.message(f"Current generation best genome = {models[cur_gen_best_ind].model_code.FullBinCode},"
                     f" best fitness = {best_fitness[0]:.4f}")
-        
+
         if best_fitness[0] < current_overall_best_fitness:
             log.message(f"Better fitness found, generation = {generation}, new best fitness = {best_fitness[0]:.4f}")
             current_overall_best_fitness = best_fitness[0]
             generations_no_change = 0
         else:
-            generations_no_change += 1 
+            generations_no_change += 1
             log.message(f"No change in fitness for {generations_no_change} generations,"
                         f" best fitness = {current_overall_best_fitness:.4f}")
 
@@ -317,14 +318,14 @@ def run_ga(model_template: Template) -> Model:
     cur_best_ind = get_n_best_index(1, fitnesses)[0]
 
     final_model = copy(models[cur_best_ind])
-   
+
     if options["final_fullExhaustiveSearch"]:
-        # start with standard downhill 
+        # start with standard downhill
 
         for model in models:
             model.generation = "FN"
 
-        new_models, worst_individuals = run_downhill(models)
+        new_models, worst_individuals = run_downhill(model_template, models)
 
         for i in range(len(new_models)): 
             if type(new_models[i].fitness) is tuple:

@@ -6,6 +6,7 @@ from darwin.Log import log
 from darwin.options import options
 from darwin.utils import get_n_best_index, get_n_worst_index
 
+from .Template import Template
 from .Model import Model
 from .runAllModels import run_all
 from .ModelCode import ModelCode
@@ -59,7 +60,7 @@ def _get_best_in_niche(pop: list):
     return best, best_fitnesses, best_models
 
 
-def run_downhill(pop: list, return_all=False):  # only return new models - best _in_niches
+def run_downhill(template: Template, pop: list, return_all=False):  # only return new models - best _in_niches
     """
     Run the downhill step, with full (2 bit) search if requested,
     arguments a population of full models
@@ -71,7 +72,6 @@ def run_downhill(pop: list, return_all=False):  # only return new models - best 
     return is the single best model, the worst models (length num_niches) +/- the entire list of models
     """
     generation = pop[0].generation
-    template = pop[0].template
     this_step = 0
     fitnesses = list(map(lambda m: m.fitness, pop))
     done = [False]*options.num_niches
@@ -161,7 +161,7 @@ def run_downhill(pop: list, return_all=False):  # only return new models - best 
                     f" phenotype = {model_for_search.phenotype} model Num = {model_for_search.model_num},"
                     f" fitness = {model_for_search.fitness}")
 
-        model_for_search = _full_search(model_for_search, generation, (this_step - 1))
+        model_for_search = _full_search(template, model_for_search, generation, (this_step - 1))
 
         # fitness should already be added to all_results here, gets added by _full_search after call to run_all GA
         # and only use the fullbest  
@@ -219,7 +219,7 @@ def _change_each_bit(source_models: list, radius: int):  # only need upper trian
     return models, radius
 
 
-def _full_search(best_pre: Model, base_generation, base_step) -> Model:
+def _full_search(model_template: Template, best_pre: Model, base_generation, base_step) -> Model:
     """perform 2 bit search (radius should always be 2 bits), will always be called after run_downhill (1 bit search),
     argument is:
     best_pre - base model for search 
@@ -227,7 +227,6 @@ def _full_search(best_pre: Model, base_generation, base_step) -> Model:
     single best model """
     this_step = 0 
     best_pre_fitness = best_pre.fitness
-    model_template = best_pre.template
     last_best_fitness = best_pre_fitness
     current_best_fitness = best_pre_fitness
     overall_best_model = best_pre
@@ -250,8 +249,7 @@ def _full_search(best_pre: Model, base_generation, base_step) -> Model:
 
         for thisMinBits, model_num in zip(test_models, range(len(test_models))):
             code = ModelCode(thisMinBits, "MinBinary", maxes, lengths) 
-            models.append(
-                Model(model_template, code, model_num, full_generation))
+            models.append(Model(model_template, code, model_num, full_generation))
 
         run_all(models)
 

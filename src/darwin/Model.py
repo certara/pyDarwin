@@ -42,9 +42,6 @@ class Model:
     Model instantiation takes a template as an argument, along with the model code, model number and generation
     function include constructing the control file, executing the control file, calculating the fitness/reward.
 
-    template : model template
-        constructed from the template class
-
     model_code : a ModelCode object
         contains the bit string/integer string representation of the model. Includes the Fullbinary
         string, integer string and minimal binary representation of the model
@@ -104,7 +101,6 @@ class Model:
             and executable name (NM_generation_modelNum.exe) and the run directory (./generation/model_num)
         """
 
-        self.template = template
         self.model_code = copy(code)
         self.model_num = model_num
         self.generation = str(generation)
@@ -116,9 +112,6 @@ class Model:
         # "new" if new run, "saved" if from saved model
         # will be no results and no output file - consider saving output file?
         self.source = "new"
-
-        self.old_output_file = None
-        self.old_control_file = None  # where did a saved model come from
 
         # get model number and phenotype
         # all required representations of model are done here
@@ -135,12 +128,8 @@ class Model:
         self.omega_num = self.estimated_omega_num = 0
         self.sigma_num = self.estimated_sigma_num = 0
 
-        # home many tokens, due to nesting have a parameter that doesn't end up in the control file?
-        self.non_influential_token_num = 0
-        self.non_influential_tokens = [False] * len(self.template.tokens)
+        self.phenotype, self.control, self.non_influential_token_num = _make_control(template, code)
 
-        self.phenotype = None
-        self.control = None
         self.status = "Not Started"
 
         self.file_stem = f'NM_{self.generation}_{self.model_num}'
@@ -187,10 +176,11 @@ class Model:
         and output file name in the new model is updated.
         """
 
+        old_dir = self.run_dir
         new_dir = self.run_dir = os.path.join(options.home_dir, self.generation, str(self.model_num))
 
-        self.old_control_file = self.control_file_name
-        self.old_output_file = self.output_file_name
+        old_control_file = self.control_file_name
+        old_output_file = self.output_file_name
         self.control_file_name = self.file_stem + ".mod"
         self.output_file_name = self.file_stem + ".lst"
 
@@ -203,17 +193,17 @@ class Model:
 
         # and copy
         try:
-            shutil.copyfile(os.path.join(self.run_dir, self.old_output_file),
-                            os.path.join(new_dir, self.file_stem + ".lst"))
-            shutil.copyfile(os.path.join(self.run_dir, self.old_control_file),
-                            os.path.join(new_dir, self.file_stem + ".mod"))
-            shutil.copyfile(os.path.join(self.run_dir, "FMSG"), os.path.join(new_dir, "FMSG"))
+            shutil.copyfile(os.path.join(old_dir, old_output_file),
+                            os.path.join(new_dir, self.output_file_name))
+            shutil.copyfile(os.path.join(old_dir, old_control_file),
+                            os.path.join(new_dir, self.control_file_name))
+            shutil.copyfile(os.path.join(old_dir, "FMSG"), os.path.join(new_dir, "FMSG"))
 
-            if os.path.exists(os.path.join(self.run_dir, "PRDERR")):
-                shutil.copyfile(os.path.join(self.run_dir, "PRDERR"), os.path.join(new_dir, "PRDERR"))
+            if os.path.exists(os.path.join(old_dir, "PRDERR")):
+                shutil.copyfile(os.path.join(old_dir, "PRDERR"), os.path.join(new_dir, "PRDERR"))
 
-            with open(os.path.join(new_dir, self.file_stem + ".lst"), 'a') as outfile:
-                outfile.write(f"!!! Saved model, originally run as {self.old_control_file} in {self.run_dir}")
+            with open(os.path.join(new_dir, self.output_file_name), 'a') as outfile:
+                outfile.write(f"!!! Saved model, originally run as {old_control_file} in {old_dir}")
         except:
             pass
 
@@ -221,10 +211,6 @@ class Model:
         """
         Constructs the control file from the template and the model code.
         """
-        
-        self._make_control()
-
-        self.source = "new"
 
         self._cleanup_run_dir()
 
@@ -234,7 +220,42 @@ class Model:
         with open(os.path.join(self.run_dir, self.control_file_name), 'w+') as f:
             f.write(self.control)
 
-        _check_files_present(self)
+    def _check_files_present(self):
+        """
+        Checks if required files are present.
+        """
+
+        global files_checked
+
+        if files_checked.set(True):
+            return
+
+        cwd = os.getcwd()
+
+        os.chdir(self.run_dir)
+
+        log.message("Checking files in " + os.getcwd())
+
+        if not exists(self.control_file_name):
+            log.error("Cannot find " + self.control_file_name + " to check for data file")
+            sys.exit()
+
+        try:
+            data_files_path = _read_data_file_name(self)
+            this_data_set = 1
+
+            for this_file in data_files_path:
+                if not exists(this_file):
+                    log.error(f"Data set # {this_data_set} for FIRST MODEL {this_file} seems to be missing, exiting")
+                    sys.exit()
+                else:
+                    log.message(f"Data set # {this_data_set} for FIRST MODEL ONLY {this_file} was found")
+                    this_data_set += 1
+        except:
+            log.error(f"Unable to check if data set is present with current version of NONMEM")
+            sys.exit()
+
+        os.chdir(cwd)
 
     def run_model(self):
         """
@@ -243,6 +264,8 @@ class Model:
         the calc_fitness function is called to calculate the fitness/reward.
         """
         self._make_control_file()
+
+        self._check_files_present()
 
         command = [options.nmfe_path, self.control_file_name, self.output_file_name,
                    " -nmexec=" + self.executable_file_name, f'-rundir={self.run_dir}']
@@ -730,84 +753,6 @@ class Model:
 
         return
 
-    def _check_contains_params(self):
-        """
-        Looks at the token set to see if it contains OMEGA/SIGMA/THETA/ETA/EPS or ERR, if so it is influential.
-        If not (e.g., the token is empty) it is non-influential.
-        """
-
-        token_set_num = 0
-
-        for thisKey in self.template.tokens.keys():
-            token_set = self.template.tokens.get(thisKey)[self.phenotype[thisKey]]
-
-            for token in token_set:
-                trimmed_token = utils.remove_comments(token)
-
-                if "THETA" in trimmed_token or "OMEGA" in trimmed_token or "SIGMA" in trimmed_token\
-                        or "ETA(" in trimmed_token or "EPS(" in trimmed_token or "ERR(" in trimmed_token:
-                    # doesn't contain parm, so can't contribute to non-influential count
-                    self.non_influential_tokens[token_set_num] = True
-                    break
-
-            token_set_num += 1
-
-    def _make_control(self):
-        """
-        Constructs control file from intcode.
-        Ignore last value if self_search_omega_bands.
-        """
-        # this appears to be OK with search_omega_bands
-        self.phenotype = OrderedDict(zip(self.template.tokens.keys(), self.model_code.IntCode))
-        self._check_contains_params()  # fill in whether any token in each token set contains THETA,OMEGA SIGMA
-
-        template = self.template
-
-        self.control = template.template_text
-
-        any_found = True  # keep looping, looking for nested tokens
-        token_found = False  # error check to see if any tokens are present
-
-        for _ in range(5):  # up to 4 levels of nesting?
-            
-            any_found, self.control = utils.replace_tokens(template.tokens, self.control, self.phenotype,
-                                                           self.non_influential_tokens)
-            self.non_influential_token_num = sum(self.non_influential_tokens)
-            token_found = token_found or any_found
-            if not any_found:
-                break
-        if any_found:
-            log.error("It appears that there is more than four level of nested tokens."
-                      " Only four levels are supported, exiting")
-            raise RuntimeError("Are there more than 4 levels of nested tokens?")
-
-        self.control = utils.match_thetas(self.control, template.tokens, template.var_theta_block, self.phenotype,
-                                          template.last_fixed_theta)
-        self.control = utils.match_rands(self.control, template.tokens, template.var_omega_block, self.phenotype,
-                                         template.last_fixed_eta, "ETA")
-        self.control = utils.match_rands(self.control, template.tokens, template.var_sigma_block, self.phenotype,
-                                         template.last_fixed_eps, "EPS")
-        self.control = utils.match_rands(self.control, template.tokens, template.var_sigma_block, self.phenotype,
-                                         template.last_fixed_eps, "ERR")  # check for ERRo as well
-
-        model_code = str(self.model_code.FullBinCode if (options.isGA or options.isPSO) else self.model_code.IntCode)
-
-        self.control += "\n ;; Phenotype \n ;; " + str(self.phenotype) + "\n;; Genotype \n ;; " + model_code\
-                        + "\n;; Num non-influential tokens = " + str(self.non_influential_tokens)
-
-        # add band OMEGA
-        if options.search_omega_bands:
-            # bandwidth must be last gene
-            bandwidth = self.model_code.IntCode[-1]
-
-            self.control = set_omega_bands(self.control, bandwidth)
-
-        if not token_found:
-            log.error("No tokens found, exiting")
-            raise RuntimeError("No tokens found")
-
-        return
-
 
 def _read_data_file_name(model: Model) -> list:
     """
@@ -819,10 +764,10 @@ def _read_data_file_name(model: Model) -> list:
     :return: data file path string
     :rtype: list
     """
-  
-    with open(model.control_file_name, "r") as f:
-        datalines = []
 
+    datalines = []
+
+    with open(model.control_file_name, "r") as f:
         for ln in f:
             if ln.strip().startswith("$DATA"):
                 line = ln.strip()
@@ -849,47 +794,6 @@ def _read_data_file_name(model: Model) -> list:
                         datalines.append(line[:result.regs[0][0]].strip())
 
     return datalines
-
-
-def _check_files_present(model: Model):
-    """
-    Checks if required files are present.
-
-    :param model: Model object
-    :type model: Model
-    """    
-
-    global files_checked
-
-    if files_checked.set(True):
-        return
-
-    cwd = os.getcwd()
-
-    os.chdir(model.run_dir)
-
-    log.message("Checking files in " + os.getcwd())
-
-    if not exists(model.control_file_name):
-        log.error("Cannot find " + model.control_file_name + " to check for data file")
-        sys.exit()
-
-    try:
-        data_files_path = _read_data_file_name(model)
-        this_data_set = 1
-
-        for this_file in data_files_path:
-            if not exists(this_file):
-                log.error(f"Data set # {this_data_set} for FIRST MODEL {this_file} seems to be missing, exiting")
-                sys.exit()
-            else:
-                log.message(f"Data set # {this_data_set} for FIRST MODEL ONLY {this_file} was found")
-                this_data_set += 1
-    except:
-        log.error(f"Unable to check if data set is present with current version of NONMEM")
-        sys.exit()
-
-    os.chdir(cwd)
 
 
 def start_new_model(model: Model, all_models: dict):
@@ -1038,3 +942,87 @@ def _get_block(start, fcon, fixed=False):
     this_block = [i for i in this_block if i != 0]
 
     return len(this_block)
+
+
+def _make_control(template: Template, model_code: ModelCode):
+    """
+    Constructs control file from intcode.
+    Ignore last value if self_search_omega_bands.
+    """
+
+    # this appears to be OK with search_omega_bands
+    phenotype = OrderedDict(zip(template.tokens.keys(), model_code.IntCode))
+
+    non_influential_tokens = _get_non_inf_tokens(template.tokens, phenotype)
+
+    control = template.template_text
+
+    any_found = True  # keep looping, looking for nested tokens
+    token_found = False  # error check to see if any tokens are present
+
+    for _ in range(5):  # up to 4 levels of nesting?
+        any_found, control = utils.replace_tokens(template.tokens, control, phenotype, non_influential_tokens)
+        token_found = token_found or any_found
+
+        if not any_found:
+            break
+
+    non_influential_token_num = sum(non_influential_tokens)
+
+    if not token_found:
+        log.error("No tokens found, exiting")
+        raise RuntimeError("No tokens found")
+
+    if any_found:
+        log.error("It appears that there is more than four level of nested tokens."
+                  " Only four levels are supported, exiting")
+        raise RuntimeError("Are there more than 4 levels of nested tokens?")
+
+    control = utils.match_thetas(control, template.tokens, template.var_theta_block, phenotype,
+                                 template.last_fixed_theta)
+    control = utils.match_rands(control, template.tokens, template.var_omega_block, phenotype,
+                                template.last_fixed_eta, "ETA")
+    control = utils.match_rands(control, template.tokens, template.var_sigma_block, phenotype,
+                                template.last_fixed_eps, "EPS")
+    control = utils.match_rands(control, template.tokens, template.var_sigma_block, phenotype,
+                                template.last_fixed_eps, "ERR")  # check for ERRo as well
+
+    model_code_str = str(model_code.FullBinCode if (options.isGA or options.isPSO) else model_code.IntCode)
+
+    control += "\n ;; Phenotype \n ;; " + str(phenotype) + "\n;; Genotype \n ;; " + model_code_str \
+               + "\n;; Num non-influential tokens = " + str(non_influential_tokens)
+
+    # add band OMEGA
+    if options.search_omega_bands:
+        # bandwidth must be last gene
+        bandwidth = model_code.IntCode[-1]
+
+        control = set_omega_bands(control, bandwidth)
+
+    return phenotype, control, non_influential_token_num
+
+
+def _get_non_inf_tokens(tokens: dict, phenotype: OrderedDict):
+    """
+    Looks at the token set to see if it contains OMEGA/SIGMA/THETA/ETA/EPS or ERR, if so it is influential.
+    If not (e.g., the token is empty) it is non-influential.
+    """
+
+    token_set_num = 0
+    non_influential_tokens = [False] * len(tokens)
+
+    for key, val in tokens.items():
+        token_set = val[phenotype[key]]
+
+        for token in token_set:
+            trimmed_token = utils.remove_comments(token)
+
+            if "THETA" in trimmed_token or "OMEGA" in trimmed_token or "SIGMA" in trimmed_token \
+                    or "ETA(" in trimmed_token or "EPS(" in trimmed_token or "ERR(" in trimmed_token:
+                # doesn't contain parm, so can't contribute to non-influential count
+                non_influential_tokens[token_set_num] = True
+                break
+
+        token_set_num += 1
+
+    return non_influential_tokens

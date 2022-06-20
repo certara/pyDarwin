@@ -98,9 +98,9 @@ def run_skopt(model_template: Template) -> Model:
 
             # can only use all models in GP, not in RF or GA
             if options.algorithm == "GP":
-                new_models, worst_individuals, all_models = run_downhill(models, return_all=True)
+                new_models, worst_individuals, all_models = run_downhill(model_template, models, return_all=True)
             else:
-                new_models, worst_individuals = run_downhill(models, return_all=False)
+                new_models, worst_individuals = run_downhill(model_template, models, return_all=False)
 
             # replace worst_individuals with new_individuals, after hof update
             # can't figure out why sometimes returns a tuple and sometimes a scalar
@@ -141,7 +141,7 @@ def run_skopt(model_template: Template) -> Model:
         for model in models:
             model.generation = "FN"
 
-        run_downhill(models, return_all=(options.algorithm == "GP"))
+        run_downhill(model_template, models, return_all=(options.algorithm == "GP"))
 
     if niter_no_change:
         log.message(f'No change in fitness in {niter_no_change} iteration')

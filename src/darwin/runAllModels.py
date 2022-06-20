@@ -80,10 +80,15 @@ def _process_models(models, num_parallel):
 
 
 def run_all(models):
-    """runs the models, always runs from integer representation, so for GA will need to convert to integer,
-    for downhill, will need to convert to minimal binary, then to integer
+    """
+    Runs the models. Always runs from integer representation, so for GA will need to convert to integer,
+    for downhill, will need to convert to minimal binary, then to integer.
+
+    ???
     all_results maybe full binary (GA) or integer (not GA) or minimal binary (downhill)
-    no return value, just updates Models"""
+
+    No return value, just updates models.
+    """
 
     num_parallel = min(len(models), options.num_parallel)
 

@@ -15,12 +15,12 @@ from darwin.runAllModels import run_all
 
 def run_exhaustive(model_template: Template) -> Model:
     """
-    Run full exhaustive search on the Template, all possible combination
-    All models will be run in generation/iteration number 0
-    Called from Darwin.run_search, _run_template
+    Run full exhaustive search on the Template, all possible combination.
+    All models will be run in generation/iteration number 0.
 
     :param model_template: Model Template
     :type model_template: Template
+
     :return: Returns final/best model
     :rtype: Model
     """    

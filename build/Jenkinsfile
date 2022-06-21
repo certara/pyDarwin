@@ -1,7 +1,7 @@
 import groovy.transform.Field
 
 @Field
-PACKAGE_NAME = "pydarwin"
+PACKAGE_NAME = "pyDarwin"
 ARTIFACTORY_BUILD_NAME = "certara-pmx-pydarwin-package"
 ARTIFACTORY_CONFIG = "pydarwin"
 TEAMS_CHANNEL_NAME = "pydarwin"
@@ -172,22 +172,16 @@ pipeline {
         stage('Package Build') {
                     steps {
                         container('certara-python') {
-                            labelledShell label: 'Create Virtual Environment', script: """
+                            labelledShell label: 'Building the Package', script: """
+                                cd ${WORKSPACE}/
                                 python -m venv venv
-                                venv\Scripts\activate.bat
-                            """
-                            labelledShell label: 'Update Build Package', script: """
-                                cd ${WORKSPACE}/src/
+                                source venv/bin/activate
                                 pip install --upgrade build
-                            """
-                            labelledShell label: 'Build Darwin Package', script: """
-                                cd ${WORKSPACE}/src/
                                 python -m build
                             """
-                             labelledShell label: "Copying Package", script: """
-                                cd ${WORKSPACE}/src
-                                // tar -czf ${PACKAGE_NAME}_${BUILD_VERSION}.tar.gz -C bundle .
-                                cp abc.tar.gz /artifacts
+                            labelledShell label: "Creating zipped bundle structure", script: """
+                                cd ${WORKSPACE}
+                                cp ${PACKAGE_NAME}_Certara-${BUILD_VERSION}.tar.gz ${WORKSPACE}/artifacts
                             """
                         }
                     }
@@ -218,8 +212,8 @@ pipeline {
                         spec: """{
                             "files": [
                                 {
-                                    "pattern": "artifacts/${PACKAGE_NAME}_*.tar.gz",
-                                    "target": "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}/pydarwin/"
+                                    "pattern": "artifacts/${PACKAGE_NAME}-*.tar.gz",
+                                    "target": "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}/pyDarwin/"
                                 }
                             ]
                         }""",

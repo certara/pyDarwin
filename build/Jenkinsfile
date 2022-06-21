@@ -2,9 +2,9 @@ import groovy.transform.Field
 
 @Field
 PACKAGE_NAME = "pyDarwin"
-ARTIFACTORY_BUILD_NAME = "certara-pmx-pydarwin-package"
-ARTIFACTORY_CONFIG = "shared"
-TEAMS_CHANNEL_NAME = "sharedlibraries"
+ARTIFACTORY_BUILD_NAME = "pmx-pydarwin-package"
+ARTIFACTORY_CONFIG = "pirana"
+TEAMS_CHANNEL_NAME = "pirana"
 
 node {
     stage('Initialize') {

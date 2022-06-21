@@ -170,21 +170,19 @@ pipeline {
             }
         }
         stage('Package Build') {
-                    steps {
-                        container('certara-python') {
-                            labelledShell label: 'Building the Package', script: """
-                                cd ${WORKSPACE}/
-                                python -m venv venv
-                                source venv/bin/activate
-                                pip install --upgrade build
-                                python -m build
-                            """
-                            labelledShell label: "Creating zipped bundle structure", script: """
-                                cd ${WORKSPACE}/dist/
-                                cp ${PACKAGE_NAME}_Certara-${BUILD_VERSION}.tar.gz ${WORKSPACE}/artifacts
-                            """
-                        }
-                    }
+            steps {
+                container('certara-python') {
+                    labelledShell label: 'Building the Package', script: """
+                        cd ${WORKSPACE}/
+                        python -m venv venv
+                        source venv/bin/activate
+                        pip install --upgrade build
+                        python -m build
+                    """
+                    labelledShell label: "Creating zipped bundle structure", script: """
+                        cd ${WORKSPACE}/dist/
+                        cp ${PACKAGE_NAME}_Certara-${BUILD_VERSION}.tar.gz ${WORKSPACE}/artifacts
+                    """
                 }
             }
         }
@@ -229,25 +227,25 @@ pipeline {
                 }
             }
         }
-        stage('Release Artifact Promotion') {
-            when {
-                tag pattern: "[0-9]+.[0-9]+.[0-9]+", comparator: "REGEXP"
-            }
-            steps {
-                container('certara-python') {
-                    rtPromote(
-                        serverId: "${ARTIFACTORY_SERVER_ID}",
-                        targetRepo: "${ARTIFACTORY_RELEASE_SERVICE_REPOSITORY}",
-                        sourceRepo: "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}",
-                        comment: "Approved promotion by ${SUBMITTER_APPROVER}",
-                        status: "Released",
-                        failFast: true,
-                        copy: true,
-                        buildName: "${ARTIFACTORY_BUILD_NAME}",
-                        buildNumber: "${BUILD_VERSION}"
-                    )
-                }
-            }
-        }
+        // stage('Release Artifact Promotion') {
+        //     when {
+        //         tag pattern: "[0-9]+.[0-9]+.[0-9]+", comparator: "REGEXP"
+        //     }
+        //     steps {
+        //         container('certara-python') {
+        //             rtPromote(
+        //                 serverId: "${ARTIFACTORY_SERVER_ID}",
+        //                 targetRepo: "${ARTIFACTORY_RELEASE_SERVICE_REPOSITORY}",
+        //                 sourceRepo: "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}",
+        //                 comment: "Approved promotion by ${SUBMITTER_APPROVER}",
+        //                 status: "Released",
+        //                 failFast: true,
+        //                 copy: true,
+        //                 buildName: "${ARTIFACTORY_BUILD_NAME}",
+        //                 buildNumber: "${BUILD_VERSION}"
+        //             )
+        //         }
+        //     }
+        // }
     }
 }

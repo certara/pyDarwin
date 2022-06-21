@@ -181,7 +181,7 @@ pipeline {
                         python -m build
                     """
                     labelledShell label: "Creating zipped bundle structure", script: """
-                        cp ${WORKSPACE}/dist/${PACKAGE_NAME}_Certara-${PACKAGE_VERSION}.tar.gz ${WORKSPACE}/artifacts/
+                        cp ${WORKSPACE}/dist/${PACKAGE_NAME}-Certara-${PACKAGE_VERSION}.tar.gz ${WORKSPACE}/artifacts/
                     """
                 }
             }
@@ -210,7 +210,7 @@ pipeline {
                         spec: """{
                             "files": [
                                 {
-                                    "pattern": "artifacts/${PACKAGE_NAME}_*.tar.gz",
+                                    "pattern": "artifacts/${PACKAGE_NAME}-*.tar.gz",
                                     "target": "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}/pyDarwin/"
                                 }
                             ]

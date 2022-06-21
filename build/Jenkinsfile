@@ -180,7 +180,7 @@ pipeline {
                                 python -m build
                             """
                             labelledShell label: "Creating zipped bundle structure", script: """
-                                cd ${WORKSPACE}
+                                cd ${WORKSPACE}/dist/
                                 cp ${PACKAGE_NAME}_Certara-${BUILD_VERSION}.tar.gz ${WORKSPACE}/artifacts
                             """
                         }

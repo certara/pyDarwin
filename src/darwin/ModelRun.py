@@ -154,7 +154,7 @@ class ModelRun(ABC):
             f.write(self.model.control)
             f.flush()
 
-    def _check_files_present(self):
+    def check_files_present(self):
         """
         Checks if required files are present.
         """
@@ -165,6 +165,8 @@ class ModelRun(ABC):
             return
 
         cwd = os.getcwd()
+
+        self._make_control_file()
 
         os.chdir(self.run_dir)
 
@@ -180,10 +182,10 @@ class ModelRun(ABC):
 
             for this_file in data_files_path:
                 if not exists(this_file):
-                    log.error(f"Data set # {this_data_set} for FIRST MODEL {this_file} seems to be missing, exiting")
+                    log.error(f"Data set # {this_data_set} seems to be missing: {this_file}")
                     sys.exit()
                 else:
-                    log.message(f"Data set # {this_data_set} for FIRST MODEL ONLY {this_file} was found")
+                    log.message(f"Data set # {this_data_set} was found: {this_file}")
                     this_data_set += 1
         except:
             log.error(f"Unable to check if data set is present with current version of NONMEM")
@@ -198,8 +200,6 @@ class ModelRun(ABC):
         the calc_fitness function is called to calculate the fitness/reward.
         """
         self._make_control_file()
-
-        # self._check_files_present()
 
         command = self.adapter.get_model_run_command(self)
 

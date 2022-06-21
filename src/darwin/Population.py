@@ -126,6 +126,8 @@ class Population:
         No return value, just updates models.
         """
 
+        self.runs[0].check_files_present()
+
         self._process_models()
 
         with open(GlobalVars.SavedModelsFile, 'w', encoding='utf-8') as f:

@@ -1,7 +1,7 @@
 library(dplyr)
 orgdata <-  read.table("org.dat",skip=1,header=TRUE)
-orgdata <- orgdata[orgdata$EVID==0&orgdata$TIME<=24,]
-simdata <-  read.table("sim.dat",skip=1,header=TRUE)
+orgdata <- orgdata[orgdata$EVID==0&orgdata$TIME<=24,] # only first 24 hours
+simdata <-  read.table("sim.dat",skip=1,header=TRUE) # only first 24 hours
 simdata <- simdata[orgdata$EVID==0&orgdata$TIME<=24,] 
 observed_maxes <- orgdata %>% group_by(ID) %>% 
   summarise(max = max(DV))

@@ -1,9 +1,9 @@
 {
 	"author": "Shuhua Hu",
-	"homeDir": "C:\\fda\\pydarwin\\docs\\example3",
+	"homeDir": "C:\\fda\\pydarwin\\examples\\example3",
 	"algorithm":"EXHAUSTIVE",
 	"max_model_list_size": 500,
-	"num_parallel": 40,
+	"num_parallel": 4,
 	"THETAPenalty": 2,
 	"OMEGAPenalty": 2,
 	"SIGMAPenalty": 2,

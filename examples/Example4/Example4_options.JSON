@@ -1,6 +1,6 @@
 {
 	"author": "Mark Sale",
-	"homeDir": "C:\\fda\\pydarwin\\docs\\example4",
+	"homeDir": "C:\\fda\\pydarwin\\examples\\example4",
 	"algorithm":"GA",
 	"random_seed": 11, 
 	"population_size": 80, 

@@ -181,7 +181,7 @@ pipeline {
                     """
                     labelledShell label: "Creating zipped bundle structure", script: """
                         cd ${WORKSPACE}/dist/
-                        cp ${PACKAGE_NAME}_*.tar.gz ${WORKSPACE}/artifacts
+                        cp "${PACKAGE_NAME}_*.tar.gz" ${WORKSPACE}/artifacts/
                     """
                 }
             }

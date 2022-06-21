@@ -18,22 +18,12 @@ from .Template import Template
 from .Model import write_best_model_files
 from .ModelRun import ModelRun
 from .ModelCode import ModelCode
-from .NMEngineAdapter import NMEngineAdapter
-
-adapter = NMEngineAdapter()
+from .ModelEngineAdapter import get_engine_adapter
 
 ALL_MODELS_FILE = "models.json"
 
-all_models = dict()
-
 
 def init_model_list():
-    """Initializes model from template. Need Options first"""
-
-    global all_models
-
-    all_models = dict()
-
     default_models_file = os.path.join(options.home_dir, ALL_MODELS_FILE)
 
     GlobalVars.SavedModelsFile = default_models_file
@@ -56,7 +46,9 @@ def init_model_list():
 
             if models_list.is_file():
                 with open(models_list) as json_file:
-                    all_models = json.load(json_file)
+                    all_runs = json.load(json_file)
+
+                    Population.all_runs = {key: ModelRun.from_dict(val) for key, val in all_runs.items()}
 
                     log.message(f"Using Saved model list from {models_list}")
 
@@ -64,9 +56,18 @@ def init_model_list():
             else:
                 log.error(f"Cannot find {models_list}, setting models list to empty")
         except:
+            traceback.print_exc()
             log.error(f"Cannot read {prev_list}, setting models list to empty")
 
     log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
+
+
+class ModelRunEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, ModelRun):
+            return obj.to_dict()
+
+        return json.JSONEncoder.default(self, obj)
 
 
 class Population:
@@ -78,9 +79,10 @@ class Population:
         self.runs = []
         self.model_number = 0
         self.template = template
+        self.adapter = get_engine_adapter(options.engine_adapter)
 
     def add_model_run(self, code: ModelCode):
-        model = adapter.create_new_model(self.template, code)
+        model = self.adapter.create_new_model(self.template, code)
 
         genotype = str(model.genotype())
 
@@ -93,7 +95,7 @@ class Population:
             run.result.nm_translation_message = f"From saved model {run.control_file_name}: " \
                                                 + run.result.nm_translation_message
         else:
-            run = ModelRun(model, self.model_number, self.name, adapter)
+            run = ModelRun(model, self.model_number, self.name, self.adapter)
 
         self.runs.append(run)
 
@@ -127,7 +129,7 @@ class Population:
         self._process_models()
 
         with open(GlobalVars.SavedModelsFile, 'w', encoding='utf-8') as f:
-            json.dump(all_models, f, indent=4, sort_keys=True, ensure_ascii=False)
+            json.dump(self.all_runs, f, indent=4, sort_keys=True, ensure_ascii=False, cls=ModelRunEncoder)
 
         # write best model to output
         try:

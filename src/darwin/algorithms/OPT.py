@@ -15,6 +15,7 @@ from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
 from darwin.Template import Template
 from darwin.Model import Model, write_best_model_files
+from darwin.ModelRun import ModelRun
 from darwin.Population import Population
 
 logger = logging.getLogger(__name__)
@@ -24,7 +25,7 @@ warnings.filterwarnings("ignore", message="The objective has been evaluated ")
 
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
-def run_skopt(model_template: Template) -> Model:
+def run_skopt(model_template: Template) -> ModelRun:
     """
     Run one of the scikit optimize (https://scikit-optimize.github.io/stable/) algorithms, specified in the options file 
     
@@ -82,7 +83,7 @@ def run_skopt(model_template: Template) -> Model:
         population = Population(model_template, generation)
 
         for thisInts, model_num in zip(suggested, range(len(suggested))):
-            code = ModelCode(thisInts, "Int", maxes, lengths)
+            code = ModelCode.from_int(thisInts, maxes, lengths)
             population.add_model_run(code)
 
         population.run_all()
@@ -143,4 +144,4 @@ def run_skopt(model_template: Template) -> Model:
     log.message(f'Best overall solution =[{best_run.model.model_code.IntCode}],'
                 f' Best overall fitness ={best_run.result.fitness:.6f} ')
 
-    return best_run.model
+    return best_run

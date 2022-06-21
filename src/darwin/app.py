@@ -9,6 +9,9 @@ import darwin.utils as utils
 from darwin.Log import log
 from darwin.options import options
 
+from .ModelEngineAdapter import register_engine_adapter
+from .NMEngineAdapter import NMEngineAdapter
+
 from .Template import Template
 from .Model import Model
 from .Population import init_model_list
@@ -75,5 +78,7 @@ def init_app(options_file: str, folder: str = None):
     log.message(f"Options file found at {options_file}")
 
     GlobalVars.init_global_vars(options.home_dir)
+
+    register_engine_adapter('nonmem', NMEngineAdapter)
 
     init_model_list()

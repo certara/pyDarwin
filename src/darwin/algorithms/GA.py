@@ -17,6 +17,7 @@ from darwin.run_downhill import run_downhill
 from darwin.Population import Population
 from darwin.Template import Template
 from darwin.Model import Model, write_best_model_files
+from darwin.ModelRun import ModelRun
 from darwin.utils import get_n_best_index, get_n_worst_index
 
 np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
@@ -72,7 +73,7 @@ def _add_sharing_penalty(pop, niche_radius, sharing_alpha, niche_penalty):
     return
 
 
-def run_ga(model_template: Template) -> Model:
+def run_ga(model_template: Template) -> ModelRun:
     """
     Run the Genetic Algorithm (GA) search, using the DEAP (https://github.com/deap/deap) packages.
     All the required information is contained in the Template objects, plus the options module
@@ -151,7 +152,7 @@ def run_ga(model_template: Template) -> Model:
     first_gen = Population(model_template, 0)
 
     for thisFullBits, model_num in zip(pop_full_bits, range(len(pop_full_bits))):
-        code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
+        code = ModelCode.from_full_binary(thisFullBits, maxes, lengths)
         first_gen.add_model_run(code)
 
     first_gen.run_all()
@@ -229,7 +230,7 @@ def run_ga(model_template: Template) -> Model:
         population = Population(model_template, generation)
 
         for thisFullBits, model_num in zip(pop_full_bits, range(len(pop_full_bits))):
-            code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
+            code = ModelCode.from_full_binary(thisFullBits, maxes, lengths)
             population.add_model_run(code)
 
         population.run_all()
@@ -333,4 +334,4 @@ def run_ga(model_template: Template) -> Model:
 
     log.message(f"Final out from best model is in {GlobalVars.FinalResultFile}")
 
-    return best_run.model
+    return best_run

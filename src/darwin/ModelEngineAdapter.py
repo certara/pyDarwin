@@ -4,8 +4,15 @@ from .Template import Template
 from .ModelCode import ModelCode
 from .Model import Model
 
+_ENGINES = {}
+
 
 class ModelEngineAdapter(ABC):
+
+    @staticmethod
+    @abstractmethod
+    def get_engine_name() -> str:
+        pass
 
     @staticmethod
     @abstractmethod
@@ -92,3 +99,15 @@ class ModelEngineAdapter(ABC):
         """
 
         pass
+
+
+def register_engine_adapter(name: str, engine_class):
+    global _ENGINES
+
+    _ENGINES[name] = engine_class()
+
+
+def get_engine_adapter(name: str) -> ModelEngineAdapter:
+    global _ENGINES
+
+    return _ENGINES[name]

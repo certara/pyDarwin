@@ -19,15 +19,15 @@ import darwin.GlobalVars as GlobalVars
 
 from .Model import Model
 from .ModelResults import ModelResults
-from .ModelEngineAdapter import ModelEngineAdapter
+from .ModelEngineAdapter import ModelEngineAdapter, get_engine_adapter
 
 files_checked = utils.AtomicFlag(False)
 
 JSON_ATTRIBUTES = [
-    'fitness', 'ofv', 'control', 'success', 'covariance', 'correlation', 'theta_num', 'omega_num', 'sigma_num',
-    'estimated_theta_num', 'estimated_omega_num', 'estimated_sigma_num', 'condition_num',
-    'post_run_r_text', 'post_run_r_penalty', 'post_run_python_text', 'post_run_python_penalty',
-    'run_dir', 'control_file_name', 'output_file_name', 'nm_translation_message'
+    'model_num', 'generation',
+    'file_stem', 'run_dir', 'control_file_name', 'output_file_name',
+    'run_dir', 'control_file_name', 'output_file_name', 'executable_file_name',
+    'status', 'source'
 ]
 
 
@@ -66,7 +66,7 @@ class ModelRun(ABC):
         run_dir names will be based on the file_stem, which will be unique for each model in the search
     """
 
-    def __init__(self, model: Model, model_num: int, generation, engine: ModelEngineAdapter):
+    def __init__(self, model: Model, model_num: int, generation, adapter: ModelEngineAdapter):
         """
 
         :param model_num:  Model number, within the generation, Generation + model_num creates a unique "file_stem" that
@@ -79,13 +79,13 @@ class ModelRun(ABC):
         """
 
         self.model = model
-        self.engine = engine
+        self.adapter = adapter
         self.result = ModelResults()
 
         self.model_num = model_num
         self.generation = str(generation)
 
-        self.file_stem = engine.get_stem(generation, model_num)
+        self.file_stem = adapter.get_stem(generation, model_num)
 
         self.run_dir = os.path.join(options.home_dir, self.generation, str(self.model_num))
 
@@ -95,7 +95,36 @@ class ModelRun(ABC):
         # will be no results and no output file - consider saving output file?
         self.source = "new"
 
-        self.control_file_name, self.output_file_name, self.executable_file_name = engine.get_file_names(self.file_stem)
+        self.control_file_name, self.output_file_name, self.executable_file_name \
+            = adapter.get_file_names(self.file_stem)
+
+    def to_dict(self):
+        """
+        Assembles what goes into the JSON file of saved models.
+        """
+
+        res = {attr: self.__getattribute__(attr) for attr in JSON_ATTRIBUTES}
+
+        res['model'] = self.model.to_dict()
+        res['result'] = self.result.to_dict()
+        res['engine_adapter'] = self.adapter.get_engine_name()
+
+        return res
+
+    @classmethod
+    def from_dict(cls, src):
+        model = Model.from_dict(src['model'])
+
+        adapter = get_engine_adapter(src['engine_adapter'])
+
+        run = cls(model, src['model_num'], src['generation'], adapter)
+
+        run.result = ModelResults.from_dict(src['result'])
+
+        for attr in JSON_ATTRIBUTES:
+            run.__setattr__(attr, src[attr])
+
+        return run
 
     def _cleanup_run_dir(self):
         try:
@@ -146,7 +175,7 @@ class ModelRun(ABC):
             sys.exit()
 
         try:
-            data_files_path = self.engine.read_data_file_name(self.control_file_name)
+            data_files_path = self.adapter.read_data_file_name(self.control_file_name)
             this_data_set = 1
 
             for this_file in data_files_path:
@@ -172,7 +201,7 @@ class ModelRun(ABC):
 
         # self._check_files_present()
 
-        command = self.engine.get_model_run_command(self)
+        command = self.adapter.get_model_run_command(self)
 
         GlobalVars.UniqueModels += 1
 
@@ -305,7 +334,7 @@ class ModelRun(ABC):
         """
 
         try:
-            engine = self.engine
+            engine = self.adapter
 
             engine.read_model(self)
             engine.read_results(self)
@@ -334,20 +363,8 @@ class ModelRun(ABC):
             output.write(f"Num Non fixed SIGMAs = {model.estimated_sigma_num}\n")
             output.write(f"Original run directory = {self.run_dir}\n")
 
-    def to_dict(self):
-        """
-        Assembles what goes into the JSON file of saved models.
-        """
-
-        res = {}
-
-        for attr in JSON_ATTRIBUTES:
-            res[attr] = self.__getattribute__(attr)
-
-        return res
-
     def cleanup(self):
-        self.engine.cleanup(self.run_dir, self.file_stem)
+        self.adapter.cleanup(self.run_dir, self.file_stem)
 
 
 class StoredRun(ModelRun):

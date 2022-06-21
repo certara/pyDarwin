@@ -306,13 +306,13 @@ def f(x, model_template, iteration):
     for i in range(n_particles):
         pop_full_bits.append(x[i].tolist()) # needs to be list, not numpy array
 
-    for thisFullBits,model_num in zip(pop_full_bits,range(len(pop_full_bits))):
-        code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
-        models.append(Model(model_template, code, model_num, iteration))
+    gen = Population(model_template, iteration)
 
-    gen = Population()
+    for thisFullBits in pop_full_bits:
+        code = ModelCode.from_full_binary(thisFullBits, maxes, lengths)
+        gen.add_model_run(code)
 
-    gen.run_all(models)
+    gen.run_all()
 
     j = []
 

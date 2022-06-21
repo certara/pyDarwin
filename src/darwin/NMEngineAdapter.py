@@ -8,7 +8,6 @@ from collections import OrderedDict
 
 from .ModelEngineAdapter import ModelEngineAdapter
 from .ModelRun import ModelRun
-from .ModelResults import ModelResults
 
 import darwin.utils as utils
 
@@ -22,6 +21,10 @@ from .omega_utils import set_omega_bands
 
 
 class NMEngineAdapter(ModelEngineAdapter):
+
+    @staticmethod
+    def get_engine_name() -> str:
+        return 'nonmem'
 
     @staticmethod
     def get_error_messages(run: ModelRun):

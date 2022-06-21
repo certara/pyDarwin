@@ -7,7 +7,6 @@ from darwin.Log import log
 from darwin.options import options
 
 from darwin.Template import Template
-from darwin.Model import Model
 from darwin.ModelRun import ModelRun, write_best_model_files
 from darwin.ModelCode import ModelCode
 from darwin.Population import Population
@@ -61,7 +60,7 @@ def run_exhaustive(model_template: Template) -> ModelRun:
         pop = Population(model_template, 0)
 
         for thisInts, model_num in zip(codes[current_start:current_last], range(current_start, current_last)):
-            code = ModelCode(thisInts, "Int", maxes, lengths)
+            code = ModelCode.from_int(thisInts, maxes, lengths)
             pop.add_model_run(code)
 
         pop.run_all()

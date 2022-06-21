@@ -1,16 +1,13 @@
 from copy import copy
 
-import traceback
-
 import darwin.GlobalVars as GlobalVars
 
 from .ModelCode import ModelCode
 
 JSON_ATTRIBUTES = [
-    'fitness', 'ofv', 'control', 'success', 'covariance', 'correlation', 'theta_num', 'omega_num', 'sigma_num',
-    'estimated_theta_num', 'estimated_omega_num', 'estimated_sigma_num', 'condition_num',
-    'post_run_r_text', 'post_run_r_penalty', 'post_run_python_text', 'post_run_python_penalty',
-    'run_dir', 'control_file_name', 'output_file_name', 'nm_translation_message'
+    'control', 'non_influential_token_num',
+    'theta_num', 'omega_num', 'sigma_num',
+    'estimated_theta_num', 'estimated_omega_num', 'estimated_sigma_num'
 ]
 
 
@@ -50,6 +47,27 @@ class Model:
 
     def genotype(self) -> list:
         return self.model_code.IntCode
+
+    def to_dict(self):
+        res = {}
+
+        for attr in JSON_ATTRIBUTES:
+            res[attr] = self.__getattribute__(attr)
+
+        res['model_code'] = self.model_code.to_dict()
+
+        return res
+
+    @classmethod
+    def from_dict(cls, src):
+        code = ModelCode.from_dict(src['model_code'])
+
+        res = cls(code)
+
+        for attr in JSON_ATTRIBUTES:
+            res.__setattr__(attr, src[attr])
+
+        return res
 
 
 def write_best_model_files(control_path: str, result_path: str):

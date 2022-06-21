@@ -115,6 +115,7 @@ pipeline {
                             // TAGGING
                             REPO_SHORT = scm.getUserRemoteConfigs()[0].getUrl().tokenize('/').last().split("\\.")[0]
                             PUBLIC_API = (REPO_SHORT.tokenize("-")[0] == "api") ? true : false
+                            PACKAGE_VERSION = sh (script: "sed -n 's/^.*version = //p' setup.cfg", returnStdout: true).trim()
                             ARTIFACT_NAME = sh (script: "sed -n 's/^.*name = //p' setup.cfg", returnStdout: true).trim()
                             BUILD_VERSION = sh (script: "sed -n 's/^.*version = //p' setup.cfg", returnStdout: true).trim()
                             if( env.TAG_NAME ) {
@@ -181,7 +182,7 @@ pipeline {
                     """
                     labelledShell label: "Creating zipped bundle structure", script: """
                         cd ${WORKSPACE}/dist/
-                        cp "${PACKAGE_NAME}_*.tar.gz" ${WORKSPACE}/artifacts/
+                        cp "${PACKAGE_NAME}_Certara-${PACKAGE_VERSION}.tar.gz" ${WORKSPACE}/artifacts/
                     """
                 }
             }

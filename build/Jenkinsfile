@@ -1,10 +1,10 @@
 import groovy.transform.Field
 
 @Field
-PACKAGE_NAME = "pydarwin"
-ARTIFACTORY_BUILD_NAME = "certara-pmx-pydarwin-package"
-ARTIFACTORY_CONFIG = "pydarwin"
-TEAMS_CHANNEL_NAME = "pydarwin"
+PACKAGE_NAME = "pyDarwin"
+ARTIFACTORY_BUILD_NAME = "pmx-pydarwin-package"
+ARTIFACTORY_CONFIG = "pirana"
+TEAMS_CHANNEL_NAME = "pirana"
 
 node {
     stage('Initialize') {
@@ -115,6 +115,7 @@ pipeline {
                             // TAGGING
                             REPO_SHORT = scm.getUserRemoteConfigs()[0].getUrl().tokenize('/').last().split("\\.")[0]
                             PUBLIC_API = (REPO_SHORT.tokenize("-")[0] == "api") ? true : false
+                            PACKAGE_VERSION = sh (script: "sed -n 's/^.*version = //p' setup.cfg", returnStdout: true).trim()
                             ARTIFACT_NAME = sh (script: "sed -n 's/^.*name = //p' setup.cfg", returnStdout: true).trim()
                             BUILD_VERSION = sh (script: "sed -n 's/^.*version = //p' setup.cfg", returnStdout: true).trim()
                             if( env.TAG_NAME ) {
@@ -170,27 +171,19 @@ pipeline {
             }
         }
         stage('Package Build') {
-                    steps {
-                        container('certara-python') {
-                            labelledShell label: 'Create Virtual Environment', script: """
-                                python -m venv venv
-                                venv\Scripts\activate.bat
-                            """
-                            labelledShell label: 'Update Build Package', script: """
-                                cd ${WORKSPACE}/src/
-                                pip install --upgrade build
-                            """
-                            labelledShell label: 'Build Darwin Package', script: """
-                                cd ${WORKSPACE}/src/
-                                python -m build
-                            """
-                             labelledShell label: "Copying Package", script: """
-                                cd ${WORKSPACE}/src
-                                // tar -czf ${PACKAGE_NAME}_${BUILD_VERSION}.tar.gz -C bundle .
-                                cp abc.tar.gz /artifacts
-                            """
-                        }
-                    }
+            steps {
+                container('certara-python') {
+                    labelledShell label: 'Building the Package', script: """
+                        cd ${WORKSPACE}/
+                        python -m venv venv
+                        . venv/bin/activate
+                        pip install --upgrade build
+                        python -m build
+                    """
+                    labelledShell label: "Creating zipped bundle structure", script: """
+                        cd ${WORKSPACE}/dist/
+                        cp ${PACKAGE_NAME}-Certara-${PACKAGE_VERSION}.tar.gz ${WORKSPACE}/artifacts/${PACKAGE_NAME}-Certara-${BUILD_VERSION}.tar.gz
+                    """
                 }
             }
         }
@@ -206,7 +199,6 @@ pipeline {
             }
             steps {
                 container('certara-python') {
-                    unstash 'pydarwin'
                     rtBuildInfo(
                         maxBuilds: "${ARTIFACTORY_MAX_BUILD_COUNT}",
                         deleteBuildArtifacts: true,
@@ -218,8 +210,8 @@ pipeline {
                         spec: """{
                             "files": [
                                 {
-                                    "pattern": "artifacts/${PACKAGE_NAME}_*.tar.gz",
-                                    "target": "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}/pydarwin/"
+                                    "pattern": "artifacts/${PACKAGE_NAME}-*.tar.gz",
+                                    "target": "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}/pyDarwin/"
                                 }
                             ]
                         }""",
@@ -229,26 +221,6 @@ pipeline {
                     )
                     rtPublishBuildInfo(
                         serverId: "${ARTIFACTORY_SERVER_ID}",
-                        buildName: "${ARTIFACTORY_BUILD_NAME}",
-                        buildNumber: "${BUILD_VERSION}"
-                    )
-                }
-            }
-        }
-        stage('Release Artifact Promotion') {
-            when {
-                tag pattern: "[0-9]+.[0-9]+.[0-9]+", comparator: "REGEXP"
-            }
-            steps {
-                container('certara-python') {
-                    rtPromote(
-                        serverId: "${ARTIFACTORY_SERVER_ID}",
-                        targetRepo: "${ARTIFACTORY_RELEASE_SERVICE_REPOSITORY}",
-                        sourceRepo: "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}",
-                        comment: "Approved promotion by ${SUBMITTER_APPROVER}"
-                        status: "Released",
-                        failFast: true,
-                        copy: true,
                         buildName: "${ARTIFACTORY_BUILD_NAME}",
                         buildNumber: "${BUILD_VERSION}"
                     )

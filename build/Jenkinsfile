@@ -198,7 +198,6 @@ pipeline {
             }
             steps {
                 container('certara-python') {
-                    unstash 'pydarwin'
                     rtBuildInfo(
                         maxBuilds: "${ARTIFACTORY_MAX_BUILD_COUNT}",
                         deleteBuildArtifacts: true,

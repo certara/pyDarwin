@@ -19,7 +19,8 @@ Welcome to pyDarwin's documentation
    PKModel3 
    PKModel4 
    API 
-   Support
+   Glossary
+   Support 
 
 Indices and tables
 ==================

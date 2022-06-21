@@ -2,27 +2,26 @@
 
 PK Model 3, ODE model
 ==============================================
-  
+.. _startpk3:
  
 
 The Template file
 ~~~~~~~~~~~~~~~~~~~~~
 
-Example 3 template file :download:`text <./Example3/Example3_template.txt>`
+Example 3 template file :download:`text <../examples/Example3/Example3_template.txt>`
 
 The Tokens file
 ~~~~~~~~~~~~~~~~
 
-Example 3 tokens file :download:`json <./Example3/Example3_tokens.json>`
+Example 3 tokens file :download:`json <../examples/Example3/Example3_tokens.json>`
 
 The Options file
 ~~~~~~~~~~~~~~~~
 
-Example 3 template file :download:`json <./Example3/Example3_options.json>`
+Example 3 template file :download:`json <../examples/Example3/Example3_options.json>`
 
 
-
-.. _startpk3:
+ 
 
 .. figure:: MLSelection.png
 

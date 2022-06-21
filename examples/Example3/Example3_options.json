@@ -3,7 +3,7 @@
 	"homeDir": "C:\\fda\\pydarwin\\examples\\example3",
 	"algorithm":"EXHAUSTIVE",
 	"max_model_list_size": 500,
-	"num_parallel": 4,
+	"num_parallel": 40,
 	"THETAPenalty": 2,
 	"OMEGAPenalty": 2,
 	"SIGMAPenalty": 2,
@@ -18,6 +18,6 @@
     "NM_timeout_sec": 9600, 
 	"useR": false,  
 	"usePython": false,  
-	"nmfePath": "c:/nm744/util/nmfe74.bat " ,
+	"nmfePath": "c:/nm741/util/nmfe74.bat " ,
 	"NM_priority_class": "below_normal"
 }

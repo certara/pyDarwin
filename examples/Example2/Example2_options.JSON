@@ -5,11 +5,11 @@
 	"random_seed": 11, 
 	"population_size": 40,
 	"max_model_list_size": 500,
-	"num_parallel": 4,
+	"num_parallel": 40,
 	"num_niches": 2,
 	"niche_penalty": 20, 
 	"niche_radius": 2,
-	"num_generations": 15, 
+	"num_generations": 7, 
 	"THETAPenalty": 10,
 	"OMEGAPenalty": 10,
 	"SIGMAPenalty": 10,
@@ -28,7 +28,7 @@
     "timeout_sec": 1200, 
 	"useR": false,     
 	"usePython": false,   
-	"nmfePath": "c:/nm744/util/nmfe74.bat " , 
+	"nmfePath": "c:/nm741/util/nmfe74.bat " , 
 	"NM_priority_class": "below_normal"
 }
  

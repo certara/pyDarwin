@@ -8,7 +8,7 @@ InterimControlFile = None
 InterimResultFile = None
 SavedModelsFile = None
 
-BestModel = None
+BestRun = None
 TotalModels = 0  # whether run or found in json
 UniqueModels = 0  # anything not found in models.json nor already run
 UniqueModelsToBest = 0

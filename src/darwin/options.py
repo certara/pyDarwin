@@ -66,6 +66,8 @@ class Options:
     def _init_options(self, folder, opts: dict):
         self._options = opts
 
+        self.engine_adapter = opts.get('engine_adapter', 'nonmem')
+
         self.num_parallel = opts.get('num_parallel', 4)
 
         self.home_dir = folder or opts.get('homeDir')
@@ -98,8 +100,8 @@ class Options:
 
         log.message(f"NMFE found at {self.nmfe_path}")
 
-        self.nm_priority = _get_priority_class(opts)
-        self.nm_timeout = int(opts.get('NM_timeout_sec', 1200))
+        self.model_run_priority = _get_priority_class(opts)
+        self.model_run_timeout = int(opts.get('NM_timeout_sec', 1200))
         self.r_timeout = int(opts.get('R_timeout_sec', 90))
 
         self.search_omega_bands = opts.get('search_omega_bands', False)

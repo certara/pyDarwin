@@ -1,19 +1,20 @@
 import os
 import time
 import sys
-import gc
 
 import darwin.GlobalVars as GlobalVars
 import darwin.utils as utils
 
 from darwin.Log import log
 from darwin.options import options
+from darwin.execution_man import start_execution_manager
+
+from .ModelEngineAdapter import register_engine_adapter
+from .NMEngineAdapter import NMEngineAdapter
 
 from .Template import Template
 from .Model import Model
-from .ModelCode import ModelCode
-
-from .runAllModels import init_model_list
+from .Population import init_model_list
 
 from .algorithms.exhaustive import run_exhaustive
 from .algorithms.GA import run_ga
@@ -22,11 +23,7 @@ from .algorithms.PSO import run_pso
 
 
 def run_template(model_template: Template) -> Model:
-    # initialize a trivial model for the global best
-    null_code = ModelCode([0] * len(model_template.gene_length), "Int",
-                          model_template.gene_max, model_template.gene_length)
-    GlobalVars.BestModel = Model(model_template, null_code, -99, -99)
-    GlobalVars.BestModel.fitness = options.crash_value + 1
+
     algorithm = options.algorithm
 
     log.message(f"Search start time = {time.asctime()}")
@@ -47,8 +44,6 @@ def run_template(model_template: Template) -> Model:
     log.message(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
 
     log.message(f"Search end time = {time.asctime()}")
-
-    gc.collect()
 
     return final
 
@@ -82,4 +77,8 @@ def init_app(options_file: str, folder: str = None):
 
     GlobalVars.init_global_vars(options.home_dir)
 
+    register_engine_adapter('nonmem', NMEngineAdapter)
+
     init_model_list()
+
+    start_execution_manager()

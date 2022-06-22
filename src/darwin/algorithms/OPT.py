@@ -1,6 +1,5 @@
 import numpy as np
 import skopt
-from copy import copy
 import time
 import logging
 import heapq
@@ -16,7 +15,8 @@ from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
 from darwin.Template import Template
 from darwin.Model import Model, write_best_model_files
-from darwin.runAllModels import run_all
+from darwin.ModelRun import ModelRun
+from darwin.Population import Population
 
 logger = logging.getLogger(__name__)
 Models = []  # will put models here to query them and not rerun models, will eventually be a MongoDB
@@ -25,7 +25,7 @@ warnings.filterwarnings("ignore", message="The objective has been evaluated ")
 
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
-def run_skopt(model_template: Template) -> Model:
+def run_skopt(model_template: Template) -> ModelRun:
     """
     Run one of the scikit optimize (https://scikit-optimize.github.io/stable/) algorithms, specified in the options file 
     
@@ -68,80 +68,68 @@ def run_skopt(model_template: Template) -> Model:
     maxes = model_template.gene_max
     lengths = model_template.gene_length
 
-    models = []
+    population = Population(model_template, 0)
 
-    for this_iter in range(options['num_generations']):
-        log.message(f"Starting generation/iteration ask step {this_iter}, {options.algorithm} algorithm at {time.asctime()}")
+    for generation in range(options['num_generations']):
+        log.message(f"Starting generation/iteration ask step {generation}, {options.algorithm} algorithm at {time.asctime()}")
          
         suggestion_start_time = time.time()
         # will need to ask for 1/10 of the total models if run 10  way parallel 
-           
+
         suggested = opt.ask(n_points=options.population_size) 
         log.message("Elapse time for sampling step # %d =  %.1f seconds"
-                    % (this_iter, (time.time() - suggestion_start_time)))
+                    % (generation, (time.time() - suggestion_start_time)))
 
-        models = []
+        population = Population(model_template, generation)
 
         for thisInts, model_num in zip(suggested, range(len(suggested))):
-            code = ModelCode(thisInts, "Int", maxes, lengths)
-            models.append(Model(model_template, code, model_num, this_iter))
+            code = ModelCode.from_int(thisInts, maxes, lengths)
+            population.add_model_run(code)
 
-        run_all(models)
-
-        fitnesses = list(map(lambda m: m.fitness, models))
+        population.run_all()
 
         # run downhill?
-        if this_iter % downhill_q == 0 and this_iter > 0: 
+        if generation % downhill_q == 0 and generation > 0:
             # pop will have the fitnesses without the niche penalty here
-            
-            log.message(f"Starting downhill, iteration = {this_iter} at {time.asctime()}")
 
-            # can only use all models in GP, not in RF or GA
-            if options.algorithm == "GP":
-                new_models, worst_individuals, all_models = run_downhill(model_template, models, return_all=True)
-            else:
-                new_models, worst_individuals = run_downhill(model_template, models, return_all=False)
+            log.message(f"Starting downhill, iteration = {generation} at {time.asctime()}")
 
-            # replace worst_individuals with new_individuals, after hof update
-            # can't figure out why sometimes returns a tuple and sometimes a scalar
-            # run_downhill returns on the fitness and the integer representation!!, need to make GA model from that
-            # which means back calculate GA/full bit string representation
-            for i in range(len(new_models)):
-                models[worst_individuals[i]] = copy(new_models[i])
-                fitnesses[worst_individuals[i]] = new_models[i].fitness
-                suggested[worst_individuals[i]] = new_models[i].model_code.IntCode
+            run_downhill(model_template, population)
+
+            suggested = [r.model.model_code.IntCode for r in population.runs]
 
             if options.algorithm == "GP":
                 log.message("add in all models to suggested and fitness for GP")
+
+        fitnesses = [r.result.fitness for r in population.runs]
 
         tell_start_time = time.time()
 
         # I think you can tell with all models, but not sure
         opt.tell(suggested, fitnesses) 
         
-        log.message("Elapse time for tell step %d =  %.1f seconds ---" % (this_iter, (time.time() - tell_start_time)))
+        log.message("Elapse time for tell step %d =  %.1f seconds ---" % (generation, (time.time() - tell_start_time)))
 
         best_fitness = heapq.nsmallest(1, fitnesses)[0]
 
-        best_model = GlobalVars.BestModel
+        best_run = GlobalVars.BestRun
 
-        if best_fitness < best_model.fitness:
+        if best_fitness < best_run.result.fitness:
             niter_no_change = 0
         else:
             niter_no_change += 1
 
         log.message(f"Best fitness this iteration = {best_fitness:4f}  at {time.asctime()}")
-        log.message(f"Best overall fitness = {best_model.fitness:4f},"
-                    f" iteration {best_model.generation}, model {best_model.model_num}")
+        log.message(f"Best overall fitness = {best_run.result.fitness:4f},"
+                    f" iteration {best_run.generation}, model {best_run.model_num}")
 
     if options["final_fullExhaustiveSearch"]:
         log.message(f"Starting final downhill")
         # can only use all models in GP, not in RF or GA
 
-        for model in models:
-            model.generation = "FN"
+        population.name = 'FN'
 
-        run_downhill(model_template, models, return_all=(options.algorithm == "GP"))
+        run_downhill(model_template, population)
 
     if niter_no_change:
         log.message(f'No change in fitness in {niter_no_change} iteration')
@@ -150,10 +138,10 @@ def run_skopt(model_template: Template) -> Model:
 
     write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
 
+    best_run = GlobalVars.BestRun
+
     log.message(f"Final output from best model is in {GlobalVars.FinalResultFile}")
-    log.message(f'Best overall solution =[{GlobalVars.BestModel.model_code.IntCode}],'
-                f' Best overall fitness ={GlobalVars.BestModel.fitness:.6f} ')
+    log.message(f'Best overall solution =[{best_run.model.model_code.IntCode}],'
+                f' Best overall fitness ={best_run.result.fitness:.6f} ')
 
-    final_model = copy(GlobalVars.BestModel)
-
-    return final_model
+    return best_run

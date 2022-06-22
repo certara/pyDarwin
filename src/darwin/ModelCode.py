@@ -7,33 +7,56 @@ class ModelCode:
     and to interconvert between them.
     """
 
-    def __init__(self, code, which_type, gene_max, length):
-        assert which_type in ["FullBinary", "MinBinary", "Int"],\
-            "Type of code must be one of 'FullBinary','MinBinary','Int'"
-        assert isinstance(code, list), "'code' must list of integers or (0|1 if FullBinary or MinBinary)"
-        assert isinstance(gene_max, list), "'gene_max' must list of integers "
-        assert isinstance(length, list), "'length' must list of integers "
+    @classmethod
+    def from_full_binary(cls, code: list, gene_max: list, length: list):
+        res = cls()
 
-        self.max = gene_max
-        self.length = length
-        self.type = which_type
+        # it's usually deap Individual instance - converting to a regular list
+        res.FullBinCode = []
+        res.FullBinCode.extend(code)
 
-        if which_type == "FullBinary":
-            self.FullBinCode = code
-            self._convert_full_bin_int()
-            self._convert_int_min_bin()
+        res._convert_full_bin_int(gene_max, length)
+        res._convert_int_min_bin(length)
 
-        elif which_type == "MinBinary":
-            self.MinBinCode = code
-            self._convert_min_bin_int()
-            self._convert_int_full_bin()
+        return res
 
-        elif which_type == "Int":
-            self.IntCode = code
-            self._convert_int_min_bin()
-            self._convert_int_full_bin()
+    @classmethod
+    def from_min_binary(cls, code: list, gene_max: list, length: list):
+        res = cls()
 
-    def _convert_full_bin_int(self):
+        res.MinBinCode = code
+        res._convert_min_bin_int(gene_max, length)
+        res._convert_int_full_bin(gene_max, length)
+
+        return res
+
+    @classmethod
+    def from_int(cls, code: list, gene_max: list, length: list):
+        res = cls()
+
+        # numpy.int32 is not JSON serializable - converting to python int
+        int_code = [int(x) for x in code]
+
+        res.IntCode = int_code
+        res._convert_int_min_bin(length)
+        res._convert_int_full_bin(gene_max, length)
+
+        return res
+
+    def to_dict(self):
+        return {'IntCode': self.IntCode, 'MinBinCode': self.MinBinCode, 'FullBinCode': self.FullBinCode}
+
+    @classmethod
+    def from_dict(cls, src: dict):
+        res = cls()
+
+        res.IntCode = src['IntCode']
+        res.MinBinCode = src['MinBinCode']
+        res.FullBinCode = src['FullBinCode']
+
+        return res
+
+    def _convert_full_bin_int(self, gene_max: list, length: list):
         """
         Converts a "full binary" (e.g., from GA to integer (used to select token sets))
         arguments are:
@@ -47,7 +70,7 @@ class ModelCode:
 
         phenotype = []
 
-        for this_num_bits, this_max in zip(self.length, self.max):
+        for this_num_bits, this_max in zip(length, gene_max):
             this_gene = self.FullBinCode[start:start + this_num_bits] or [0]
             base_int = int("".join(str(x) for x in this_gene), 2)
             max_value = 2 ** len(this_gene) - 1  # zero based, max number possible from bit string, 0 based (has the -1)
@@ -65,7 +88,7 @@ class ModelCode:
 
         return
 
-    def _convert_int_full_bin(self):
+    def _convert_int_full_bin(self, gene_max: list, length: list):
         """
         Converts an integer array to "full binary"
         (e.g., from integer (used to select token sets) back to GA compatible code, opposite of convert_full_bin_int)
@@ -74,7 +97,8 @@ class ModelCode:
         """
 
         result = []
-        for baseInt, this_max, this_length in zip(self.IntCode, self.max, self.length):
+
+        for baseInt, this_max, this_length in zip(self.IntCode, gene_max, length):
             max_value = (2 ** this_length) - 1  # zero based
             max_num_added = max_value - this_max  # max is zero based
 
@@ -90,7 +114,7 @@ class ModelCode:
 
         self.FullBinCode = result
 
-    def _convert_min_bin_int(self):
+    def _convert_min_bin_int(self, gene_max: list, length: list):
         """
         Converts a "minimal binary"
         (e.g., used for downhill, just the integer value converted to binary - doesn't fill in the entire n bit array)
@@ -98,7 +122,7 @@ class ModelCode:
         """
         start = 0
         result = []
-        for this_gene, this_max in zip(self.length, self.max):
+        for this_gene, this_max in zip(length, gene_max):
             # max is 0 based, everything is zero based
             last = start + this_gene
             binary = self.MinBinCode[start:last] or [0]
@@ -117,7 +141,7 @@ class ModelCode:
 
         self.IntCode = result
 
-    def _convert_int_min_bin(self):
+    def _convert_int_min_bin(self, length: list):
         """
         Converts an integer array to "minimal binary"
         (e.g., used for downhill, just the integer value converted to binary - doesn't fill in the entire n bit array)
@@ -125,7 +149,7 @@ class ModelCode:
         full_results = []
         cur_gene = 0
 
-        for this_length in self.length:
+        for this_length in length:
             this_gene = self.IntCode[cur_gene]
             full_results.extend(_int_to_bin(this_gene, this_length))
             cur_gene += 1

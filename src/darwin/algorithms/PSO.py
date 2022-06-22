@@ -74,7 +74,7 @@ from darwin.options import options
 
 from darwin.Template import Template
 from darwin.Model import Model
-from darwin.runAllModels import run_all
+from darwin.Population import Population
 from darwin.ModelCode import ModelCode
 
 
@@ -306,11 +306,13 @@ def f(x, model_template, iteration):
     for i in range(n_particles):
         pop_full_bits.append(x[i].tolist()) # needs to be list, not numpy array
 
-    for thisFullBits,model_num in zip(pop_full_bits,range(len(pop_full_bits))):
-        code = ModelCode(thisFullBits, "FullBinary", maxes, lengths)
-        models.append(Model(model_template, code, model_num, iteration))
+    gen = Population(model_template, iteration)
 
-    run_all(models)  # popFullBits,model_template,0)  # argument 1 is a full GA/DEAP individual
+    for thisFullBits in pop_full_bits:
+        code = ModelCode.from_full_binary(thisFullBits, maxes, lengths)
+        gen.add_model_run(code)
+
+    gen.run_all()
 
     j = []
 

@@ -1,6 +1,5 @@
 import time
 import numpy as np
-from copy import copy
 
 import darwin.GlobalVars as GlobalVars
 
@@ -8,12 +7,12 @@ from darwin.Log import log
 from darwin.options import options
 
 from darwin.Template import Template
-from darwin.Model import Model, write_best_model_files
+from darwin.ModelRun import ModelRun, write_best_model_files
 from darwin.ModelCode import ModelCode
-from darwin.runAllModels import run_all
+from darwin.Population import Population
 
 
-def run_exhaustive(model_template: Template) -> Model:
+def run_exhaustive(model_template: Template) -> ModelRun:
     """
     Run full exhaustive search on the Template, all possible combination.
     All models will be run in generation/iteration number 0.
@@ -21,8 +20,8 @@ def run_exhaustive(model_template: Template) -> Model:
     :param model_template: Model Template
     :type model_template: Template
 
-    :return: Returns final/best model
-    :rtype: Model
+    :return: Returns final/best model run
+    :rtype: ModelRun
     """    
     num_groups = []
 
@@ -54,25 +53,21 @@ def run_exhaustive(model_template: Template) -> Model:
         max_models = num_models
         current_last = num_models
 
-    fitnesses = []
-    best_fitness = options.crash_value
-
     while current_last <= num_models:
         if current_last > len(codes):
             current_last = len(codes)
-        models = []
+
+        pop = Population(model_template, 0)
+
         for thisInts, model_num in zip(codes[current_start:current_last], range(current_start, current_last)):
-            code = ModelCode(thisInts, "Int", maxes, lengths)
-            models.append(Model(model_template, code, model_num, 0))
+            code = ModelCode.from_int(thisInts, maxes, lengths)
+            pop.add_model_run(code)
 
-        run_all(models)
+        pop.run_all()
 
-        for model in models:
-            if model.fitness < best_fitness:
-                best_fitness = model.fitness
-            fitnesses.append(model.fitness)
+        best = pop.get_best_run()
 
-        log.message(f"Current Best fitness = {best_fitness}")
+        log.message(f"Current Best fitness = {best.result.fitness}")
 
         current_start = current_last
         current_last = current_start + max_models
@@ -81,13 +76,13 @@ def run_exhaustive(model_template: Template) -> Model:
 
     log.message(f"Elapse time = {elapsed / 60:.1f} minutes \n")
 
-    best_model = copy(GlobalVars.BestModel)
+    best_overall = GlobalVars.BestRun
 
-    log.message(f"Best overall fitness = {best_model.fitness:.6f}, model {best_model.model_num}")
+    log.message(f"Best overall fitness = {best_overall.result.fitness:.6f}, model {best_overall.model_num}")
 
     write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
 
     log.message(f"Final output from best model is in {GlobalVars.FinalResultFile}")
     log.message(f"Unique model list in  {GlobalVars.SavedModelsFile}") 
 
-    return best_model
+    return best_overall

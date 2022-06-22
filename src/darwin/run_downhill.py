@@ -112,15 +112,8 @@ def run_downhill(template: Template, pop: Population):  # only return new models
                     # and run test_ind
                 # and run all of them
 
-        # need to create models
-        maxes = template.gene_max
-        lengths = template.gene_length
-
-        population = Population(template, str(generation) + "D" + str(this_step))
-
-        for min_bits in test_models:
-            code = ModelCode.from_min_binary(min_bits, maxes, lengths)
-            population.add_model_run(code)
+        population = Population.from_codes(template, str(generation) + "D" + str(this_step),
+                                           test_models, ModelCode.from_min_binary)
 
         if len(population.runs) > 0:
             log.message(f"Starting downhill step {this_step},"
@@ -247,14 +240,7 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
         while radius <= niche_radius:
             test_models, radius = _change_each_bit(test_models, radius)
 
-        maxes = model_template.gene_max
-        lengths = model_template.gene_length
-
-        population = Population(model_template, full_generation)
-
-        for min_bits in test_models:
-            code = ModelCode.from_min_binary(min_bits, maxes, lengths)
-            population.add_model_run(code)
+        population = Population.from_codes(model_template, full_generation, test_models, ModelCode.from_min_binary)
 
         population.run_all()
 

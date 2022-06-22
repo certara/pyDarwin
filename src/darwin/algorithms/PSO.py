@@ -65,15 +65,11 @@ import multiprocessing as mp
 
 from collections import deque
 
-import time
-
-import darwin.GlobalVars as GlobalVars
-
 from darwin.Log import log
 from darwin.options import options
 
 from darwin.Template import Template
-from darwin.Model import Model
+from darwin.ModelRun import ModelRun
 from darwin.Population import Population
 from darwin.ModelCode import ModelCode
 
@@ -298,33 +294,20 @@ class BinaryPSO(DiscreteSwarmOptimizer):
 def f(x, model_template, iteration):
     n_particles = x.shape[0]
     # create models
-    models = []
-    maxes = model_template.gene_max
-    lengths = model_template.gene_length
-    pop_full_bits = []
+    pop_full_bits = [x[i].tolist() for i in range(n_particles)]
 
-    for i in range(n_particles):
-        pop_full_bits.append(x[i].tolist()) # needs to be list, not numpy array
+    pop = Population.from_codes(model_template, iteration, pop_full_bits, ModelCode.from_full_binary)
 
-    gen = Population(model_template, iteration)
+    pop.run_all()
 
-    for full_bits in pop_full_bits:
-        code = ModelCode.from_full_binary(full_bits, maxes, lengths)
-        gen.add_model_run(code)
-
-    gen.run_all()
-
-    j = []
-
-    for i in range(n_particles):
-        j.append(models[i].fitness)
+    j = [r.result.fitness for r in pop.runs]
 
     return np.array(j)
 
 # Initialize swarm, arbitrary 
   
 
-def run_pso(model_template: Template) -> Model:
+def run_pso(model_template: Template) -> ModelRun:
     """
     Runs Particle Swarm Optimization (PSO), based on PySwarm (https://github.com/ljvmiranda921/pyswarms)
     Called from Darwin.run_search, _run_template

@@ -65,8 +65,6 @@ def run_skopt(model_template: Template) -> ModelRun:
     # https://scikit-optimize.github.io/stable/auto_examples/ask-and-tell.html
     
     niter_no_change = 0
-    maxes = model_template.gene_max
-    lengths = model_template.gene_length
 
     population = Population(model_template, 0)
 
@@ -80,11 +78,7 @@ def run_skopt(model_template: Template) -> ModelRun:
         log.message("Elapse time for sampling step # %d =  %.1f seconds"
                     % (generation, (time.time() - suggestion_start_time)))
 
-        population = Population(model_template, generation)
-
-        for ints in suggested:
-            code = ModelCode.from_int(ints, maxes, lengths)
-            population.add_model_run(code)
+        population = Population.from_codes(model_template, generation, suggested, ModelCode.from_int)
 
         population.run_all()
 

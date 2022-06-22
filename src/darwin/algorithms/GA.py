@@ -143,15 +143,7 @@ def run_ga(model_template: Template) -> ModelRun:
     crossover_probability = options['crossoverRate']
     mutation_probability = options['mutationRate']
 
-    # argument to run_all is integer codes!!!!!
-    maxes = model_template.gene_max
-    lengths = model_template.gene_length
-
-    first_gen = Population(model_template, 0)
-
-    for full_bits in pop_full_bits:
-        code = ModelCode.from_full_binary(full_bits, maxes, lengths)
-        first_gen.add_model_run(code)
+    first_gen = Population.from_codes(model_template, 0, pop_full_bits, ModelCode.from_full_binary)
 
     first_gen.run_all()
 
@@ -225,11 +217,7 @@ def run_ga(model_template: Template) -> ModelRun:
         for i in range(elitist_num):
             pop_full_bits[worst_run_indices[i]] = copy(best_for_elitism[i])  # hof.items need the fitness as well?
 
-        population = Population(model_template, generation)
-
-        for full_bits in pop_full_bits:
-            code = ModelCode.from_full_binary(full_bits, maxes, lengths)
-            population.add_model_run(code)
+        population = Population.from_codes(model_template, generation, pop_full_bits, ModelCode.from_full_binary)
 
         population.run_all()
 

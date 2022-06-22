@@ -60,6 +60,24 @@ darwin.Model module
    :special-members: __init__
    :undoc-members:
 
+
+darwin.ModelResults module
+--------------------------
+
+.. automodule:: darwin.ModelResults
+   :members:
+   :special-members: __init__
+   :undoc-members:
+
+
+darwin.ModelRun module
+----------------------
+
+.. automodule:: darwin.ModelRun
+   :members:
+   :special-members: __init__
+   :undoc-members:
+
 darwin.ModelCode module
 -----------------------
 
@@ -67,6 +85,24 @@ darwin.ModelCode module
    :members:
    :undoc-members:
    :private-members:
+
+
+darwin.ModelEngineAdapter module
+---------------------------------
+
+.. automodule:: darwin.ModelEngineAdapter
+   :members:
+   :undoc-members:
+   :private-members:	
+
+
+darwin.NMEngineAdapter module
+---------------------------------
+
+.. automodule:: darwin.NMEngineAdapter
+   :members:
+   :undoc-members:
+   :private-members:	
 
 darwin.omega\_utils module
 --------------------------
@@ -91,13 +127,15 @@ darwin.options module
    :members:
    :undoc-members:
 
-darwin.runAllModels module
---------------------------
+ 
+darwin.Population module
+------------------------
 
-.. automodule:: darwin.runAllModels
+.. automodule:: darwin.Population
    :members:
    :undoc-members:
-   :show-inheritance:
+
+ 
 
 darwin.run\_downhill module
 ---------------------------
@@ -122,6 +160,8 @@ darwin.run\_search\_in\_folder module
    :members:
    :undoc-members:
    :show-inheritance:
+
+
 
 darwin.utils module
 -------------------

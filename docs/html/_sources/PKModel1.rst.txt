@@ -10,7 +10,7 @@ This first model is quite simple, the search space consistes of 6 dimensions, ea
 The Template file
 ~~~~~~~~~~~~~~~~~~~~~
 
-Example 1 template file :download:`text <../examples/Example1/Example1_template.txt>`
+Example 1 template file :download:`template file <../examples/Example1/Example1_template.txt>`
 Example 1 searchs a 6 dimensional space. The dimensions corresponds to :ref:`token group <token group>`. 
 Each token group is identified by a :ref:`token stem <token stem>`, e.g. "V2~WT" for the dimension of the 
 relationship between weight a volume of distribution. Each token group includes 
@@ -36,28 +36,180 @@ example, if ALAG1 is to be used in the $PK block, a corresponding initial estima
 this parameter must be provided in the $THETA block. These tokens (collectively called a token set) 
 are then replaced by the corresponding text value in the :ref:`token key-text pair <token key-text pair>`. 
 
+Data file path
+~~~~~~~~~~~~~~~
+Typically, the NMTRAN data file will be located in the :ref:`home directory<home directory>`. As the models are run in a directory  two levels down 
+(home directory/generation/model) the path to the data set is typically given as 
 
-As the search space is small 
-(and the run time is fast), we'll search by exhaustive search.
+::
+
+    $DATA ..\..\data.csv
+
+
+As the search space is small (and the run time is fast), we'll search by exhaustive search.
+The tokens file for Example 1 is given below.
+
+::
+
+    $PROBLEM    2 compartment fitting
+    $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
+    $DATA      ..\..\datalarge.csv IGNORE=@
+            
+    $SUBROUTINE ADVAN2
+    $ABBR DERIV2=NO
+    $PK      
+    CWTKG = WTKG/70  ;; CENTERED ON ONE 
+    CAGE = AGE/40
+    ;; thetas out of sequence
+    TVV2=THETA(2){V2~WT[1]} {V2~GENDER[1]}
+    V2=TVV2*EXP(ETA(2)) 
+    TVCL= THETA(1) {CL~WT[1]}  
+    CL=TVCL*EXP(ETA(1)) 
+    K=CL/V2  
+    TVKA=THETA(3) 
+    KA=TVKA  {KAETA[1]}  
+    S2 	= V2/1000 
+    {ALAG[1]}
+    $ERROR     
+    REP = IREP      
+    IPRED =F  
+    IOBS = F {RESERR[1]}
+    Y=IOBS
+    $THETA  ;; must be one THETA per line.
+    (0.001,100)	; THETA(1) CL UNITS =  L/HR
+    (0.001,500) 	; THETA(2) V  UNITS = L
+    (0.001,2) 	; THETA(3) KA UNITS = 1/HR  
+    
+    {V2~WT[2]}   ;;; comment ;; comment
+    {V2~GENDER[2]}   ;;; comment ;; comment 
+    {CL~WT[2]}  
+    {ALAG[2]}
+    
+    $OMEGA   ;; must be one ETA/line
+    0.2  		; ETA(1) CLEARANCE
+    ;; test for comments in blocks
+    0.2  	; ETA(2) VOLUME
+    ;; optional $OMEGA blocks
+    {KAETA[2]}   
+    
+    $SIGMA   
+
+    {RESERR[2]} 
+    $EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 
+    $COV UNCOND PRINT=E
+    
+
 The Tokens file
 ~~~~~~~~~~~~~~~~
 
-Example 1 tokens file :download:`json <../examples/Example1/Example1_tokens.json>`
+Example 1 tokens file :download:`json tokens file <../examples/Example1/Example1_tokens.json>`
 
 The :ref:`tokens file <tokens file>` provide the :ref:`token key-text pairs<token key-text pair>` that 
 are substitued into the template file. This is a `JSON <https://www.json.org/json-en.html>`_ file format. 
 Unfortunately, comments are not  permitted in JSON files and so this file without annotation. Requirements are that 
 each :ref:`token set <token set>` within a :ref:`token group <token group>` must have the same number of :ref:`tokens <token>` 
-and new lines must be coded as ASCII text ("\n"), not just a new line in the file (which will be ignored). One level of 
+and new lines must be coded using the escape syntax ("\\n"), not just a new line in the file (which will be ignored). One level of 
 nest tokens (tokens within tokens is permitted. This can be useful, when for example one might want to search for covariates 
 on an search parameter, as in searching for an effect of FED vs FASTED state on ALAG1, when ALAG1 is also searched (see
-:ref:`PK example 3 <startpk3>`)
+:ref:`PK example 3 <startpk3>`). The tokens file for Example 1 is given below.
 
+::
+
+    {
+    
+        "V2~WT": [
+            ["",
+            ""
+            ],
+            ["*CWTKG**THETA(V2~WT)",
+                "  (-4,0.8,4) \t; THETA(V2~WT) POWER volume ~WT "
+            ]
+        ],
+
+        "V2~GENDER": [
+            ["",
+                ""
+            ],
+            ["*CWTKG**THETA(V2~GENDER)",
+                "  (-4,0.1,4) \t; THETA(V2~GENDER) POWER volume ~SEX "
+            ]
+        ],
+        "CL~WT": [
+            ["",
+                ""
+            ],
+            ["*CWTKG**THETA(CL~WT)",
+                "  (-4,.7,4) \t; THETA(CL~WT) POWER clearance~WT "
+            ] 
+        ],
+        "KAETA": [
+            ["",
+            ""
+            ],
+            ["*EXP(ETA(KAETA)) ",
+                "$OMEGA ;; 2nd??OMEGA block \n  0.1\t\t; ETA(KAETA) ETA ON KA"
+            ]
+        ],
+        "ALAG": [
+            ["",
+                "",
+                ""
+            ],
+            ["ALAG1 = THETA(ALAG)",
+                "  (0, 0.1,3) \t; THETA(ALAG) ALAG1 "
+            ]
+        ] ,
+        "RESERR": [
+            ["*EXP(EPS(RESERRA))+EPS(RESERRB)",
+                "  0.3 \t; EPS(RESERRA) proportional error\n  0.3 \t; EPS(RESERRB) additive error"
+            ],
+            ["+EPS(RESERRA)",
+                "  3000 \t; EPS(RESERRA) additive error"
+            ]
+        ]
+    }
 
 The Options file
 ~~~~~~~~~~~~~~~~
 
-Example 1 :ref:`Options file <options file>`  :download:`json <../examples/Example1/Example1_options.json>` 
+Example 1 :ref:`Options file <options file>`  :download:`json options file <../examples/Example1/Example1_options.json>` 
+The options file will likely need to be editted, as the path to nmfe??.bat must be provided
+The options file for Example 1 is given below:
+
+::
+
+    {
+        "author": "Certara",
+        "homeDir": "C:\\fda\\pydarwin\\examples\\Example1",
+        "algorithm":"EXHAUSTIVE",
+        "random_seed": 11,  
+        "max_model_list_size": 500,
+        "num_parallel": 40,
+        "THETAPenalty": 10,
+        "OMEGAPenalty": 10,
+        "SIGMAPenalty": 10,
+        "covergencePenalty": 100,
+        "covariancePenalty": 100,
+        "correlationPenalty": 100,
+        "correlationLimit": 0.95,
+        "conditionNumberPenalty": 100,  
+        "input_model_json": "None", 
+        "crash_value": 99999999,
+        "non_influential_tokens_penalty": 0.00001,
+        "remove_run_dir": false, 
+        "timeout_sec": 1200, 
+        "useR": false,     
+        "usePython": false,   
+        "nmfePath": "c:/nm741/util/nmfe74.bat " , 
+        "NM_priority_class": "below_normal"
+    }
+
+
+
+The data file
+~~~~~~~~~~~~~~~~
+
+Example 1 Data file :download:`datalarge.csv <../examples/Example1/datalarge.csv>` 
 
   
  

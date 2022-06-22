@@ -20,7 +20,7 @@
     "timeout_sec": 1200, 
 	"useR": false,     
 	"usePython": false,   
-	"nmfePath": "c:/nm741/util/nmfe74.bat " , 
+	"nmfePath": "c:/nm744/util/nmfe74.bat " , 
 	"NM_priority_class": "below_normal"
 }
  

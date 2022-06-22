@@ -17,5 +17,6 @@ Different resisual error models
 Block OMEGA structures
 Different initial estimates (also likely not as many as a real search).
 
-As you can see in the :ref:`startpk4` image,  
+As you can see in the :ref:`startpk4` image
+
   

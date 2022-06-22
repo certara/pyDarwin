@@ -90,13 +90,45 @@ of each candidate is evaluated. A subsequent population is candidate is then gen
 present generation as “parents”, with selection a function of fitness, with the more
 fit individual being more likely to be selected as parents. The parents are then paired of, undergo
 cross over and mutation and a new generation created. This process is continued until
-no futher improvement is seen. <a class="reference external" href="https://en.wikipedia.org/wiki/Genetic_algorithm">GA on Wikipedia</a></p>
+no futher improvement is seen. In pyDarwin, GA is implmented using the <a class="reference internal" href="#deap"><span class="std std-ref">DEAP</span></a> package. <a class="reference external" href="https://en.wikipedia.org/wiki/Genetic_algorithm">GA on Wikipedia</a></p>
 <p id="gp"><strong>GP - Gaussian Process (Bayesian optimization)</strong></p>
 <p id="gbrt"><strong>GBRT - Gradient Boosted Random Tree:</strong> Random Forest optimization <a class="reference external" href="https://en.wikipedia.org/wiki/Gradient_boosting">Gradient Boosting on Wikipedia</a></p>
+<p id="home-directory"><strong>home directory:</strong> The home directory (specified as “homeDir” in the <a class="reference internal" href="#options-file"><span class="std std-ref">options file</span></a>) will serve as the root directory for all model runs. Within the
+home directory will be one or more generation directories, and within each generation directory will be model directories. Model are run in the model directory. Typically,
+the NMTRAN data file(s) will be in the home directory, and therefore the relative path to the data file specified in the $DATA block will be two directories up, e.g.,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$DATA ..\..\data.csv.
+</pre></div>
+</div>
+<p>Alternatively, the absolute path can be specified.</p>
+<p id="parameter-sorting"><strong>Parameter sorting:</strong> The merged template file-tokens files-phenotype is first merged. In this merged file the parameters in the searched text are indexed only with
+text, e.g., THETA(ALAG). This is necessary as the integer indices assigned to each parameter cannot be determined until the control file is merged. Once this is done the
+number and sequence of searched THETA/OMEGA/SIGMA values in the control file can be determined and the correct parameter indices assigned. Essential rules for parsing the
+merged template are:</p>
+<ol class="arabic simple">
+<li><p>Fixed parameter initial estimates MUST be placed before the searched parameter initial estimates. E.g.:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$THETA
+
+(0,1)  ; THETA(1) Clearance
+
+{ALAG[2]}
+
+(0,1)  ; THETA(2) Volume
+</pre></div>
+</div>
+<p>is <strong>NOT</strong> permited, as a searched parameter initial estimate ({ALAG[2]}) occurs before a fixed initial estimated ((0,1)  ; THETA(2) Volume)</p>
+<ol class="arabic simple">
+<li><p>Each parameter initial estimate must be one a separate line</p></li>
+<li><p>Parameter estimate must be enclosed in parentheses, e.g, (0,1)</p></li>
+</ol>
+<p id="nested-tokens"><strong>Nested Tokens:</strong> XXXXXXX</p>
 <p id="options-file"><strong>Options File:</strong> Specified the options for the search, inculding the algorith, the <a class="reference internal" href="#fitness"><span class="std std-ref">fitness/reward criteria</span></a>, the population size, the number
 of iterations/generations and whether the downhill search is to be executed.</p>
+<p id="phenotype"><strong>Phenotype:</strong> XXXXXXX</p>
 <p id="reward"><strong>Reward:</strong> A number representing the overall “goodness” of the candidate. Called fitness in GA.</p>
 <p id="rf"><strong>RF - Random Forest:</strong> Random Forest optimization <a class="reference external" href="https://en.wikipedia.org/wiki/Random_forest">Random Forest on Wikipedia</a></p>
+<p><a class="reference external" href="https://scikit-optimize.github.io/stable/">https://scikit-optimize.github.io/stable/</a></p>
+<p id="scikit-optimized"><strong>scikit-optimize:</strong> <a class="reference external" href="https://scikit-optimize.github.io/stable/">Optimization package</a></p>
 <p id="template"><strong>Template:</strong> XXXXX</p>
 <p id="token"><strong>Token:</strong> XXXXX</p>
 <p id="tokens-file"><strong>Tokens file:</strong> XXXXX</p>
@@ -104,15 +136,16 @@ of iterations/generations and whether the downhill search is to be executed.</p>
 <p id="token-set"><strong>Token set</strong>: one for each option in the that dimension</p>
 <p id="token-key-text-pair"><strong>Token key-text pair:</strong> A <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> contains two or more token key-text pairs. These
 pairs are very analagous to JSON key-value pairs, except that only text values are permitted. For each
-token key-text pair, the <a class="reference internal" href="#token-stem"><span class="std std-ref">token stem</span></a> [n] in the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a> is replaced
-by the corresponding values in the token key-text pair. For example, if the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a>
-contains these two tokens:</p>
-<p>ALAG[1]</p>
+token key-text pair, the text {<a class="reference internal" href="#token-stem"><span class="std std-ref">token stem</span></a> [n]} in the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a> is replaced
+by the corresponding values in the token key-text pair. Note that the token key is surrounded by curly braces in the template file.
+For example, if the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a> contains these two tokens:</p>
+<p>{ALAG[1]}</p>
 <p>in the $PK block</p>
 <p>and</p>
-<p>ALAG[2]</p>
-<p>in the $THETA block
-the <a class="reference internal" href="#token-stem"><span class="std std-ref">token stem</span></a> would be ALAG. The ALAG <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a>
+<p>{ALAG[2]}</p>
+<p>in the $THETA block the <a class="reference internal" href="#token-stem"><span class="std std-ref">token stem</span></a> would be ALAG. Again, note that om the template file the “token stem[n]” is enclosed in curly braces.
+N is the index of the token within the token set. While indices to token can be duplicated and indices can be skipped, it is recommended
+that they start at 1 be numbered sequentially through the template file. The ALAG <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a>
 would be required in the tokens files. Exactly one <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> would
 be selected (by the search algorithm) for substitution into the template file. If the first
 token set is selected, and this token set contains these token key-text pairs:</p>

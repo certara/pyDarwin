@@ -46,7 +46,10 @@
 <li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">PK Model 1, trivial exhaustive search</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-file-path">Data file path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-data-file">The data file</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
@@ -87,7 +90,7 @@
 2^6 = 64 models. As the search space if very small, we’ll search by exhaustive search.</p>
 <section id="the-template-file">
 <h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
-<p>Example 1 template file <a class="reference download internal" download="" href="_downloads/c8d007dd3f9a400734b0abccf644cdc2/Example1_template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a>
+<p>Example 1 template file <a class="reference download internal" download="" href="_downloads/c8d007dd3f9a400734b0abccf644cdc2/Example1_template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">file</span></code></a>
 Example 1 searchs a 6 dimensional space. The dimensions corresponds to <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>.
 Each token group is identified by a <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a>, e.g. “V2~WT” for the dimension of the
 relationship between weight a volume of distribution. Each token group includes
@@ -110,23 +113,168 @@ multiple text substittion must be made to results in a syntactically correct NMT
 example, if ALAG1 is to be used in the $PK block, a corresponding initial estimate for
 this parameter must be provided in the $THETA block. These tokens (collectively called a token set)
 are then replaced by the corresponding text value in the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pair</span></a>.</p>
-<p>As the search space is small
-(and the run time is fast), we’ll search by exhaustive search.
-The Tokens file
-~~~~~~~~~~~~~~~~</p>
-<p>Example 1 tokens file <a class="reference download internal" download="" href="_downloads/1ebe7d24d827bfae1e5a39860d8108d6/Example1_tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+</section>
+<section id="data-file-path">
+<h2>Data file path<a class="headerlink" href="#data-file-path" title="Permalink to this heading">¶</a></h2>
+<p>Typically, the NMTRAN data file will be located in the <a class="reference internal" href="Glossary.html#home-directory"><span class="std std-ref">home directory</span></a>. As the models are run in a directory  two levels down
+(home directory/generation/model) the path to the data set is typically given as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$DATA ..\..\data.csv
+</pre></div>
+</div>
+<p>As the search space is small (and the run time is fast), we’ll search by exhaustive search.
+The tokens file for Example 1 is given below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
+$INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
+$DATA      ..\..\datalarge.csv IGNORE=@
+
+$SUBROUTINE ADVAN2
+$ABBR DERIV2=NO
+$PK
+CWTKG = WTKG/70  ;; CENTERED ON ONE
+CAGE = AGE/40
+;; thetas out of sequence
+TVV2=THETA(2){V2~WT[1]} {V2~GENDER[1]}
+V2=TVV2*EXP(ETA(2))
+TVCL= THETA(1) {CL~WT[1]}
+CL=TVCL*EXP(ETA(1))
+K=CL/V2
+TVKA=THETA(3)
+KA=TVKA  {KAETA[1]}
+S2  = V2/1000
+{ALAG[1]}
+$ERROR
+REP = IREP
+IPRED =F
+IOBS = F {RESERR[1]}
+Y=IOBS
+$THETA  ;; must be one THETA per line.
+(0.001,100) ; THETA(1) CL UNITS =  L/HR
+(0.001,500)         ; THETA(2) V  UNITS = L
+(0.001,2)   ; THETA(3) KA UNITS = 1/HR
+
+{V2~WT[2]}   ;;; comment ;; comment
+{V2~GENDER[2]}   ;;; comment ;; comment
+{CL~WT[2]}
+{ALAG[2]}
+
+$OMEGA   ;; must be one ETA/line
+0.2                 ; ETA(1) CLEARANCE
+;; test for comments in blocks
+0.2         ; ETA(2) VOLUME
+;; optional $OMEGA blocks
+{KAETA[2]}
+
+$SIGMA
+
+{RESERR[2]}
+$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1
+$COV UNCOND PRINT=E
+</pre></div>
+</div>
+</section>
+<section id="the-tokens-file">
+<h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
+<p>Example 1 tokens file <a class="reference download internal" download="" href="_downloads/1ebe7d24d827bfae1e5a39860d8108d6/Example1_tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">tokens</span> <span class="pre">file</span></code></a></p>
 <p>The <a class="reference internal" href="Glossary.html#tokens-file"><span class="std std-ref">tokens file</span></a> provide the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> that
 are substitued into the template file. This is a <a class="reference external" href="https://www.json.org/json-en.html">JSON</a> file format.
 Unfortunately, comments are not  permitted in JSON files and so this file without annotation. Requirements are that
 each <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a> within a <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a> must have the same number of <a class="reference internal" href="Glossary.html#token"><span class="std std-ref">tokens</span></a>
-and new lines must be coded as ASCII text (”n”), not just a new line in the file (which will be ignored). One level of
+and new lines must be coded using the escape syntax (”\n”), not just a new line in the file (which will be ignored). One level of
 nest tokens (tokens within tokens is permitted. This can be useful, when for example one might want to search for covariates
 on an search parameter, as in searching for an effect of FED vs FASTED state on ALAG1, when ALAG1 is also searched (see
-<a class="reference internal" href="PKModel3.html#startpk3"><span class="std std-ref">PK example 3</span></a>)</p>
+<a class="reference internal" href="PKModel3.html#startpk3"><span class="std std-ref">PK example 3</span></a>). The tokens file for Example 1 is given below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+
+    <span class="s2">&quot;V2~WT&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;&quot;</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;*CWTKG**THETA(V2~WT)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;  (-4,0.8,4) </span><span class="se">\t</span><span class="s2">; THETA(V2~WT) POWER volume ~WT &quot;</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
+
+    <span class="s2">&quot;V2~GENDER&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;*CWTKG**THETA(V2~GENDER)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;  (-4,0.1,4) </span><span class="se">\t</span><span class="s2">; THETA(V2~GENDER) POWER volume ~SEX &quot;</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;CL~WT&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;*CWTKG**THETA(CL~WT)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;  (-4,.7,4) </span><span class="se">\t</span><span class="s2">; THETA(CL~WT) POWER clearance~WT &quot;</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;KAETA&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;&quot;</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;*EXP(ETA(KAETA)) &quot;</span><span class="p">,</span>
+            <span class="s2">&quot;$OMEGA ;; 2nd??OMEGA block </span><span class="se">\n</span><span class="s2">  0.1</span><span class="se">\t\t</span><span class="s2">; ETA(KAETA) ETA ON KA&quot;</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;ALAG&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;ALAG1 = THETA(ALAG)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;  (0, 0.1,3) </span><span class="se">\t</span><span class="s2">; THETA(ALAG) ALAG1 &quot;</span>
+        <span class="p">]</span>
+    <span class="p">]</span> <span class="p">,</span>
+    <span class="s2">&quot;RESERR&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;*EXP(EPS(RESERRA))+EPS(RESERRB)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;  0.3 </span><span class="se">\t</span><span class="s2">; EPS(RESERRA) proportional error</span><span class="se">\n</span><span class="s2">  0.3 </span><span class="se">\t</span><span class="s2">; EPS(RESERRB) additive error&quot;</span>
+        <span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;+EPS(RESERRA)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;  3000 </span><span class="se">\t</span><span class="s2">; EPS(RESERRA) additive error&quot;</span>
+        <span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </section>
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
-<p>Example 1 <a class="reference internal" href="Glossary.html#options-file"><span class="std std-ref">Options file</span></a>  <a class="reference download internal" download="" href="_downloads/642fb74e73747eaa7d8e5def09dd970b/Example1_options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+<p>Example 1 <a class="reference internal" href="Glossary.html#options-file"><span class="std std-ref">Options file</span></a>  <a class="reference download internal" download="" href="_downloads/642fb74e73747eaa7d8e5def09dd970b/Example1_options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">options</span> <span class="pre">file</span></code></a>
+The options file will likely need to be editted, as the path to nmfe??.bat must be provided
+The options file for Example 1 is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;homeDir&quot;</span><span class="p">:</span> <span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">fda</span><span class="se">\\</span><span class="s2">pydarwin</span><span class="se">\\</span><span class="s2">examples</span><span class="se">\\</span><span class="s2">Example1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span><span class="s2">&quot;EXHAUSTIVE&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+    <span class="s2">&quot;max_model_list_size&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+    <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+    <span class="s2">&quot;THETAPenalty&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;OMEGAPenalty&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;SIGMAPenalty&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;covergencePenalty&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;covariancePenalty&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;correlationPenalty&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;correlationLimit&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+    <span class="s2">&quot;conditionNumberPenalty&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;input_model_json&quot;</span><span class="p">:</span> <span class="s2">&quot;None&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
+    <span class="s2">&quot;non_influential_tokens_penalty&quot;</span><span class="p">:</span> <span class="mf">0.00001</span><span class="p">,</span>
+    <span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;timeout_sec&quot;</span><span class="p">:</span> <span class="mi">1200</span><span class="p">,</span>
+    <span class="s2">&quot;useR&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;usePython&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s2">&quot;nmfePath&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm741/util/nmfe74.bat &quot;</span> <span class="p">,</span>
+    <span class="s2">&quot;NM_priority_class&quot;</span><span class="p">:</span> <span class="s2">&quot;below_normal&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="the-data-file">
+<h2>The data file<a class="headerlink" href="#the-data-file" title="Permalink to this heading">¶</a></h2>
+<p>Example 1 Data file <a class="reference download internal" download="" href="_downloads/36fef3c6698dc24f557b922e399a9227/datalarge.csv"><code class="xref download docutils literal notranslate"><span class="pre">datalarge.csv</span></code></a></p>
 </section>
 </section>
 

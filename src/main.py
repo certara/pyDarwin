@@ -28,7 +28,7 @@ final = run_search("C:\\fda\\pyDarwin\\examples\\Example1\\Example1_template.txt
                    "C:\\fda\\pyDarwin\\examples\\Example1\\Example1_options.json")
  
 with open(os.path.join(options.home_dir, "finalModel.mod"), "w") as final_control:
-    final_control.write(final.control)
+    final_control.write(final.model.control)
 if os.path.exists(os.path.join(options.home_dir, final.output_file_name)):
     os.remove(os.path.join(options.home_dir, final.output_file_name))
 if final.output_file_name is not None:
@@ -43,7 +43,7 @@ final = run_search("C:\\fda\\pyDarwin\\examples\\Example2\\Example2_template.txt
                    "C:\\fda\\pyDarwin\\examples\\Example2\\Example2_options.json")
  
 with open(os.path.join(options.home_dir, "finalModel.mod"), "w") as final_control:
-    final_control.write(final.control)
+    final_control.write(final.model.control)
 if os.path.exists(os.path.join(options.home_dir, final.output_file_name)):
     os.remove(os.path.join(options.home_dir, final.output_file_name))
 if final.output_file_name is not None:
@@ -58,7 +58,7 @@ final = run_search("C:\\fda\\pyDarwin\\examples\\Example3\\Example3_template.txt
                    "C:\\fda\\pyDarwin\\examples\\Example3\\Example3_options.json")
  
 with open(os.path.join(options.home_dir, "finalModel.mod"), "w") as final_control:
-    final_control.write(final.control)
+    final_control.write(final.model.control)
 if os.path.exists(os.path.join(options.home_dir, final.output_file_name)):
     os.remove(os.path.join(options.home_dir, final.output_file_name))
 if final.output_file_name is not None:
@@ -75,7 +75,7 @@ final = run_search("C:\\fda\\pyDarwin\\examples\\Example4\\Example4_template.txt
                    "C:\\fda\\pyDarwin\\examples\\Example4\\Example4_options.json")
  
 with open(os.path.join(options.home_dir, "finalModel.mod"), "w") as final_control:
-    final_control.write(final.control)
+    final_control.write(final.model.control)
 if os.path.exists(os.path.join(options.home_dir, final.output_file_name)):
     os.remove(os.path.join(options.home_dir, final.output_file_name))
 if final.output_file_name is not None:

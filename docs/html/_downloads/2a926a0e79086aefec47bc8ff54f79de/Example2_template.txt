@@ -1,0 +1,58 @@
+$PROBLEM    2 compartment fitting
+$INPUT       ID TIME AMT DV WTKG GENDER AGE {D1LAG[1]}
+$DATA      ..\..\datalarge.csv IGNORE=@
+           
+$SUBROUTINE {ADVAN[1]} 
+$PK      
+  CWTKGONE = WTKG/70  ;; CENTERED ON ONE
+  CWTKGZERO = WTKG-70  ;; CENTERED ON ZERO
+  CAGE = AGE/40
+;; thetas out of sequence
+  TVV2=THETA(2){V2~WT[1]} {V2~GENDER[1]}
+  V2=TVV2*EXP(ETA(2)) 
+  TVCL= THETA(1) {CL~WT[1]}  {CL~AGE[1]}
+  CL=TVCL*EXP(ETA(1)) 
+  K=CL/V2 
+  ;; thetas out of sequence here
+  {ADVAN[2]} 
+  {D1LAG[2]} ; include D1 and lag, with diag or block OMEGA
+  
+  TVKA=THETA(3) 
+  KA=TVKA  {KAETA[1]}  
+  S2 	= V2/1000 
+$ERROR     
+ REP = IREP      
+ IPRED =F  
+ IOBS = F {RESERR[1]}
+ Y=IOBS
+$THETA  ;; must be one THETA per line.
+ (0.001,100)	; THETA(1) CL UNITS =  L/HR
+ (0.001,500) 	; THETA(2) V  UNITS = L
+ (0.001,2) 	; THETA(3) KA UNITS = 1/HR 
+;; test for comments in blocks
+;; test for comments in blocks
+
+ {ADVAN[3]}  ;; comment
+ {V2~WT[2]}   ;;; comment ;; comment
+ {V2~GENDER[2]}   ;;; comment ;; comment
+;; test for comments in blocks
+ {CL~WT[2]} 
+ {CL~AGE[2]} 
+ {D1LAG[3]}
+$OMEGA   ;; must be one ETA/line
+  0.2  		; ETA(1) CLEARANCE
+$OMEGA
+;; test for comments in blocks
+  0.2 	; ETA(2) VOLUME
+;; optional $OMEGA blocks
+{KAETA[2]}  
+;; test for comments in blocks
+ 
+{D1LAG[4]} 
+$SIGMA  
+;; test for comments in blocks
+
+{RESERR[2]}
+$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 
+$COV UNCOND PRINT=E
+ 

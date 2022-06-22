@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Implementation &mdash; pyDarwin 1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Required Files" href="Required_files.html" />
+    <link rel="prev" title="ML Model Selection" href="Theory.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#running-pydarwin">Running pyDarwin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line">Command line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visual-studio-code">Visual Studio code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Implementation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Implementation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
+<p>All 5 algorithms search a user defined discrete search space. The search space consists of N
+dimension, where each dimension is a set of options for the search. For example, if
+the user would like the search to include 1, or 2 or 3 compartments, this would be a dimesion with
+three values. Similarly, a dimension might include linear or Michaelis-Menten or combined
+linear an Michaelis-Menten. Two key notes:</p>
+<p>** The search space is stricty categorical. While some search dimensions could be viewed
+as ordered categorical, they are all treated a unordered categorical.</p>
+<p>** A point in the search space defines a model, this point will have exactly one value
+in each dimension. That is, the model will be one or two or three compartments, but must be
+exactly one of those.</p>
+<p>The search space is set up identially for all search algorithms.
+For some algorithms (GP, RF, GBRT and exhuastive)
+the space is treated an an integer array, for others (GA and downhill) the space is coded
+as a bit array.</p>
+<p>Three files are required to define the search:</p>
+<p><a class="reference internal" href="Required_files.html#the-template-file"><span class="std std-ref">The Template File</span></a></p>
+<p><a class="reference internal" href="Required_files.html#the-tokens-file"><span class="std std-ref">The Tokens File</span></a></p>
+<p><a class="reference internal" href="Required_files.html#the-options-file"><span class="std std-ref">Options File</span></a></p>
+<section id="running-pydarwin">
+<h2>Running pyDarwin<a class="headerlink" href="#running-pydarwin" title="Permalink to this heading">¶</a></h2>
+<p>Two methods of running pyDarwin will be described, command line and using Visual Studio code.</p>
+</section>
+<section id="command-line">
+<h2>Command line<a class="headerlink" href="#command-line" title="Permalink to this heading">¶</a></h2>
+<p>Window</p>
+<p>Linux</p>
+</section>
+<section id="visual-studio-code">
+<h2>Visual Studio code<a class="headerlink" href="#visual-studio-code" title="Permalink to this heading">¶</a></h2>
+<blockquote>
+<div><p>Implementation</p>
+</div></blockquote>
+<figure class="align-default" id="startimplementation">
+<img alt="_images/MLSelection.png" src="_images/MLSelection.png" />
+</figure>
+<p>As you can see in the <a class="reference internal" href="#startimplementation">startImplementation</a> image,</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Theory.html" class="btn btn-neutral float-left" title="ML Model Selection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Required_files.html" class="btn btn-neutral float-right" title="Required Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ms.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

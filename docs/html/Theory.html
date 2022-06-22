@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ML Model Selection &mdash; pyDarwin 1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Implementation" href="Implementation.html" />
+    <link rel="prev" title="Installation" href="Install.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ML Model Selection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#exhaustive-search">Exhaustive Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#genetic-algorithm">Genetic Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gaussian-process">Gaussian Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#random-forest">Random Forest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gradient-boosted-random-tree">Gradient Boosted Random Tree</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Implementation.html">Implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>ML Model Selection</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Theory.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ml-model-selection">
+<h1>ML Model Selection<a class="headerlink" href="#ml-model-selection" title="Permalink to this heading">¶</a></h1>
+<p id="startertheory">pyDarwin implements a number of machine learning algorithms for model selection. Machine learning algorithms are broadly divided into two categories:
+* Supervised learning
+* Unsupervised learning</p>
+<p>For supervised learning, the algorithm “learns” to associate certain patterns (e.g., a collection of bit map pictures) with a set of labeled examples. For example, if one has
+10,000 pictures of cats and dogs (a training set), with each impage labeled as “cat” or “dog”, a artificial neural network (ANN) can find patterns in the 0’s and 1’s that are associated with “catness”
+or “dogness”, and can be fairly successful at predicting for any similar set of bitmaps (the test set) which is a cat and which is a dog.
+In contrast, Unsupervised learning has no labeled training set. The traditional model selection/building process for pop pk models is unsupervied. Rathan than the pattern matching
+algorithms of supervised learning, Unsupervised learning is a search. Traditional pop pk/pd model selection uses the “downhill method”, starting, usually, at a trival model, then adding
+“features” (compartment, lag times, non linear elimination, covariate effects) and accepting the new model if it is better (“downhill”), lower -2LL + some other criteria the use feels important).
+To further complicate the taxonomy, recently added is semi-supervised learning. As expected, semi-supervised learning is a mixture of supervised and unsupervised, and 3 of the 4 algorithms
+implemented in pyDarwin are semi-supervised (Gaussian Process, Random Forest and Gradient booste random tree), while 1 is strictly unsupervied (Genetic algorithm). In semi-supervised learning, rather than
+training on a data set, such as setting the weights of a ANN based on that training, the weights are initially set randomly. Based on this initial (and non sensical) random ANN, the “best”
+model is chosen and run. Now there is a small (N=1) training data set, and the ANN can be trained on this single datum. The ANN is still likely to have a very poor match between inputs (number of compartments,
+absorption models, covariates etc) and output (model “goodness”), but with each iteration, the fit should improve.</p>
+<p>Central to understanding the model selection process (with manual or machine learning), is the concept of the search space. The search space is an n dimensional space where each dimension represents
+a set of mutually exclusive options. That is, there likely will be a dimension for “number of compartments”, with possible values of 1, 2 or 3. Exactly one of these is required (ignoring the possibility of
+Baysian model averaging). Another dimension might be the absorption model, with values of first order, zero order, first order with absorption lag time etc). Similarly the relationship
+between weight and volume (none|linear|power model). Note that each of these dimension are discrete, and mostly stricly categorical (not ordered categorical, first order isn’t “more than” zero order).
+With this exception the model search space is very analogous to the parameter search space used in non-linear regression. An important difference is that the continuous space in non-linear
+regression has a derivatie, and quadi-Newton methods can be used to to a “downhill search” in that space. Please note that quasi-Newton methods are at risk of finding local minima, and therefore
+are sensitive to the initial estimates.</p>
+<p>As the discrete space of model search does not have a derivative, other search methods must be used. The simplest, and the one traditionally used in model selection, is downhill. While efficient (requiring the fewest
+function evaluations [models] to get the solution), it can be demonstrated that this method is not robust <a class="footnote-reference brackets" href="#f1" id="id1">1</a> <a class="footnote-reference brackets" href="#f2" id="id2">2</a>. This lack of robustness is due to the violation of convexity assumption. That is, the downhill search assumes
+that the optimal solution is continuously downhill from every other point in the search space. That is, there are no local minima, and you can start anywhere and you’ll end up in the same place. With this assumption,
+a covariate will or will not be “downhill”, regardless of whether tested in a one compartment, two compartment; first order of zero order or any other base model, it’s all downhill, it doesn’t matter what sequence you test
+hypotheses in, the answer will be the same. Wade <a class="footnote-reference brackets" href="#f1" id="id3">1</a> showed that the results of tests of hypotheses do indeed depend on other features in the model and Chen <a class="footnote-reference brackets" href="#f2" id="id4">2</a> showed that different sequences of tests will commonly yield different models.</p>
+<p>In contrast to the traditional downhill/local search, all algorithms implemented in pyDarwin are global search algorithms that are expected to have a greater degree of robustness to local minima than downhill search.
+Note howwever that all search algorithms (with the exception of exhaustive search) make assumptions about the search space. While none of the algorithms in pyDarwin assume convexity, none are completely robust,
+and search spaces can be deceptive.[#f3]_
+For all algorithms, the basic process is the same, start at one or more random. Figure 1 depicts the process common to all algorithms.</p>
+<blockquote>
+<div><figure class="align-default">
+<img alt="_images/MLSelection.png" src="_images/MLSelection.png" />
+</figure>
+</div></blockquote>
+<p>The same 3 files are required for any search, whether exhausitve, GA, GP, RF or GBRF
+.. _The Algorithms:</p>
+<section id="exhaustive-search">
+<span id="id5"></span><h2>Exhaustive Search<a class="headerlink" href="#exhaustive-search" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="genetic-algorithm">
+<span id="id6"></span><h2>Genetic Algorithm<a class="headerlink" href="#genetic-algorithm" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="gaussian-process">
+<span id="gaussian-process-bayesian-optimization"></span><h2>Gaussian Process<a class="headerlink" href="#gaussian-process" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="random-forest">
+<span id="id7"></span><h2>Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="gradient-boosted-random-tree">
+<span id="id8"></span><h2>Gradient Boosted Random Tree<a class="headerlink" href="#gradient-boosted-random-tree" title="Permalink to this heading">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="f1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>)</span></dt>
+<dd><p>Wade JR, Beal SL, Sambol NC. 1994  Interaction between structural, statistical, and covariate models in population pharmacokinetic analysis. J Pharmacokinet Biopharm. 22(2):165-77</p>
+</dd>
+<dt class="label" id="f2"><span class="brackets">2</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id4">2</a>)</span></dt>
+<dd><p>PAGE 30 (2022) Abstr 10091 [<a class="reference external" href="https://www.page-meeting.org/?abstract=10091">https://www.page-meeting.org/?abstract=10091</a>]</p>
+</dd>
+<dt class="label" id="f3"><span class="brackets">3</span></dt>
+<dd><p>PAGE 30 (2022) Abstr 10053 [<a class="reference external" href="https://www.page-meeting.org/default.asp?abstract=10053">https://www.page-meeting.org/default.asp?abstract=10053</a>]</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Install.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Implementation.html" class="btn btn-neutral float-right" title="Implementation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ms.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

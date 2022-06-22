@@ -13,6 +13,7 @@ import darwin.utils as utils
 
 from darwin.Log import log
 from darwin.options import options
+from darwin.execution_man import keep_going, interrupted
 
 from .Template import Template
 from .Model import write_best_model_files
@@ -130,6 +131,9 @@ class Population:
 
         self._process_models()
 
+        if not keep_going():
+            log.warn('Execution has stopped')
+
         with open(GlobalVars.SavedModelsFile, 'w', encoding='utf-8') as f:
             json.dump(self.all_runs, f, indent=4, sort_keys=True, ensure_ascii=False, cls=ModelRunEncoder)
 
@@ -160,15 +164,19 @@ class Population:
         else:
             run.run_model()  # current model is the general model type (not GA/DEAP model)
 
-            run.cleanup()
+            if not interrupted():
+                run.cleanup()
 
-            self._save_model_run(run)
+                self._save_model_run(run)
 
         res = run.result
         model = run.model
 
         if GlobalVars.BestRun is None or res.fitness < GlobalVars.BestRun.result.fitness:
             _copy_to_best(run)
+
+        if interrupted():
+            return
 
         step_name = "Iteration"
         prd_err_text = ""
@@ -194,6 +202,9 @@ class Population:
         )
 
     def _start_model_wrapper(self, run: ModelRun):
+        if not keep_going():
+            return
+
         try:
             self._start_new_run(run)
         # if we don't catch it, pool will do it silently

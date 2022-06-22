@@ -13,6 +13,7 @@ import traceback
 
 from darwin.Log import log
 from darwin.options import options
+from darwin.execution_man import interrupted
 
 import darwin.utils as utils
 import darwin.GlobalVars as GlobalVars
@@ -226,8 +227,13 @@ class ModelRun(ABC):
             log.error(str(e))
 
         if run_process is None or run_process.returncode != 0:
-            log.error(f'run {self.model_num} has failed')
+            if interrupted():
+                log.error(f'Model run {self.model_num} was interrupted')
+                self.status = "Model run interrupted"
+            else:
+                log.error(f'Model run {self.model_num} has failed')
             self.status = "Model run failed"
+
             return
 
         self._post_run_r()

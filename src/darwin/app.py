@@ -1,13 +1,13 @@
 import os
 import time
 import sys
-import gc
 
 import darwin.GlobalVars as GlobalVars
 import darwin.utils as utils
 
 from darwin.Log import log
 from darwin.options import options
+from darwin.execution_man import start_execution_manager
 
 from .ModelEngineAdapter import register_engine_adapter
 from .NMEngineAdapter import NMEngineAdapter
@@ -45,8 +45,6 @@ def run_template(model_template: Template) -> Model:
 
     log.message(f"Search end time = {time.asctime()}")
 
-    gc.collect()
-
     return final
 
 
@@ -82,3 +80,5 @@ def init_app(options_file: str, folder: str = None):
     register_engine_adapter('nonmem', NMEngineAdapter)
 
     init_model_list()
+
+    start_execution_manager()

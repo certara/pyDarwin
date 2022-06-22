@@ -293,7 +293,7 @@ def get_n_worst_index(n, arr):
     return heapq.nlargest(n, range(len(arr)), arr.__getitem__)
 
 
-class AtomicFlag(object):
+class AtomicFlag:
     def __init__(self, initial):
         self._value = initial
         self._lock = threading.Lock()
@@ -303,6 +303,10 @@ class AtomicFlag(object):
             old_val = self._value
             self._value = val
             return old_val
+
+    def get(self):
+        with self._lock:
+            return self._value
 
 
 def terminate_process(pid: int):

@@ -75,12 +75,24 @@ class Population:
     all_runs = {}
     _lock_all_runs = threading.Lock()
 
-    def __init__(self, template: Template, name):
+    def __init__(self, template: Template, name, start_number=0):
         self.name = name
         self.runs = []
-        self.model_number = 0
+        self.model_number = start_number
         self.template = template
         self.adapter = get_engine_adapter(options.engine_adapter)
+
+    @classmethod
+    def from_codes(cls, template: Template, name, codes, code_converter, start_number=0):
+        pop = cls(template, name, start_number)
+
+        maxes = template.gene_max
+        lengths = template.gene_length
+
+        for code in codes:
+            pop.add_model_run(code_converter(code, maxes, lengths))
+
+        return pop
 
     def add_model_run(self, code: ModelCode):
         model = self.adapter.create_new_model(self.template, code)

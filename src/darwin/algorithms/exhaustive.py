@@ -5,6 +5,7 @@ import darwin.GlobalVars as GlobalVars
 
 from darwin.Log import log
 from darwin.options import options
+from darwin.execution_man import keep_going
 
 from darwin.Template import Template
 from darwin.ModelRun import ModelRun, write_best_model_files
@@ -38,39 +39,22 @@ def run_exhaustive(model_template: Template) -> ModelRun:
     # convert to regular list
     codes = codes.tolist()
     num_models = len(codes)
-    maxes = model_template.gene_max
-    lengths = model_template.gene_length
 
     log.message(f"Total of {num_models} to be run in exhaustive search")
 
     # break into smaller list, for memory management
     max_models = options['max_model_list_size']
 
-    current_start = 0
-    current_last = current_start + max_models
-
-    if current_last > num_models:
-        max_models = num_models
-        current_last = num_models
-
-    while current_last <= num_models:
-        if current_last > len(codes):
-            current_last = len(codes)
-
-        pop = Population(model_template, 0)
-
-        for ints in codes[current_start:current_last]:
-            code = ModelCode.from_int(ints, maxes, lengths)
-            pop.add_model_run(code)
+    for start in range(0, num_models, max_models):
+        pop = Population.from_codes(model_template, '0', codes[start:start + max_models], ModelCode.from_int,
+                                    start_number=start)
 
         pop.run_all()
 
-        best = pop.get_best_run()
+        log.message(f"Current Best fitness = {GlobalVars.BestRun.result.fitness}")
 
-        log.message(f"Current Best fitness = {best.result.fitness}")
-
-        current_start = current_last
-        current_last = current_start + max_models
+        if not keep_going():
+            break
 
     elapsed = time.time() - GlobalVars.StartTime
 

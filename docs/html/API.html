@@ -20,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Support" href="Support.html" />
-    <link rel="prev" title="PD Model 1" href="PDModel1.html" /> 
+    <link rel="next" title="Glossary" href="Glossary.html" />
+    <link rel="prev" title="PK Model 4, DMAG by GA" href="PKModel4.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -45,29 +45,33 @@
 <li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Implementation.html">Implementation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, exhaustive search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, GA search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, GP Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PDModel1.html">PD Model 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.algorithms.exhaustive">darwin.algorithms.exhaustive module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.algorithms.GA">darwin.algorithms.GA module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.algorithms.OPT">darwin.algorithms.OPT module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.algorithms.PSO">darwin.algorithms.PSO module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.GlobalVars">darwin.GlobalVars module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.Log">darwin.Log module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.Model">darwin.Model module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.ModelCode">darwin.ModelCode module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.omega_utils">darwin.omega_utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.Template">darwin.Template module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.options">darwin.options module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.runAllModels">darwin.runAllModels module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.run_downhill">darwin.run_downhill module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.run_search">darwin.run_search module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.run_search_in_folder">darwin.run_search_in_folder module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.utils">darwin.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#darwin">Darwin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.exhaustive">darwin.algorithms.exhaustive module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.GA">darwin.algorithms.GA module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.OPT">darwin.algorithms.OPT module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.PSO">darwin.algorithms.PSO module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.GlobalVars">darwin.GlobalVars module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.Log">darwin.Log module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.Model">darwin.Model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.ModelCode">darwin.ModelCode module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.omega_utils">darwin.omega_utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.Template">darwin.Template module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.options">darwin.options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.runAllModels">darwin.runAllModels module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.run_downhill">darwin.run_downhill module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.run_search">darwin.run_search module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.run_search_in_folder">darwin.run_search_in_folder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.utils">darwin.utils module</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -97,8 +101,10 @@
              
   <section id="api">
 <h1>API<a class="headerlink" href="#api" title="Permalink to this heading">¶</a></h1>
+<section id="darwin">
+<h2>Darwin<a class="headerlink" href="#darwin" title="Permalink to this heading">¶</a></h2>
 <section id="module-darwin.algorithms.exhaustive">
-<span id="darwin-algorithms-exhaustive-module"></span><h2>darwin.algorithms.exhaustive module<a class="headerlink" href="#module-darwin.algorithms.exhaustive" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-algorithms-exhaustive-module"></span><h3>darwin.algorithms.exhaustive module<a class="headerlink" href="#module-darwin.algorithms.exhaustive" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.algorithms.exhaustive.run_exhaustive">
 <span class="sig-prename descclassname"><span class="pre">darwin.algorithms.exhaustive.</span></span><span class="sig-name descname"><span class="pre">run_exhaustive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></span><a class="headerlink" href="#darwin.algorithms.exhaustive.run_exhaustive" title="Permalink to this definition">¶</a></dt>
@@ -119,7 +125,7 @@ All models will be run in generation/iteration number 0.</p>
 
 </section>
 <section id="module-darwin.algorithms.GA">
-<span id="darwin-algorithms-ga-module"></span><h2>darwin.algorithms.GA module<a class="headerlink" href="#module-darwin.algorithms.GA" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-algorithms-ga-module"></span><h3>darwin.algorithms.GA module<a class="headerlink" href="#module-darwin.algorithms.GA" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.algorithms.GA.run_ga">
 <span class="sig-prename descclassname"><span class="pre">darwin.algorithms.GA.</span></span><span class="sig-name descname"><span class="pre">run_ga</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></span><a class="headerlink" href="#darwin.algorithms.GA.run_ga" title="Permalink to this definition">¶</a></dt>
@@ -142,7 +148,7 @@ The template objects includes the control file template, and all the token group
 
 </section>
 <section id="module-darwin.algorithms.OPT">
-<span id="darwin-algorithms-opt-module"></span><h2>darwin.algorithms.OPT module<a class="headerlink" href="#module-darwin.algorithms.OPT" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-algorithms-opt-module"></span><h3>darwin.algorithms.OPT module<a class="headerlink" href="#module-darwin.algorithms.OPT" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.algorithms.OPT.run_skopt">
 <span class="sig-prename descclassname"><span class="pre">darwin.algorithms.OPT.</span></span><span class="sig-name descname"><span class="pre">run_skopt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></span><a class="headerlink" href="#darwin.algorithms.OPT.run_skopt" title="Permalink to this definition">¶</a></dt>
@@ -167,7 +173,7 @@ The template objects includes the control file template, and all the token group
 
 </section>
 <section id="module-darwin.algorithms.PSO">
-<span id="darwin-algorithms-pso-module"></span><h2>darwin.algorithms.PSO module<a class="headerlink" href="#module-darwin.algorithms.PSO" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-algorithms-pso-module"></span><h3>darwin.algorithms.PSO module<a class="headerlink" href="#module-darwin.algorithms.PSO" title="Permalink to this heading">¶</a></h3>
 <p>A Binary Particle Swarm Optimization (binary PSO) algorithm.</p>
 <p>It takes a set of candidate solutions, and tries to find the best
 solution using a position-velocity update method. Unlike
@@ -262,7 +268,7 @@ NOT YET STABLE
 
 </section>
 <section id="module-darwin.GlobalVars">
-<span id="darwin-globalvars-module"></span><h2>darwin.GlobalVars module<a class="headerlink" href="#module-darwin.GlobalVars" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-globalvars-module"></span><h3>darwin.GlobalVars module<a class="headerlink" href="#module-darwin.GlobalVars" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.GlobalVars.init_global_vars">
 <span class="sig-prename descclassname"><span class="pre">darwin.GlobalVars.</span></span><span class="sig-name descname"><span class="pre">init_global_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">home_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.GlobalVars.init_global_vars" title="Permalink to this definition">¶</a></dt>
@@ -270,7 +276,7 @@ NOT YET STABLE
 
 </section>
 <section id="module-darwin.Log">
-<span id="darwin-log-module"></span><h2>darwin.Log module<a class="headerlink" href="#module-darwin.Log" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-log-module"></span><h3>darwin.Log module<a class="headerlink" href="#module-darwin.Log" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.Log.Log">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.Log.</span></span><span class="sig-name descname"><span class="pre">Log</span></span><a class="headerlink" href="#darwin.Log.Log" title="Permalink to this definition">¶</a></dt>
@@ -298,7 +304,7 @@ NOT YET STABLE
 
 </section>
 <section id="module-darwin.Model">
-<span id="darwin-model-module"></span><h2>darwin.Model module<a class="headerlink" href="#module-darwin.Model" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-model-module"></span><h3>darwin.Model module<a class="headerlink" href="#module-darwin.Model" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.Model.Model">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.Model.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelCode.ModelCode" title="darwin.ModelCode.ModelCode"><span class="pre">ModelCode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Model.Model" title="Permalink to this definition">¶</a></dt>
@@ -421,7 +427,7 @@ the calc_fitness function is called to calculate the fitness/reward.</p>
 
 </section>
 <section id="module-darwin.ModelCode">
-<span id="darwin-modelcode-module"></span><h2>darwin.ModelCode module<a class="headerlink" href="#module-darwin.ModelCode" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-modelcode-module"></span><h3>darwin.ModelCode module<a class="headerlink" href="#module-darwin.ModelCode" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.ModelCode.</span></span><span class="sig-name descname"><span class="pre">ModelCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">which_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gene_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCode.ModelCode" title="Permalink to this definition">¶</a></dt>
@@ -471,7 +477,7 @@ returns integer array of which token goes into this model</p>
 
 </section>
 <section id="module-darwin.omega_utils">
-<span id="darwin-omega-utils-module"></span><h2>darwin.omega_utils module<a class="headerlink" href="#module-darwin.omega_utils" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-omega-utils-module"></span><h3>darwin.omega_utils module<a class="headerlink" href="#module-darwin.omega_utils" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.omega_utils.set_omega_bands">
 <span class="sig-prename descclassname"><span class="pre">darwin.omega_utils.</span></span><span class="sig-name descname"><span class="pre">set_omega_bands</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.omega_utils.set_omega_bands" title="Permalink to this definition">¶</a></dt>
@@ -496,7 +502,7 @@ to BLOCK with the number of bands specified in the model code.</p>
 
 </section>
 <section id="module-darwin.Template">
-<span id="darwin-template-module"></span><h2>darwin.Template module<a class="headerlink" href="#module-darwin.Template" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-template-module"></span><h3>darwin.Template module<a class="headerlink" href="#module-darwin.Template" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.Template.Template">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.Template.</span></span><span class="sig-name descname"><span class="pre">Template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Template.Template" title="Permalink to this definition">¶</a></dt>
@@ -530,7 +536,7 @@ Tokens are parsed to define the search space. The Template object is inherited b
 
 </section>
 <section id="module-darwin.options">
-<span id="darwin-options-module"></span><h2>darwin.options module<a class="headerlink" href="#module-darwin.options" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-options-module"></span><h3>darwin.options module<a class="headerlink" href="#module-darwin.options" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.options.Options">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.options.</span></span><span class="sig-name descname"><span class="pre">Options</span></span><a class="headerlink" href="#darwin.options.Options" title="Permalink to this definition">¶</a></dt>
@@ -548,7 +554,7 @@ Tokens are parsed to define the search space. The Template object is inherited b
 
 </section>
 <section id="module-darwin.runAllModels">
-<span id="darwin-runallmodels-module"></span><h2>darwin.runAllModels module<a class="headerlink" href="#module-darwin.runAllModels" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-runallmodels-module"></span><h3>darwin.runAllModels module<a class="headerlink" href="#module-darwin.runAllModels" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.runAllModels.init_model_list">
 <span class="sig-prename descclassname"><span class="pre">darwin.runAllModels.</span></span><span class="sig-name descname"><span class="pre">init_model_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.runAllModels.init_model_list" title="Permalink to this definition">¶</a></dt>
@@ -567,7 +573,7 @@ all_results maybe full binary (GA) or integer (not GA) or minimal binary (downhi
 
 </section>
 <section id="module-darwin.run_downhill">
-<span id="darwin-run-downhill-module"></span><h2>darwin.run_downhill module<a class="headerlink" href="#module-darwin.run_downhill" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-run-downhill-module"></span><h3>darwin.run_downhill module<a class="headerlink" href="#module-darwin.run_downhill" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.run_downhill.run_downhill">
 <span class="sig-prename descclassname"><span class="pre">darwin.run_downhill.</span></span><span class="sig-name descname"><span class="pre">run_downhill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.run_downhill.run_downhill" title="Permalink to this definition">¶</a></dt>
@@ -583,7 +589,7 @@ return is the single best model, the worst models (length num_niches) +/- the en
 
 </section>
 <section id="module-darwin.run_search">
-<span id="darwin-run-search-module"></span><h2>darwin.run_search module<a class="headerlink" href="#module-darwin.run_search" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-run-search-module"></span><h3>darwin.run_search module<a class="headerlink" href="#module-darwin.run_search" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.run_search.run_search">
 <span class="sig-prename descclassname"><span class="pre">darwin.run_search.</span></span><span class="sig-name descname"><span class="pre">run_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></span><a class="headerlink" href="#darwin.run_search.run_search" title="Permalink to this definition">¶</a></dt>
@@ -596,7 +602,7 @@ function returns the final model object</p>
 
 </section>
 <section id="module-darwin.run_search_in_folder">
-<span id="darwin-run-search-in-folder-module"></span><h2>darwin.run_search_in_folder module<a class="headerlink" href="#module-darwin.run_search_in_folder" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-run-search-in-folder-module"></span><h3>darwin.run_search_in_folder module<a class="headerlink" href="#module-darwin.run_search_in_folder" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.run_search_in_folder.run_search_in_folder">
 <span class="sig-prename descclassname"><span class="pre">darwin.run_search_in_folder.</span></span><span class="sig-name descname"><span class="pre">run_search_in_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'template.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tokens.json'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'options.json'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></span><a class="headerlink" href="#darwin.run_search_in_folder.run_search_in_folder" title="Permalink to this definition">¶</a></dt>
@@ -604,7 +610,7 @@ function returns the final model object</p>
 
 </section>
 <section id="module-darwin.utils">
-<span id="darwin-utils-module"></span><h2>darwin.utils module<a class="headerlink" href="#module-darwin.utils" title="Permalink to this heading">¶</a></h2>
+<span id="darwin-utils-module"></span><h3>darwin.utils module<a class="headerlink" href="#module-darwin.utils" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.utils.AtomicFlag">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.utils.</span></span><span class="sig-name descname"><span class="pre">AtomicFlag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.utils.AtomicFlag" title="Permalink to this definition">¶</a></dt>
@@ -711,13 +717,14 @@ in the resulting control file. A small penalty, is specified in the options file
 
 </section>
 </section>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="PDModel1.html" class="btn btn-neutral float-left" title="PD Model 1" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Support.html" class="btn btn-neutral float-right" title="Support" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="PKModel4.html" class="btn btn-neutral float-left" title="PK Model 4, DMAG by GA" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

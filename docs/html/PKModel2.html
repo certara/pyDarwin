@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PK Model 2, GA search &mdash; pyDarwin 1 documentation</title>
+  <title>PK Model 2, Simulation model by GP with Python code &mdash; pyDarwin 1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PK Model 3, GP Search" href="PKModel3.html" />
-    <link rel="prev" title="PK Model 1, exhaustive search" href="PKModel1.html" /> 
+    <link rel="next" title="PK Model 3, ODE model" href="PKModel3.html" />
+    <link rel="prev" title="PK Model 1, trivial exhaustive search" href="PKModel1.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,14 +44,20 @@
 <li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Implementation.html">Implementation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, exhaustive search</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">PK Model 2, GA search</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#calling-post-run-python-code">Calling Post Run Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PK Model 2, Simulation model by GP with Python code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#calling-post-run-python-code">Calling Post Run Python code</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, GP Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PDModel1.html">PD Model 1</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -69,7 +75,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>PK Model 2, GA search</li>
+      <li>PK Model 2, Simulation model by GP with Python code</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/PKModel2.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -79,8 +85,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pk-model-2-ga-search">
-<h1>PK Model 2, GA search<a class="headerlink" href="#pk-model-2-ga-search" title="Permalink to this heading">¶</a></h1>
+  <section id="pk-model-2-simulation-model-by-gp-with-python-code">
+<h1>PK Model 2, Simulation model by GP with Python code<a class="headerlink" href="#pk-model-2-simulation-model-by-gp-with-python-code" title="Permalink to this heading">¶</a></h1>
+<section id="the-template-file">
+<h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
+<p>Example 2 template file <a class="reference download internal" download="" href="_downloads/2a926a0e79086aefec47bc8ff54f79de/Example2_template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
+</section>
+<section id="the-tokens-file">
+<h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
+<p>Example 2 tokens file <a class="reference download internal" download="" href="_downloads/7e46827553cdd6208a86c357d9836f53/Example2_tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+</section>
+<section id="the-options-file">
+<h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
+<p>Example 2 template file <a class="reference download internal" download="" href="_downloads/012e5888a855e2669adb4444d215dcf9/Example2_options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 <figure class="align-default" id="id2">
 <span id="startpk2"></span><img alt="_images/MLSelection.png" src="_images/MLSelection.png" />
 <figcaption>
@@ -89,7 +106,8 @@
 </figure>
 <p>As you can see in the <a class="reference internal" href="#startpk2"><span class="std std-ref">Current 12,960 model search space by GA</span></a> image,</p>
 <section id="calling-post-run-python-code">
-<span id="id1"></span><h2>Calling Post Run Python code<a class="headerlink" href="#calling-post-run-python-code" title="Permalink to this heading">¶</a></h2>
+<span id="id1"></span><h3>Calling Post Run Python code<a class="headerlink" href="#calling-post-run-python-code" title="Permalink to this heading">¶</a></h3>
+</section>
 </section>
 </section>
 
@@ -97,8 +115,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="PKModel1.html" class="btn btn-neutral float-left" title="PK Model 1, exhaustive search" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="PKModel3.html" class="btn btn-neutral float-right" title="PK Model 3, GP Search" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="PKModel1.html" class="btn btn-neutral float-left" title="PK Model 1, trivial exhaustive search" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="PKModel3.html" class="btn btn-neutral float-right" title="PK Model 3, ODE model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

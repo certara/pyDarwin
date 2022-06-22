@@ -1,6 +1,10 @@
 API
 ==============
 
+Darwin
+~~~~~~~~~~~~~~~~~~~~~
+
+
 darwin.algorithms.exhaustive module
 -----------------------------------
 

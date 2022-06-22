@@ -95,8 +95,6 @@ def run_ga(model_template: Template) -> ModelRun:
     sharing_alpha = options['sharing_alpha']
     niche_penalty = options['niche_penalty']   
     num_bits = int(np.sum(model_template.gene_length))
-    
-    log.message("\n\n\n\nNew Model")
 
     creator.create("FitnessMin", deap.base.Fitness, weights=(-1.0,))
     creator.create("Individual", list, fitness=creator.FitnessMin)

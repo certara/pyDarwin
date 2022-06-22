@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PK Model 1, exhaustive search &mdash; pyDarwin 1 documentation</title>
+  <title>PK Model 1, trivial exhaustive search &mdash; pyDarwin 1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PK Model 2, GA search" href="PKModel2.html" />
+    <link rel="next" title="PK Model 2, Simulation model by GP with Python code" href="PKModel2.html" />
     <link rel="prev" title="Required Files" href="Required_files.html" /> 
 </head>
 
@@ -44,14 +44,16 @@
 <li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Implementation.html">Implementation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">PK Model 1, exhaustive search</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#calling-post-run-r-code">Calling Post Run R code</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PK Model 1, trivial exhaustive search</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, GA search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, GP Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PDModel1.html">PD Model 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -69,7 +71,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>PK Model 1, exhaustive search</li>
+      <li>PK Model 1, trivial exhaustive search</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/PKModel1.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -79,17 +81,52 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pk-model-1-exhaustive-search">
-<h1>PK Model 1, exhaustive search<a class="headerlink" href="#pk-model-1-exhaustive-search" title="Permalink to this heading">¶</a></h1>
-<figure class="align-default" id="id1">
-<span id="startpk1"></span><img alt="_images/MLSelection.png" src="_images/MLSelection.png" />
-<figcaption>
-<p><span class="caption-text">Current 64 model search space by exhaustive</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</figcaption>
-</figure>
-<p>As you can see in the <a class="reference internal" href="#startpk1"><span class="std std-ref">Current 64 model search space by exhaustive</span></a> image,</p>
-<section id="calling-post-run-r-code">
-<span id="calling-r-code"></span><h2>Calling Post Run R code<a class="headerlink" href="#calling-post-run-r-code" title="Permalink to this heading">¶</a></h2>
+  <section id="pk-model-1-trivial-exhaustive-search">
+<span id="startpk1"></span><h1>PK Model 1, trivial exhaustive search<a class="headerlink" href="#pk-model-1-trivial-exhaustive-search" title="Permalink to this heading">¶</a></h1>
+<p>This first model is quite simple, the search space consistes of 6 dimensions, each with 2 options. Thus, the total number of candiate models is
+2^6 = 64 models. As the search space if very small, we’ll search by exhaustive search.</p>
+<section id="the-template-file">
+<h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
+<p>Example 1 template file <a class="reference download internal" download="" href="_downloads/c8d007dd3f9a400734b0abccf644cdc2/Example1_template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a>
+Example 1 searchs a 6 dimensional space. The dimensions corresponds to <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>.
+Each token group is identified by a <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a>, e.g. “V2~WT” for the dimension of the
+relationship between weight a volume of distribution. Each token group includes
+2 or more <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a>, one for each option in the that dimension, These dimensions are:</p>
+<ol class="arabic simple">
+<li><p>Effect of Weight on Volume (“V2~WT”) - None or a power model.</p></li>
+<li><p>Effect of Sex (Gender) on Volume (“V2~GENDER”) - None or a power model</p></li>
+<li><p>Effect of Weight on Clearance (“CL~WT”) - None or a power model</p></li>
+<li><p>Presence of between subject variability (BSF) on Ka (“KAETA”)- None or exponential model</p></li>
+<li><p>Presence of an absorption lag time - ALAG1 (“ALAG”) - Present or not</p></li>
+<li><p>Residual error model (“RESERR”) - additive or combined additive and proportional</p></li>
+</ol>
+<p>Each token set in turn will include (in this case) two <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> (analagous to key-value pairs
+in JSON, but only text values are permitted)</p>
+<p>Each of these dimensions has two options. Therefore the total number of candidate models
+in the search space is number of permutations - 2^6 = 64.</p>
+<p>In the <a class="reference download internal" download="" href="_downloads/c8d007dd3f9a400734b0abccf644cdc2/Example1_template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">text</span></code></a> note the
+special text in curly braces({}). These are <a class="reference internal" href="Glossary.html#token"><span class="std std-ref">tokens</span></a>. Tokens come in sets, as typically
+multiple text substittion must be made to results in a syntactically correct NMTRAN control file. For
+example, if ALAG1 is to be used in the $PK block, a corresponding initial estimate for
+this parameter must be provided in the $THETA block. These tokens (collectively called a token set)
+are then replaced by the corresponding text value in the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pair</span></a>.</p>
+<p>As the search space is small
+(and the run time is fast), we’ll search by exhaustive search.
+The Tokens file
+~~~~~~~~~~~~~~~~</p>
+<p>Example 1 tokens file <a class="reference download internal" download="" href="_downloads/1ebe7d24d827bfae1e5a39860d8108d6/Example1_tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+<p>The <a class="reference internal" href="Glossary.html#tokens-file"><span class="std std-ref">tokens file</span></a> provide the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> that
+are substitued into the template file. This is a <a class="reference external" href="https://www.json.org/json-en.html">JSON</a> file format.
+Unfortunately, comments are not  permitted in JSON files and so this file without annotation. Requirements are that
+each <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a> within a <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a> must have the same number of <a class="reference internal" href="Glossary.html#token"><span class="std std-ref">tokens</span></a>
+and new lines must be coded as ASCII text (”n”), not just a new line in the file (which will be ignored). One level of
+nest tokens (tokens within tokens is permitted. This can be useful, when for example one might want to search for covariates
+on an search parameter, as in searching for an effect of FED vs FASTED state on ALAG1, when ALAG1 is also searched (see
+<a class="reference internal" href="PKModel3.html#startpk3"><span class="std std-ref">PK example 3</span></a>)</p>
+</section>
+<section id="the-options-file">
+<h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
+<p>Example 1 <a class="reference internal" href="Glossary.html#options-file"><span class="std std-ref">Options file</span></a>  <a class="reference download internal" download="" href="_downloads/642fb74e73747eaa7d8e5def09dd970b/Example1_options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 </section>
 
@@ -98,7 +135,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Required_files.html" class="btn btn-neutral float-left" title="Required Files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="PKModel2.html" class="btn btn-neutral float-right" title="PK Model 2, GA search" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="PKModel2.html" class="btn btn-neutral float-right" title="PK Model 2, Simulation model by GP with Python code" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

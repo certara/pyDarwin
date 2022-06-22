@@ -42,13 +42,19 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Implementation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#running-pydarwin">Running pyDarwin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line">Command line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visual-studio-code">Visual Studio code</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, exhaustive search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, GA search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, GP Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PDModel1.html">PD Model 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -78,13 +84,43 @@
              
   <section id="implementation">
 <h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">¶</a></h1>
-<figure class="align-default" id="id1">
-<span id="startimplementation"></span><img alt="_images/MLSelection.png" src="_images/MLSelection.png" />
-<figcaption>
-<p><span class="caption-text">Implementation</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</figcaption>
+<p>All 5 algorithms search a user defined discrete search space. The search space consists of N
+dimension, where each dimension is a set of options for the search. For example, if
+the user would like the search to include 1, or 2 or 3 compartments, this would be a dimesion with
+three values. Similarly, a dimension might include linear or Michaelis-Menten or combined
+linear an Michaelis-Menten. Two key notes:</p>
+<p>** The search space is stricty categorical. While some search dimensions could be viewed
+as ordered categorical, they are all treated a unordered categorical.</p>
+<p>** A point in the search space defines a model, this point will have exactly one value
+in each dimension. That is, the model will be one or two or three compartments, but must be
+exactly one of those.</p>
+<p>The search space is set up identially for all search algorithms.
+For some algorithms (GP, RF, GBRT and exhuastive)
+the space is treated an an integer array, for others (GA and downhill) the space is coded
+as a bit array.</p>
+<p>Three files are required to define the search:</p>
+<p><a class="reference internal" href="Required_files.html#the-template-file"><span class="std std-ref">The Template File</span></a></p>
+<p><a class="reference internal" href="Required_files.html#the-tokens-file"><span class="std std-ref">The Tokens File</span></a></p>
+<p><a class="reference internal" href="Required_files.html#the-options-file"><span class="std std-ref">Options File</span></a></p>
+<section id="running-pydarwin">
+<h2>Running pyDarwin<a class="headerlink" href="#running-pydarwin" title="Permalink to this heading">¶</a></h2>
+<p>Two methods of running pyDarwin will be described, command line and using Visual Studio code.</p>
+</section>
+<section id="command-line">
+<h2>Command line<a class="headerlink" href="#command-line" title="Permalink to this heading">¶</a></h2>
+<p>Window</p>
+<p>Linux</p>
+</section>
+<section id="visual-studio-code">
+<h2>Visual Studio code<a class="headerlink" href="#visual-studio-code" title="Permalink to this heading">¶</a></h2>
+<blockquote>
+<div><p>Implementation</p>
+</div></blockquote>
+<figure class="align-default" id="startimplementation">
+<img alt="_images/MLSelection.png" src="_images/MLSelection.png" />
 </figure>
-<p>As you can see in the <a class="reference internal" href="#startimplementation"><span class="std std-ref">Implementation</span></a> image,</p>
+<p>As you can see in the <a class="reference internal" href="#startimplementation">startImplementation</a> image,</p>
+</section>
 </section>
 
 

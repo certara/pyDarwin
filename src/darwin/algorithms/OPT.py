@@ -71,11 +71,11 @@ def run_skopt(model_template: Template) -> ModelRun:
     population = Population(model_template, 0)
 
     for generation in range(options['num_generations']):
-        log.message(f"Starting generation/iteration {generation}, {options.algorithm} algorithm at {time.asctime()}")
+        log.message(f"Starting generation/iteration ask step {generation}, {options.algorithm} algorithm at {time.asctime()}")
          
         suggestion_start_time = time.time()
         # will need to ask for 1/10 of the total models if run 10  way parallel 
-          
+
         suggested = opt.ask(n_points=options.population_size) 
         log.message("Elapse time for sampling step # %d =  %.1f seconds"
                     % (generation, (time.time() - suggestion_start_time)))
@@ -91,7 +91,7 @@ def run_skopt(model_template: Template) -> ModelRun:
         # run downhill?
         if generation % downhill_q == 0 and generation > 0:
             # pop will have the fitnesses without the niche penalty here
-            
+
             log.message(f"Starting downhill, iteration = {generation} at {time.asctime()}")
 
             run_downhill(model_template, population)

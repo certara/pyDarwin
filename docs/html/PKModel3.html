@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PK Model 3, GP Search &mdash; pyDarwin 1 documentation</title>
+  <title>PK Model 3, ODE model &mdash; pyDarwin 1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PD Model 1" href="PDModel1.html" />
-    <link rel="prev" title="PK Model 2, GA search" href="PKModel2.html" /> 
+    <link rel="next" title="PK Model 4, DMAG by GA" href="PKModel4.html" />
+    <link rel="prev" title="PK Model 2, Simulation model by GP with Python code" href="PKModel2.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,11 +44,17 @@
 <li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Implementation.html">Implementation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, exhaustive search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, GA search</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">PK Model 3, GP Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PDModel1.html">PD Model 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PK Model 3, ODE model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -66,7 +72,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>PK Model 3, GP Search</li>
+      <li>PK Model 3, ODE model</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/PKModel3.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -76,23 +82,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pk-model-3-gp-search">
-<h1>PK Model 3, GP Search<a class="headerlink" href="#pk-model-3-gp-search" title="Permalink to this heading">¶</a></h1>
-<figure class="align-default" id="id1">
-<span id="startpk3"></span><img alt="_images/MLSelection.png" src="_images/MLSelection.png" />
-<figcaption>
-<p><span class="caption-text">DMAG mode, by GP</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</figcaption>
+  <section id="pk-model-3-ode-model">
+<h1>PK Model 3, ODE model<a class="headerlink" href="#pk-model-3-ode-model" title="Permalink to this heading">¶</a></h1>
+<section id="the-template-file">
+<span id="startpk3"></span><h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
+<p>Example 3 template file <a class="reference download internal" download="" href="_downloads/aae3c1e5dfbb49997199d69ad8239edb/Example3_template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
+</section>
+<section id="the-tokens-file">
+<h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
+<p>Example 3 tokens file <a class="reference download internal" download="" href="_downloads/295ec77a5ae75a007dd5886a9b8425bc/Example3_tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+</section>
+<section id="the-options-file">
+<h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
+<p>Example 3 template file <a class="reference download internal" download="" href="_downloads/7466d012d1877c7ad24fe5986e53a148/Example3_options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+<figure class="align-default">
+<img alt="_images/MLSelection.png" src="_images/MLSelection.png" />
 </figure>
-<p>As you can see in the <a class="reference internal" href="#startpk3"><span class="std std-ref">DMAG mode, by GP</span></a> image,</p>
+<p>64 model search space by exhaustive</p>
+<p>As you can see in the <a class="reference internal" href="#startpk3">startpk3</a> image,</p>
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="PKModel2.html" class="btn btn-neutral float-left" title="PK Model 2, GA search" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="PDModel1.html" class="btn btn-neutral float-right" title="PD Model 1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="PKModel2.html" class="btn btn-neutral float-left" title="PK Model 2, Simulation model by GP with Python code" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="PKModel4.html" class="btn btn-neutral float-right" title="PK Model 4, DMAG by GA" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -35,12 +35,21 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         errors = ['PK PARAMETER FOR',
                   'IS TOO CLOSE TO AN EIGENVALUE',
-                  'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)']
+                  'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)',
+                  'OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0']
 
-        for error in errors:
-            for line in _file_to_lines(os.path.join(run.run_dir, "PRDERR")):
-                if error in line and not (line.strip() + " ") in prd_err:
-                    prd_err += line.strip() + " "
+        lines = _file_to_lines(os.path.join(run.run_dir, "PRDERR"))
+
+        if lines:
+            found = False
+            for error in errors:
+                for line in lines:
+                    if error in line and not (line.strip() + " ") in prd_err:
+                        prd_err += line.strip() + " "
+                        found = True
+
+            if not found:  # only write this once, if nothing is found
+                prd_err += f"Unidentified error in PRDERR for model run {run.generation}, {run.model_num}\n"
 
         warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
                     ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n',

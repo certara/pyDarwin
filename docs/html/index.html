@@ -43,11 +43,12 @@
 <li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Implementation.html">Implementation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, exhaustive search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, GA search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, GP Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PDModel1.html">PD Model 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -80,7 +81,10 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Install.html#requirements">Requirements</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Theory.html#exhaustive-search">Exhaustive Search</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Theory.html#genetic-algorithm">Genetic Algorithm</a></li>
@@ -89,43 +93,46 @@
 <li class="toctree-l2"><a class="reference internal" href="Theory.html#gradient-boosted-random-tree">Gradient Boosted Random Tree</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Implementation.html">Implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Implementation.html">Implementation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Implementation.html#running-pydarwin">Running pyDarwin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Implementation.html#command-line">Command line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Implementation.html#visual-studio-code">Visual Studio code</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Required_files.html#template-file">Template File</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Required_files.html#tokens-file">Tokens File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Required_files.html#the-template-file">The Template File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Required_files.html#the-tokens-file">The Tokens File</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Required_files.html#options-file">Options File</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, exhaustive search</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="PKModel1.html#calling-post-run-r-code">Calling Post Run R code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PKModel1.html#the-template-file">The Template file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PKModel1.html#the-options-file">The Options file</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, GA search</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="PKModel2.html#calling-post-run-python-code">Calling Post Run Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PKModel2.html#the-template-file">The Template file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PKModel2.html#the-tokens-file">The Tokens file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PKModel2.html#the-options-file">The Options file</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, GP Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PDModel1.html">PD Model 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PKModel3.html#the-template-file">The Template file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PKModel3.html#the-tokens-file">The Tokens file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PKModel3.html#the-options-file">The Options file</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.algorithms.exhaustive">darwin.algorithms.exhaustive module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.algorithms.GA">darwin.algorithms.GA module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.algorithms.OPT">darwin.algorithms.OPT module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.algorithms.PSO">darwin.algorithms.PSO module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.GlobalVars">darwin.GlobalVars module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.Log">darwin.Log module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.Model">darwin.Model module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.ModelCode">darwin.ModelCode module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.omega_utils">darwin.omega_utils module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.Template">darwin.Template module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.options">darwin.options module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.runAllModels">darwin.runAllModels module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.run_downhill">darwin.run_downhill module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.run_search">darwin.run_search module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.run_search_in_folder">darwin.run_search_in_folder module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="API.html#module-darwin.utils">darwin.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API.html#darwin">Darwin</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Support.html#development-support">Development Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Support.html#help">Help</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>

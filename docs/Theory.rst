@@ -48,6 +48,9 @@ For all algorithms, the basic process is the same, start at one or more random. 
 The same 3 files are required for any search, whether exhausitve, GA, GP, RF or GBRF 
 .. _The Algorithms:
 
+
+.. _Exhaustive Search:
+
 Exhaustive Search
 -------------------------
  
@@ -56,7 +59,7 @@ Exhaustive Search
 Genetic Algorithm
 -------------------------
  
-.. _The Gaussian Process (Bayesian Optimization):
+.. _Gaussian Process (Bayesian Optimization):
 
 Gaussian Process
 -------------------------

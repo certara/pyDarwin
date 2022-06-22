@@ -138,8 +138,13 @@ class ModelRun(ABC):
 
             if not os.path.isdir(self.run_dir):
                 os.makedirs(self.run_dir)
+
+            return
         except:
-            log.error(f"Error removing run files/folders for {self.run_dir}")
+            log.error(f"Unable to prepare run directory: {self.run_dir}")
+
+        # if we cannot create run_dir, there's no point to continue
+        sys.exit()
 
     def _make_control_file(self):
         """

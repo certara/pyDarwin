@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glossary &mdash; pyDarwin 1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Support" href="Support.html" />
+    <link rel="prev" title="API" href="API.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Implementation.html">Implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Glossary</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Glossary.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="glossary">
+<h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this heading">¶</a></h1>
+<p id="deap"><strong>DEAP:</strong> Distributed Evolutionary Algorithms in Python <a class="reference external" href="https://github.com/DEAP/deap">DEAP github</a></p>
+<p><strong>fitness:</strong> A number representing the overall “goodness” of the candidate. Called fitness in GA
+more in most other algorithms is called “reward”.</p>
+<p id="fitness"><strong>fitness:</strong> A number representing the overall “goodness” of the candidate. Called fitness in GA
+more in most other algorithms is called “reward”.</p>
+<p id="ga"><strong>GA - Genetic Algorithm:</strong> An unsupervised search algorithm that mimicks the mathetmatics
+of ‘survival of the fittest’. A population of candidates is generated randomly, an the “fitness”
+of each candidate is evaluated. A subsequent population is candidate is then generated with the
+present generation as “parents”, with selection a function of fitness, with the more
+fit individual being more likely to be selected as parents. The parents are then paired of, undergo
+cross over and mutation and a new generation created. This process is continued until
+no futher improvement is seen. <a class="reference external" href="https://en.wikipedia.org/wiki/Genetic_algorithm">GA on Wikipedia</a></p>
+<p id="gp"><strong>GP - Gaussian Process (Bayesian optimization)</strong></p>
+<p id="gbrt"><strong>GBRT - Gradient Boosted Random Tree:</strong> Random Forest optimization <a class="reference external" href="https://en.wikipedia.org/wiki/Gradient_boosting">Gradient Boosting on Wikipedia</a></p>
+<p id="options-file"><strong>Options File:</strong> Specified the options for the search, inculding the algorith, the <a class="reference internal" href="#fitness"><span class="std std-ref">fitness/reward criteria</span></a>, the population size, the number
+of iterations/generations and whether the downhill search is to be executed.</p>
+<p id="reward"><strong>Reward:</strong> A number representing the overall “goodness” of the candidate. Called fitness in GA.</p>
+<p id="rf"><strong>RF - Random Forest:</strong> Random Forest optimization <a class="reference external" href="https://en.wikipedia.org/wiki/Random_forest">Random Forest on Wikipedia</a></p>
+<p id="template"><strong>Template:</strong> XXXXX</p>
+<p id="token"><strong>Token:</strong> XXXXX</p>
+<p id="tokens-file"><strong>Tokens file:</strong> XXXXX</p>
+<p id="token-group"><strong>Token group:</strong> XXXXX</p>
+<p id="token-set"><strong>Token set</strong>: one for each option in the that dimension</p>
+<p id="token-key-text-pair"><strong>Token key-text pair:</strong> A <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> contains two or more token key-text pairs. These
+pairs are very analagous to JSON key-value pairs, except that only text values are permitted. For each
+token key-text pair, the <a class="reference internal" href="#token-stem"><span class="std std-ref">token stem</span></a> [n] in the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a> is replaced
+by the corresponding values in the token key-text pair. For example, if the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a>
+contains these two tokens:</p>
+<p>ALAG[1]</p>
+<p>in the $PK block</p>
+<p>and</p>
+<p>ALAG[2]</p>
+<p>in the $THETA block
+the <a class="reference internal" href="#token-stem"><span class="std std-ref">token stem</span></a> would be ALAG. The ALAG <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a>
+would be required in the tokens files. Exactly one <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> would
+be selected (by the search algorithm) for substitution into the template file. If the first
+token set is selected, and this token set contains these token key-text pairs:</p>
+<p>ALAG[1] -&gt; “ALAGA1=THETA(ALAG)”</p>
+<p>ALAG[2] -&gt; “(0,1) ;; initial estimate for ALAG1”</p>
+<p>The text “ALAG[1]” in the template file would be replaced by “ALAGA1=THETA(ALAG)” and
+the “ALAG[2]” text in the template would be replace by “(0,1) ;; initial estimate for ALAG1”. This would then
+result in syntactically correct NMTRAN code.</p>
+<p id="token-stem"><strong>Token stem:</strong> XXXXXX</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="API.html" class="btn btn-neutral float-left" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Support.html" class="btn btn-neutral float-right" title="Support" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ms.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -118,8 +118,8 @@ def run_downhill(template: Template, pop: Population):  # only return new models
 
         population = Population(template, str(generation) + "D" + str(this_step))
 
-        for thisMinBits in test_models:
-            code = ModelCode.from_min_binary(thisMinBits, maxes, lengths)
+        for min_bits in test_models:
+            code = ModelCode.from_min_binary(min_bits, maxes, lengths)
             population.add_model_run(code)
 
         if len(population.runs) > 0:
@@ -252,8 +252,8 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
 
         population = Population(model_template, full_generation)
 
-        for thisMinBits, model_num in zip(test_models, range(len(test_models))):
-            code = ModelCode.from_min_binary(thisMinBits, maxes, lengths)
+        for min_bits in test_models:
+            code = ModelCode.from_min_binary(min_bits, maxes, lengths)
             population.add_model_run(code)
 
         population.run_all()

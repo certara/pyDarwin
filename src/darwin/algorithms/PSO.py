@@ -308,8 +308,8 @@ def f(x, model_template, iteration):
 
     gen = Population(model_template, iteration)
 
-    for thisFullBits in pop_full_bits:
-        code = ModelCode.from_full_binary(thisFullBits, maxes, lengths)
+    for full_bits in pop_full_bits:
+        code = ModelCode.from_full_binary(full_bits, maxes, lengths)
         gen.add_model_run(code)
 
     gen.run_all()

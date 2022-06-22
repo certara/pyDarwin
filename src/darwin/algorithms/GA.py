@@ -149,8 +149,8 @@ def run_ga(model_template: Template) -> ModelRun:
 
     first_gen = Population(model_template, 0)
 
-    for thisFullBits, model_num in zip(pop_full_bits, range(len(pop_full_bits))):
-        code = ModelCode.from_full_binary(thisFullBits, maxes, lengths)
+    for full_bits in pop_full_bits:
+        code = ModelCode.from_full_binary(full_bits, maxes, lengths)
         first_gen.add_model_run(code)
 
     first_gen.run_all()
@@ -227,8 +227,8 @@ def run_ga(model_template: Template) -> ModelRun:
 
         population = Population(model_template, generation)
 
-        for thisFullBits, model_num in zip(pop_full_bits, range(len(pop_full_bits))):
-            code = ModelCode.from_full_binary(thisFullBits, maxes, lengths)
+        for full_bits in pop_full_bits:
+            code = ModelCode.from_full_binary(full_bits, maxes, lengths)
             population.add_model_run(code)
 
         population.run_all()

@@ -82,8 +82,8 @@ def run_skopt(model_template: Template) -> ModelRun:
 
         population = Population(model_template, generation)
 
-        for thisInts, model_num in zip(suggested, range(len(suggested))):
-            code = ModelCode.from_int(thisInts, maxes, lengths)
+        for ints in suggested:
+            code = ModelCode.from_int(ints, maxes, lengths)
             population.add_model_run(code)
 
         population.run_all()

@@ -59,8 +59,8 @@ def run_exhaustive(model_template: Template) -> ModelRun:
 
         pop = Population(model_template, 0)
 
-        for thisInts, model_num in zip(codes[current_start:current_last], range(current_start, current_last)):
-            code = ModelCode.from_int(thisInts, maxes, lengths)
+        for ints in codes[current_start:current_last]:
+            code = ModelCode.from_int(ints, maxes, lengths)
             pop.add_model_run(code)
 
         pop.run_all()

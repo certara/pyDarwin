@@ -10,8 +10,10 @@ import logging
 import numpy as np 
 from scipy.spatial import distance_matrix
 import darwin.GlobalVars as GlobalVars
+
 from darwin.Log import log
 from darwin.options import options
+from darwin.execution_man import keep_going
 from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
 from darwin.Population import Population
@@ -150,11 +152,10 @@ def run_ga(model_template: Template) -> ModelRun:
     log.message(f"Best overall fitness = {GlobalVars.BestRun.result.fitness:4f},"
                 f" iteration 0, model {GlobalVars.BestRun.model_num}")
 
-    fitnesses = [None]*len(first_gen.runs)
+    fitnesses = [r.result.fitness for r in first_gen.runs]
 
-    for run, pop, fit in zip(first_gen.runs, pop_full_bits, range(len(first_gen.runs))):
+    for run, pop in zip(first_gen.runs, pop_full_bits):
         pop.fitness.values = (run.result.fitness,)
-        fitnesses[fit] = run.result.fitness
 
     best_index = get_n_best_index(elitist_num, fitnesses)
 
@@ -221,6 +222,9 @@ def run_ga(model_template: Template) -> ModelRun:
 
         population.run_all()
 
+        if not keep_going():
+            break
+
         runs = population.runs
 
         best_run = GlobalVars.BestRun
@@ -239,7 +243,7 @@ def run_ga(model_template: Template) -> ModelRun:
         for i in range(elitist_num):  # best_index:
             best_for_elitism[i] = deepcopy(pop_full_bits[best_index[i]])
 
-        if generation % downhill_q == 0 and generation > 0:
+        if generation % downhill_q == 0 and keep_going():
             # pop will have the fitnesses without the niche penalty here
             # add local exhaustive search here??
             # temp_fitnesses = copy(fitnesses)
@@ -293,9 +297,7 @@ def run_ga(model_template: Template) -> ModelRun:
 
     final_ga_run = population.get_best_run()
 
-    if options["final_fullExhaustiveSearch"]:
-        # start with standard downhill
-
+    if options["final_fullExhaustiveSearch"] and keep_going():
         population.name = 'FN'
 
         run_downhill(model_template, population)

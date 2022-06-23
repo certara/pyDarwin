@@ -5,6 +5,7 @@ from scipy.spatial import distance_matrix
 from darwin.Log import log
 from darwin.options import options
 from darwin.utils import get_n_best_index, get_n_worst_index
+from darwin.execution_man import keep_going
 
 from .Template import Template
 from .ModelRun import ModelRun
@@ -121,6 +122,9 @@ def run_downhill(template: Template, pop: Population):  # only return new models
 
             population.run_all()
 
+            if not keep_going():
+                break
+
             runs = population.runs
 
             # check, for each niche, if any in the fitnesses is better, if so, that become the source for the next round
@@ -150,7 +154,7 @@ def run_downhill(template: Template, pop: Population):  # only return new models
 
     # best_in_niches is just minimal binary at this point
 
-    if options["fullExhaustiveSearch_qdownhill"]:
+    if options["fullExhaustiveSearch_qdownhill"] and keep_going():
         best_model_index = get_n_best_index(1, best_fitnesses)[0]
         run_for_search = copy(best_runs_in_niches[best_model_index])
         last_best_fitness = run_for_search.result.fitness
@@ -243,6 +247,9 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
         population = Population.from_codes(model_template, full_generation, test_models, ModelCode.from_min_binary)
 
         population.run_all()
+
+        if not keep_going():
+            break
 
         best = population.get_best_run()
 

@@ -13,7 +13,7 @@ from .ModelEngineAdapter import register_engine_adapter
 from .NMEngineAdapter import NMEngineAdapter
 
 from .Template import Template
-from .Model import Model
+from .ModelRun import ModelRun
 from .Population import init_model_list
 
 from .algorithms.exhaustive import run_exhaustive
@@ -22,7 +22,7 @@ from .algorithms.OPT import run_skopt
 from .algorithms.PSO import run_pso
 
 
-def run_template(model_template: Template) -> Model:
+def run_template(model_template: Template) -> ModelRun:
 
     algorithm = options.algorithm
 

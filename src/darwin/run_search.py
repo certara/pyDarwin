@@ -2,13 +2,13 @@ import logging
 import sys
 
 from .Template import Template
-from .Model import Model
+from .ModelRun import ModelRun
 from .app import init_app, run_template
 
 logger = logging.getLogger(__name__)
 
 
-def run_search(template_file: str, tokens_file: str, options_file: str) -> Model:
+def run_search(template_file: str, tokens_file: str, options_file: str) -> ModelRun:
     """
     The run_search function run algorithm selected in options_file, based on template_file and tokens_file
     At the end, write best control and output file to homeDir (specified in options_file)

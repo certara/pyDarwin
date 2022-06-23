@@ -42,8 +42,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Implementation.html">Implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection, Theory and implementation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
@@ -260,7 +259,7 @@ swarm.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.algorithms.PSO.run_pso">
-<span class="sig-prename descclassname"><span class="pre">darwin.algorithms.PSO.</span></span><span class="sig-name descname"><span class="pre">run_pso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></span><a class="headerlink" href="#darwin.algorithms.PSO.run_pso" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">darwin.algorithms.PSO.</span></span><span class="sig-name descname"><span class="pre">run_pso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.algorithms.PSO.run_pso" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs Particle Swarm Optimization (PSO), based on PySwarm (<a class="reference external" href="https://github.com/ljvmiranda921/pyswarms">https://github.com/ljvmiranda921/pyswarms</a>)
 Called from Darwin.run_search, _run_template
 NOT YET STABLE
@@ -883,7 +882,7 @@ implement default like this:</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.Population.Population">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.Population.</span></span><span class="sig-name descname"><span class="pre">Population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.Population.</span></span><span class="sig-name descname"><span class="pre">Population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="darwin.Population.Population.add_model_run">
 <span class="sig-name descname"><span class="pre">add_model_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelCode.ModelCode" title="darwin.ModelCode.ModelCode"><span class="pre">ModelCode</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population.add_model_run" title="Permalink to this definition">¶</a></dt>
@@ -892,6 +891,11 @@ implement default like this:</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="darwin.Population.Population.all_runs">
 <span class="sig-name descname"><span class="pre">all_runs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#darwin.Population.Population.all_runs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.Population.Population.from_codes">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_codes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_converter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population.from_codes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">

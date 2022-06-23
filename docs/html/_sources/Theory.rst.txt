@@ -1,51 +1,81 @@
 
 
-ML Model Selection
-================================== 
+ML Model Selection, Theory and implementation
+=============================================
  
  
-.. _starterTheory:
+.. _startTheory:
  
 pyDarwin implements a number of machine learning algorithms for model selection. Machine learning algorithms are broadly divided into two categories:
-* Supervised learning
-* Unsupervised learning
+ - Supervised learning
+ - Unsupervised learning
 
-For supervised learning, the algorithm "learns" to associate certain patterns (e.g., a collection of bit map pictures) with a set of labeled examples. For example, if one has
-10,000 pictures of cats and dogs (a training set), with each impage labeled as "cat" or "dog", a artificial neural network (ANN) can find patterns in the 0's and 1's that are associated with "catness" 
-or "dogness", and can be fairly successful at predicting for any similar set of bitmaps (the test set) which is a cat and which is a dog.
-In contrast, Unsupervised learning has no labeled training set. The traditional model selection/building process for pop pk models is unsupervied. Rathan than the pattern matching 
-algorithms of supervised learning, Unsupervised learning is a search. Traditional pop pk/pd model selection uses the "downhill method", starting, usually, at a trival model, then adding
-"features" (compartment, lag times, non linear elimination, covariate effects) and accepting the new model if it is better ("downhill"), lower -2LL + some other criteria the use feels important).
-To further complicate the taxonomy, recently added is semi-supervised learning. As expected, semi-supervised learning is a mixture of supervised and unsupervised, and 3 of the 4 algorithms 
-implemented in pyDarwin are semi-supervised (Gaussian Process, Random Forest and Gradient booste random tree), while 1 is strictly unsupervied (Genetic algorithm). In semi-supervised learning, rather than
-training on a data set, such as setting the weights of a ANN based on that training, the weights are initially set randomly. Based on this initial (and non sensical) random ANN, the "best"
-model is chosen and run. Now there is a small (N=1) training data set, and the ANN can be trained on this single datum. The ANN is still likely to have a very poor match between inputs (number of compartments,
-absorption models, covariates etc) and output (model "goodness"), but with each iteration, the fit should improve.
+For supervised learning, the algorithm "learns" to associate certain patterns (e.g., a collection of bitmap pictures) with a set of labeled examples. For example, if one has
+10,000 pictures of cats and dogs (a training set), with each imagee labeled as "cat" or "dog", a artificial neural network (ANN) can find patterns in 
+the 0's and 1's that are associated with "catness" 
+or "dogness", and can be fairly successful at predicting for any similar set of bitmaps (a test set) which is a cat and which is a dog.
+In contrast, Unsupervised learning has no labeled training set. Linear regression is a simple examle of supervised learning. There is an input (X's) and an 
+output (y's) and the algorithm identified patterns that match the inputs to the output (intercept and slope(s)). 
+The traditional model selection/building process for pop pk models is unsupervised. There is no "labeled" training data set, not collection of data sets 
+that are known to be 1 compartment, with Volume~WT. Rathar each data set is a new learning and the algorithm must discover relationships based just on that data set. 
+Supervised learning includes algorithms such as regression, artifial neural networks (ANN), decision trees/random forest and k-nearest neighbor. 
+Recently, hybrid supervised/unsuprevised learning algorithm have been introduced and have proven to be very powerful. The best know of these is deep q network/reinforcement 
+learning(DQN/RL). DQN/RL is a deep neural network (a slightly more complex ANN). However, unlike traditional supervised ANN, there is no trainig set. 
+Rather, the method starts with a randomly selected set of weights for nodes. Then based on this (random) ANN predicts the best model. Initially, this 
+model will be far from the "true" optimal model. But, running a single model then provides a very small "training set", and the ANN is now trained on this model. 
+This process is repeated until the "best" model no longer improves. This approach (start with a random representation of the search space, run a few model, 
+then train the representation) has been adapted to other traditionally supervised methods including Bayesian optimization (Gaussian process - GP), 
+Random Forest (RF) and gradient boosted random trees (GBRT).  These three hybrid algorithms (GP, RF and GBRT) have been include in the algorithms in pyDarwin 
+along with the more traditional Genetic Algorithm (GA) and exhaustive search. 
+
+Traditional pop pk/pd model selection uses the "downhill method", starting usually, at a trival model, then adding
+"features" (compartments, lag times, non linear elimination, covariate effects) and accepting the new model if it is better ("downhill"), 
+lower -2LL + some other criteria the user feels important). The downhill method is easily the most effiicent methods (fewest evaluations of the 
+reward/fitness to reach the convergence) but has been shown to be very prone to local minima. However, downhill does play a role in a very efficient 
+local search, in combination with a global search algorithm (GP, RF, GBRT or GA). 
+
 
 Central to understanding the model selection process (with manual or machine learning), is the concept of the search space. The search space is an n dimensional space where each dimension represents 
-a set of mutually exclusive options. That is, there likely will be a dimension for "number of compartments", with possible values of 1, 2 or 3. Exactly one of these is required (ignoring the possibility of 
-Baysian model averaging). Another dimension might be the absorption model, with values of first order, zero order, first order with absorption lag time etc). Similarly the relationship 
-between weight and volume (none|linear|power model). Note that each of these dimension are discrete, and mostly stricly categorical (not ordered categorical, first order isn't "more than" zero order).
+a set of mutually exclusive options. That is, there likely will be a dimension for "number of compartments", with possible values of 1, 2 or 3. 
+Exactly one of these is required (ignoring the possibility of 
+
+`Bayesian model averaging <https://onlinelibrary.wiley.com/doi/abs/10.1111/insr.12243>`
+
+Another dimension might be the absorption model, with values of first order, zero order, first order with absorption lag time etc). Similarly candidate  
+relationship between weight and volume might be (none|linear|power model). Note that each of these dimension are discrete, and mostly stricly 
+categorical (not ordered categorical, first order isn't "more than" zero order).
 With this exception the model search space is very analogous to the parameter search space used in non-linear regression. An important difference is that the continuous space in non-linear 
-regression has a derivatie, and quadi-Newton methods can be used to to a "downhill search" in that space. Please note that quasi-Newton methods are at risk of finding local minima, and therefore
-are sensitive to the initial estimates. 
+regression has a derivativee, and quadi-Newton methods can be used to to a "downhill search" in that space. Please note that quasi-Newton methods are 
+also at risk of finding local minima, and therefore are sensitive to the initial estimates. In the case of parameter estimation, efforts are made to start 
+the search at a location in the search space near the final estimate, greatly reducing the chances ending up in a local minima. No such effort is 
+made in the downhill model selection method. Rather, the search is usually start at a trivial model. 
 
-As the discrete space of model search does not have a derivative, other search methods must be used. The simplest, and the one traditionally used in model selection, is downhill. While efficient (requiring the fewest 
-function evaluations [models] to get the solution), it can be demonstrated that this method is not robust [#f1]_ [#f2]_. This lack of robustness is due to the violation of convexity assumption. That is, the downhill search assumes 
-that the optimal solution is continuously downhill from every other point in the search space. That is, there are no local minima, and you can start anywhere and you'll end up in the same place. With this assumption, 
+As the discrete space of model search does not have a derivative, other search methods must be used. The simplest, and the one traditionally used in 
+model selection, is downhill. While efficient it can be demonstrated that this method is not robust [#f1]_ [#f2]_. This lack of robustness is due to 
+the violation of convexity assumption. That is, the downhill search, in either a continuous space (parameter estimation) or a discrete space (model selection) 
+assumes that the optimal solution is continuously downhill from every other point in the search space. That is, there are no local minima, and you can start anywhere and you'll end up in the same place. With this assumption, 
 a covariate will or will not be "downhill", regardless of whether tested in a one compartment, two compartment; first order of zero order or any other base model, it's all downhill, it doesn't matter what sequence you test 
-hypotheses in, the answer will be the same. Wade [#f1]_ showed that the results of tests of hypotheses do indeed depend on other features in the model and Chen [#f2]_ showed that different sequences of tests will commonly yield different models.
-   
+hypotheses in, the answer will be the same. Wade [#f1]_ showed that the results of tests of hypotheses do indeed depend on other features in the model and 
+Chen [#f2]_ showed that different sequences of tests will commonly yield different models.
 
-In contrast to the traditional downhill/local search, all algorithms implemented in pyDarwin are global search algorithms that are expected to have a greater degree of robustness to local minima than downhill search. 
-Note howwever that all search algorithms (with the exception of exhaustive search) make assumptions about the search space. While none of the algorithms in pyDarwin assume convexity, none are completely robust, 
+
+In contrast to the traditional downhill/local search, all algorithms implemented in pyDarwin are global search algorithms that are expected to have a greater 
+degree of robustness to local minima than downhill search. Note howwever that all search algorithms (with the exception of exhaustive search) make assumptions about the search space. While none of the algorithms in pyDarwin assume convexity, none are completely robust, 
 and search spaces can be deceptive.[#f3]_ 
 For all algorithms, the basic process is the same, start at one or more random. Figure 1 depicts the process common to all algorithms.
  
- 
+The search space is key to implementation of each algorithm. The overall representation is the same - and n dimensional discrete search space. The values in each 
+dimension are then coded into several forms, bit strings and integer string. Ultimately, the model is constructed from the integer string, e.g., values for the number 
+of compartment dimenion are 1|2|3. However,for GA, this must be coded as bitstring. There is one additional representation, refered to as a minimal binary string, 
+which is used for the downhill step.
+
+The overall process is shown below:
+
  .. figure:: MLSelection.png
 
-The same 3 files are required for any search, whether exhausitve, GA, GP, RF or GBRF 
+The same 3 files are required for any search, whether exhausitve, GA, GP, RF or GBRF. These file are described in :ref:`required files <startRequiredFiles>`
+
+
 .. _The Algorithms:
 
 

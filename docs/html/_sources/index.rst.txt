@@ -12,7 +12,6 @@ Welcome to pyDarwin's documentation
 
    Install 
    Theory
-   Implementation
    Required_files
    PKModel1 
    PKModel2
@@ -28,9 +27,6 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-`Elaine Wines`_
-
-.. _Elaine Wines: http://elainewines.com
+ 
  
  

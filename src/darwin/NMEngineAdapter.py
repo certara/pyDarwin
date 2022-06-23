@@ -6,7 +6,7 @@ import xmltodict
 
 from collections import OrderedDict
 
-from .ModelEngineAdapter import ModelEngineAdapter
+from .ModelEngineAdapter import ModelEngineAdapter, register_engine_adapter
 from .ModelRun import ModelRun
 
 import darwin.utils as utils
@@ -525,3 +525,6 @@ def _get_block(start, fcon, fixed=False):
     this_block = [i for i in this_block if i != 0]
 
     return len(this_block)
+
+
+register_engine_adapter('nonmem', NMEngineAdapter)

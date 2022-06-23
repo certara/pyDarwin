@@ -2,7 +2,7 @@ import logging
 import sys
 
 from .Template import Template
-from .Model import Model
+from .ModelRun import ModelRun
 from .app import init_app, run_template
 
 logger = logging.getLogger(__name__)
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 def run_search_in_folder(
         folder: str,
         template_file: str = 'template.txt', tokens_file: str = 'tokens.json', options_file: str = 'options.json'
-) -> Model:
+) -> ModelRun:
 
     init_app(options_file, folder)
 

@@ -26,7 +26,6 @@ logger = logging.getLogger(__name__)
 class _GARunner:
     def __init__(self, template: Template, pop_size, elitist_num):
         self.generation = -1
-        self.fitnesses = []
         self.template = template
         self.elitist_num = elitist_num
 
@@ -45,14 +44,9 @@ class _GARunner:
         if self.generation > 0:
             self.pop_full_bits = self.toolbox.get_offspring(self.pop_full_bits)
 
-            # add hof back in at first  positions, maybe should be random???
-            # looks like we need to do this manually when we add in niches, can't use hof.,
-            # replace worst, based on original fitness (without niche penalty)
-            worst_run_indices = get_n_worst_index(self.elitist_num, self.fitnesses)
-
-            # put elitist back in place of worst
+            # replace first elitist_num individuals
             for i in range(self.elitist_num):
-                self.pop_full_bits[worst_run_indices[i]] = copy(self.best_for_elitism[i])
+                self.pop_full_bits[i] = copy(self.best_for_elitism[i])
 
         population = Population.from_codes(self.template, self.generation, self.pop_full_bits,
                                            ModelCode.from_full_binary)
@@ -62,17 +56,12 @@ class _GARunner:
         if not keep_going():
             return population, False
 
-        runs = population.runs
+        for ind, run in zip(self.pop_full_bits, population.runs):
+            ind.fitness.values = (run.result.fitness,)
 
-        for run, pop in zip(runs, self.pop_full_bits):
-            pop.fitness.values = (run.result.fitness,)
+        best_runs = population.get_best_runs(self.elitist_num)
 
-        self.fitnesses = [r.result.fitness for r in runs]
-
-        best_index = get_n_best_index(self.elitist_num, self.fitnesses)
-
-        for i in range(self.elitist_num):
-            self.best_for_elitism[i] = deepcopy(self.pop_full_bits[best_index[i]])
+        self.best_for_elitism = [model_run_to_deap_ind(run) for run in best_runs]
 
         return population, True
 

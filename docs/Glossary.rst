@@ -152,11 +152,11 @@ would be required in the tokens files. Exactly one :ref:`token set <token set>` 
 be selected (by the search algorithm) for substitution into the template file. If the first 
 token set is selected, and this token set contains these token key-text pairs:
 
-ALAG[1] -> "ALAGA1=THETA(ALAG)"
+ALAG[1] -> "ALAG1=THETA(ALAG)"
 
 ALAG[2] -> "(0,1) ;; initial estimate for ALAG1"
 
-The text "ALAG[1]" in the template file would be replaced by "ALAGA1=THETA(ALAG)" and 
+The text "ALAG[1]" in the template file would be replaced by "ALAG1=THETA(ALAG)" and 
 the "ALAG[2]" text in the template would be replace by "(0,1) ;; initial estimate for ALAG1". This would then 
 result in syntactically correct NMTRAN code.
 

@@ -105,14 +105,13 @@ There are 3 restriction for the parseing of the initial estimates blocks:
 3. Text for **ALL** initial estimates must be in parentheses, e.g., (1), or (0,1) or (0,1,5)
 
 
-
 .. _tokens file:
 
 The Tokens File
 ~~~~~~~~~~~~~~~~~~~
 
 The tokens file provide a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the :ref:`token group <token group>`. Token groups are 
-defined by a unique :ref:`token stem<token stem>` The token stem also serves as the key in the :ref:`tokenn key-text pairs.<token key-text pair>` The token stem is a text string that corresponds to the token key that appears in the :ref:`template file<template>`. 
+defined by a unique :ref:`token stem<token stem>`. The token stem also serves as the key in the :ref:`tokenn key-text pairs.<token key-text pair>` The token stem is a text string that corresponds to the token key that appears in the :ref:`template file<template>`. 
 The 2nd level in the tokens dictionary are the :ref:`token sets<token set>`. In the template file the tokens are indexed (e.g., ADVAN[1]), as typically multiple token keys will be to be 
 replace by text to create correct syntax. For example, if the search if for 1 compartment (ADVAN1) vs 2 compartment (ADVAN3), for ADVAN3, definitions of K23 and K32 must be provided 
 in the $PK block, and (typically) initial estimates must be provided in the $THETA block. Thus, a set of 3 replacements must be made, one in $SUBS, one in $PK and one in 
@@ -133,28 +132,23 @@ will include the following JSON code:
 
 Note that whether the current model is one compartment or two is selected by the search algorithm and provided in the model :ref:`phenotype<phenotype>`.
 
-A diagram of the token structure is given in 
+A diagram of the token structure is given below
 
 
 .. figure:: tokens.png
+
+Note the "nested token" - a token ("{K23~WT[1]}") within a token, circled in red. One level of nested tokens is permited. pyDarwin will first substitute the full text 
+into the template, then scans the resulting text again. This nested token will then be found and the text from the {K23~WT[1]} token set will be substituted. 
 
 
 Several notes:
 
 
-1. The :ref:`token stem<token stem>` is "ADVAN" and identifies the :ref:`token group<token group>`. This stem must be unique in the tokens groups. The token stem also 
-serves as the token key in the :ref:`token key-value pairs<token key-text pair>`. In this example, three replacements 
-must be made in the template, in $SUBS, $PK and $THETA. In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3]}. Note the curly braces, 
-these are required in the template, but not the tokens file. The indices correspond to the indices 
-of the :ref:`tokens<token>` in the token set. In this case there are 3 :ref:`token key-value pairs<token key-text pair>` in each token set. There may be additional unused tokens (as may be 
-the case with :ref:`nest tokens<nested tokens>`, but each token in the template file must have a corresponding token key-value pair in the tokens file. 
-2 token sets in this token group, one coding for ADVAN1 and one coding for ADVAN3.
-
-1. New lines in JSON files are ignored. To code a new line, enter the newline escape character "\\n". Similarly, a tab is coded as "\\t".
-   
-2. Comments are not permitted in JSON files. However comments for the generated NMTRAN control file maybe included with the usual syntax ";".
-   
-3. All other JSON (`JSON<https://www.json.org/json-en.html>_`) rules apply.
+1. The :ref:`token stem<token stem>` is "ADVAN" and identifies the :ref:`token group<token group>`. This stem must be unique in the tokens groups. The token stem also  serves as the token key in the :ref:`token key-value pairs<token key-text pair>`. In this example, three replacements must be made in the template, in $SUBS, $PK and $THETA. In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3]}. Note the curly braces, these are required in the template, but not the tokens file. The indices correspond to the indices of the :ref:`tokens<token>` in the token set. In this case there are 3 :ref:`token key-value pairs<token key-text pair>` in each token set. There may be additional unused tokens (as may be the case with :ref:`nest tokens<nested tokens>`, but each token in the template file must have a corresponding token key-value pair in the tokens file. 2 token sets in this token group, one coding for ADVAN1 and one coding for ADVAN3.
+2. New lines in JSON files are ignored. To code a new line, enter the newline escape character "\\n". Similarly, a tab is coded as "\\t".
+3. Comments are not permitted in JSON files. However comments for the generated NMTRAN control file maybe included with the usual syntax ";".
+4. There is no dependency on the sequence of token sets in the file, any order is acceptable, they need not be in the same order as they appear in the :ref:`template file.<The template file>`
+5. All other JSON (`JSON <https://www.json.org/json-en.html>`_ ) rules apply.
 
 
    

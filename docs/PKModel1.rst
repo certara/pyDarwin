@@ -3,15 +3,70 @@
 .. _startpk1:
 
 PK Model 1, trivial exhaustive search
-==============================================
+======================================
+
 This first model is quite simple, the search space consistes of 6 dimensions, each with 2 options. Thus, the total number of candiate models is 
 2^6 = 64 models. As the search space if very small, we'll search by exhaustive search. 
 
+First step:
+
+As is the usual practise in POPPK model selection, the first step will be exploratory data analysis. This serves at least two purposes: To validate the data set 
+and to generate initial hypotheses. We will however, for the purpose of this tutorial, skip this step and assume that we have a "correct" data set and list of 
+hypotheses to be tests. 
+
+The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:
+
+::
+
+    $PROBLEM    2 compartment fitting
+    $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
+    $DATA      ..\..\datalarge.csv IGNORE=@
+            
+    $SUBROUTINE ADVAN2
+    $ABBR DERIV2=NO
+    $PK      
+    CWTKG = WTKG/70  ;; CENTERED ON ONE 
+    CAGE = AGE/40 
+    TVV2=THETA(2) 
+    V2=TVV2*EXP(ETA(2)) 
+    TVCL= THETA(1)  
+    CL=TVCL*EXP(ETA(1)) 
+    K=CL/V2  
+    TVKA=THETA(3) 
+    KA=TVKA   
+    S2 	= V2/1000  
+    $ERROR     
+    REP = IREP      
+    IPRED =F  
+    IOBS = F*EXP(EPS(1))+EPS(2)
+    Y=IOBS
+    $THETA  ;; must be one THETA per line.
+    (0.001,100)	; THETA(1) CL UNITS =  L/HR
+    (0.001,500) 	; THETA(2) V  UNITS = L
+    (0.001,2) 	; THETA(3) KA UNITS = 1/HR  
+    
+    
+    $OMEGA   	; must be one ETA/line
+    0.2  		; ETA(1) CLEARANCE 
+    0.2  		; ETA(2) VOLUME 
+    
+    $SIGMA   
+    (0.1)
+    (1)
+
+    $EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 
+    $COV UNCOND PRINT=E
+    
+
+
+This text will serve as the starting point for developing the template file
+Note that the relative path to the data file is up two folders. When pyDarwin runs models, it does not copy the data file to the run directory. Rather, 
+typically the data file is in the home directory, and the models are run in home directory/generation/model. Therefore, the relative path to the run directory will 
+be up two levels.
+
 The Template file
 ~~~~~~~~~~~~~~~~~~~~~
-
-Example 1 template file :download:`template file <../examples/Example1/Example1_template.txt>`
-Example 1 searchs a 6 dimensional space. The dimensions corresponds to :ref:`token group <token group>`. 
+The initial simple model can then be editted by adding tokens. This first example will include covariates, residual error and one structural feature. 
 Each token group is identified by a :ref:`token stem <token stem>`, e.g. "V2~WT" for the dimension of the 
 relationship between weight a volume of distribution. Each token group includes 
 2 or more :ref:`token set <token set>`, one for each option in the that dimension, These dimensions are:
@@ -23,7 +78,74 @@ relationship between weight a volume of distribution. Each token group includes
 5. Presence of an absorption lag time - ALAG1 ("ALAG") - Present or not
 6. Residual error model ("RESERR") - additive or combined additive and proportional
 
-Each token set in turn will include (in this case) two :ref:`token key-text pairs<token key-text pair>` (analagous to key-value pairs 
+Covariate effects
+------------------
+
+For the effect of Weight on Volume, we've chosen the :ref:`token stem<token stem>` of "V2~WT". Two tokens will be required for this :ref:`token set<token set>`. The first will be 
+adding the relationship to the definition of TVV2 in the $PK block and the 2nd will be providing an initial estimate in the $THETA block for the estimated 
+THETA. Note that the index for THETA for this feature cannot be defined until the model is constructed. Only then can the number and sequence of the added THETAs be 
+determined. In the token set THETAs will be indexed with text, e.g., THETA(V2~WT). As there will be two tokens in the token set, the first have and index of 1
+and the 2nd an index of 2:
+
+::
+
+     {V2~WT[1]}
+     and
+     {V2~WT[2]} 
+    
+
+note the curly braces, these are required for tokens in the template file. The record in the $PK will have the token appended to it, resulting this text:
+
+
+::
+
+    TVV2=THETA(2){V2~WT[1]}
+    
+Two options for the text to be substituted for {V2~WT[1]} will 
+be defined:
+
+1. ""
+2. "\*CWTKG**THETA(V2~WT)"
+
+The first will have no text in that record, resulting in
+
+::
+
+    TVV2=THETA(2)
+
+
+and the 2nd text being substituted will result in
+
+::
+
+    TVV2=THETA(2)*CWTKG**THETA(V2~WT)
+
+
+The 2nd token for the initial estimate for THETA(V2~WT) wil be similar. The token text options will be:
+
+1. ""
+2. "  (-4,0.8,4) \\t; THETA(V2~WT) POWER volume ~WT "
+
+
+The resulting $THETA block for this initial feature will be:
+
+::
+
+    $THETA  ;; must be one THETA per line.
+    (0.001,100) ; THETA(1) CL UNITS =  L/HR
+    (0.001,500) ; THETA(2) V  UNITS = L
+    (0.001,2)   ; THETA(3) KA UNITS = 1/HR
+
+    {V2~WT[2]}    
+
+Note the use of the escape syntax, "\\t" for a tab. Newlines will be coded simlarly as "\\n". NONMEM comments (text after ";") are permitted. However, the 
+user must be aware of the impact that comments in token text may have on any code that follows. This $THETA block has 3 fixed THETA initial estimates - THETA(1), 
+THETA(2) and THETA(3). These will appear in all control files in the search. These fixed initial estimates are then followed by searched initial estimates. Searched 
+initial estimates may or may not appear, depending on the model specification (:ref:`phenotype<phenotype>`). Searched initial estimates must be placed after all 
+fixed initial estimates. Each initial estimate must be on a separate line and must be surrounded by parentheses. The standard combinations of (lower, initial,upper) 
+are all supported. 
+
+Tokens sets for each feature to be searched will be defined as these :ref:`token key-text pairs<token key-text pair>` (analagous to key-value pairs 
 in JSON, but only text values are permitted)
 
 Each of these dimensions has two options. Therefore the total number of candidate models 
@@ -36,9 +158,21 @@ example, if ALAG1 is to be used in the $PK block, a corresponding initial estima
 this parameter must be provided in the $THETA block. These tokens (collectively called a token set) 
 are then replaced by the corresponding text value in the :ref:`token key-text pair <token key-text pair>`. 
 
+
+Other covariate effects are coded similarly. 
+
+
+Between subject variability
+-----------------------------
+
+
+
+Example 1 template file :download:`template file <../examples/Example1/Example1_template.txt>`
+Example 1 searchs a 6 dimensional space. The dimensions corresponds to :ref:`token group <token group>`. 
+
 Data file path
-~~~~~~~~~~~~~~~
-Typically, the NMTRAN data file will be located in the :ref:`home directory<home directory>`. As the models are run in a directory  two levels down 
+--------------
+Typically, the NMTRAN data file will be located in the :ref:`home directory<home directory>`. As the models are run in a directory two levels down 
 (home directory/generation/model) the path to the data set is typically given as 
 
 ::
@@ -46,8 +180,10 @@ Typically, the NMTRAN data file will be located in the :ref:`home directory<home
     $DATA ..\..\data.csv
 
 
+Final template file
+--------------------
 As the search space is small (and the run time is fast), we'll search by exhaustive search.
-The tokens file for Example 1 is given below.
+The final template file for Example 1 is given below.
 
 ::
 
@@ -59,8 +195,7 @@ The tokens file for Example 1 is given below.
     $ABBR DERIV2=NO
     $PK      
     CWTKG = WTKG/70  ;; CENTERED ON ONE 
-    CAGE = AGE/40
-    ;; thetas out of sequence
+    CAGE = AGE/40 
     TVV2=THETA(2){V2~WT[1]} {V2~GENDER[1]}
     V2=TVV2*EXP(ETA(2)) 
     TVCL= THETA(1) {CL~WT[1]}  
@@ -80,8 +215,8 @@ The tokens file for Example 1 is given below.
     (0.001,500) 	; THETA(2) V  UNITS = L
     (0.001,2) 	; THETA(3) KA UNITS = 1/HR  
     
-    {V2~WT[2]}   ;;; comment ;; comment
-    {V2~GENDER[2]}   ;;; comment ;; comment 
+    {V2~WT[2]}    
+    {V2~GENDER[2]}     
     {CL~WT[2]}  
     {ALAG[2]}
     
@@ -122,7 +257,7 @@ on an search parameter, as in searching for an effect of FED vs FASTED state on 
             ""
             ],
             ["*CWTKG**THETA(V2~WT)",
-                "  (-4,0.8,4) \t; THETA(V2~WT) POWER volume ~WT "
+                "  (-4,0.8,4) \t; THETA(V2~WT) POWER volume~WT "
             ]
         ],
 
@@ -152,8 +287,7 @@ on an search parameter, as in searching for an effect of FED vs FASTED state on 
         ],
         "ALAG": [
             ["",
-                "",
-                ""
+                "" 
             ],
             ["ALAG1 = THETA(ALAG)",
                 "  (0, 0.1,3) \t; THETA(ALAG) ALAG1 "

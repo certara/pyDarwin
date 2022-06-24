@@ -23,8 +23,8 @@ from darwin.options import options
 
 print("\n\n\n\n Example 1, Trivial Exhaustive\n\n\n")
 
-final = run_search("C:\\fda\\pyDarwin\\examples\\Example1\\Example1_template.txt",
-                   "C:\\fda\\pyDarwin\\examples\\Example1\\Example1_tokens.json",
+final = run_search("C:\\fda\\thetasort\\template.txt",
+                   "C:\\fda\\thetasort\\tokens.json",
                    "C:\\fda\\pyDarwin\\examples\\Example1\\Example1_options.json")
  
 with open(os.path.join(options.home_dir, "finalModel.mod"), "w") as final_control:

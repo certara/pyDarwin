@@ -4,7 +4,7 @@
 	"algorithm":"EXHAUSTIVE",
 	"random_seed": 11,  
 	"max_model_list_size": 500,
-	"num_parallel": 40,
+	"num_parallel": 1,
 	"THETAPenalty": 10,
 	"OMEGAPenalty": 10,
 	"SIGMAPenalty": 10,

@@ -19,13 +19,16 @@ import os
 import shutil
 from darwin.run_search import run_search #, run_search_in_folder
 from darwin.options import options
+   
  
+# final = run_search("C:\\fda\\pyDarwin\\examples\\THREELEVELs\\template.txt",
+#                    "C:\\fda\\pyDarwin\\examples\\THREELEVELs\\tokens.json",
+#                    "C:\\fda\\pyDarwin\\examples\\THREELEVELs\\options.json")
 
-print("\n\n\n\n Example 1, Trivial Exhaustive\n\n\n")
-
-final = run_search("C:\\fda\\thetasort\\template.txt",
-                   "C:\\fda\\thetasort\\tokens.json",
-                   "C:\\fda\\pyDarwin\\examples\\Example1\\Example1_options.json")
+final = run_search("C:\\fda\\pyDarwin\\examples\\Michaels3Levels\\template.txt",
+                   "C:\\fda\\pyDarwin\\examples\\Michaels3Levels\\tokens.json",
+                    "C:\\fda\\pyDarwin\\examples\\Michaels3Levels\\options.json") 
+  
  
 with open(os.path.join(options.home_dir, "finalModel.mod"), "w") as final_control:
     final_control.write(final.model.control)
@@ -34,6 +37,12 @@ if os.path.exists(os.path.join(options.home_dir, final.output_file_name)):
 if final.output_file_name is not None:
     shutil.copyfile(os.path.join(final.run_dir, final.output_file_name),
                     os.path.join(options.home_dir, "finaloutput.lst"))
+
+
+
+final = run_search("C:\\fda\\pyDarwin\\examples\\Example1\\Example1_template.txt",
+                   "C:\\fda\\pyDarwin\\examples\\Example1\\Example1_tokens.json",
+                   "C:\\fda\\pyDarwin\\examples\\Example1\\Example1_options.json")
 
 print("\n\n\n\n Example 2, Simple GP\n\n\n")
 

@@ -84,7 +84,7 @@ the :ref:`phenotype.<Phenotype>`
 Note that the THETA (and ETA and EPS) indices cannot be determined until the final control file is defined, as THETAs may be included in one and not another. 
 For this reason, all fixed initial estimates in the $THETA block MUST occur before the THETA values that are not fixed. This is so the 
 algorithm can parse the resulting file and correctly calculate the appropriate THETA (and ETA and EPS) indices.
-Note that the permited syntax for residual error is EPS(), ERR() is not permitted. 
+Note that the permited syntax for residual error is EPS() or ERR(). 
 
 Special notes on strucutre of $THETA/$OMEGA/$SIGMA:
 

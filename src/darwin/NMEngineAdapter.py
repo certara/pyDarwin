@@ -36,7 +36,8 @@ class NMEngineAdapter(ModelEngineAdapter):
         errors = ['PK PARAMETER FOR',
                   'IS TOO CLOSE TO AN EIGENVALUE',
                   'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)',
-                  'OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0']
+                  'OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0',
+                  'A ROOT OF THE CHARACTERISTIC EQUATION IS ZERO BECAUSE']
 
         lines = _file_to_lines(os.path.join(run.run_dir, "PRDERR"))
 
@@ -105,7 +106,8 @@ class NMEngineAdapter(ModelEngineAdapter):
         any_found = True  # keep looping, looking for nested tokens
         token_found = False  # error check to see if any tokens are present
 
-        for _ in range(5):  # up to 4 levels of nesting?
+        for _ in range(3):  # up to 3 levels of nesting?
+             
             any_found, control = utils.replace_tokens(template.tokens, control, phenotype, non_influential_tokens)
             token_found = token_found or any_found
 
@@ -136,7 +138,7 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         control += "\n ;; Phenotype \n ;; " + str(phenotype) + "\n;; Genotype \n ;; " + model_code_str \
                    + "\n;; Num non-influential tokens = " + str(non_influential_token_num)
-
+        
         # add band OMEGA
         if options.search_omega_bands:
             # bandwidth must be last gene

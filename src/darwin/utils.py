@@ -5,7 +5,8 @@ import heapq
 import threading
 import psutil
 
-
+from darwin.Log import log
+from copy import copy
 def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list):
     """ 
     Loops over tokens in a single token set, replace any token stem in the control file with the assigned token. 
@@ -74,38 +75,44 @@ def _get_token_parts(token):
 
     return stem, int(index)
 
+ 
 
-def _expand_tokens(tokens, text_block, phenotype):
-    # only supports one level of nesting
-    expanded_text_block = []
-
+def _expand_tokens(tokens: dict, text_block: list, phenotype: dict):
+    
+    expanded_text_block = [] 
     for text_line in text_block:
-        key, index = _get_token_parts(text_line)
-        token = tokens.get(key)[phenotype[key]][index-1]  # problem here???
-        token = remove_comments(token).splitlines()
-        # any tokens?? {k23~WT}, if so stick in new text block
-        # any line without a new token gets the old token
-        # and include the new token
-        # so:
-        # {ADVAN[3]} becomes
-        # {ADVAN[3]}
-        # {ADVAN[3]}
-        # {K23~WT} 
-        # for the final - 3 thetas, numbered sequentially
-        # must be by line!!
-        for token_line in token:
-            
-            if re.search("{.+}", token_line) is None:  # not a nested token
-                if len(token_line) > 0:
-                    expanded_text_block.append(text_line)
-            else:
-                # add token
-                match = re.search("{.+}", token_line).span()
-                new_token = token_line[match[0]:match[1]]
-                expanded_text_block.append(new_token)
-            
-    return expanded_text_block
-  
+        new_lines = _expand_line(tokens,text_line,phenotype,0)
+        for this_line in new_lines:
+            if not this_line== []:
+                expanded_text_block.append(copy(this_line))
+    # expand_text_block should be simple list, not list of lists
+    #if len(expanded_text_block) > 0:
+     #   expanded_text_block = expanded_text_block[0]
+    return expanded_text_block 
+
+def _expand_line(tokens: dict, text_line: list, phenotype: dict, loop_num: int):
+    # text_line should be simple string, not list
+    # should return simple list (not list of lists)
+    
+    loop_num += 1
+    if loop_num > 4:
+        log.error(f"Greater than 4 recursive calls to _expand_line with  {text_line}, possibly circular nested tokens")
+    new_expanded_text_block  = [] 
+    
+    key, index = _get_token_parts(text_line)
+    token = tokens.get(key)[phenotype[key]][index-1]  # problem here???
+    token = remove_comments(token).splitlines() 
+    for token_line in token: # for each line in the token 
+            if re.search("{.+}", token_line) is None:  # if there is no token ("{XXXX}"), this is terminal, just apend
+                if len(token_line) > 0: # don't append blank lines 
+                    new_expanded_text_block.append(text_line) 
+            else: # expand that line recurvisely
+                new_lines = _expand_line(tokens,token_line,phenotype,loop_num)
+                for this_line in new_lines:
+                    new_expanded_text_block.append(this_line) 
+
+ 
+    return new_expanded_text_block 
 
 def remove_comments(code: str) -> str:
     """ remove any comments (";") from nonmem code
@@ -154,9 +161,12 @@ def match_thetas(control: str, tokens: dict, var_theta_block: str, phenotype: di
     :return: new control file
     :rtype: str
     """
-
-    expanded_theta_block = _expand_tokens(tokens, var_theta_block, phenotype)
-  
+    # EXAMPLED_THETA_BLOCK IS THE FINAL $THETA BLOCK FOR THIS MODEL, WITH THE TOKEN TEXT SUBSTITUTED IN
+    # EXPANDED TO ONE LINE PER THETA
+    # token ({'ADVAN[3]}) will be present on if there is a THETA(???) in it
+    # one instane of token for each theta present, so they can be counted
+    # may be empty list ([]), but each element must contain '{??[N]}
+    expanded_theta_block  = _expand_tokens(tokens, var_theta_block, phenotype) 
     # then look at each  token, get THETA(alpha) from non-THETA block tokens
     theta_indices = _get_theta_matches(expanded_theta_block, tokens, phenotype)
 
@@ -198,6 +208,8 @@ def _get_theta_matches(expanded_theta_block, tokens, full_phenotype):
         if not (any(stem in s for s in all_checked_tokens)):  # add if not already in list
             for token in range(len(tokens[stem][phenotype])):
                 if token != index - 1:
+                    ## only include text is it ends up in the moel
+            
                     # newString = tokens[stem][thisPhenotype-1][thisToken].replace(" ", "")
                     new_string = tokens[stem][phenotype][token].replace(" ", "")
                     new_string = remove_comments(new_string).strip()
@@ -205,12 +217,13 @@ def _get_theta_matches(expanded_theta_block, tokens, full_phenotype):
 
             # get THETA(alphas)
             full_indices = re.findall(r"THETA\(.+\)", full_token)
-
-            for i in range(len(full_indices)):
+            # get unique THETA(INDEX)
+            full_indices = list(dict.fromkeys(full_indices))
+            for this_line in range(len(full_indices)):
                 # have to get only part between THETA( and )
-                start_theta = full_indices[i].find("THETA(") + 6
-                last_parens = full_indices[i].find(")", (start_theta - 2))
-                theta_index = full_indices[i][start_theta:last_parens]
+                start_theta = full_indices[this_line].find("THETA(") + 6
+                last_parens = full_indices[this_line].find(")", (start_theta - 2))
+                theta_index = full_indices[this_line][start_theta:last_parens]
                 theta_matches[theta_index] = cur_theta
                 cur_theta += 1
             all_checked_tokens.append(stem)
@@ -261,7 +274,7 @@ def _get_rand_var_matches(expanded_block, tokens, full_phenotype, which_rand):
 
 
 def match_rands(control, tokens, var_rand_block, phenotype, last_fixed_rand, stem):
-    expanded_rand_block = _expand_tokens(tokens, var_rand_block, phenotype)
+    expanded_rand_block  = _expand_tokens(tokens, var_rand_block, phenotype)
 
     # then look at each  token, get THETA(alpha) from non-THETA block tokens
     rand_indices = _get_rand_var_matches(expanded_rand_block, tokens, phenotype, stem)

@@ -228,6 +228,8 @@ class ModelRun(ABC):
             utils.terminate_process(run_process.pid)
             log.error(f'run {self.model_num} has timed out')
             self.status = "Model run timed out"
+
+            return
         except Exception as e:
             log.error(str(e))
 

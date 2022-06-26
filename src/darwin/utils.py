@@ -176,7 +176,7 @@ def match_thetas(control: str, tokens: dict, var_theta_block: list, phenotype: d
     theta_indices = _get_theta_matches(expanded_theta_block, tokens, phenotype)
 
     # add last fixed theta value to all
-    for _, (k, v) in enumerate(theta_indices.items()):
+    for k, v in theta_indices.items():
         # add last fixed theta value to all
         # and put into control file
         control = control.replace(f"THETA({k})", "THETA(" + str(v + last_fixed_theta) + ")")
@@ -184,7 +184,7 @@ def match_thetas(control: str, tokens: dict, var_theta_block: list, phenotype: d
     return control
 
 
-def _get_theta_matches(expanded_theta_block: list, tokens: dict, full_phenotype: dict):
+def _get_theta_matches(expanded_theta_block: list, tokens: dict, full_phenotype: dict) -> dict:
     # shouldn't be any THETA(alpha) in expandedTHETABlock, should  be trimmed out
     # get stem and index, look in other tokens in this token set (phenotype)
     # tokens can be ignored here, they are already expanded, just list the alpha indices of each THETA(alpha) in order
@@ -222,13 +222,17 @@ def _get_theta_matches(expanded_theta_block: list, tokens: dict, full_phenotype:
             full_indices = re.findall(r"THETA\(.+\)", full_token)
             # get unique THETA(INDEX)
             full_indices = list(dict.fromkeys(full_indices))
-            for this_line in range(len(full_indices)):
+
+            for line in full_indices:
                 # have to get only part between THETA( and )
-                start_theta = full_indices[this_line].find("THETA(") + 6
-                last_parens = full_indices[this_line].find(")", (start_theta - 2))
-                theta_index = full_indices[this_line][start_theta:last_parens]
+                start_theta = line.find("THETA(") + 6
+                last_parens = line.find(")", (start_theta - 2))
+                theta_index = line[start_theta:last_parens]
+
                 theta_matches[theta_index] = cur_theta
+
                 cur_theta += 1
+
             all_checked_tokens.append(stem)
 
         # number should match #of rows with stem in expandedTHETABlock

@@ -99,7 +99,7 @@ def _get_fixed_params(template_text):
     return n_fixed_theta, n_fixed_omega, n_fixed_sigma, theta_block, omega_block, sigma_block
 
 
-def _get_variable_block(code):
+def _get_variable_block(code) -> list:
     clean_code = utils.remove_comments(code)
     lines = clean_code.splitlines()
 

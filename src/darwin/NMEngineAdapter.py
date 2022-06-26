@@ -107,7 +107,7 @@ class NMEngineAdapter(ModelEngineAdapter):
         token_found = False  # error check to see if any tokens are present
 
         for _ in range(3):  # up to 3 levels of nesting?
-             
+
             any_found, control = utils.replace_tokens(template.tokens, control, phenotype, non_influential_tokens)
             token_found = token_found or any_found
 
@@ -138,7 +138,7 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         control += "\n ;; Phenotype \n ;; " + str(phenotype) + "\n;; Genotype \n ;; " + model_code_str \
                    + "\n;; Num non-influential tokens = " + str(non_influential_token_num)
-        
+
         # add band OMEGA
         if options.search_omega_bands:
             # bandwidth must be last gene
@@ -291,7 +291,7 @@ class NMEngineAdapter(ModelEngineAdapter):
             # if more than one problem, use the first, assume that is the estimation, assume final is simulation
             # really not sure what to do if there is more than one estimation problem
             if isinstance(problem, list):  # > 1 one $PROB
-                problem = problem[0]       # use the first
+                problem = problem[0]  # use the first
 
             estimations = problem['nm:estimation']
 
@@ -389,7 +389,7 @@ class NMEngineAdapter(ModelEngineAdapter):
             lowr = [float(a) for a in lowr]
 
             # find end of UPPR, next will be anything with char in 0-4
-            rest_after_uppr_start = fcon_lines[(uppr_start_line+1):]
+            rest_after_uppr_start = fcon_lines[(uppr_start_line + 1):]
             # does line start with non-blank?
             end_of_uppr_bool = [bool(re.search(r"^\S{4}", i)) for i in rest_after_uppr_start]
             end_of_uppr_line = [i for i, x in enumerate(end_of_uppr_bool) if x]
@@ -437,7 +437,7 @@ class NMEngineAdapter(ModelEngineAdapter):
                     estimated_omega += vals_this_block
                 omega_num += vals_this_block
 
-            for sigma in range(nomegablocks, (nomegablocks+nsigmablocks)):
+            for sigma in range(nomegablocks, (nomegablocks + nsigmablocks)):
                 if fcon_lines[rnbl_start_lines[sigma]][7] == '1':
                     vals_this_block = _get_block(rnbl_start_lines[sigma], fcon_lines, True)
                 else:
@@ -497,7 +497,7 @@ def _get_non_inf_tokens(tokens: dict, phenotype: OrderedDict):
 def _get_block(start, fcon, fixed=False):
     # how many lines? find next RNBL
     rnbl_block = fcon[start:]
-    rest_of_block = fcon[(1+start):]
+    rest_of_block = fcon[(1 + start):]
     next_start = [bool(re.search("^RNBL", n)) for n in rest_of_block]
 
     if any(next_start):

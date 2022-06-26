@@ -108,7 +108,7 @@ There are 3 restriction for the parseing of the initial estimates blocks:
 .. _tokens file:
 
 The Tokens File
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 The tokens file provide a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the :ref:`token group <token group>`. Token groups are 
 defined by a unique :ref:`token stem<token stem>`. The token stem also serves as the key in the :ref:`tokenn key-text pairs.<token key-text pair>` The token stem is a text string that corresponds to the token key that appears in the :ref:`template file<template>`. 

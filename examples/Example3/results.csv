@@ -1,0 +1,325 @@
+Run Directory,Fitness,Model,ofv,success,covar,correlation #,ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages
+C:\fda\pyDarwin\examples\THREELEVELS\0\1,4833.131795,00000,4713.131795251603,True,True,True,8,2,2,685.99975584063,0,0,From saved model NM_0_1.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\2,4818.488259,01000,4718.488248737599,True,True,True,6,2,2,243.16111075688517,0,0,From saved model NM_0_2.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\4,4818.765553,11000,4738.7655425622415,True,True,True,4,2,2,50.81718176359398,0,0,From saved model NM_0_4.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\3,4818.765563,10000,4738.7655425622415,True,True,True,4,2,2,50.81718176359398,0,0,From saved model NM_0_3.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\6,4818.488249,01100,4718.488248737599,True,True,True,6,2,2,243.16111075688517,0,0,From saved model NM_0_6.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\5,4826.515841,00100,4716.515840540628,True,True,True,7,2,2,252.36832739029063,0,0,From saved model NM_0_5.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\7,4818.765553,10100,4738.7655425622415,True,True,True,4,2,2,50.81718176359398,0,0,From saved model NM_0_7.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\8,4818.765543,11100,4738.7655425622415,True,True,True,4,2,2,50.81718176359398,0,0,From saved model NM_0_8.mod: No important warnings
+C:\fda\pydarwin\examples\example3\0\27,2961.962531,40100,2935.9625310154242,True,True,True,6,5,2,17.761032828529977,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\38,3827.887044,01200,3703.8870437018827,False,True,True,5,5,2,82727.3129862954,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\5,3403.438824,20000,3383.4388239960945,True,True,True,4,4,2,-1.89651769680256e+16,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\25,3119.778307,30100,3093.7783074449408,True,True,True,6,5,2,21.3477631835988,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\9,2896.585811,40000,2872.5858113806908,True,True,True,5,5,2,21.339314836499053,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\29,2962.945088,50100,2932.9450881725106,True,True,True,7,6,2,65.88734767984255,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\7,3117.291569,30000,3093.2915693497475,True,True,True,5,5,2,21.33514385009972,0,0,No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\9,4843.126919,00010,4713.126919208865,True,True,True,8,3,2,720.7435175920507,0,0,From saved model NM_0_9.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\10,4828.487962,01010,4718.48795215258,True,True,True,6,3,2,223.67127418019066,0,0,From saved model NM_0_10.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\11,4828.766585,10010,4738.766565146018,True,True,True,4,3,2,51.46080219457766,0,0,From saved model NM_0_11.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\12,4828.766575,11010,4738.766565146018,True,True,True,4,3,2,51.46080219457766,0,0,From saved model NM_0_12.mod: No important warnings
+C:\fda\pydarwin\examples\example3\0\37,4046.374095,00200,3726.374095449735,True,False,False,4,4,2,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\26,3286.375887,31100,3156.3758873845636,False,True,True,7,6,2,716434.8932271902,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\43,3050.935544,30200,3022.935544347574,True,True,True,6,6,2,7243.2236628252185,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\23,3405.685128,20100,3383.6851276386387,True,True,True,5,4,2,9.796027218384927,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\39,3349.679162,10200,3329.6791617788103,True,True,True,4,4,2,668.7344511973437,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\41,3353.722232,20200,3329.7222320972464,True,True,True,5,5,2,453008542.15859586,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\46,2947.171300,41200,2815.1712996605147,False,True,True,7,7,2,733569.6222888717,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\10,2963.877435,41000,2935.877434823235,True,True,True,6,6,2,4154266262498.06,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\6,3458.619050,21000,3334.619050413446,False,True,True,5,5,2,484.4233646076666,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\11,2963.580559,50000,2935.5805585699404,True,True,True,6,6,2,1.1621329623826246e+16,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\45,3700.906378,40200,3672.906378237054,True,True,True,6,6,2,766257.5558949185,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\44,3229.570611,31200,3097.5706110991073,False,True,True,7,7,2,122045574.20988533,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\8,3182.375851,31000,3154.3758509868,True,True,True,6,6,2,3170803.724351983,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\24,3431.013488,21100,3305.013487905493,False,True,True,6,5,2,1442551.2998420508,0,0,No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\13,4836.515577,00110,4716.515576572688,True,True,True,7,3,2,262.9718346174042,0,0,From saved model NM_0_13.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\14,4828.487952,01110,4718.48795215258,True,True,True,6,3,2,223.67127418019066,0,0,From saved model NM_0_14.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\15,4828.766575,10110,4738.766565146018,True,True,True,4,3,2,51.46080219457766,0,0,From saved model NM_0_15.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\16,4828.766565,11110,4738.766565146018,True,True,True,4,3,2,51.46080219457766,0,0,From saved model NM_0_16.mod: No important warnings
+C:\fda\pydarwin\examples\example3\0\40,3454.083143,11200,3330.083142525349,False,True,True,5,5,2,6928482.46876403,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\42,3459.152744,21200,3331.152743742966,False,True,True,6,6,2,49561464842.66594,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\28,3067.625109,41100,2937.625108652682,False,True,True,7,6,2,140835.9283669304,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\61,3101.962351,30010,3075.962350586803,True,True,True,5,5,3,22.84185951621199,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\59,3292.241181,20010,3270.2411807507547,True,True,True,4,4,3,-5.488995247479856e+16,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\33,2843.003731,70100,2809.0037310925845,True,True,True,8,7,2,190.7171832623767,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\31,2945.887592,60100,2911.88759232071,True,True,True,8,7,2,-1.4037768229790574e+16,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\63,2866.105213,40010,2840.105212633353,True,True,True,5,5,3,20.745292293052362,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\13,2941.883268,60000,2909.8832681212216,True,True,True,7,7,2,6547415126929346.0,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\60,99999999999.000000,21010,99999999999,False,False,False,5,5,3,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\47,3704.742473,50200,3672.742473123886,True,True,True,7,7,2,16806223773421.768,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\48,2929.494046,51200,2793.494045637254,False,True,True,8,8,2,3342865651.9092946,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\77,3257.165016,20110,3233.1650155574475,True,True,True,5,4,3,728.0508308203204,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\79,3169.797030,30110,3141.79702954151,True,True,True,6,5,3,152.57854017460235,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\14,3176.052357,61000,3040.0523565968015,False,True,True,8,8,2,8095208.547017461,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\65,2869.741926,50010,2839.741926293508,True,True,True,6,6,3,77.60518085377392,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\12,3064.898491,51000,2932.8984913760096,False,True,True,7,7,2,474894747859871.9,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\81,2868.479924,40110,2840.479923557346,True,True,True,6,5,3,20.621091511413034,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\64,2970.165135,41010,2840.1651352191516,False,True,True,6,6,3,2752252.556837482,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\62,3271.604557,31010,3141.6045567905553,False,True,True,6,6,3,4911671879.759808,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\17,2964.491469,80000,2928.4914692987195,True,True,True,8,8,2,3096.3196079887343,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\30,3082.668680,51100,2948.66867986618,False,True,True,8,7,2,2298005.65863502,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\83,2872.119905,50110,2840.1199047464684,True,True,True,7,6,3,81.37500672688087,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\51,2784.030597,70200,2748.0305971356483,True,True,True,8,8,2,33973.88787046509,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\91,3701.473614,00210,3679.4736135874855,True,True,True,4,4,3,164337845.0193579,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\35,2973.949183,80100,2935.949183451744,True,True,True,9,8,2,17405484206.12486,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\80,3108.624144,31110,3076.6241443394892,True,True,True,7,6,3,3259773847.8856044,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\93,3357.467171,10210,3335.4671706986296,True,True,True,4,4,3,86.91787277850466,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\92,3324.668100,01210,3298.6680998122633,True,True,True,5,5,3,2625.624622142119,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\82,3401.662784,41110,3369.662783809456,True,True,True,7,6,3,1808.023124873248,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\78,3236.593216,21110,3108.5932161945943,False,True,True,6,5,3,280420060072891.94,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\66,2974.026883,51010,2840.026883294568,False,True,True,7,7,3,398176693.2657651,0,0,No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\41,4832.832716,00001,4712.832715879479,True,True,True,8,2,2,719.2299353619147,0,0,From saved model NM_0_41.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\42,4818.163477,01001,4718.163467393112,True,True,True,6,2,2,600.1943060084143,0,0,From saved model NM_0_42.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\43,4818.223258,10001,4738.223237723834,True,True,True,4,2,2,98.545020868459,0,0,From saved model NM_0_43.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\44,4818.223248,11001,4738.223237723834,True,True,True,4,2,2,98.545020868459,0,0,From saved model NM_0_44.mod: No important warnings
+C:\fda\pydarwin\examples\example3\0\94,3482.820193,11210,3456.820193379498,True,True,True,5,5,3,3536.448900590119,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\84,3723.275098,51110,3587.2750980674755,False,True,True,8,7,3,-4.346021539986457e+19,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\15,2967.443972,70000,2935.4439720029177,True,True,True,7,7,2,32605.378351306055,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\53,2791.988825,80200,2751.988824647241,True,True,True,9,9,2,-630314293158926.0,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\87,2850.090063,70110,2814.090063376571,True,True,True,8,7,3,152.59974273619812,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\97,3028.443718,30210,2998.443717699364,True,True,True,6,6,3,8838.944777127706,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\95,3126.075939,20210,3100.0759387170997,True,True,True,5,5,3,99.2942143550615,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\98,3148.004602,31210,3014.0046016621277,False,True,True,7,7,3,255269570851.11035,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\114,3056.593623,21001,2932.593623066768,False,True,True,5,5,2,198931.2086749117,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\113,2952.051321,20001,2932.0513211684447,True,True,True,4,4,2,11.068647151749383,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\50,3592.675425,61200,3152.6754252278815,False,False,False,9,9,2,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\96,3134.863732,21210,3104.86373231437,True,True,True,6,6,3,677734.598185748,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\117,2498.801212,40001,2474.801211979033,True,True,True,5,5,2,18.452997889020125,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\89,2866.420977,80110,2826.4209774494234,True,True,True,9,8,3,365.3944143346943,0,0,No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\45,4826.189124,00101,4716.189123905419,True,True,True,7,2,2,179.3915408268228,0,0,From saved model NM_0_45.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\46,4818.163467,01101,4718.163467393112,True,True,True,6,2,2,600.1943060084143,0,0,From saved model NM_0_46.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\47,4818.223248,10101,4738.223237723834,True,True,True,4,2,2,98.545020868459,0,0,From saved model NM_0_47.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\48,4818.223238,11101,4738.223237723834,True,True,True,4,2,2,98.545020868459,0,0,From saved model NM_0_48.mod: No important warnings
+C:\fda\pydarwin\examples\example3\0\115,2760.221231,30001,2736.221230724468,True,True,True,5,5,2,24.624656105904418,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\69,2874.109938,70010,2840.109938273443,True,True,True,7,7,3,274765577.0446313,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\119,2500.949576,50001,2472.949575516241,True,True,True,6,6,2,19.397154977885997,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\68,3118.056514,61010,2980.0565143222775,False,True,True,8,8,3,46758865.496765785,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\99,2826.217691,40210,2796.2176906055265,True,True,True,6,6,3,3412829.017517659,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\118,2603.368553,41001,2475.3685534290253,False,True,True,6,6,2,203691041293.63315,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\116,2864.581682,31001,2736.581681858842,False,True,True,6,6,2,1755989.2475166041,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\85,2913.311494,60110,2877.3114944620947,True,True,True,8,7,3,25.872460355421495,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\100,3051.712758,41210,3017.7127575484224,True,True,True,7,7,3,12563.863307282392,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\131,3030.819948,20101,3008.819947629256,True,True,True,5,4,2,5533.883272697841,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\101,2792.212789,50210,2758.2127886777153,True,True,True,7,7,3,6095.463710855295,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\134,2866.457524,31101,2736.457523632798,False,True,True,7,6,2,686611.6829037865,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\133,2760.072215,30101,2734.072215421716,True,True,True,6,5,2,32.06969375402278,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\123,2503.761690,70001,2471.7616903328594,True,True,True,7,7,2,36279.46054632705,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\120,2605.461594,51001,2473.4615936378905,False,True,True,7,7,2,4273646397555.123,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\49,3542.919973,60200,3106.9199732192815,False,False,False,8,8,2,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\135,2496.240714,40101,2470.240714008918,True,True,True,6,5,2,18.744935074860326,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\88,2905.393239,71110,2865.3932392392744,True,True,True,9,8,3,773595.6042248659,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\32,3775.657013,61100,3337.657013177579,False,False,False,9,8,2,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\136,2604.713609,41101,2474.7136086266864,False,True,True,7,6,2,41067112122.43551,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\137,2498.167795,50101,2468.1677953225653,True,True,True,7,6,2,80.32326449938301,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\126,2909.238710,81001,2469.2387096064763,False,False,False,9,9,2,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\132,3059.359587,21101,2933.359587459511,False,True,True,6,5,2,147255.21990406673,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\146,3369.012558,01201,3245.012557520979,False,True,True,5,5,2,46654.37450106541,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\145,3263.634620,00201,3243.634620006152,True,True,True,4,4,2,18.748862514497606,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\147,3001.178958,10201,2981.178958259927,True,True,True,4,4,2,35.11257010787687,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\151,2806.569087,30201,2778.5690871427964,True,True,True,6,6,2,248492.37547612438,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\108,2903.208157,81210,2757.208156622334,False,True,True,10,10,3,120688449511411.95,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\148,3105.957540,11201,2981.957540488217,False,True,True,5,5,2,86938.76553889448,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\105,3234.644807,70210,2796.644807362237,False,False,False,8,8,3,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\102,3055.487148,51210,3017.4871484532173,True,True,True,8,8,3,962430564259414.1,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\138,2606.848514,51101,2472.848514494023,False,True,True,8,7,2,277837754306.81836,0,0,No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\49,4842.773488,00011,4712.773487529638,True,True,True,8,3,2,714.7877808249186,0,0,From saved model NM_0_49.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\50,4828.135339,01011,4718.135328612687,True,True,True,6,3,2,209.785681982933,0,0,From saved model NM_0_50.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\51,4828.221835,10011,4738.221815087244,True,True,True,4,3,2,3958.9280086489994,0,0,From saved model NM_0_51.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\52,4828.221825,11011,4738.221815087244,True,True,True,4,3,2,3958.9280086489994,0,0,From saved model NM_0_52.mod: No important warnings
+C:\fda\pydarwin\examples\example3\0\149,2929.329485,20201,2905.3294848990827,True,True,True,5,5,2,5787.469032569851,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\67,3007.165098,60010,2973.1650982231413,True,True,True,7,7,3,436.72088863612936,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\71,2877.741908,80010,2839.7419078294797,True,True,True,8,8,3,226860.86319039328,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\155,2499.750333,50201,2467.7503330104983,True,True,True,7,7,2,946.0834182051321,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\153,2497.860049,40201,2469.8600489136556,True,True,True,6,6,2,1280.7490623777326,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\34,3011.183474,71100,2873.1834743326954,False,True,True,9,8,2,5078678.078960813,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\152,2868.708448,31201,2736.708448377363,False,True,True,7,7,2,194291231135647.72,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\121,2562.232783,60001,2530.2327826193646,True,True,True,7,7,2,26.016020419267107,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\167,2882.442809,20011,2860.442809056465,True,True,True,4,4,3,1424.445301931041,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\141,2501.299050,70101,2467.29904986777,True,True,True,8,7,2,174.96450666420128,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\169,2790.666657,30011,2764.6666568076803,True,True,True,5,5,3,22.34776958509509,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\168,2986.562329,21011,2860.5623291834963,False,True,True,5,5,3,36802.60287836691,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\139,2560.259215,60101,2526.259214805576,True,True,True,8,7,2,17.9427085699441,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\122,2659.646039,61001,2523.6460393897914,False,True,True,8,8,2,-61493531938255.79,0,0,No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\53,4836.162717,00111,4716.162716784128,True,True,True,7,3,2,236.95272629126907,0,0,From saved model NM_0_53.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\54,4828.135329,01111,4718.135328612687,True,True,True,6,3,2,209.785681982933,0,0,From saved model NM_0_54.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\55,4828.221825,10111,4738.221815087244,True,True,True,4,3,2,3958.9280086489994,0,0,From saved model NM_0_55.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\56,4828.221815,11111,4738.221815087244,True,True,True,4,3,2,3958.9280086489994,0,0,From saved model NM_0_56.mod: No important warnings
+C:\fda\pydarwin\examples\example3\0\143,2500.909848,80101,2462.9098478224323,True,True,True,9,8,2,4138.85469456465,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\16,3067.436498,71000,2931.4364977634114,False,True,True,8,8,2,23064669.925323017,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\171,2500.552907,40011,2474.552906630869,True,True,True,5,5,3,21.00858160229696,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\170,2907.510259,31011,2777.5102588943464,False,True,True,6,6,3,1652226.323205738,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\86,2917.542396,61110,2877.542396166041,True,True,True,9,8,3,7100268.841202927,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\173,2504.551679,50011,2474.5516794805953,True,True,True,6,6,3,8041127350357202.0,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\36,2976.596686,81100,2934.5966856804025,True,True,True,10,9,2,11428520.43110087,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\185,2877.073646,20111,2853.073646333302,True,True,True,5,4,3,1597.7912569888365,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\104,3628.829339,61210,3486.8293394157954,False,True,True,9,9,3,-1.2043310979120816e+17,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\70,3281.961895,71010,2843.9618954790544,False,False,False,8,8,3,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\107,2814.985225,80210,2772.985225486483,True,True,True,9,9,3,-7904443676146436.0,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\125,2508.249030,80001,2472.249029855787,True,True,True,8,8,2,569643.8910285649,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\174,2607.100646,51011,2473.1006456846285,False,True,True,7,7,3,6323425.305477891,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\150,3035.390240,21201,2907.390240458597,False,True,True,6,6,2,82006.86223100898,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\90,99999999999.000000,81110,99999999999,False,False,False,10,9,3,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\188,2866.514635,31111,2734.514635406142,False,True,True,7,6,3,756222.5675485331,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\186,2988.118551,21111,2860.118551405672,False,True,True,6,5,3,30036.20973615424,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\187,2761.878417,30111,2733.8784174338152,True,True,True,6,5,3,33.241385662672485,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\154,2598.651525,41201,2466.6515246153012,False,True,True,7,7,2,7672561464536.8125,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\189,2498.011756,40111,2470.011755515686,True,True,True,6,5,3,20.347115686804017,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\172,2605.161235,41011,2475.161235023672,False,True,True,6,6,3,2729828816864.5503,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\159,2502.960222,70201,2466.9602222826297,True,True,True,8,8,2,1161.1569009782004,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\199,3134.811384,00211,3112.8113835700574,True,True,True,4,4,3,22.94403413562184,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\144,2609.129217,81101,2467.1292174118726,False,True,True,10,9,2,-8626229418489.492,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\205,2807.288226,30211,2777.288225702746,True,True,True,6,6,3,-1.1021985455134294e+16,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\200,3251.638369,01211,3125.638368558388,False,True,True,5,5,3,31956.319021173502,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\156,2600.392101,51201,2464.3921012775313,False,True,True,8,8,2,552619528.9976962,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\201,2914.469656,10211,2892.4696558310757,True,True,True,4,4,3,61.025132624950146,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\207,2499.159182,40211,2469.159181501347,True,True,True,6,6,3,348.5986014412539,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\203,2869.094289,20211,2843.094289245267,True,True,True,5,5,3,1498.7377326121843,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\202,3023.784025,11211,2897.7840247360145,False,True,True,5,5,3,91809.92350484052,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\175,2559.096031,60011,2525.096030896725,True,True,True,7,7,3,21.168992747896493,0,0,No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\81,4842.837186,00002,4712.837185693679,True,True,True,9,2,2,674.3666198501222,0,0,From saved model NM_0_81.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\82,4828.168322,01002,4718.168312084817,True,True,True,7,2,2,47970.90327354058,0,0,From saved model NM_0_82.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\83,4828.233253,10002,4738.233232788696,True,True,True,5,2,2,96.01342974409997,0,0,From saved model NM_0_83.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\84,4828.233243,11002,4738.233232788696,True,True,True,5,2,2,96.01342974409997,0,0,From saved model NM_0_84.mod: No important warnings
+C:\fda\pydarwin\examples\example3\0\191,2502.009778,50111,2470.0097779328944,True,True,True,7,6,3,22514.21152181458,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\180,2610.270950,81011,2468.2709503278516,False,True,True,9,9,3,7599761.74382212,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\206,2867.357147,31211,2733.357147140277,False,True,True,7,7,3,1056822.8863410193,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\204,2873.979194,21211,2843.979193534813,True,True,True,6,6,3,28495.53282334997,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\190,2602.481467,41111,2470.4814665800895,False,True,True,7,6,3,8646685.136799872,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\223,2758.585501,30002,2732.58550146031,True,True,True,5,5,3,26.938101022993113,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\193,2594.071342,60111,2558.0713419813437,True,True,True,8,7,3,19.869110168397807,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\209,2499.535753,50211,2465.535753195193,True,True,True,7,7,3,25050774922.056427,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\161,2606.883284,80201,2466.883283939645,False,True,True,9,9,2,101178.59532629022,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\179,2509.547813,80011,2471.5478125556315,True,True,True,8,8,3,-9.676796347310266e+16,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\225,2498.496678,40002,2472.4966783757095,True,True,True,5,5,3,19.22781986708923,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\106,2901.426116,71210,2759.426116024086,False,True,True,9,9,3,2878442.6928794594,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\208,2600.367563,41211,2466.3675627212197,False,True,True,7,7,3,46328941028.943985,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\224,2907.811959,31002,2777.811958979158,False,True,True,6,6,3,409331.2550022216,0,0,No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\85,4836.194086,00102,4716.194086107698,True,True,True,8,2,2,322.1411321929081,0,0,From saved model NM_0_85.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\86,4828.168312,01102,4718.168312084817,True,True,True,7,2,2,47970.90327354058,0,0,From saved model NM_0_86.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\87,4828.233243,10102,4738.233232788696,True,True,True,5,2,2,96.01342974409997,0,0,From saved model NM_0_87.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\88,4828.233233,11102,4738.233232788696,True,True,True,5,2,2,96.01342974409997,0,0,From saved model NM_0_88.mod: No important warnings
+C:\fda\pydarwin\examples\example3\0\52,2935.431554,71200,2795.4315536500367,False,True,True,9,9,2,-1554679860253.03,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\18,3069.604105,81000,2929.6041050104686,False,True,True,9,9,2,144944.07033260312,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\72,2982.189588,81010,2840.1895884408023,False,True,True,9,9,3,52800106.39772855,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\177,2506.054377,70011,2472.054376656068,True,True,True,7,7,3,2126.3562322285343,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\160,2604.374774,71201,2464.3747738594816,False,True,True,9,9,2,1278087293464.8157,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\178,2606.099806,71011,2468.0998062075914,False,True,True,8,8,3,12465959403.366026,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\222,3058.490032,21002,2932.490031664522,False,True,True,5,5,3,143737.20678994857,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\221,3052.503706,20002,2930.5037060530112,False,True,True,4,4,3,69489.35898897679,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\157,2814.566319,60201,2778.566319345773,True,True,True,8,8,2,-1.9185198882110344e+16,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\142,2606.904055,71101,2468.9040552440524,False,True,True,9,8,2,53295153548.84098,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\241,2762.148936,30102,2734.148935829512,True,True,True,6,5,3,24.810176879233133,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\239,3116.441563,20102,2992.441563382491,False,True,True,5,4,3,58190.27633082182,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\228,2604.997487,51002,2470.9974865251047,False,True,True,7,7,3,2354726178.9261446,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\242,2864.871802,31102,2732.8718015654317,False,True,True,7,6,3,1124988.3915500913,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\240,3059.834921,21102,2931.8349207254414,False,True,True,6,5,3,-70427136286187.98,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\229,2589.882384,60002,2555.8823838308595,True,True,True,7,7,3,18.6809163790946,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\196,2608.110683,71111,2468.1106831056386,False,True,True,9,8,3,208959535093.30457,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\243,2497.144131,40102,2469.14413129904,True,True,True,6,5,3,19.376187579845325,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\103,2877.900799,60210,2839.900798942659,True,True,True,8,8,3,16499.254002379406,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\253,3265.579153,00202,3243.5791531795458,True,True,True,4,4,3,21.60216050345825,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\227,2500.713828,50002,2470.7138275427155,True,True,True,6,6,3,143.15538539613195,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\234,2611.666674,81002,2469.666674177226,False,True,True,9,9,3,-355947547792024.44,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\231,2503.995436,70002,2469.995436190253,True,True,True,7,7,3,846.8691608708223,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\211,2812.378274,60211,2774.3782736314442,True,True,True,8,8,3,3279.020175344875,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\249,2502.793234,70102,2466.793234344774,True,True,True,8,7,3,18198.662551664023,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\210,2607.876863,51211,2469.876862886156,False,True,True,8,8,3,47094256.36631791,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\215,2504.287079,80211,2462.2870790338748,True,True,True,9,9,3,1.4484736347403042e+16,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\226,2602.754540,41002,2472.7545400120175,False,True,True,6,6,3,2085202736.1286235,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\192,2604.243790,51111,2468.243789539704,False,True,True,8,7,3,3109300.163564944,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\258,3036.629399,21202,2906.6293994945377,False,True,True,6,6,3,134452.89491058316,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\261,2494.601642,40202,2464.6016423312294,True,True,True,6,6,3,41.32571937193572,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\245,2501.140582,50102,2469.140582195507,True,True,True,7,6,3,8117136.129551943,0,0,No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\89,4852.837188,00012,4712.837188034482,True,True,True,9,3,2,753.0392480563968,0,0,From saved model NM_0_89.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\90,4838.168322,01012,4718.168312061712,True,True,True,7,3,2,206.46429343869403,0,0,From saved model NM_0_90.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\91,4838.233239,10012,4738.233219482807,True,True,True,5,3,2,94.3575475437184,0,0,From saved model NM_0_91.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\92,4838.233229,11012,4738.233219482807,True,True,True,5,3,2,94.3575475437184,0,0,From saved model NM_0_92.mod: No important warnings
+C:\fda\pydarwin\examples\example3\0\254,3746.910876,01202,3720.9108761961734,True,True,True,5,5,3,2423.9554678765444,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\244,2605.250972,41102,2473.2509723825788,False,True,True,7,6,3,-415414104273265.6,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\255,3003.180708,10202,2981.18070796941,True,True,True,4,4,3,33.987893559325215,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\124,2609.416144,71001,2473.41614365265,False,True,True,8,8,2,1554595587894.172,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\263,2498.601704,50202,2464.601703570763,True,True,True,7,7,3,105310897.60849942,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\256,3107.992727,11202,2981.992727227728,False,True,True,5,5,3,87589.58395631448,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\267,2500.152648,70202,2462.1526483911825,True,True,True,8,8,3,2495.474980768406,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\213,2501.013347,70211,2463.013346875496,True,True,True,8,8,3,12848.378998892533,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\257,3030.937614,20202,2904.937614223051,False,True,True,5,5,3,4636.431991813072,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\259,2807.341133,30202,2777.3411330709096,True,True,True,6,6,3,599.7016391388388,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\195,2503.072827,70111,2467.072826516326,True,True,True,8,7,3,257.8496368499708,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\276,2988.530576,21012,2860.530575772448,False,True,True,5,5,4,37867.54963615578,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\275,2883.578335,20012,2859.5783348799923,True,True,True,4,4,4,1467.1848411302403,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\268,2605.043937,71202,2463.0439368459197,False,True,True,9,9,3,600179168.8307058,0,0,No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\93,4846.194087,00112,4716.194086542647,True,True,True,8,3,2,785.880378819816,0,0,From saved model NM_0_93.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\94,4838.168312,01112,4718.168312061712,True,True,True,7,3,2,206.46429343869403,0,0,From saved model NM_0_94.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\95,4838.233229,10112,4738.233219482807,True,True,True,5,3,2,94.3575475437184,0,0,From saved model NM_0_95.mod: No important warnings
+C:\fda\pyDarwin\examples\THREELEVELS\0\96,4838.233219,11112,4738.233219482807,True,True,True,5,3,2,94.3575475437184,0,0,From saved model NM_0_96.mod: No important warnings
+C:\fda\pydarwin\examples\example3\0\260,2866.982667,31202,2732.9826669414565,False,True,True,7,7,3,6595704.22425954,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\280,2604.556619,41012,2472.556619330554,False,True,True,6,6,4,410130418.6672825,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\246,2604.397641,51102,2468.3976405605285,False,True,True,8,7,3,1481569143.440387,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\140,2916.836226,61101,2778.836226085288,False,True,True,9,8,2,8069837.878060149,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\269,2499.848991,80202,2457.848991257327,True,True,True,9,9,3,5885.950780510594,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\264,2600.911604,51202,2462.911604163798,False,True,True,8,8,3,7413114122098.99,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\281,2504.236448,50012,2472.2364479404005,True,True,True,6,6,4,1.870634574112585e+16,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\277,2786.393580,30012,2758.3935799099295,True,True,True,5,5,4,22.46999807647897,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\279,2500.239467,40012,2472.2394673290946,True,True,True,5,5,4,21.909588303303014,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\278,2864.786963,31012,2732.7869633969435,False,True,True,6,6,4,6149212.601642962,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\270,2606.286787,81202,2460.2867870603795,False,True,True,10,10,3,-35380587249650.64,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\296,2865.424614,31112,2731.4246137450123,False,True,True,7,6,4,3325595.9719199874,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\293,2877.399021,20112,2851.3990210104084,True,True,True,5,4,4,1344.1318304869753,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\295,2762.174370,30112,2732.1743704781784,True,True,True,6,5,4,30.075715705482086,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\299,2502.906700,50112,2468.9067000360706,True,True,True,7,6,4,246.36792568722035,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\262,2601.188563,41202,2467.1885625827117,False,True,True,7,7,3,1432137393640.93,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\298,2603.953830,41112,2469.9538301942084,False,True,True,7,6,4,17716819.397401236,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\308,3094.094812,01212,3066.094811876312,True,True,True,5,5,4,5414921.878837922,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\233,2505.652692,80002,2467.6526920960737,True,True,True,8,8,3,3748566653.194359,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\297,2498.909251,40112,2468.909251136892,True,True,True,6,5,4,20.784008255151463,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\294,2990.171077,21112,2860.1710771231633,False,True,True,6,5,4,29176.235237980036,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\307,3089.986840,00212,3065.9868402285747,True,True,True,4,4,4,16.389556204648915,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\309,2924.922145,10212,2900.922144616864,True,True,True,4,4,4,-1.6478633019593788e+16,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\285,2505.732049,70012,2469.732049269232,True,True,True,7,7,4,571.0481045961374,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\197,2507.073848,80111,2467.073848153003,True,True,True,9,8,3,484.9622082374825,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\282,2506.897592,51012,2470.897592236522,True,True,True,7,7,4,314250865.26623404,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\283,2588.352843,60012,2552.352842699989,True,True,True,7,7,4,30.039555663411832,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\310,3025.765987,11212,2897.76598665671,False,True,True,5,5,4,92621.00548928019,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\313,2761.888112,30212,2729.8881123125475,True,True,True,6,6,4,36.78460711580697,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\311,2867.894067,20212,2839.8940665807886,True,True,True,5,5,4,2963.8878842674612,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\312,2975.122992,21212,2843.122992147756,False,True,True,6,6,4,26694.68137391707,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\158,2566.873486,61201,2526.8734863441036,True,True,True,9,9,2,2161258096057.1782,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\300,2607.452060,51112,2469.4520601984123,False,True,True,8,7,4,836785127.6147344,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\288,2609.468812,81012,2465.468812060595,False,True,True,9,9,4,489916754.92533743,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\315,2496.002735,40212,2464.0027352065845,True,True,True,6,6,4,36.648367245841385,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\317,2499.984403,50212,2463.984403351813,True,True,True,7,7,4,928428734.6897143,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\248,3213.128502,61102,2773.128502191144,False,False,False,9,8,3,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\314,2912.193608,31212,2776.1936077061505,False,True,True,7,7,4,5391541.686958925,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\305,2503.388899,80112,2461.388898636356,True,True,True,9,8,4,429.744157430704,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\301,2588.857348,60112,2550.857348300953,True,True,True,8,7,4,30.32390866820432,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\303,2504.115389,70112,2466.115388700054,True,True,True,8,7,4,361.69037507604247,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\306,2613.448109,81112,2467.4481087848917,False,True,True,10,9,4,3729376849.3303814,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\286,2509.431699,71012,2469.4316988027517,True,True,True,8,8,4,2545854554179.883,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\284,2564.604374,61012,2524.604373918813,True,True,True,8,8,4,2396603575.369093,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\316,2503.496917,41212,2467.4969165281186,True,True,True,7,7,4,605596.1003639471,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\319,2559.973527,60212,2519.9735269811968,True,True,True,8,8,4,1876.3419528279112,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\198,2912.073426,81111,2468.0734255714683,False,False,False,10,9,3,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\266,2668.453613,61202,2526.453613365916,False,True,True,9,9,3,205820.28407922853,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\162,2607.961196,81201,2463.9611964756664,False,True,True,10,10,2,15540378820838.547,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\176,2660.757224,61011,2522.757224388938,False,True,True,8,8,3,884124.9011828643,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\247,2587.741384,60102,2551.7413841674684,True,True,True,8,7,3,1088.489569380307,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\318,2604.625786,51212,2464.6257860125006,False,True,True,8,8,4,-6075539558791.452,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\230,2837.844607,61002,2799.8446068859216,True,True,True,8,8,3,7081512.679739478,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\194,2565.377947,61111,2525.3779465972225,True,True,True,9,8,3,12721102.263732506,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\252,2610.745321,81102,2466.745321066983,False,True,True,10,9,3,652150532.3356484,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\250,2609.779693,71102,2469.779692957853,False,True,True,9,8,3,15891505764095.941,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\287,2509.788249,80012,2469.7882493467987,True,True,True,8,8,4,13392.56403183585,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\54,3244.408788,81200,2800.4087883207912,False,False,False,10,10,2,99999999999,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\304,2607.964778,71112,2465.9647779772663,False,True,True,9,8,4,216008800.08898976,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\251,2506.353217,80102,2466.353216904658,True,True,True,9,8,3,1.5158936833161226e+16,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\321,2500.973542,70212,2460.9735420769716,True,True,True,8,8,4,442.8797998431104,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\232,2610.927714,71002,2472.9277140390564,False,True,True,8,8,3,-4794868921418.589,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\265,2815.459078,60202,2777.4590783553863,True,True,True,8,8,3,13720796499.38879,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\323,2504.899654,80212,2460.8996539258637,True,True,True,9,9,4,57192.020829175635,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\216,2609.400028,81211,2463.4000283701203,False,True,True,10,10,3,3933631.504890112,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\324,2605.977805,81212,2457.977805097965,False,True,True,10,10,4,2308294268.4621835,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\212,2577.321745,61211,2535.3217448027517,True,True,True,9,9,3,-60876502084927.234,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\302,2666.343878,61112,2524.3438778974155,False,True,True,9,8,4,21605847.497703876,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\320,2921.353752,61212,2777.3537519920496,False,True,True,9,9,4,16653212.842728818,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\322,2606.384154,71212,2462.3841535427446,False,True,True,9,9,4,-1764933421768.1128,0,0,No important warnings
+C:\fda\pydarwin\examples\example3\0\214,2604.355598,71211,2462.355598455049,False,True,True,9,9,3,534331.2248501858,0,0,No important warnings

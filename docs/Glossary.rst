@@ -18,6 +18,11 @@ more in most other algorithms is called "reward".
 **fitness:** A number representing the overall "goodness" of the candidate. Called fitness in GA 
 more in most other algorithms is called "reward".
 
+.. _full binary:
+
+**full binary**:
+
+
 .. _GA:
 
 **GA - Genetic Algorithm:** An unsupervised search algorithm that mimicks the mathetmatics 
@@ -32,6 +37,10 @@ no futher improvement is seen. In pyDarwin, GA is implmented using the :ref:`DEA
 .. _GP:
 
 **GP - Gaussian Process (Bayesian optimization)**
+Gaussian Process is implemented in the scikit-optimize package and desribed `here <https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html>`_  
+GP is well suited to the problem of model selection, as according to `Wikipedia <https://en.wikipedia.org/wiki/Bayesian_optimization>`_
+it is well suited to black box function with expensive reward calculation. Indeed, experience to date suggests that GP, along with :ref:`GA <GA>` are the most robust and 
+efficient of the ML algorithms, especially if used in combination with a local exhaustive search. 
 
 
 .. _GBRT:
@@ -50,6 +59,33 @@ the NMTRAN data file(s) will be in the home directory, and therefore the relativ
    $DATA ..\..\data.csv.
 
 Alternatively, the absolute path can be specified. 
+
+.. _minimal binary:
+
+**Minimal Binary**
+
+The minimal binary is one of three representation of a model phenotype. The minimal binary is simply a binary that has some possible values removed to avoid duplications. For example, 
+if the dimension include 1,2, or 3 compartments, 2 bits will be needed to code this. With the required 2 bits, some reduncandy is unavoidabe. So, the mapping might be: 
+[0,0] -> 1
+ 
+[0,1] -> 2
+
+[1,0] -> 2
+
+[1,1] -> 3
+
+with to bit strings mapped to a value of 2. In the minimal binary, the mapping is just:
+
+[0,0] -> 1
+ 
+[0,1] -> 2
+
+[1,0] -> 3
+
+and a bit string of [1,0] isn't permitted. This eliminated running the same model (from different bit strings).
+
+
+In the :ref:`full binary <full binary>`, th
 
 .. _Parameter sorting:
 
@@ -117,9 +153,11 @@ https://scikit-optimize.github.io/stable/
 **Token:** XXXXX
  
 
-.. _tokens file:
+.. _tokens file_s:
 
-**Tokens file:** XXXXX
+**Tokens file:** 
+
+see  :ref:`tokens file <tokens file>`
 
 .. _token group:
 

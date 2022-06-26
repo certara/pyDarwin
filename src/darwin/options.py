@@ -81,7 +81,11 @@ class Options:
 
         if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
             self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)
-
+        if self.algorithm in ["GBRT", "RF", "GP"]:
+            self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
+        ## check if population size is a multiple of number of optimizaer chains
+            if self.population_size % self.num_opt_chains != 0:                
+                log.error(f"population size ({self.population_size}) must be multiple of number of chains ({self.num_opt_chains})")
         if self.algorithm in ["GA", "GBRT", "RF", "GP"]:
             self.downhill_q = _get_mandatory_option(opts, 'downhill_q', self.algorithm)
             self.num_niches = _get_mandatory_option(opts, 'num_niches', self.algorithm)

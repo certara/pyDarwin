@@ -4,7 +4,7 @@ import time
 import logging
 import heapq
 import warnings
-from skopt import Optimizer
+from skopt import Optimizer 
 
 from darwin.Log import log
 from darwin.options import options
@@ -25,7 +25,7 @@ Models = []  # will put models here to query them and not rerun models, will eve
 warnings.filterwarnings("ignore", message="The objective has been evaluated ")
 
 
-def _create_optimizer(model_template: Template, algorithm) -> Optimizer:
+def _create_optimizer(model_template: Template, algorithm) -> list:
     # just get list of numbers, of len of each token group
     num_groups = []
 
@@ -35,9 +35,13 @@ def _create_optimizer(model_template: Template, algorithm) -> Optimizer:
         num_groups.append(this_x)
 
     # for parallel, will need and array of N number of optimizer,  n_jobs doesn't seem to do anything
-    opt = Optimizer(num_groups, n_jobs=1, base_estimator=algorithm)
-
-    return opt
+    
+    np.random.seed(options['random_seed'])
+    opts = []
+    for _ in range(options.num_opt_chains):
+        opts.append(Optimizer(num_groups, n_jobs=1, base_estimator=algorithm,random_state = np.random.randint(0,1000)))
+        
+    return opts
 
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
@@ -62,25 +66,26 @@ def run_skopt(model_template: Template) -> ModelRun:
     :return: return best model from search
 
     :rtype: Model
-    """     
-    np.random.seed(options['random_seed'])
-    downhill_q = options.downhill_q
+    """       
+    downhill_q = options.downhill_q 
+    opts = _create_optimizer(model_template, options.algorithm)
 
-    opt = _create_optimizer(model_template, options.algorithm)
-
-    log.message(f"Algorithm is {options.algorithm}")
+    log.message(f"Algorithm is {options.algorithm} with {options.num_opt_chains} chains in parallel")
 
     # https://scikit-optimize.github.io/stable/auto_examples/ask-and-tell.html
     
     niter_no_change = 0
 
     population = Population(model_template, 0)
-
+    #np.random.seed(options['random_seed'])
     for generation in range(1, options['num_generations'] + 1):
         log.message(f"Starting generation {generation}")
-
-        suggested = opt.ask(n_points=options.population_size)
-
+        n_points = int( options.population_size/options.num_opt_chains)
+        suggested = [] 
+        #parallelize here???
+        for this_opt in opts:
+            suggested.extend(this_opt.ask(n_points=n_points)) 
+          
         population = Population.from_codes(model_template, generation, suggested, ModelCode.from_int)
 
         population.run_all()
@@ -104,7 +109,8 @@ def run_skopt(model_template: Template) -> ModelRun:
         fitnesses = [r.result.fitness for r in population.runs]
 
         # I think you can tell with all models, but not sure
-        opt.tell(suggested, fitnesses) 
+        for this_opt in opts:
+            this_opt.tell(suggested, fitnesses)  
 
         best_fitness = heapq.nsmallest(1, fitnesses)[0]
 
@@ -133,8 +139,7 @@ def run_skopt(model_template: Template) -> ModelRun:
 
     write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
 
-    best_run = GlobalVars.BestRun
-
+    best_run = GlobalVars.BestRun 
     log.message(f"Final output from best model is in {GlobalVars.FinalResultFile}")
     log.message(f'Best overall solution = [{best_run.model.model_code.IntCode}],'
                 f' Best overall fitness = {best_run.result.fitness:.6f} ')

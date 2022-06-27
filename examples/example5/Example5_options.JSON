@@ -3,10 +3,10 @@
 	"homeDir": "C:\\fda\\pydarwin\\examples\\example5",
 	"algorithm":"GP",
 	"random_seed": 11, 
-	"population_size": 4, 
+	"population_size": 80, 
 	"nmfePath": "c:/nm744/util/nmfe74.bat " , 
-	"num_parallel": 40,
-	"num_generations": 7,
+	"num_parallel": 20,
+	"num_generations": 8,
 	"num_niches": 2,
 	"niche_penalty": 20, 
 	"niche_radius": 2,
@@ -40,6 +40,6 @@
 	"usePython": false,   
 	"crossoverOperator": "cxOnePoint" ,
 	"NM_priority_class": "below_normal",
-	"num_opt_chains": 4
+	"num_opt_chains": 1
 }
  

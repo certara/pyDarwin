@@ -1,3 +1,4 @@
+from pkgutil import extend_path
 import numpy as np
 import skopt
 import time
@@ -5,6 +6,8 @@ import logging
 import heapq
 import warnings
 from skopt import Optimizer 
+
+import asyncio
 
 from darwin.Log import log
 from darwin.options import options
@@ -76,15 +79,24 @@ def run_skopt(model_template: Template) -> ModelRun:
     
     niter_no_change = 0
 
-    population = Population(model_template, 0)
-    #np.random.seed(options['random_seed'])
+    population = Population(model_template, 0) 
     for generation in range(1, options['num_generations'] + 1):
         log.message(f"Starting generation {generation}")
-        n_points = int( options.population_size/options.num_opt_chains)
-        suggested = [] 
-        #parallelize here???
-        for this_opt in opts:
-            suggested.extend(this_opt.ask(n_points=n_points)) 
+
+        async def function_asyc(opts):
+            suggested = []
+            n_points = int( options.population_size/options.num_opt_chains)
+            for this_opt in opts:
+                suggested.extend(this_opt.ask(n_points=n_points)) 
+            return  suggested
+
+        loop = asyncio.get_event_loop()
+        print(time.asctime())
+        suggested = loop.run_until_complete(function_asyc(opts))
+        print(time.asctime())
+        loop.close()
+        # for this_opt in opts: 4 processs 2:47, 1 process 4:55
+        #     suggested.extend(this_opt.ask(n_points=n_points)) 
           
         population = Population.from_codes(model_template, generation, suggested, ModelCode.from_int)
 

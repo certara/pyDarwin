@@ -6,6 +6,9 @@ import heapq
 import warnings
 from skopt import Optimizer
 
+from multiprocessing.dummy import Pool as ThreadPool
+import traceback
+
 from darwin.Log import log
 from darwin.options import options
 from darwin.execution_man import keep_going
@@ -23,9 +26,10 @@ logger = logging.getLogger(__name__)
 Models = []  # will put models here to query them and not rerun models, will eventually be a MongoDB
 
 warnings.filterwarnings("ignore", message="The objective has been evaluated ")
+warnings.filterwarnings("ignore", message="The optimal value found for ", append=True)
 
 
-def _create_optimizer(model_template: Template, algorithm) -> Optimizer:
+def _create_optimizer(model_template: Template, algorithm, chain_num) -> list:
     # just get list of numbers, of len of each token group
     num_groups = []
 
@@ -34,8 +38,42 @@ def _create_optimizer(model_template: Template, algorithm) -> Optimizer:
         this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
         num_groups.append(this_x)
 
-    return Optimizer(num_groups, n_jobs=1, base_estimator=algorithm,
-                     random_state=np.random.randint(0, 1000))
+    opts = []
+
+    for _ in range(chain_num):
+        opts.append(Optimizer(num_groups, n_jobs=1, base_estimator=algorithm, random_state=np.random.randint(0, 1000)))
+
+    return opts
+
+
+def _opt_ask(opt: Optimizer, n_points: int) -> list:
+    if not keep_going():
+        return []
+
+    try:
+        return opt.ask(n_points)
+    # if we don't catch it, pool will do it silently
+    except:
+        traceback.print_exc()
+
+    return []
+
+
+def _ask_models(opts: list, n_points: int) -> list:
+    n_opts = len(opts)
+
+    pool = ThreadPool(n_opts)
+
+    n_ask = int(n_points / n_opts)
+    lens = [n_ask] * n_opts
+    lens[-1] += n_points % n_opts
+
+    asks = pool.starmap(_opt_ask, zip(opts, lens))
+
+    pool.close()
+    pool.join()
+
+    return [x for xs in asks for x in xs]
 
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
@@ -64,7 +102,7 @@ def run_skopt(model_template: Template) -> ModelRun:
     downhill_q = options.downhill_q
     np.random.seed(options['random_seed'])
 
-    opt = _create_optimizer(model_template, options.algorithm)
+    opts = _create_optimizer(model_template, options.algorithm, options.num_opt_chains)
 
     log.message(f"Algorithm is {options.algorithm}")
 
@@ -77,7 +115,7 @@ def run_skopt(model_template: Template) -> ModelRun:
     for generation in range(1, options['num_generations'] + 1):
         log.message(f"Starting generation {generation}")
 
-        suggested = opt.ask(n_points=options.population_size)
+        suggested = _ask_models(opts, options.population_size)
 
         log.message(f"Done asking")
 
@@ -108,7 +146,10 @@ def run_skopt(model_template: Template) -> ModelRun:
 
         log.message(f"Tell...")
 
+        opt = opts[0]
         opt.tell(suggested, fitnesses)
+
+        opts = [opt.copy(random_state=o.rng) for o in opts]
 
         log.message(f"Done telling")
 

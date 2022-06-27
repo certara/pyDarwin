@@ -1,13 +1,10 @@
-from pkgutil import extend_path
 import numpy as np
 import skopt
 import time
 import logging
 import heapq
 import warnings
-from skopt import Optimizer 
-
-import asyncio
+from skopt import Optimizer
 
 from darwin.Log import log
 from darwin.options import options
@@ -28,7 +25,7 @@ Models = []  # will put models here to query them and not rerun models, will eve
 warnings.filterwarnings("ignore", message="The objective has been evaluated ")
 
 
-def _create_optimizer(model_template: Template, algorithm) -> list:
+def _create_optimizer(model_template: Template, algorithm) -> Optimizer:
     # just get list of numbers, of len of each token group
     num_groups = []
 
@@ -37,14 +34,8 @@ def _create_optimizer(model_template: Template, algorithm) -> list:
         this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
         num_groups.append(this_x)
 
-    # for parallel, will need and array of N number of optimizer,  n_jobs doesn't seem to do anything
-    
-    np.random.seed(options['random_seed'])
-    opts = []
-    for _ in range(options.num_opt_chains):
-        opts.append(Optimizer(num_groups, n_jobs=1, base_estimator=algorithm,random_state = np.random.randint(0,1000)))
-        
-    return opts
+    return Optimizer(num_groups, n_jobs=1, base_estimator=algorithm,
+                     random_state=np.random.randint(0, 1000))
 
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
@@ -69,35 +60,30 @@ def run_skopt(model_template: Template) -> ModelRun:
     :return: return best model from search
 
     :rtype: Model
-    """       
-    downhill_q = options.downhill_q 
-    opts = _create_optimizer(model_template, options.algorithm)
+    """
+    downhill_q = options.downhill_q
+    np.random.seed(options['random_seed'])
 
-    log.message(f"Algorithm is {options.algorithm} with {options.num_opt_chains} chains in parallel")
+    opt = _create_optimizer(model_template, options.algorithm)
+
+    log.message(f"Algorithm is {options.algorithm}")
 
     # https://scikit-optimize.github.io/stable/auto_examples/ask-and-tell.html
-    
+
     niter_no_change = 0
 
-    population = Population(model_template, 0) 
+    population = Population(model_template, 0)
+
     for generation in range(1, options['num_generations'] + 1):
         log.message(f"Starting generation {generation}")
 
-        async def function_asyc(opts):
-            suggested = []
-            n_points = int( options.population_size/options.num_opt_chains)
-            for this_opt in opts:
-                suggested.extend(this_opt.ask(n_points=n_points)) 
-            return  suggested
+        suggested = opt.ask(n_points=options.population_size)
 
-        loop = asyncio.get_event_loop()
-        print(time.asctime())
-        suggested = loop.run_until_complete(function_asyc(opts))
-        print(time.asctime())
-        loop.close()
-        # for this_opt in opts: 4 processs 2:47, 1 process 4:55
-        #     suggested.extend(this_opt.ask(n_points=n_points)) 
-          
+        log.message(f"Done asking")
+
+        for m in suggested:
+            print(m)
+
         population = Population.from_codes(model_template, generation, suggested, ModelCode.from_int)
 
         population.run_all()
@@ -120,9 +106,11 @@ def run_skopt(model_template: Template) -> ModelRun:
 
         fitnesses = [r.result.fitness for r in population.runs]
 
-        # I think you can tell with all models, but not sure
-        for this_opt in opts:
-            this_opt.tell(suggested, fitnesses)  
+        log.message(f"Tell...")
+
+        opt.tell(suggested, fitnesses)
+
+        log.message(f"Done telling")
 
         best_fitness = heapq.nsmallest(1, fitnesses)[0]
 
@@ -147,11 +135,11 @@ def run_skopt(model_template: Template) -> ModelRun:
     if niter_no_change:
         log.message(f'No change in fitness in {niter_no_change} iteration')
 
-    log.message(f"total time = {(time.time() - GlobalVars.StartTime)/60:.2f} minutes")
+    log.message(f"total time = {(time.time() - GlobalVars.StartTime) / 60:.2f} minutes")
 
     write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
 
-    best_run = GlobalVars.BestRun 
+    best_run = GlobalVars.BestRun
     log.message(f"Final output from best model is in {GlobalVars.FinalResultFile}")
     log.message(f'Best overall solution = [{best_run.model.model_code.IntCode}],'
                 f' Best overall fitness = {best_run.result.fitness:.6f} ')

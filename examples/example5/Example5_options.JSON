@@ -40,6 +40,6 @@
 	"usePython": false,   
 	"crossoverOperator": "cxOnePoint" ,
 	"NM_priority_class": "below_normal",
-	"num_opt_chains": 1
+	"num_opt_chains": 4
 }
  

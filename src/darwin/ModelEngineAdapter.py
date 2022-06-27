@@ -16,7 +16,7 @@ class ModelEngineAdapter(ABC):
 
     @staticmethod
     @abstractmethod
-    def read_model(run):
+    def read_model(run) -> bool:
         pass
 
     @staticmethod
@@ -33,7 +33,7 @@ class ModelEngineAdapter(ABC):
 
     @staticmethod
     @abstractmethod
-    def read_results(run):
+    def read_results(run) -> bool:
         pass
 
     @staticmethod

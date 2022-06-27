@@ -243,14 +243,10 @@ class ModelRun(ABC):
 
             return
 
-        self._post_run_r()
-        self._post_run_python()
-
-        self._calc_fitness()
+        if self._post_run_r() and self._post_run_python() and self._calc_fitness():
+            self.status = "Done"
 
         self._output_results()
-
-        self.status = "Done"
 
         return
 
@@ -273,11 +269,9 @@ class ModelRun(ABC):
         """
 
         if not options.use_r:
-            return
+            return True
 
         command = [options.rscript_path, options.postRunRCode]
-
-        r_process = None
 
         try:
             self.status = "Running post process R code"
@@ -290,9 +284,13 @@ class ModelRun(ABC):
         except TimeoutExpired:
             log.error(f'Post run R code for run {self.model_num} has timed out')
             self.status = "Post process R timed out"
+
+            return False
         except:
             log.error("Post run R code crashed in " + self.run_dir)
             self.status = "Post process R failed"
+
+            return False
 
         res = self.result
 
@@ -308,9 +306,11 @@ class ModelRun(ABC):
                 f.write(f"Post run R code Penalty = {str(res.post_run_r_penalty)}\n")
                 f.write(f"Post run R code text = {str(res.post_run_r_text)}\n")
 
+        return True
+
     def _post_run_python(self):
         if not options.use_python:
-            return
+            return True
 
         res = self.result
 
@@ -332,6 +332,10 @@ class ModelRun(ABC):
                 log.error("Post run Python code crashed in " + self.run_dir)
                 f.write("Post run Python code crashed\n")
 
+            return False
+
+        return True
+
     def copy_model(self):
         """
         Copies the folder contents from a saved model to the new model destination, used so a model that has already
@@ -349,17 +353,17 @@ class ModelRun(ABC):
         try:
             engine = self.adapter
 
-            engine.read_model(self)
-            engine.read_results(self)
+            if engine.read_model(self) and engine.read_results(self):
+                res = self.result
 
-            res = self.result
+                res.prd_err, res.nm_translation_message = engine.get_error_messages(self)
 
-            res.prd_err, res.nm_translation_message = engine.get_error_messages(self)
-
-            res.calc_fitness(self.model)
+                res.calc_fitness(self.model)
 
         except:
             traceback.print_exc()
+
+        return True
 
     def _output_results(self):
         with open(os.path.join(self.run_dir, self.output_file_name), "a") as output:

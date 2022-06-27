@@ -2,7 +2,8 @@ import json
 import os
 import time
 from pathlib import Path
-from copy import deepcopy
+from copy import copy, deepcopy
+from collections import OrderedDict
 
 import threading
 from multiprocessing.dummy import Pool as ThreadPool
@@ -49,7 +50,10 @@ def init_model_list():
                 with open(models_list) as json_file:
                     all_runs = json.load(json_file)
 
-                    Population.all_runs = {key: ModelRun.from_dict(val) for key, val in all_runs.items()}
+                    Population.all_runs = OrderedDict(
+                        (str(r.model.genotype()), r)
+                        for r in map(lambda src: ModelRun.from_dict(src), all_runs.values())
+                    )
 
                     log.message(f"Using Saved model list from {models_list}")
 
@@ -72,7 +76,7 @@ class ModelRunEncoder(json.JSONEncoder):
 
 
 class Population:
-    all_runs = {}
+    all_runs = OrderedDict()
     _lock_all_runs = threading.Lock()
 
     def __init__(self, template: Template, name, start_number=0):
@@ -102,8 +106,12 @@ class Population:
         self.model_number += 1
 
         run = deepcopy(self.all_runs.get(genotype))
+        existing_runs = list(filter(lambda r: str(r.model.genotype()) == genotype, self.runs))
 
-        if run:
+        if existing_runs:
+            run = copy(existing_runs[0])
+            run.status = 'Duplicate'
+        elif run:
             run.model_num = self.model_number
             run.result.nm_translation_message = f"From saved model {run.control_file_name}: " \
                                                 + run.result.nm_translation_message
@@ -147,7 +155,8 @@ class Population:
             log.warn('Execution has stopped')
 
         with open(GlobalVars.SavedModelsFile, 'w', encoding='utf-8') as f:
-            json.dump(self.all_runs, f, indent=4, sort_keys=True, ensure_ascii=False, cls=ModelRunEncoder)
+            runs = {f"{r.generation}-{r.model_num}": r for r in self.all_runs.values()}
+            json.dump(runs, f, indent=4, sort_keys=True, ensure_ascii=False, cls=ModelRunEncoder)
 
         # write best model to output
         try:
@@ -208,9 +217,10 @@ class Population:
         fitness_crashed = res.fitness == options.crash_value
         fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
 
+        status = run.status.rjust(14)
         log.message(
-            f"{step_name} = {self.name}, Model {run.model_num:5},"
-            f"\t fitness = {fitness_text}, \t NMTRANMSG = {res.nm_translation_message.strip()}{prd_err_text}"
+            f"{step_name} = {self.name}, Model {run.model_num:5}, {status},"
+            f"    fitness = {fitness_text}, \t NMTRANMSG = {res.nm_translation_message.strip()}{prd_err_text}"
         )
 
     def _start_model_wrapper(self, run: ModelRun):

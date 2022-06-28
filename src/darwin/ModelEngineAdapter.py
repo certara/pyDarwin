@@ -101,10 +101,10 @@ class ModelEngineAdapter(ABC):
         pass
 
 
-def register_engine_adapter(name: str, engine_class):
+def register_engine_adapter(name: str, engine):
     global _ENGINES
 
-    _ENGINES[name] = engine_class()
+    _ENGINES[name] = engine
 
 
 def get_engine_adapter(name: str) -> ModelEngineAdapter:

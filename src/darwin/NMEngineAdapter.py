@@ -351,7 +351,6 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         return True
 
-
     @staticmethod
     def read_model(run: ModelRun) -> bool:
         if not os.path.exists(os.path.join(run.run_dir, "FCON")):
@@ -526,4 +525,5 @@ def _get_block(start, fcon, fixed=False):
     return len(this_block)
 
 
-register_engine_adapter('nonmem', NMEngineAdapter)
+def register():
+    register_engine_adapter('nonmem', NMEngineAdapter())

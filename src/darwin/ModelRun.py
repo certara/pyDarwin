@@ -5,7 +5,6 @@ from os.path import exists
 from abc import ABC
 
 import shlex
-import shutil
 
 import subprocess
 from subprocess import DEVNULL, STDOUT, TimeoutExpired, Popen
@@ -382,46 +381,6 @@ class ModelRun(ABC):
 
     def cleanup(self):
         self.adapter.cleanup(self.run_dir, self.file_stem)
-
-
-class StoredRun(ModelRun):
-    def copy_model(self):
-        """
-        Copies the folder contents from a saved model to the new model destination, used so a model that has already
-        been run (and saved in the all_models dict) is copied into the new run directory and the control file name
-        and output file name in the new model is updated.
-        """
-
-        old_dir = self.run_dir
-        new_dir = self.run_dir = os.path.join(options.home_dir, self.generation, str(self.model_num))
-
-        old_control_file = self.control_file_name
-        old_output_file = self.output_file_name
-        self.control_file_name = self.file_stem + ".mod"
-        self.output_file_name = self.file_stem + ".lst"
-
-        self._cleanup_run_dir()
-
-        utils.remove_file(os.path.join(new_dir, self.control_file_name))
-        utils.remove_file(os.path.join(new_dir, self.output_file_name))
-        utils.remove_file(os.path.join(new_dir, "FMSG"))
-        utils.remove_file(os.path.join(new_dir, "PRDERR"))
-
-        # and copy
-        try:
-            shutil.copyfile(os.path.join(old_dir, old_output_file),
-                            os.path.join(new_dir, self.output_file_name))
-            shutil.copyfile(os.path.join(old_dir, old_control_file),
-                            os.path.join(new_dir, self.control_file_name))
-            shutil.copyfile(os.path.join(old_dir, "FMSG"), os.path.join(new_dir, "FMSG"))
-
-            if os.path.exists(os.path.join(old_dir, "PRDERR")):
-                shutil.copyfile(os.path.join(old_dir, "PRDERR"), os.path.join(new_dir, "PRDERR"))
-
-            with open(os.path.join(new_dir, self.output_file_name), 'a') as outfile:
-                outfile.write(f"!!! Saved model, originally run as {old_control_file} in {old_dir}")
-        except:
-            pass
 
 
 def write_best_model_files(control_path: str, result_path: str):

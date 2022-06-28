@@ -9,7 +9,7 @@ from darwin.Log import log
 from darwin.options import options
 from darwin.execution_man import start_execution_manager
 
-import NMEngineAdapter
+import darwin.NMEngineAdapter
 
 from .Template import Template
 from .ModelRun import ModelRun
@@ -76,7 +76,7 @@ def init_app(options_file: str, folder: str = None):
 
     GlobalVars.init_global_vars(options.home_dir)
 
-    NMEngineAdapter.register()
+    darwin.NMEngineAdapter.register()
 
     init_model_list()
 

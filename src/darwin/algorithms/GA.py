@@ -1,10 +1,9 @@
-# https://programtalk.com/python-examples/deap.tools.HallOfFame/
-# deap seems to need python 3.7.3
-from copy import deepcopy, copy
+from copy import copy
 from datetime import timedelta
 import time
 import logging 
 import numpy as np 
+
 import darwin.GlobalVars as GlobalVars
 
 from darwin.Log import log
@@ -16,7 +15,7 @@ from darwin.Population import Population
 from darwin.Template import Template
 from darwin.Model import Model, write_best_model_files
 from darwin.ModelRun import ModelRun
-from darwin.utils import get_n_best_index, get_n_worst_index
+
 from .DeapToolbox import DeapToolbox, model_run_to_deap_ind
 
 np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)

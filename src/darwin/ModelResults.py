@@ -43,9 +43,8 @@ class ModelResults:
         Need to look in output file for parameter at boundary and parameter non-positive.
         """
 
-        fitness = options.crash_value
-
         fitness = self.ofv
+
         # non influential tokens penalties
         fitness += model.non_influential_token_num * options['non_influential_tokens_penalty']
 

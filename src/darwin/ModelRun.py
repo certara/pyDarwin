@@ -124,6 +124,8 @@ class ModelRun(ABC):
         for attr in JSON_ATTRIBUTES:
             run.__setattr__(attr, src[attr])
 
+        run.generation = str(run.generation)
+
         return run
 
     def _cleanup_run_dir(self):
@@ -140,6 +142,7 @@ class ModelRun(ABC):
 
             return
         except:
+            traceback.print_exc()
             log.error(f"Unable to prepare run directory: {self.run_dir}")
 
         # if we cannot create run_dir, there's no point to continue

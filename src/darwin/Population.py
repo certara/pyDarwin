@@ -21,7 +21,7 @@ from .ModelEngineAdapter import get_engine_adapter
 class Population:
 
     def __init__(self, template: Template, name, start_number=0):
-        self.name = name
+        self.name = str(name)
         self.runs = []
         self.model_number = start_number
         self.template = template
@@ -110,10 +110,8 @@ class Population:
         pipe = _create_model_pipeline(min(len(self.runs), options.num_parallel))
 
         pipe.put(self.runs)
-        pipe.run()
 
-        pipe.close()
-        pipe.join()
+        self.runs = sorted(pipe.results(), key=lambda r: r.model_num)
 
 
 def _copy_to_best(run: ModelRun):
@@ -154,9 +152,9 @@ def _gather_results(runs: list):
 
 def _process_new_run(run: ModelRun):
     if run.source == 'new':
-        run.output_results()
-
         if not interrupted():
+            run.output_results()
+
             model_cache = get_model_cache()
             model_cache.store_model_run(run)
 
@@ -167,7 +165,7 @@ def _process_new_run(run: ModelRun):
         _copy_to_best(run)
 
     if interrupted():
-        return
+        return run
 
     step_name = "Iteration"
     prd_err_text = ""
@@ -193,13 +191,12 @@ def _process_new_run(run: ModelRun):
         f"    fitness = {fitness_text}, \t NMTRANMSG = {res.nm_translation_message.strip()}{prd_err_text}"
     )
 
+    return run
 
-def _create_model_pipeline(num_parallel: int):
-    step1 = utils.PipelineStep(_start_new_run, size=num_parallel, name='Start model run')
-    step2 = utils.TankStep(_gather_results, tank_size=1, pipe_size=2, name='Gather run results')
-    step3 = utils.PipelineStep(_process_new_run, size=1, name='Process run results')
 
-    step1.link(step2)
-    step2.link(step3)
+def _create_model_pipeline(num_parallel: int) -> utils.Pipeline:
+    pipe = utils.Pipeline(utils.PipelineStep(_start_new_run, size=num_parallel, name='Start model run'))\
+        .link(utils.TankStep(_gather_results, tank_size=1, pipe_size=1, name='Gather run results'))\
+        .link(utils.PipelineStep(_process_new_run, size=1, name='Process run results'))
 
-    return step1
+    return pipe

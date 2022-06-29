@@ -360,7 +360,10 @@ class PipelineStep:
         self._fn = fn
         self._workers = []
         self._input = mp.Queue()
-        self._output = None
+        self._output = mp.Queue()
+
+    def running(self) -> bool:
+        return bool(self._workers)
 
     def run(self):
         if self._workers:
@@ -383,6 +386,8 @@ class PipelineStep:
         if self.next:
             self.next.close()
             self.next.join()
+        else:
+            self._output.put(self._sentinel)
 
     def _set_input(self, in_q):
         self._input = in_q
@@ -396,7 +401,6 @@ class PipelineStep:
 
     def link(self, step: 'PipelineStep'):
         self.next = step
-        self._output = mp.Queue()
 
         step._set_input(self._output)
         step.run()
@@ -415,6 +419,15 @@ class PipelineStep:
                     self._output.put(res)
             except:
                 traceback.print_exc()
+
+    def results(self):
+        while True:
+            val = self._output.get()
+
+            if isinstance(val, self._Sentinel):
+                break
+
+            yield val
 
 
 class TankStep(PipelineStep):
@@ -458,15 +471,12 @@ class TankStep(PipelineStep):
 
 class Pipeline:
     def __init__(self, first: PipelineStep):
-        self.first = first
+        self.first = self.last = first
 
     def link(self, step: PipelineStep):
-        s = self.first
+        self.last.link(step)
 
-        while s.next is not None:
-            s = s.next
-
-        s.link(step)
+        self.last = step
 
         return self
 
@@ -474,8 +484,20 @@ class Pipeline:
         self.first.put(items)
 
     def start(self):
+        if not self.first or self.first.running():
+            return
+
         self.first.close()
         self.first.run()
 
     def join(self):
         self.first.join()
+        self.first = None
+
+    def results(self):
+        self.start()
+
+        if self.first and self.first.running():
+            self.join()
+
+        return self.last.results()

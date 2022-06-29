@@ -13,7 +13,7 @@ import darwin.utils as utils
 from darwin.Log import log
 from darwin.options import options
 
-from .ModelCache import ModelCache
+from .ModelCache import ModelCache, register_model_cache
 from .ModelRun import ModelRun
 
 ALL_MODELS_FILE = "models.json"
@@ -59,26 +59,89 @@ class MemoryModelCache(ModelCache):
                 models_list = Path(prev_list)
 
                 if models_list.is_file():
+                    log.message("Loading saved models...")
+
                     with open(models_list) as json_file:
-                        all_runs = json.load(json_file)
+                        loaded_runs = json.load(json_file)
 
-                        self.all_runs = OrderedDict(
-                            (str(r.model.genotype()), r)
-                            for r in map(lambda src: ModelRun.from_dict(src), all_runs.values())
-                        )
+                    all_runs = OrderedDict(
+                        (str(r.model.genotype()), r)
+                        for r in map(lambda src: ModelRun.from_dict(src), loaded_runs.values())
+                    )
 
-                        log.message(f"Using Saved model list from {models_list}")
+                    with self._lock_all_runs:
+                        self.all_runs = all_runs
 
-                        GlobalVars.SavedModelsFile = models_list
+                    log.message(f"Using saved models from {models_list}")
+
+                    GlobalVars.SavedModelsFile = models_list
                 else:
-                    log.error(f"Cannot find {models_list}, setting models list to empty")
+                    log.error(f"Cannot find {models_list}")
             except:
                 traceback.print_exc()
-                log.error(f"Cannot read {prev_list}, setting models list to empty")
+                log.error(f"Failed to load {prev_list}")
 
         log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
 
     def dump(self):
-        with open(GlobalVars.SavedModelsFile, 'w', encoding='utf-8') as f:
+        self._dump_impl()
+
+    def _dump_impl(self):
+        with self._lock_all_runs:
             runs = {f"{r.generation}-{r.model_num}": r for r in self.all_runs.values()}
+
+        with open(GlobalVars.SavedModelsFile, 'w', encoding='utf-8') as f:
             json.dump(runs, f, indent=4, sort_keys=True, ensure_ascii=False, cls=_ModelRunEncoder)
+
+
+class AsyncMemoryModelCache(MemoryModelCache):
+    def __init__(self):
+        super(AsyncMemoryModelCache, self).__init__()
+
+        self._keep_going = True
+
+        self._something_put = False
+        self._ready = threading.Condition()
+
+        self._dumper = threading.Thread(target=self._dump_thread)
+        self._dumper.start()
+
+    def finalize(self):
+        self._keep_going = False
+
+        with self._ready:
+            self._ready.notify()
+
+        self._dumper.join()
+
+    def _have_something(self, wait: bool) -> bool:
+        with self._ready:
+            if wait:
+                self._ready.wait()
+
+            if not self._something_put:
+                return False
+
+            self._something_put = False
+
+            return True
+
+    def _dump_thread(self):
+        while self._keep_going:
+            if not self._have_something(wait=True):
+                break
+
+            self._dump_impl()
+
+        if self._have_something(wait=False):
+            self._dump_impl()
+
+    def dump(self):
+        with self._ready:
+            self._something_put = True
+            self._ready.notify()
+
+
+def register():
+    register_model_cache('darwin.MemoryModelCache', MemoryModelCache)
+    register_model_cache('darwin.AsyncMemoryModelCache', AsyncMemoryModelCache)

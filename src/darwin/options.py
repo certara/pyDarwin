@@ -67,6 +67,9 @@ class Options:
         self._options = opts
 
         self.engine_adapter = opts.get('engine_adapter', 'nonmem')
+        self.model_cache_class = opts.get('model_cache', 'darwin.MemoryModelCache')
+
+        log.message(f"Using {self.model_cache_class}")
 
         self.num_parallel = opts.get('num_parallel', 4)
 

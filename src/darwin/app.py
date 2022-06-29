@@ -10,11 +10,11 @@ from darwin.options import options
 from darwin.execution_man import start_execution_manager
 
 import darwin.NMEngineAdapter
+import darwin.MemoryModelCache
 
 from .Template import Template
 from .ModelRun import ModelRun
-from .ModelCache import set_model_cache
-from .MemoryModelCache import MemoryModelCache
+from .ModelCache import set_model_cache, create_model_cache
 
 from .algorithms.exhaustive import run_exhaustive
 from .algorithms.GA import run_ga
@@ -90,9 +90,22 @@ def init_app(options_file: str, folder: str = None):
     GlobalVars.init_global_vars(options.home_dir)
 
     darwin.NMEngineAdapter.register()
-
-    set_model_cache(MemoryModelCache())
+    darwin.MemoryModelCache.register()
 
     _init_model_results()
 
     start_execution_manager()
+
+
+class DarwinApp:
+    def __init__(self, options_file: str, folder: str = None):
+        init_app(options_file, folder)
+
+        self.cache = create_model_cache(options.model_cache_class)
+
+        set_model_cache(self.cache)
+
+    def __del__(self):
+        self.cache.finalize()
+
+        set_model_cache(None)

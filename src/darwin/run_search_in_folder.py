@@ -3,7 +3,7 @@ import sys
 
 from .Template import Template
 from .ModelRun import ModelRun
-from .app import init_app, run_template
+from .app import DarwinApp, run_template
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +13,7 @@ def run_search_in_folder(
         template_file: str = 'template.txt', tokens_file: str = 'tokens.json', options_file: str = 'options.json'
 ) -> ModelRun:
 
-    init_app(options_file, folder)
+    _ = DarwinApp(options_file, folder)
 
     try:
         model_template = Template(template_file, tokens_file)

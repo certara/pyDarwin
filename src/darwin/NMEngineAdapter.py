@@ -273,8 +273,10 @@ class NMEngineAdapter(ModelEngineAdapter):
         if not os.path.exists(res_file):
             return False
 
-        with open(res_file) as xml_file:
-            data_dict = xmltodict.parse(xml_file.read())
+        try:
+            with open(res_file) as xml_file:
+                data_dict = xmltodict.parse(xml_file.read())
+
             version = data_dict['nm:output']['nm:nonmem']['@nm:version']  # string
             # keep first two digits
             dots = [_.start() for _ in re.finditer(r"\.", version)]
@@ -285,71 +287,76 @@ class NMEngineAdapter(ModelEngineAdapter):
                 log.error(f"NONMEM is version {version}, NONMEM 7.4 and 7.5 are supported, exiting")
                 sys.exit()
 
-        problem = data_dict['nm:output']['nm:nonmem']['nm:problem']
+            problem = data_dict['nm:output']['nm:nonmem']['nm:problem']
 
-        # if more than one problem, use the first, assume that is the estimation, assume final is simulation
-        # really not sure what to do if there is more than one estimation problem
-        if isinstance(problem, list):  # > 1 one $PROB
-            problem = problem[0]  # use the first
+            # if more than one problem, use the first, assume that is the estimation, assume final is simulation
+            # really not sure what to do if there is more than one estimation problem
+            if isinstance(problem, list):  # > 1 one $PROB
+                problem = problem[0]  # use the first
 
-        estimations = problem['nm:estimation']
+            estimations = problem['nm:estimation']
 
-        # similar, may be more than one estimation, if > 1, we want the final one
-        if isinstance(estimations, list):  # > 1 one $EST
-            last_estimation = estimations[-1]
-        else:
-            last_estimation = estimations
+            # similar, may be more than one estimation, if > 1, we want the final one
+            if isinstance(estimations, list):  # > 1 one $EST
+                last_estimation = estimations[-1]
+            else:
+                last_estimation = estimations
 
-        if 'nm:final_objective_function' in last_estimation:
-            ofv = float(last_estimation['nm:final_objective_function'])
+            if 'nm:final_objective_function' in last_estimation:
+                ofv = float(last_estimation['nm:final_objective_function'])
 
-            if last_estimation['nm:termination_status'] == '0':
-                success = True
+                if last_estimation['nm:termination_status'] == '0':
+                    success = True
 
-        # IS COVARIANCE REQUESTED:
-        if 'nm:covariance_status' in last_estimation:
-            if last_estimation['nm:covariance_status']['@nm:error'] == '0':
-                covariance = True
+            # IS COVARIANCE REQUESTED:
+            if 'nm:covariance_status' in last_estimation:
+                if last_estimation['nm:covariance_status']['@nm:error'] == '0':
+                    covariance = True
 
-            corr_data = last_estimation.get('nm:correlation', {}).get('nm:row', [])
-            num_rows = len(corr_data)
+                corr_data = last_estimation.get('nm:correlation', {}).get('nm:row', [])
+                num_rows = len(corr_data)
 
-            correlation = num_rows > 0
+                correlation = num_rows > 0
 
-            for this_row in range(1, num_rows):
-                row_data = corr_data[this_row]['nm:col'][:-1]
+                for this_row in range(1, num_rows):
+                    row_data = corr_data[this_row]['nm:col'][:-1]
 
-                def abs_function(t):
-                    return abs(t) > 99999
+                    def abs_function(t):
+                        return abs(t) > 99999
 
-                row_data = [abs_function(float(x['#text'])) for x in row_data]
+                    row_data = [abs_function(float(x['#text'])) for x in row_data]
 
-                if any(row_data):
-                    correlation = False
-                    break
+                    if any(row_data):
+                        correlation = False
+                        break
 
-            if 'nm:eigenvalues' in last_estimation:
-                # if last_estimation['nm:eigenvalues'] is None:
-                eigenvalues = last_estimation['nm:eigenvalues']['nm:val']
-                max_val = -9999999
-                min_val = 9999999
+                if 'nm:eigenvalues' in last_estimation:
+                    # if last_estimation['nm:eigenvalues'] is None:
+                    eigenvalues = last_estimation['nm:eigenvalues']['nm:val']
+                    max_val = -9999999
+                    min_val = 9999999
 
-                for i in eigenvalues:
-                    val = float(i['#text'])
-                    if val < min_val:
-                        min_val = val
-                    if val > max_val:
-                        max_val = val
+                    for i in eigenvalues:
+                        val = float(i['#text'])
+                        if val < min_val:
+                            min_val = val
+                        if val > max_val:
+                            max_val = val
 
-                condition_num = max_val / min_val
+                    condition_num = max_val / min_val
 
-        res.success = success
-        res.covariance = covariance
-        res.correlation = correlation
-        res.ofv = ofv
-        res.condition_num = condition_num
+            res.success = success
+            res.covariance = covariance
+            res.correlation = correlation
+            res.ofv = ofv
+            res.condition_num = condition_num
 
-        return True
+            return True
+
+        except:
+            pass
+
+        return False
 
     @staticmethod
     def read_model(run: ModelRun) -> bool:

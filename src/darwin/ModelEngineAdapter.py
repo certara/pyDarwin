@@ -93,13 +93,6 @@ class ModelEngineAdapter(ABC):
 
         return model
 
-    @staticmethod
-    def restore_model(src: dict):
-        """
-        """
-
-        pass
-
 
 def register_engine_adapter(name: str, engine):
     global _ENGINES

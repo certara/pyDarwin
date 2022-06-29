@@ -13,7 +13,8 @@ import darwin.NMEngineAdapter
 
 from .Template import Template
 from .ModelRun import ModelRun
-from .Population import init_model_list
+from .ModelCache import set_model_cache
+from .MemoryModelCache import MemoryModelCache
 
 from .algorithms.exhaustive import run_exhaustive
 from .algorithms.GA import run_ga
@@ -56,6 +57,18 @@ def _go_to_folder(folder: str):
         os.chdir(folder)
 
 
+def _init_model_results():
+    results_file = GlobalVars.output
+
+    utils.remove_file(results_file)
+
+    log.message(f"Writing intermediate output to {results_file}")
+
+    with open(results_file, "w") as resultsfile:
+        resultsfile.write(f"Run Directory,Fitness,Model,ofv,success,covar,correlation #,"
+                          f"ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages\n")
+
+
 def init_app(options_file: str, folder: str = None):
     # if running in folder, options_file may be a relative path, so need to cd to the folder first
     _go_to_folder(folder)
@@ -78,6 +91,8 @@ def init_app(options_file: str, folder: str = None):
 
     darwin.NMEngineAdapter.register()
 
-    init_model_list()
+    set_model_cache(MemoryModelCache())
+
+    _init_model_results()
 
     start_execution_manager()

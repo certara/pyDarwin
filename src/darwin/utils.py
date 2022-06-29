@@ -4,6 +4,8 @@ import re
 import shutil
 import heapq
 import threading
+import multiprocessing as mp
+import traceback
 import psutil
 
 from darwin.Log import log
@@ -343,3 +345,137 @@ def terminate_process(pid: int):
         p.terminate()
 
     proc.terminate()
+
+
+class PipelineStep:
+    class _Sentinel:
+        pass
+
+    _sentinel = _Sentinel()
+
+    def __init__(self, fn, size=1, name='PipelineStep'):
+        self.name = name
+        self.next = None
+        self._size = size
+        self._fn = fn
+        self._workers = []
+        self._input = mp.Queue()
+        self._output = None
+
+    def run(self):
+        if self._workers:
+            raise RuntimeError(f"{self.name} is already running")
+
+        self._workers = [threading.Thread(target=self._thread_fun, args=(i,)) for i in range(self._size)]
+
+        for w in self._workers:
+            w.start()
+
+    def join(self):
+        if not self._workers:
+            raise RuntimeError(f"{self.name} is not running")
+
+        for w in self._workers:
+            w.join()
+
+        self._workers = []
+
+        if self.next:
+            self.next.close()
+            self.next.join()
+
+    def _set_input(self, in_q):
+        self._input = in_q
+
+    def put(self, items: list):
+        for item in items:
+            self._input.put(item)
+
+    def close(self):
+        self.put([self._sentinel] * self._size)
+
+    def link(self, step: 'PipelineStep'):
+        self.next = step
+        self._output = mp.Queue()
+
+        step._set_input(self._output)
+        step.run()
+
+    def _thread_fun(self, i):
+        while True:
+            val = self._input.get()
+
+            if isinstance(val, self._Sentinel):
+                break
+
+            try:
+                res = self._fn(val)
+
+                if self._output:
+                    self._output.put(res)
+            except:
+                traceback.print_exc()
+
+
+class TankStep(PipelineStep):
+    def __init__(self, fn, tank_size, pipe_size=1, name='TankStep'):
+        super(TankStep, self).__init__(fn, pipe_size, name)
+        self._tank_size = tank_size
+
+    def _pump(self, tank: list):
+        rest = tank
+
+        try:
+            pumped, rest = self._fn(tank)
+
+            if self._output:
+                for val in pumped:
+                    self._output.put(val)
+        except:
+            traceback.print_exc()
+
+        return rest
+
+    def _thread_fun(self, i):
+        tank = []
+
+        while True:
+            val = self._input.get()
+
+            if isinstance(val, self._Sentinel):
+                break
+
+            tank.append(val)
+
+            if len(tank) < self._tank_size:
+                continue
+
+            tank = self._pump(tank)
+
+        while tank:
+            tank = self._pump(tank)
+
+
+class Pipeline:
+    def __init__(self, first: PipelineStep):
+        self.first = first
+
+    def link(self, step: PipelineStep):
+        s = self.first
+
+        while s.next is not None:
+            s = s.next
+
+        s.link(step)
+
+        return self
+
+    def put(self, items: list):
+        self.first.put(items)
+
+    def start(self):
+        self.first.close()
+        self.first.run()
+
+    def join(self):
+        self.first.join()

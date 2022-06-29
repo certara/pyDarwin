@@ -15,7 +15,7 @@ class Log:
         self.file = open(self.file_path, "a")
 
     def message(self, message):
-        message = datetime.datetime.now().strftime("[%H:%M:%S] ") + message
+        message = datetime.datetime.now().strftime("[%H:%M:%S] ") + str(message)
 
         print(message)
 

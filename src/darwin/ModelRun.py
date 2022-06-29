@@ -245,7 +245,7 @@ class ModelRun(ABC):
         if self._post_run_r() and self._post_run_python() and self._calc_fitness():
             self.status = "Done"
 
-        self._output_results()
+        self.adapter.cleanup(self.run_dir, self.file_stem)
 
         return
 
@@ -364,7 +364,7 @@ class ModelRun(ABC):
 
         return True
 
-    def _output_results(self):
+    def output_results(self):
         with open(os.path.join(self.run_dir, self.output_file_name), "a") as output:
             res = self.result
             model = self.model
@@ -378,9 +378,6 @@ class ModelRun(ABC):
             output.write(f"Num Non fixed OMEGAs = {model.estimated_omega_num}\n")
             output.write(f"Num Non fixed SIGMAs = {model.estimated_sigma_num}\n")
             output.write(f"Original run directory = {self.run_dir}\n")
-
-    def cleanup(self):
-        self.adapter.cleanup(self.run_dir, self.file_stem)
 
 
 def write_best_model_files(control_path: str, result_path: str):

@@ -120,7 +120,7 @@ def run_downhill(template: Template, pop: Population):  # only return new models
             log.message(f"Starting downhill step {this_step},"
                         f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
 
-            population.run_all()
+            population.run()
 
             if not keep_going():
                 break
@@ -246,7 +246,7 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
 
         population = Population.from_codes(model_template, full_generation, test_models, ModelCode.from_min_binary)
 
-        population.run_all()
+        population.run()
 
         if not keep_going():
             break

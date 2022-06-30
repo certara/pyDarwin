@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import subprocess
+import pathlib
 
 from os.path import exists
 
@@ -63,7 +64,9 @@ class Options:
     def get(self, key, default):
         return self._options.get(key, default)
 
-    def _init_options(self, folder, opts: dict):
+    def _init_options(self, folder, options_file: str):
+        opts = json.loads(open(options_file, 'r').read())
+
         self._options = opts
 
         self.engine_adapter = opts.get('engine_adapter', 'nonmem')
@@ -73,7 +76,7 @@ class Options:
 
         self.num_parallel = opts.get('num_parallel', 4)
 
-        self.home_dir = folder or opts.get('homeDir')
+        self.home_dir = folder or opts.get('homeDir') or pathlib.Path(options_file).parent
         self.crash_value = opts.get('crash_value', 99999999)
         self.remove_run_dir = opts.get('remove_run_dir', False)
 
@@ -151,13 +154,13 @@ class Options:
         else:
             log.message("Not using Post Run Python code")
 
-    def initialize(self, folder, options_file):
+    def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):
             log.error(f"Couldn't find options file '{options_file}', exiting")
             sys.exit()
 
         try:
-            self._init_options(folder, json.loads(open(options_file, 'r').read()))
+            self._init_options(folder, options_file)
         except Exception as error:
             log.error(str(error))
             log.error(f"Failed to parse JSON options in '{options_file}', exiting")

@@ -1,6 +1,7 @@
 import sys
 import os
 from os.path import exists
+import json
 
 from abc import ABC
 
@@ -12,7 +13,7 @@ import traceback
 
 from darwin.Log import log
 from darwin.options import options
-from darwin.execution_man import interrupted
+from darwin.execution_man import interrupted, keep_going
 
 import darwin.utils as utils
 import darwin.GlobalVars as GlobalVars
@@ -21,7 +22,7 @@ from .Model import Model
 from .ModelResults import ModelResults
 from .ModelEngineAdapter import ModelEngineAdapter, get_engine_adapter
 
-files_checked = utils.AtomicFlag(False)
+files_checked = False
 
 JSON_ATTRIBUTES = [
     'model_num', 'generation',
@@ -128,7 +129,7 @@ class ModelRun(ABC):
 
         return run
 
-    def _cleanup_run_dir(self):
+    def _prepare_run_dir(self):
         try:
             gen_path = os.path.join(options.home_dir, self.generation)
 
@@ -153,7 +154,7 @@ class ModelRun(ABC):
         Constructs the control file from the template and the model code.
         """
 
-        self._cleanup_run_dir()
+        self._prepare_run_dir()
 
         utils.remove_file(self.control_file_name)
         utils.remove_file(self.output_file_name)
@@ -162,19 +163,19 @@ class ModelRun(ABC):
             f.write(self.model.control)
             f.flush()
 
-    def check_files_present(self):
+    def _check_files_present(self):
         """
         Checks if required files are present.
         """
 
         global files_checked
 
-        if files_checked.set(True):
+        if files_checked:
             return
 
-        cwd = os.getcwd()
+        files_checked = True
 
-        self._make_control_file()
+        cwd = os.getcwd()
 
         os.chdir(self.run_dir)
 
@@ -196,7 +197,7 @@ class ModelRun(ABC):
                     log.message(f"Data set # {this_data_set} was found: {this_file}")
                     this_data_set += 1
         except:
-            log.error(f"Unable to check if data set is present with current version of NONMEM")
+            log.error(f"Unable to check if data set is present")
             sys.exit()
 
         os.chdir(cwd)
@@ -207,7 +208,12 @@ class ModelRun(ABC):
         After model is run, the post run R code and post run Python code (if used) is run, and
         the calc_fitness function is called to calculate the fitness/reward.
         """
+        if not keep_going():
+            return
+
         self._make_control_file()
+
+        self._check_files_present()
 
         command = self.adapter.get_model_run_command(self)
 
@@ -217,8 +223,6 @@ class ModelRun(ABC):
 
         try:
             self.status = "Running model"
-
-            os.chdir(self.run_dir)
 
             run_process = Popen(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.run_dir,
                                 creationflags=options.model_run_priority)
@@ -249,8 +253,6 @@ class ModelRun(ABC):
             self.status = "Done"
 
         self.adapter.cleanup(self.run_dir, self.file_stem)
-
-        return
 
     def _decode_r_stdout(self, r_stdout):
         res = self.result
@@ -338,14 +340,6 @@ class ModelRun(ABC):
 
         return True
 
-    def copy_model(self):
-        """
-        Copies the folder contents from a saved model to the new model destination, used so a model that has already
-        been run (and saved in the all_models dict) is copied into the new run directory and the control file name
-        and output file name in the new model is updated.
-        """
-        pass
-
     def _calc_fitness(self):
         """
         Calculates the fitness, based on the model output, and the penalties (from the options file).
@@ -355,11 +349,11 @@ class ModelRun(ABC):
         try:
             engine = self.adapter
 
+            res = self.result
+
+            res.prd_err, res.nm_translation_message = engine.get_error_messages(self)
+
             if engine.read_model(self) and engine.read_results(self):
-                res = self.result
-
-                res.prd_err, res.nm_translation_message = engine.get_error_messages(self)
-
                 res.calc_fitness(self.model)
 
         except:
@@ -381,6 +375,16 @@ class ModelRun(ABC):
             output.write(f"Num Non fixed OMEGAs = {model.estimated_omega_num}\n")
             output.write(f"Num Non fixed SIGMAs = {model.estimated_sigma_num}\n")
             output.write(f"Original run directory = {self.run_dir}\n")
+
+
+def run_to_json(run: ModelRun, file: str):
+    with open(file, 'w', encoding='utf-8') as f:
+        json.dump(run.to_dict(), f, indent=4, sort_keys=True, ensure_ascii=False)
+
+
+def json_to_run(file: str) -> ModelRun:
+    with open(file) as f:
+        return ModelRun.from_dict(json.load(f))
 
 
 def write_best_model_files(control_path: str, result_path: str):

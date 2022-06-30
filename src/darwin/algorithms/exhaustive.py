@@ -49,7 +49,7 @@ def run_exhaustive(model_template: Template) -> ModelRun:
         pop = Population.from_codes(model_template, '0', codes[start:start + max_models], ModelCode.from_int,
                                     start_number=start)
 
-        pop.run_all()
+        pop.run()
 
         log.message(f"Current Best fitness = {GlobalVars.BestRun.result.fitness}")
 

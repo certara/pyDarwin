@@ -1,13 +1,12 @@
 import sys
 import os
-import json
 
 from darwin.options import options
 from darwin.execution_man import start_execution_manager
 
 import darwin.NMEngineAdapter
 
-from .ModelRun import ModelRun
+from .ModelRun import ModelRun, run_to_json, json_to_run
 from .ModelResults import ModelResults
 
 
@@ -19,22 +18,15 @@ def run_model(run: ModelRun) -> ModelRun:
 
 
 if __name__ == '__main__':
-    run_dir = sys.argv[1]
-    json_file = sys.argv[2] if len(sys.argv) > 2 else 'model_run.json'
-    options_file = sys.argv[3] if len(sys.argv) > 3 else 'options.json'
+    json_file = sys.argv[1]
+    options_file = sys.argv[2] if len(sys.argv) > 2 else 'options.json'
 
-    if os.path.isdir(run_dir):
-        os.chdir(run_dir)
-
-    options.initialize(run_dir, options_file)
+    options.initialize(options_file)
 
     darwin.NMEngineAdapter.register()
 
     start_execution_manager()
 
-    with open(json_file) as f:
-        m = json.load(f)
+    r = run_model(json_to_run(json_file))
 
-    r = run_model(ModelRun.from_dict(m))
-
-    print(r.result.to_dict())
+    run_to_json(r, os.path.join(options.home_dir, 'results', r.file_stem + '.json'))

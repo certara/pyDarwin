@@ -298,7 +298,7 @@ def f(x, model_template, iteration):
 
     pop = Population.from_codes(model_template, iteration, pop_full_bits, ModelCode.from_full_binary)
 
-    pop.run_all()
+    pop.run()
 
     j = [r.result.fitness for r in pop.runs]
 

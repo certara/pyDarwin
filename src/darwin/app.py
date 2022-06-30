@@ -11,6 +11,7 @@ from darwin.execution_man import start_execution_manager
 
 import darwin.NMEngineAdapter
 import darwin.MemoryModelCache
+import darwin.ModelRunManager
 
 from .Template import Template
 from .ModelRun import ModelRun
@@ -73,7 +74,7 @@ def init_app(options_file: str, folder: str = None):
     # if running in folder, options_file may be a relative path, so need to cd to the folder first
     _go_to_folder(folder)
 
-    options.initialize(folder, options_file)
+    options.initialize(options_file, folder)
 
     # if folder is not provided, then it must be set in options
     if not folder:
@@ -91,6 +92,7 @@ def init_app(options_file: str, folder: str = None):
 
     darwin.NMEngineAdapter.register()
     darwin.MemoryModelCache.register()
+    darwin.ModelRunManager.register()
 
     _init_model_results()
 

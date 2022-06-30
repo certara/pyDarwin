@@ -50,7 +50,7 @@ class _GARunner:
         population = Population.from_codes(self.template, self.generation, self.pop_full_bits,
                                            ModelCode.from_full_binary)
 
-        population.run_all()
+        population.run()
 
         if not keep_going():
             return population, False

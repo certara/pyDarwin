@@ -369,6 +369,7 @@ class PipelineStep:
         if self._workers:
             raise RuntimeError(f"{self.name} is already running")
 
+        # for current purposes is good enough, for computation intensive problem need to utilize multiprocessing.Process
         self._workers = [threading.Thread(target=self._thread_fun, args=(i,)) for i in range(self._size)]
 
         for w in self._workers:

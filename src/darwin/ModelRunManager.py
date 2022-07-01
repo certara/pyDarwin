@@ -31,7 +31,14 @@ class ModelRunManager(ABC):
         pass
 
     def _preprocess_runs(self, runs: list):
-        pass
+        return runs
+
+    def _process_runs(self, runs: list):
+        pipe = self._create_model_pipeline(runs)
+
+        pipe.put(runs)
+
+        return sorted(pipe.results(), key=lambda r: r.model_num)
 
     def _postprocess_runs(self, runs: list):
         if not keep_going():
@@ -46,12 +53,7 @@ class ModelRunManager(ABC):
         except:
             traceback.print_exc()
 
-    def _process_runs(self, runs: list):
-        pipe = self._create_model_pipeline(runs)
-
-        pipe.put(runs)
-
-        return sorted(pipe.results(), key=lambda r: r.model_num)
+        return runs
 
     def run_all(self, runs: list):
         """
@@ -59,11 +61,13 @@ class ModelRunManager(ABC):
         for downhill, will need to convert to minimal binary, then to integer.
         """
 
-        self._preprocess_runs(runs)
+        runs = self._preprocess_runs(runs)
 
-        self._process_runs(runs)
+        runs = self._process_runs(runs)
 
-        self._postprocess_runs(runs)
+        runs = self._postprocess_runs(runs)
+
+        return runs
 
 
 class LocalRunManager(ModelRunManager):

@@ -20,7 +20,6 @@ from .ModelCache import set_model_cache, create_model_cache
 from .algorithms.exhaustive import run_exhaustive
 from .algorithms.GA import run_ga
 from .algorithms.OPT import run_skopt
-from .algorithms.PSO import run_pso
 
 
 def run_template(model_template: Template) -> ModelRun:
@@ -35,8 +34,6 @@ def run_template(model_template: Template) -> ModelRun:
         final = run_ga(model_template)
     elif algorithm in ["EX", "EXHAUSTIVE"]:
         final = run_exhaustive(model_template)
-    elif algorithm == "PSO":
-        final = run_pso(model_template)
     else:
         log.error(f"Algorithm {algorithm} is not available")
         sys.exit()

@@ -1,0 +1,55 @@
+{
+ 
+	"V2~WT": [
+		["",
+		 ""
+		],
+		["*CWTKG**THETA(V2~WT)",
+			"  (-4,0.8,4) \t; THETA(V2~WT) POWER volume ~WT "
+		]
+	],
+
+	"V2~GENDER": [
+		["",
+			""
+		],
+		["*CWTKG**THETA(V2~GENDER)",
+			"  (-4,0.1,4) \t; THETA(V2~GENDER) POWER volume ~SEX "
+		]
+	],
+	"CL~WT": [
+		["",
+			""
+		],
+		["*CWTKG**THETA(CL~WT)",
+			"  (-4,.7,4) \t; THETA(CL~WT) POWER clearance~WT "
+		] 
+	],
+    "KAETA": [
+		["",
+		 ""
+		],
+		["*EXP(ETA(KAETA)) ",
+			"0.1"
+		]
+	],
+	"ALAG": [
+		["",
+			"",
+			""
+		],
+		["ALAG1 = THETA(ALAG)",
+			"  (0, 0.1,3) \t; THETA(ALAG) ALAG1 "
+		]
+	] ,
+	"RESERR": [
+		["*EXP(EPS(RESERRA))+EPS(RESERRB)",
+			"  0.3 \t; EPS(RESERRA) proportional error\n  0.3 \t; EPS(RESERRB) additive error"
+		],
+		["+EPS(RESERRA)",
+			"  3000 \t; EPS(RESERRA) additive error"
+		]
+	],
+	"Search_OMEGA": true,
+	"max_Omega_size": 3
+}

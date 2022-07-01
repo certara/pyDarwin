@@ -75,9 +75,9 @@ def init_app(options_file: str, folder: str = None):
 
     # if folder is not provided, then it must be set in options
     if not folder:
-        _go_to_folder(options.home_dir)
+        _go_to_folder(options.project_dir)
 
-    log_file = os.path.join(options.home_dir, "messages.txt")
+    log_file = os.path.join(options.project_dir, "messages.txt")
 
     utils.remove_file(log_file)
 
@@ -85,7 +85,7 @@ def init_app(options_file: str, folder: str = None):
 
     log.message(f"Options file found at {options_file}")
 
-    GlobalVars.init_global_vars(options.home_dir)
+    GlobalVars.init_global_vars(options.project_dir)
 
     darwin.NMEngineAdapter.register()
     darwin.MemoryModelCache.register()

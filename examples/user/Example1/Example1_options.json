@@ -1,6 +1,6 @@
 {
 	"author": "Mark Sale",
-	"homeDir": "C:\\fda\\pydarwin\\examples\\Example1",
+	"project_dir": "C:\\fda\\pydarwin\\examples\\Example1",
 	"algorithm":"EXHAUSTIVE",
 	"random_seed": 11,  
 	"max_model_list_size": 500,

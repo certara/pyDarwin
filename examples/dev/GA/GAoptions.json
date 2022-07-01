@@ -1,6 +1,6 @@
 {
 	"author": "Mark Sale",
-	"homeDir": "c:\\fda\\FDA-OGD-ML\\examples\\GA",
+	"project_dir": "c:\\fda\\FDA-OGD-ML\\examples\\GA",
 	"algorithm":"GA",
 	"random_seed": 11,
 	"population_size": 10,

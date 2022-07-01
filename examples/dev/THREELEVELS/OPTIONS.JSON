@@ -1,6 +1,6 @@
 {
 	"author": "Mark Sale",
-	"homeDir": "C:\\fda\\pyDarwin\\examples\\THREELEVELS",
+	"project_dir": "C:\\fda\\pyDarwin\\examples\\THREELEVELS",
 	"algorithm":"EX",
 	"random_seed": 11, 
 	"population_size": 40,

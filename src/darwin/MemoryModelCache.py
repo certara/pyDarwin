@@ -46,7 +46,7 @@ class MemoryModelCache(ModelCache):
         return deepcopy(self.all_runs.get(genotype))
 
     def load(self):
-        default_models_file = os.path.join(options.home_dir, ALL_MODELS_FILE)
+        default_models_file = os.path.join(options.project_dir, ALL_MODELS_FILE)
 
         GlobalVars.SavedModelsFile = default_models_file
 

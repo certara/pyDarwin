@@ -101,10 +101,10 @@ final = run_search("C:\\fda\\pyDarwin\\examples\\Example5\\Example5_template.txt
                    "C:\\fda\\pyDarwin\\examples\\Example5\\Example5_tokens.json",
                    "C:\\fda\\pyDarwin\\examples\\Example5\\Example5_options.json")
  
-with open(os.path.join(options.home_dir, "finalModel.mod"), "w") as final_control:
+with open(os.path.join(options.project_dir, "finalModel.mod"), "w") as final_control:
     final_control.write(final.model.control)
-if os.path.exists(os.path.join(options.home_dir, final.output_file_name)):
-    os.remove(os.path.join(options.home_dir, final.output_file_name))
+if os.path.exists(os.path.join(options.project_dir, final.output_file_name)):
+    os.remove(os.path.join(options.project_dir, final.output_file_name))
 if final.output_file_name is not None:
     shutil.copyfile(os.path.join(final.run_dir, final.output_file_name),
-                    os.path.join(options.home_dir, "finaloutput.lst"))
+                    os.path.join(options.project_dir, "finaloutput.lst"))

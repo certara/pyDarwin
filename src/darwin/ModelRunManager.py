@@ -80,7 +80,7 @@ class RemoteRunManager(ModelRunManager):
     def __init__(self):
         global _runs_dir
 
-        _runs_dir = os.path.join(options.home_dir, 'runs')
+        _runs_dir = os.path.join(options.project_dir, 'runs')
 
         utils.remove_dir(_runs_dir)
 

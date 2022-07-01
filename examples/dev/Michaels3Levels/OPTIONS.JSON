@@ -1,6 +1,6 @@
 {
 	"author": "Mark Sale",
-	"homeDir": "C:\\fda\\pyDarwin\\examples\\Michaels3levels",
+	"project_dir": "C:\\fda\\pyDarwin\\examples\\Michaels3levels",
 	"algorithm":"EX",
 	"random_seed": 11,  
 	"max_model_list_size": 500,

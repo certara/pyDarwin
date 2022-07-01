@@ -32,8 +32,8 @@ def _stop_mon():
     stop = False
     soft_stop = False
 
-    stop_file = os.path.join(options.home_dir, 'stop.darwin')
-    soft_stop_file = os.path.join(options.home_dir, 'soft_stop.darwin')
+    stop_file = os.path.join(options.project_dir, 'stop.darwin')
+    soft_stop_file = os.path.join(options.project_dir, 'soft_stop.darwin')
 
     utils.remove_file(stop_file)
     utils.remove_file(soft_stop_file)

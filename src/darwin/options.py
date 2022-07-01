@@ -76,7 +76,7 @@ class Options:
 
         self.num_parallel = opts.get('num_parallel', 4)
 
-        self.home_dir = folder or opts.get('homeDir') or pathlib.Path(options_file).parent
+        self.project_dir = folder or opts.get('project_dir') or pathlib.Path(options_file).parent
         self.crash_value = opts.get('crash_value', 99999999)
         self.remove_run_dir = opts.get('remove_run_dir', False)
 

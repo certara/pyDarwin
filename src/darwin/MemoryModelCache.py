@@ -46,15 +46,15 @@ class MemoryModelCache(ModelCache):
         return deepcopy(self.all_runs.get(genotype))
 
     def load(self):
-        default_models_file = os.path.join(options.project_dir, ALL_MODELS_FILE)
+        default_models_file = os.path.join(options.output_dir, ALL_MODELS_FILE)
 
         GlobalVars.SavedModelsFile = default_models_file
 
         utils.remove_file(default_models_file)
 
-        prev_list = options.get('PreviousModelsList', 'none')
+        prev_list = options.prev_model_list
 
-        if options.get("usePreviousModelsList", False) and prev_list.lower() != 'none':
+        if options.use_prev_models and prev_list:
             try:
                 models_list = Path(prev_list)
 

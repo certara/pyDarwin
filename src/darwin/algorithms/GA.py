@@ -123,6 +123,9 @@ def run_ga(model_template: Template) -> ModelRun:
     # Begin evolution
 
     while runner.generation < num_generations:
+        if not keep_going():
+            break
+
         population, cont = runner.run_generation()
 
         if not cont:

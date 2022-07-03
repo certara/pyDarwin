@@ -88,7 +88,7 @@ class ModelRun(ABC):
 
         self.file_stem = adapter.get_stem(generation, model_num)
 
-        self.run_dir = os.path.join(options.project_dir, self.generation, str(self.model_num))
+        self.run_dir = os.path.join(options.temp_dir, self.generation, str(self.model_num))
 
         self.status = "Not Started"
 
@@ -131,10 +131,6 @@ class ModelRun(ABC):
 
     def _prepare_run_dir(self):
         try:
-            gen_path = os.path.join(options.project_dir, self.generation)
-
-            utils.remove_file(gen_path)
-
             utils.remove_file(self.run_dir)
             utils.remove_dir(self.run_dir)
 

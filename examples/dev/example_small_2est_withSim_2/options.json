@@ -39,6 +39,6 @@
 	"postRunRCode": "simplefunc.r",
 	"usePython": true,
 	"postRunPythonCode": "./simplefunc_local.py",
-	"nmfePath": "c:/nm74g64/util/nmfe74.bat " ,
-	"RScriptPath": "c:\\Program Files\\R\\R-4.0.2\\bin\\Rscript.exe"
+	"nmfePath": "c:/nm74g64/util/nmfe74.bat",
+	"RScriptPath": "c:/Program Files/R/R-4.0.2/bin/Rscript.exe"
 }

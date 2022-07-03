@@ -37,8 +37,8 @@
     "NM_timeout_sec": 1200,
     "R_timeout_sec": 30,
 	"useR": false,
-	"usePreviousModelsList": true,
-	"PreviousModelsList": "c:/fda/FDA-OGD-ML/examples/rateExample/apr18.json",
+	"use_prev_models": true,
+	"prev_model_list": "c:/fda/FDA-OGD-ML/examples/rateExample/apr18.json",
 	"usePython": false,
 	"nmfePath": "c:/nm744/util/nmfe74.bat",
 	"RScriptPath": "c:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe"

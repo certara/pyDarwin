@@ -65,6 +65,8 @@ class Template:
         self.var_omega_block = _get_variable_block(omega_block)
         self.var_sigma_block = _get_variable_block(sigma_block)
 
+        self.template_text = options.apply_aliases(self.template_text)
+
     def _get_gene_length(self):
         """ argument is the token sets, returns maximum value of token sets and number of bits"""
 

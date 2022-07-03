@@ -17,7 +17,7 @@ from .ModelCache import get_model_cache
 
 import darwin.GlobalVars as GlobalVars
 from darwin.utils import Pipeline
-from darwin.execution_man import keep_going
+from darwin.execution_man import keep_going, wait_for_subprocesses
 
 _model_run_man = None
 
@@ -25,6 +25,19 @@ _runs_dir = '.'
 
 
 class ModelRunManager(ABC):
+
+    @staticmethod
+    def init_folders():
+        log.message('Preparing project output folder...')
+
+        if not os.path.exists(options.output_dir):
+            os.makedirs(options.output_dir)
+
+        log.message('Done')
+
+    @staticmethod
+    def cleanup_folders():
+        pass
 
     @abstractmethod
     def _create_model_pipeline(self, runs: list) -> Pipeline:
@@ -79,12 +92,38 @@ class LocalRunManager(ModelRunManager):
 
         return pipe
 
+    @staticmethod
+    def init_folders():
+        ModelRunManager.init_folders()
+
+        log.message('Preparing project temp folder...')
+
+        utils.remove_dir(options.temp_dir)
+        os.makedirs(options.temp_dir)
+
+        log.message('Done')
+
+    @staticmethod
+    def cleanup_folders():
+        if options.remove_temp_dir:
+            log.message('Removing project temp folder...')
+
+            if not wait_for_subprocesses(5):
+                log.warn('Not all subprocesses have been terminated yet, cannot proceed.')
+                return
+
+            try:
+                utils.remove_dir(options.temp_dir)
+                log.message('Done')
+            except OSError:
+                log.error(f"Cannot remove folder {options.temp_dir}")
+
 
 class RemoteRunManager(ModelRunManager):
     def __init__(self):
         global _runs_dir
 
-        _runs_dir = os.path.join(options.project_dir, 'runs')
+        _runs_dir = os.path.join(options.temp_dir, 'runs')
 
         utils.remove_dir(_runs_dir)
 

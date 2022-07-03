@@ -67,29 +67,36 @@ def _init_model_results():
                           f"ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages\n")
 
 
-def init_app(options_file: str, folder: str = None):
+def _init_app(options_file: str, folder: str = None):
     # if running in folder, options_file may be a relative path, so need to cd to the folder first
     _go_to_folder(folder)
 
-    options.initialize(options_file, folder)
+    log.message(f"Options file found at {options_file}")
 
+    options.initialize(options_file, folder)
     # if folder is not provided, then it must be set in options
     if not folder:
         _go_to_folder(options.project_dir)
 
-    log_file = os.path.join(options.project_dir, "messages.txt")
+    darwin.ModelRunManager.register()
+
+    darwin.ModelRunManager.get_run_manager().init_folders()
+
+    log_file = os.path.join(options.output_dir, "messages.txt")
 
     utils.remove_file(log_file)
 
     log.initialize(log_file)
 
-    log.message(f"Options file found at {options_file}")
+    log.message(f"Project dir: {options.project_dir}")
+    log.message(f"Data dir: {options.data_dir}")
+    log.message(f"Project temp dir: {options.temp_dir}")
+    log.message(f"Project output dir: {options.output_dir}")
 
-    GlobalVars.init_global_vars(options.project_dir)
+    GlobalVars.init_global_vars(options.output_dir)
 
     darwin.NMEngineAdapter.register()
     darwin.MemoryModelCache.register()
-    darwin.ModelRunManager.register()
 
     _init_model_results()
 
@@ -98,7 +105,7 @@ def init_app(options_file: str, folder: str = None):
 
 class DarwinApp:
     def __init__(self, options_file: str, folder: str = None):
-        init_app(options_file, folder)
+        _init_app(options_file, folder)
 
         self.cache = create_model_cache(options.model_cache_class)
 
@@ -108,3 +115,5 @@ class DarwinApp:
         self.cache.finalize()
 
         set_model_cache(None)
+
+        darwin.ModelRunManager.get_run_manager().cleanup_folders()

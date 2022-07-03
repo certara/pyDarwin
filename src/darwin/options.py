@@ -3,6 +3,7 @@ import sys
 import json
 import subprocess
 import pathlib
+import tempfile
 
 from os.path import exists
 
@@ -19,6 +20,18 @@ def _get_mandatory_option(opts: dict, name, for_what=None):
             err += f' for {for_what}'
 
         raise RuntimeError(err)
+
+    return res
+
+
+def _calc_option(option, aliases: dict):
+    if not option:
+        return option
+
+    res = str(option)
+
+    for alias, text in aliases.items():
+        res = res.replace('{' + alias + '}', text)
 
     return res
 
@@ -64,6 +77,9 @@ class Options:
     def get(self, key, default):
         return self._options.get(key, default)
 
+    def apply_aliases(self, text: str) -> str:
+        return _calc_option(text, self.aliases)
+
     def _init_options(self, folder, options_file: str):
         opts = json.loads(open(options_file, 'r').read())
 
@@ -76,9 +92,34 @@ class Options:
 
         self.num_parallel = opts.get('num_parallel', 4)
 
-        self.project_dir = folder or opts.get('project_dir') or pathlib.Path(options_file).parent
-        self.crash_value = opts.get('crash_value', 99999999)
+        options_file_parent = pathlib.Path(os.path.abspath(options_file)).parent
+
+        self.project_name = opts.get('project_name') or options_file_parent.name
+
+        self.project_dir = folder or opts.get('project_dir') or options_file_parent
+
+        project_dir_alias = {'project_dir': self.project_dir}
+
+        self.data_dir = _calc_option(opts.get('data_dir'), project_dir_alias) or self.project_dir
+        self.output_dir = _calc_option(opts.get('output_dir'), project_dir_alias) \
+            or os.path.join(self.project_dir, 'output')
+        self.temp_dir = _calc_option(opts.get('temp_dir'), project_dir_alias) \
+            or os.path.join(tempfile.gettempdir(), 'pydarwin', self.project_name)
+
+        self.aliases = {
+            'project_dir': self.project_dir,
+            'data_dir': self.data_dir,
+            'output_dir': self.output_dir,
+            'temp_dir': self.temp_dir,
+        }
+
+        self.prev_model_list = _calc_option(opts.get('prev_model_list'), self.aliases)
+        self.use_prev_models = opts.get('use_prev_models', False)
+
+        self.remove_temp_dir = opts.get('remove_temp_dir', True)
         self.remove_run_dir = opts.get('remove_run_dir', False)
+
+        self.crash_value = opts.get('crash_value', 99999999)
 
         self.algorithm = _get_mandatory_option(opts, 'algorithm')
 

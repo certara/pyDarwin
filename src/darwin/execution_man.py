@@ -11,6 +11,8 @@ import darwin.utils as utils
 
 _keep_going = utils.AtomicFlag(True)
 _hard_stop = utils.AtomicFlag(False)
+_all_finished_flag = False
+_all_finished = threading.Condition()
 
 
 def keep_going() -> bool:
@@ -19,6 +21,14 @@ def keep_going() -> bool:
 
 def interrupted() -> bool:
     return _hard_stop.get()
+
+
+def wait_for_subprocesses(timeout: int) -> bool:
+    with _all_finished:
+        if _all_finished_flag:
+            return True
+
+        return _all_finished.wait(timeout)
 
 
 def start_execution_manager():
@@ -32,8 +42,8 @@ def _stop_mon():
     stop = False
     soft_stop = False
 
-    stop_file = os.path.join(options.project_dir, 'stop.darwin')
-    soft_stop_file = os.path.join(options.project_dir, 'soft_stop.darwin')
+    stop_file = os.path.join(options.output_dir, 'stop.darwin')
+    soft_stop_file = os.path.join(options.output_dir, 'soft_stop.darwin')
 
     utils.remove_file(stop_file)
     utils.remove_file(soft_stop_file)
@@ -55,3 +65,9 @@ def _stop_mon():
 
         for p in psutil.Process().children(True):
             p.terminate()
+
+    # if soft_stopped all subprocesses should be finished by the time it goes to delete temp_dir
+    with _all_finished:
+        global _all_finished_flag
+        _all_finished.notify_all()
+        _all_finished_flag = True

@@ -98,6 +98,10 @@ class LocalRunManager(ModelRunManager):
 
         log.message('Preparing project temp folder...')
 
+        if os.path.isdir(options.temp_dir) and _conflict_project_dirs():
+            log.warn("Won't delete project temp folder")
+            return
+
         utils.remove_dir(options.temp_dir)
         os.makedirs(options.temp_dir)
 
@@ -106,6 +110,10 @@ class LocalRunManager(ModelRunManager):
     @staticmethod
     def cleanup_folders():
         if options.remove_temp_dir:
+            if _conflict_project_dirs():
+                log.warn("Won't delete project temp folder")
+                return
+
             log.message('Removing project temp folder...')
 
             if not wait_for_subprocesses(5):
@@ -245,3 +253,11 @@ def get_run_manager():
 
 def register():
     set_run_manager(LocalRunManager())
+
+
+def _conflict_project_dirs() -> bool:
+    if any(os.path.samefile(options.temp_dir, path)
+           for path in [options.project_dir, options.data_dir, options.output_dir]):
+        return True
+
+    return False

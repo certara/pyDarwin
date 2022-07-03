@@ -1,6 +1,6 @@
 $PROBLEM ex2
 $INPUT ID TIME AMT DV WT GENDER AGE DROP
-$DATA ..\..\datalarge.csv IGNORE=@
+$DATA {data_dir}/datalarge.csv IGNORE=@
 $SUBROUTINE {ADVAN[1]}
 $PK
 {ADVAN[2]} ; CL

@@ -170,7 +170,9 @@ class Options:
 
             log.message(f"RScript.exe found at {rscript_path}")
 
-            self.postRunRCode = os.path.abspath(_get_mandatory_option(opts, 'postRunRCode'))
+            rr = _calc_option(_get_mandatory_option(opts, 'postRunRCode'), project_dir_alias)
+
+            self.postRunRCode = os.path.abspath(rr)
 
             if not exists(self.postRunRCode):
                 raise RuntimeError(f"Post Run R code path {self.postRunRCode} seems to be missing")
@@ -180,14 +182,11 @@ class Options:
             log.message("Not using Post Run R code")
 
         if self.use_python:
-            python_post_process_path = os.path.abspath(_get_mandatory_option(opts, 'postRunPythonCode'))
+            rp = _calc_option(_get_mandatory_option(opts, 'postRunPythonCode'), project_dir_alias)
+
+            python_post_process_path = os.path.abspath(rp)
 
             if not os.path.isfile(python_post_process_path):
-                raise RuntimeError("postRunPythonCode " + python_post_process_path + " was not found")
-            else:
-                log.message("postRunPythonCode " + python_post_process_path + " found")
-
-            if not exists(python_post_process_path):
                 raise RuntimeError(f"Post Run Python code path {python_post_process_path} seems to be missing")
             else:
                 log.message(f"Post Run Python code found at {python_post_process_path}")

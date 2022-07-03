@@ -37,9 +37,9 @@
     "NM_timeout_sec": 1200,
     "R_timeout_sec": 30,
 	"useR": true,
-	"postRunRCode": "c:/fda/FDA-OGD-ML/examples/RF/simplefunc.r",
+	"postRunRCode": "{project_dir}/simplefunc.r",
 	"usePython": true,
-	"postRunPythonCode": "../simplefunc_common.py",
+	"postRunPythonCode": "{project_dir}/../simplefunc_common.py",
 	"nmfePath": "c:/nm75g64/util/nmfe75.bat",
 	"RScriptPath": "c:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe"
 }

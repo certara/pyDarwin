@@ -36,9 +36,9 @@
     "NM_timeout_sec": 1200,
     "R_timeout_sec": 30,
 	"useR": true,
-	"postRunRCode": "simplefunc.r",
+	"postRunRCode": "{project_dir}/simplefunc.r",
 	"usePython": true,
-	"postRunPythonCode": "./simplefunc_local.py",
+	"postRunPythonCode": "{project_dir}/simplefunc_local.py",
 	"nmfePath": "c:/nm74g64/util/nmfe74.bat",
 	"RScriptPath": "c:/Program Files/R/R-4.0.2/bin/Rscript.exe"
 }

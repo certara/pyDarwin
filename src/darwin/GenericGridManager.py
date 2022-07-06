@@ -49,7 +49,7 @@ class GenericGridManager(GridManager):
         self.submit_job_id_re = re.compile(opts['submit_job_id_re'])
         self.poll_command = opts['poll_command'].split(' ')
         self.poll_job_id_re = re.compile(opts['poll_job_id_re'])
-        self.delete_command = opts['delete_command']
+        self.delete_command = opts['delete_command'].split(' ')
         self.python_path = opts['python_path']
 
     def add_model_run(self, run: ModelRun):

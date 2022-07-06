@@ -94,7 +94,9 @@ class Options:
 
         self.num_parallel = opts.get('num_parallel', 4)
 
-        options_file_parent = pathlib.Path(os.path.abspath(options_file)).parent
+        self.options_file = os.path.abspath(options_file)
+
+        options_file_parent = pathlib.Path(self.options_file).parent
 
         self.project_name = opts.get('project_name') or options_file_parent.name
 

@@ -61,11 +61,9 @@ class GenericGridManager(GridManager):
             self.jobs[job.id] = job
 
     def submit(self, job: GridJob) -> bool:
-        options_path = ''
-
         command = self.submit_command + [
             self.submit_job_name_arg, job.name, self.python_path, '-m', 'darwin.run_model',
-            job.input_path, job.output_path, options_path
+            job.input_path, job.output_path, options.options_file
         ]
 
         out = _run_process(command, f'Failed to submit a job: {job.name}')
@@ -90,7 +88,7 @@ class GenericGridManager(GridManager):
         remaining = {_get_job_name(r): r for r in runs}
         finished = []
 
-        for line in out.split('\n'):
+        for line in out.split('\\n'):
             job_id = self._parse_poll_line(line)
 
             if not job_id:

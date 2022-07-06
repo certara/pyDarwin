@@ -12,6 +12,7 @@ from darwin.execution_man import start_execution_manager
 import darwin.NMEngineAdapter
 import darwin.MemoryModelCache
 import darwin.ModelRunManager
+import darwin.PipelineRunManager
 
 from .Template import Template
 from .ModelRun import ModelRun
@@ -78,9 +79,13 @@ def _init_app(options_file: str, folder: str = None):
     if not folder:
         _go_to_folder(options.project_dir)
 
-    darwin.ModelRunManager.register()
+    darwin.PipelineRunManager.register()
 
-    darwin.ModelRunManager.get_run_manager().init_folders()
+    run_man = darwin.ModelRunManager.create_model_run_man(options.model_run_man)
+
+    run_man.init_folders()
+
+    darwin.ModelRunManager.set_run_manager(run_man)
 
     log_file = os.path.join(options.output_dir, "messages.txt")
 

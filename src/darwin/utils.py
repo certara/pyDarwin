@@ -432,9 +432,23 @@ class PipelineStep:
 
 
 class TankStep(PipelineStep):
-    def __init__(self, fn, tank_size, pipe_size=1, name='TankStep'):
+    class _TimerEvent:
+        pass
+
+    _event = _TimerEvent()
+
+    def __init__(self, fn, pump_interval, pipe_size=1, name='TankStep'):
         super(TankStep, self).__init__(fn, pipe_size, name)
-        self._tank_size = tank_size
+        self.pump_interval = pump_interval
+        self.timer = None
+        self._reset_timer(self._set_ready)
+
+    def _set_ready(self):
+        self._input.put(self._event)
+
+    def _reset_timer(self, fun):
+        self.timer = threading.Timer(self.pump_interval, fun)
+        self.timer.start()
 
     def _pump(self, tank: list):
         rest = tank
@@ -459,15 +473,35 @@ class TankStep(PipelineStep):
             if isinstance(val, self._Sentinel):
                 break
 
-            tank.append(val)
+            if isinstance(val, self._TimerEvent):
+                self.timer.cancel()
 
-            if len(tank) < self._tank_size:
+                tank = self._pump(tank)
+
+                self._reset_timer(self._set_ready)
+
                 continue
 
-            tank = self._pump(tank)
+            tank.append(val)
+
+        self.timer.cancel()
+
+        ready_to_poll = threading.Event()
+        ready_to_poll.set()
+
+        def set_ready():
+            ready_to_poll.set()
 
         while tank:
+            ready_to_poll.wait()
+            self.timer.cancel()
+
             tank = self._pump(tank)
+
+            ready_to_poll.clear()
+            self._reset_timer(set_ready)
+
+        self.timer.cancel()
 
 
 class Pipeline:

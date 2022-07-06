@@ -3,8 +3,6 @@ import os
 from os.path import exists
 import json
 
-from abc import ABC
-
 import shlex
 
 import subprocess
@@ -32,7 +30,7 @@ JSON_ATTRIBUTES = [
 ]
 
 
-class ModelRun(ABC):
+class ModelRun:
     """
     generation : int
         The current generation/iteration.
@@ -381,21 +379,3 @@ def run_to_json(run: ModelRun, file: str):
 def json_to_run(file: str) -> ModelRun:
     with open(file) as f:
         return ModelRun.from_dict(json.load(f))
-
-
-def write_best_model_files(control_path: str, result_path: str):
-    """
-    Copies the current model control file and output file to the home_directory.
-
-    :param control_path: path to current best model control file
-    :type control_path: str
-
-    :param result_path: path to current best model result file
-    :type result_path: str
-    """
-
-    with open(control_path, 'w') as control:
-        control.write(GlobalVars.BestRun.model.control)
-
-    with open(result_path, 'w') as result:
-        result.write(GlobalVars.BestModelOutput)

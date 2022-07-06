@@ -87,6 +87,8 @@ class Options:
 
         self.engine_adapter = opts.get('engine_adapter', 'nonmem')
         self.model_cache_class = opts.get('model_cache', 'darwin.MemoryModelCache')
+        self.model_run_man = opts.get('model_run_man', 'darwin.LocalRunManager')
+        self.grid_man = opts.get('grid_man', 'darwin.GenericGridManager')
 
         log.message(f"Using {self.model_cache_class}")
 
@@ -116,7 +118,7 @@ class Options:
         self.prev_model_list = _calc_option(opts.get('prev_model_list'), self.aliases)
         self.use_prev_models = opts.get('use_prev_models', False)
 
-        self.remove_temp_dir = opts.get('remove_temp_dir', True)
+        self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)
 
         self.crash_value = opts.get('crash_value', 99999999)

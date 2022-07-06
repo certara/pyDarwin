@@ -8,7 +8,8 @@ from darwin.options import options
 from darwin.execution_man import keep_going
 
 from darwin.Template import Template
-from darwin.ModelRun import ModelRun, write_best_model_files
+from darwin.Model import write_best_model_files
+from darwin.ModelRun import ModelRun
 from darwin.ModelCode import ModelCode
 from darwin.Population import Population
 
@@ -51,16 +52,19 @@ def run_exhaustive(model_template: Template) -> ModelRun:
 
         pop.run()
 
-        log.message(f"Current Best fitness = {GlobalVars.BestRun.result.fitness}")
-
         if not keep_going():
             break
+
+        log.message(f"Current Best fitness = {GlobalVars.BestRun.result.fitness}")
 
     elapsed = time.time() - GlobalVars.StartTime
 
     log.message(f"Elapse time = {elapsed / 60:.1f} minutes \n")
 
     best_overall = GlobalVars.BestRun
+
+    if not best_overall:
+        return best_overall
 
     log.message(f"Best overall fitness = {best_overall.result.fitness:.6f}, model {best_overall.model_num}")
 

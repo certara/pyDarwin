@@ -81,6 +81,9 @@ def write_best_model_files(control_path: str, result_path: str):
     :type result_path: str
     """
 
+    if not GlobalVars.BestRun:
+        return
+
     with open(control_path, 'w') as control:
         control.write(GlobalVars.BestRun.model.control)
 

@@ -44,7 +44,7 @@ class GenericGridManager(GridManager):
 
         opts = options.get('grid_manager', {})
 
-        self.submit_command = opts['submit_command']
+        self.submit_command = opts['submit_command'].split(' ')
         self.submit_job_name_arg = opts['submit_job_name_arg']
         self.submit_job_id_re = re.compile(opts['submit_job_id_re'])
         self.poll_command = opts['poll_command'].split(' ')
@@ -63,8 +63,8 @@ class GenericGridManager(GridManager):
     def submit(self, job: GridJob) -> bool:
         options_path = ''
 
-        command = [
-            self.submit_command, self.submit_job_name_arg, job.name, self.python_path, '-m', 'darwin.run_model',
+        command = self.submit_command + [
+            self.submit_job_name_arg, job.name, self.python_path, '-m', 'darwin.run_model',
             job.input_path, job.output_path, options_path
         ]
 
@@ -126,7 +126,7 @@ class GenericGridManager(GridManager):
 
 
 def _parse_id(regex, output) -> str:
-    m = regex.match(output)
+    m = regex.search(output)
 
     if not m:
         return ''

@@ -98,7 +98,7 @@ class Options:
 
         self.project_name = opts.get('project_name') or options_file_parent.name
 
-        self.project_dir = folder or opts.get('project_dir') or options_file_parent
+        self.project_dir = str(folder or opts.get('project_dir') or options_file_parent)
 
         project_dir_alias = {'project_dir': self.project_dir}
 

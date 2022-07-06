@@ -113,7 +113,14 @@ class GenericGridManager(GridManager):
 
     def remove_all(self) -> bool:
         log.message('Removing all submitted jobs...')
-        out = _run_process(self.delete_command, 'Failed to remove jobs')
+
+        if not self.jobs:
+            log.message('None left')
+            return True
+
+        command = self.delete_command + list(self.jobs.keys())
+
+        out = _run_process(command, 'Failed to remove jobs')
 
         if out is not None:
             log.message('Done')

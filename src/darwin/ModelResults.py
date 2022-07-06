@@ -21,7 +21,7 @@ class ModelResults:
         self.post_run_r_text = self.post_run_python_text = ""
         self.post_run_python_penalty = self.post_run_r_penalty = 0
 
-        self.nm_translation_message = self.prd_err = ""
+        self.message = self.error = ""
 
     def to_dict(self):
         res = {attr: self.__getattribute__(attr) for attr in JSON_ATTRIBUTES}

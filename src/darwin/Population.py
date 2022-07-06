@@ -47,12 +47,12 @@ class Population:
 
         if existing_runs:
             run = copy(existing_runs[0])
-            run.status = 'Duplicate'
+            run.status = f'Duplicate({existing_runs[0].model_num})'
+            run.model_num = self.model_number
         elif run:
             run.model_num = self.model_number
             run.generation = self.name
-            run.result.nm_translation_message = f"From saved model {run.control_file_name}: " \
-                                                + run.result.nm_translation_message
+            run.result.message = f"From {run.file_stem}: " + run.result.message
         else:
             run = ModelRun(model, self.model_number, self.name, self.adapter)
 

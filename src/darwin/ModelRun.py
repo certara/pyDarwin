@@ -345,7 +345,7 @@ class ModelRun:
 
             res = self.result
 
-            res.error, res.message = engine.get_error_messages(self)
+            res.errors, res.messages = engine.get_error_messages(self)
 
             if engine.read_model(self) and engine.read_results(self):
                 res.calc_fitness(self.model)

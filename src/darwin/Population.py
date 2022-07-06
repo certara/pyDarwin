@@ -52,7 +52,7 @@ class Population:
         elif run:
             run.model_num = self.model_number
             run.generation = self.name
-            run.result.message = f"From {run.file_stem}: " + run.result.message
+            run.result.messages = f"From {run.file_stem}: " + run.result.messages
         else:
             run = ModelRun(model, self.model_number, self.name, self.adapter)
 

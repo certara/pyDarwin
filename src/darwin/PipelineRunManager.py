@@ -78,14 +78,14 @@ class PipelineRunManager(ModelRunManager):
         if options.isGA:
             step_name = "Generation"
 
-        if len(res.error) > 0:
-            prd_err_text = ", error = " + res.error
+        if len(res.errors) > 0:
+            prd_err_text = ", error = " + res.errors
 
         with open(GlobalVars.output, "a") as result_file:
             result_file.write(f"{run.run_dir},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
                               f"{res.ofv},{res.success},{res.covariance},{res.correlation},{model.theta_num},"
                               f"{model.omega_num},{model.sigma_num},{res.condition_num},{res.post_run_r_penalty},"
-                              f"{res.post_run_python_penalty},{res.message}\n")
+                              f"{res.post_run_python_penalty},{res.messages}\n")
 
         fitness_crashed = res.fitness == options.crash_value
         fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"

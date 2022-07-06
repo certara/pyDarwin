@@ -93,7 +93,7 @@ class PipelineRunManager(ModelRunManager):
         status = run.status.rjust(14)
         log.message(
             f"{step_name} = {run.generation}, Model {run.model_num:5}, {status},"
-            f"    fitness = {fitness_text},    message = {res.message.strip()}{prd_err_text}"
+            f"    fitness = {fitness_text},    message = {res.messages.strip()}{prd_err_text}"
         )
 
         return run

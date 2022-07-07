@@ -1,6 +1,8 @@
 import os
 import time
 
+from copy import copy
+
 from abc import abstractmethod
 
 import traceback
@@ -39,6 +41,14 @@ class PipelineRunManager(ModelRunManager):
         if not keep_going():
             log.warn('Execution has stopped')
 
+        duplicates = list(filter(lambda r: r.is_duplicate(), runs))
+
+        if duplicates:
+            originals = {r.model_num: r for r in filter(lambda r: not r.is_duplicate(), runs)}
+
+            for run in duplicates:
+                run.result = copy(originals[run.reference_model_num].result)
+
         model_cache = get_model_cache()
         model_cache.dump()
 
@@ -56,7 +66,7 @@ class PipelineRunManager(ModelRunManager):
 
     @staticmethod
     def _process_run_results(run: ModelRun):
-        if run.source == 'new':
+        if run.source == 'new' and not run.is_duplicate():
             if not interrupted():
                 run.output_results()
 
@@ -191,7 +201,7 @@ class RemoteRunManager(PipelineRunManager):
 
     def _create_model_pipeline(self, runs: list) -> utils.Pipeline:
         num_parallel = min(len(runs), options.num_parallel)
-        p_i = int(options.get('grid_manager', {}).get('poll_interval', 20))
+        p_i = int(options.get('grid_manager', {}).get('poll_interval', 10))
 
         pipe = utils.Pipeline(utils.PipelineStep(self._start_remote_run, size=num_parallel, name='Start model run')) \
             .link(utils.TankStep(self._gather_results, pump_interval=p_i, pipe_size=1, name='Gather run results')) \
@@ -212,7 +222,7 @@ def _copy_to_best(run: ModelRun):
     GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
     GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
 
-    if run.source == "new":
+    if run.source == "new" and not run.is_duplicate():
         with open(os.path.join(run.run_dir, run.output_file_name)) as file:
             GlobalVars.BestModelOutput = file.read()  # only save best model, other models can be reproduced if needed
 

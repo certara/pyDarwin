@@ -97,6 +97,11 @@ class ModelRun:
         self.control_file_name, self.output_file_name, self.executable_file_name \
             = adapter.get_file_names(self.file_stem)
 
+        self.reference_model_num = -1
+
+    def is_duplicate(self) -> bool:
+        return self.reference_model_num > -1
+
     def to_dict(self):
         """
         Assembles what goes into the JSON file of saved models.

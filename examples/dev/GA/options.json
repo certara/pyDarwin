@@ -49,10 +49,9 @@
 	"usePython": true,
 	"postRunPythonCode": "{project_dir}/../simplefunc_common.py",
 
-	"use_prev_models": true,
+	"use_prev_models": false,
 	"prev_model_list": "{output_dir}/models0.json",
 
-	"model_run_man": "darwin.RemoteRunManager",
 
 	"grid_manager": {
 		"python_path": "~/venv1/Scripts/python",

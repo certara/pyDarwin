@@ -47,8 +47,9 @@ class Population:
 
         if existing_runs:
             run = copy(existing_runs[0])
-            run.status = f'Duplicate({existing_runs[0].model_num})'
             run.model_num = self.model_number
+            run.reference_model_num = existing_runs[0].model_num
+            run.status = f'Duplicate({run.reference_model_num})'
         elif run:
             run.model_num = self.model_number
             run.generation = self.name

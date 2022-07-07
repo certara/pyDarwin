@@ -192,8 +192,14 @@ class RemoteRunManager(PipelineRunManager):
 
             return [], []
 
-        saved = list(filter(lambda r: r.source == 'saved', runs))
-        submitted = list(filter(lambda r: r.source != 'saved', runs))
+        def is_submittable(run: ModelRun) -> bool:
+            return run.source != 'saved' and not run.is_duplicate()
+
+        saved = []
+        submitted = []
+
+        for r in runs:
+            (saved, submitted)[is_submittable(r)].append(r)
 
         finished, remaining = self.grid_man.poll_model_runs(submitted)
 

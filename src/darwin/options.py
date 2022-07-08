@@ -119,8 +119,8 @@ class Options:
             'temp_dir': self.temp_dir,
         }
 
-        self.prev_model_list = _calc_option(opts.get('prev_model_list'), self.aliases)
-        self.use_prev_models = opts.get('use_prev_models', False)
+        self.saved_models_file = _calc_option(opts.get('saved_models_file'), self.aliases)
+        self.use_saved_models = opts.get('use_saved_models', False)
 
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)

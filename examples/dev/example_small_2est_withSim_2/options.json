@@ -41,8 +41,8 @@
 	"nmfePath": "c:/nm74g64/util/nmfe74.bat",
 	"RScriptPath": "c:/Program Files/R/R-4.0.2/bin/Rscript.exe",
 
-	"use_prev_models": true,
-	"prev_model_list": "{output_dir}/models0.json",
+	"use_saved_models": true,
+	"saved_models_file": "{output_dir}/models0.json",
 
 	"model_run_man": "darwin.RemoteRunManager",
 

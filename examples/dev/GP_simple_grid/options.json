@@ -54,6 +54,6 @@
             "delete_command": "qdel"
     },
 
-	"use_prev_models": true,
-	"prev_model_list": "{project_dir}/models0.json"
+	"use_saved_models": true,
+	"saved_models_file": "{project_dir}/models0.json"
 }

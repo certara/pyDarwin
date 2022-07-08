@@ -52,11 +52,11 @@ class MemoryModelCache(ModelCache):
 
         utils.remove_file(default_models_file)
 
-        prev_list = options.prev_model_list
+        saved_models_file = options.saved_models_file
 
-        if options.use_prev_models and prev_list:
+        if options.use_saved_models and saved_models_file:
             try:
-                models_list = Path(prev_list)
+                models_list = Path(saved_models_file)
 
                 if models_list.is_file():
                     log.message("Loading saved models...")
@@ -79,7 +79,7 @@ class MemoryModelCache(ModelCache):
                     log.error(f"Cannot find {models_list}")
             except:
                 traceback.print_exc()
-                log.error(f"Failed to load {prev_list}")
+                log.error(f"Failed to load {saved_models_file}")
 
         log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
 

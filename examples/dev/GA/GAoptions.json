@@ -15,7 +15,6 @@
 	"convergencePenalty": 100,
 	"covariancePenalty": 100,
 	"correlationPenalty": 100,
-    "correlationLimit": 0.95,
 	"conditionNumberPenalty": 100,
 	"elitist_num": 2,
 	"crossoverRate": 0.95,

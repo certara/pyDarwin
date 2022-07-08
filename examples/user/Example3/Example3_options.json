@@ -10,7 +10,6 @@
 	"convergencePenalty": 100,
 	"covariancePenalty": 100,
 	"correlationPenalty": 100,
-    "correlationLimit": 0.95,
 	"conditionNumberPenalty": 100,  
 	"non_influential_tokens_penalty": 0.00001,
 	"crash_value": 99999999999,

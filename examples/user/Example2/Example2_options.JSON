@@ -16,7 +16,6 @@
 	"convergencePenalty": 100,
 	"covariancePenalty": 100,
 	"correlationPenalty": 100,
-    "correlationLimit": 0.95,
 	"conditionNumberPenalty": 100,  
 	"downhill_period": 5, 
 	"input_model_json": "None", 

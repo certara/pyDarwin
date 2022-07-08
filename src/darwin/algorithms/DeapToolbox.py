@@ -25,7 +25,12 @@ class DeapToolbox:
         #                      which corresponds to integers sampled uniformly
         #                      from the range [0,1] (i.e. 0 or 1 with equal
         #                      probability)
-        random.seed(options['random_seed'])
+
+        seed = options.get('random_seed')
+
+        if seed:
+            random.seed(seed)
+
         toolbox.register("attr_bool", random.randint, 0, 1)
 
         # Structure initializers

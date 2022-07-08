@@ -1,0 +1,61 @@
+{
+	"author": "Mark Sale",
+	"algorithm":"GP",
+	"random_seed": 11, 
+	"population_size": 10,
+	"num_opt_chains": 2,
+	"nmfePath": "c:/nm74g64/util/nmfe74.bat",
+	"num_parallel": 4,
+	"num_generations": 6,
+	"num_niches": 2,
+	"niche_penalty": 10, 
+	"niche_radius": 2,
+	"THETAPenalty": 10,
+	"OMEGAPenalty": 10,
+	"SIGMAPenalty": 10,
+	"conditionNumberPenalty": 100, 
+	"covariancePenalty": 100,
+	"covergencePenalty": 100, 
+	"correlationLimit": 0.95,
+	"correlationPenalty": 100,  
+	"crash_value": 99999999, 
+	"crossoverRate": 0.95, 
+	"downhill_q":2,
+	"elitist_num": 4,
+	"mutationRate": 0.95, 
+	"attribute_mutation_probability": 0.1, 
+	"input_model_json": "None", 
+	"max_model_list_size": 1000,
+	"mutate": "flipBit",
+	"non_influential_tokens_penalty": 0.00001,
+	"fullExhaustiveSearch_qdownhill": false,
+	"final_fullExhaustiveSearch": true, 
+	"selection": "tournament",
+	"selection_size": 2,  
+	"sharing_alpha": 0.1,  
+
+    "nmfePath": "/opt/nm751/util/nmfe75",
+    "NM_timeout_sec": 1200,
+    "R_timeout_sec": 30,
+
+    "useR": false,
+    "usePython": false,
+
+    "model_run_man": "darwin.RemoteRunManager",
+
+    "remove_run_dir": true,
+    "temp_dir": "{project_dir}/temp",
+
+    "grid_manager": {
+            "python_path": "~/darwin/venv/bin/python",
+            "submit_command": "qsub -b y",
+            "submit_job_name_arg": "-N",
+            "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
+            "poll_command": "qstat -s z",
+            "poll_job_id_re": "^\\s+(\\w+)",
+            "delete_command": "qdel"
+    },
+
+	"use_prev_models": true,
+	"prev_model_list": "{project_dir}/models0.json"
+}

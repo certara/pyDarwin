@@ -34,13 +34,13 @@
 	"selection": "tournament",
 	"selection_size": 2,  
 	"sharing_alpha": 0.1,  
-	"timeout_sec": 1200, 
+	"model_run_timeout": 1200, 
 	"useR": true,     
 	"postRunRCode": "{project_dir}/Cmaxppc.r",
 	"RScriptPath": "c:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe",
-	"R_timeout_sec": 120,
+	"R_timeout": 120,
 	"usePython": false,   
 	"crossoverOperator": "cxOnePoint" ,
-	"NM_priority_class": "below_normal"
+	"model_run_priority_class": "below_normal"
 }
  

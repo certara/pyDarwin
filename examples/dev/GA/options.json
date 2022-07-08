@@ -41,9 +41,9 @@
 	"niche_penalty": 10,
 
 	"nmfePath": "c:/nm74g64/util/nmfe74.bat",
-	"NM_priority_class": "below_normal",
-    "NM_timeout_sec": 1200,
-    "R_timeout_sec": 30,
+	"model_run_priority_class": "below_normal",
+    "model_run_timeout": 1200,
+    "R_timeout": 30,
 
 	"useR": true,
 	"RScriptPath": "C:/Program Files/R/R-4.0.2/bin/Rscript.exe",

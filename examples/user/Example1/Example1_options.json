@@ -17,10 +17,10 @@
 	"crash_value": 99999999,
 	"non_influential_tokens_penalty": 0.00001,
 	"remove_run_dir": false, 
-    "timeout_sec": 1200, 
+    "model_run_timeout": 1200, 
 	"useR": false,     
 	"usePython": false,   
 	"nmfePath": "c:/nm744/util/nmfe74.bat " , 
-	"NM_priority_class": "below_normal"
+	"model_run_priority_class": "below_normal"
 }
  

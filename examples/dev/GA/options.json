@@ -21,11 +21,13 @@
 	"conditionNumberPenalty": 100,
 	"non_influential_tokens_penalty": 0.00001,
 
-	"downhill_q": 5,
+	"downhill_period": 2,
+
+	"local_2_bit_search": true,
+	"final_downhill_search": true,
+
 	"num_niches": 2,
 	"niche_radius": 2,
-	"fullExhaustiveSearch_qdownhill": true,
-	"final_fullExhaustiveSearch": true,
 
 	"elitist_num": 2,
 	"crossoverRate": 0.95,

@@ -99,7 +99,7 @@ def run_skopt(model_template: Template) -> ModelRun:
 
     :rtype: Model
     """
-    downhill_q = options.downhill_q
+    downhill_period = options.downhill_period
     np.random.seed(options['random_seed'])
 
     opts = _create_optimizer(model_template, options.algorithm, options.num_opt_chains)
@@ -130,7 +130,7 @@ def run_skopt(model_template: Template) -> ModelRun:
             break
 
         # run downhill?
-        if generation % downhill_q == 0:
+        if downhill_period > 0 and generation % downhill_period == 0:
             # pop will have the fitnesses without the niche penalty here
 
             population.runs.append(GlobalVars.BestRun)
@@ -168,7 +168,7 @@ def run_skopt(model_template: Template) -> ModelRun:
         log.message(f"Best overall fitness = {best_run.result.fitness:4f},"
                     f" iteration {best_run.generation}, model {best_run.model_num}")
 
-    if options["final_fullExhaustiveSearch"] and keep_going():
+    if options["final_downhill_search"] and keep_going():
         log.message(f"Starting final downhill")
 
         population.name = 'FN'

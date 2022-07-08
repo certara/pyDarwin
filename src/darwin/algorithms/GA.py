@@ -104,7 +104,7 @@ def run_ga(model_template: Template) -> ModelRun:
 
     :rtype: Model
     """    
-    downhill_q = options.downhill_q
+    downhill_period = options.downhill_period
     pop_size = options.population_size
     elitist_num = options['elitist_num']
 
@@ -131,7 +131,7 @@ def run_ga(model_template: Template) -> ModelRun:
         if not cont:
             break
 
-        if runner.generation % downhill_q == 0:
+        if downhill_period > 0 and runner.generation % downhill_period == 0:
             runner.run_downhill(population)
 
         best_run = population.get_best_run()
@@ -160,7 +160,7 @@ def run_ga(model_template: Template) -> ModelRun:
 
     final_ga_run = population.get_best_run()
 
-    if options["final_fullExhaustiveSearch"] and keep_going():
+    if options["final_downhill_search"] and keep_going():
         population.name = 'FN'
 
         run_downhill(model_template, population)

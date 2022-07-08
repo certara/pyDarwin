@@ -135,12 +135,9 @@ class Options:
         if self.algorithm in ["GBRT", "RF", "GP"]:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
         if self.algorithm in ["GA", "GBRT", "RF", "GP"]:
-            self.downhill_q = _get_mandatory_option(opts, 'downhill_q', self.algorithm)
+            self.downhill_period = opts.get('downhill_period', -1)
             self.num_niches = _get_mandatory_option(opts, 'num_niches', self.algorithm)
             self.niche_radius = _get_mandatory_option(opts, 'niche_radius', self.algorithm)
-
-            if self.downhill_q <= 0:
-                raise RuntimeError("downhill_q value must be > 0")
 
         self.use_r = opts.get('useR', False)
         self.use_python = opts.get('usePython', False)

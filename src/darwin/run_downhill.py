@@ -148,15 +148,14 @@ def run_downhill(template: Template, pop: Population):  # only return new models
             else:
                 niche.done = True
 
-    if options["fullExhaustiveSearch_qdownhill"] and keep_going():
+    if options["local_2_bit_search"] and keep_going():
         best_niche_fitnesses = [niche.best_run.result.fitness for niche in niches]
         best_niche = get_n_best_index(1, best_niche_fitnesses)[0]
 
         run_for_search = niches[best_niche].best_run
         last_best_fitness = run_for_search.result.fitness
 
-        log.message(f"Begin local exhaustive search, search radius = {options.niche_radius},"
-                    f" generation = {generation},step = {this_step}")
+        log.message(f"Begin local exhaustive 2-bit search, generation = {generation}, step = {this_step}")
         log.message(f"Model for local exhaustive search = {run_for_search.generation},"
                     f" phenotype = {run_for_search.model.phenotype} model Num = {run_for_search.model_num},"
                     f" fitness = {run_for_search.result.fitness}")
@@ -183,9 +182,6 @@ def _change_each_bit(source_models: list, radius: int):  # only need upper trian
     radius - integer of both wide to search, should always be 2?
     returns:
     list of all MinBinCode and radius"""
-
-    if radius > 2 or radius < 1 or not isinstance(radius, int):
-        raise Exception('radius for full local search must be 1 or 2')
 
     models = []
        
@@ -217,7 +213,6 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
     current_best_fitness = best_pre_fitness
     overall_best_run = best_pre
     current_best_model = best_pre.model.model_code.MinBinCode
-    niche_radius = options.niche_radius
 
     while current_best_fitness < last_best_fitness or this_step == 0:  # run at least once
         full_generation = str(base_generation) + "S" + str(base_step) + "" + str(this_step)
@@ -225,7 +220,7 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
         radius = 1
         test_models = [current_best_model]  # start with just one, then call recursively for each radius
 
-        while radius <= niche_radius:
+        while radius <= 2:
             test_models, radius = _change_each_bit(test_models, radius)
 
         population = Population.from_codes(model_template, full_generation, test_models, ModelCode.from_min_binary)

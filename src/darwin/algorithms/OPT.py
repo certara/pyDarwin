@@ -6,7 +6,7 @@ import heapq
 import warnings
 from skopt import Optimizer
 
-from multiprocessing.dummy import Pool as ThreadPool
+from multiprocessing import Pool
 import traceback
 
 from darwin.Log import log
@@ -62,7 +62,7 @@ def _opt_ask(opt: Optimizer, n_points: int) -> list:
 def _ask_models(opts: list, n_points: int) -> list:
     n_opts = len(opts)
 
-    pool = ThreadPool(n_opts)
+    pool = Pool(n_opts)
 
     n_ask = int(n_points / n_opts)
     lens = [n_ask] * n_opts

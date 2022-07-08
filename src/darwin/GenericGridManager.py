@@ -13,7 +13,7 @@ from .GridManager import GridManager, register_grid_man
 
 
 def _get_job_name(run: ModelRun) -> str:
-    return f"{options.project_name}-{run.file_stem}"
+    return f"{options.project_stem}-{run.file_stem}"
 
 
 class GridJob:

@@ -1,5 +1,6 @@
 import os
 import sys
+import re
 import json
 import subprocess
 import pathlib
@@ -99,6 +100,7 @@ class Options:
         options_file_parent = pathlib.Path(self.options_file).parent
 
         self.project_name = opts.get('project_name') or options_file_parent.name
+        self.project_stem = re.sub(r'[^\w]', '_', self.project_name)
 
         self.project_dir = str(folder or opts.get('project_dir') or options_file_parent)
 
@@ -108,7 +110,7 @@ class Options:
         self.output_dir = _calc_option(opts.get('output_dir'), project_dir_alias) \
             or os.path.join(self.project_dir, 'output')
         self.temp_dir = _calc_option(opts.get('temp_dir'), project_dir_alias) \
-            or os.path.join(tempfile.gettempdir(), 'pydarwin', self.project_name)
+            or os.path.join(tempfile.gettempdir(), 'pydarwin', self.project_stem)
 
         self.aliases = {
             'project_dir': self.project_dir,

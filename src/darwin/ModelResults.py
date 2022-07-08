@@ -43,25 +43,27 @@ class ModelResults:
         Need to look in output file for parameter at boundary and parameter non-positive.
         """
 
+        penalties = options.penalty
+
         fitness = self.ofv
 
         # non influential tokens penalties
-        fitness += model.non_influential_token_num * options['non_influential_tokens_penalty']
+        fitness += model.non_influential_token_num * penalties['non_influential_tokens']
 
         if not self.success:
-            fitness += options['convergencePenalty']
+            fitness += penalties['convergence']
 
         if not self.covariance:
-            fitness += options['covariancePenalty']
-            fitness += options['correlationPenalty']
-            fitness += options['conditionNumberPenalty']
+            fitness += penalties['covariance']
+            fitness += penalties['correlation']
+            fitness += penalties['conditionNumber']
         else:
             if not self.correlation:
-                fitness += options['correlationPenalty']
+                fitness += penalties['correlation']
 
-        fitness += model.estimated_theta_num * options['THETAPenalty']
-        fitness += model.omega_num * options['OMEGAPenalty']
-        fitness += model.sigma_num * options['SIGMAPenalty']
+        fitness += model.estimated_theta_num * penalties['THETA']
+        fitness += model.omega_num * penalties['OMEGA']
+        fitness += model.sigma_num * penalties['SIGMA']
 
         fitness += self.post_run_r_penalty
         fitness += self.post_run_python_penalty

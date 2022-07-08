@@ -10,6 +10,17 @@ from os.path import exists
 
 from darwin.Log import log
 
+_default_penalty = {
+    'THETA': 10,
+    'OMEGA': 10,
+    'SIGMA': 10,
+    'convergence': 100,
+    'covariance': 100,
+    'correlation': 100,
+    'conditionNumber': 100,
+    'non_influential_tokens': 0.00001
+}
+
 
 def _get_mandatory_option(opts: dict, name, for_what=None):
     res = opts.get(name)
@@ -118,6 +129,10 @@ class Options:
             'output_dir': self.output_dir,
             'temp_dir': self.temp_dir,
         }
+
+        penalty = opts.get('penalty', {})
+
+        self.penalty = _default_penalty | penalty
 
         self.saved_models_file = _calc_option(opts.get('saved_models_file'), self.aliases)
         self.use_saved_models = opts.get('use_saved_models', False)

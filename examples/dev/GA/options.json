@@ -27,7 +27,7 @@
         "covariance": 100,
         "correlation": 100,
         "conditionNumber": 100,
-        "nonInfluentialTokens": 0.00001
+        "non_influential_tokens": 0.00001
     },
 
     "downhill_period": 2,

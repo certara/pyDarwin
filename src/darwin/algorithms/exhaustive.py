@@ -44,10 +44,10 @@ def run_exhaustive(model_template: Template) -> ModelRun:
     log.message(f"Total of {num_models} to be run in exhaustive search")
 
     # break into smaller list, for memory management
-    max_models = options['max_model_list_size']
+    batch_size = options.get('exhaustive_batch_size', 100)
 
-    for start in range(0, num_models, max_models):
-        pop = Population.from_codes(model_template, '0', codes[start:start + max_models], ModelCode.from_int,
+    for start in range(0, num_models, batch_size):
+        pop = Population.from_codes(model_template, '0', codes[start:start + batch_size], ModelCode.from_int,
                                     start_number=start)
 
         pop.run()

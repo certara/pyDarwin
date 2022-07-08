@@ -3,7 +3,7 @@
 	"project_dir": "C:\\fda\\pyDarwin\\examples\\Michaels3levels",
 	"algorithm":"EX",
 	"random_seed": 11,  
-	"max_model_list_size": 500,
+	"exhaustive_batch_size": 100,
 	"num_parallel": 4, 
 	"THETAPenalty": 10,
 	"OMEGAPenalty": 10,

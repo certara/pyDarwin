@@ -4,7 +4,7 @@
 	"algorithm":"EX",
 	"random_seed": 11, 
 	"population_size": 40,
-	"max_model_list_size": 500,
+	"exhaustive_batch_size": 100,
 	"num_parallel": 8,
 	"num_niches": 2,
 	"niche_penalty": 20, 

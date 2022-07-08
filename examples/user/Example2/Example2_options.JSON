@@ -4,7 +4,6 @@
 	"algorithm":"GP",
 	"random_seed": 11, 
 	"population_size": 40,
-	"max_model_list_size": 500,
 	"num_parallel": 40,
 	"num_niches": 2,
 	"niche_penalty": 20, 

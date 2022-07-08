@@ -3,7 +3,6 @@
 	"algorithm":"GA",
 	"random_seed": 11,
 	"population_size": 10,
-	"max_model_list_size": 500,
 	"num_parallel": 4,
 	"num_generations": 6,
 	"num_niches": 2,

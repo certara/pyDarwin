@@ -24,7 +24,6 @@
 	"mutationRate": 0.95, 
 	"attribute_mutation_probability": 0.1, 
 	"input_model_json": "None", 
-	"max_model_list_size": 1000,
 	"mutate": "flipBit",
 	"non_influential_tokens_penalty": 0.00001,
 	"local_2_bit_search": false,

@@ -2,7 +2,7 @@
 	"author": "Shuhua Hu",
 	"project_dir": "C:\\fda\\pydarwin\\examples\\example3",
 	"algorithm":"EXHAUSTIVE",
-	"max_model_list_size": 500,
+	"exhaustive_batch_size": 100,
 	"num_parallel": 40,
 	"THETAPenalty": 2,
 	"OMEGAPenalty": 2,

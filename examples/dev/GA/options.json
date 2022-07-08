@@ -17,10 +17,6 @@
         "niche_penalty": 10
     },
 
-    "temp_dir": "{project_dir}/temp",
-    "data_dir": "../../..",
-    "output_dir": "{project_dir}/output",
-
     "remove_run_dir": false,
     "remove_temp_dir": true,
 
@@ -60,7 +56,7 @@
         "postRunPythonCode": "{project_dir}/../simplefunc_common.py"
     },
 
-    "use_saved_models": false,
+    "use_saved_models": true,
     "saved_models_file": "{output_dir}/models0.json",
 
     "grid_manager": {

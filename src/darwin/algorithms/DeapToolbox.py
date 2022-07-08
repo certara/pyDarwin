@@ -14,6 +14,8 @@ from darwin.ModelRun import ModelRun
 
 class DeapToolbox:
     def __init__(self, template: Template):
+        ga_options = options.GA
+
         num_bits = int(np.sum(template.gene_length))
 
         creator.create("FitnessMin", deap.base.Fitness, weights=(-1.0,))
@@ -26,9 +28,9 @@ class DeapToolbox:
         #                      from the range [0,1] (i.e. 0 or 1 with equal
         #                      probability)
 
-        seed = options.get('random_seed')
+        seed = options.get('random_seed', None)
 
-        if seed:
+        if seed is not None:
             random.seed(seed)
 
         toolbox.register("attr_bool", random.randint, 0, 1)
@@ -45,21 +47,21 @@ class DeapToolbox:
         # the goal ('fitness') function to be maximized
 
         # register the crossover operator
-        if options['crossoverOperator'] == "cxOnePoint":
+        if ga_options['crossoverOperator'] == "cxOnePoint":
             toolbox.register("mate", tools.cxOnePoint)
 
         # other cross over options here
         # register a mutation operator with a probability to
         # flip each attribute/gene of 0.05
-        if options['mutate'] == "flipBit":
-            toolbox.register("mutate", tools.mutFlipBit, indpb=options['attribute_mutation_probability'])
+        if ga_options['mutate'] == "flipBit":
+            toolbox.register("mutate", tools.mutFlipBit, indpb=ga_options['attribute_mutation_probability'])
 
         # operator for selecting individuals for breeding the next
         # generation: each individual of the current generation
         # is replaced by the 'fittest' (best) of three individuals
         # drawn randomly from the current generation.
-        if options['selection'] == "tournament":
-            toolbox.register("select", tools.selTournament, tournsize=options['selection_size'])
+        if ga_options['selection'] == "tournament":
+            toolbox.register("select", tools.selTournament, tournsize=ga_options['selection_size'])
 
         self.toolbox = toolbox
 
@@ -69,11 +71,13 @@ class DeapToolbox:
     def get_offspring(self, pop_full_bits):
         toolbox = self.toolbox
 
-        sharing_alpha = options['sharing_alpha']
-        niche_penalty = options['niche_penalty']
+        ga_options = options.GA
 
-        crossover_probability = options['crossoverRate']
-        mutation_probability = options['mutationRate']
+        sharing_alpha = ga_options['sharing_alpha']
+        niche_penalty = ga_options['niche_penalty']
+
+        crossover_probability = ga_options['crossoverRate']
+        mutation_probability = ga_options['mutationRate']
 
         # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
         # so fitnesses in pop are only used for selection in GA

@@ -2,17 +2,18 @@
     "author": "Mark Sale",
 
     "algorithm": "GA",
-
-    "crossoverRate": 0.95,
-    "elitist_num": 4,
-    "mutationRate": 0.95,
-    "attribute_mutation_probability": 0.1,
-    "mutate": "flipBit",
-    "niche_penalty": 20,
-    "selection": "tournament",
-    "selection_size": 2,
-    "sharing_alpha": 0.1,
-    "crossoverOperator": "cxOnePoint" ,
+    "GA": {
+        "crossoverRate": 0.95,
+        "elitist_num": 4,
+        "mutationRate": 0.95,
+        "attribute_mutation_probability": 0.1,
+        "mutate": "flipBit",
+        "niche_penalty": 20,
+        "selection": "tournament",
+        "selection_size": 2,
+        "sharing_alpha": 0.1,
+        "crossoverOperator": "cxOnePoint"
+    },
 
     "random_seed": 11,
     "population_size": 80,

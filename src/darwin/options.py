@@ -21,6 +21,19 @@ _default_penalty = {
     'non_influential_tokens': 0.00001
 }
 
+_default_GA = {
+    'crossoverRate': 0.95,
+    'elitist_num': 4,
+    'mutationRate': 0.95,
+    'attribute_mutation_probability': 0.1,
+    'mutate': 'flipBit',
+    'niche_penalty': 20,
+    'selection': 'tournament',
+    'selection_size': 2,
+    'sharing_alpha': 0.1,
+    'crossoverOperator': 'cxOnePoint'
+}
+
 
 def _get_mandatory_option(opts: dict, name, for_what=None):
     res = opts.get(name)
@@ -131,8 +144,10 @@ class Options:
         }
 
         penalty = opts.get('penalty', {})
+        ga = opts.get('GA', {})
 
         self.penalty = _default_penalty | penalty
+        self.GA = _default_GA | ga
 
         self.saved_models_file = _calc_option(opts.get('saved_models_file'), self.aliases)
         self.use_saved_models = opts.get('use_saved_models', False)

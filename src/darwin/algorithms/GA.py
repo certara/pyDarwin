@@ -106,7 +106,7 @@ def run_ga(model_template: Template) -> ModelRun:
     """    
     downhill_period = options.downhill_period
     pop_size = options.population_size
-    elitist_num = options['elitist_num']
+    elitist_num = options.GA['elitist_num']
 
     runner = _GARunner(model_template, pop_size, elitist_num)
 

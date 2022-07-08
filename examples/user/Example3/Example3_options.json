@@ -7,7 +7,7 @@
 	"THETAPenalty": 2,
 	"OMEGAPenalty": 2,
 	"SIGMAPenalty": 2,
-	"covergencePenalty": 100,
+	"convergencePenalty": 100,
 	"covariancePenalty": 100,
 	"correlationPenalty": 100,
     "correlationLimit": 0.95,

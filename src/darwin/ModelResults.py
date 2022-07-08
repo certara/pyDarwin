@@ -49,7 +49,7 @@ class ModelResults:
         fitness += model.non_influential_token_num * options['non_influential_tokens_penalty']
 
         if not self.success:
-            fitness += options['covergencePenalty']
+            fitness += options['convergencePenalty']
 
         if not self.covariance:
             fitness += options['covariancePenalty']

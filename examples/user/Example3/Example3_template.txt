@@ -17,7 +17,7 @@ $PROBLEM ORAL BOLUS WITH PLASMA AND URINE OBSERVATIONS
 ; ====================================================================================================          
 	
 $INPUT       ID TIME AMT CMT {ODE[1]} DV DVID EVID MDV 
-$DATA      ..\..\{ODE[2]} IGNORE=@
+$DATA      {data_dir}/{ODE[2]} IGNORE=@
 
 
 ; ====================================================================================================

@@ -1,33 +1,25 @@
 {
-	"author": "Mark Sale",
 	"algorithm":"GA",
+
 	"random_seed": 11,
 	"population_size": 10,
 	"num_parallel": 4,
 	"num_generations": 6,
-	"num_niches": 2,
-	"niche_penalty": 10,
-	"niche_radius": 2,
-	"elitist_num": 2,
-	"crossoverRate": 0.95,
-	"mutationRate": 0.95,
+
 	"downhill_period": 5,
-	"sharing_alpha": 0.1,
-	"crash_value": 99999999,
-	"remove_run_dir": false,
+	"num_niches": 2,
+	"niche_radius": 2,
 	"local_2_bit_search": true,
 	"final_downhill_search": true,
-	"selection": "tournament",
-	"selection_size": 2,
-	"crossoverOperator": "cxOnePoint",
-	"mutate": "flipBit",
-	"attribute_mutation_probability": 0.1,
-    "model_run_timeout": 1200,
-    "R_timeout": 30,
-	"useR": true,
-	"postRunRCode": "{project_dir}/simplefunc.r",
-	"usePython": true,
-	"postRunPythonCode": "{project_dir}/../simplefunc_common.py",
+
 	"nmfePath": "c:/nm75g64/util/nmfe75.bat",
-	"RScriptPath": "C:/Program Files/R/R-4.0.2/bin/Rscript.exe"
+
+    "postprocess": {
+		"useR": true,
+	    "R_timeout": 30,
+		"postRunRCode": "{project_dir}/simplefunc.r",
+		"RScriptPath": "C:/Program Files/R/R-4.0.2/bin/Rscript.exe",
+		"usePython": true,
+		"postRunPythonCode": "{project_dir}/../simplefunc_common.py"
+	}
 }

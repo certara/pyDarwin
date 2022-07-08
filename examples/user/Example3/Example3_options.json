@@ -22,8 +22,5 @@
     "remove_run_dir": false,
 
     "nmfePath": "c:/nm744/util/nmfe74.bat",
-    "model_run_timeout": 9600,
-
-    "useR": false,
-    "usePython": false
+    "model_run_timeout": 9600
 }

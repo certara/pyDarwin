@@ -61,7 +61,7 @@ def _calc_option(option, aliases: dict):
     return res
 
 
-def _import_postprocessing(path: str):
+def _import_python_postprocessing(path: str):
     import importlib.util
     spec = importlib.util.spec_from_file_location("postprocessing.module", path)
     module = importlib.util.module_from_spec(spec)
@@ -171,9 +171,6 @@ class Options:
             self.num_niches = _get_mandatory_option(opts, 'num_niches', self.algorithm)
             self.niche_radius = _get_mandatory_option(opts, 'niche_radius', self.algorithm)
 
-        self.use_r = opts.get('useR', False)
-        self.use_python = opts.get('usePython', False)
-
         self.nmfe_path = _get_mandatory_option(opts, 'nmfePath')
 
         if not exists(self.nmfe_path):
@@ -183,17 +180,16 @@ class Options:
 
         self.model_run_priority = _get_priority_class(opts)
         self.model_run_timeout = int(opts.get('model_run_timeout', 1200))
-        self.r_timeout = int(opts.get('R_timeout', 90))
 
-        self.search_omega_bands = opts.get('search_omega_bands', False)
-        self.max_omega_band_width = opts.get('max_omega_band_width', 0)
+        pp_opts = opts.get('postprocess', {})
 
-        if self.search_omega_bands and self.max_omega_band_width < 1:
-            log.warn("max_omega_band_width must be at least 1, omitting omega band width search")
-            self.search_omega_bands = False
+        self.use_r = pp_opts.get('useR', False)
+        self.use_python = pp_opts.get('usePython', False)
+
+        self.r_timeout = int(pp_opts.get('R_timeout', 90))
 
         if self.use_r:
-            self.rscript_path = rscript_path = _get_mandatory_option(opts, 'RScriptPath')
+            self.rscript_path = rscript_path = _get_mandatory_option(pp_opts, 'RScriptPath')
 
             if not (os.path.isfile(self.rscript_path) or os.path.islink(self.rscript_path)):
                 raise RuntimeError(f"RScriptPath doesn't exist: {self.rscript_path}")
@@ -203,7 +199,7 @@ class Options:
 
             log.message(f"RScript.exe found at {rscript_path}")
 
-            rr = _calc_option(_get_mandatory_option(opts, 'postRunRCode'), project_dir_alias)
+            rr = _calc_option(_get_mandatory_option(pp_opts, 'postRunRCode'), project_dir_alias)
 
             self.postRunRCode = os.path.abspath(rr)
 
@@ -215,7 +211,7 @@ class Options:
             log.message("Not using Post Run R code")
 
         if self.use_python:
-            rp = _calc_option(_get_mandatory_option(opts, 'postRunPythonCode'), project_dir_alias)
+            rp = _calc_option(_get_mandatory_option(pp_opts, 'postRunPythonCode'), project_dir_alias)
 
             python_post_process_path = os.path.abspath(rp)
 
@@ -223,9 +219,16 @@ class Options:
                 raise RuntimeError(f"Post Run Python code path {python_post_process_path} seems to be missing")
             else:
                 log.message(f"Post Run Python code found at {python_post_process_path}")
-                self.python_post_process = _import_postprocessing(python_post_process_path)
+                self.python_post_process = _import_python_postprocessing(python_post_process_path)
         else:
             log.message("Not using Post Run Python code")
+
+        self.search_omega_bands = opts.get('search_omega_bands', False)
+        self.max_omega_band_width = opts.get('max_omega_band_width', 0)
+
+        if self.search_omega_bands and self.max_omega_band_width < 1:
+            log.warn("max_omega_band_width must be at least 1, omitting omega band width search")
+            self.search_omega_bands = False
 
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):

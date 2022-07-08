@@ -1,34 +1,18 @@
 {
-	"author": "Mark Sale",
 	"algorithm":"GP",
 	"random_seed": 11, 
+    "num_opt_chains": 2,
+
 	"population_size": 10,
-	"num_opt_chains": 2,
-	"nmfePath": "c:/nm74g64/util/nmfe74.bat",
 	"num_parallel": 4,
 	"num_generations": 6,
+
+    "downhill_period": 2,
 	"num_niches": 2,
-	"niche_penalty": 10, 
 	"niche_radius": 2,
-	"crash_value": 99999999, 
-	"crossoverRate": 0.95, 
-	"downhill_period":2,
-	"elitist_num": 4,
-	"mutationRate": 0.95, 
-	"attribute_mutation_probability": 0.1, 
-	"mutate": "flipBit",
-	"local_2_bit_search": false,
 	"final_downhill_search": true, 
-	"selection": "tournament",
-	"selection_size": 2,  
-	"sharing_alpha": 0.1,  
 
     "nmfePath": "/opt/nm751/util/nmfe75",
-    "model_run_timeout": 1200,
-    "R_timeout": 30,
-
-    "useR": false,
-    "usePython": false,
 
     "model_run_man": "darwin.RemoteRunManager",
 

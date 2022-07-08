@@ -4,6 +4,19 @@
 
     "algorithm": "GA",
 
+    "GA": {
+        "elitist_num": 2,
+        "crossoverRate": 0.95,
+        "mutationRate": 0.95,
+        "sharing_alpha": 0.1,
+        "selection": "tournament",
+        "selection_size": 2,
+        "crossoverOperator": "cxOnePoint",
+        "mutate": "flipBit",
+        "attribute_mutation_probability": 0.1,
+        "niche_penalty": 10
+    },
+
     "temp_dir": "{project_dir}/temp",
     "data_dir": "../../..",
     "output_dir": "{project_dir}/output",
@@ -15,7 +28,6 @@
     "num_parallel": 4,
     "num_generations": 6,
     "population_size": 4,
-    "exhaustive_batch_size": 500,
 
     "crash_value": 99999999,
 
@@ -31,30 +43,15 @@
     },
 
     "downhill_period": 2,
-
     "num_niches": 2,
     "niche_radius": 2,
-
     "local_2_bit_search": true,
     "final_downhill_search": true,
-
-    "GA": {
-        "elitist_num": 2,
-        "crossoverRate": 0.95,
-        "mutationRate": 0.95,
-        "sharing_alpha": 0.1,
-        "selection": "tournament",
-        "selection_size": 2,
-        "crossoverOperator": "cxOnePoint",
-        "mutate": "flipBit",
-        "attribute_mutation_probability": 0.1,
-        "niche_penalty": 10
-    },
 
     "nmfePath": "c:/nm74g64/util/nmfe74.bat",
     "model_run_timeout": 1200,
 
-    "post_process": {
+    "postprocess": {
         "useR": true,
         "RScriptPath": "C:/Program Files/R/R-4.0.2/bin/Rscript.exe",
         "postRunRCode": "{project_dir}/simplefunc.r",

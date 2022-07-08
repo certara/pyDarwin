@@ -1,16 +1,11 @@
 {
-	"author": "Mark Sale",
-	"project_dir": "C:\\fda\\pyDarwin\\examples\\Michaels3levels",
 	"algorithm":"EX",
-	"random_seed": 11,  
 	"exhaustive_batch_size": 100,
 	"num_parallel": 4, 
 	"downhill_period": 5, 
 	"crash_value": 99999999,
 	"remove_run_dir": false, 
     "model_run_timeout": 1200, 
-	"useR": false,     
-	"usePython": false,   
 	"nmfePath": "c:/nm744/util/nmfe74.bat"
 }
  

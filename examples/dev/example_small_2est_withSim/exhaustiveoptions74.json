@@ -1,35 +1,13 @@
 {
-	"author": "Mark Sale",
-	"project_dir": "c:/fda/FDA-OGD-ML/examples/example_small_2EST_withSIM",
-	"algorithm":"EXHAUSTIVE",
-	"random_seed": 11,
-	"population_size": 40,
-	"exhaustive_batch_size": 100,
-	"num_parallel": 4,
-	"num_generations": 10,
-	"num_niches": 2,
-	"niche_penalty": 10,
-	"niche_radius": 2,
-	"elitist_num": 2,
-	"crossoverRate": 0.95,
-	"mutationRate": 0.95,
-	"downhill_period": 5,
-	"sharing_alpha": 0.1,
-	"crash_value": 99999999,
-	"remove_run_dir": false,
-	"local_2_bit_search": true,
-	"final_downhill_search": true,
-	"selection": "tournament",
-	"selection_size": 2,
-	"crossoverOperator": "cxOnePoint",
-	"mutate": "flipBit",
-	"attribute_mutation_probability": 0.1,
-    "model_run_timeout": 1200,
-    "R_timeout": 30,
-	"useR": true,
-	"postRunRCode": "{project_dir}/simplefunc.r",
-	"usePython": true,
-	"postRunPythonCode": "{project_dir}/simplefunc_local.py",
-	"nmfePath": "c:/nm744/util/nmfe74.bat",
-	"RScriptPath": "c:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe"
+    "algorithm":"EXHAUSTIVE",
+    "exhaustive_batch_size": 100,
+
+    "num_parallel": 4,
+    "nmfePath": "c:/nm744/util/nmfe74.bat",
+
+    "postprocess": {
+        "useR": true,
+        "RScriptPath": "c:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe",
+        "postRunRCode": "{project_dir}/simplefunc.r"
+    }
 }

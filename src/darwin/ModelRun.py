@@ -361,6 +361,9 @@ class ModelRun:
         return True
 
     def output_results(self):
+        if options.remove_run_dir:
+            return
+
         with open(os.path.join(self.run_dir, self.output_file_name), "a") as output:
             res = self.result
             model = self.model

@@ -18,7 +18,6 @@
     "model_run_timeout": 1200, 
 	"useR": false,     
 	"usePython": false,   
-	"nmfePath": "c:/nm744/util/nmfe74.bat " , 
-	"model_run_priority_class": "below_normal"
+	"nmfePath": "c:/nm744/util/nmfe74.bat"
 }
  

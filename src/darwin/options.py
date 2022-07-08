@@ -82,7 +82,7 @@ def _get_priority_class(opts: dict):
         'high': subprocess.HIGH_PRIORITY_CLASS
     }
 
-    priority = str(opts.get('NM_priority_class', 'normal')).lower()
+    priority = str(opts.get('model_run_priority_class', 'below_normal')).lower()
 
     if priority not in priorities:
         priority = 'normal'

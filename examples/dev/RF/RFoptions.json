@@ -23,7 +23,6 @@
 	"crossoverOperator": "cxOnePoint",
 	"mutate": "flipBit",
 	"attribute_mutation_probability": 0.1,
-	"model_run_priority_class": "below_normal",
     "model_run_timeout": 1200,
     "R_timeout": 30,
 	"useR": true,

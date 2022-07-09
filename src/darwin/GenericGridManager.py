@@ -123,9 +123,7 @@ class GenericGridManager(GridManager):
             log.message('Delete command is not set')
             return True
 
-        command = [options.apply_aliases(arg) for arg in self.delete_command]
-
-        out = _run_process(self._alias_command_with_ids(command), 'Failed to remove jobs')
+        out = _run_process(self._alias_command_with_ids(self.delete_command), 'Failed to remove jobs')
 
         if out is not None:
             log.message('Done')
@@ -145,7 +143,7 @@ class GenericGridManager(GridManager):
 
         for arg in command:
             if arg == '{job_ids}':
-                complete_command.append(list(self.jobs.keys()))
+                complete_command.extend(list(self.jobs.keys()))
             else:
                 complete_command.append(arg)
 

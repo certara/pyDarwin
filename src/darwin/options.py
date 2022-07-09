@@ -8,6 +8,8 @@ import tempfile
 
 from os.path import exists
 
+import darwin.utils as utils
+
 from darwin.Log import log
 
 _default_penalty = {
@@ -45,18 +47,6 @@ def _get_mandatory_option(opts: dict, name, for_what=None):
             err += f' for {for_what}'
 
         raise RuntimeError(err)
-
-    return res
-
-
-def _calc_option(option, aliases: dict):
-    if not option:
-        return option
-
-    res = str(option)
-
-    for alias, text in aliases.items():
-        res = res.replace('{' + alias + '}', text)
 
     return res
 
@@ -103,12 +93,14 @@ class Options:
         return self._options.get(key, default)
 
     def apply_aliases(self, text: str) -> str:
-        return _calc_option(text, self.aliases)
+        return utils.apply_aliases(text, self.aliases)
 
     def _init_options(self, folder, options_file: str):
         opts = json.loads(open(options_file, 'r').read())
 
         self._options = opts
+
+        self.algorithm = _get_mandatory_option(opts, 'algorithm')
 
         self.engine_adapter = opts.get('engine_adapter', 'nonmem')
         self.model_cache_class = opts.get('model_cache', 'darwin.MemoryModelCache')
@@ -130,10 +122,10 @@ class Options:
 
         project_dir_alias = {'project_dir': self.project_dir}
 
-        self.data_dir = _calc_option(opts.get('data_dir'), project_dir_alias) or self.project_dir
-        self.output_dir = _calc_option(opts.get('output_dir'), project_dir_alias) \
+        self.data_dir = utils.apply_aliases(opts.get('data_dir'), project_dir_alias) or self.project_dir
+        self.output_dir = utils.apply_aliases(opts.get('output_dir'), project_dir_alias) \
             or os.path.join(self.project_dir, 'output')
-        self.temp_dir = _calc_option(opts.get('temp_dir'), project_dir_alias) \
+        self.temp_dir = utils.apply_aliases(opts.get('temp_dir'), project_dir_alias) \
             or os.path.join(tempfile.gettempdir(), 'pydarwin', self.project_stem)
 
         self.aliases = {
@@ -141,6 +133,9 @@ class Options:
             'data_dir': self.data_dir,
             'output_dir': self.output_dir,
             'temp_dir': self.temp_dir,
+            'project_name': self.project_name,
+            'project_stem': self.project_stem,
+            'algorithm': self.algorithm,
         }
 
         penalty = opts.get('penalty', {})
@@ -149,15 +144,13 @@ class Options:
         self.penalty = _default_penalty | penalty
         self.GA = _default_GA | ga
 
-        self.saved_models_file = _calc_option(opts.get('saved_models_file'), self.aliases)
+        self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
         self.use_saved_models = opts.get('use_saved_models', False)
 
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)
 
         self.crash_value = opts.get('crash_value', 99999999)
-
-        self.algorithm = _get_mandatory_option(opts, 'algorithm')
 
         self.isGA = self.algorithm == "GA"
         self.isPSO = self.algorithm == "PSO"
@@ -199,7 +192,7 @@ class Options:
 
             log.message(f"RScript.exe found at {rscript_path}")
 
-            rr = _calc_option(_get_mandatory_option(pp_opts, 'postRunRCode'), project_dir_alias)
+            rr = utils.apply_aliases(_get_mandatory_option(pp_opts, 'postRunRCode'), project_dir_alias)
 
             self.postRunRCode = os.path.abspath(rr)
 
@@ -211,7 +204,7 @@ class Options:
             log.message("Not using Post Run R code")
 
         if self.use_python:
-            rp = _calc_option(_get_mandatory_option(pp_opts, 'postRunPythonCode'), project_dir_alias)
+            rp = utils.apply_aliases(_get_mandatory_option(pp_opts, 'postRunPythonCode'), project_dir_alias)
 
             python_post_process_path = os.path.abspath(rp)
 

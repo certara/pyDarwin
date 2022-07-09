@@ -56,16 +56,17 @@
         "postRunPythonCode": "{project_dir}/../simplefunc_common.py"
     },
 
-    "use_saved_models": true,
+    "use_saved_models": false,
     "saved_models_file": "{output_dir}/models0.json",
+
+    "model_run_man": "darwin.RemoteRunManager",
 
     "grid_manager": {
         "python_path": "~/venv1/Scripts/python",
-        "submit_command": "qsub -b y",
-        "submit_job_name_arg": "-N",
+        "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
         "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
         "poll_command": "qstat -s z",
         "poll_job_id_re": "^\\s+(\\w+)",
-        "delete_command": "qdel"
+        "delete_command": "qdel {job_ids}"
     }
 }

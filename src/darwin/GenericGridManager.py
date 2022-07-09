@@ -44,12 +44,11 @@ class GenericGridManager(GridManager):
 
         opts = options.get('grid_manager', {})
 
-        self.submit_command = opts['submit_command'].split(' ')
-        self.submit_job_name_arg = opts['submit_job_name_arg']
+        self.submit_command = [options.apply_aliases(arg) for arg in opts['submit_command'].split(' ')]
+        self.poll_command = [options.apply_aliases(arg) for arg in opts['poll_command'].split(' ')]
+        self.delete_command = [options.apply_aliases(arg) for arg in opts.get('delete_command', '').split(' ')]
         self.submit_job_id_re = re.compile(opts['submit_job_id_re'])
-        self.poll_command = opts['poll_command'].split(' ')
         self.poll_job_id_re = re.compile(opts['poll_job_id_re'])
-        self.delete_command = opts['delete_command'].split(' ')
         self.python_path = opts['python_path']
 
     def add_model_run(self, run: ModelRun):
@@ -61,10 +60,18 @@ class GenericGridManager(GridManager):
             self.jobs[job.id] = job
 
     def submit(self, job: GridJob) -> bool:
-        command = self.submit_command + [
-            self.submit_job_name_arg, job.name, self.python_path, '-m', 'darwin.run_model',
-            job.input_path, job.output_path, options.options_file
-        ]
+        aliases = {
+            'results_dir': self.results_dir,
+            'job_name': job.name,
+            'run_name': job.run.file_stem,
+            'run_number': job.run.model_num,
+            'run_dir': job.run.run_dir,
+            'generation': job.run.generation,
+        }
+
+        command = [utils.apply_aliases(arg, aliases) for arg in self.submit_command]
+
+        command += [self.python_path, '-m', 'darwin.run_model', job.input_path, job.output_path, options.options_file]
 
         out = _run_process(command, f'Failed to submit a job: {job.name}')
 
@@ -83,7 +90,7 @@ class GenericGridManager(GridManager):
         if not runs:
             return [], []
 
-        out = _run_process(self.poll_command, 'Failed to poll jobs') or ''
+        out = _run_process(self._alias_command_with_ids(self.poll_command), 'Failed to poll jobs') or ''
 
         remaining = {_get_job_name(r): r for r in runs}
         finished = []
@@ -105,12 +112,6 @@ class GenericGridManager(GridManager):
 
         return finished, list(remaining.values())
 
-    def _parse_submit_output(self, output: str) -> str:
-        return _parse_id(self.submit_job_id_re, output)
-
-    def _parse_poll_line(self, line) -> str:
-        return _parse_id(self.poll_job_id_re, line)
-
     def remove_all(self) -> bool:
         log.message('Removing all submitted jobs...')
 
@@ -118,9 +119,13 @@ class GenericGridManager(GridManager):
             log.message('None left')
             return True
 
-        command = self.delete_command + list(self.jobs.keys())
+        if not self.delete_command:
+            log.message('Delete command is not set')
+            return True
 
-        out = _run_process(command, 'Failed to remove jobs')
+        command = [options.apply_aliases(arg) for arg in self.delete_command]
+
+        out = _run_process(self._alias_command_with_ids(command), 'Failed to remove jobs')
 
         if out is not None:
             log.message('Done')
@@ -128,6 +133,23 @@ class GenericGridManager(GridManager):
             return True
 
         return False
+
+    def _parse_submit_output(self, output: str) -> str:
+        return _parse_id(self.submit_job_id_re, output)
+
+    def _parse_poll_line(self, line) -> str:
+        return _parse_id(self.poll_job_id_re, line)
+
+    def _alias_command_with_ids(self, command) -> list:
+        complete_command = []
+
+        for arg in command:
+            if arg == '{job_ids}':
+                complete_command.append(list(self.jobs.keys()))
+            else:
+                complete_command.append(arg)
+
+        return complete_command
 
 
 def _parse_id(regex, output) -> str:

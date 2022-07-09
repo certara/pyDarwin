@@ -536,3 +536,15 @@ class Pipeline:
             self.join()
 
         return self.last.results()
+
+
+def apply_aliases(option, aliases: dict):
+    if not option:
+        return option
+
+    res = str(option)
+
+    for alias, text in aliases.items():
+        res = res.replace('{' + alias + '}', str(text))
+
+    return res

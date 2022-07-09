@@ -6,8 +6,6 @@ import subprocess
 import pathlib
 import tempfile
 
-from os.path import exists
-
 import darwin.utils as utils
 
 from darwin.Log import log
@@ -51,15 +49,6 @@ def _get_mandatory_option(opts: dict, name, for_what=None):
     return res
 
 
-def _import_python_postprocessing(path: str):
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("postprocessing.module", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-
-    return module.post_process
-
-
 def _get_priority_class(opts: dict):
     if sys.platform != "win32":
         return 0
@@ -73,11 +62,10 @@ def _get_priority_class(opts: dict):
     }
 
     priority = str(opts.get('model_run_priority_class', 'below_normal')).lower()
+    opts['model_run_priority_class'] = priority
 
     if priority not in priorities:
-        priority = 'normal'
-
-    log.message(f'NM priority is {priority}')
+        priority = 'below_normal'
 
     return priorities[priority]
 
@@ -106,8 +94,6 @@ class Options:
         self.model_cache_class = opts.get('model_cache', 'darwin.MemoryModelCache')
         self.model_run_man = opts.get('model_run_man', 'darwin.LocalRunManager')
         self.grid_man = opts.get('grid_man', 'darwin.GenericGridManager')
-
-        log.message(f"Using {self.model_cache_class}")
 
         self.num_parallel = opts.get('num_parallel', 4)
 
@@ -166,11 +152,6 @@ class Options:
 
         self.nmfe_path = _get_mandatory_option(opts, 'nmfePath')
 
-        if not exists(self.nmfe_path):
-            raise RuntimeError(f"NMFE path {self.nmfe_path} seems to be missing")
-
-        log.message(f"NMFE found at {self.nmfe_path}")
-
         self.model_run_priority = _get_priority_class(opts)
         self.model_run_timeout = int(opts.get('model_run_timeout', 1200))
 
@@ -182,39 +163,16 @@ class Options:
         self.r_timeout = int(pp_opts.get('R_timeout', 90))
 
         if self.use_r:
-            self.rscript_path = rscript_path = _get_mandatory_option(pp_opts, 'RScriptPath')
-
-            if not (os.path.isfile(self.rscript_path) or os.path.islink(self.rscript_path)):
-                raise RuntimeError(f"RScriptPath doesn't exist: {self.rscript_path}")
-
-            if not exists(rscript_path):
-                raise RuntimeError(f"RScript.exe path {rscript_path} seems to be missing")
-
-            log.message(f"RScript.exe found at {rscript_path}")
+            self.rscript_path = _get_mandatory_option(pp_opts, 'RScriptPath')
 
             rr = utils.apply_aliases(_get_mandatory_option(pp_opts, 'postRunRCode'), project_dir_alias)
 
             self.postRunRCode = os.path.abspath(rr)
 
-            if not exists(self.postRunRCode):
-                raise RuntimeError(f"Post Run R code path {self.postRunRCode} seems to be missing")
-
-            log.message(f"Post Run R code found at {self.postRunRCode}")
-        else:
-            log.message("Not using Post Run R code")
-
         if self.use_python:
             rp = utils.apply_aliases(_get_mandatory_option(pp_opts, 'postRunPythonCode'), project_dir_alias)
 
-            python_post_process_path = os.path.abspath(rp)
-
-            if not os.path.isfile(python_post_process_path):
-                raise RuntimeError(f"Post Run Python code path {python_post_process_path} seems to be missing")
-            else:
-                log.message(f"Post Run Python code found at {python_post_process_path}")
-                self.python_post_process = _import_python_postprocessing(python_post_process_path)
-        else:
-            log.message("Not using Post Run Python code")
+            self.python_post_process_path = os.path.abspath(rp)
 
         self.search_omega_bands = opts.get('search_omega_bands', False)
         self.max_omega_band_width = opts.get('max_omega_band_width', 0)

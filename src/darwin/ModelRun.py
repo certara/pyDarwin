@@ -1,17 +1,18 @@
 import sys
 import os
 from os.path import exists
-import json
 
+import json
 import shlex
 
 import subprocess
 from subprocess import DEVNULL, STDOUT, TimeoutExpired, Popen
+import threading
 import traceback
 
 from darwin.Log import log
 from darwin.options import options
-from darwin.execution_man import interrupted, keep_going
+from darwin.execution_man import interrupted, keep_going, dont_even_start
 
 import darwin.utils as utils
 import darwin.GlobalVars as GlobalVars
@@ -20,7 +21,9 @@ from .Model import Model
 from .ModelResults import ModelResults
 from .ModelEngineAdapter import ModelEngineAdapter, get_engine_adapter
 
-files_checked = False
+_files_checked = False
+_files_ok = False
+_lock_file_check = threading.Lock()
 
 JSON_ATTRIBUTES = [
     'model_num', 'generation',
@@ -28,6 +31,13 @@ JSON_ATTRIBUTES = [
     'run_dir', 'control_file_name', 'output_file_name', 'executable_file_name',
     'status', 'source'
 ]
+
+
+def _dummy():
+    return 0, ""
+
+
+_python_post_process = _dummy
 
 
 class ModelRun:
@@ -170,12 +180,67 @@ class ModelRun:
         Checks if required files are present.
         """
 
-        global files_checked
+        global _files_checked
+        global _files_ok
 
-        if files_checked:
+        if _files_ok:
+            return True
+
+        with _lock_file_check:
+            if _files_checked and not _files_ok:
+                log.error('files not ok')
+                return False
+
+            try:
+                self._check_files_present_impl()
+
+                _files_ok = True
+            except Exception as e:
+                dont_even_start()
+                log.error(str(e))
+
+        return _files_ok
+
+    def _check_files_present_impl(self):
+        global _files_checked
+
+        if _files_checked:
             return
 
-        files_checked = True
+        _files_checked = True
+
+        if not exists(options.nmfe_path):
+            raise RuntimeError(f"NMFE path '{options.nmfe_path}' seems to be missing")
+
+        log.message(f"NMFE found: {options.nmfe_path}")
+
+        if options.use_r:
+            rscript_path = options.rscript_path
+
+            if not (os.path.isfile(rscript_path) or os.path.islink(rscript_path)):
+                raise RuntimeError(f"RScriptPath doesn't exist: {rscript_path}")
+
+            log.message(f"RScript.exe found at {rscript_path}")
+
+            if not exists(options.postRunRCode):
+                raise RuntimeError(f"Post Run R code path '{options.postRunRCode}' seems to be missing")
+
+            log.message(f"Post Run R code found at {options.postRunRCode}")
+        else:
+            log.message("Not using Post Run R code")
+
+        if options.use_python:
+            python_post_process_path = options.python_post_process_path
+
+            if not os.path.isfile(python_post_process_path):
+                raise RuntimeError(f"Post Run Python code path '{python_post_process_path}' seems to be missing")
+            else:
+                log.message(f"Post Run Python code found at {python_post_process_path}")
+
+                global _python_post_process
+                _python_post_process = _import_python_postprocessing(python_post_process_path)
+        else:
+            log.message("Not using Post Run Python code")
 
         cwd = os.getcwd()
 
@@ -183,26 +248,26 @@ class ModelRun:
 
         log.message("Checking files in " + os.getcwd())
 
-        if not exists(self.control_file_name):
-            log.error("Cannot find " + self.control_file_name + " to check for data file")
-            sys.exit()
-
         try:
-            data_files_path = self.adapter.read_data_file_name(self.control_file_name)
+            if not exists(self.control_file_name):
+                raise RuntimeError("Cannot find " + self.control_file_name + " to check for data file")
+
+            try:
+                data_files_path = self.adapter.read_data_file_name(self.control_file_name)
+            except:
+                raise RuntimeError(f"Unable to check if data set is present")
+
             this_data_set = 1
 
             for this_file in data_files_path:
                 if not exists(this_file):
-                    log.error(f"Data set # {this_data_set} seems to be missing: {this_file}")
-                    sys.exit()
+                    raise RuntimeError(f"Data set # {this_data_set} seems to be missing: {this_file}")
                 else:
                     log.message(f"Data set # {this_data_set} was found: {this_file}")
                     this_data_set += 1
-        except:
-            log.error(f"Unable to check if data set is present")
-            sys.exit()
 
-        os.chdir(cwd)
+        finally:
+            os.chdir(cwd)
 
     def run_model(self):
         """
@@ -215,7 +280,8 @@ class ModelRun:
 
         self._make_control_file()
 
-        self._check_files_present()
+        if not self._check_files_present():
+            return
 
         command = self.adapter.get_model_run_command(self)
 
@@ -321,7 +387,7 @@ class ModelRun:
         res = self.result
 
         try:
-            res.post_run_python_penalty, res.post_run_python_text = options.python_post_process()
+            res.post_run_python_penalty, res.post_run_python_text = _python_post_process()
 
             with open(os.path.join(self.run_dir, self.output_file_name), "a") as f:
                 f.write(f"Post run Python code Penalty = {str(res.post_run_python_penalty)}\n")
@@ -380,6 +446,15 @@ class ModelRun:
             output.write(f"Num Non fixed OMEGAs = {model.estimated_omega_num}\n")
             output.write(f"Num Non fixed SIGMAs = {model.estimated_sigma_num}\n")
             output.write(f"Original run directory = {self.run_dir}\n")
+
+
+def _import_python_postprocessing(path: str):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("postprocessing.module", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    return module.post_process
 
 
 def run_to_json(run: ModelRun, file: str):

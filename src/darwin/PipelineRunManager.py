@@ -176,7 +176,7 @@ def _copy_to_best(run: ModelRun):
     GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
     GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
 
-    if run.source == "new" and not run.is_duplicate():
+    if run.source == "new" and not run.is_duplicate() and run.started():
         with open(os.path.join(run.run_dir, run.output_file_name)) as file:
             GlobalVars.BestModelOutput = file.read()  # only save best model, other models can be reproduced if needed
 

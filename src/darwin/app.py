@@ -85,6 +85,7 @@ def _init_app(options_file: str, folder: str = None):
 
     run_man = darwin.ModelRunManager.create_model_run_man(options.model_run_man)
 
+    # init folders before log in case if the log is set up in temp or output folder
     run_man.init_folders()
 
     darwin.ModelRunManager.set_run_manager(run_man)
@@ -94,6 +95,13 @@ def _init_app(options_file: str, folder: str = None):
     utils.remove_file(log_file)
 
     log.initialize(log_file)
+
+    if sys.platform == "win32":
+        priority = options.get('model_run_priority_class', None)
+        if priority:
+            log.message(f'Model run priority is {priority}')
+
+    log.message(f"Using {options.model_cache_class}")
 
     log.message(f"Project dir: {options.project_dir}")
     log.message(f"Data dir: {options.data_dir}")

@@ -19,6 +19,12 @@ def keep_going() -> bool:
     return _keep_going.get()
 
 
+def dont_even_start():
+    _keep_going.set(False)
+    # in order to enable cleanup_folders
+    _set_all_finished()
+
+
 def interrupted() -> bool:
     return _hard_stop.get()
 

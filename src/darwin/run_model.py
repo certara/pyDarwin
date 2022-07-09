@@ -3,7 +3,7 @@ import sys
 from darwin.options import options
 from darwin.execution_man import start_execution_manager
 
-import darwin.NMEngineAdapter
+import darwin.nonmem.NMEngineAdapter
 
 from darwin.Log import log
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     options.initialize(options_file)
 
-    darwin.NMEngineAdapter.register()
+    darwin.nonmem.NMEngineAdapter.register()
 
     start_execution_manager()
 

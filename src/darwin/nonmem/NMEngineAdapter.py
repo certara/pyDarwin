@@ -6,18 +6,18 @@ import xmltodict
 
 from collections import OrderedDict
 
-from .ModelEngineAdapter import ModelEngineAdapter, register_engine_adapter
-from .ModelRun import ModelRun
+from darwin.ModelEngineAdapter import ModelEngineAdapter, register_engine_adapter
+from darwin.ModelRun import ModelRun
 
 import darwin.utils as utils
 
 from darwin.Log import log
 from darwin.options import options
 
-from .Template import Template
-from .ModelCode import ModelCode
+from darwin.Template import Template
+from darwin.ModelCode import ModelCode
 
-from .omega_utils import set_omega_bands
+from .utils import set_omega_bands, match_thetas, match_rands
 
 
 class NMEngineAdapter(ModelEngineAdapter):
@@ -125,14 +125,14 @@ class NMEngineAdapter(ModelEngineAdapter):
                       " Only four levels are supported, exiting")
             raise RuntimeError("Are there more than 4 levels of nested tokens?")
 
-        control = utils.match_thetas(control, template.tokens, template.var_theta_block, phenotype,
-                                     template.last_fixed_theta)
-        control = utils.match_rands(control, template.tokens, template.var_omega_block, phenotype,
-                                    template.last_fixed_eta, "ETA")
-        control = utils.match_rands(control, template.tokens, template.var_sigma_block, phenotype,
-                                    template.last_fixed_eps, "EPS")
-        control = utils.match_rands(control, template.tokens, template.var_sigma_block, phenotype,
-                                    template.last_fixed_eps, "ERR")  # check for ERRo as well
+        control = match_thetas(control, template.tokens, template.var_theta_block, phenotype,
+                               template.last_fixed_theta)
+        control = match_rands(control, template.tokens, template.var_omega_block, phenotype,
+                              template.last_fixed_eta, "ETA")
+        control = match_rands(control, template.tokens, template.var_sigma_block, phenotype,
+                              template.last_fixed_eps, "EPS")
+        control = match_rands(control, template.tokens, template.var_sigma_block, phenotype,
+                              template.last_fixed_eps, "ERR")  # check for ERRo as well
 
         model_code_str = str(model_code.FullBinCode if (options.isGA or options.isPSO) else model_code.IntCode)
 

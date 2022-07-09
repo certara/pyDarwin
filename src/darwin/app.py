@@ -9,11 +9,11 @@ from darwin.Log import log
 from darwin.options import options
 from darwin.execution_man import start_execution_manager
 
-import darwin.NMEngineAdapter
 import darwin.MemoryModelCache
 import darwin.ModelRunManager
 import darwin.PipelineRunManager
 import darwin.grid.GridRunManager
+import darwin.nonmem.NMEngineAdapter
 
 from .Template import Template
 from .ModelRun import ModelRun
@@ -102,7 +102,7 @@ def _init_app(options_file: str, folder: str = None):
 
     GlobalVars.init_global_vars(options.output_dir)
 
-    darwin.NMEngineAdapter.register()
+    darwin.nonmem.NMEngineAdapter.register()
     darwin.MemoryModelCache.register()
 
     _init_model_results()

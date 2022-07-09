@@ -65,7 +65,7 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
     return any_found, text
 
 
-def _get_token_parts(token):
+def get_token_parts(token):
     match = re.search(r"{.+\[", token).span()
     stem = token[match[0] + 1:match[1] - 1]
     rest_part = token[match[1]:]
@@ -81,7 +81,7 @@ def _get_token_parts(token):
     return stem, index
 
 
-def _expand_tokens(tokens: dict, text_block: list, phenotype: dict) -> list:
+def expand_tokens(tokens: dict, text_block: list, phenotype: dict) -> list:
     expanded_text_block = []
 
     for text_line in text_block:
@@ -102,7 +102,7 @@ def _expand_line(tokens: dict, text_line: str, phenotype: dict, loop_num: int) -
 
     new_expanded_text_block = []
 
-    key, index = _get_token_parts(text_line)
+    key, index = get_token_parts(text_line)
     token = tokens.get(key)[phenotype[key]][index - 1]  # problem here???
     token = remove_comments(token).splitlines()
 
@@ -121,11 +121,12 @@ def _expand_line(tokens: dict, text_line: str, phenotype: dict, loop_num: int) -
     return new_expanded_text_block
 
 
-def remove_comments(code: str) -> str:
+def remove_comments(code: str, comment_mark=';') -> str:
     """ remove any comments (";") from nonmem code
 
     :param code: input code
     :type code: str
+    :param comment_mark:
     :return: code with comments removed
     :rtype: str
     """
@@ -137,165 +138,11 @@ def remove_comments(code: str) -> str:
         lines = code[0]
 
     for line in lines:
-        if line.find(";") > -1:
-            line = line[:line.find(";")]
+        if line.find(comment_mark) > -1:
+            line = line[:line.find(comment_mark)]
         new_code += line.strip() + '\n'
 
     return new_code
-
-
-def match_thetas(control: str, tokens: dict, var_theta_block: list, phenotype: dict, last_fixed_theta: int) -> str:
-    """
-    Parses current control file text, looking for THETA(*) and calculates the appropriate index for that THETA
-    (starting with the last_fixed_theta - the largest value used for THETA() in the fixed code)
-
-    :param control: control file text
-    :type control: str
-
-    :param tokens: token groups
-    :type tokens: dict
-
-    :param var_theta_block: variable theta block
-    :type var_theta_block: str
-
-    :param phenotype: phenotype for model
-    :type phenotype: dict
-
-    :param last_fixed_theta: highest value used for THETA in fixed code. Fixed values for THETA must start with 1
-        and be continuous until the last fixed THETA
-    :type last_fixed_theta: int
-
-    :return: new control file
-    :rtype: str
-    """
-    # EXAMPLED_THETA_BLOCK IS THE FINAL $THETA BLOCK FOR THIS MODEL, WITH THE TOKEN TEXT SUBSTITUTED IN
-    # EXPANDED TO ONE LINE PER THETA
-    # token ({'ADVAN[3]}) will be present on if there is a THETA(???) in it
-    # one instance of token for each theta present, so they can be counted
-    # may be empty list ([]), but each element must contain '{??[N]}
-    expanded_theta_block = _expand_tokens(tokens, var_theta_block, phenotype)
-    # then look at each  token, get THETA(alpha) from non-THETA block tokens
-    theta_indices = _get_theta_matches(expanded_theta_block, tokens, phenotype)
-
-    # add last fixed theta value to all
-    for k, v in theta_indices.items():
-        # add last fixed theta value to all
-        # and put into control file
-        control = control.replace(f"THETA({k})", "THETA(" + str(v + last_fixed_theta) + ")")
-
-    return control
-
-
-def _get_theta_matches(expanded_theta_block: list, tokens: dict, full_phenotype: dict) -> dict:
-    # shouldn't be any THETA(alpha) in expandedTHETABlock, should  be trimmed out
-    # get stem and index, look in other tokens in this token set (phenotype)
-    # tokens can be ignored here, they are already expanded, just list the alpha indices of each THETA(alpha) in order
-    # and match the row in the expandedTHETAblock
-    # note that commonly a stem will have more than one THETA, e.g, THETA(ADVANA)
-    # and THETA(ADVANB) for ADVAN4, K23 and K32
-    # however, an alpha index MAY NOT appear more than once, e.g.,
-    # e.g. TVCL = THETA()**THETA(CL~WT)
-    #      TVQ  = THETA()**THETA(CL~WT)
-    # is NOT PERMITTED, need to do:
-    # CLPWR = THETA(CL~WT)
-    # TVCL = THETA()**CLPWR
-    # TVQ  = THETA()**CLPWR
-
-    theta_matches = {}
-    cur_theta = 1
-    # keep track of added/check token, don't want to repeat them, otherwise sequence of THETA indices will be wrong
-    all_checked_tokens = []
-
-    for theta_row in expanded_theta_block:
-        # get all THETA(alpha) indices in other tokens in this token set
-        stem, index = _get_token_parts(theta_row)
-        phenotype = full_phenotype[stem]
-        full_token = ""  # assemble full token, except the one in $THETA, to search for THETA(alpha)
-
-        if not (any(stem in s for s in all_checked_tokens)):  # add if not already in list
-            for token in range(len(tokens[stem][phenotype])):
-                if token != index - 1:
-                    # only include text is it ends up in the model
-                    new_string = tokens[stem][phenotype][token].replace(" ", "")
-                    new_string = remove_comments(new_string).strip()
-                    full_token = full_token + new_string + "\n"
-
-            # get THETA(alphas)
-            full_indices = re.findall(r"THETA\(.+\)", full_token)
-            # get unique THETA(INDEX)
-            full_indices = list(dict.fromkeys(full_indices))
-
-            for line in full_indices:
-                # have to get only part between THETA( and )
-                start_theta = line.find("THETA(") + 6
-                last_parens = line.find(")", (start_theta - 2))
-                theta_index = line[start_theta:last_parens]
-
-                theta_matches[theta_index] = cur_theta
-
-                cur_theta += 1
-
-            all_checked_tokens.append(stem)
-
-        # number should match #of rows with stem in expandedTHETABlock
-
-    return theta_matches
-
-
-def _get_rand_var_matches(expanded_block, tokens, full_phenotype, which_rand):
-    rand_matches = {}
-    cur_rand = 1
-
-    # keep track of added/check token, don't want to repeat them, otherwise sequence of THETA indices will be wrong
-    all_checked_tokens = []
-
-    for rand_row in expanded_block:
-        # get all THETA(alpha) indices in other tokens in this token set
-        stem, index = _get_token_parts(rand_row)
-        phenotype = full_phenotype[stem]
-        full_token = ""  # assemble full token, except the one in $THETA, to search for THETA(alpha)
-
-        if not (any(stem in s for s in all_checked_tokens)):  # add if not already in list
-            for thisToken in range(len(tokens[stem][phenotype])):
-                if thisToken != index - 1:
-                    new_string = tokens[stem][phenotype][thisToken]  # can't always replace spaces, sometimes needed
-                    new_string = remove_comments(new_string).strip()
-                    full_token = full_token + new_string + "\n"
-
-                    # replace THETA with XXXXXX, so it doesn't conflict with ETA
-                    if which_rand == "ETA":
-                        full_token = full_token.replace("THETA", "XXXXX")
-
-            # get ETA/EPS(alphas)
-            full_indices = re.findall(which_rand + r"\(.+?\)", full_token)  # non-greedy with ?
-
-            for i in range(len(full_indices)):
-                start = full_indices[i].find((which_rand + "(")) + 4
-                last_parens = full_indices[i].find(")", (start - 2))
-                rand_index = full_indices[i][start:last_parens]
-                rand_matches[rand_index] = cur_rand
-                cur_rand += 1
-            all_checked_tokens.append(stem)
-
-        # number should match #of rows with stem in expandedTHETABlock
-
-    return rand_matches
-
-
-def match_rands(control: str, tokens: dict, var_rand_block: list, phenotype: dict, last_fixed_rand, stem: str) -> str:
-
-    expanded_rand_block = _expand_tokens(tokens, var_rand_block, phenotype)
-
-    # then look at each  token, get THETA(alpha) from non-THETA block tokens
-    rand_indices = _get_rand_var_matches(expanded_rand_block, tokens, phenotype, stem)
-
-    # add last fixed theta value to all
-    for i, (k, v) in enumerate(rand_indices.items()):
-        # add last fixed random parm value to all
-        # and put into control file
-        control = control.replace(stem + "(" + k + ")", stem + "(" + str(v + last_fixed_rand) + ")")
-
-    return control
 
 
 def remove_file(file_path: str):

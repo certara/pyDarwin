@@ -341,10 +341,22 @@ def terminate_process(pid: int):
     """
     proc = psutil.Process(pid)
 
-    for p in proc.children(True):
+    terminate_processes(proc.children(True) + [proc])
+
+
+def terminate_processes(processes: list):
+    log.message(f'Terminating {len(processes)} processes...')
+
+    for p in processes:
         p.terminate()
 
-    proc.terminate()
+    gone, alive = psutil.wait_procs(processes, timeout=4)
+
+    if alive:
+        log.warn(f'{len(alive)} are still alive')
+
+        for p in alive:
+            p.kill()
 
 
 class PipelineStep:

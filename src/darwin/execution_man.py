@@ -36,6 +36,13 @@ def start_execution_manager():
     mon.start()
 
 
+def _set_all_finished():
+    with _all_finished:
+        global _all_finished_flag
+        _all_finished.notify_all()
+        _all_finished_flag = True
+
+
 def _stop_mon():
     global _keep_going
 
@@ -50,24 +57,26 @@ def _stop_mon():
 
     while not stop:
         sleep(1)
+
         if exists(stop_file):
             log.warn('Execution has been interrupted')
+
+            with _all_finished:
+                global _all_finished_flag
+                _all_finished_flag = False
+
             stop = True
             _hard_stop.set(True)
-        elif exists(soft_stop_file):
+            _keep_going.set(False)
+
+            utils.terminate_processes(psutil.Process().children(True))
+
+            _set_all_finished()
+
+        elif not soft_stop and exists(soft_stop_file):
             log.warn('Execution will stop after finishing ongoing model runs')
-            stop = soft_stop = True
+            soft_stop = True
+            _keep_going.set(False)
 
-    _keep_going.set(False)
-
-    if not soft_stop:
-        log.warn('Terminating all subprocesses...')
-
-        for p in psutil.Process().children(True):
-            p.terminate()
-
-    # if soft_stopped all subprocesses should be finished by the time it goes to delete temp_dir
-    with _all_finished:
-        global _all_finished_flag
-        _all_finished.notify_all()
-        _all_finished_flag = True
+            # if soft_stopped all subprocesses should be finished by the time it goes to delete temp_dir
+            _set_all_finished()

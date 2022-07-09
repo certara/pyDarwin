@@ -101,7 +101,7 @@ class GenericGridManager(GridManager):
             if not job_id:
                 continue
 
-            # if job was submitter with this GridMan
+            # if job was submitted with this GridMan
             job = self.jobs.get(job_id)
 
             # and it was requested by this poll

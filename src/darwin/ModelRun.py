@@ -230,8 +230,8 @@ class ModelRun:
 
             self.status = "Finished model run"
         except TimeoutExpired:
-            utils.terminate_process(run_process.pid)
             log.error(f'run {self.model_num} has timed out')
+            utils.terminate_process(run_process.pid)
             self.status = "Model run timed out"
 
             return

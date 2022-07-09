@@ -66,12 +66,11 @@ class PipelineRunManager(ModelRunManager):
 
     @staticmethod
     def _process_run_results(run: ModelRun):
-        if run.source == 'new' and not run.is_duplicate():
-            if not interrupted():
-                run.output_results()
+        if run.source == 'new' and not run.is_duplicate() and run.status != 'Not Started' and not interrupted():
+            run.output_results()
 
-                model_cache = get_model_cache()
-                model_cache.store_model_run(run)
+            model_cache = get_model_cache()
+            model_cache.store_model_run(run)
 
         res = run.result
         model = run.model
@@ -79,7 +78,7 @@ class PipelineRunManager(ModelRunManager):
         if GlobalVars.BestRun is None or res.fitness < GlobalVars.BestRun.result.fitness:
             _copy_to_best(run)
 
-        if interrupted():
+        if interrupted() or run.status == 'Not Started':
             return run
 
         step_name = "Iteration"
@@ -127,7 +126,7 @@ class LocalRunManager(PipelineRunManager):
         :type run: ModelRun
         """
 
-        if run.status == 'Not Started':
+        if run.status == 'Not Started' and keep_going():
             run.run_model()  # current model is the general model type (not GA/DEAP model)
 
         return run
@@ -181,7 +180,7 @@ class RemoteRunManager(PipelineRunManager):
         :type run: ModelRun
         """
 
-        if run.status == 'Not Started':
+        if run.status == 'Not Started' and keep_going():
             self.grid_man.add_model_run(run)
 
         return run

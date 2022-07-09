@@ -171,6 +171,7 @@ def _run_process(command: list, error_message: str):
         log.error(error_message)
 
         if process:
+            log.error(str(process.stdout))
             log.error(str(process.stderr))
 
         return None

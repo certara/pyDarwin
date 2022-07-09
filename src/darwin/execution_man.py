@@ -31,8 +31,22 @@ def wait_for_subprocesses(timeout: int) -> bool:
         return _all_finished.wait(timeout)
 
 
-def start_execution_manager():
-    mon = threading.Thread(target=_stop_mon, daemon=True)
+def start_execution_manager(clean=False):
+    stop_file = os.path.join(options.output_dir, 'stop.darwin')
+    soft_stop_file = os.path.join(options.output_dir, 'soft_stop.darwin')
+
+    if clean:
+        utils.remove_file(stop_file)
+        utils.remove_file(soft_stop_file)
+
+    if exists(stop_file) or exists(soft_stop_file):
+        _keep_going.set(False)
+
+        log.warn('Chose not to start')
+
+        return
+
+    mon = threading.Thread(target=_stop_mon, args=(stop_file, soft_stop_file), daemon=True)
     mon.start()
 
 
@@ -43,17 +57,9 @@ def _set_all_finished():
         _all_finished_flag = True
 
 
-def _stop_mon():
-    global _keep_going
-
+def _stop_mon(stop_file: str, soft_stop_file: str):
     stop = False
     soft_stop = False
-
-    stop_file = os.path.join(options.output_dir, 'stop.darwin')
-    soft_stop_file = os.path.join(options.output_dir, 'soft_stop.darwin')
-
-    utils.remove_file(stop_file)
-    utils.remove_file(soft_stop_file)
 
     while not stop:
         sleep(1)

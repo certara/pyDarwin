@@ -105,7 +105,7 @@ def _init_app(options_file: str, folder: str = None):
 
     _init_model_results()
 
-    start_execution_manager()
+    start_execution_manager(clean=True)
 
 
 class DarwinApp:

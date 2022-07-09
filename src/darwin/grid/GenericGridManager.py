@@ -7,8 +7,8 @@ from darwin.Log import log
 from darwin.options import options
 
 import darwin.utils as utils
+from darwin.ModelRun import ModelRun, run_to_json, json_to_run
 
-from .ModelRun import ModelRun, run_to_json, json_to_run
 from .GridManager import GridManager, register_grid_man
 
 

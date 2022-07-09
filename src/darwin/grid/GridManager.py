@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from .ModelRun import ModelRun
+from darwin.ModelRun import ModelRun
 
 _grid_man_classes = {}
 

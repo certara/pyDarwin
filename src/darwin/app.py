@@ -13,6 +13,7 @@ import darwin.NMEngineAdapter
 import darwin.MemoryModelCache
 import darwin.ModelRunManager
 import darwin.PipelineRunManager
+import darwin.grid.GridRunManager
 
 from .Template import Template
 from .ModelRun import ModelRun
@@ -80,6 +81,7 @@ def _init_app(options_file: str, folder: str = None):
         _go_to_folder(options.project_dir)
 
     darwin.PipelineRunManager.register()
+    darwin.grid.GridRunManager.register()
 
     run_man = darwin.ModelRunManager.create_model_run_man(options.model_run_man)
 

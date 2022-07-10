@@ -152,7 +152,11 @@ pipeline {
                         }
                     }
                     withAWSParameterStore(credentialsId: '', naming: 'relative', path: '/CodeBuild', recursive: true, regionName: 'us-east-1') {
-                       labelledShell label: 'Building Artifactory Repository Context - R', script: """
+                        script {
+                            ARTIFACTORY_PYPI_READER_INTERNAL_USERNAME = ARTIFACTORY_PYPI_READER_INTERNAL_USERNAME
+                            ARTIFACTORY_PYPI_READER_INTERNAL_TOKEN = ARTIFACTORY_PYPI_READER_INTERNAL_TOKEN
+                        }
+                        labelledShell label: 'Building Artifactory Repository Context - R', script: """
                             set +x
                             sed -i -e "s|ARTIFACTORY_PYPI_READER_INTERNAL_USERNAME|${ARTIFACTORY_PYPI_READER_INTERNAL_USERNAME}|g" -e "s|ARTIFACTORY_PYPI_READER_INTERNAL_TOKEN|${ARTIFACTORY_PYPI_READER_INTERNAL_TOKEN}|g" /root/.pypirc
                             set -x

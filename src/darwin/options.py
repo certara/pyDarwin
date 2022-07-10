@@ -152,8 +152,6 @@ class Options:
             self.num_niches = _get_mandatory_option(opts, 'num_niches', self.algorithm)
             self.niche_radius = _get_mandatory_option(opts, 'niche_radius', self.algorithm)
 
-        self.nmfe_path = _get_mandatory_option(opts, 'nmfePath')
-
         self.model_run_priority = _get_priority_class(opts)
         self.model_run_timeout = int(opts.get('model_run_timeout', 1200))
 

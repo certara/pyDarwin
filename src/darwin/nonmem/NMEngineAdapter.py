@@ -28,10 +28,14 @@ class NMEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def check_settings():
-        if not os.path.exists(options.nmfe_path):
-            raise RuntimeError(f"NMFE path '{options.nmfe_path}' seems to be missing")
+        nmfe_path = options.get('nmfePath', None)
+        if not nmfe_path:
+            raise RuntimeError(f"nmfePath must be set for running NONMEM models")
 
-        log.message(f"NMFE found: {options.nmfe_path}")
+        if not os.path.exists(nmfe_path):
+            raise RuntimeError(f"NMFE path '{nmfe_path}' seems to be missing")
+
+        log.message(f"NMFE found: {nmfe_path}")
 
     @staticmethod
     def get_error_messages(run: ModelRun):
@@ -219,7 +223,7 @@ class NMEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def get_model_run_command(run: ModelRun) -> list:
-        return [options.nmfe_path, run.control_file_name, run.output_file_name,
+        return [options['nmfePath'], run.control_file_name, run.output_file_name,
                 " -nmexec=" + run.executable_file_name, f'-rundir={run.run_dir}']
 
     @staticmethod

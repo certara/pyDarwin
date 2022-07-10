@@ -53,7 +53,7 @@ def run_template(model_template: Template) -> ModelRun:
 def _go_to_folder(folder: str):
     if folder:
         if not os.path.isdir(folder):
-            os.mkdir(folder)
+            os.makedirs(folder)
 
         log.message("Changing directory to " + folder)
         os.chdir(folder)

@@ -52,15 +52,13 @@ class MemoryModelCache(ModelCache):
 
         utils.remove_file(default_models_file)
 
-        saved_models_file = options.saved_models_file
+        if options.use_saved_models and options.saved_models_file:
+            models_list = Path(options.saved_models_file)
 
-        if options.use_saved_models and saved_models_file:
-            try:
-                models_list = Path(saved_models_file)
+            log.message("Loading saved models...")
 
-                if models_list.is_file():
-                    log.message("Loading saved models...")
-
+            if models_list.is_file():
+                try:
                     with open(models_list) as json_file:
                         loaded_runs = json.load(json_file)
 
@@ -72,14 +70,24 @@ class MemoryModelCache(ModelCache):
                     with self._lock_all_runs:
                         self.all_runs = all_runs
 
-                    log.message(f"Using saved models from {models_list}")
+                    if not all_runs:
+                        log.warn(f"'{models_list}' is empty")
+                    else:
+                        log.message(f"Using saved models from '{models_list}'")
+                except:
+                    traceback.print_exc()
+                    log.error(f"Failed to load {models_list}")
+            else:
+                log.warn(f"'{models_list}' does not exist")
 
-                    GlobalVars.SavedModelsFile = models_list
-                else:
-                    log.error(f"Cannot find {models_list}")
-            except:
-                traceback.print_exc()
-                log.error(f"Failed to load {saved_models_file}")
+                try:
+                    with open(models_list, 'w'):
+                        pass
+                except OSError:
+                    log.error(f"Cannot create '{models_list}'")
+
+            if models_list.is_file():
+                GlobalVars.SavedModelsFile = models_list
 
         log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
 

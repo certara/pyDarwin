@@ -142,8 +142,6 @@ class LocalRunManager(PipelineRunManager):
         utils.remove_dir(options.temp_dir)
         os.makedirs(options.temp_dir)
 
-        log.message('Done')
-
     @staticmethod
     def cleanup_folders():
         if options.remove_temp_dir:

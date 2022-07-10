@@ -56,10 +56,8 @@
         "postRunPythonCode": "{project_dir}/../simplefunc_common.py"
     },
 
-    "use_saved_models": true,
-    "saved_models_file": "{output_dir}/models0.json",
-
-    "model_run_man": "darwin.GridRunManager",
+    "use_saved_models": false,
+    "saved_models_file": "{working_dir}/models0.json",
 
     "grid_manager": {
         "submit_search_command": "qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'",

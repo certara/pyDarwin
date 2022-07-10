@@ -8,7 +8,7 @@ from darwin.Log import log
 def stop_search(now: bool):
     stop_file = 'stop.darwin' if now else 'soft_stop.darwin'
 
-    with open(os.path.join(options.output_dir, stop_file), 'w', encoding='utf-8'):
+    with open(os.path.join(options.working_dir, stop_file), 'w'):
         pass
 
 

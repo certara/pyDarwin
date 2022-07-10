@@ -13,12 +13,15 @@ class ModelRunManager(ABC):
 
     @staticmethod
     def init_folders():
+        log.message('Preparing project working folder...')
+
+        if not os.path.exists(options.working_dir):
+            os.makedirs(options.working_dir)
+
         log.message('Preparing project output folder...')
 
         if not os.path.exists(options.output_dir):
             os.makedirs(options.output_dir)
-
-        log.message('Done')
 
     @staticmethod
     def cleanup_folders():

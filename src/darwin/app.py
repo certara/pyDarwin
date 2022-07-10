@@ -53,7 +53,7 @@ def run_template(model_template: Template) -> ModelRun:
 def _go_to_folder(folder: str):
     if folder:
         if not os.path.isdir(folder):
-            os.mkdir(folder)
+            os.makedirs(folder)
 
         log.message("Changing directory to " + folder)
         os.chdir(folder)
@@ -92,7 +92,7 @@ def _init_app(options_file: str, folder: str = None):
 
     darwin.ModelRunManager.set_run_manager(run_man)
 
-    log_file = os.path.join(options.output_dir, "messages.txt")
+    log_file = os.path.join(options.working_dir, "messages.txt")
 
     utils.remove_file(log_file)
 
@@ -107,10 +107,17 @@ def _init_app(options_file: str, folder: str = None):
 
     log.message(f"Project dir: {options.project_dir}")
     log.message(f"Data dir: {options.data_dir}")
+    log.message(f"Project working dir: {options.working_dir}")
     log.message(f"Project temp dir: {options.temp_dir}")
     log.message(f"Project output dir: {options.output_dir}")
 
-    GlobalVars.init_global_vars(options.output_dir)
+    GlobalVars.StartTime = time.time()
+    GlobalVars.TimeToBest = 0
+    GlobalVars.output = os.path.join(options.output_dir, "results.csv")
+    GlobalVars.FinalControlFile = os.path.join(options.output_dir, "FinalControlFile.mod")
+    GlobalVars.FinalResultFile = os.path.join(options.output_dir, "FinalResultFile.lst")
+    GlobalVars.InterimControlFile = os.path.join(options.working_dir, "InterimControlFile.mod")
+    GlobalVars.InterimResultFile = os.path.join(options.working_dir, "InterimResultFile.lst")
 
     darwin.nonmem.NMEngineAdapter.register()
     darwin.MemoryModelCache.register()

@@ -8,11 +8,10 @@ import darwin.nonmem.NMEngineAdapter
 from darwin.Log import log
 
 from .ModelRun import ModelRun, run_to_json, json_to_run
-from .ModelResults import ModelResults
 
 
 def run_model(run: ModelRun) -> ModelRun:
-    run.result = ModelResults()
+    run.result = run.model_result_class()
 
     run.run_model()
 

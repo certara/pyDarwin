@@ -75,6 +75,8 @@ class ModelRun:
         run_dir names will be based on the file_stem, which will be unique for each model in the search
     """
 
+    model_result_class = ModelResults
+
     def __init__(self, model: Model, model_num: int, generation, adapter: ModelEngineAdapter):
         """
 
@@ -89,7 +91,7 @@ class ModelRun:
 
         self.model = model
         self.adapter = adapter
-        self.result = ModelResults()
+        self.result = self.model_result_class()
 
         self.model_num = model_num
         self.generation = str(generation)
@@ -136,7 +138,7 @@ class ModelRun:
 
         run = cls(model, src['model_num'], src['generation'], adapter)
 
-        run.result = ModelResults.from_dict(src['result'])
+        run.result = cls.model_result_class.from_dict(src['result'])
 
         for attr in JSON_ATTRIBUTES:
             run.__setattr__(attr, src[attr])

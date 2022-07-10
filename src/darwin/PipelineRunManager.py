@@ -85,7 +85,7 @@ class PipelineRunManager(ModelRunManager):
         if options.isGA:
             step_name = "Generation"
 
-        if len(res.errors) > 0:
+        if res.errors:
             prd_err_text = ", error = " + res.errors
 
         with open(GlobalVars.output, "a") as result_file:

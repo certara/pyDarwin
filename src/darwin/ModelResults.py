@@ -33,7 +33,7 @@ class ModelResults:
         res = cls()
 
         for attr in JSON_ATTRIBUTES:
-            res.__setattr__(attr, src[attr])
+            res.__setattr__(attr, src.get(attr))
 
         return res
 

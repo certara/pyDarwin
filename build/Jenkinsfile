@@ -207,31 +207,31 @@ pipeline {
             }
             steps {
                 container('certara-python') {
-                    // rtBuildInfo(
-                    //     maxBuilds: "${ARTIFACTORY_MAX_BUILD_COUNT}",
-                    //     deleteBuildArtifacts: true,
-                    //     buildName: "${ARTIFACTORY_BUILD_NAME}",
-                    //     buildNumber: "${BUILD_VERSION}"
-                    // )
-                    // rtUpload(
-                    //     serverId: "${ARTIFACTORY_SERVER_ID}",
-                    //     spec: """{
-                    //         "files": [
-                    //             {
-                    //                 "pattern": "artifacts/${PACKAGE_NAME}-*.tar.gz",
-                    //                 "target": "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}/pyDarwin/"
-                    //             }
-                    //         ]
-                    //     }""",
-                    //     failNoOp: true,
-                    //     buildName: "${ARTIFACTORY_BUILD_NAME}",
-                    //     buildNumber: "${BUILD_VERSION}"
-                    // )
-                    // rtPublishBuildInfo(
-                    //     serverId: "${ARTIFACTORY_SERVER_ID}",
-                    //     buildName: "${ARTIFACTORY_BUILD_NAME}",
-                    //     buildNumber: "${BUILD_VERSION}"
-                    // )
+                    rtBuildInfo(
+                        maxBuilds: "${ARTIFACTORY_MAX_BUILD_COUNT}",
+                        deleteBuildArtifacts: true,
+                        buildName: "${ARTIFACTORY_BUILD_NAME}",
+                        buildNumber: "${BUILD_VERSION}"
+                    )
+                    rtUpload(
+                        serverId: "${ARTIFACTORY_SERVER_ID}",
+                        spec: """{
+                            "files": [
+                                {
+                                    "pattern": "artifacts/${PACKAGE_NAME}-*.tar.gz",
+                                    "target": "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}/pyDarwin/"
+                                }
+                            ]
+                        }""",
+                        failNoOp: true,
+                        buildName: "${ARTIFACTORY_BUILD_NAME}",
+                        buildNumber: "${BUILD_VERSION}"
+                    )
+                    rtPublishBuildInfo(
+                        serverId: "${ARTIFACTORY_SERVER_ID}",
+                        buildName: "${ARTIFACTORY_BUILD_NAME}",
+                        buildNumber: "${BUILD_VERSION}"
+                    )
                     labelledShell label: 'twine upload', script: """
                         cd ${WORKSPACE}/
                         twine upload -r local dist/*

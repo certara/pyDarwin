@@ -2,7 +2,7 @@ import groovy.transform.Field
 
 @Field
 PACKAGE_NAME = "pyDarwin"
-ARTIFACTORY_BUILD_NAME = "pmx-pydarwin-package"
+ARTIFACTORY_BUILD_NAME = "certara-pydarwin-package"
 ARTIFACTORY_CONFIG = "pirana"
 TEAMS_CHANNEL_NAME = "pirana"
 
@@ -152,6 +152,13 @@ pipeline {
                         }
                     }
                     withAWSParameterStore(credentialsId: '', naming: 'relative', path: '/CodeBuild', recursive: true, regionName: 'us-east-1') {
+                       labelledShell label: 'Building Artifactory Repository Context - R', script: """
+                            set +x
+                            sed -i -e "s|ARTIFACTORY_PYPI_READER_INTERNAL_USERNAME|${ARTIFACTORY_PYPI_READER_INTERNAL_USERNAME}|g" -e "s|ARTIFACTORY_PYPI_READER_INTERNAL_TOKEN|${ARTIFACTORY_PYPI_READER_INTERNAL_TOKEN}|g" /root/.pypirc
+                            set -x
+                        """
+                    }
+                    withAWSParameterStore(credentialsId: '', naming: 'relative', path: '/CodeBuild', recursive: true, regionName: 'us-east-1') {
                         labelledShell label: 'Creating Test Results Directory', script: """
                             set +x
                             mkdir -p ${TEST_RESULTS_DIR}
@@ -179,6 +186,7 @@ pipeline {
                         . venv/bin/activate
                         pip install --upgrade build
                         python -m build
+                        deactivate
                     """
                     labelledShell label: "Creating zipped bundle structure", script: """
                         cd ${WORKSPACE}/dist/
@@ -224,6 +232,10 @@ pipeline {
                         buildName: "${ARTIFACTORY_BUILD_NAME}",
                         buildNumber: "${BUILD_VERSION}"
                     )
+                    labelledShell label: 'twine upload', script: """
+                        cd ${WORKSPACE}/
+                        twine upload -r local dists/*
+                    """
                 }
             }
         }

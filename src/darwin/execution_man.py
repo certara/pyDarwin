@@ -11,7 +11,7 @@ import darwin.utils as utils
 
 _keep_going = utils.AtomicFlag(True)
 _hard_stop = utils.AtomicFlag(False)
-_all_finished_flag = False
+_all_finished_flag = True
 _all_finished = threading.Condition()
 
 
@@ -21,8 +21,6 @@ def keep_going() -> bool:
 
 def dont_even_start():
     _keep_going.set(False)
-    # in order to enable cleanup_folders
-    _set_all_finished()
 
 
 def interrupted() -> bool:

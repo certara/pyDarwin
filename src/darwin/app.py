@@ -28,6 +28,8 @@ def run_template(model_template: Template) -> ModelRun:
 
     algorithm = options.algorithm
 
+    start_execution_manager(clean=True)
+
     log.message(f"Search start time = {time.asctime()}")
 
     if algorithm in ["GBRT", "RF", "GP"]:
@@ -114,8 +116,6 @@ def _init_app(options_file: str, folder: str = None):
     darwin.MemoryModelCache.register()
 
     _init_model_results()
-
-    start_execution_manager(clean=True)
 
 
 class DarwinApp:

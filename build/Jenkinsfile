@@ -234,7 +234,7 @@ pipeline {
                     // )
                     labelledShell label: 'twine upload', script: """
                         cd ${WORKSPACE}/
-                        twine upload -r local dists/*
+                        twine upload -r local dist/*
                     """
                 }
             }

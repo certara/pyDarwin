@@ -209,10 +209,7 @@ class ModelRun:
 
         _files_checked = True
 
-        if not exists(options.nmfe_path):
-            raise RuntimeError(f"NMFE path '{options.nmfe_path}' seems to be missing")
-
-        log.message(f"NMFE found: {options.nmfe_path}")
+        self.adapter.check_settings()
 
         if options.use_r:
             rscript_path = options.rscript_path

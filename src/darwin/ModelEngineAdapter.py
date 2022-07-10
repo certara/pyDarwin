@@ -16,6 +16,11 @@ class ModelEngineAdapter(ABC):
 
     @staticmethod
     @abstractmethod
+    def check_settings():
+        pass
+
+    @staticmethod
+    @abstractmethod
     def read_model(run) -> bool:
         pass
 

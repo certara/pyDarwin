@@ -27,6 +27,13 @@ class NMEngineAdapter(ModelEngineAdapter):
         return 'nonmem'
 
     @staticmethod
+    def check_settings():
+        if not os.path.exists(options.nmfe_path):
+            raise RuntimeError(f"NMFE path '{options.nmfe_path}' seems to be missing")
+
+        log.message(f"NMFE found: {options.nmfe_path}")
+
+    @staticmethod
     def get_error_messages(run: ModelRun):
         """
         Reads NMTRAN messages from the FMSG file and error messages from the PRDERR file.

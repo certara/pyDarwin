@@ -75,9 +75,10 @@ def _init_app(options_file: str, folder: str = None):
     # if running in folder, options_file may be a relative path, so need to cd to the folder first
     _go_to_folder(folder)
 
+    options.initialize(options_file, folder)
+
     log.message(f"Options file found at {options_file}")
 
-    options.initialize(options_file, folder)
     # if folder is not provided, then it must be set in options
     if not folder:
         _go_to_folder(options.project_dir)

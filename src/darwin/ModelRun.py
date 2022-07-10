@@ -217,7 +217,7 @@ class ModelRun:
         if options.use_r:
             rscript_path = options.rscript_path
 
-            if not (os.path.isfile(rscript_path) or os.path.islink(rscript_path)):
+            if not os.path.isfile(rscript_path):
                 raise RuntimeError(f"RScriptPath doesn't exist: {rscript_path}")
 
             log.message(f"RScript.exe found at {rscript_path}")

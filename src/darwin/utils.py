@@ -146,7 +146,7 @@ def remove_comments(code: str, comment_mark=';') -> str:
 
 
 def remove_file(file_path: str):
-    if os.path.isfile(file_path) or os.path.islink(file_path):
+    if os.path.isfile(file_path):
         os.unlink(file_path)
 
 

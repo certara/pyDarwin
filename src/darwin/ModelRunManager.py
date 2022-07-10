@@ -15,6 +15,9 @@ class ModelRunManager(ABC):
     def init_folders():
         log.message('Preparing project output folder...')
 
+        if not os.path.exists(options.working_dir):
+            os.makedirs(options.working_dir)
+
         if not os.path.exists(options.output_dir):
             os.makedirs(options.output_dir)
 

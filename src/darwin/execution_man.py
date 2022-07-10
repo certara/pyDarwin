@@ -36,8 +36,8 @@ def wait_for_subprocesses(timeout: int) -> bool:
 
 
 def start_execution_manager(clean=False):
-    stop_file = os.path.join(options.output_dir, 'stop.darwin')
-    soft_stop_file = os.path.join(options.output_dir, 'soft_stop.darwin')
+    stop_file = os.path.join(options.working_dir, 'stop.darwin')
+    soft_stop_file = os.path.join(options.working_dir, 'soft_stop.darwin')
 
     if clean:
         utils.remove_file(stop_file)

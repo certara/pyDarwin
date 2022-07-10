@@ -183,7 +183,7 @@ def _copy_to_best(run: ModelRun):
 
 def _conflict_project_dirs() -> bool:
     if any(os.path.samefile(options.temp_dir, path)
-           for path in [options.project_dir, options.data_dir, options.output_dir]):
+           for path in [options.project_dir, options.working_dir, options.data_dir, options.output_dir]):
         return True
 
     return False

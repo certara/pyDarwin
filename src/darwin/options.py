@@ -4,7 +4,6 @@ import re
 import json
 import subprocess
 import pathlib
-import tempfile
 
 import darwin.utils as utils
 
@@ -104,18 +103,21 @@ class Options:
         self.project_name = opts.get('project_name') or options_file_parent.name
         self.project_stem = re.sub(r'[^\w]', '_', self.project_name)
 
-        self.project_dir = str(folder or opts.get('project_dir') or options_file_parent)
+        self.project_dir = str(folder or options_file_parent)
+        self.working_dir = str(opts.get('working_dir')
+                               or os.path.join(pathlib.Path.home(), 'pydarwin', self.project_stem))
 
-        project_dir_alias = {'project_dir': self.project_dir}
+        project_dir_alias = {'project_dir': self.project_dir, 'working_dir': self.working_dir}
 
         self.data_dir = utils.apply_aliases(opts.get('data_dir'), project_dir_alias) or self.project_dir
         self.output_dir = utils.apply_aliases(opts.get('output_dir'), project_dir_alias) \
-            or os.path.join(self.project_dir, 'output')
+            or os.path.join(self.working_dir, 'output')
         self.temp_dir = utils.apply_aliases(opts.get('temp_dir'), project_dir_alias) \
-            or os.path.join(tempfile.gettempdir(), 'pydarwin', self.project_stem)
+            or os.path.join(self.working_dir, 'temp')
 
         self.aliases = {
             'project_dir': self.project_dir,
+            'working_dir': self.working_dir,
             'data_dir': self.data_dir,
             'output_dir': self.output_dir,
             'temp_dir': self.temp_dir,

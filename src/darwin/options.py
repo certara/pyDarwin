@@ -122,7 +122,7 @@ class Options:
             'output_dir': self.output_dir,
             'temp_dir': self.temp_dir,
             'algorithm': self.algorithm,
-            'author': opts.get('author', 'C.Darwin'),
+            'author': opts.get('author', 'C.R.Darwin'),
             'project_name': self.project_name,
             'project_stem': self.project_stem,
         }
@@ -146,6 +146,7 @@ class Options:
 
         if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
             self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)
+            self.num_generations = _get_mandatory_option(opts, 'num_generations', self.algorithm)
         if self.algorithm in ["GBRT", "RF", "GP"]:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
         if self.algorithm in ["GA", "GBRT", "RF", "GP"]:

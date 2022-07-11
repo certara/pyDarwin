@@ -116,7 +116,7 @@ def run_skopt(model_template: Template) -> ModelRun:
 
     population = Population(model_template, 0)
 
-    for generation in range(1, options['num_generations'] + 1):
+    for generation in range(1, options.num_generations + 1):
         log.message(f"Starting generation {generation}")
 
         suggested = _ask_models(opts, options.population_size)

@@ -118,7 +118,7 @@ def run_ga(model_template: Template) -> ModelRun:
 
     generations_no_change = 0
     overall_best_fitness = options.crash_value
-    num_generations = options['num_generations']
+    num_generations = options.num_generations
 
     # Begin evolution
 

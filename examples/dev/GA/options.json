@@ -1,6 +1,6 @@
 {
-    "author": "Mark Sale",
-    "project_name": "Some reasonable(ish) name",
+    "author": "Charles Robert Darwin",
+    "project_name": "Delicious armadillos",
 
     "algorithm": "GA",
 
@@ -17,13 +17,14 @@
         "niche_penalty": 10
     },
 
-    "remove_run_dir": false,
-    "remove_temp_dir": true,
-
     "random_seed": 11,
     "num_parallel": 4,
     "num_generations": 6,
     "population_size": 4,
+
+    "num_opt_chains": 4,
+
+    "exhaustive_batch_size": 100,
 
     "crash_value": 99999999,
 
@@ -44,12 +45,13 @@
     "local_2_bit_search": true,
     "final_downhill_search": true,
 
-    "nmfePath": "c:/nm74g64/util/nmfe74.bat",
+    "nmfePath": "/opt/nm751/util/nmfe75",
     "model_run_timeout": 1200,
+    "model_run_priority_class": "below_normal",
 
     "postprocess": {
         "useR": true,
-        "RScriptPath": "C:/Program Files/R/R-4.0.2/bin/Rscript.exe",
+        "RScriptPath": "/some/R/path/rscript",
         "postRunRCode": "{project_dir}/simplefunc.r",
         "R_timeout": 30,
         "usePython": true,
@@ -59,13 +61,27 @@
     "use_saved_models": false,
     "saved_models_file": "{working_dir}/models0.json",
 
+    "remove_run_dir": false,
+    "remove_temp_dir": true,
+
+    "model_run_man": "darwin.GridRunManager",
+    "model_cache": "darwin.MemoryModelCache",
+    "grid_man": "darwin.GenericGridManager",
+    "engine_adapter": "nonmem",
+
+    "working_dir": "~/darwin/Ex1",
+    "data_dir": "{project_dir}/data",
+    "output_dir": "{project_dir}/output",
+    "temp_dir": "{working_dir}/temp",
+
     "grid_manager": {
+        "python_path": "~/darwin/venv/bin/python",
         "submit_search_command": "qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'",
-        "python_path": "~/venv1/Scripts/python",
         "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
         "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
         "poll_command": "qstat -s z",
         "poll_job_id_re": "^\\s+(\\w+)",
+        "poll_interval": 5,
         "delete_command": "qdel {project_stem}-*"
     }
 }

@@ -345,6 +345,6 @@ def run_pso(model_template: Template) -> ModelRun:
     # Perform optimization
     # doc for local vs global search at
     # https://pyswarms.readthedocs.io/en/development/_modules/pyswarms/discrete/binary.html?highlight=local#
-    cost, pos = optimizer.optimize(f, iters=options['num_generations'], model_template=model_template)
+    cost, pos = optimizer.optimize(f, iters=options.num_generations, model_template=model_template)
 
     log.message(f"best fitness {str(cost)}, model {str(pos)}")

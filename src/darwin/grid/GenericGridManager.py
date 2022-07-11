@@ -29,8 +29,8 @@ class GridJob:
 
 class GenericGridManager(GridManager):
     def __init__(self):
-        runs_dir = os.path.join(options.temp_dir, 'runs')
-        results_dir = os.path.join(options.output_dir, 'run_results')
+        runs_dir = os.path.join(options.working_dir, 'runs')
+        results_dir = os.path.join(options.working_dir, 'run_results')
 
         utils.remove_dir(runs_dir)
         os.makedirs(runs_dir)

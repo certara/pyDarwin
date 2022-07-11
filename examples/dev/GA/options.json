@@ -66,6 +66,6 @@
         "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
         "poll_command": "qstat -s z",
         "poll_job_id_re": "^\\s+(\\w+)",
-        "delete_command": "qdel {project_stem}*"
+        "delete_command": "qdel {project_stem}-*"
     }
 }

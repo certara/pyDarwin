@@ -1,0 +1,1239 @@
+Run Directory,Fitness,Model,ofv,success,covar,correlation #,ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages
+/home/vnazarov/projects/Darwin_runs/Example4/0/23,99999999.000000,21011002000111101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/40,99999999.000000,20000111100011420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/20,99999999.000000,20020000010001121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/9,99999999.000000,20110102000001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/14,99999999.000000,20021100001011301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/37,99999999.000000,20101002011011420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/38,99999999.000000,20020102010100221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/3,99999999.000000,20000112001101300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/25,99999999.000000,21100002011010220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/30,99999999.000000,21101111111111211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/11,99999999.000000,21010100110010221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/16,99999999.000000,21020101001010121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/24,99999999.000000,21110011101011421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/22,99999999.000000,20111102001110211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/36,99999999.000000,20110102100000020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/29,99999999.000000,21020111100111320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/21,99999999.000000,20100012110000311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/13,99999999.000000,21001101000110320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/32,99999999.000000,21020002011111420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/2,99999999.000000,21011002101101021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/12,99999999.000000,21120102100110200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/27,99999999.000000,20111111000000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/15,99999999.000000,21100101010110211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/34,99999999.000000,21110002101000321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/5,99999999.000000,00020112000001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/7,99999999.000000,00021000111000201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/45,99999999.000000,21021112000101211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/53,99999999.000000,20010010010011401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/60,99999999.000000,20120102110111400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/54,99999999.000000,20120112001010420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/63,99999999.000000,20110001111111320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/57,99999999.000000,21110000011110420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/56,99999999.000000,20020102010000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/49,99999999.000000,21010010101000401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/58,99999999.000000,21020012000010321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/47,99999999.000000,21010112101001120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/51,99999999.000000,21111012001010220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/61,99999999.000000,21121112000110321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/43,99999999.000000,21001010110001321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/67,99999999.000000,21011101010111321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/4,99999999.000000,00120101101100401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/19,99999999.000000,00001102001000420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/33,99999999.000000,11021010110001221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/28,99999999.000000,01000112011100221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/6,99999999.000000,01000012100001221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/31,99999999.000000,11111000110000310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/18,99999999.000000,10110102000000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/8,99999999.000000,11001110010110120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/35,99999999.000000,11021112101000401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/17,99999999.000000,11021101010000021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/10,99999999.000000,01020012011000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/39,99999999.000000,10021112110000010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/52,99999999.000000,00001102100110211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/68,99999999.000000,20010002001101411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/77,99999999.000000,20001002111100120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/72,99999999.000000,21001002101101210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/70,99999999.000000,21021100011111421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/80,99999999.000000,20020102100101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/74,99999999.000000,21120110100000200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/75,99999999.000000,21101012001100310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/79,99999999.000000,21021112110001321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/26,99999999.000000,10001100100110420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/76,99999999.000000,10110102110001211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/46,99999999.000000,01101000010101211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/66,99999999.000000,00020111010111210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/78,99999999.000000,01121100110101221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/64,99999999.000000,00021101101111421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/50,99999999.000000,00100012100011300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/44,99999999.000000,10110002011111420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/65,99999999.000000,01020012001011420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/42,99999999.000000,00121012010001201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/48,99999999.000000,00001112111000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/71,99999999.000000,11000010100011210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/55,99999999.000000,11001011111101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/59,99999999.000000,10111012111001220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/62,99999999.000000,01121001010001111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/41,99999999.000000,11021011100110300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/69,99999999.000000,10100001101010110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/73,99999999.000000,10021002111010220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/2,99999999.000000,21011002101101021,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_2.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/3,99999999.000000,20000112001101300,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/4,99999999.000000,00120101101100401,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/1/16,99999999.000000,20010001111011301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/42,99999999.000000,20001000110000211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/33,99999999.000000,20111002011011020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/19,99999999.000000,20110012001100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/8,99999999.000000,20100012110101401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/6,99999999.000000,20000002000100321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/31,99999999.000000,21001010100110211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/15,99999999.000000,21011101010111320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/34,99999999.000000,21001001001110420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/9,99999999.000000,21010012010001201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/35,99999999.000000,21111012001011011,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/39,99999999.000000,21101110010110120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/7,99999999.000000,21001002001000311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/27,99999999.000000,21011000111000200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/5,99999999.000000,21120010111000200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/21,99999999.000000,21011111101000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/11,99999999.000000,21110112111000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/37,99999999.000000,10020112010001121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/25,99999999.000000,11021000000110321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/13,99999999.000000,11120010000011121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/48,99999999.000000,20120012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/55,99999999.000000,20100100100010020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/53,99999999.000000,21020101000110320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/56,99999999.000000,21020011110010410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/50,99999999.000000,21010100110010211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/57,99999999.000000,21020101100111220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/45,99999999.000000,21021112110011310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/60,99999999.000000,21001001010110211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/47,99999999.000000,21010112001010410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/52,99999999.000000,21020012000000310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/63,99999999.000000,20020000010101121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/67,99999999.000000,21011101010111321,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_67.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/49,99999999.000000,21010010101000401,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_49.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/1/58,99999999.000000,21100110001010121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/51,99999999.000000,10000102000010321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/59,99999999.000000,21100101000110320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/46,99999999.000000,21101012101100321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/20,99999999.000000,01101000010111210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/17,99999999.000000,10011112110001211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/40,99999999.000000,11001002011001420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/44,99999999.000000,10110010100011210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/32,99999999.000000,00001102111111201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/28,99999999.000000,10120001000111321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/10,99999999.000000,00121010001000401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/12,99999999.000000,00001111100101320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/30,99999999.000000,10100012011100220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/29,99999999.000000,01010102110001211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/18,99999999.000000,11111112110100320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/41,99999999.000000,00020100100101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/38,99999999.000000,00020000100001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/24,99999999.000000,10021101110000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/43,99999999.000000,11010002011111320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/22,99999999.000000,00011112110001120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/36,99999999.000000,10120010110000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/64,99999999.000000,21021112000110321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/70,99999999.000000,20021001010111200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/69,99999999.000000,20020110001011301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/74,99999999.000000,20111102100101021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/67,99999999.000000,20021112010000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/77,99999999.000000,21020012000010401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/68,99999999.000000,20020102101111401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/71,99999999.000000,21111102011101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/66,99999999.000000,21010112001001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/73,99999999.000000,21000011110000311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/79,99999999.000000,21001000000101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/26,99999999.000000,00021101101111400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/14,99999999.000000,01121011100110400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/23,99999999.000000,00110102110011211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/65,99999999.000000,00020110111000311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/62,99999999.000000,10110102000010201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/80,99999999.000000,00001112001010410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/72,99999999.000000,00121012001110201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/61,99999999.000000,00111012010001120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/54,99999999.000000,11021011101010120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/49,99999999.000000,01020012111000421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/1/78,99999999.000000,10110102101001020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/2,99999999.000000,21011002101101021,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_2.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/3,99999999.000000,20000112001101300,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/4,99999999.000000,00120101101100401,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/2/7,99999999.000000,21000011111111201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/17,99999999.000000,20111102011101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/19,99999999.000000,20010102101111120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/5,99999999.000000,20001010111000421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/27,99999999.000000,20121011110100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/14,99999999.000000,20121112111101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/22,99999999.000000,20020112010101100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/12,99999999.000000,21021010100010410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/24,99999999.000000,21120111000110020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/30,99999999.000000,20020102111001320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/13,99999999.000000,21111112010110401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/18,99999999.000000,21001011100110201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/36,99999999.000000,20020102101000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/40,99999999.000000,21111012001110120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/11,99999999.000000,21010112001010210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/29,99999999.000000,21110112101111401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/43,99999999.000000,21111102011111200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/26,99999999.000000,21110012111110211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/44,99999999.000000,21020011100010420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/33,99999999.000000,20111011010001301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/34,99999999.000000,21111112011101120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/31,99999999.000000,21020012000110410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/41,99999999.000000,21011002011000420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/15,99999999.000000,21111002110001420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/28,99999999.000000,21010012100000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/35,99999999.000000,00120100110111421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/8,99999999.000000,00001112110000011,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/54,99999999.000000,20020000010100220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/47,99999999.000000,20101112001010310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/20,99999999.000000,01010002111111301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/51,99999999.000000,21000112001101300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/49,99999999.000000,21010101101101320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/55,99999999.000000,21111102011111201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/66,99999999.000000,20100001110000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/69,99999999.000000,21010001100111400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/52,99999999.000000,21100010001010421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/58,99999999.000000,21001111000101320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/45,99999999.000000,21120100111001311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/62,99999999.000000,21101012001001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/23,99999999.000000,10000102000110310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/46,99999999.000000,00000012100110321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/37,99999999.000000,00120001000100021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/10,99999999.000000,01120101101101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/16,99999999.000000,00011112010101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/39,99999999.000000,11100110010011020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/32,99999999.000000,01001112011010401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/38,99999999.000000,11120010000001321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/6,99999999.000000,01020000110000211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/9,99999999.000000,00111112010000401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/21,99999999.000000,01121111100110400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/25,99999999.000000,00120102100001320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/42,99999999.000000,11011001111100210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/78,99999999.000000,21020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/80,99999999.000000,20020012000010221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/77,99999999.000000,21011012001010401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/72,99999999.000000,21011111101000021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/79,99999999.000000,20001000110000400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/53,99999999.000000,10101012011101121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/75,99999999.000000,21021000000001121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/61,99999999.000000,11011112101100321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/67,99999999.000000,00001111100101401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/70,99999999.000000,00021112011101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/68,99999999.000000,01010012110001211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/50,99999999.000000,00101110110010211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/74,99999999.000000,10020112000100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/59,99999999.000000,10110002000010200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/48,99999999.000000,00121112110000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/56,99999999.000000,00121012101101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/60,99999999.000000,01011112110001121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/64,99999999.000000,01101000011101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/63,99999999.000000,10011112110001310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/65,99999999.000000,10021111110000111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/57,99999999.000000,10001002001000311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/76,99999999.000000,00121011010101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/71,99999999.000000,00121010001000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/73,99999999.000000,01120102010001121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/2,99999999.000000,21011002101101021,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_2.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/3,99999999.000000,20000112001101300,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/4,99999999.000000,00120101101100401,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/2/25,99999999.000000,00120102100001320,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_25.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/2/49,99999999.000000,21010101101101320,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_49.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/3/13,99999999.000000,20121112111101110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/5,99999999.000000,21010010011100201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/41,99999999.000000,21000112011010411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/24,99999999.000000,20100000010011020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/8,99999999.000000,20000000110000401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/30,99999999.000000,21021010100010411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/32,99999999.000000,21111002001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/29,99999999.000000,21110012101110210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/6,99999999.000000,20111101101101320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/12,99999999.000000,20011012010000401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/7,99999999.000000,20010012100000420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/44,99999999.000000,21111002111101101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/14,99999999.000000,20100110010011201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/39,99999999.000000,21010012111000211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/46,99999999.000000,20101112000000121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/40,99999999.000000,21110012111101211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/37,99999999.000000,21020112000110321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/33,99999999.000000,21110112101111411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/15,99999999.000000,21111112110011221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/21,99999999.000000,21020000100000210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/19,99999999.000000,21120111000001111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/9,99999999.000000,10011111110000111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/35,99999999.000000,00120101110111421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/54,99999999.000000,20001011101100311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/68,99999999.000000,01010012110001211,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_68.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/3/51,99999999.000000,20121102000010221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/73,99999999.000000,01120102010001121,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_73.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/3/52,99999999.000000,20020012111101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/47,99999999.000000,21001011001101111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/57,99999999.000000,20020112101000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/49,99999999.000000,20001010111000420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/61,99999999.000000,20000102100111311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/64,99999999.000000,20121110110000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/26,99999999.000000,21110012111110211,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_26.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/3/65,99999999.000000,21010001101111311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/66,99999999.000000,21120100011010400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/16,99999999.000000,01010002111111101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/68,99999999.000000,21000002100110321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/63,99999999.000000,11000010001011221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/69,99999999.000000,10000102000111321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/20,99999999.000000,10021111100100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/28,99999999.000000,00121010001000321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/10,99999999.000000,00001112110000321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/43,99999999.000000,11110002010001020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/38,99999999.000000,10000011100000420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/42,99999999.000000,11020112010101100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/18,99999999.000000,01120101101001301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/26,99999999.000000,11120112000110211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/11,99999999.000000,10110102101110110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/23,99999999.000000,11110001010011301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/22,99999999.000000,01120102000001120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/34,99999999.000000,00121112100000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/17,99999999.000000,00111011110011200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/25,99999999.000000,00101000011101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/31,99999999.000000,00021112011110121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/73,99999999.000000,20111102010101401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/80,99999999.000000,20010110001011210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/78,99999999.000000,20101000110010221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/45,99999999.000000,01020000001010410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/74,99999999.000000,00110112010000201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/59,99999999.000000,01120102010110301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/62,99999999.000000,10121102101000311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/56,99999999.000000,00120110010011020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/76,99999999.000000,00001012110000011,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/48,99999999.000000,10001101110000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/50,99999999.000000,01111012011101121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/53,99999999.000000,10120101110000421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/55,99999999.000000,11101112010101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/60,99999999.000000,01010002011001121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/58,99999999.000000,00021010001000020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/75,99999999.000000,00121012101101200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/67,99999999.000000,00011002100000221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/77,99999999.000000,00111011010101301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/3/71,99999999.000000,11020000110000211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/2,99999999.000000,21011002101101021,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_2.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/3,99999999.000000,20000112001101300,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/4,99999999.000000,00120101101100401,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/2/5,99999999.000000,20001010111000421,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_5.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/4/39,99999999.000000,21000002010111000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/26,99999999.000000,20101010111000211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/12,99999999.000000,20000000100001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/16,99999999.000000,20020112101010020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/8,99999999.000000,21010001111111101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/31,99999999.000000,20101112010000401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/34,99999999.000000,20020112101000421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/29,99999999.000000,20000110101000420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/19,99999999.000000,21110102010111300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/37,99999999.000000,21120100111010401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/25,99999999.000000,21021010010010420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/10,99999999.000000,21010102011001220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/14,99999999.000000,21120002010011401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/11,99999999.000000,21100002110000401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/45,99999999.000000,21000001110000211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/41,99999999.000000,21120112100000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/38,99999999.000000,11110011000001111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/27,99999999.000000,10020012000110211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/47,99999999.000000,20021102000100221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/54,99999999.000000,20120102000110221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/58,99999999.000000,20121112110100221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/50,99999999.000000,21001002111101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/49,99999999.000000,20020010110000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/53,99999999.000000,21021011110010411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/46,99999999.000000,21111112101111411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/61,99999999.000000,20000002100011321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/60,99999999.000000,20001010001000321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/15,99999999.000000,01120110010000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/5,99999999.000000,11020011110011201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/9,99999999.000000,11020112010110411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/33,99999999.000000,11010001101111311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/21,99999999.000000,10120112110000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/22,99999999.000000,01021011100000020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/17,99999999.000000,01020000001000321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/32,99999999.000000,10120101101100300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/24,99999999.000000,00120002100001321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/35,99999999.000000,00120102100000221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/42,99999999.000000,11121002111010400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/13,99999999.000000,11120100011011300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/44,99999999.000000,11111112111101320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/7,99999999.000000,11001102100111311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/43,99999999.000000,00120002100001221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/6,99999999.000000,00111000110000211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/28,99999999.000000,11101101010001310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/18,99999999.000000,11120101110010420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/40,99999999.000000,11020012111000210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/23,99999999.000000,01120101110111320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/36,99999999.000000,00011001100001320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/20,99999999.000000,01111002001101010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/67,99999999.000000,20111112010101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/66,99999999.000000,20020111101011201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/71,99999999.000000,21011002001111020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/70,99999999.000000,21020011100000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/69,99999999.000000,10000010110100211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/65,99999999.000000,10121112101000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/51,99999999.000000,11120012010000211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/74,99999999.000000,20121002111101101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/75,99999999.000000,21110011001101110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/78,99999999.000000,21000112011010320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/73,99999999.000000,21101112000000111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/62,99999999.000000,10000100000110321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/72,99999999.000000,10021010100100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/48,99999999.000000,00101110010000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/55,99999999.000000,00121012101101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/56,99999999.000000,10001010111000400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/59,99999999.000000,00121011100100420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/76,99999999.000000,01001111101110110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/57,99999999.000000,00010002100001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/52,99999999.000000,11020000110011021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/80,99999999.000000,00020002111000201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/63,99999999.000000,11121011000001110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/64,99999999.000000,10101012100010220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/68,99999999.000000,11001011001100410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/77,99999999.000000,00121112100000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/4/79,99999999.000000,00110112010011101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/2,99999999.000000,21011002101101021,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_2.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/3,99999999.000000,20000112001101300,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/4,99999999.000000,00120101101100401,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/4/5,99999999.000000,11020011110011201,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_4_5.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5/25,99999999.000000,20100002010111310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/17,99999999.000000,20001112010000401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/26,99999999.000000,21020111001101300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/6,99999999.000000,20001010001001321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/18,99999999.000000,20001010001010321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/10,99999999.000000,20010102110011101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/45,99999999.000000,20001002100011411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/39,99999999.000000,21020011111011211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/41,99999999.000000,21020011111000201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/36,99999999.000000,20100002100011321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/43,99999999.000000,20020102011001220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/7,99999999.000000,20021011110010310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/11,99999999.000000,21010002110000211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/32,99999999.000000,21000112010010411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/37,99999999.000000,21111112010011111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/30,99999999.000000,21111000100100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/40,99999999.000000,11020010110111121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/15,99999999.000000,10021102000000311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/44,99999999.000000,21010112101000421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/16,99999999.000000,00121112100100221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/54,99999999.000000,20000002111100410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/49,99999999.000000,21100010110101211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/48,99999999.000000,20100000100001210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/52,99999999.000000,20121112110100320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/56,99999999.000000,21120100111010211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/55,99999999.000000,21110112100111221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/62,99999999.000000,21110100111010400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/60,99999999.000000,21000002111000400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/65,99999999.000000,21000001110010301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/61,99999999.000000,21120100111010321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/53,99999999.000000,11020012110001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/64,99999999.000000,11020012010001211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/14,99999999.000000,00111000110000221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/19,99999999.000000,01020002111000201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/38,99999999.000000,00110002101000021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/31,99999999.000000,11020112011010320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/34,99999999.000000,01120112010000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/20,99999999.000000,10101102010001310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/13,99999999.000000,10001010111001410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/5,99999999.000000,10111012101101301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/33,99999999.000000,01121002001101010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/9,99999999.000000,11110100010111401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/8,99999999.000000,01000110101111420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/35,99999999.000000,10101110110001411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/29,99999999.000000,10021011000001210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/28,99999999.000000,11020102100010311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/12,99999999.000000,11020012011001120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/23,99999999.000000,00111002001101010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/21,99999999.000000,11020011100100420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/24,99999999.000000,10101110011000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/22,99999999.000000,00121011110011211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/42,99999999.000000,11020012001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/66,99999999.000000,20110002111101411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/68,99999999.000000,20111112010100111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/69,99999999.000000,21011112010111200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/70,99999999.000000,20120001111111101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/47,99999999.000000,11020012011000221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/71,99999999.000000,21001002111000120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/74,99999999.000000,21001002110000120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/59,99999999.000000,10001010110111000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/76,99999999.000000,01110102000010301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/72,99999999.000000,01001011100001201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/80,99999999.000000,21020112010110411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/78,99999999.000000,21120101110010420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/58,99999999.000000,10001012101110220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/50,99999999.000000,10001112000100011,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/67,99999999.000000,01001111101101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/75,99999999.000000,10020000010101110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/46,99999999.000000,10101112101001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/51,99999999.000000,11120112110000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/57,99999999.000000,10111012101100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/63,99999999.000000,11121112101110120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/73,99999999.000000,01021000101101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/79,99999999.000000,11110011001101110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5/77,99999999.000000,11120011010000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/2/78,99999999.000000,21020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_78.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/16,99999999.000000,21010012001110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/4,99999999.000000,21110012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/6,99999999.000000,21000012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/19,99999999.000000,21010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/13,99999999.000000,21010012011100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/10,99999999.000000,21010010001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/8,99999999.000000,21010112001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/3,99999999.000000,20010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/9,99999999.000000,21010002001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/17,99999999.000000,21010012001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/22,99999999.000000,21010012001100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/7,99999999.000000,21011012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/23,99999999.000000,21010012001100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/18,99999999.000000,21010012001100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/14,99999999.000000,21010012000100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/20,99999999.000000,21010012001100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/21,99999999.000000,21010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/15,99999999.000000,21010012001000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/12,99999999.000000,21010012101100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/1,99999999.000000,01010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/1,99999999.000000,01010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/3,99999999.000000,20010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/4,99999999.000000,21110012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/2/78,99999999.000000,21020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_78.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/6,99999999.000000,21000012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_6.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/7,99999999.000000,21011012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_7.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/8,99999999.000000,21010112001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_8.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/9,99999999.000000,21010002001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_9.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/10,99999999.000000,21010010001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_10.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/12,99999999.000000,21010012101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_12.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/13,99999999.000000,21010012011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_13.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/14,99999999.000000,21010012000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_14.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/15,99999999.000000,21010012001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_15.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/16,99999999.000000,21010012001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_16.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/17,99999999.000000,21010012001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_17.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/18,99999999.000000,21010012001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_18.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/19,99999999.000000,21010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_19.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/20,99999999.000000,21010012001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_20.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/21,99999999.000000,21010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_21.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/22,99999999.000000,21010012001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_22.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/23,99999999.000000,21010012001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_23.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/3,99999999.000000,20010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/59,99999999.000000,20010012001110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/47,99999999.000000,20110012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/51,99999999.000000,20010112001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/62,99999999.000000,20010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/63,99999999.000000,20010012001100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/52,99999999.000000,20010002001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/61,99999999.000000,20010012001100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/4,99999999.000000,21110012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/65,99999999.000000,20010012001100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/64,99999999.000000,20010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/53,99999999.000000,20010010001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/55,99999999.000000,20010012101100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/49,99999999.000000,20000012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/57,99999999.000000,20010012000100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/60,99999999.000000,20010012001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/66,99999999.000000,20010012001100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/50,99999999.000000,20011012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/48,99999999.000000,20020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/58,99999999.000000,20010012001000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/56,99999999.000000,20010012011100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/2/78,99999999.000000,21020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_78.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/68,99999999.000000,21120012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/76,99999999.000000,21110012011100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/71,99999999.000000,21110112001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/80,99999999.000000,21110012001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/2/78,99999999.000000,21020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_78.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/77,99999999.000000,21110012000100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/83,99999999.000000,21110012001100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/69,99999999.000000,21100012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/70,99999999.000000,21111012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/75,99999999.000000,21110012101100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/72,99999999.000000,21110002001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/3,99999999.000000,00010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/86,99999999.000000,21110012001100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/73,99999999.000000,21110010001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/79,99999999.000000,21110012001110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/82,99999999.000000,21110012001100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/81,99999999.000000,21110012001100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/84,99999999.000000,21110012001100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/89,99999999.000000,21021012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/85,99999999.000000,21110012001100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/16,99999999.000000,01010012001110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/6,99999999.000000,21000012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_6.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/14,99999999.000000,01010012000100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/10,99999999.000000,01010010001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/78,99999999.000000,21110012001000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/5,99999999.000000,01020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/8,99999999.000000,01010112001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/6,99999999.000000,01000012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/17,99999999.000000,01010012001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/15,99999999.000000,01010012001000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/23,99999999.000000,01010012001100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/9,99999999.000000,01010002001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/19,99999999.000000,01010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/98,99999999.000000,21020012001110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/116,99999999.000000,21000012001110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/91,99999999.000000,21020002001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/108,99999999.000000,21000112001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/7,99999999.000000,21011012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_7.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/99,99999999.000000,21020012001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/90,99999999.000000,21020112001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/94,99999999.000000,21020012101100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/101,99999999.000000,21020012001100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/20,99999999.000000,01010012001100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/105,99999999.000000,21020012001100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/95,99999999.000000,21020012011100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/96,99999999.000000,21020012000100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/112,99999999.000000,21000012101100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/103,99999999.000000,21020012001100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/100,99999999.000000,21020012001100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/107,99999999.000000,21001012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/110,99999999.000000,21000010001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/104,99999999.000000,21020012001100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/8,99999999.000000,21010112001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_8.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/102,99999999.000000,21020012001100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/92,99999999.000000,21020010001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/109,99999999.000000,21000002001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/97,99999999.000000,21020012001000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/117,99999999.000000,21000012001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/113,99999999.000000,21000012011100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/115,99999999.000000,21000012001000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/114,99999999.000000,21000012000100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/22,99999999.000000,01010012001100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/118,99999999.000000,21000012001100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/18,99999999.000000,01010012001100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/119,99999999.000000,21000012001100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/120,99999999.000000,21000012001100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/9,99999999.000000,21010002001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_9.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/121,99999999.000000,21000012001100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/13,99999999.000000,01010012011100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/21,99999999.000000,01010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/4,99999999.000000,01110012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/12,99999999.000000,01010012101100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/122,99999999.000000,21000012001100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/123,99999999.000000,21000012001100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/7,99999999.000000,01011012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/2,99999999.000000,11010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/125,99999999.000000,21011112001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/126,99999999.000000,21011002001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/127,99999999.000000,21011010001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/129,99999999.000000,21011012101100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/149,99999999.000000,21010112001110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/133,99999999.000000,21011012001110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/164,99999999.000000,21010002001110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/130,99999999.000000,21011012011100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/131,99999999.000000,21011012000100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/134,99999999.000000,21011012001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/137,99999999.000000,21011012001100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/147,99999999.000000,21010112000100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/136,99999999.000000,21011012001100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/138,99999999.000000,21011012001100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/132,99999999.000000,21011012001000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/152,99999999.000000,21010112001100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/12,99999999.000000,21010012101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_12.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/13,99999999.000000,21010012011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_13.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/14,99999999.000000,21010012000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_14.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/15,99999999.000000,21010012001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_15.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/16,99999999.000000,21010012001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_16.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/17,99999999.000000,21010012001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_17.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/18,99999999.000000,21010012001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_18.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/19,99999999.000000,21010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_19.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/20,99999999.000000,21010012001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_20.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/21,99999999.000000,21010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_21.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/22,99999999.000000,21010012001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_22.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/23,99999999.000000,21010012001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_23.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/135,99999999.000000,21011012001100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/146,99999999.000000,21010112011100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/150,99999999.000000,21010112001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/140,99999999.000000,21011012001100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/145,99999999.000000,21010112101100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/148,99999999.000000,21010112001000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/151,99999999.000000,21010112001100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/142,99999999.000000,21010102001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/139,99999999.000000,21011012001100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/158,99999999.000000,21010000001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/165,99999999.000000,21010002001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/143,99999999.000000,21010110001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/166,99999999.000000,21010002001100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/153,99999999.000000,21010112001100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/160,99999999.000000,21010002101100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/167,99999999.000000,21010002001100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/169,99999999.000000,21010002001100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/163,99999999.000000,21010002001000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/168,99999999.000000,21010002001100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/170,99999999.000000,21010002001100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/155,99999999.000000,21010112001100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/161,99999999.000000,21010002011100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/154,99999999.000000,21010112001100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/156,99999999.000000,21010112001100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/162,99999999.000000,21010002000100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/171,99999999.000000,21010002001100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/173,99999999.000000,21010011001100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/174,99999999.000000,21010010101100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/176,99999999.000000,21010010000100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/175,99999999.000000,21010010011100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/178,99999999.000000,21010010001110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/177,99999999.000000,21010010001000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/179,99999999.000000,21010010001101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/181,99999999.000000,21010010001100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/203,99999999.000000,21010012101110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/200,99999999.000000,21010012111100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/224,99999999.000000,21010012000110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/182,99999999.000000,21010010001100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/180,99999999.000000,21010010001100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/184,99999999.000000,21010010001100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/185,99999999.000000,21010010001100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/214,99999999.000000,21010012011110000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/201,99999999.000000,21010012100100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/204,99999999.000000,21010012101101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/206,99999999.000000,21010012101100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/183,99999999.000000,21010010001100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/227,99999999.000000,21010012000100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/205,99999999.000000,21010012101100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/208,99999999.000000,21010012101100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/207,99999999.000000,21010012101100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/209,99999999.000000,21010012101100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/216,99999999.000000,21010012011100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/19,99999999.000000,21010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_19.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/226,99999999.000000,21010012000100400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/225,99999999.000000,21010012000101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/217,99999999.000000,21010012011100200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/257,99999999.000000,21010012001100300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/212,99999999.000000,21010012010100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/218,99999999.000000,21010012011100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/223,99999999.000000,21010012000000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/220,99999999.000000,21010012011100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/202,99999999.000000,21010012101000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/215,99999999.000000,21010012011101000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/21,99999999.000000,21010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_21.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/210,99999999.000000,21010012101100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/221,99999999.000000,21010012011100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/233,99999999.000000,21010012001010000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/213,99999999.000000,21010012011000000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/235,99999999.000000,21010012001000400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/231,99999999.000000,21010012000100001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/228,99999999.000000,21010012000100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/219,99999999.000000,21010012011100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/230,99999999.000000,21010012000100010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/229,99999999.000000,21010012000100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/234,99999999.000000,21010012001001000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/236,99999999.000000,21010012001000200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/237,99999999.000000,21010012001000100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/238,99999999.000000,21010012001000020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/242,99999999.000000,21010012001111000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/248,99999999.000000,21010012001110001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/247,99999999.000000,21010012001110010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/246,99999999.000000,21010012001110020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/240,99999999.000000,21010012001000001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/244,99999999.000000,21010012001110200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/239,99999999.000000,21010012001000010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/243,99999999.000000,21010012001110400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/245,99999999.000000,21010012001110100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/251,99999999.000000,21010012001101200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/250,99999999.000000,21010012001101400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/268,99999999.000000,21010012001100120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/252,99999999.000000,21010012001101100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/253,99999999.000000,21010012001101020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/270,99999999.000000,21010012001100101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/264,99999999.000000,21010012001100220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/261,99999999.000000,21010012001100401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/259,99999999.000000,21010012001100420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/269,99999999.000000,21010012001100110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/266,99999999.000000,21010012001100201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/265,99999999.000000,21010012001100210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/254,99999999.000000,21010012001101010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/257,99999999.000000,21010012001100300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/255,99999999.000000,21010012001101001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/260,99999999.000000,21010012001100410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/275,99999999.000000,21010012001100011,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/273,99999999.000000,21010012001100021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/2,99999999.000000,21011002101101021,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_2.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/3,99999999.000000,20000112001101300,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/4,99999999.000000,00120101101100401,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5/7,99999999.000000,20021011110010310,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5_7.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/2,99999999.000000,21011002101101021,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_2.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5/47,99999999.000000,11020012011000221,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5_47.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/6/25,99999999.000000,20020002101001201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/7,99999999.000000,21000000000011220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/42,99999999.000000,20100100111010201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/6,99999999.000000,20010002101000121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/34,99999999.000000,20110102010110401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/29,99999999.000000,20020101110110421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/39,99999999.000000,21001011101001201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/38,99999999.000000,20020112000100011,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/21,99999999.000000,21110012110100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/8,99999999.000000,20100002111000221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/17,99999999.000000,21001001001101321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/45,99999999.000000,20121012100011201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/28,99999999.000000,21110112100111020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/31,99999999.000000,20000112111001301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/32,99999999.000000,21000002010000421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/13,99999999.000000,21020012011001220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/47,99999999.000000,21100011110100301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/26,99999999.000000,21001002100011411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/30,99999999.000000,21120012001100401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/40,99999999.000000,21020012001000221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/23,99999999.000000,10021002001111221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/33,99999999.000000,01020102000100211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/22,99999999.000000,11000100111010300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/58,99999999.000000,20101000001101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/49,99999999.000000,20120001111101301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/52,99999999.000000,20121112101100221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/59,99999999.000000,21020012011011120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/50,99999999.000000,20111012111111101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/61,99999999.000000,20001101000011411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/64,99999999.000000,21120011111010201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/55,99999999.000000,11021112001001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/66,99999999.000000,21020112110001420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/69,99999999.000000,21120102111011101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/70,99999999.000000,20010102110010211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/36,99999999.000000,11111012010001211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/65,99999999.000000,10020012111000101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/5,99999999.000000,00000102001101300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/18,99999999.000000,00110102000010321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/75,99999999.000000,20120001111111010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/72,99999999.000000,10001011010111011,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/71,99999999.000000,21020002100010300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/16,99999999.000000,11120011011001211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/19,99999999.000000,01120110001101310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/12,99999999.000000,01101011010011120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/10,99999999.000000,11011112101000120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/11,99999999.000000,11021012100001401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/9,99999999.000000,11111012010110220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/20,99999999.000000,11110012111000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/15,99999999.000000,00020012100100420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/37,99999999.000000,10010100111010400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/35,99999999.000000,11020000110100221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/44,99999999.000000,10000002111000121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/46,99999999.000000,01120101110010321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/43,99999999.000000,11020000110001410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/74,99999999.000000,21001002101100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/73,99999999.000000,10111012001101021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/79,99999999.000000,20021011100011421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/77,99999999.000000,21021011000001210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/80,99999999.000000,20100012110000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/76,99999999.000000,10021102000000301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/24,99999999.000000,10020000000101111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/57,99999999.000000,01021002010111310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/63,99999999.000000,11020010110001221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/51,99999999.000000,01011111000111121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/78,99999999.000000,01010102101100421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/48,99999999.000000,11020102100010420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/54,99999999.000000,11110011000001310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/56,99999999.000000,10100001110000421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/60,99999999.000000,11020000111000400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/62,99999999.000000,11020012011001420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/67,99999999.000000,11020011100011110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/53,99999999.000000,10111102011101110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/6/68,99999999.000000,11110111001101200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/2,99999999.000000,21011002101101021,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_2.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/2,99999999.000000,21011002101101021,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_2.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/3,99999999.000000,20000112001101300,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/6/40,99999999.000000,21020012001000221,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_6_40.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/6/26,99999999.000000,21001002100011411,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_6_26.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/7/20,99999999.000000,21010012110100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/25,99999999.000000,20021011110010401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/38,99999999.000000,20010002101000101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/17,99999999.000000,10120011011011001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/16,99999999.000000,20020102100010400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/30,99999999.000000,20120001110100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/24,99999999.000000,21110112111011220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/23,99999999.000000,21020012000111120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/9,99999999.000000,21020012011100401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/29,99999999.000000,21110112101111300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/39,99999999.000000,21101002010010421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/42,99999999.000000,20021011101001420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/13,99999999.000000,21000110001101311,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/43,99999999.000000,21121001101101401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/45,99999999.000000,20100001110000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/35,99999999.000000,21020011111010221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/26,99999999.000000,21111102110110310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/22,99999999.000000,21000112111001300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/41,99999999.000000,11021012001001201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/18,99999999.000000,10011011000101211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/19,99999999.000000,21111001001101321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/11,99999999.000000,10120002011110211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/10,99999999.000000,21120002001001221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/5,99999999.000000,11020002110100221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/7,99999999.000000,10021012001101221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/37,99999999.000000,10021102000001321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/15,99999999.000000,11020102110110421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/56,99999999.000000,20021011110000001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/47,99999999.000000,21001012011011210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/53,99999999.000000,20120101101111000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/54,99999999.000000,20120000001010201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/50,99999999.000000,20120102000000301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/49,99999999.000000,10020002111010201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/65,99999999.000000,20101012001101101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/55,99999999.000000,21020112001010310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/62,99999999.000000,20100011110100411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/61,99999999.000000,21101110001111201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/64,99999999.000000,21010012000111121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/67,99999999.000000,20111002111111221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/57,99999999.000000,21100101110010321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/71,99999999.000000,21021102000000301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/12,99999999.000000,00021002001111221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/59,99999999.000000,11100111101011211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/73,99999999.000000,21100000000101200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/44,99999999.000000,11001012100100301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/60,99999999.000000,10020002101001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/68,99999999.000000,10021102001111121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/31,99999999.000000,00120110000101320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/40,99999999.000000,01100101110010321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/14,99999999.000000,01121101001010411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/46,99999999.000000,10000002110000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/34,99999999.000000,01020012111101421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/27,99999999.000000,10111102011101100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/36,99999999.000000,10101011110000401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/8,99999999.000000,10021012000001401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/28,99999999.000000,11001012100011401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/32,99999999.000000,11011011101001310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/33,99999999.000000,11020000110101221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/79,99999999.000000,20121112111100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/74,99999999.000000,21110012110011220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/77,99999999.000000,21010111011011221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/75,99999999.000000,21020012111000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/51,99999999.000000,00110102000110100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/70,99999999.000000,01021002001111221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/80,99999999.000000,11011112101000121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/72,99999999.000000,10101011101001301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/58,99999999.000000,01020010111100221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/69,99999999.000000,10121002011111010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/78,99999999.000000,01020102010100120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/48,99999999.000000,11121002101100000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/76,99999999.000000,11110012100010000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/52,99999999.000000,11110012110010321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/63,99999999.000000,11010110011001220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/7/66,99999999.000000,10120012110000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/1,99999999.000000,01010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/3,99999999.000000,20010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/4,99999999.000000,21110012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/2/78,99999999.000000,21020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_78.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/6,99999999.000000,21000012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_6.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/7,99999999.000000,21011012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_7.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/8,99999999.000000,21010112001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_8.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/9,99999999.000000,21010002001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_9.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/10,99999999.000000,21010010001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_10.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/12,99999999.000000,21010012101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_12.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/13,99999999.000000,21010012011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_13.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/14,99999999.000000,21010012000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_14.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/15,99999999.000000,21010012001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_15.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/16,99999999.000000,21010012001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_16.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/17,99999999.000000,21010012001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_17.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/20,99999999.000000,21010012001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_20.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/19,99999999.000000,21010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_19.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/18,99999999.000000,21010012001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_18.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/21,99999999.000000,21010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_21.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/22,99999999.000000,21010012001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_22.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/23,99999999.000000,21010012001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_23.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/2,99999999.000000,11010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_2.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/3,99999999.000000,00010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/4,99999999.000000,01110012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/5,99999999.000000,01020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_5.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/6,99999999.000000,01000012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_6.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/7,99999999.000000,01011012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_7.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/8,99999999.000000,01010112001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_8.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/9,99999999.000000,01010002001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_9.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/10,99999999.000000,01010010001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_10.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/1,99999999.000000,01010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/12,99999999.000000,01010012101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_12.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/13,99999999.000000,01010012011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_13.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/14,99999999.000000,01010012000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_14.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/15,99999999.000000,01010012001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_15.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/16,99999999.000000,01010012001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_16.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/17,99999999.000000,01010012001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_17.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/18,99999999.000000,01010012001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_18.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/19,99999999.000000,01010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_19.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/20,99999999.000000,01010012001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_20.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/21,99999999.000000,01010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_21.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/22,99999999.000000,01010012001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_22.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/23,99999999.000000,01010012001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_23.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/3,99999999.000000,20010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/4,99999999.000000,21110012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/2/78,99999999.000000,21020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_78.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/6,99999999.000000,21000012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_6.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/7,99999999.000000,21011012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_7.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/8,99999999.000000,21010112001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_8.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/9,99999999.000000,21010002001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_9.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/10,99999999.000000,21010010001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_10.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/12,99999999.000000,21010012101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_12.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/13,99999999.000000,21010012011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_13.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/14,99999999.000000,21010012000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_14.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/15,99999999.000000,21010012001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_15.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/16,99999999.000000,21010012001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_16.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/17,99999999.000000,21010012001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_17.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/18,99999999.000000,21010012001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_18.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/19,99999999.000000,21010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_19.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/20,99999999.000000,21010012001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_20.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/21,99999999.000000,21010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_21.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/22,99999999.000000,21010012001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_22.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/23,99999999.000000,21010012001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_23.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/47,99999999.000000,20110012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_47.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/48,99999999.000000,20020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_48.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/49,99999999.000000,20000012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_49.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/50,99999999.000000,20011012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_50.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/51,99999999.000000,20010112001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_51.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/52,99999999.000000,20010002001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_52.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/53,99999999.000000,20010010001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_53.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/3,99999999.000000,20010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_3.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/55,99999999.000000,20010012101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_55.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/56,99999999.000000,20010012011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_56.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/57,99999999.000000,20010012000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_57.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/58,99999999.000000,20010012001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_58.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/59,99999999.000000,20010012001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_59.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/60,99999999.000000,20010012001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_60.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/61,99999999.000000,20010012001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_61.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/62,99999999.000000,20010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_62.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/63,99999999.000000,20010012001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_63.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/64,99999999.000000,20010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_64.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/65,99999999.000000,20010012001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_65.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/66,99999999.000000,20010012001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_66.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/68,99999999.000000,21120012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_68.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/69,99999999.000000,21100012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_69.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/70,99999999.000000,21111012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_70.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/71,99999999.000000,21110112001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_71.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/72,99999999.000000,21110002001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_72.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/73,99999999.000000,21110010001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_73.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/4,99999999.000000,21110012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_4.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/75,99999999.000000,21110012101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_75.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/76,99999999.000000,21110012011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_76.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/77,99999999.000000,21110012000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_77.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/78,99999999.000000,21110012001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_78.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/79,99999999.000000,21110012001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_79.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/80,99999999.000000,21110012001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_80.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/81,99999999.000000,21110012001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_81.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/82,99999999.000000,21110012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_82.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/83,99999999.000000,21110012001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_83.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/84,99999999.000000,21110012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_84.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/85,99999999.000000,21110012001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_85.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/86,99999999.000000,21110012001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_86.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/2/78,99999999.000000,21020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_78.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/89,99999999.000000,21021012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_89.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/90,99999999.000000,21020112001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_90.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/91,99999999.000000,21020002001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_91.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/92,99999999.000000,21020010001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_92.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/2/78,99999999.000000,21020012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_2_78.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/94,99999999.000000,21020012101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_94.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/95,99999999.000000,21020012011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_95.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/96,99999999.000000,21020012000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_96.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/97,99999999.000000,21020012001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_97.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/98,99999999.000000,21020012001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_98.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/99,99999999.000000,21020012001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_99.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/100,99999999.000000,21020012001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_100.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/101,99999999.000000,21020012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_101.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/102,99999999.000000,21020012001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_102.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/103,99999999.000000,21020012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_103.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/104,99999999.000000,21020012001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_104.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/105,99999999.000000,21020012001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_105.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/107,99999999.000000,21001012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_107.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/108,99999999.000000,21000112001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_108.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/109,99999999.000000,21000002001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_109.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/110,99999999.000000,21000010001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_110.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/6,99999999.000000,21000012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_6.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/112,99999999.000000,21000012101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_112.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/113,99999999.000000,21000012011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_113.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/114,99999999.000000,21000012000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_114.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/115,99999999.000000,21000012001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_115.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/116,99999999.000000,21000012001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_116.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/117,99999999.000000,21000012001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_117.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/118,99999999.000000,21000012001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_118.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/119,99999999.000000,21000012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_119.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/120,99999999.000000,21000012001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_120.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/121,99999999.000000,21000012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_121.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/122,99999999.000000,21000012001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_122.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/123,99999999.000000,21000012001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_123.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/125,99999999.000000,21011112001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_125.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/126,99999999.000000,21011002001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_126.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/127,99999999.000000,21011010001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_127.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/7,99999999.000000,21011012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_7.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/129,99999999.000000,21011012101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_129.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/130,99999999.000000,21011012011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_130.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/131,99999999.000000,21011012000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_131.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/132,99999999.000000,21011012001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_132.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/133,99999999.000000,21011012001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_133.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/134,99999999.000000,21011012001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_134.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/135,99999999.000000,21011012001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_135.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/136,99999999.000000,21011012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_136.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/137,99999999.000000,21011012001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_137.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/138,99999999.000000,21011012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_138.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/139,99999999.000000,21011012001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_139.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/140,99999999.000000,21011012001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_140.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/142,99999999.000000,21010102001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_142.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/143,99999999.000000,21010110001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_143.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/8,99999999.000000,21010112001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_8.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/145,99999999.000000,21010112101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_145.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/146,99999999.000000,21010112011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_146.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/147,99999999.000000,21010112000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_147.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/148,99999999.000000,21010112001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_148.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/149,99999999.000000,21010112001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_149.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/150,99999999.000000,21010112001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_150.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/151,99999999.000000,21010112001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_151.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/152,99999999.000000,21010112001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_152.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/153,99999999.000000,21010112001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_153.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/154,99999999.000000,21010112001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_154.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/155,99999999.000000,21010112001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_155.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/156,99999999.000000,21010112001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_156.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/158,99999999.000000,21010000001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_158.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/9,99999999.000000,21010002001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_9.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/160,99999999.000000,21010002101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_160.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/161,99999999.000000,21010002011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_161.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/162,99999999.000000,21010002000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_162.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/163,99999999.000000,21010002001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_163.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/164,99999999.000000,21010002001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_164.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/165,99999999.000000,21010002001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_165.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/166,99999999.000000,21010002001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_166.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/167,99999999.000000,21010002001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_167.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/168,99999999.000000,21010002001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_168.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/169,99999999.000000,21010002001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_169.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/170,99999999.000000,21010002001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_170.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/171,99999999.000000,21010002001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_171.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/173,99999999.000000,21010011001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_173.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/174,99999999.000000,21010010101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_174.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/175,99999999.000000,21010010011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_175.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/176,99999999.000000,21010010000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_176.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/177,99999999.000000,21010010001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_177.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/178,99999999.000000,21010010001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_178.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/179,99999999.000000,21010010001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_179.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/180,99999999.000000,21010010001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_180.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/181,99999999.000000,21010010001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_181.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/182,99999999.000000,21010010001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_182.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/183,99999999.000000,21010010001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_183.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/184,99999999.000000,21010010001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_184.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/185,99999999.000000,21010010001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_185.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/12,99999999.000000,21010012101100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_12.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/13,99999999.000000,21010012011100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_13.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/14,99999999.000000,21010012000100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_14.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/15,99999999.000000,21010012001000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_15.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/16,99999999.000000,21010012001110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_16.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/17,99999999.000000,21010012001101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_17.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/18,99999999.000000,21010012001100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_18.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/19,99999999.000000,21010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_19.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/20,99999999.000000,21010012001100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_20.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/21,99999999.000000,21010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_21.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/22,99999999.000000,21010012001100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_22.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/23,99999999.000000,21010012001100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_23.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/200,99999999.000000,21010012111100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_200.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/201,99999999.000000,21010012100100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_201.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/202,99999999.000000,21010012101000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_202.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/203,99999999.000000,21010012101110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_203.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/204,99999999.000000,21010012101101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_204.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/205,99999999.000000,21010012101100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_205.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/206,99999999.000000,21010012101100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_206.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/207,99999999.000000,21010012101100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_207.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/208,99999999.000000,21010012101100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_208.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/209,99999999.000000,21010012101100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_209.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/210,99999999.000000,21010012101100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_210.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/212,99999999.000000,21010012010100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_212.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/213,99999999.000000,21010012011000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_213.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/214,99999999.000000,21010012011110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_214.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/215,99999999.000000,21010012011101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_215.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/216,99999999.000000,21010012011100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_216.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/217,99999999.000000,21010012011100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_217.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/218,99999999.000000,21010012011100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_218.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/219,99999999.000000,21010012011100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_219.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/220,99999999.000000,21010012011100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_220.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/221,99999999.000000,21010012011100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_221.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/223,99999999.000000,21010012000000000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_223.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/224,99999999.000000,21010012000110000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_224.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/225,99999999.000000,21010012000101000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_225.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/226,99999999.000000,21010012000100400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_226.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/227,99999999.000000,21010012000100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_227.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/228,99999999.000000,21010012000100100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_228.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/229,99999999.000000,21010012000100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_229.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/230,99999999.000000,21010012000100010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_230.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/231,99999999.000000,21010012000100001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_231.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/233,99999999.000000,21010012001010000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_233.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/234,99999999.000000,21010012001001000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_234.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/235,99999999.000000,21010012001000400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_235.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/236,99999999.000000,21010012001000200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_236.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/237,99999999.000000,21010012001000100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_237.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/238,99999999.000000,21010012001000020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_238.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/239,99999999.000000,21010012001000010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_239.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/240,99999999.000000,21010012001000001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_240.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/242,99999999.000000,21010012001111000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_242.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/243,99999999.000000,21010012001110400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_243.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/244,99999999.000000,21010012001110200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_244.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/245,99999999.000000,21010012001110100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_245.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/246,99999999.000000,21010012001110020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_246.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/247,99999999.000000,21010012001110010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_247.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/248,99999999.000000,21010012001110001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_248.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/250,99999999.000000,21010012001101400,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_250.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/251,99999999.000000,21010012001101200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_251.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/252,99999999.000000,21010012001101100,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_252.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/253,99999999.000000,21010012001101020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_253.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/254,99999999.000000,21010012001101010,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_254.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/255,99999999.000000,21010012001101001,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_255.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/257,99999999.000000,21010012001100300,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_257.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/19,99999999.000000,21010012001100200,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_19.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/259,99999999.000000,21010012001100420,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_259.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/260,99999999.000000,21010012001100410,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_260.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/261,99999999.000000,21010012001100401,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_261.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/257,99999999.000000,21010012001100300,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_257.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/264,99999999.000000,21010012001100220,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_264.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/265,99999999.000000,21010012001100210,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_265.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/266,99999999.000000,21010012001100201,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_266.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/268,99999999.000000,21010012001100120,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_268.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/269,99999999.000000,21010012001100110,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_269.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/270,99999999.000000,21010012001100101,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_270.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5D0/21,99999999.000000,21010012001100020,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5D0_21.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/273,99999999.000000,21010012001100021,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_273.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/5S10/275,99999999.000000,21010012001100011,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_5S10_275.mod: 
+/home/vnazarov/projects/Darwin_runs/Example4/0/1,99999999.000000,21010012001100000,99999999,False,False,False,0,0,0,99999999,0,0,From saved model NM_0_1.mod: 

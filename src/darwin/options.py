@@ -151,8 +151,14 @@ class Options:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
         if self.algorithm in ["GA", "GBRT", "RF", "GP"]:
             self.downhill_period = opts.get('downhill_period', -1)
-            self.num_niches = _get_mandatory_option(opts, 'num_niches', self.algorithm)
-            self.niche_radius = _get_mandatory_option(opts, 'niche_radius', self.algorithm)
+            self.final_downhill_search = opts.get('final_downhill_search', False)
+            self.local_2_bit_search = opts.get('local_2_bit_search', False)
+
+            if self.downhill_period > 0 or self.final_downhill_search:
+                self.num_niches = _get_mandatory_option(opts, 'num_niches', 'downhill search')
+                self.niche_radius = _get_mandatory_option(opts, 'niche_radius', 'downhill search')
+            elif self.algorithm == 'GA':
+                self.niche_radius = _get_mandatory_option(opts, 'niche_radius', self.algorithm)
 
         self.model_run_priority = _get_priority_class(opts)
         self.model_run_timeout = int(opts.get('model_run_timeout', 1200))

@@ -160,7 +160,7 @@ def run_ga(model_template: Template) -> ModelRun:
 
     final_ga_run = population.get_best_run()
 
-    if options["final_downhill_search"] and keep_going():
+    if options.final_downhill_search and keep_going():
         population.name = 'FN'
 
         run_downhill(model_template, population)

@@ -128,13 +128,20 @@ def _init_app(options_file: str, folder: str = None):
 
 class DarwinApp:
     def __init__(self, options_file: str, folder: str = None):
+        self.initialized = False
+
         _init_app(options_file, folder)
 
         self.cache = create_model_cache(options.model_cache_class)
 
         set_model_cache(self.cache)
 
+        self.initialized = True
+
     def __del__(self):
+        if not self.initialized:
+            return
+
         self.cache.finalize()
 
         set_model_cache(None)

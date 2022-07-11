@@ -172,7 +172,7 @@ def run_skopt(model_template: Template) -> ModelRun:
         log.message(f"Best overall fitness = {best_run.result.fitness:4f},"
                     f" iteration {best_run.generation}, model {best_run.model_num}")
 
-    if options["final_downhill_search"] and keep_going():
+    if options.final_downhill_search and keep_going():
         log.message(f"Starting final downhill")
 
         population.name = 'FN'

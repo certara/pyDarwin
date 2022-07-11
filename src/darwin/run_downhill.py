@@ -148,7 +148,7 @@ def run_downhill(template: Template, pop: Population):  # only return new models
             else:
                 niche.done = True
 
-    if options["local_2_bit_search"] and keep_going():
+    if options.local_2_bit_search and keep_going():
         best_niche_fitnesses = [niche.best_run.result.fitness for niche in niches]
         best_niche = get_n_best_index(1, best_niche_fitnesses)[0]
 

@@ -121,9 +121,10 @@ class Options:
             'data_dir': self.data_dir,
             'output_dir': self.output_dir,
             'temp_dir': self.temp_dir,
+            'algorithm': self.algorithm,
+            'author': opts.get('author', 'C.Darwin'),
             'project_name': self.project_name,
             'project_stem': self.project_stem,
-            'algorithm': self.algorithm,
         }
 
         penalty = opts.get('penalty', {})

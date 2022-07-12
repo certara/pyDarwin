@@ -71,6 +71,5 @@ def run_exhaustive(model_template: Template) -> ModelRun:
     write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
 
     log.message(f"Final output from best model is in {GlobalVars.FinalResultFile}")
-    log.message(f"Unique model list in  {GlobalVars.SavedModelsFile}") 
 
     return best_overall

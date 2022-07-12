@@ -5,7 +5,6 @@ import json
 from copy import deepcopy
 from collections import OrderedDict
 import threading
-import traceback
 
 import darwin.GlobalVars as GlobalVars
 import darwin.utils as utils
@@ -74,27 +73,34 @@ class MemoryModelCache(ModelCache):
                         log.warn(f"'{models_list}' is empty")
                     else:
                         log.message(f"Using saved models from '{models_list}'")
-                except:
-                    traceback.print_exc()
-                    log.error(f"Failed to load {models_list}")
+
+                    GlobalVars.SavedModelsFile = models_list
+
+                except Exception as e:
+                    log.error(f"Failed to load '{models_list}': {str(e)}")
             else:
                 log.warn(f"'{models_list}' does not exist")
 
-                try:
-                    with open(models_list, 'w'):
-                        pass
-                except OSError:
-                    log.error(f"Cannot create '{models_list}'")
+                if not options.saved_models_readonly:
+                    try:
+                        with open(models_list, 'w'):
+                            GlobalVars.SavedModelsFile = models_list
+                    except OSError:
+                        log.error(f"Cannot create '{models_list}'")
 
-            if models_list.is_file():
-                GlobalVars.SavedModelsFile = models_list
+        if options.saved_models_readonly:
+            log.message("Not saving any models.")
+            return
 
-        log.message(f"Models will be saved as JSON {GlobalVars.SavedModelsFile}")
+        log.message(f"Models will be saved in {GlobalVars.SavedModelsFile}")
 
     def dump(self):
         self._dump_impl()
 
     def _dump_impl(self):
+        if options.saved_models_readonly:
+            return
+
         with self._lock_all_runs:
             runs = {f"{r.generation}-{r.model_num}": r for r in self.all_runs.values()}
 

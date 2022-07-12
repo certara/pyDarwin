@@ -133,8 +133,9 @@ class Options:
         self.penalty = _default_penalty | penalty
         self.GA = _default_GA | ga
 
-        self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
         self.use_saved_models = opts.get('use_saved_models', False)
+        self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
+        self.saved_models_readonly = opts.get('saved_models_readonly', False)
 
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)

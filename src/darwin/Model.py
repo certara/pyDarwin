@@ -1,7 +1,5 @@
 from copy import copy
 
-import darwin.GlobalVars as GlobalVars
-
 from .ModelCode import ModelCode
 
 JSON_ATTRIBUTES = [
@@ -68,24 +66,3 @@ class Model:
             res.__setattr__(attr, src[attr])
 
         return res
-
-
-def write_best_model_files(control_path: str, result_path: str):
-    """
-    Copies the current model control file and output file to the home_directory.
-
-    :param control_path: path to current best model control file
-    :type control_path: str
-
-    :param result_path: path to current best model result file
-    :type result_path: str
-    """
-
-    if not GlobalVars.BestRun:
-        return
-
-    with open(control_path, 'w') as control:
-        control.write(GlobalVars.BestRun.model.control)
-
-    with open(result_path, 'w') as result:
-        result.write(GlobalVars.BestModelOutput)

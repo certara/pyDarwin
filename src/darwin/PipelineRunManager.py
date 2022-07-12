@@ -5,8 +5,6 @@ from copy import copy
 
 from abc import abstractmethod
 
-import traceback
-
 import darwin.utils as utils
 
 from darwin.execution_man import interrupted
@@ -14,8 +12,7 @@ from darwin.execution_man import interrupted
 from darwin.Log import log
 from darwin.options import options
 
-from .Model import write_best_model_files
-from .ModelRun import ModelRun
+from .ModelRun import ModelRun, write_best_model_files
 from .ModelCache import get_model_cache
 from .ModelRunManager import ModelRunManager, register_model_run_man
 
@@ -25,6 +22,10 @@ from darwin.execution_man import keep_going, wait_for_subprocesses
 
 
 class PipelineRunManager(ModelRunManager):
+    def __init__(self):
+        self.interim_control_file = os.path.join(options.working_dir, "InterimControlFile.mod")
+        self.interim_result_file = os.path.join(options.working_dir, "InterimResultFile.lst")
+
     def _preprocess_runs(self, runs: list) -> list:
         return runs
 
@@ -50,11 +51,7 @@ class PipelineRunManager(ModelRunManager):
         model_cache = get_model_cache()
         model_cache.dump()
 
-        # write best model to output
-        try:
-            write_best_model_files(GlobalVars.InterimControlFile, GlobalVars.InterimResultFile)
-        except:
-            traceback.print_exc()
+        write_best_model_files(self.interim_control_file, self.interim_result_file)
 
         return runs
 
@@ -70,14 +67,13 @@ class PipelineRunManager(ModelRunManager):
             model_cache = get_model_cache()
             model_cache.store_model_run(run)
 
+        if interrupted() or not run.started():
+            return run
+
         res = run.result
         model = run.model
 
-        if GlobalVars.BestRun is None or res.fitness < GlobalVars.BestRun.result.fitness:
-            _copy_to_best(run)
-
-        if interrupted() or not run.started():
-            return run
+        _copy_to_best(run)
 
         step_name = "Iteration"
         prd_err_text = ""
@@ -88,7 +84,7 @@ class PipelineRunManager(ModelRunManager):
         if res.errors:
             prd_err_text = ", error = " + res.errors
 
-        with open(GlobalVars.output, "a") as result_file:
+        with open(GlobalVars.results_file, "a") as result_file:
             result_file.write(f"{run.run_dir},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
                               f"{res.ofv},{res.success},{res.covariance},{res.correlation},{model.theta_num},"
                               f"{model.omega_num},{model.sigma_num},{res.condition_num},{res.post_run_r_penalty},"
@@ -169,6 +165,9 @@ def _copy_to_best(run: ModelRun):
     :param run: Run to be saved as the current best
     :type run: ModelRun
     """
+
+    if GlobalVars.BestRun and run.result.fitness >= GlobalVars.BestRun.result.fitness:
+        return
 
     GlobalVars.BestRun = run
     GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime

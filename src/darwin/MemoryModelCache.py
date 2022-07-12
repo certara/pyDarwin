@@ -31,6 +31,12 @@ class MemoryModelCache(ModelCache):
         self._lock_all_runs = threading.Lock()
         self.all_runs = OrderedDict()
 
+        default_models_file = os.path.join(options.working_dir, ALL_MODELS_FILE)
+
+        self.file = default_models_file
+
+        utils.remove_file(default_models_file)
+
         self.load()
 
     def store_model_run(self, run: ModelRun):
@@ -45,12 +51,6 @@ class MemoryModelCache(ModelCache):
         return deepcopy(self.all_runs.get(genotype))
 
     def load(self):
-        default_models_file = os.path.join(options.working_dir, ALL_MODELS_FILE)
-
-        GlobalVars.SavedModelsFile = default_models_file
-
-        utils.remove_file(default_models_file)
-
         if options.use_saved_models and options.saved_models_file:
             models_list = Path(options.saved_models_file)
 
@@ -74,7 +74,7 @@ class MemoryModelCache(ModelCache):
                     else:
                         log.message(f"Using saved models from '{models_list}'")
 
-                    GlobalVars.SavedModelsFile = models_list
+                    self.file = models_list
 
                 except Exception as e:
                     log.error(f"Failed to load '{models_list}': {str(e)}")
@@ -84,7 +84,7 @@ class MemoryModelCache(ModelCache):
                 if not options.saved_models_readonly:
                     try:
                         with open(models_list, 'w'):
-                            GlobalVars.SavedModelsFile = models_list
+                            self.file = models_list
                     except OSError:
                         log.error(f"Cannot create '{models_list}'")
 
@@ -92,7 +92,7 @@ class MemoryModelCache(ModelCache):
             log.message("Not saving any models.")
             return
 
-        log.message(f"Models will be saved in {GlobalVars.SavedModelsFile}")
+        log.message(f"Models will be saved in {self.file}")
 
     def dump(self):
         self._dump_impl()
@@ -104,7 +104,7 @@ class MemoryModelCache(ModelCache):
         with self._lock_all_runs:
             runs = {f"{r.generation}-{r.model_num}": r for r in self.all_runs.values()}
 
-        with open(GlobalVars.SavedModelsFile, 'w', encoding='utf-8') as f:
+        with open(self.file, 'w', encoding='utf-8') as f:
             json.dump(runs, f, indent=4, sort_keys=True, ensure_ascii=False, cls=_ModelRunEncoder)
 
 

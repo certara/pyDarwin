@@ -1,4 +1,3 @@
-import time
 import numpy as np
 
 import darwin.GlobalVars as GlobalVars
@@ -8,7 +7,6 @@ from darwin.options import options
 from darwin.execution_man import keep_going
 
 from darwin.Template import Template
-from darwin.Model import write_best_model_files
 from darwin.ModelRun import ModelRun
 from darwin.ModelCode import ModelCode
 from darwin.Population import Population
@@ -57,19 +55,4 @@ def run_exhaustive(model_template: Template) -> ModelRun:
 
         log.message(f"Current Best fitness = {GlobalVars.BestRun.result.fitness}")
 
-    elapsed = time.time() - GlobalVars.StartTime
-
-    log.message(f"Elapse time = {elapsed / 60:.1f} minutes \n")
-
-    best_overall = GlobalVars.BestRun
-
-    if not best_overall:
-        return best_overall
-
-    log.message(f"Best overall fitness = {best_overall.result.fitness:.6f}, model {best_overall.model_num}")
-
-    write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
-
-    log.message(f"Final output from best model is in {GlobalVars.FinalResultFile}")
-
-    return best_overall
+    return GlobalVars.BestRun

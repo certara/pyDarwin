@@ -1,5 +1,4 @@
 from copy import copy
-from datetime import timedelta
 import time
 import logging 
 import numpy as np 
@@ -13,7 +12,7 @@ from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
 from darwin.Population import Population
 from darwin.Template import Template
-from darwin.Model import Model, write_best_model_files
+from darwin.Model import Model
 from darwin.ModelRun import ModelRun
 
 from .DeapToolbox import DeapToolbox, model_run_to_deap_ind
@@ -121,7 +120,6 @@ def run_ga(model_template: Template) -> ModelRun:
     num_generations = options.num_generations
 
     # Begin evolution
-
     while runner.generation < num_generations:
         if not keep_going():
             break
@@ -160,6 +158,9 @@ def run_ga(model_template: Template) -> ModelRun:
 
     final_ga_run = population.get_best_run()
 
+    log.message(f'Best individual GA is {str(final_ga_run.model.model_code.FullBinCode)}'
+                f' with fitness of {final_ga_run.result.fitness:4f}')
+
     if options.final_downhill_search and keep_going():
         population.name = 'FN'
 
@@ -169,20 +170,4 @@ def run_ga(model_template: Template) -> ModelRun:
 
         log.message(f"Done with final downhill step. best fitness = {best.result.fitness}")
 
-    log.message(f"-- End of Optimization at {time.asctime()} --")
-
-    best_run = GlobalVars.BestRun
-
-    elapsed = time.time() - GlobalVars.StartTime
-
-    log.message(f"Elapse time = " + str(timedelta(seconds=elapsed)) + "\n")
-    log.message(f'Best individual GA is {str(final_ga_run.model.model_code.FullBinCode)}'
-                f' with fitness of {final_ga_run.result.fitness:4f}')
-    log.message(f"Best overall fitness = {best_run.result.fitness:4f},"
-                f" iteration {best_run.generation}, model {best_run.model_num}")
-
-    write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
-
-    log.message(f"Final out from best model is in {GlobalVars.FinalResultFile}")
-
-    return best_run
+    return GlobalVars.BestRun

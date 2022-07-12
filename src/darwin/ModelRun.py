@@ -456,6 +456,34 @@ def _import_python_postprocessing(path: str):
     return module.post_process
 
 
+def write_best_model_files(control_path: str, result_path: str) -> bool:
+    """
+    Copies the current model control file and output file to the home_directory.
+
+    :param control_path: path to current best model control file
+    :type control_path: str
+
+    :param result_path: path to current best model result file
+    :type result_path: str
+    """
+
+    if not GlobalVars.BestRun:
+        return False
+
+    try:
+        with open(control_path, 'w') as control:
+            control.write(GlobalVars.BestRun.model.control)
+
+        with open(result_path, 'w') as result:
+            result.write(GlobalVars.BestModelOutput)
+    except:
+        traceback.print_exc()
+
+        return False
+
+    return True
+
+
 def run_to_json(run: ModelRun, file: str):
     with open(file, 'w', encoding='utf-8') as f:
         json.dump(run.to_dict(), f, indent=4, sort_keys=True, ensure_ascii=False)

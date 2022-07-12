@@ -16,7 +16,7 @@ import darwin.grid.GridRunManager
 import darwin.nonmem.NMEngineAdapter
 
 from .Template import Template
-from .ModelRun import ModelRun
+from .ModelRun import ModelRun, write_best_model_files
 from .ModelCache import set_model_cache, create_model_cache
 
 from .algorithms.exhaustive import run_exhaustive
@@ -42,8 +42,22 @@ def run_template(model_template: Template) -> ModelRun:
         log.error(f"Algorithm {algorithm} is not available")
         sys.exit()
 
-    log.message(f"Number of unique models to best model = {GlobalVars.UniqueModelsToBest}")
-    log.message(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
+    final_control_file = os.path.join(options.output_dir, "FinalControlFile.mod")
+    final_result_file = os.path.join(options.output_dir, "FinalResultFile.lst")
+
+    if write_best_model_files(final_control_file, final_result_file):
+        log.message(f"Final output from best model is in {final_result_file}")
+
+    if final:
+        log.message(f"Number of unique models to best model = {GlobalVars.UniqueModelsToBest}")
+        log.message(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
+
+        log.message(f"Best overall fitness = {final.result.fitness:4f},"
+                    f" iteration {final.generation}, model {final.model_num}")
+
+    elapsed = time.time() - GlobalVars.StartTime
+
+    log.message(f"Elapsed time = {elapsed / 60:.1f} minutes \n")
 
     log.message(f"Search end time = {time.asctime()}")
 
@@ -60,7 +74,7 @@ def _go_to_folder(folder: str):
 
 
 def _init_model_results():
-    results_file = GlobalVars.output
+    results_file = GlobalVars.results_file
 
     utils.remove_file(results_file)
 
@@ -113,12 +127,7 @@ def _init_app(options_file: str, folder: str = None):
     log.message(f"Project output dir: {options.output_dir}")
 
     GlobalVars.StartTime = time.time()
-    GlobalVars.TimeToBest = 0
-    GlobalVars.output = os.path.join(options.output_dir, "results.csv")
-    GlobalVars.FinalControlFile = os.path.join(options.output_dir, "FinalControlFile.mod")
-    GlobalVars.FinalResultFile = os.path.join(options.output_dir, "FinalResultFile.lst")
-    GlobalVars.InterimControlFile = os.path.join(options.working_dir, "InterimControlFile.mod")
-    GlobalVars.InterimResultFile = os.path.join(options.working_dir, "InterimResultFile.lst")
+    GlobalVars.results_file = os.path.join(options.output_dir, "results.csv")
 
     darwin.nonmem.NMEngineAdapter.register()
     darwin.MemoryModelCache.register()

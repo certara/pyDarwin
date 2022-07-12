@@ -18,7 +18,7 @@ import darwin.GlobalVars as GlobalVars
 from darwin.ModelCode import ModelCode
 from darwin.run_downhill import run_downhill
 from darwin.Template import Template
-from darwin.Model import Model, write_best_model_files
+from darwin.Model import Model
 from darwin.ModelRun import ModelRun
 from darwin.Population import Population
 
@@ -185,15 +185,6 @@ def run_skopt(model_template: Template) -> ModelRun:
         run_downhill(model_template, population)
 
     if niter_no_change:
-        log.message(f'No change in fitness in {niter_no_change} iteration')
+        log.message(f'No change in fitness in {niter_no_change} iterations')
 
-    log.message(f"total time = {(time.time() - GlobalVars.StartTime) / 60:.2f} minutes")
-
-    write_best_model_files(GlobalVars.FinalControlFile, GlobalVars.FinalResultFile)
-
-    best_run = GlobalVars.BestRun
-    log.message(f"Final output from best model is in {GlobalVars.FinalResultFile}")
-    log.message(f'Best overall solution = [{best_run.model.model_code.IntCode}],'
-                f' Best overall fitness = {best_run.result.fitness:.6f} ')
-
-    return best_run
+    return GlobalVars.BestRun

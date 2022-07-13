@@ -93,9 +93,9 @@ def _get_theta_matches(expanded_theta_block: list, tokens: dict, full_phenotype:
                 last_parens = line.find(")", (start_theta - 2))
                 theta_index = line[start_theta:last_parens]
 
-                theta_matches[theta_index] = cur_theta
-
-                cur_theta += 1
+                if theta_index not in theta_matches:
+                    theta_matches[theta_index] = cur_theta
+                    cur_theta += 1
 
             all_checked_tokens.append(stem)
 
@@ -135,8 +135,11 @@ def _get_rand_var_matches(expanded_block, tokens, full_phenotype, which_rand):
                 start = full_indices[i].find((which_rand + "(")) + 4
                 last_parens = full_indices[i].find(")", (start - 2))
                 rand_index = full_indices[i][start:last_parens]
-                rand_matches[rand_index] = cur_rand
-                cur_rand += 1
+
+                if rand_index not in rand_matches:
+                    rand_matches[rand_index] = cur_rand
+                    cur_rand += 1
+
             all_checked_tokens.append(stem)
 
         # number should match #of rows with stem in expandedTHETABlock

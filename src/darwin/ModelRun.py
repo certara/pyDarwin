@@ -90,7 +90,7 @@ class ModelRun:
         """
 
         self.model = model
-        self.adapter = adapter
+        self._adapter = adapter
         self.result = self.model_result_class()
 
         self.model_num = model_num
@@ -126,7 +126,7 @@ class ModelRun:
 
         res['model'] = self.model.to_dict()
         res['result'] = self.result.to_dict()
-        res['engine_adapter'] = self.adapter.get_engine_name()
+        res['engine_adapter'] = self._adapter.get_engine_name()
 
         return res
 
@@ -211,7 +211,7 @@ class ModelRun:
 
         _files_checked = True
 
-        self.adapter.check_settings()
+        self._adapter.check_settings()
 
         if options.use_r:
             rscript_path = options.rscript_path
@@ -252,7 +252,7 @@ class ModelRun:
                 raise RuntimeError("Cannot find " + self.control_file_name + " to check for data file")
 
             try:
-                data_files_path = self.adapter.read_data_file_name(self.control_file_name)
+                data_files_path = self._adapter.read_data_file_name(self.control_file_name)
             except:
                 raise RuntimeError(f"Unable to check if data set is present")
 
@@ -282,7 +282,7 @@ class ModelRun:
         if not self._check_files_present():
             return
 
-        command = self.adapter.get_model_run_command(self)
+        command = self._adapter.get_model_run_command(self)
 
         GlobalVars.UniqueModels += 1
 
@@ -319,7 +319,8 @@ class ModelRun:
         if self._post_run_r() and self._post_run_python() and self._calc_fitness():
             self.status = "Done"
 
-        self.adapter.cleanup(self.run_dir, self.file_stem)
+    def cleanup(self):
+        self._adapter.cleanup(self.run_dir, self.file_stem)
 
     def _decode_r_stdout(self, r_stdout):
         res = self.result
@@ -414,7 +415,7 @@ class ModelRun:
         """
 
         try:
-            engine = self.adapter
+            engine = self._adapter
 
             res = self.result
 
@@ -429,9 +430,6 @@ class ModelRun:
         return True
 
     def output_results(self):
-        if options.remove_run_dir:
-            return
-
         with open(os.path.join(self.run_dir, self.output_file_name), "a") as output:
             res = self.result
             model = self.model

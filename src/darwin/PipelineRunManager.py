@@ -61,8 +61,17 @@ class PipelineRunManager(ModelRunManager):
 
     @staticmethod
     def _process_run_results(run: ModelRun):
+        this_one_is_better = GlobalVars.BestRun is None or run.result.fitness < GlobalVars.BestRun.result.fitness
+
         if run.source == 'new' and run.started() and not run.is_duplicate() and not interrupted():
             run.output_results()
+
+            # cleanup may wipe entire run_dir, so need to save the output before
+            if this_one_is_better:
+                with open(os.path.join(run.run_dir, run.output_file_name)) as file:
+                    GlobalVars.BestModelOutput = file.read()
+
+            run.cleanup()
 
             model_cache = get_model_cache()
             model_cache.store_model_run(run)
@@ -73,7 +82,8 @@ class PipelineRunManager(ModelRunManager):
         res = run.result
         model = run.model
 
-        _copy_to_best(run)
+        if this_one_is_better:
+            _copy_to_best(run)
 
         step_name = "Iteration"
         prd_err_text = ""
@@ -159,23 +169,9 @@ class LocalRunManager(PipelineRunManager):
 
 
 def _copy_to_best(run: ModelRun):
-    """
-    Copies current model to the global best model.
-
-    :param run: Run to be saved as the current best
-    :type run: ModelRun
-    """
-
-    if GlobalVars.BestRun and run.result.fitness >= GlobalVars.BestRun.result.fitness:
-        return
-
     GlobalVars.BestRun = run
     GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
     GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
-
-    if run.source == "new" and not run.is_duplicate() and run.started():
-        with open(os.path.join(run.run_dir, run.output_file_name)) as file:
-            GlobalVars.BestModelOutput = file.read()  # only save best model, other models can be reproduced if needed
 
 
 def _conflict_project_dirs() -> bool:

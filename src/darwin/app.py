@@ -74,7 +74,7 @@ def _go_to_folder(folder: str):
 
 
 def _init_model_results():
-    results_file = GlobalVars.results_file
+    results_file = os.path.join(options.output_dir, "results.csv")
 
     utils.remove_file(results_file)
 
@@ -84,9 +84,12 @@ def _init_model_results():
         resultsfile.write(f"Run Directory,Fitness,Model,ofv,success,covar,correlation #,"
                           f"ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages\n")
 
+    GlobalVars.results_file = results_file
+
 
 def _init_app(options_file: str, folder: str = None):
     # if running in folder, options_file may be a relative path, so need to cd to the folder first
+    # but if it's an absolute path, then folder may not even exist, in which case we create it
     _go_to_folder(folder)
 
     options.initialize(options_file, folder)
@@ -127,7 +130,6 @@ def _init_app(options_file: str, folder: str = None):
     log.message(f"Project output dir: {options.output_dir}")
 
     GlobalVars.StartTime = time.time()
-    GlobalVars.results_file = os.path.join(options.output_dir, "results.csv")
 
     darwin.nonmem.NMEngineAdapter.register()
     darwin.MemoryModelCache.register()

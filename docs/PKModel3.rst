@@ -8,17 +8,17 @@ PK Model 3, ODE model
 The Template file
 ~~~~~~~~~~~~~~~~~~~~~
 
-Example 3 template file :download:`text <../examples/Example3/Example3_template.txt>`
+Example 3 template file :download:`text <../examples/user/Example3/template.txt>`
 
 The Tokens file
 ~~~~~~~~~~~~~~~~
 
-Example 3 tokens file :download:`json <../examples/Example3/Example3_tokens.json>`
+Example 3 tokens file :download:`json <../examples/user/Example3/tokens.json>`
 
 The Options file
 ~~~~~~~~~~~~~~~~
 
-Example 3 template file :download:`json <../examples/Example3/Example3_options.json>`
+Example 3 template file :download:`json <../examples/user/Example3/options.json>`
 
 
  

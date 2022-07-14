@@ -93,13 +93,13 @@ from darwin.options import options
 
  
 
-print("\n\n\n\n Example 5, Full GP, DMAG data n\n\n")
+print("\n\n\n\n Example 5, Full GP, DMAG data \n\n\n")
                      
 
 
-final = run_search("C:\\fda\\pyDarwin\\examples\\Example5\\Example5_template.txt",
-                   "C:\\fda\\pyDarwin\\examples\\Example5\\Example5_tokens.json",
-                   "C:\\fda\\pyDarwin\\examples\\Example5\\Example5_options.json")
+final = run_search("C:\\fda\\Example4\\template.txt",
+                   "C:\\fda\\Example4\\tokens.json",
+                   "C:\\fda\\Example4\\options.json")
  
 with open(os.path.join(options.project_dir, "finalModel.mod"), "w") as final_control:
     final_control.write(final.model.control)

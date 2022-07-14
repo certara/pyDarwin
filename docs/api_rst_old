@@ -94,7 +94,23 @@ darwin.ModelEngineAdapter module
    :members:
    :undoc-members:
    :private-members:	
- 
+
+
+darwin.NMEngineAdapter module
+---------------------------------
+
+.. automodule:: darwin.NMEngineAdapter
+   :members:
+   :undoc-members:
+   :private-members:	
+
+darwin.omega\_utils module
+--------------------------
+
+.. automodule:: darwin.omega_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 darwin.Template module
 ----------------------

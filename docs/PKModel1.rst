@@ -151,7 +151,7 @@ in JSON, but only text values are permitted)
 Each of these dimensions has two options. Therefore the total number of candidate models 
 in the search space is number of permutations - 2^6 = 64. 
 
-In the :download:`template text <../examples/Example1/Example1_template.txt>` note the 
+In the :download:`template text <../examples/user/Example1/template.txt>` note the 
 special text in curly braces({}). These are :ref:`tokens<token>`. Tokens come in sets, as typically 
 multiple text substittion must be made to results in a syntactically correct NMTRAN control file. For 
 example, if ALAG1 is to be used in the $PK block, a corresponding initial estimate for 
@@ -167,7 +167,7 @@ Between subject variability
 
 
 
-Example 1 template file :download:`template file <../examples/Example1/Example1_template.txt>`
+Example 1 template file :download:`template file <../examples/user/Example1/template.txt>`
 Example 1 searchs a 6 dimensional space. The dimensions corresponds to :ref:`token group <token group>`. 
 
 Data file path
@@ -237,7 +237,7 @@ The final template file for Example 1 is given below.
 The Tokens file
 ~~~~~~~~~~~~~~~~
 
-Example 1 tokens file :download:`json tokens file <../examples/Example1/Example1_tokens.json>`
+Example 1 tokens file :download:`json tokens file <../examples/user/Example1/tokens.json>`
 
 The :ref:`tokens file <tokens file>` provide the :ref:`token key-text pairs<token key-text pair>` that 
 are substitued into the template file. This is a `JSON <https://www.json.org/json-en.html>`_ file format. 
@@ -306,7 +306,7 @@ on an search parameter, as in searching for an effect of FED vs FASTED state on 
 The Options file
 ~~~~~~~~~~~~~~~~
 
-Example 1 :ref:`Options file <options file>`  :download:`json options file <../examples/Example1/Example1_options.json>` 
+Example 1 :ref:`Options file <options file>`  :download:`json options file <../examples/user/Example1/options.json>` 
 The options file will likely need to be editted, as the path to nmfe??.bat must be provided
 The options file for Example 1 is given below:
 
@@ -343,7 +343,7 @@ The options file for Example 1 is given below:
 The data file
 ~~~~~~~~~~~~~~~~
 
-Example 1 Data file :download:`datalarge.csv <../examples/Example1/datalarge.csv>` 
+Example 1 Data file :download:`datalarge.csv <../examples/user/Example1/datalarge.csv>` 
 
   
  

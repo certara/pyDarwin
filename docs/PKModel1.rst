@@ -172,12 +172,14 @@ Example 1 searchs a 6 dimensional space. The dimensions corresponds to :ref:`tok
 
 Data file path
 --------------
-Typically, the NMTRAN data file will be located in the :ref:`home directory<home directory>`. As the models are run in a directory two levels down 
-(home directory/generation/model) the path to the data set is typically given as 
+Typically, the NMTRAN data file will be located in the :ref:`working directory directory<working directory>`. As the models are run in a directory two levels down 
+(home directory/generation/model) the path to the data set can be given as 
 
 ::
 
     $DATA ..\..\data.csv
+
+Alternatively, the full path can be given.
 
 
 Final template file

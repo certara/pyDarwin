@@ -49,6 +49,11 @@ cross over and mutation and a new generation created. This process is continued 
 no futher improvement is seen. In pyDarwin, GA is implmented using the :ref:`DEAP <DEAP>` package. `GA on Wikipedia <https://en.wikipedia.org/wiki/Genetic_algorithm>`_
 
 
+
+.. _GBRT:
+
+**GBRT - Gradient Boosted Random Tree:** Random Forest optimization `Gradient Boosting on Wikipedia <https://en.wikipedia.org/wiki/Gradient_boosting>`_
+
 .. _GP:
 
 **GP - Gaussian Process (Bayesian optimization)**
@@ -56,12 +61,7 @@ Gaussian Process is implemented in the scikit-optimize package and desribed `her
 GP is well suited to the problem of model selection, as according to `Wikipedia <https://en.wikipedia.org/wiki/Bayesian_optimization>`_
 it is well suited to black box function with expensive reward calculation. Indeed, experience to date suggests that GP, along with :ref:`GA <GA>` are the most robust and 
 efficient of the ML algorithms, especially if used in combination with a local exhaustive search. 
-
-
-.. _GBRT:
-
-**GBRT - Gradient Boosted Random Tree:** Random Forest optimization `Gradient Boosting on Wikipedia <https://en.wikipedia.org/wiki/Gradient_boosting>`_
-
+ 
 .. _Integer representation:
 
 **Integer representation:** The integer representation of a given model is what is actually used to construct the control file. Specifically, the integer representation is a string 
@@ -204,6 +204,11 @@ of iterations/generations and whether the downhill search is to be executed.
 
 
 
+.. _Output Directory:
+
+**output_dir:** Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is :ref:`{working directory<working directory>`/output. 
+A reasonable value {project_dir} if you want to version control the project and the results.
+
 .. _Phenotype:
 
 **Phenotype:** XXXXXXX
@@ -232,6 +237,11 @@ https://scikit-optimize.github.io/stable/
 .. _scikit-optimized: 
 
 **scikit-optimize:** `Optimization package <https://scikit-optimize.github.io/stable/>`_
+
+.. _temp_dir:
+
+**temp_dir:** Folder where all iterations/runs are performed, i.e. where all NONMEM files are written, as well as the output files.  
+Default value is :ref:`{working_dir<working directory>`}/temp. May be deleted after search finished/stopped if remove_temp_dir is set to true in the :ref:`options file<options file>`.
 
 .. _template:
 

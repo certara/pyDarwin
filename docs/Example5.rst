@@ -1,10 +1,10 @@
 
 
-PK Model 4, DMAG by GA
+Example 5: PK Model, DMAG by GP
 ==============================================
   
 
-.. _startpk4:
+.. _startpk5:
 
 Example 4 is the first realistic model search example. The search space contains 1.6 million possible models, and searches:
 

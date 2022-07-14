@@ -11,12 +11,14 @@ Welcome to pyDarwin's documentation
    :caption: Contents:
 
    Install 
-   Theory
-   Required_files
-   PKModel1 
-   PKModel2
-   PKModel3 
-   PKModel4 
+   Overview
+   Usage
+   Example1 
+   Example2
+   Example3 
+   Example4
+   Example5
+   Example6 
    API 
    Glossary
    Support 

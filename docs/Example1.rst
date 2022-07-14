@@ -2,7 +2,7 @@
 
 .. _startpk1:
 
-PK Model 1, trivial exhaustive search
+Example 1: PK Model, Trivial Exhaustive Search
 ======================================
 
 This first model is quite simple, the search space consistes of 6 dimensions, each with 2 options. Thus, the total number of candiate models is 
@@ -241,7 +241,7 @@ The Tokens file
 
 Example 1 tokens file :download:`json tokens file <../examples/user/Example1/tokens.json>`
 
-The :ref:`tokens file <tokens file>` provide the :ref:`token key-text pairs<token key-text pair>` that 
+The :ref:`tokens file <tokens_file_target>` provide the :ref:`token key-text pairs<token key-text pair>` that 
 are substitued into the template file. This is a `JSON <https://www.json.org/json-en.html>`_ file format. 
 Unfortunately, comments are not  permitted in JSON files and so this file without annotation. Requirements are that 
 each :ref:`token set <token set>` within a :ref:`token group <token group>` must have the same number of :ref:`tokens <token>` 

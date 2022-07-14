@@ -44,8 +44,13 @@
 <li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection, Theory and implementation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">PK Model 1, trivial exhaustive search</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#data-file-path">Data file path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#covariate-effects">Covariate effects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#between-subject-variability">Between subject variability</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-file-path">Data file path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#final-template-file">Final template file</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-data-file">The data file</a></li>
@@ -87,10 +92,58 @@
 <span id="startpk1"></span><h1>PK Model 1, trivial exhaustive search<a class="headerlink" href="#pk-model-1-trivial-exhaustive-search" title="Permalink to this heading">¶</a></h1>
 <p>This first model is quite simple, the search space consistes of 6 dimensions, each with 2 options. Thus, the total number of candiate models is
 2^6 = 64 models. As the search space if very small, we’ll search by exhaustive search.</p>
+<p>First step:</p>
+<p>As is the usual practise in POPPK model selection, the first step will be exploratory data analysis. This serves at least two purposes: To validate the data set
+and to generate initial hypotheses. We will however, for the purpose of this tutorial, skip this step and assume that we have a “correct” data set and list of
+hypotheses to be tests.</p>
+<p>The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
+$INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
+$DATA      ..\..\datalarge.csv IGNORE=@
+
+$SUBROUTINE ADVAN2
+$ABBR DERIV2=NO
+$PK
+CWTKG = WTKG/70  ;; CENTERED ON ONE
+CAGE = AGE/40
+TVV2=THETA(2)
+V2=TVV2*EXP(ETA(2))
+TVCL= THETA(1)
+CL=TVCL*EXP(ETA(1))
+K=CL/V2
+TVKA=THETA(3)
+KA=TVKA
+S2  = V2/1000
+$ERROR
+REP = IREP
+IPRED =F
+IOBS = F*EXP(EPS(1))+EPS(2)
+Y=IOBS
+$THETA  ;; must be one THETA per line.
+(0.001,100) ; THETA(1) CL UNITS =  L/HR
+(0.001,500)         ; THETA(2) V  UNITS = L
+(0.001,2)   ; THETA(3) KA UNITS = 1/HR
+
+
+$OMEGA      ; must be one ETA/line
+0.2                 ; ETA(1) CLEARANCE
+0.2                 ; ETA(2) VOLUME
+
+$SIGMA
+(0.1)
+(1)
+
+$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1
+$COV UNCOND PRINT=E
+</pre></div>
+</div>
+<p>This text will serve as the starting point for developing the template file
+Note that the relative path to the data file is up two folders. When pyDarwin runs models, it does not copy the data file to the run directory. Rather,
+typically the data file is in the home directory, and the models are run in home directory/generation/model. Therefore, the relative path to the run directory will
+be up two levels.</p>
 <section id="the-template-file">
 <h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
-<p>Example 1 template file <a class="reference download internal" download="" href="_downloads/c8d007dd3f9a400734b0abccf644cdc2/Example1_template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">file</span></code></a>
-Example 1 searchs a 6 dimensional space. The dimensions corresponds to <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>.
+<p>The initial simple model can then be editted by adding tokens. This first example will include covariates, residual error and one structural feature.
 Each token group is identified by a <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a>, e.g. “V2~WT” for the dimension of the
 relationship between weight a volume of distribution. Each token group includes
 2 or more <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a>, one for each option in the that dimension, These dimensions are:</p>
@@ -102,26 +155,86 @@ relationship between weight a volume of distribution. Each token group includes
 <li><p>Presence of an absorption lag time - ALAG1 (“ALAG”) - Present or not</p></li>
 <li><p>Residual error model (“RESERR”) - additive or combined additive and proportional</p></li>
 </ol>
-<p>Each token set in turn will include (in this case) two <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> (analagous to key-value pairs
+<section id="covariate-effects">
+<h3>Covariate effects<a class="headerlink" href="#covariate-effects" title="Permalink to this heading">¶</a></h3>
+<p>For the effect of Weight on Volume, we’ve chosen the <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a> of “V2~WT”. Two tokens will be required for this <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a>. The first will be
+adding the relationship to the definition of TVV2 in the $PK block and the 2nd will be providing an initial estimate in the $THETA block for the estimated
+THETA. Note that the index for THETA for this feature cannot be defined until the model is constructed. Only then can the number and sequence of the added THETAs be
+determined. In the token set THETAs will be indexed with text, e.g., THETA(V2~WT). As there will be two tokens in the token set, the first have and index of 1
+and the 2nd an index of 2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">V2</span><span class="o">~</span><span class="n">WT</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+<span class="ow">and</span>
+<span class="p">{</span><span class="n">V2</span><span class="o">~</span><span class="n">WT</span><span class="p">[</span><span class="mi">2</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p>note the curly braces, these are required for tokens in the template file. The record in the $PK will have the token appended to it, resulting this text:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TVV2</span><span class="o">=</span><span class="n">THETA</span><span class="p">(</span><span class="mi">2</span><span class="p">){</span><span class="n">V2</span><span class="o">~</span><span class="n">WT</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p>Two options for the text to be substituted for {V2~WT[1]} will
+be defined:</p>
+<ol class="arabic simple">
+<li><p>“”</p></li>
+<li><p>“*CWTKG**THETA(V2~WT)”</p></li>
+</ol>
+<p>The first will have no text in that record, resulting in</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TVV2</span><span class="o">=</span><span class="n">THETA</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and the 2nd text being substituted will result in</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TVV2</span><span class="o">=</span><span class="n">THETA</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">CWTKG</span><span class="o">**</span><span class="n">THETA</span><span class="p">(</span><span class="n">V2</span><span class="o">~</span><span class="n">WT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The 2nd token for the initial estimate for THETA(V2~WT) wil be similar. The token text options will be:</p>
+<ol class="arabic simple">
+<li><p>“”</p></li>
+<li><p>”  (-4,0.8,4) \t; THETA(V2~WT) POWER volume ~WT “</p></li>
+</ol>
+<p>The resulting $THETA block for this initial feature will be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$THETA  ;; must be one THETA per line.
+(0.001,100) ; THETA(1) CL UNITS =  L/HR
+(0.001,500) ; THETA(2) V  UNITS = L
+(0.001,2)   ; THETA(3) KA UNITS = 1/HR
+
+{V2~WT[2]}
+</pre></div>
+</div>
+<p>Note the use of the escape syntax, “\t” for a tab. Newlines will be coded simlarly as “\n”. NONMEM comments (text after “;”) are permitted. However, the
+user must be aware of the impact that comments in token text may have on any code that follows. This $THETA block has 3 fixed THETA initial estimates - THETA(1),
+THETA(2) and THETA(3). These will appear in all control files in the search. These fixed initial estimates are then followed by searched initial estimates. Searched
+initial estimates may or may not appear, depending on the model specification (<a class="reference internal" href="Glossary.html#phenotype"><span class="std std-ref">phenotype</span></a>). Searched initial estimates must be placed after all
+fixed initial estimates. Each initial estimate must be on a separate line and must be surrounded by parentheses. The standard combinations of (lower, initial,upper)
+are all supported.</p>
+<p>Tokens sets for each feature to be searched will be defined as these <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> (analagous to key-value pairs
 in JSON, but only text values are permitted)</p>
 <p>Each of these dimensions has two options. Therefore the total number of candidate models
 in the search space is number of permutations - 2^6 = 64.</p>
-<p>In the <a class="reference download internal" download="" href="_downloads/c8d007dd3f9a400734b0abccf644cdc2/Example1_template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">text</span></code></a> note the
+<p>In the <a class="reference download internal" download="" href="_downloads/a865b660d9d8eed9c8ef2e1087e94aa6/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">text</span></code></a> note the
 special text in curly braces({}). These are <a class="reference internal" href="Glossary.html#token"><span class="std std-ref">tokens</span></a>. Tokens come in sets, as typically
 multiple text substittion must be made to results in a syntactically correct NMTRAN control file. For
 example, if ALAG1 is to be used in the $PK block, a corresponding initial estimate for
 this parameter must be provided in the $THETA block. These tokens (collectively called a token set)
 are then replaced by the corresponding text value in the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pair</span></a>.</p>
+<p>Other covariate effects are coded similarly.</p>
+</section>
+<section id="between-subject-variability">
+<h3>Between subject variability<a class="headerlink" href="#between-subject-variability" title="Permalink to this heading">¶</a></h3>
+<p>Example 1 template file <a class="reference download internal" download="" href="_downloads/a865b660d9d8eed9c8ef2e1087e94aa6/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">file</span></code></a>
+Example 1 searchs a 6 dimensional space. The dimensions corresponds to <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>.</p>
 </section>
 <section id="data-file-path">
-<h2>Data file path<a class="headerlink" href="#data-file-path" title="Permalink to this heading">¶</a></h2>
-<p>Typically, the NMTRAN data file will be located in the <a class="reference internal" href="Glossary.html#home-directory"><span class="std std-ref">home directory</span></a>. As the models are run in a directory  two levels down
-(home directory/generation/model) the path to the data set is typically given as</p>
+<h3>Data file path<a class="headerlink" href="#data-file-path" title="Permalink to this heading">¶</a></h3>
+<p>Typically, the NMTRAN data file will be located in the <a class="reference internal" href="Glossary.html#working-directory"><span class="std std-ref">working directory directory</span></a>. As the models are run in a directory two levels down
+(home directory/generation/model) the path to the data set can be given as</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$DATA ..\..\data.csv
 </pre></div>
 </div>
+<p>Alternatively, the full path can be given.</p>
+</section>
+<section id="final-template-file">
+<h3>Final template file<a class="headerlink" href="#final-template-file" title="Permalink to this heading">¶</a></h3>
 <p>As the search space is small (and the run time is fast), we’ll search by exhaustive search.
-The tokens file for Example 1 is given below.</p>
+The final template file for Example 1 is given below.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
 $DATA      ..\..\datalarge.csv IGNORE=@
@@ -131,7 +244,6 @@ $ABBR DERIV2=NO
 $PK
 CWTKG = WTKG/70  ;; CENTERED ON ONE
 CAGE = AGE/40
-;; thetas out of sequence
 TVV2=THETA(2){V2~WT[1]} {V2~GENDER[1]}
 V2=TVV2*EXP(ETA(2))
 TVCL= THETA(1) {CL~WT[1]}
@@ -151,8 +263,8 @@ $THETA  ;; must be one THETA per line.
 (0.001,500)         ; THETA(2) V  UNITS = L
 (0.001,2)   ; THETA(3) KA UNITS = 1/HR
 
-{V2~WT[2]}   ;;; comment ;; comment
-{V2~GENDER[2]}   ;;; comment ;; comment
+{V2~WT[2]}
+{V2~GENDER[2]}
 {CL~WT[2]}
 {ALAG[2]}
 
@@ -171,9 +283,10 @@ $COV UNCOND PRINT=E
 </pre></div>
 </div>
 </section>
+</section>
 <section id="the-tokens-file">
 <h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
-<p>Example 1 tokens file <a class="reference download internal" download="" href="_downloads/1ebe7d24d827bfae1e5a39860d8108d6/Example1_tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">tokens</span> <span class="pre">file</span></code></a></p>
+<p>Example 1 tokens file <a class="reference download internal" download="" href="_downloads/71f2b82ac50bb24fa6b106f24cc3b091/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">tokens</span> <span class="pre">file</span></code></a></p>
 <p>The <a class="reference internal" href="Required_files.html#tokens-file"><span class="std std-ref">tokens file</span></a> provide the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> that
 are substitued into the template file. This is a <a class="reference external" href="https://www.json.org/json-en.html">JSON</a> file format.
 Unfortunately, comments are not  permitted in JSON files and so this file without annotation. Requirements are that
@@ -189,7 +302,7 @@ on an search parameter, as in searching for an effect of FED vs FASTED state on 
         <span class="s2">&quot;&quot;</span>
         <span class="p">],</span>
         <span class="p">[</span><span class="s2">&quot;*CWTKG**THETA(V2~WT)&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;  (-4,0.8,4) </span><span class="se">\t</span><span class="s2">; THETA(V2~WT) POWER volume ~WT &quot;</span>
+            <span class="s2">&quot;  (-4,0.8,4) </span><span class="se">\t</span><span class="s2">; THETA(V2~WT) POWER volume~WT &quot;</span>
         <span class="p">]</span>
     <span class="p">],</span>
 
@@ -219,7 +332,6 @@ on an search parameter, as in searching for an effect of FED vs FASTED state on 
     <span class="p">],</span>
     <span class="s2">&quot;ALAG&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="s2">&quot;&quot;</span>
         <span class="p">],</span>
         <span class="p">[</span><span class="s2">&quot;ALAG1 = THETA(ALAG)&quot;</span><span class="p">,</span>
@@ -240,7 +352,7 @@ on an search parameter, as in searching for an effect of FED vs FASTED state on 
 </section>
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
-<p>Example 1 <a class="reference internal" href="Glossary.html#options-file"><span class="std std-ref">Options file</span></a>  <a class="reference download internal" download="" href="_downloads/642fb74e73747eaa7d8e5def09dd970b/Example1_options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">options</span> <span class="pre">file</span></code></a>
+<p>Example 1 <a class="reference internal" href="Glossary.html#options-file"><span class="std std-ref">Options file</span></a>  <a class="reference download internal" download="" href="_downloads/e273de74c2184fe071b9c13f6a13acfb/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">options</span> <span class="pre">file</span></code></a>
 The options file will likely need to be editted, as the path to nmfe??.bat must be provided
 The options file for Example 1 is given below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -273,7 +385,7 @@ The options file for Example 1 is given below:</p>
 </section>
 <section id="the-data-file">
 <h2>The data file<a class="headerlink" href="#the-data-file" title="Permalink to this heading">¶</a></h2>
-<p>Example 1 Data file <a class="reference download internal" download="" href="_downloads/36fef3c6698dc24f557b922e399a9227/datalarge.csv"><code class="xref download docutils literal notranslate"><span class="pre">datalarge.csv</span></code></a></p>
+<p>Example 1 Data file <a class="reference download internal" download="" href="_downloads/eda03a9a74a1ba2a420bc8a1b72dfc79/datalarge.csv"><code class="xref download docutils literal notranslate"><span class="pre">datalarge.csv</span></code></a></p>
 </section>
 </section>
 

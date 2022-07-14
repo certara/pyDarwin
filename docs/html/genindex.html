@@ -85,6 +85,7 @@
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -112,7 +113,7 @@
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter._abc_impl">_abc_impl (darwin.ModelEngineAdapter.ModelEngineAdapter attribute)</a>
 
       <ul>
-        <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter._abc_impl">(darwin.NMEngineAdapter.NMEngineAdapter attribute)</a>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter._abc_impl">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter attribute)</a>
 </li>
       </ul></li>
       <li><a href="API.html#darwin.ModelCode.ModelCode._convert_full_bin_int">_convert_full_bin_int() (darwin.ModelCode.ModelCode method)</a>
@@ -125,11 +126,11 @@
 </li>
       <li><a href="API.html#darwin.ModelCode.ModelCode._convert_min_bin_int">_convert_min_bin_int() (darwin.ModelCode.ModelCode method)</a>
 </li>
-      <li><a href="API.html#darwin.NMEngineAdapter._file_to_lines">_file_to_lines() (in module darwin.NMEngineAdapter)</a>
+      <li><a href="API.html#darwin.nonmem.NMEngineAdapter._file_to_lines">_file_to_lines() (in module darwin.nonmem.NMEngineAdapter)</a>
 </li>
-      <li><a href="API.html#darwin.NMEngineAdapter._get_block">_get_block() (in module darwin.NMEngineAdapter)</a>
+      <li><a href="API.html#darwin.nonmem.NMEngineAdapter._get_block">_get_block() (in module darwin.nonmem.NMEngineAdapter)</a>
 </li>
-      <li><a href="API.html#darwin.NMEngineAdapter._get_non_inf_tokens">_get_non_inf_tokens() (in module darwin.NMEngineAdapter)</a>
+      <li><a href="API.html#darwin.nonmem.NMEngineAdapter._get_non_inf_tokens">_get_non_inf_tokens() (in module darwin.nonmem.NMEngineAdapter)</a>
 </li>
       <li><a href="API.html#darwin.ModelCode._int_to_bin">_int_to_bin() (in module darwin.ModelCode)</a>
 </li>
@@ -141,10 +142,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.Population.Population.add_model_run">add_model_run() (darwin.Population.Population method)</a>
 </li>
+      <li><a href="API.html#darwin.options.Options.apply_aliases">apply_aliases() (darwin.options.Options method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.utils.apply_aliases">(in module darwin.utils)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API.html#darwin.Population.Population.all_runs">all_runs (darwin.Population.Population attribute)</a>
-</li>
       <li><a href="API.html#darwin.utils.AtomicFlag">AtomicFlag (class in darwin.utils)</a>
 </li>
   </ul></td>
@@ -163,24 +168,24 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.ModelResults.ModelResults.calc_fitness">calc_fitness() (darwin.ModelResults.ModelResults method)</a>
 </li>
-      <li><a href="API.html#darwin.ModelRun.ModelRun.check_files_present">check_files_present() (darwin.ModelRun.ModelRun method)</a>
+      <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.check_settings">check_settings() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.check_settings">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
+      </ul></li>
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.cleanup">cleanup() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
         <li><a href="API.html#darwin.ModelRun.ModelRun.cleanup">(darwin.ModelRun.ModelRun method)</a>
 </li>
-        <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter.cleanup">(darwin.NMEngineAdapter.NMEngineAdapter static method)</a>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.cleanup">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API.html#darwin.ModelRun.ModelRun.copy_model">copy_model() (darwin.ModelRun.ModelRun method)</a>
-
-      <ul>
-        <li><a href="API.html#darwin.ModelRun.StoredRun.copy_model">(darwin.ModelRun.StoredRun method)</a>
+      <li><a href="API.html#darwin.utils.PipelineStep.close">close() (darwin.utils.PipelineStep method)</a>
 </li>
-      </ul></li>
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.create_new_model">create_new_model() (darwin.ModelEngineAdapter.ModelEngineAdapter method)</a>
 </li>
   </ul></td>
@@ -218,13 +223,6 @@
 </li>
       </ul></li>
       <li>
-    darwin.GlobalVars
-
-      <ul>
-        <li><a href="API.html#module-darwin.GlobalVars">module</a>
-</li>
-      </ul></li>
-      <li>
     darwin.Log
 
       <ul>
@@ -259,8 +257,6 @@
         <li><a href="API.html#module-darwin.ModelResults">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     darwin.ModelRun
 
@@ -268,18 +264,20 @@
         <li><a href="API.html#module-darwin.ModelRun">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
-    darwin.NMEngineAdapter
+    darwin.nonmem.NMEngineAdapter
 
       <ul>
-        <li><a href="API.html#module-darwin.NMEngineAdapter">module</a>
+        <li><a href="API.html#module-darwin.nonmem.NMEngineAdapter">module</a>
 </li>
       </ul></li>
       <li>
-    darwin.omega_utils
+    darwin.nonmem.utils
 
       <ul>
-        <li><a href="API.html#module-darwin.omega_utils">module</a>
+        <li><a href="API.html#module-darwin.nonmem.utils">module</a>
 </li>
       </ul></li>
       <li>
@@ -331,7 +329,7 @@
         <li><a href="API.html#module-darwin.utils">module</a>
 </li>
       </ul></li>
-      <li><a href="API.html#darwin.Population.ModelRunEncoder.default">default() (darwin.Population.ModelRunEncoder method)</a>
+      <li><a href="API.html#darwin.Log.Log.debug">debug() (darwin.Log.Log method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -340,6 +338,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.Log.Log.error">error() (darwin.Log.Log method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.utils.expand_tokens">expand_tokens() (in module darwin.utils)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -392,13 +394,13 @@
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.get_engine_name">get_engine_name() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
-        <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter.get_engine_name">(darwin.NMEngineAdapter.NMEngineAdapter static method)</a>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.get_engine_name">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.get_error_messages">get_error_messages() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
-        <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter.get_error_messages">(darwin.NMEngineAdapter.NMEngineAdapter static method)</a>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.get_error_messages">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -406,13 +408,13 @@
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.get_file_names">get_file_names() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
-        <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter.get_file_names">(darwin.NMEngineAdapter.NMEngineAdapter static method)</a>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.get_file_names">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.get_model_run_command">get_model_run_command() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
-        <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter.get_model_run_command">(darwin.NMEngineAdapter.NMEngineAdapter static method)</a>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.get_model_run_command">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
       <li><a href="API.html#darwin.utils.get_n_best_index">get_n_best_index() (in module darwin.utils)</a>
@@ -422,20 +424,16 @@
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.get_stem">get_stem() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
-        <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter.get_stem">(darwin.NMEngineAdapter.NMEngineAdapter static method)</a>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.get_stem">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
+      <li><a href="API.html#darwin.utils.get_token_parts">get_token_parts() (in module darwin.utils)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API.html#darwin.GlobalVars.init_global_vars">init_global_vars() (in module darwin.GlobalVars)</a>
-</li>
-      <li><a href="API.html#darwin.Population.init_model_list">init_model_list() (in module darwin.Population)</a>
-</li>
-  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.Log.Log.initialize">initialize() (darwin.Log.Log method)</a>
 
@@ -444,10 +442,38 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.ModelRun.ModelRun.is_duplicate">is_duplicate() (darwin.ModelRun.ModelRun method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.utils.Pipeline.join">join() (darwin.utils.Pipeline method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.utils.PipelineStep.join">(darwin.utils.PipelineStep method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.ModelRun.json_to_run">json_to_run() (in module darwin.ModelRun)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.utils.Pipeline.link">link() (darwin.utils.Pipeline method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.utils.PipelineStep.link">(darwin.utils.PipelineStep method)</a>
+</li>
+      </ul></li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.Log.Log">Log (class in darwin.Log)</a>
 </li>
@@ -460,16 +486,18 @@
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.make_control">make_control() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
-        <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter.make_control">(darwin.NMEngineAdapter.NMEngineAdapter static method)</a>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.make_control">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
-      <li><a href="API.html#darwin.utils.match_rands">match_rands() (in module darwin.utils)</a>
+      <li><a href="API.html#darwin.nonmem.utils.match_rands">match_rands() (in module darwin.nonmem.utils)</a>
 </li>
-      <li><a href="API.html#darwin.utils.match_thetas">match_thetas() (in module darwin.utils)</a>
+      <li><a href="API.html#darwin.nonmem.utils.match_thetas">match_thetas() (in module darwin.nonmem.utils)</a>
 </li>
       <li><a href="API.html#darwin.Log.Log.message">message() (darwin.Log.Log method)</a>
 </li>
       <li><a href="API.html#darwin.Model.Model">Model (class in darwin.Model)</a>
+</li>
+      <li><a href="API.html#darwin.ModelRun.ModelRun.model_result_class">model_result_class (darwin.ModelRun.ModelRun attribute)</a>
 </li>
       <li><a href="API.html#darwin.ModelCode.ModelCode">ModelCode (class in darwin.ModelCode)</a>
 </li>
@@ -478,8 +506,6 @@
       <li><a href="API.html#darwin.ModelResults.ModelResults">ModelResults (class in darwin.ModelResults)</a>
 </li>
       <li><a href="API.html#darwin.ModelRun.ModelRun">ModelRun (class in darwin.ModelRun)</a>
-</li>
-      <li><a href="API.html#darwin.Population.ModelRunEncoder">ModelRunEncoder (class in darwin.Population)</a>
 </li>
       <li>
     module
@@ -493,8 +519,6 @@
 </li>
         <li><a href="API.html#module-darwin.algorithms.PSO">darwin.algorithms.PSO</a>
 </li>
-        <li><a href="API.html#module-darwin.GlobalVars">darwin.GlobalVars</a>
-</li>
         <li><a href="API.html#module-darwin.Log">darwin.Log</a>
 </li>
         <li><a href="API.html#module-darwin.Model">darwin.Model</a>
@@ -507,9 +531,9 @@
 </li>
         <li><a href="API.html#module-darwin.ModelRun">darwin.ModelRun</a>
 </li>
-        <li><a href="API.html#module-darwin.NMEngineAdapter">darwin.NMEngineAdapter</a>
+        <li><a href="API.html#module-darwin.nonmem.NMEngineAdapter">darwin.nonmem.NMEngineAdapter</a>
 </li>
-        <li><a href="API.html#module-darwin.omega_utils">darwin.omega_utils</a>
+        <li><a href="API.html#module-darwin.nonmem.utils">darwin.nonmem.utils</a>
 </li>
         <li><a href="API.html#module-darwin.options">darwin.options</a>
 </li>
@@ -532,7 +556,7 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter">NMEngineAdapter (class in darwin.NMEngineAdapter)</a>
+      <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter">NMEngineAdapter (class in darwin.nonmem.NMEngineAdapter)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -546,14 +570,28 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.options.Options">Options (class in darwin.options)</a>
 </li>
+      <li><a href="API.html#darwin.ModelRun.ModelRun.output_results">output_results() (darwin.ModelRun.ModelRun method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.utils.Pipeline">Pipeline (class in darwin.utils)</a>
+</li>
+      <li><a href="API.html#darwin.utils.PipelineStep">PipelineStep (class in darwin.utils)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.Population.Population">Population (class in darwin.Population)</a>
 </li>
+      <li><a href="API.html#darwin.utils.Pipeline.put">put() (darwin.utils.Pipeline method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.utils.PipelineStep.put">(darwin.utils.PipelineStep method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -563,21 +601,23 @@
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.read_data_file_name">read_data_file_name() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
-        <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter.read_data_file_name">(darwin.NMEngineAdapter.NMEngineAdapter static method)</a>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.read_data_file_name">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.read_model">read_model() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
-        <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter.read_model">(darwin.NMEngineAdapter.NMEngineAdapter static method)</a>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.read_model">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.read_results">read_results() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
-        <li><a href="API.html#darwin.NMEngineAdapter.NMEngineAdapter.read_results">(darwin.NMEngineAdapter.NMEngineAdapter static method)</a>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.read_results">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
+      <li><a href="API.html#darwin.nonmem.NMEngineAdapter.register">register() (in module darwin.nonmem.NMEngineAdapter)</a>
+</li>
       <li><a href="API.html#darwin.ModelEngineAdapter.register_engine_adapter">register_engine_adapter() (in module darwin.ModelEngineAdapter)</a>
 </li>
       <li><a href="API.html#darwin.utils.remove_comments">remove_comments() (in module darwin.utils)</a>
@@ -586,14 +626,22 @@
 </li>
       <li><a href="API.html#darwin.utils.remove_file">remove_file() (in module darwin.utils)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.utils.replace_tokens">replace_tokens() (in module darwin.utils)</a>
 </li>
-      <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.restore_model">restore_model() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
+      <li><a href="API.html#darwin.utils.Pipeline.results">results() (darwin.utils.Pipeline method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.utils.PipelineStep.results">(darwin.utils.PipelineStep method)</a>
 </li>
-      <li><a href="API.html#darwin.Population.Population.run_all">run_all() (darwin.Population.Population method)</a>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.Population.Population.run">run() (darwin.Population.Population method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.utils.PipelineStep.run">(darwin.utils.PipelineStep method)</a>
 </li>
+      </ul></li>
       <li><a href="API.html#darwin.run_downhill.run_downhill">run_downhill() (in module darwin.run_downhill)</a>
 </li>
       <li><a href="API.html#darwin.algorithms.exhaustive.run_exhaustive">run_exhaustive() (in module darwin.algorithms.exhaustive)</a>
@@ -610,6 +658,10 @@
 </li>
       <li><a href="API.html#darwin.algorithms.OPT.run_skopt">run_skopt() (in module darwin.algorithms.OPT)</a>
 </li>
+      <li><a href="API.html#darwin.ModelRun.run_to_json">run_to_json() (in module darwin.ModelRun)</a>
+</li>
+      <li><a href="API.html#darwin.utils.PipelineStep.running">running() (darwin.utils.PipelineStep method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -618,11 +670,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.utils.AtomicFlag.set">set() (darwin.utils.AtomicFlag method)</a>
 </li>
+      <li><a href="API.html#darwin.nonmem.utils.set_omega_bands">set_omega_bands() (in module darwin.nonmem.utils)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API.html#darwin.omega_utils.set_omega_bands">set_omega_bands() (in module darwin.omega_utils)</a>
+      <li><a href="API.html#darwin.utils.Pipeline.start">start() (darwin.utils.Pipeline method)</a>
 </li>
-      <li><a href="API.html#darwin.ModelRun.StoredRun">StoredRun (class in darwin.ModelRun)</a>
+      <li><a href="API.html#darwin.ModelRun.ModelRun.started">started() (darwin.ModelRun.ModelRun method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -630,10 +684,16 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.utils.TankStep">TankStep (class in darwin.utils)</a>
+</li>
       <li><a href="API.html#darwin.Template.Template">Template (class in darwin.Template)</a>
 </li>
       <li><a href="API.html#darwin.utils.terminate_process">terminate_process() (in module darwin.utils)</a>
 </li>
+      <li><a href="API.html#darwin.utils.terminate_processes">terminate_processes() (in module darwin.utils)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.Model.Model.to_dict">to_dict() (darwin.Model.Model method)</a>
 
       <ul>
@@ -654,12 +714,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API.html#darwin.Model.write_best_model_files">write_best_model_files() (in module darwin.Model)</a>
-
-      <ul>
-        <li><a href="API.html#darwin.ModelRun.write_best_model_files">(in module darwin.ModelRun)</a>
+      <li><a href="API.html#darwin.ModelRun.write_best_model_files">write_best_model_files() (in module darwin.ModelRun)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 

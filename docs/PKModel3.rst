@@ -2,8 +2,7 @@
 
 PK Model 3, ODE model
 ==============================================
-.. _startpk3:
- 
+
 
 The Template file
 ~~~~~~~~~~~~~~~~~~~~~
@@ -23,12 +22,10 @@ Example 3 template file :download:`json <../examples/user/Example3/options.json>
 
  
 
+.. _startpk3:
+
 .. figure:: MLSelection.png
 
+   64 model search space by exhaustive
 
-64 model search space by exhaustive
-
-
-As you can see in the `startpk3`_ image,  
-
-  
+As you can see in the :ref:`startpk3` image

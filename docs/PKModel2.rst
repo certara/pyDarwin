@@ -29,7 +29,7 @@ Example 2 template file :download:`json <../examples/user/Example2/options.json>
 
    Current 12,960 model search space by GA
 
-As you can see in the :ref:`startpk2` image,  
+As you can see in the :ref:`startpk2` image
  
 .. _Calling Post Run Python code:
 

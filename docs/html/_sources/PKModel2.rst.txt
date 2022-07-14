@@ -8,17 +8,17 @@ PK Model 2, Simulation model by GP with Python code
 The Template file
 ~~~~~~~~~~~~~~~~~~~~~
 
-Example 2 template file :download:`text <../examples/Example2/Example2_template.txt>`
+Example 2 template file :download:`text <../examples/user/Example2/template.txt>`
 
 The Tokens file
 ~~~~~~~~~~~~~~~~
 
-Example 2 tokens file :download:`json <../examples/Example2/Example2_tokens.json>`
+Example 2 tokens file :download:`json <../examples/user/Example2/tokens.json>`
 
 The Options file
 ~~~~~~~~~~~~~~~~
 
-Example 2 template file :download:`json <../examples/Example2/Example2_options.json>`
+Example 2 template file :download:`json <../examples/user/Example2/options.json>`
 
 
 
@@ -29,7 +29,7 @@ Example 2 template file :download:`json <../examples/Example2/Example2_options.j
 
    Current 12,960 model search space by GA
 
-As you can see in the :ref:`startpk2` image,  
+As you can see in the :ref:`startpk2` image
  
 .. _Calling Post Run Python code:
 

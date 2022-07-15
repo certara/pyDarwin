@@ -19,12 +19,12 @@ def keep_going() -> bool:
     return _keep_going.get()
 
 
-def dont_even_start():
-    _keep_going.set(False)
-
-
 def interrupted() -> bool:
     return _hard_stop.get()
+
+
+def dont_even_start():
+    _keep_going.set(False)
 
 
 def wait_for_subprocesses(timeout: int) -> bool:

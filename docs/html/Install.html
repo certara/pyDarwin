@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ML Model Selection, Theory and implementation" href="Theory.html" />
+    <link rel="next" title="Overview" href="Overview.html" />
     <link rel="prev" title="Welcome to pyDarwin’s documentation" href="index.html" /> 
 </head>
 
@@ -41,15 +41,31 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#system-requirements">System Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linux">Linux</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection, Theory and implementation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hardware-requirements">Hardware Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#grid-computing-requirements">Grid Computing Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#software-requirements">Software Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-pydarwin">Install pyDarwin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#development">Development</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#released">Released</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
@@ -81,9 +97,89 @@
              
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
-<section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
-<p><a class="reference external" href="http://elainewines.com">Self Promotion</a></p>
+<section id="system-requirements">
+<h2>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this heading">¶</a></h2>
+<section id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Windows 10</p></li>
+<li><p>Windows Server 2018/2019</p></li>
+</ul>
+</section>
+<section id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>CentOS8/RHEL8</p></li>
+<li><p>Ubuntu &gt;= 18.0.4</p></li>
+</ul>
+</section>
+</section>
+<section id="hardware-requirements">
+<h2>Hardware Requirements<a class="headerlink" href="#hardware-requirements" title="Permalink to this heading">¶</a></h2>
+<p>Minimum and recommended requirements:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 35%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>Minimum</p></th>
+<th class="head"><p>Recommended</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Processor</p></td>
+<td><p>Intel i5 processor 3 GHz</p></td>
+<td><p>Intel i7 processor 4 GHz</p></td>
+</tr>
+<tr class="row-odd"><td><p>RAM</p></td>
+<td><p>16 GB RAM</p></td>
+<td><p>32 GB RAM</p></td>
+</tr>
+<tr class="row-even"><td><p>Internal Storage Device</p></td>
+<td><p>1 GB 7200 RPM Magnetic HD</p></td>
+<td><p>1 GB SSD</p></td>
+</tr>
+</tbody>
+</table>
+<section id="grid-computing-requirements">
+<h3>Grid Computing Requirements<a class="headerlink" href="#grid-computing-requirements" title="Permalink to this heading">¶</a></h3>
+<p>pyDarwin may be executed on Linux hosts with Sun Grid Engine (SGE).</p>
+</section>
+</section>
+<section id="software-requirements">
+<h2>Software Requirements<a class="headerlink" href="#software-requirements" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Python &gt;= 3.10</p></li>
+<li><p>NONMEM &gt;= 7.4.3</p></li>
+<li><p>R &gt;= 4.0.0 (optional)</p></li>
+</ul>
+<p><em>Note: Requirements are Python and NONMEM installation with nmfe.bat available. R installation is required if using</em> <code class="docutils literal notranslate"><span class="pre">&quot;postRunRcode&quot;</span></code> <em>in</em> <code class="docutils literal notranslate"><span class="pre">options.json</span></code> <em>with</em> <code class="docutils literal notranslate"><span class="pre">&quot;useR&quot;</span> <span class="pre">:</span> <span class="pre">true</span></code>.</p>
+</section>
+<section id="install-pydarwin">
+<h2>Install pyDarwin<a class="headerlink" href="#install-pydarwin" title="Permalink to this heading">¶</a></h2>
+<p>Before installing <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> we recommend creating a python virtual environment to in order maintain isolation of package dependencies.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">venv</span> <span class="o">.</span><span class="n">venv</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.venv/Scripts/activate
+</pre></div>
+</div>
+<p>Both the development version and released version of pyDarwin are available to install via <code class="docutils literal notranslate"><span class="pre">pip</span></code> from Certara’s managed PyPi repository.</p>
+<section id="development">
+<h3>Development<a class="headerlink" href="#development" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pyDarwin</span><span class="o">-</span><span class="n">Certara</span> <span class="o">--</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">certara</span><span class="o">.</span><span class="n">jfrog</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">artifactory</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">pypi</span><span class="o">/</span><span class="n">certara</span><span class="o">-</span><span class="n">pypi</span><span class="o">-</span><span class="n">develop</span><span class="o">-</span><span class="n">local</span><span class="o">/</span><span class="n">simple</span> <span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pypi</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">simple</span><span class="o">/</span>
+</pre></div>
+</div>
+</section>
+<section id="released">
+<h3>Released<a class="headerlink" href="#released" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pyDarwin</span><span class="o">-</span><span class="n">Certara</span> <span class="o">--</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">certara</span><span class="o">.</span><span class="n">jfrog</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">artifactory</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">pypi</span><span class="o">/</span><span class="n">certara</span><span class="o">-</span><span class="n">pypi</span><span class="o">-</span><span class="n">develop</span><span class="o">-</span><span class="n">local</span><span class="o">/</span><span class="n">simple</span> <span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pypi</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">simple</span><span class="o">/</span>
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 
@@ -92,7 +188,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to pyDarwin’s documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Theory.html" class="btn btn-neutral float-right" title="ML Model Selection, Theory and implementation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

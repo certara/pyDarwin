@@ -38,12 +38,14 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection, Theory and implementation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
@@ -86,6 +88,7 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -110,29 +113,101 @@
         <li><a href="API.html#darwin.Template.Template.__init__">(darwin.Template.Template method)</a>
 </li>
       </ul></li>
-      <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter._abc_impl">_abc_impl (darwin.ModelEngineAdapter.ModelEngineAdapter attribute)</a>
+      <li><a href="API.html#darwin.grid.GenericGridManager.GenericGridManager._abc_impl">_abc_impl (darwin.grid.GenericGridManager.GenericGridManager attribute)</a>
 
       <ul>
+        <li><a href="API.html#darwin.grid.GridManager.GridManager._abc_impl">(darwin.grid.GridManager.GridManager attribute)</a>
+</li>
+        <li><a href="API.html#darwin.grid.GridRunManager.GridRunManager._abc_impl">(darwin.grid.GridRunManager.GridRunManager attribute)</a>
+</li>
+        <li><a href="API.html#darwin.MemoryModelCache.AsyncMemoryModelCache._abc_impl">(darwin.MemoryModelCache.AsyncMemoryModelCache attribute)</a>
+</li>
+        <li><a href="API.html#darwin.MemoryModelCache.MemoryModelCache._abc_impl">(darwin.MemoryModelCache.MemoryModelCache attribute)</a>
+</li>
+        <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter._abc_impl">(darwin.ModelEngineAdapter.ModelEngineAdapter attribute)</a>
+</li>
+        <li><a href="API.html#darwin.ModelRunManager.ModelRunManager._abc_impl">(darwin.ModelRunManager.ModelRunManager attribute)</a>
+</li>
         <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter._abc_impl">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter attribute)</a>
 </li>
+        <li><a href="API.html#darwin.PipelineRunManager.LocalRunManager._abc_impl">(darwin.PipelineRunManager.LocalRunManager attribute)</a>
+</li>
+        <li><a href="API.html#darwin.PipelineRunManager.PipelineRunManager._abc_impl">(darwin.PipelineRunManager.PipelineRunManager attribute)</a>
+</li>
       </ul></li>
+      <li><a href="API.html#darwin.grid.GenericGridManager.GenericGridManager._alias_command_with_ids">_alias_command_with_ids() (darwin.grid.GenericGridManager.GenericGridManager method)</a>
+</li>
+      <li><a href="API.html#darwin.PipelineRunManager._conflict_project_dirs">_conflict_project_dirs() (in module darwin.PipelineRunManager)</a>
+</li>
       <li><a href="API.html#darwin.ModelCode.ModelCode._convert_full_bin_int">_convert_full_bin_int() (darwin.ModelCode.ModelCode method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.ModelCode.ModelCode._convert_int_full_bin">_convert_int_full_bin() (darwin.ModelCode.ModelCode method)</a>
 </li>
       <li><a href="API.html#darwin.ModelCode.ModelCode._convert_int_min_bin">_convert_int_min_bin() (darwin.ModelCode.ModelCode method)</a>
 </li>
       <li><a href="API.html#darwin.ModelCode.ModelCode._convert_min_bin_int">_convert_min_bin_int() (darwin.ModelCode.ModelCode method)</a>
 </li>
+      <li><a href="API.html#darwin.PipelineRunManager._copy_to_best">_copy_to_best() (in module darwin.PipelineRunManager)</a>
+</li>
+      <li><a href="API.html#darwin.grid.GridRunManager.GridRunManager._create_model_pipeline">_create_model_pipeline() (darwin.grid.GridRunManager.GridRunManager method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.PipelineRunManager.LocalRunManager._create_model_pipeline">(darwin.PipelineRunManager.LocalRunManager method)</a>
+</li>
+        <li><a href="API.html#darwin.PipelineRunManager.PipelineRunManager._create_model_pipeline">(darwin.PipelineRunManager.PipelineRunManager method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.MemoryModelCache.MemoryModelCache._dump_impl">_dump_impl() (darwin.MemoryModelCache.MemoryModelCache method)</a>
+</li>
+      <li><a href="API.html#darwin.MemoryModelCache.AsyncMemoryModelCache._dump_thread">_dump_thread() (darwin.MemoryModelCache.AsyncMemoryModelCache method)</a>
+</li>
       <li><a href="API.html#darwin.nonmem.NMEngineAdapter._file_to_lines">_file_to_lines() (in module darwin.nonmem.NMEngineAdapter)</a>
+</li>
+      <li><a href="API.html#darwin.grid.GridRunManager.GridRunManager._gather_results">_gather_results() (darwin.grid.GridRunManager.GridRunManager method)</a>
 </li>
       <li><a href="API.html#darwin.nonmem.NMEngineAdapter._get_block">_get_block() (in module darwin.nonmem.NMEngineAdapter)</a>
 </li>
+      <li><a href="API.html#darwin.grid.GenericGridManager._get_job_name">_get_job_name() (in module darwin.grid.GenericGridManager)</a>
+</li>
       <li><a href="API.html#darwin.nonmem.NMEngineAdapter._get_non_inf_tokens">_get_non_inf_tokens() (in module darwin.nonmem.NMEngineAdapter)</a>
 </li>
-      <li><a href="API.html#darwin.ModelCode._int_to_bin">_int_to_bin() (in module darwin.ModelCode)</a>
+      <li><a href="API.html#darwin.MemoryModelCache.AsyncMemoryModelCache._have_something">_have_something() (darwin.MemoryModelCache.AsyncMemoryModelCache method)</a>
+</li>
+      <li><a href="API.html#darwin.MemoryModelCache._ModelRunEncoder">_ModelRunEncoder (class in darwin.MemoryModelCache)</a>
+</li>
+      <li><a href="API.html#darwin.grid.GenericGridManager._parse_id">_parse_id() (in module darwin.grid.GenericGridManager)</a>
+</li>
+      <li><a href="API.html#darwin.grid.GenericGridManager.GenericGridManager._parse_poll_line">_parse_poll_line() (darwin.grid.GenericGridManager.GenericGridManager method)</a>
+</li>
+      <li><a href="API.html#darwin.grid.GenericGridManager.GenericGridManager._parse_submit_output">_parse_submit_output() (darwin.grid.GenericGridManager.GenericGridManager method)</a>
+</li>
+      <li><a href="API.html#darwin.ModelRunManager.ModelRunManager._postprocess_runs">_postprocess_runs() (darwin.ModelRunManager.ModelRunManager method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.PipelineRunManager.PipelineRunManager._postprocess_runs">(darwin.PipelineRunManager.PipelineRunManager method)</a>
+</li>
+      </ul></li>
+      <li><a href="API.html#darwin.ModelRunManager.ModelRunManager._preprocess_runs">_preprocess_runs() (darwin.ModelRunManager.ModelRunManager method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.PipelineRunManager.PipelineRunManager._preprocess_runs">(darwin.PipelineRunManager.PipelineRunManager method)</a>
+</li>
+      </ul></li>
+      <li><a href="API.html#darwin.PipelineRunManager.PipelineRunManager._process_run_results">_process_run_results() (darwin.PipelineRunManager.PipelineRunManager static method)</a>
+</li>
+      <li><a href="API.html#darwin.ModelRunManager.ModelRunManager._process_runs">_process_runs() (darwin.ModelRunManager.ModelRunManager method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.PipelineRunManager.PipelineRunManager._process_runs">(darwin.PipelineRunManager.PipelineRunManager method)</a>
+</li>
+      </ul></li>
+      <li><a href="API.html#darwin.grid.GenericGridManager._run_process">_run_process() (in module darwin.grid.GenericGridManager)</a>
+</li>
+      <li><a href="API.html#darwin.PipelineRunManager.LocalRunManager._start_local_run">_start_local_run() (darwin.PipelineRunManager.LocalRunManager static method)</a>
+</li>
+      <li><a href="API.html#darwin.grid.GridRunManager.GridRunManager._start_remote_run">_start_remote_run() (darwin.grid.GridRunManager.GridRunManager method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -140,16 +215,24 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API.html#darwin.Population.Population.add_model_run">add_model_run() (darwin.Population.Population method)</a>
+      <li><a href="API.html#darwin.grid.GenericGridManager.GenericGridManager.add_model_run">add_model_run() (darwin.grid.GenericGridManager.GenericGridManager method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.grid.GridManager.GridManager.add_model_run">(darwin.grid.GridManager.GridManager method)</a>
 </li>
+        <li><a href="API.html#darwin.Population.Population.add_model_run">(darwin.Population.Population method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.options.Options.apply_aliases">apply_aliases() (darwin.options.Options method)</a>
 
       <ul>
         <li><a href="API.html#darwin.utils.apply_aliases">(in module darwin.utils)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.MemoryModelCache.AsyncMemoryModelCache">AsyncMemoryModelCache (class in darwin.MemoryModelCache)</a>
+</li>
       <li><a href="API.html#darwin.utils.AtomicFlag">AtomicFlag (class in darwin.utils)</a>
 </li>
   </ul></td>
@@ -184,7 +267,19 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.ModelRunManager.ModelRunManager.cleanup_folders">cleanup_folders() (darwin.ModelRunManager.ModelRunManager static method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.PipelineRunManager.LocalRunManager.cleanup_folders">(darwin.PipelineRunManager.LocalRunManager static method)</a>
+</li>
+      </ul></li>
       <li><a href="API.html#darwin.utils.PipelineStep.close">close() (darwin.utils.PipelineStep method)</a>
+</li>
+      <li><a href="API.html#darwin.grid.GridManager.create_grid_manager">create_grid_manager() (in module darwin.grid.GridManager)</a>
+</li>
+      <li><a href="API.html#darwin.ModelCache.create_model_cache">create_model_cache() (in module darwin.ModelCache)</a>
+</li>
+      <li><a href="API.html#darwin.ModelRunManager.create_model_run_man">create_model_run_man() (in module darwin.ModelRunManager)</a>
 </li>
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.create_new_model">create_new_model() (darwin.ModelEngineAdapter.ModelEngineAdapter method)</a>
 </li>
@@ -223,6 +318,55 @@
 </li>
       </ul></li>
       <li>
+    darwin.DarwinApp
+
+      <ul>
+        <li><a href="API.html#module-darwin.DarwinApp">module</a>
+</li>
+      </ul></li>
+      <li>
+    darwin.execution_man
+
+      <ul>
+        <li><a href="API.html#module-darwin.execution_man">module</a>
+</li>
+      </ul></li>
+      <li>
+    darwin.grid.GenericGridManager
+
+      <ul>
+        <li><a href="API.html#module-darwin.grid.GenericGridManager">module</a>
+</li>
+      </ul></li>
+      <li>
+    darwin.grid.GridManager
+
+      <ul>
+        <li><a href="API.html#module-darwin.grid.GridManager">module</a>
+</li>
+      </ul></li>
+      <li>
+    darwin.grid.GridRunManager
+
+      <ul>
+        <li><a href="API.html#module-darwin.grid.GridRunManager">module</a>
+</li>
+      </ul></li>
+      <li>
+    darwin.grid.run_search
+
+      <ul>
+        <li><a href="API.html#module-darwin.grid.run_search">module</a>
+</li>
+      </ul></li>
+      <li>
+    darwin.grid.run_search_in_folder
+
+      <ul>
+        <li><a href="API.html#module-darwin.grid.run_search_in_folder">module</a>
+</li>
+      </ul></li>
+      <li>
     darwin.Log
 
       <ul>
@@ -230,10 +374,24 @@
 </li>
       </ul></li>
       <li>
+    darwin.MemoryModelCache
+
+      <ul>
+        <li><a href="API.html#module-darwin.MemoryModelCache">module</a>
+</li>
+      </ul></li>
+      <li>
     darwin.Model
 
       <ul>
         <li><a href="API.html#module-darwin.Model">module</a>
+</li>
+      </ul></li>
+      <li>
+    darwin.ModelCache
+
+      <ul>
+        <li><a href="API.html#module-darwin.ModelCache">module</a>
 </li>
       </ul></li>
       <li>
@@ -257,6 +415,8 @@
         <li><a href="API.html#module-darwin.ModelResults">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     darwin.ModelRun
 
@@ -264,8 +424,13 @@
         <li><a href="API.html#module-darwin.ModelRun">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    darwin.ModelRunManager
+
+      <ul>
+        <li><a href="API.html#module-darwin.ModelRunManager">module</a>
+</li>
+      </ul></li>
       <li>
     darwin.nonmem.NMEngineAdapter
 
@@ -288,6 +453,13 @@
 </li>
       </ul></li>
       <li>
+    darwin.PipelineRunManager
+
+      <ul>
+        <li><a href="API.html#module-darwin.PipelineRunManager">module</a>
+</li>
+      </ul></li>
+      <li>
     darwin.Population
 
       <ul>
@@ -299,6 +471,13 @@
 
       <ul>
         <li><a href="API.html#module-darwin.run_downhill">module</a>
+</li>
+      </ul></li>
+      <li>
+    darwin.run_model
+
+      <ul>
+        <li><a href="API.html#module-darwin.run_model">module</a>
 </li>
       </ul></li>
       <li>
@@ -316,6 +495,13 @@
 </li>
       </ul></li>
       <li>
+    darwin.stop_search
+
+      <ul>
+        <li><a href="API.html#module-darwin.stop_search">module</a>
+</li>
+      </ul></li>
+      <li>
     darwin.Template
 
       <ul>
@@ -329,8 +515,22 @@
         <li><a href="API.html#module-darwin.utils">module</a>
 </li>
       </ul></li>
+      <li><a href="API.html#darwin.DarwinApp.DarwinApp">DarwinApp (class in darwin.DarwinApp)</a>
+</li>
       <li><a href="API.html#darwin.Log.Log.debug">debug() (darwin.Log.Log method)</a>
 </li>
+      <li><a href="API.html#darwin.MemoryModelCache._ModelRunEncoder.default">default() (darwin.MemoryModelCache._ModelRunEncoder method)</a>
+</li>
+      <li><a href="API.html#darwin.execution_man.dont_even_start">dont_even_start() (in module darwin.execution_man)</a>
+</li>
+      <li><a href="API.html#darwin.MemoryModelCache.AsyncMemoryModelCache.dump">dump() (darwin.MemoryModelCache.AsyncMemoryModelCache method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.MemoryModelCache.MemoryModelCache.dump">(darwin.MemoryModelCache.MemoryModelCache method)</a>
+</li>
+        <li><a href="API.html#darwin.ModelCache.ModelCache.dump">(darwin.ModelCache.ModelCache method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -351,8 +551,22 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.algorithms.PSO.f">f() (in module darwin.algorithms.PSO)</a>
 </li>
+      <li><a href="API.html#darwin.MemoryModelCache.AsyncMemoryModelCache.finalize">finalize() (darwin.MemoryModelCache.AsyncMemoryModelCache method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.ModelCache.ModelCache.finalize">(darwin.ModelCache.ModelCache method)</a>
+</li>
+      </ul></li>
+      <li><a href="API.html#darwin.MemoryModelCache.MemoryModelCache.find_model_run">find_model_run() (darwin.MemoryModelCache.MemoryModelCache method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.ModelCache.ModelCache.find_model_run">(darwin.ModelCache.ModelCache method)</a>
+</li>
+      </ul></li>
       <li><a href="API.html#darwin.Population.Population.from_codes">from_codes() (darwin.Population.Population class method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.Model.Model.from_dict">from_dict() (darwin.Model.Model class method)</a>
 
       <ul>
@@ -363,8 +577,6 @@
         <li><a href="API.html#darwin.ModelRun.ModelRun.from_dict">(darwin.ModelRun.ModelRun class method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.ModelCode.ModelCode.from_full_binary">from_full_binary() (darwin.ModelCode.ModelCode class method)</a>
 </li>
       <li><a href="API.html#darwin.ModelCode.ModelCode.from_int">from_int() (darwin.ModelCode.ModelCode class method)</a>
@@ -377,6 +589,8 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.grid.GenericGridManager.GenericGridManager">GenericGridManager (class in darwin.grid.GenericGridManager)</a>
+</li>
       <li><a href="API.html#darwin.Model.Model.genotype">genotype() (darwin.Model.Model method)</a>
 </li>
       <li><a href="API.html#darwin.options.Options.get">get() (darwin.options.Options method)</a>
@@ -403,14 +617,16 @@
         <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.get_error_messages">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.get_file_names">get_file_names() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
         <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.get_file_names">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.ModelCache.get_model_cache">get_model_cache() (in module darwin.ModelCache)</a>
+</li>
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.get_model_run_command">get_model_run_command() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
@@ -421,6 +637,8 @@
 </li>
       <li><a href="API.html#darwin.utils.get_n_worst_index">get_n_worst_index() (in module darwin.utils)</a>
 </li>
+      <li><a href="API.html#darwin.ModelRunManager.get_run_manager">get_run_manager() (in module darwin.ModelRunManager)</a>
+</li>
       <li><a href="API.html#darwin.ModelEngineAdapter.ModelEngineAdapter.get_stem">get_stem() (darwin.ModelEngineAdapter.ModelEngineAdapter static method)</a>
 
       <ul>
@@ -429,12 +647,24 @@
       </ul></li>
       <li><a href="API.html#darwin.utils.get_token_parts">get_token_parts() (in module darwin.utils)</a>
 </li>
+      <li><a href="API.html#darwin.grid.GenericGridManager.GridJob">GridJob (class in darwin.grid.GenericGridManager)</a>
+</li>
+      <li><a href="API.html#darwin.grid.GridManager.GridManager">GridManager (class in darwin.grid.GridManager)</a>
+</li>
+      <li><a href="API.html#darwin.grid.GridRunManager.GridRunManager">GridRunManager (class in darwin.grid.GridRunManager)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.ModelRunManager.ModelRunManager.init_folders">init_folders() (darwin.ModelRunManager.ModelRunManager static method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.PipelineRunManager.LocalRunManager.init_folders">(darwin.PipelineRunManager.LocalRunManager static method)</a>
+</li>
+      </ul></li>
       <li><a href="API.html#darwin.Log.Log.initialize">initialize() (darwin.Log.Log method)</a>
 
       <ul>
@@ -443,6 +673,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.execution_man.interrupted">interrupted() (in module darwin.execution_man)</a>
+</li>
       <li><a href="API.html#darwin.ModelRun.ModelRun.is_duplicate">is_duplicate() (darwin.ModelRun.ModelRun method)</a>
 </li>
   </ul></td>
@@ -464,6 +696,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.execution_man.keep_going">keep_going() (in module darwin.execution_man)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -473,8 +713,16 @@
         <li><a href="API.html#darwin.utils.PipelineStep.link">(darwin.utils.PipelineStep method)</a>
 </li>
       </ul></li>
+      <li><a href="API.html#darwin.MemoryModelCache.MemoryModelCache.load">load() (darwin.MemoryModelCache.MemoryModelCache method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.ModelCache.ModelCache.load">(darwin.ModelCache.ModelCache method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.PipelineRunManager.LocalRunManager">LocalRunManager (class in darwin.PipelineRunManager)</a>
+</li>
       <li><a href="API.html#darwin.Log.Log">Log (class in darwin.Log)</a>
 </li>
   </ul></td>
@@ -493,11 +741,15 @@
 </li>
       <li><a href="API.html#darwin.nonmem.utils.match_thetas">match_thetas() (in module darwin.nonmem.utils)</a>
 </li>
+      <li><a href="API.html#darwin.MemoryModelCache.MemoryModelCache">MemoryModelCache (class in darwin.MemoryModelCache)</a>
+</li>
       <li><a href="API.html#darwin.Log.Log.message">message() (darwin.Log.Log method)</a>
 </li>
       <li><a href="API.html#darwin.Model.Model">Model (class in darwin.Model)</a>
 </li>
       <li><a href="API.html#darwin.ModelRun.ModelRun.model_result_class">model_result_class (darwin.ModelRun.ModelRun attribute)</a>
+</li>
+      <li><a href="API.html#darwin.ModelCache.ModelCache">ModelCache (class in darwin.ModelCache)</a>
 </li>
       <li><a href="API.html#darwin.ModelCode.ModelCode">ModelCode (class in darwin.ModelCode)</a>
 </li>
@@ -506,6 +758,8 @@
       <li><a href="API.html#darwin.ModelResults.ModelResults">ModelResults (class in darwin.ModelResults)</a>
 </li>
       <li><a href="API.html#darwin.ModelRun.ModelRun">ModelRun (class in darwin.ModelRun)</a>
+</li>
+      <li><a href="API.html#darwin.ModelRunManager.ModelRunManager">ModelRunManager (class in darwin.ModelRunManager)</a>
 </li>
       <li>
     module
@@ -519,9 +773,27 @@
 </li>
         <li><a href="API.html#module-darwin.algorithms.PSO">darwin.algorithms.PSO</a>
 </li>
+        <li><a href="API.html#module-darwin.DarwinApp">darwin.DarwinApp</a>
+</li>
+        <li><a href="API.html#module-darwin.execution_man">darwin.execution_man</a>
+</li>
+        <li><a href="API.html#module-darwin.grid.GenericGridManager">darwin.grid.GenericGridManager</a>
+</li>
+        <li><a href="API.html#module-darwin.grid.GridManager">darwin.grid.GridManager</a>
+</li>
+        <li><a href="API.html#module-darwin.grid.GridRunManager">darwin.grid.GridRunManager</a>
+</li>
+        <li><a href="API.html#module-darwin.grid.run_search">darwin.grid.run_search</a>
+</li>
+        <li><a href="API.html#module-darwin.grid.run_search_in_folder">darwin.grid.run_search_in_folder</a>
+</li>
         <li><a href="API.html#module-darwin.Log">darwin.Log</a>
 </li>
+        <li><a href="API.html#module-darwin.MemoryModelCache">darwin.MemoryModelCache</a>
+</li>
         <li><a href="API.html#module-darwin.Model">darwin.Model</a>
+</li>
+        <li><a href="API.html#module-darwin.ModelCache">darwin.ModelCache</a>
 </li>
         <li><a href="API.html#module-darwin.ModelCode">darwin.ModelCode</a>
 </li>
@@ -531,19 +803,27 @@
 </li>
         <li><a href="API.html#module-darwin.ModelRun">darwin.ModelRun</a>
 </li>
+        <li><a href="API.html#module-darwin.ModelRunManager">darwin.ModelRunManager</a>
+</li>
         <li><a href="API.html#module-darwin.nonmem.NMEngineAdapter">darwin.nonmem.NMEngineAdapter</a>
 </li>
         <li><a href="API.html#module-darwin.nonmem.utils">darwin.nonmem.utils</a>
 </li>
         <li><a href="API.html#module-darwin.options">darwin.options</a>
 </li>
+        <li><a href="API.html#module-darwin.PipelineRunManager">darwin.PipelineRunManager</a>
+</li>
         <li><a href="API.html#module-darwin.Population">darwin.Population</a>
 </li>
         <li><a href="API.html#module-darwin.run_downhill">darwin.run_downhill</a>
 </li>
+        <li><a href="API.html#module-darwin.run_model">darwin.run_model</a>
+</li>
         <li><a href="API.html#module-darwin.run_search">darwin.run_search</a>
 </li>
         <li><a href="API.html#module-darwin.run_search_in_folder">darwin.run_search_in_folder</a>
+</li>
+        <li><a href="API.html#module-darwin.stop_search">darwin.stop_search</a>
 </li>
         <li><a href="API.html#module-darwin.Template">darwin.Template</a>
 </li>
@@ -580,8 +860,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.utils.Pipeline">Pipeline (class in darwin.utils)</a>
 </li>
+      <li><a href="API.html#darwin.PipelineRunManager.PipelineRunManager">PipelineRunManager (class in darwin.PipelineRunManager)</a>
+</li>
       <li><a href="API.html#darwin.utils.PipelineStep">PipelineStep (class in darwin.utils)</a>
 </li>
+      <li><a href="API.html#darwin.grid.GenericGridManager.GenericGridManager.poll_model_runs">poll_model_runs() (darwin.grid.GenericGridManager.GenericGridManager method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.grid.GridManager.GridManager.poll_model_runs">(darwin.grid.GridManager.GridManager method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.Population.Population">Population (class in darwin.Population)</a>
@@ -616,14 +904,38 @@
         <li><a href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.read_results">(darwin.nonmem.NMEngineAdapter.NMEngineAdapter static method)</a>
 </li>
       </ul></li>
-      <li><a href="API.html#darwin.nonmem.NMEngineAdapter.register">register() (in module darwin.nonmem.NMEngineAdapter)</a>
+      <li><a href="API.html#darwin.grid.GenericGridManager.register">register() (in module darwin.grid.GenericGridManager)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.grid.GridRunManager.register">(in module darwin.grid.GridRunManager)</a>
 </li>
+        <li><a href="API.html#darwin.MemoryModelCache.register">(in module darwin.MemoryModelCache)</a>
+</li>
+        <li><a href="API.html#darwin.nonmem.NMEngineAdapter.register">(in module darwin.nonmem.NMEngineAdapter)</a>
+</li>
+        <li><a href="API.html#darwin.PipelineRunManager.register">(in module darwin.PipelineRunManager)</a>
+</li>
+      </ul></li>
       <li><a href="API.html#darwin.ModelEngineAdapter.register_engine_adapter">register_engine_adapter() (in module darwin.ModelEngineAdapter)</a>
 </li>
+      <li><a href="API.html#darwin.grid.GridManager.register_grid_man">register_grid_man() (in module darwin.grid.GridManager)</a>
+</li>
+      <li><a href="API.html#darwin.ModelCache.register_model_cache">register_model_cache() (in module darwin.ModelCache)</a>
+</li>
+      <li><a href="API.html#darwin.ModelRunManager.register_model_run_man">register_model_run_man() (in module darwin.ModelRunManager)</a>
+</li>
+      <li><a href="API.html#darwin.grid.GenericGridManager.GenericGridManager.remove_all">remove_all() (darwin.grid.GenericGridManager.GenericGridManager method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.grid.GridManager.GridManager.remove_all">(darwin.grid.GridManager.GridManager method)</a>
+</li>
+      </ul></li>
       <li><a href="API.html#darwin.utils.remove_comments">remove_comments() (in module darwin.utils)</a>
 </li>
       <li><a href="API.html#darwin.utils.remove_dir">remove_dir() (in module darwin.utils)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.utils.remove_file">remove_file() (in module darwin.utils)</a>
 </li>
       <li><a href="API.html#darwin.utils.replace_tokens">replace_tokens() (in module darwin.utils)</a>
@@ -634,14 +946,14 @@
         <li><a href="API.html#darwin.utils.PipelineStep.results">(darwin.utils.PipelineStep method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.Population.Population.run">run() (darwin.Population.Population method)</a>
 
       <ul>
         <li><a href="API.html#darwin.utils.PipelineStep.run">(darwin.utils.PipelineStep method)</a>
 </li>
       </ul></li>
+      <li><a href="API.html#darwin.ModelRunManager.ModelRunManager.run_all">run_all() (darwin.ModelRunManager.ModelRunManager method)</a>
+</li>
       <li><a href="API.html#darwin.run_downhill.run_downhill">run_downhill() (in module darwin.run_downhill)</a>
 </li>
       <li><a href="API.html#darwin.algorithms.exhaustive.run_exhaustive">run_exhaustive() (in module darwin.algorithms.exhaustive)</a>
@@ -649,7 +961,11 @@
       <li><a href="API.html#darwin.algorithms.GA.run_ga">run_ga() (in module darwin.algorithms.GA)</a>
 </li>
       <li><a href="API.html#darwin.ModelRun.ModelRun.run_model">run_model() (darwin.ModelRun.ModelRun method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.run_model.run_model">(in module darwin.run_model)</a>
 </li>
+      </ul></li>
       <li><a href="API.html#darwin.algorithms.PSO.run_pso">run_pso() (in module darwin.algorithms.PSO)</a>
 </li>
       <li><a href="API.html#darwin.run_search.run_search">run_search() (in module darwin.run_search)</a>
@@ -657,6 +973,8 @@
       <li><a href="API.html#darwin.run_search_in_folder.run_search_in_folder">run_search_in_folder() (in module darwin.run_search_in_folder)</a>
 </li>
       <li><a href="API.html#darwin.algorithms.OPT.run_skopt">run_skopt() (in module darwin.algorithms.OPT)</a>
+</li>
+      <li><a href="API.html#darwin.DarwinApp.run_template">run_template() (in module darwin.DarwinApp)</a>
 </li>
       <li><a href="API.html#darwin.ModelRun.run_to_json">run_to_json() (in module darwin.ModelRun)</a>
 </li>
@@ -670,13 +988,29 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.utils.AtomicFlag.set">set() (darwin.utils.AtomicFlag method)</a>
 </li>
+      <li><a href="API.html#darwin.ModelCache.set_model_cache">set_model_cache() (in module darwin.ModelCache)</a>
+</li>
       <li><a href="API.html#darwin.nonmem.utils.set_omega_bands">set_omega_bands() (in module darwin.nonmem.utils)</a>
+</li>
+      <li><a href="API.html#darwin.ModelRunManager.set_run_manager">set_run_manager() (in module darwin.ModelRunManager)</a>
+</li>
+      <li><a href="API.html#darwin.utils.Pipeline.start">start() (darwin.utils.Pipeline method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API.html#darwin.utils.Pipeline.start">start() (darwin.utils.Pipeline method)</a>
+      <li><a href="API.html#darwin.execution_man.start_execution_manager">start_execution_manager() (in module darwin.execution_man)</a>
 </li>
       <li><a href="API.html#darwin.ModelRun.ModelRun.started">started() (darwin.ModelRun.ModelRun method)</a>
+</li>
+      <li><a href="API.html#darwin.stop_search.stop_search">stop_search() (in module darwin.stop_search)</a>
+</li>
+      <li><a href="API.html#darwin.MemoryModelCache.MemoryModelCache.store_model_run">store_model_run() (darwin.MemoryModelCache.MemoryModelCache method)</a>
+
+      <ul>
+        <li><a href="API.html#darwin.ModelCache.ModelCache.store_model_run">(darwin.ModelCache.ModelCache method)</a>
+</li>
+      </ul></li>
+      <li><a href="API.html#darwin.grid.GenericGridManager.GenericGridManager.submit">submit() (darwin.grid.GenericGridManager.GenericGridManager method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -710,10 +1044,12 @@
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API.html#darwin.Log.Log.warn">warn() (darwin.Log.Log method)</a>
+      <li><a href="API.html#darwin.execution_man.wait_for_subprocesses">wait_for_subprocesses() (in module darwin.execution_man)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.Log.Log.warn">warn() (darwin.Log.Log method)</a>
+</li>
       <li><a href="API.html#darwin.ModelRun.write_best_model_files">write_best_model_files() (in module darwin.ModelRun)</a>
 </li>
   </ul></td>

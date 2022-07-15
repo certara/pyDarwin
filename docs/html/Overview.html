@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ML Model Selection, Theory and implementation &mdash; pyDarwin 1 documentation</title>
+  <title>Overview &mdash; pyDarwin 1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Required Files" href="Required_files.html" />
+    <link rel="next" title="Usage" href="Usage.html" />
     <link rel="prev" title="Installation" href="Install.html" /> 
 </head>
 
@@ -41,7 +41,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">ML Model Selection, Theory and implementation</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#exhaustive-search">Exhaustive Search</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#genetic-algorithm">Genetic Algorithm</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gaussian-process">Gaussian Process</a></li>
@@ -49,11 +49,13 @@
 <li class="toctree-l2"><a class="reference internal" href="#gradient-boosted-random-tree">Gradient Boosted Random Tree</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
@@ -73,9 +75,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>ML Model Selection, Theory and implementation</li>
+      <li>Overview</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/Theory.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/Overview.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -83,8 +85,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="ml-model-selection-theory-and-implementation">
-<h1>ML Model Selection, Theory and implementation<a class="headerlink" href="#ml-model-selection-theory-and-implementation" title="Permalink to this heading">¶</a></h1>
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
 <dl class="simple" id="starttheory">
 <dt>pyDarwin implements a number of machine learning algorithms for model selection. Machine learning algorithms are broadly divided into two categories:</dt><dd><ul class="simple">
 <li><p>Supervised learning</p></li>
@@ -154,7 +156,7 @@ which is used for the downhill step.</p>
 <img alt="_images/MLSelection.png" src="_images/MLSelection.png" />
 </figure>
 </div></blockquote>
-<p>The same 3 files are required for any search, whether exhausitve, GA, GP, RF or GBRF. These file are described in <a class="reference internal" href="Required_files.html#startrequiredfiles"><span class="std std-ref">required files.</span></a></p>
+<p>The same 3 files are required for any search, whether exhausitve, GA, GP, RF or GBRF. These file are described in <a class="reference internal" href="Usage.html#startrequiredfiles"><span class="std std-ref">required files.</span></a></p>
 <section id="exhaustive-search">
 <span id="the-algorithms"></span><span id="id5"></span><h2>Exhaustive Search<a class="headerlink" href="#exhaustive-search" title="Permalink to this heading">¶</a></h2>
 <p>The exhausitve search algorithm is simple to understand. The search space is initally represented as a string of integers - one for each dimension. To facilitate the search,
@@ -190,7 +192,7 @@ this interger string is coded into a “minimal binary”. T</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Install.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Required_files.html" class="btn btn-neutral float-right" title="Required Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,7 +1,6 @@
 
-
-PK Model 2, Simulation model by GP with Python code
-====================================================
+Example 2: PK Model 2, Simulation model by GP with Python code
+================================================================
  
  
 

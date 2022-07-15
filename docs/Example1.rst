@@ -3,7 +3,7 @@
 .. _startpk1:
 
 Example 1: PK Model, Trivial Exhaustive Search
-======================================
+==============================================
 
 This first model is quite simple, the search space consistes of 6 dimensions, each with 2 options. Thus, the total number of candiate models is 
 2^6 = 64 models. As the search space if very small, we'll search by exhaustive search. 

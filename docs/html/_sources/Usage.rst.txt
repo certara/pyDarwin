@@ -1,22 +1,34 @@
 
-Required Files
+Usage
 ==============================================
  
+The :ref:`darwin.run_search <run_search_target>` function executes the candidate search for the optimal population model.
+
+.. code:: python
+    
+    python -m darwin.run_search <template_path> <tokens_path> <options_path>
+
+To execute, call the ``darwin.run_search`` function and provide the following file paths as arguments:
+
+1. :ref:`Template file <template_file_target>` (e.g., template.txt) - basic shell for NONMEM control files
+2. :ref:`Tokens file <tokens_file_target>` (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension
+3. :ref:`Options file <options_file_target>` (e.g., options.json) - json file describing algorithim, run options, and post-run penalty code configurations.
+
 .. _startRequiredFiles:
  
  
-The same 3 files are required for any search, whether exhausitve, GA, GP, RF or GBRF. Which algorithm is used is defined in the :ref:`options file<options file>`. The template 
+The same 3 files are required for any search, whether exhausitve, GA, GP, RF or GBRF. Which algorithm is used is defined in the :ref:`options file<options_file_target>`. The template 
 file serves as a framework, and looks similar to a NONMEM/NMTRAN control file. The tokens file specifies the range of "features" to be searched, and the options 
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution etc.
  
-.. _The template file:
+.. _template_file_target:
 
-The Template File
+Template File
 ~~~~~~~~~~~~~~~~~~~
 The template file is a plain ASCII text file. This file is the framework for the construction of the NONMEM control files. 
 Typically, the structure will be quite similar to a NONMEM control file, with all of the 
 usual blocks, e.g. $PROB, $INPUT, $DATA, $SUBS, $PK, $ERROR, $THETA, $OMEGA, $SIGMA, $EST. However, this format is 
-completely flexible and entire blocks may be missing from the template file (to be provided from the `tokens file`_)
+completely flexible and entire blocks may be missing from the template file (to be provided from the  :ref:`tokens file<tokens_file_target>`)
 
 The difference between a standard NONMEM control file and the temlate file is that the user will define code 
 segments in the template file that will be replaced by other text. These code segments are refered to as "token keys". 
@@ -105,7 +117,7 @@ There are 3 restriction for the parseing of the initial estimates blocks:
 3. Text for **ALL** initial estimates must be in parentheses, e.g., (1), or (0,1) or (0,1,5)
 
 
-.. _tokens file:
+.. _tokens_file_target:
 
 The Tokens File
 ~~~~~~~~~~~~~~~
@@ -147,17 +159,171 @@ Several notes:
 1. The :ref:`token stem<token stem>` is "ADVAN" and identifies the :ref:`token group<token group>`. This stem must be unique in the tokens groups. The token stem also  serves as the token key in the :ref:`token key-value pairs<token key-text pair>`. In this example, three replacements must be made in the template, in $SUBS, $PK and $THETA. In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3]}. Note the curly braces, these are required in the template, but not the tokens file. The indices correspond to the indices of the :ref:`tokens<token>` in the token set. In this case there are 3 :ref:`token key-value pairs<token key-text pair>` in each token set. There may be additional unused tokens (as may be the case with :ref:`nest tokens<nested tokens>`, but each token in the template file must have a corresponding token key-value pair in the tokens file. 2 token sets in this token group, one coding for ADVAN1 and one coding for ADVAN3.
 2. New lines in JSON files are ignored. To code a new line, enter the newline escape character "\\n". Similarly, a tab is coded as "\\t".
 3. Comments are not permitted in JSON files. However comments for the generated NMTRAN control file maybe included with the usual syntax ";".
-4. There is no dependency on the sequence of token sets in the file, any order is acceptable, they need not be in the same order as they appear in the :ref:`template file.<The template file>`
+4. There is no dependency on the sequence of token sets in the file, any order is acceptable, they need not be in the same order as they appear in the :ref:`template file.<template_file_target>`
 5. All other JSON (`JSON <https://www.json.org/json-en.html>`_ ) rules apply.
 
 
    
 
 
-.. _The options file:
+.. _options_file_target:
 
 Options File
 ~~~~~~~~~~~~~~~~~~~
+
+.. code:: json
+
+    {
+    "author": "Charles Robert Darwin",
+    "project_name": "Delicious armadillos",
+
+    "algorithm": "GA",
+
+    "GA": {
+        "elitist_num": 2,
+        "crossoverRate": 0.95,
+        "mutationRate": 0.95,
+        "sharing_alpha": 0.1,
+        "selection": "tournament",
+        "selection_size": 2,
+        "crossoverOperator": "cxOnePoint",
+        "mutate": "flipBit",
+        "attribute_mutation_probability": 0.1,
+        "niche_penalty": 10
+    },
+
+    "random_seed": 11,
+    "num_parallel": 4,
+    "num_generations": 6,
+    "population_size": 4,
+
+    "num_opt_chains": 4,
+
+    "exhaustive_batch_size": 100,
+
+    "crash_value": 99999999,
+
+    "penalty": {
+        "THETA": 10,
+        "OMEGA": 10,
+        "SIGMA": 10,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "conditionNumber": 100,
+        "non_influential_tokens": 0.00001
+    },
+
+    "downhill_period": 2,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "local_2_bit_search": true,
+    "final_downhill_search": true,
+
+    "nmfePath": "/opt/nm751/util/nmfe75",
+    "model_run_timeout": 1200,
+    "model_run_priority_class": "below_normal",
+
+    "postprocess": {
+        "useR": true,
+        "RScriptPath": "/some/R/path/rscript",
+        "postRunRCode": "{project_dir}/simplefunc.r",
+        "R_timeout": 30,
+        "usePython": true,
+        "postRunPythonCode": "{project_dir}/../simplefunc_common.py"
+    },
+
+    "use_saved_models": false,
+    "saved_models_file": "{working_dir}/models0.json",
+    "saved_models_readonly": false,
+
+    "remove_run_dir": false,
+    "remove_temp_dir": true,
+
+    "model_run_man": "darwin.GridRunManager",
+    "model_cache": "darwin.MemoryModelCache",
+    "grid_man": "darwin.GenericGridManager",
+    "engine_adapter": "nonmem",
+
+    "working_dir": "~/darwin/Ex1",
+    "data_dir": "{project_dir}/data",
+    "output_dir": "{project_dir}/output",
+    "temp_dir": "{working_dir}/temp",
+
+    "grid_manager": {
+        "python_path": "~/darwin/venv/bin/python",
+        "submit_search_command": "qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'",
+        "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
+        "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
+        "poll_command": "qstat -s z",
+        "poll_job_id_re": "^\\s+(\\w+)",
+        "poll_interval": 5,
+        "delete_command": "qdel {project_stem}-*"
+    }
+    }
+
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+|      Field              | Type                       | Description                                                                       |
++=========================+============================+===================================================================================+
+| author                  | String                     | Author name                                                                       |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| project_name            | String                     | Name of the project                                                               |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| algorithm               | String                     | ML algorthim, options are  "GA", "GP", "RF", "GBRT", "EXHAUSTIVE"                 |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| :ref:`GA <ga>`          | JSON                       | Key-value pairs related to "GA". Only applicable if ``"algorithm" : "GA"``        |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> elitist_num        | Integer                    | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> crossoverRate      | Integer                    | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> mutationRate       | Integer                    | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> sharing_alpha      | Integer                    | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> selection          | String                     | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> selection_size     | Integer                    | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> crossoverOperator  | String                     | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> mutate             | String                     | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> attribute_mutation | String                     | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> niche_penalty      | String                     | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+    
+
+.. _ga:
+
+
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+|      Field              | Type                       | Description                                                                       |
++=========================+============================+===================================================================================+
+| <GA> elitist_num        | Integer                    | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> crossoverRate      | Integer                    | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> mutationRate       | Integer                    | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> sharing_alpha      | Integer                    | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> selection          | String                     | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> selection_size     | Integer                    | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> crossoverOperator  | String                     | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> mutate             | String                     | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> attribute_mutation | String                     | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+| <GA> niche_penalty      | String                     | <DESCRIPTION>                                                                     |
++-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+
+
+
 
 
 Note that the the options are saved to a json file. Json supports string, numeric and Boolen (true|false)

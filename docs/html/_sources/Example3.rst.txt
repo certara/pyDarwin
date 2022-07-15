@@ -1,6 +1,6 @@
 
 
-PK Model 3, ODE model
+Example 3: PK Model, ODE model
 ==============================================
 
 

@@ -2,7 +2,7 @@ import sys
 
 from .Template import Template
 from .ModelRun import ModelRun
-from .app import DarwinApp, run_template
+from .DarwinApp import DarwinApp, run_template
 
 
 def run_search(template_file: str, tokens_file: str, options_file: str) -> ModelRun:

@@ -41,12 +41,14 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Theory.html">ML Model Selection, Theory and implementation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Required_files.html">Required Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel1.html">PK Model 1, trivial exhaustive search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel2.html">PK Model 2, Simulation model by GP with Python code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel3.html">PK Model 3, ODE model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PKModel4.html">PK Model 4, DMAG by GA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
@@ -88,7 +90,7 @@ more in most other algorithms is called “reward”.</p>
 redundancy of the matching of bit strings with the <a class="reference internal" href="#integer-representation"><span class="std std-ref">integer representation</span></a>. For example, if a given <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a> included 3
 <a class="reference internal" href="#token-set"><span class="std std-ref">token sets</span></a>, two bits would be required (one bit can only specify two options). Two bits have 4 possible values, while only 3 are needed. Therefore, some duplication
 of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Manageing this reduncandy is handled internally by pyDarwin. the full binary
-is used only by <a class="reference internal" href="#ga"><span class="std std-ref">Genetic algorith</span></a>.</p>
+is used only by <a class="reference internal" href="Usage.html#ga"><span class="std std-ref">Genetic algorith</span></a>.</p>
 <p>The minimal binary is on contrast to the <a class="reference internal" href="#full-binary"><span class="std std-ref">full binary</span></a>.</p>
 <p id="ga"><strong>GA - Genetic Algorithm:</strong> An unsupervised search algorithm that mimicks the mathetmatics
 of ‘survival of the fittest’. A population of candidates is generated randomly, an the “fitness”
@@ -101,12 +103,12 @@ no futher improvement is seen. In pyDarwin, GA is implmented using the <a class=
 <p id="gp"><strong>GP - Gaussian Process (Bayesian optimization)</strong>
 Gaussian Process is implemented in the scikit-optimize package and desribed <a class="reference external" href="https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html">here</a>
 GP is well suited to the problem of model selection, as according to <a class="reference external" href="https://en.wikipedia.org/wiki/Bayesian_optimization">Wikipedia</a>
-it is well suited to black box function with expensive reward calculation. Indeed, experience to date suggests that GP, along with <a class="reference internal" href="#ga"><span class="std std-ref">GA</span></a> are the most robust and
+it is well suited to black box function with expensive reward calculation. Indeed, experience to date suggests that GP, along with <a class="reference internal" href="Usage.html#ga"><span class="std std-ref">GA</span></a> are the most robust and
 efficient of the ML algorithms, especially if used in combination with a local exhaustive search.</p>
 <p id="integer-representation"><strong>Integer representation:</strong> The integer representation of a given model is what is actually used to construct the control file. Specifically, the integer representation is a string
 of integers, with each integer specifying which <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> is to be substituted into the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a>. For example, an integer string of [0,1,2] would substitute the
 0th token set in the the template for the first <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a>, the 1st token set for the 2nd token group and the 3rd token set for the 3rd tokens group. The integer representation
-is managed internally by pyDarwin and in the case of <a class="reference internal" href="#ga"><span class="std std-ref">Genetic algorithm</span></a> derived from the <a class="reference internal" href="#full-binary"><span class="std std-ref">full binary</span></a> representation.</p>
+is managed internally by pyDarwin and in the case of <a class="reference internal" href="Usage.html#ga"><span class="std std-ref">Genetic algorithm</span></a> derived from the <a class="reference internal" href="#full-binary"><span class="std std-ref">full binary</span></a> representation.</p>
 <p id="local-one-bit-search"><strong>Local One bit Search:</strong></p>
 <p id="local-two-bit-search"><strong>Local Two bit Search:</strong></p>
 <p id="local-search"><strong>Local Search:</strong> It has found been <a class="reference external" href="https://www.page-meeting.org/default.asp?abstract=10053">demonstrated</a>  that all of the available algorithms are insufficiently robust at finding the final
@@ -196,7 +198,7 @@ all posssible models:</p>
 </div>
 <p>This also requires 2 bits, one for the ADVAN token group, one for the K23~WT token group. Using nested tokens can reduce the number of tokens sets in a token group, at the expense of more token
 groups. While more than one level of nested tokens is permitted, the logic of constructing them quickly becomes very complicated.</p>
-<p>The full example is given <a class="reference internal" href="PKModel4.html#startpk4"><span class="std std-ref">example 4</span></a></p>
+<p>The full example is given <a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">example 4</span></a></p>
 <p id="options-file"><strong>Options File:</strong> Specified the options for the search, inculding the algorith, the <a class="reference internal" href="#fitness"><span class="std std-ref">fitness/reward criteria</span></a>, the population size, the number
 of iterations/generations and whether the downhill search is to be executed.</p>
 <p id="output-directory"><strong>output_dir:</strong> Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is <a class="reference internal" href="#working-directory"><span class="std std-ref">{working directory</span></a>/output.
@@ -210,11 +212,11 @@ Can be provided as an argument for run_search_in_folder or determined by path to
 <p id="scikit-optimized"><strong>scikit-optimize:</strong> <a class="reference external" href="https://scikit-optimize.github.io/stable/">Optimization package</a></p>
 <p id="temp-dir"><strong>temp_dir:</strong> Folder where all iterations/runs are performed, i.e. where all NONMEM files are written, as well as the output files.
 Default value is <a class="reference internal" href="#working-directory"><span class="std std-ref">{working_dir</span></a>}/temp. May be deleted after search finished/stopped if remove_temp_dir is set to true in the <a class="reference internal" href="#options-file"><span class="std std-ref">options file</span></a>.</p>
-<p id="template"><strong>Template:</strong> A text string, saved in the <a class="reference internal" href="Required_files.html#the-template-file"><span class="std std-ref">template file</span></a> that forms the basis for the models to be run. The template file is similar to a NONMEM control file, but with <a class="reference internal" href="#token"><span class="std std-ref">tokens</span></a>
-that are replaced by text string specified in the <a class="reference internal" href="Required_files.html#tokens-file"><span class="std std-ref">tokens file</span></a>.</p>
+<p id="template"><strong>Template:</strong> A text string, saved in the <span class="xref std std-ref">template file</span> that forms the basis for the models to be run. The template file is similar to a NONMEM control file, but with <a class="reference internal" href="#token"><span class="std std-ref">tokens</span></a>
+that are replaced by text string specified in the <span class="xref std std-ref">tokens file</span>.</p>
 <p id="token"><strong>Token:</strong> A token is a text string that appears in the <a class="reference internal" href="#template"><span class="std std-ref">Template</span></a>.  The format of the string is {<a class="reference internal" href="#token-stem"><span class="std std-ref">token stem</span></a> [index]}, where <em>token stem</em> identifies the <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a> and index identifies which <a class="reference internal" href="#token-key-text-pair"><span class="std std-ref">token key-text pair</span></a> within the <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> is to be substituted.</p>
 <p id="tokens-file-s"><strong>Tokens file:</strong></p>
-<p>see  <a class="reference internal" href="Required_files.html#tokens-file"><span class="std std-ref">tokens file</span></a></p>
+<p>see  <span class="xref std std-ref">tokens file</span></p>
 <p id="token-group"><strong>Token group:</strong> XXXXX</p>
 <p id="token-set"><strong>Token set</strong>: one for each option in the that dimension</p>
 <p id="token-key-text-pair"><strong>Token key-text pair:</strong> A <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> contains two or more token key-text pairs. These

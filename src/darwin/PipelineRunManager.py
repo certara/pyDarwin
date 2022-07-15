@@ -24,6 +24,10 @@ class PipelineRunManager(ModelRunManager):
         self.interim_control_file = os.path.join(options.working_dir, "InterimControlFile.mod")
         self.interim_result_file = os.path.join(options.working_dir, "InterimResultFile.lst")
 
+    @abstractmethod
+    def _create_model_pipeline(self, runs: list) -> Pipeline:
+        pass
+
     def _preprocess_runs(self, runs: list) -> list:
         return runs
 
@@ -52,10 +56,6 @@ class PipelineRunManager(ModelRunManager):
         write_best_model_files(self.interim_control_file, self.interim_result_file)
 
         return runs
-
-    @abstractmethod
-    def _create_model_pipeline(self, runs: list) -> Pipeline:
-        pass
 
     @staticmethod
     def _process_run_results(run: ModelRun):

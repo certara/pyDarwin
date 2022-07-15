@@ -24,14 +24,6 @@ class Model:
     """
 
     def __init__(self, code: ModelCode):
-        """
-        Create model object.
-
-        :param code: ModelCode Object, contains the bit string/integer string representation of the model.
-            Includes the Fullbinary string, integer string and minimal binary representation of the model
-            (for GA, GP/RF/GBRT and downhill respectively)
-        :type code: ModelCode
-        """
 
         self.model_code = copy(code)
 

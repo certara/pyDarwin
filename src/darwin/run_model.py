@@ -10,7 +10,7 @@ from darwin.Log import log
 from .ModelRun import ModelRun, run_to_json, json_to_run
 
 
-def run_model(run: ModelRun) -> ModelRun:
+def _run_model(run: ModelRun) -> ModelRun:
     run.result = run.model_result_class()
 
     run.run_model()
@@ -27,6 +27,6 @@ if __name__ == '__main__':
 
     start_execution_manager()
 
-    run_to_json(run_model(json_to_run(input_file)), output_file)
+    run_to_json(_run_model(json_to_run(input_file)), output_file)
 
     log.message('Done')

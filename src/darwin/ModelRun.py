@@ -114,7 +114,7 @@ class ModelRun:
     def is_duplicate(self) -> bool:
         return self.reference_model_num > -1
 
-    def started(self):
+    def started(self) -> bool:
         return self.status != 'Not Started'
 
     def to_dict(self):

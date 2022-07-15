@@ -16,7 +16,7 @@ from darwin.execution_man import keep_going
 import darwin.GlobalVars as GlobalVars
 
 from darwin.ModelCode import ModelCode
-from darwin.run_downhill import run_downhill
+from darwin.algorithms.run_downhill import run_downhill
 from darwin.Template import Template
 from darwin.Model import Model
 from darwin.ModelRun import ModelRun

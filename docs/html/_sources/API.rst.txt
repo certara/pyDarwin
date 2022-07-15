@@ -1,119 +1,78 @@
 API
 ==============
 
+High level functions
+~~~~~~~~~~~~~~~~~~~~~~~
 
-darwin.run\_search module
+run\_search
 -------------------------
 
 .. automodule:: darwin.run_search
    :members:
-   :undoc-members:
-   :show-inheritance:
 
-darwin.run\_search\_in\_folder module
--------------------------------------
+run\_search\_in\_folder
+--------------------------
 
 .. automodule:: darwin.run_search_in_folder
    :members:
    :undoc-members:
-   :show-inheritance:
 
-darwin.stop\_search module
---------------------------
+Algorithms
+~~~~~~~~~~~~~~~~~~~~~~~
 
-.. automodule:: darwin.stop_search
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-darwin.run\_model module
-------------------------
-
-.. automodule:: darwin.run_model
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-darwin.grid.run\_search module
-------------------------------
-
-.. automodule:: darwin.grid.run_search
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-darwin.grid.run\_search\_in\_folder module
-------------------------------------------
-
-.. automodule:: darwin.grid.run_search_in_folder
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-darwin.options module
----------------------
-
-.. automodule:: darwin.options
-   :members:
-   :undoc-members:
-
-darwin.Template module
-----------------------
-
-.. automodule:: darwin.Template
-   :members:
-   :undoc-members:
-   :special-members: __init__
-
-darwin.algorithms.exhaustive module
+exhaustive
 -----------------------------------
 
 .. automodule:: darwin.algorithms.exhaustive
    :members:
    :undoc-members:
-   :show-inheritance:
 
-darwin.algorithms.GA module
+GA
 ---------------------------
 
 .. automodule:: darwin.algorithms.GA
    :members:
    :undoc-members:
-   :show-inheritance:
 
-darwin.algorithms.OPT module
+OPT
 ----------------------------
 
 .. automodule:: darwin.algorithms.OPT
    :members:
    :undoc-members:
-   :show-inheritance:
 
-darwin.algorithms.PSO module
+PSO
 ----------------------------
 
 .. automodule:: darwin.algorithms.PSO
+   :members: run_pso
+   :undoc-members:
+
+downhill
+--------------------------------------
+
+.. automodule:: darwin.algorithms.run_downhill
    :members:
    :undoc-members:
-   :show-inheritance:
 
-darwin.run\_downhill module
----------------------------
+Model classes
+~~~~~~~~~~~~~~~~~~~~~~~
 
-.. automodule:: darwin.run_downhill
+darwin.Template
+----------------------
+
+.. automodule:: darwin.Template
    :members:
    :undoc-members:
-   :show-inheritance:
 
-darwin.Model module
+darwin.Model
 -------------------
 
 .. automodule:: darwin.Model
    :members:
-   :special-members: __init__
    :undoc-members:
 
-darwin.ModelCode module
+darwin.ModelCode
 -----------------------
 
 .. automodule:: darwin.ModelCode
@@ -122,107 +81,120 @@ darwin.ModelCode module
    :private-members:
    :exclude-members: _int_to_bin
 
-darwin.ModelResults module
+darwin.ModelResults
 --------------------------
 
 .. automodule:: darwin.ModelResults
    :members:
-   :special-members: __init__
    :undoc-members:
 
-darwin.ModelRun module
+darwin.ModelRun
 ----------------------
 
 .. automodule:: darwin.ModelRun
    :members:
-   :special-members: __init__
    :undoc-members:
 
-darwin.Population module
+darwin.Population
 ------------------------
 
 .. automodule:: darwin.Population
    :members:
    :undoc-members:
 
-darwin.ModelCache module
+Caching model runs
+~~~~~~~~~~~~~~~~~~~~~~~
+
+darwin.ModelCache
 ------------------------
 
 .. automodule:: darwin.ModelCache
    :members:
    :undoc-members:
 
-darwin.MemoryModelCache module
+darwin.MemoryModelCache
 ------------------------------
 
 .. automodule:: darwin.MemoryModelCache
    :members:
    :undoc-members:
-   :private-members:
+   :show-inheritance:
+   :no-private-members:
 
-darwin.ModelRunManager module
+Model run strategies
+~~~~~~~~~~~~~~~~~~~~~~~
+
+darwin.ModelRunManager
 -----------------------------
 
 .. automodule:: darwin.ModelRunManager
    :members:
    :undoc-members:
-   :private-members:
 
-darwin.PipelineRunManager module
+darwin.PipelineRunManager
 --------------------------------
 
 .. automodule:: darwin.PipelineRunManager
    :members:
    :undoc-members:
+   :show-inheritance:
    :private-members:
+   :exclude-members: _abc_impl, _copy_to_best
 
-darwin.LocalRunManager module
+darwin.LocalRunManager
 -----------------------------
 
 .. automodule:: darwin.LocalRunManager
    :members:
    :undoc-members:
-   :private-members:
+   :show-inheritance:
+   :private-members: _create_model_pipeline
 
-darwin.grid.GridRunManager module
+Execution on grid
+~~~~~~~~~~~~~~~~~~~~~~~
+
+darwin.grid.GridRunManager
 ---------------------------------
 
 .. automodule:: darwin.grid.GridRunManager
    :members:
    :undoc-members:
+   :show-inheritance:
    :private-members:
+   :exclude-members: _abc_impl
 
-darwin.grid.GridAdapter module
+darwin.grid.GridAdapter
 ------------------------------
 
 .. automodule:: darwin.grid.GridAdapter
    :members:
    :undoc-members:
-   :private-members:
 
-darwin.grid.GenericGridAdapter module
+darwin.grid.GenericGridAdapter
 -------------------------------------
 
 .. automodule:: darwin.grid.GenericGridAdapter
    :members:
    :undoc-members:
-   :private-members:
+   :show-inheritance:
 
-darwin.ModelEngineAdapter module
+Modelling engines
+~~~~~~~~~~~~~~~~~~~~~~~
+
+darwin.ModelEngineAdapter
 ---------------------------------
 
 .. automodule:: darwin.ModelEngineAdapter
    :members:
    :undoc-members:
-   :private-members:
 
-darwin.nonmem.NMEngineAdapter module
+darwin.nonmem.NMEngineAdapter
 ------------------------------------
 
 .. automodule:: darwin.nonmem.NMEngineAdapter
    :members:
+   :show-inheritance:
    :undoc-members:
-   :private-members:
 
 darwin.nonmem.utils module
 --------------------------
@@ -230,15 +202,18 @@ darwin.nonmem.utils module
 .. automodule:: darwin.nonmem.utils
    :members:
    :undoc-members:
-   :show-inheritance:
+   :private-members:
+
+Utilities
+~~~~~~~~~~~~~~~~~~~~~~~
 
 darwin.utils module
 -------------------
 
 .. automodule:: darwin.utils
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 darwin.DarwinApp module
 -----------------------
@@ -246,7 +221,6 @@ darwin.DarwinApp module
 .. automodule:: darwin.DarwinApp
    :members:
    :undoc-members:
-   :show-inheritance:
 
 darwin.execution_man module
 ---------------------------
@@ -254,7 +228,6 @@ darwin.execution_man module
 .. automodule:: darwin.execution_man
    :members:
    :undoc-members:
-   :show-inheritance:
 
 darwin.Log module
 -----------------
@@ -262,3 +235,31 @@ darwin.Log module
 .. automodule:: darwin.Log
    :members:
    :undoc-members:
+
+darwin.options module
+---------------------
+
+.. automodule:: darwin.options
+   :members:
+   :undoc-members:
+
+Runnable modules
+~~~~~~~~~~~~~~~~~~~~~~~
+
+darwin.run\_search
+-------------------------------------
+
+darwin.run\_search\_in\_folder
+-------------------------------------
+
+darwin.stop\_search
+--------------------------
+
+darwin.run\_model
+--------------------------
+
+darwin.grid.run\_search
+-------------------------------------
+
+darwin.grid.run\_search\_in\_folder
+-------------------------------------

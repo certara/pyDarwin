@@ -9,7 +9,7 @@ from darwin.Log import log
 from darwin.options import options
 from darwin.execution_man import keep_going
 from darwin.ModelCode import ModelCode
-from darwin.run_downhill import run_downhill
+from darwin.algorithms.run_downhill import run_downhill
 from darwin.Population import Population
 from darwin.Template import Template
 from darwin.Model import Model

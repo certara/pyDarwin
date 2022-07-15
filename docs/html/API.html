@@ -73,6 +73,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.MemoryModelCache">darwin.MemoryModelCache module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.ModelRunManager">darwin.ModelRunManager module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.PipelineRunManager">darwin.PipelineRunManager module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-darwin.LocalRunManager">darwin.LocalRunManager module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.grid.GridRunManager">darwin.grid.GridRunManager module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.grid.GridAdapter">darwin.grid.GridAdapter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.grid.GenericGridAdapter">darwin.grid.GenericGridAdapter module</a></li>
@@ -946,17 +947,25 @@ for downhill, will need to convert to minimal binary, then to integer.</p>
 
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="darwin.PipelineRunManager._copy_to_best">
+<span class="sig-prename descclassname"><span class="pre">darwin.PipelineRunManager.</span></span><span class="sig-name descname"><span class="pre">_copy_to_best</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.PipelineRunManager._copy_to_best" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-darwin.LocalRunManager">
+<span id="darwin-localrunmanager-module"></span><h2>darwin.LocalRunManager module<a class="headerlink" href="#module-darwin.LocalRunManager" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="darwin.PipelineRunManager.LocalRunManager">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.PipelineRunManager.</span></span><span class="sig-name descname"><span class="pre">LocalRunManager</span></span><a class="headerlink" href="#darwin.PipelineRunManager.LocalRunManager" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.LocalRunManager.LocalRunManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.LocalRunManager.</span></span><span class="sig-name descname"><span class="pre">LocalRunManager</span></span><a class="headerlink" href="#darwin.LocalRunManager.LocalRunManager" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt class="sig sig-object py" id="darwin.PipelineRunManager.LocalRunManager._create_model_pipeline">
-<span class="sig-name descname"><span class="pre">_create_model_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.utils.Pipeline" title="darwin.utils.Pipeline"><span class="pre">Pipeline</span></a></span></span><a class="headerlink" href="#darwin.PipelineRunManager.LocalRunManager._create_model_pipeline" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.LocalRunManager.LocalRunManager._create_model_pipeline">
+<span class="sig-name descname"><span class="pre">_create_model_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.utils.Pipeline" title="darwin.utils.Pipeline"><span class="pre">Pipeline</span></a></span></span><a class="headerlink" href="#darwin.LocalRunManager.LocalRunManager._create_model_pipeline" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.PipelineRunManager.LocalRunManager._start_local_run">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_start_local_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.PipelineRunManager.LocalRunManager._start_local_run" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.LocalRunManager.LocalRunManager._start_local_run">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_start_local_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.LocalRunManager.LocalRunManager._start_local_run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts the model run in the run_dir.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -966,35 +975,30 @@ for downhill, will need to convert to minimal binary, then to integer.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.PipelineRunManager.LocalRunManager.init_folders">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.PipelineRunManager.LocalRunManager.init_folders" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.LocalRunManager.LocalRunManager.init_folders">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.LocalRunManager.LocalRunManager.init_folders" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.PipelineRunManager.LocalRunManager.cleanup_folders">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cleanup_folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.PipelineRunManager.LocalRunManager.cleanup_folders" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.LocalRunManager.LocalRunManager.cleanup_folders">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cleanup_folders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.LocalRunManager.LocalRunManager.cleanup_folders" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="darwin.PipelineRunManager.LocalRunManager._abc_impl">
-<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#darwin.PipelineRunManager.LocalRunManager._abc_impl" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.LocalRunManager.LocalRunManager._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#darwin.LocalRunManager.LocalRunManager._abc_impl" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.PipelineRunManager._copy_to_best">
-<span class="sig-prename descclassname"><span class="pre">darwin.PipelineRunManager.</span></span><span class="sig-name descname"><span class="pre">_copy_to_best</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.PipelineRunManager._copy_to_best" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.LocalRunManager._conflict_project_dirs">
+<span class="sig-prename descclassname"><span class="pre">darwin.LocalRunManager.</span></span><span class="sig-name descname"><span class="pre">_conflict_project_dirs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.LocalRunManager._conflict_project_dirs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.PipelineRunManager._conflict_project_dirs">
-<span class="sig-prename descclassname"><span class="pre">darwin.PipelineRunManager.</span></span><span class="sig-name descname"><span class="pre">_conflict_project_dirs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.PipelineRunManager._conflict_project_dirs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="darwin.PipelineRunManager.register">
-<span class="sig-prename descclassname"><span class="pre">darwin.PipelineRunManager.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.PipelineRunManager.register" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.LocalRunManager.register">
+<span class="sig-prename descclassname"><span class="pre">darwin.LocalRunManager.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.LocalRunManager.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>

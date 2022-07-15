@@ -1,4 +1,5 @@
-from darwin.PipelineRunManager import PipelineRunManager, register_model_run_man
+from darwin.ModelRunManager import register_model_run_man
+from darwin.PipelineRunManager import PipelineRunManager
 
 import darwin.utils as utils
 from darwin.options import options

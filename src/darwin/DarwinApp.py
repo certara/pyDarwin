@@ -11,7 +11,7 @@ from darwin.execution_man import start_execution_manager
 
 import darwin.MemoryModelCache
 import darwin.ModelRunManager
-import darwin.PipelineRunManager
+import darwin.LocalRunManager
 import darwin.grid.GridRunManager
 import darwin.nonmem.NMEngineAdapter
 
@@ -100,7 +100,7 @@ def _init_app(options_file: str, folder: str = None):
     if not folder:
         _go_to_folder(options.project_dir)
 
-    darwin.PipelineRunManager.register()
+    darwin.LocalRunManager.register()
     darwin.grid.GridRunManager.register()
 
     run_man = darwin.ModelRunManager.create_model_run_man(options.model_run_man)

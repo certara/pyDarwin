@@ -176,6 +176,14 @@ darwin.PipelineRunManager module
    :undoc-members:
    :private-members:
 
+darwin.LocalRunManager module
+-----------------------------
+
+.. automodule:: darwin.LocalRunManager
+   :members:
+   :undoc-members:
+   :private-members:
+
 darwin.grid.GridRunManager module
 ---------------------------------
 

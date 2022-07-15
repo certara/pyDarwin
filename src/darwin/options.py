@@ -92,7 +92,7 @@ class Options:
         self.engine_adapter = opts.get('engine_adapter', 'nonmem')
         self.model_cache_class = opts.get('model_cache', 'darwin.MemoryModelCache')
         self.model_run_man = opts.get('model_run_man', 'darwin.LocalRunManager')
-        self.grid_man = opts.get('grid_man', 'darwin.GenericGridManager')
+        self.grid_adapter = opts.get('grid_adapter', 'darwin.GenericGridAdapter')
 
         self.num_parallel = opts.get('num_parallel', 4)
 

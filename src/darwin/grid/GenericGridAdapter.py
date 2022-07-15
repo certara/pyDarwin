@@ -9,7 +9,7 @@ from darwin.options import options
 import darwin.utils as utils
 from darwin.ModelRun import ModelRun, run_to_json, json_to_run
 
-from .GridManager import GridManager, register_grid_man
+from .GridAdapter import GridAdapter, register_grid_adapter
 
 
 def _get_job_name(run: ModelRun) -> str:
@@ -27,7 +27,7 @@ class GridJob:
         self.id = ''
 
 
-class GenericGridManager(GridManager):
+class GenericGridAdapter(GridAdapter):
     def __init__(self):
         runs_dir = os.path.join(options.working_dir, 'runs')
         results_dir = os.path.join(options.working_dir, 'run_results')
@@ -42,7 +42,7 @@ class GenericGridManager(GridManager):
         self.runs_dir = runs_dir
         self.results_dir = results_dir
 
-        opts = options.get('grid_manager', {})
+        opts = options.get('generic_grid_adapter', {})
 
         self.submit_command = [options.apply_aliases(arg) for arg in opts['submit_command'].split(' ')]
         self.poll_command = [options.apply_aliases(arg) for arg in opts['poll_command'].split(' ')]
@@ -180,4 +180,4 @@ def _run_process(command: list, error_message: str):
 
 
 def register():
-    register_grid_man('darwin.GenericGridManager', GenericGridManager)
+    register_grid_adapter('darwin.GenericGridAdapter', GenericGridAdapter)

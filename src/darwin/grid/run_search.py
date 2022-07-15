@@ -7,7 +7,7 @@ from darwin.options import options
 def _run_grid_search(template_file: str, tokens_file: str, options_file: str):
     options.initialize(options_file)
 
-    opts = options.get('grid_manager', {})
+    opts = options.get('generic_grid_adapter', {})
 
     python_path = opts['python_path']
 

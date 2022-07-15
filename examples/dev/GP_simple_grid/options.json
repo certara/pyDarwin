@@ -19,7 +19,7 @@
     "remove_run_dir": true,
     "temp_dir": "{project_dir}/temp",
 
-    "grid_manager": {
+    "generic_grid_adapter": {
             "python_path": "~/darwin/venv/bin/python",
             "submit_command": "qsub -b y",
             "submit_job_name_arg": "-N",

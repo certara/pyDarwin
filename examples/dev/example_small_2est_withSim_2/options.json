@@ -21,7 +21,7 @@
 
 	"model_run_man": "darwin.RemoteRunManager",
 
-	"grid_manager": {
+	"generic_grid_adapter": {
 		"poll_interval": "10",
 		"python_path": "~/venv1/Scripts/python",
 		"submit_command": "qsub",

@@ -74,8 +74,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.ModelRunManager">darwin.ModelRunManager module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.PipelineRunManager">darwin.PipelineRunManager module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.grid.GridRunManager">darwin.grid.GridRunManager module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.grid.GridManager">darwin.grid.GridManager module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-darwin.grid.GenericGridManager">darwin.grid.GenericGridManager module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-darwin.grid.GridAdapter">darwin.grid.GridAdapter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-darwin.grid.GenericGridAdapter">darwin.grid.GenericGridAdapter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.ModelEngineAdapter">darwin.ModelEngineAdapter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.nonmem.NMEngineAdapter">darwin.nonmem.NMEngineAdapter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-darwin.nonmem.utils">darwin.nonmem.utils module</a></li>
@@ -1037,114 +1037,114 @@ for downhill, will need to convert to minimal binary, then to integer.</p>
 <dd></dd></dl>
 
 </section>
-<section id="module-darwin.grid.GridManager">
-<span id="darwin-grid-gridmanager-module"></span><h2>darwin.grid.GridManager module<a class="headerlink" href="#module-darwin.grid.GridManager" title="Permalink to this heading">¶</a></h2>
+<section id="module-darwin.grid.GridAdapter">
+<span id="darwin-grid-gridadapter-module"></span><h2>darwin.grid.GridAdapter module<a class="headerlink" href="#module-darwin.grid.GridAdapter" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="darwin.grid.GridManager.GridManager">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.grid.GridManager.</span></span><span class="sig-name descname"><span class="pre">GridManager</span></span><a class="headerlink" href="#darwin.grid.GridManager.GridManager" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GridAdapter.GridAdapter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.grid.GridAdapter.</span></span><span class="sig-name descname"><span class="pre">GridAdapter</span></span><a class="headerlink" href="#darwin.grid.GridAdapter.GridAdapter" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt class="sig sig-object py" id="darwin.grid.GridManager.GridManager.add_model_run">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_model_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GridManager.GridManager.add_model_run" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GridAdapter.GridAdapter.add_model_run">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_model_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GridAdapter.GridAdapter.add_model_run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.grid.GridManager.GridManager.poll_model_runs">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">poll_model_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GridManager.GridManager.poll_model_runs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GridAdapter.GridAdapter.poll_model_runs">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">poll_model_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GridAdapter.GridAdapter.poll_model_runs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.grid.GridManager.GridManager.remove_all">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GridManager.GridManager.remove_all" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GridAdapter.GridAdapter.remove_all">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">remove_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GridAdapter.GridAdapter.remove_all" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="darwin.grid.GridManager.GridManager._abc_impl">
-<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#darwin.grid.GridManager.GridManager._abc_impl" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GridAdapter.GridAdapter._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#darwin.grid.GridAdapter.GridAdapter._abc_impl" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.grid.GridManager.create_grid_manager">
-<span class="sig-prename descclassname"><span class="pre">darwin.grid.GridManager.</span></span><span class="sig-name descname"><span class="pre">create_grid_manager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">man_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.grid.GridManager.GridManager" title="darwin.grid.GridManager.GridManager"><span class="pre">GridManager</span></a></span></span><a class="headerlink" href="#darwin.grid.GridManager.create_grid_manager" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GridAdapter.create_grid_adapter">
+<span class="sig-prename descclassname"><span class="pre">darwin.grid.GridAdapter.</span></span><span class="sig-name descname"><span class="pre">create_grid_adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">man_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.grid.GridAdapter.GridAdapter" title="darwin.grid.GridAdapter.GridAdapter"><span class="pre">GridAdapter</span></a></span></span><a class="headerlink" href="#darwin.grid.GridAdapter.create_grid_adapter" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.grid.GridManager.register_grid_man">
-<span class="sig-prename descclassname"><span class="pre">darwin.grid.GridManager.</span></span><span class="sig-name descname"><span class="pre">register_grid_man</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">man_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_man_class</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GridManager.register_grid_man" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GridAdapter.register_grid_adapter">
+<span class="sig-prename descclassname"><span class="pre">darwin.grid.GridAdapter.</span></span><span class="sig-name descname"><span class="pre">register_grid_adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">man_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_man_class</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GridAdapter.register_grid_adapter" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
-<section id="module-darwin.grid.GenericGridManager">
-<span id="darwin-grid-genericgridmanager-module"></span><h2>darwin.grid.GenericGridManager module<a class="headerlink" href="#module-darwin.grid.GenericGridManager" title="Permalink to this heading">¶</a></h2>
+<section id="module-darwin.grid.GenericGridAdapter">
+<span id="darwin-grid-genericgridadapter-module"></span><h2>darwin.grid.GenericGridAdapter module<a class="headerlink" href="#module-darwin.grid.GenericGridAdapter" title="Permalink to this heading">¶</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager._get_job_name">
-<span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridManager.</span></span><span class="sig-name descname"><span class="pre">_get_job_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridManager._get_job_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter._get_job_name">
+<span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridAdapter.</span></span><span class="sig-name descname"><span class="pre">_get_job_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridAdapter._get_job_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager.GridJob">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridManager.</span></span><span class="sig-name descname"><span class="pre">GridJob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GenericGridManager.GridJob" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.GridJob">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridAdapter.</span></span><span class="sig-name descname"><span class="pre">GridJob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GenericGridAdapter.GridJob" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager.GenericGridManager">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridManager.</span></span><span class="sig-name descname"><span class="pre">GenericGridManager</span></span><a class="headerlink" href="#darwin.grid.GenericGridManager.GenericGridManager" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.GenericGridAdapter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridAdapter.</span></span><span class="sig-name descname"><span class="pre">GenericGridAdapter</span></span><a class="headerlink" href="#darwin.grid.GenericGridAdapter.GenericGridAdapter" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager.GenericGridManager.add_model_run">
-<span class="sig-name descname"><span class="pre">add_model_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GenericGridManager.GenericGridManager.add_model_run" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.GenericGridAdapter.add_model_run">
+<span class="sig-name descname"><span class="pre">add_model_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GenericGridAdapter.GenericGridAdapter.add_model_run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager.GenericGridManager.submit">
-<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.grid.GenericGridManager.GridJob" title="darwin.grid.GenericGridManager.GridJob"><span class="pre">GridJob</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridManager.GenericGridManager.submit" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.GenericGridAdapter.submit">
+<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.grid.GenericGridAdapter.GridJob" title="darwin.grid.GenericGridAdapter.GridJob"><span class="pre">GridJob</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridAdapter.GenericGridAdapter.submit" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager.GenericGridManager.poll_model_runs">
-<span class="sig-name descname"><span class="pre">poll_model_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GenericGridManager.GenericGridManager.poll_model_runs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.GenericGridAdapter.poll_model_runs">
+<span class="sig-name descname"><span class="pre">poll_model_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GenericGridAdapter.GenericGridAdapter.poll_model_runs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager.GenericGridManager.remove_all">
-<span class="sig-name descname"><span class="pre">remove_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridManager.GenericGridManager.remove_all" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.GenericGridAdapter.remove_all">
+<span class="sig-name descname"><span class="pre">remove_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridAdapter.GenericGridAdapter.remove_all" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager.GenericGridManager._parse_submit_output">
-<span class="sig-name descname"><span class="pre">_parse_submit_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridManager.GenericGridManager._parse_submit_output" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.GenericGridAdapter._parse_submit_output">
+<span class="sig-name descname"><span class="pre">_parse_submit_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridAdapter.GenericGridAdapter._parse_submit_output" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager.GenericGridManager._parse_poll_line">
-<span class="sig-name descname"><span class="pre">_parse_poll_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridManager.GenericGridManager._parse_poll_line" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.GenericGridAdapter._parse_poll_line">
+<span class="sig-name descname"><span class="pre">_parse_poll_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridAdapter.GenericGridAdapter._parse_poll_line" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager.GenericGridManager._alias_command_with_ids">
-<span class="sig-name descname"><span class="pre">_alias_command_with_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridManager.GenericGridManager._alias_command_with_ids" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.GenericGridAdapter._alias_command_with_ids">
+<span class="sig-name descname"><span class="pre">_alias_command_with_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridAdapter.GenericGridAdapter._alias_command_with_ids" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager.GenericGridManager._abc_impl">
-<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#darwin.grid.GenericGridManager.GenericGridManager._abc_impl" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.GenericGridAdapter._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#darwin.grid.GenericGridAdapter.GenericGridAdapter._abc_impl" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager._parse_id">
-<span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridManager.</span></span><span class="sig-name descname"><span class="pre">_parse_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridManager._parse_id" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter._parse_id">
+<span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridAdapter.</span></span><span class="sig-name descname"><span class="pre">_parse_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.grid.GenericGridAdapter._parse_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager._run_process">
-<span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridManager.</span></span><span class="sig-name descname"><span class="pre">_run_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GenericGridManager._run_process" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter._run_process">
+<span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridAdapter.</span></span><span class="sig-name descname"><span class="pre">_run_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GenericGridAdapter._run_process" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.grid.GenericGridManager.register">
-<span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridManager.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GenericGridManager.register" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.register">
+<span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridAdapter.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GenericGridAdapter.register" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>

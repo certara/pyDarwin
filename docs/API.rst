@@ -184,18 +184,18 @@ darwin.grid.GridRunManager module
    :undoc-members:
    :private-members:
 
-darwin.grid.GridManager module
+darwin.grid.GridAdapter module
 ------------------------------
 
-.. automodule:: darwin.grid.GridManager
+.. automodule:: darwin.grid.GridAdapter
    :members:
    :undoc-members:
    :private-members:
 
-darwin.grid.GenericGridManager module
+darwin.grid.GenericGridAdapter module
 -------------------------------------
 
-.. automodule:: darwin.grid.GenericGridManager
+.. automodule:: darwin.grid.GenericGridAdapter
    :members:
    :undoc-members:
    :private-members:

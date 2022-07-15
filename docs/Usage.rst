@@ -242,7 +242,7 @@ Options File
 
     "model_run_man": "darwin.GridRunManager",
     "model_cache": "darwin.MemoryModelCache",
-    "grid_man": "darwin.GenericGridManager",
+    "grid_adapter": "darwin.GenericGridAdapter",
     "engine_adapter": "nonmem",
 
     "working_dir": "~/darwin/Ex1",
@@ -250,7 +250,7 @@ Options File
     "output_dir": "{project_dir}/output",
     "temp_dir": "{working_dir}/temp",
 
-    "grid_manager": {
+    "generic_grid_adapter": {
         "python_path": "~/darwin/venv/bin/python",
         "submit_search_command": "qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'",
         "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",

@@ -9,7 +9,7 @@ def _run_grid_search(folder: str):
 
     options.initialize('options.json', folder)
 
-    opts = options.get('grid_manager', {})
+    opts = options.get('generic_grid_adapter', {})
 
     python_path = opts['python_path']
 

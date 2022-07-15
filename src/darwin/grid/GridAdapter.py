@@ -5,7 +5,7 @@ from darwin.ModelRun import ModelRun
 _grid_man_classes = {}
 
 
-class GridManager(ABC):
+class GridAdapter(ABC):
 
     @abstractmethod
     def add_model_run(self, run: ModelRun):
@@ -20,9 +20,9 @@ class GridManager(ABC):
         pass
 
 
-def create_grid_manager(man_name: str) -> GridManager:
+def create_grid_adapter(man_name: str) -> GridAdapter:
     return _grid_man_classes[man_name]()
 
 
-def register_grid_man(man_name, grid_man_class):
+def register_grid_adapter(man_name, grid_man_class):
     _grid_man_classes[man_name] = grid_man_class

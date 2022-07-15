@@ -273,7 +273,7 @@ into the template, then scans the resulting text again. This nested token will t
 
 <span class="nt">&quot;model_run_man&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.GridRunManager&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="nt">&quot;model_cache&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.MemoryModelCache&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="nt">&quot;grid_man&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.GenericGridManager&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="nt">&quot;grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.GenericGridAdapter&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="nt">&quot;engine_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nonmem&quot;</span><span class="p">,</span><span class="w"></span>
 
 <span class="nt">&quot;working_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/Ex1&quot;</span><span class="p">,</span><span class="w"></span>
@@ -281,7 +281,7 @@ into the template, then scans the resulting text again. This nested token will t
 <span class="nt">&quot;output_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{project_dir}/output&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="nt">&quot;temp_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{working_dir}/temp&quot;</span><span class="p">,</span><span class="w"></span>
 
-<span class="nt">&quot;grid_manager&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="nt">&quot;generic_grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="nt">&quot;python_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/venv/bin/python&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="nt">&quot;submit_search_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N &#39;{project_name}&#39;&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="nt">&quot;submit_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}&quot;</span><span class="p">,</span><span class="w"></span>

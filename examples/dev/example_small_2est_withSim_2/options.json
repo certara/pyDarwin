@@ -19,7 +19,6 @@
 	"use_saved_models": true,
 	"saved_models_file": "{output_dir}/models0.json",
 
-	"model_run_man": "darwin.RemoteRunManager",
 
 	"generic_grid_adapter": {
 		"poll_interval": "10",

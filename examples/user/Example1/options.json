@@ -1,11 +1,12 @@
 {
     "author": "Mark Sale",
-
     "algorithm":"EXHAUSTIVE",
-    "exhaustive_batch_size": 100,
+        "exhaustive_batch_size": 100,
+        "working_dir ": "u:/msale/example1",
+        "temp_dir": "u:/msale/example1/rundir",
+        "output_dir": "u:/msale/example1",
 
-    "num_parallel": 4,
-
+    "num_parallel": 2,
     "crash_value": 99999999,
 
     "penalty": {

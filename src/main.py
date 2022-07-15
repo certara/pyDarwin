@@ -14,97 +14,36 @@ Modified By: Mark Sale
     Date: 19 May, 2022
     Details: call NONMEM and R from thread with wait
     Effective
-"""
-import os
-import shutil
+""" 
 from darwin.run_search import run_search #, run_search_in_folder
 from darwin.options import options
    
- 
-# final = run_search("C:\\fda\\pyDarwin\\examples\\THREELEVELs\\template.txt",
-#                    "C:\\fda\\pyDarwin\\examples\\THREELEVELs\\tokens.json",
-#                    "C:\\fda\\pyDarwin\\examples\\THREELEVELs\\options.json")
-
-# final = run_search("C:\\fda\\pyDarwin\\examples\\Michaels3Levels\\template.txt",
-#                    "C:\\fda\\pyDarwin\\examples\\Michaels3Levels\\tokens.json",
-#                     "C:\\fda\\pyDarwin\\examples\\Michaels3Levels\\options.json") 
   
- 
-# with open(os.path.join(options.home_dir, "finalModel.mod"), "w") as final_control:
-#     final_control.write(final.model.control)
-# if os.path.exists(os.path.join(options.home_dir, final.output_file_name)):
-#     os.remove(os.path.join(options.home_dir, final.output_file_name))
-# if final.output_file_name is not None:
-#     shutil.copyfile(os.path.join(final.run_dir, final.output_file_name),
-#                     os.path.join(options.home_dir, "finaloutput.lst"))
 
 
-
-# final = run_search("C:\\fda\\pyDarwin\\examples\\Example1\\Example1_template.txt",
-#                    "C:\\fda\\pyDarwin\\examples\\Example1\\Example1_tokens.json",
-#                    "C:\\fda\\pyDarwin\\examples\\Example1\\Example1_options.json")
-
-# print("\n\n\n\n Example 2, Simple GP\n\n\n")
-
-
-# final = run_search("C:\\fda\\pyDarwin\\examples\\Example2\\Example2_template.txt",
-#                    "C:\\fda\\pyDarwin\\examples\\Example2\\Example2_tokens.json",
-#                    "C:\\fda\\pyDarwin\\examples\\Example2\\Example2_options.json")
- 
-# with open(os.path.join(options.home_dir, "finalModel.mod"), "w") as final_control:
-#     final_control.write(final.model.control)
-# if os.path.exists(os.path.join(options.home_dir, final.output_file_name)):
-#     os.remove(os.path.join(options.home_dir, final.output_file_name))
-# if final.output_file_name is not None:
-#     shutil.copyfile(os.path.join(final.run_dir, final.output_file_name),
-#                     os.path.join(options.home_dir, "finaloutput.lst"))
-
-# print("\n\n\n\n Example 3, ODE\n\n\n")
-
-
-# final = run_search("C:\\fda\\pyDarwin\\examples\\Example3\\Example3_template.txt",
-#                    "C:\\fda\\pyDarwin\\examples\\Example3\\Example3_tokens.json",
-#                    "C:\\fda\\pyDarwin\\examples\\Example3\\Example3_options.json")
- 
-# with open(os.path.join(options.home_dir, "finalModel.mod"), "w") as final_control:
-#     final_control.write(final.model.control)
-# if os.path.exists(os.path.join(options.home_dir, final.output_file_name)):
-#     os.remove(os.path.join(options.home_dir, final.output_file_name))
-# if final.output_file_name is not None:
-#     shutil.copyfile(os.path.join(final.run_dir, final.output_file_name),
-#                     os.path.join(options.home_dir, "finaloutput.lst"))
-
-
-# print("\n\n\n\n Example 4, Full GA, DMAG data n\n\n")
-                     
-
-
-# final = run_search("C:\\fda\\pyDarwin\\examples\\Example4\\Example4_template.txt",
-#                    "C:\\fda\\pyDarwin\\examples\\Example4\\Example4_tokens.json",
-#                    "C:\\fda\\pyDarwin\\examples\\Example4\\Example4_options.json")
- 
-# with open(os.path.join(options.home_dir, "finalModel.mod"), "w") as final_control:
-#     final_control.write(final.model.control)
-# if os.path.exists(os.path.join(options.home_dir, final.output_file_name)):
-#     os.remove(os.path.join(options.home_dir, final.output_file_name))
-# if final.output_file_name is not None:
-#     shutil.copyfile(os.path.join(final.run_dir, final.output_file_name),
-#                     os.path.join(options.home_dir, "finaloutput.lst"))
-
+final = run_search("C:\\fda\\pyDarwin\\examples\\user\\Example1\\template.txt",
+                   "C:\\fda\\pyDarwin\\examples\\user\\Example1\\tokens.json",
+                   "C:\\fda\\pyDarwin\\examples\\user\\Example1\\options.json")
  
 
-print("\n\n\n\n Example 5, Full GP, DMAG data \n\n\n")
-                     
+
+final = run_search("C:\\fda\\pyDarwin\\examples\\user\\example2\\template.txt",
+                   "C:\\fda\\pyDarwin\\examples\\user\\Example2\\tokens.json",
+                   "C:\\fda\\pyDarwin\\examples\\user\\Example2\\options.json")
+  
 
 
-final = run_search("C:\\fda\\Example4\\template.txt",
-                   "C:\\fda\\Example4\\tokens.json",
-                   "C:\\fda\\Example4\\options.json")
- 
-with open(os.path.join(options.project_dir, "finalModel.mod"), "w") as final_control:
-    final_control.write(final.model.control)
-if os.path.exists(os.path.join(options.project_dir, final.output_file_name)):
-    os.remove(os.path.join(options.project_dir, final.output_file_name))
-if final.output_file_name is not None:
-    shutil.copyfile(os.path.join(final.run_dir, final.output_file_name),
-                    os.path.join(options.project_dir, "finaloutput.lst"))
+final = run_search("C:\\fda\\pyDarwin\\examples\\user\\Example3\\template.txt",
+                   "C:\\fda\\pyDarwin\\examples\\user\\Example3\\tokens.json",
+                   "C:\\fda\\pyDarwin\\examples\\user\\Example3\\options.json")
+  
+
+
+final = run_search("C:\\fda\\pyDarwin\\examples\\user\\Example4\\template.txt",
+                   "C:\\fda\\pyDarwin\\examples\\user\\Example4\\tokens.json",
+                   "C:\\fda\\pyDarwin\\examples\\user\\Example4\\options.json")
+  
+
+final = run_search("C:\\fda\\pyDarwin\\examples\\user\\Example5\\template.txt",
+                   "C:\\fda\\pyDarwin\\examples\\user\\Example5\\tokens.json",
+                   "C:\\fda\\pyDarwin\\examples\\user\\Example5\\options.json")

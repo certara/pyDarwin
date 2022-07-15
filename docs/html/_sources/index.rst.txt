@@ -22,6 +22,7 @@ Welcome to pyDarwin's documentation
    API 
    Glossary
    Support 
+   Options
 
 Indices and tables
 ==================

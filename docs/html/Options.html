@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example 4: PK Model, DMAG by GA with post-run R code &mdash; pyDarwin 1 documentation</title>
+  <title>Options List &mdash; pyDarwin 1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Example 5: PK Model, DMAG by GP" href="Example5.html" />
-    <link rel="prev" title="Example 3: PK Model, ODE model" href="Example3.html" /> 
+    <link rel="prev" title="Support" href="Support.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,13 +45,13 @@
 <li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Options List</a></li>
 </ul>
 
         </div>
@@ -69,9 +68,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Example 4: PK Model, DMAG by GA with post-run R code</li>
+      <li>Options List</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/Example4.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/Options.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -79,24 +78,122 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="example-4-pk-model-dmag-by-ga-with-post-run-r-code">
-<h1>Example 4: PK Model, DMAG by GA with post-run R code<a class="headerlink" href="#example-4-pk-model-dmag-by-ga-with-post-run-r-code" title="Permalink to this heading">¶</a></h1>
-<p id="startpk4">Example 4 is the first realistic model search example. The search space contains 1.6 million possible models, and searches:</p>
-<p>1,2,3 compartments</p>
-<p>Between occasion variability</p>
-<p>Multiple covaraites (but probably still not as amany as real search)</p>
-<p>Different absorption models</p>
-<p>Different residual error models</p>
-<p>Block OMEGA structures</p>
-<p>Different initial estimates (also likely not as many as a real search).</p>
+  <section id="options-list">
+<span id="options"></span><h1>Options List<a class="headerlink" href="#options-list" title="Permalink to this heading">¶</a></h1>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 70%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>option</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>author</p></td>
+<td><p>Author Name</p></td>
+<td><p>“Charles Robert Darwin”,</p></td>
+</tr>
+<tr class="row-odd"><td><p>project_name</p></td>
+<td><p>User defined Project Name</p></td>
+<td><p>“Delicious armadillos”,</p></td>
+</tr>
+<tr class="row-even"><td><p>algorithm</p></td>
+<td><p>Which algorithm, one of EX,GA,GP,RF,GBRT</p></td>
+<td><p>“GA”,</p></td>
+</tr>
+<tr class="row-odd"><td><p>random_seed</p></td>
+<td><p>User defined seed for random number generator</p></td>
+<td><p>11,</p></td>
+</tr>
+<tr class="row-even"><td><p>num_parallel</p></td>
+<td><p>How many model to run in parallel</p></td>
+<td><p>4,</p></td>
+</tr>
+<tr class="row-odd"><td><p>num_generations</p></td>
+<td><p>How many iterations or generations, not used for Exhaustive Search</p></td>
+<td><p>6,</p></td>
+</tr>
+<tr class="row-even"><td><p>population_size</p></td>
+<td><p>Size of population, not used for Exhaustive search</p></td>
+<td><p>4,</p></td>
+</tr>
+<tr class="row-odd"><td><p>num_opt_chains</p></td>
+<td><p>For GP,RF and GBRT multiple chains can be used. Using multiple chains   will improve the performance of the “ask” step.</p></td>
+<td><p>4,</p></td>
+</tr>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">exhaustive_batch_size</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">For a large exhaustive search, a complete list of all models may exceed the available memory.</div>
+<div class="line">Using and exhaustive_search_batch_size will limit the number of models generated at any time.</div>
+<div class="line">There may be modest impact on performace as the batch size gets</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">100,</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 83%" />
+<col style="width: 9%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Header 1</p></th>
+<th class="head"><p>Header 2</p></th>
+<th class="head"><p>Header 3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">Item 1</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">For a large exhaustive search, a complete list of all models may exceed the available memory.</div>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">Item 1</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">For a large exhaustive search, a complete list of all models may exceed the available memory.</div>
+<div class="line">Using and exhaustive_search_batch_size  | will limit the number of models generated at any</div>
+<div class="line">time. There may be modest impact on performace as the batch size gets smaller, as all</div>
+<div class="line">models in a batch must be completed before the next batch of models is generated.</div>
+</div>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Example3.html" class="btn btn-neutral float-left" title="Example 3: PK Model, ODE model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Example5.html" class="btn btn-neutral float-right" title="Example 5: PK Model, DMAG by GP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Support.html" class="btn btn-neutral float-left" title="Support" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

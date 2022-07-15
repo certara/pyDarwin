@@ -147,12 +147,18 @@ def remove_comments(code: str, comment_mark=';') -> str:
 
 def remove_file(file_path: str):
     if os.path.isfile(file_path):
-        os.unlink(file_path)
+        try:
+            os.unlink(file_path)
+        except:
+            pass
 
 
 def remove_dir(file_path: str):
     if os.path.isdir(file_path):
-        shutil.rmtree(file_path)
+        try: 
+            shutil.rmtree(file_path)
+        except:
+            pass
 
 
 def get_n_best_index(n, arr):

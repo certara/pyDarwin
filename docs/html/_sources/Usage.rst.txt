@@ -1,7 +1,7 @@
 
 Usage
-==============================================
- 
+========
+
 The :ref:`darwin.run_search <darwin.run_search>` function executes the candidate search for the optimal population model.
 
 .. code:: python
@@ -17,7 +17,8 @@ To execute, call the ``darwin.run_search`` function and provide the following fi
 .. _startRequiredFiles:
  
  
-The same 3 files are required for any search, whether exhausitve, GA, GP, RF or GBRF. Which algorithm is used is defined in the :ref:`options file<options_file_target>`. The template 
+The same 3 files are required for any search, whether exhausitve, :ref:`EX<EX_desc>` , :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` or :ref:`GBRT<GBRT_desc>`. 
+Which algorithm is used is defined in the :ref:`options file<options_file_target>`. The template 
 file serves as a framework, and looks similar to a NONMEM/NMTRAN control file. The tokens file specifies the range of "features" to be searched, and the options 
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution etc.
  
@@ -40,9 +41,9 @@ correct code. The syntax for a token key in the template file is:
     {Token_stem[N]}
 
 Where Token_stem is a unique identified for that token set and N is which target text is to be substituted. An 
-example is useful.
+example is instructive.
 
-Assume the user would like to consider 1 compartment (ADVAN1) and 2 compartment (ADVAN3) models as candidates for the structural model. 
+Assume the user would like to consider 1 compartment (ADVAN1) or 2 compartment (ADVAN3) models as a dimension of the search. 
 The relevant template file for this might be:
 
 ::
@@ -68,35 +69,36 @@ For a one compartment model the following substutions would be made:
 
 {ADVAN[1]} -> ADVAN1
 
-{ADVAN[2]} -> ;; 1 compartment
+{ADVAN[2]} -> ;; 1 compartment, no definition needed for K12 or K21
 
-{ADVAN[3]} -> ;; 1 compartment
+{ADVAN[3]} -> ;; 1 compartment, no initial estimate needed for K12 or K21
 
 and for 2 compartment:
 
 {ADVAN[1]} -> ADVAN3
 
-{ADVAN[2]} -> K = THETA(ADVAN) ;; 2 compartment
+{ADVAN[2]} -> K12 = THETA(ADVANA) ;; 2 compartment, need definition for K12 \n K21 = THETA(ADVANB) 
 
-{ADVAN[3]} ->(0,0.5)) ;; 2 compartment non fixed THETA
+{ADVAN[3]} ->(0,0.5) ;; K12 THETA(ADVANA)  \n  (0,0.5) ;; K21 THETA(ADVANB)
 
 These sets of tokens are called tokens sets (2 tokens sets in this example one for ADVAN1, one for ADVAN3). The group of token sets 
-is called a token group. In this example "ADVAN" is the token key. Each token group must have a unique token key. For the first set of options the text "ADVAN1" is refered to as 
-the token text. Each token set consists of key-text pairs: 
+is called a token group. In this example "ADVAN" is the token key. Each token group must have a unique token key. For the first set of options the text "ADVAN1" 
+is refered to as the token text. Each token set consists of key-text pairs: 
 
 token keys (described above) and 
 
 token text
 
-The token, (consisting of "{" + token stem +[Some Text] + "}" where Some Text will eventually be an integer index) in the template file is replaced by the token text, 
-specified in the tokens file. Which set of token key-text pairs is substitituted is determined by the search algorithm, and provides in 
+The token, (consisting of "{" + token stem +[N] + "}" where N is an integer specifying which token text in the token set is to be substituted) in the template file is 
+replaced by the token text, specified in the tokens file. Which set of token key-text pairs is substitituted is determined by the search algorithm, and provides in 
 the :ref:`phenotype.<Phenotype>`
 
 
-Note that the THETA (and ETA and EPS) indices cannot be determined until the final control file is defined, as THETAs may be included in one and not another. 
+Note that the THETA (and ETA and EPS) indices cannot be determined until the final control file is defined, as THETAs may be included in one and not another token set. 
 For this reason, all fixed initial estimates in the $THETA block MUST occur before the THETA values that are not fixed. This is so the 
-algorithm can parse the resulting file and correctly calculate the appropriate THETA (and ETA and EPS) indices. Further, the "Some Text" index of in the token *must* be unique in the token groups. 
-The most convenient way to insure that the "Some Text" is unique in the Token groups is to use the token stem as the THETA index (e.g., THETA(ADVAN) is the token stem is ADVAN)
+algorithm can parse the resulting file and correctly calculate the appropriate THETA (and ETA and EPS) indices. Further, the text string index of in the token (e.g., ADVANA and ADVANB) 
+*must* be unique in the token groups. The most convenient way to insure that the text string index is unique in the Token groups is to use the token stem as the 
+THETA index (e.g., THETA(ADVAN) is the token stem is ADVAN). Additional characters (e.g., ADVANA, ADVANB) can be added if multiple THETA text indices are needed. 
 Note that the permited syntax for residual error is EPS() or ERR(). 
 
 Special notes on strucutre of $THETA/$OMEGA/$SIGMA:
@@ -124,23 +126,24 @@ The Tokens File
 ~~~~~~~~~~~~~~~
 
 The tokens file provide a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the :ref:`token group <token group>`. Token groups are 
-defined by a unique :ref:`token stem<token stem>`. The token stem also serves as the key in the :ref:`token key-text pairs.<token key-text pair>` The token stem is a text string that corresponds to the token key that appears in the :ref:`template file<template>`. 
-The 2nd level in the tokens dictionary are the :ref:`token sets<token set>`. In the template file the tokens are indexed (e.g., ADVAN[1]), as typically multiple token keys will be to be 
-replace by text to create correct syntax. For example, if the search if for 1 compartment (ADVAN1) vs 2 compartment (ADVAN3), for ADVAN3, definitions of K23 and K32 must be provided 
-in the $PK block, and (typically) initial estimates must be provided in the $THETA block. Thus, a set of 3 replacements must be made, one in $SUBS, one in $PK and one in 
-$THETA. So, the token set for selection of number of compartments will, for 1 compartment (first option) or 2 compartments (second option), 
+defined by a unique :ref:`token stem<token stem>`. The token stem also typically serves as the key in the :ref:`token key-text pairs.<token key-text pair>` The token stem is 
+a text string that corresponds to the token key that appears in the :ref:`template file<template>`. 
+The 2nd level in the tokens dictionary are the :ref:`token sets<token set>`. In the template file the tokens are indexed (e.g., ADVAN[1]), as typically multiple token keys 
+will be to be replace by text to create correct syntax. For example, if the search if for 1 compartment (ADVAN1) vs 2 compartment (ADVAN3), for ADVAN3, definitions of K23 
+and K32 must be provided in the $PK block, and (typically) initial estimates must be provided in the $THETA block. Thus, a set of 3 replacements must be made, one in $SUBS, 
+one in $PK and one in $THETA. So, the token set for selection of number of compartments will, for 1 compartment (first option) or 2 compartments (second option), 
 will include the following JSON code:
 
 ::
 
     "ADVAN": [
-                ["ADVAN1 ;; advan1",
-                    ";; PK 1 compartment ",
-                    ";; THETA 1 compartment"
+                ["ADVAN1 ",
+                    ";; 1 compartment, no definition needed for K12 or K21 ",
+                    ";; 1 compartment, no initial estimate needed for K12 or K21"
                 ],
-                ["ADVAN3 ;; advan3",
-                    " K23=THETA(ADVANA){K23~WT[1]}\n K32=THETA(ADVANB){K23~WT[1]}",
-                    "  (0.001,0.02)  \t ;; THETA(ADVANA) K23 \n (0.001,0.3) \t ;; THETA(ADVANB) K32 \n{K23~WT[2]} \t ;; init for K23~WT "
+                ["ADVAN3 ",
+                    " K12 = THETA(ADVANA) ;; 2 compartment, need definition for K12 \n K21 = THETA(ADVANB)",
+                    "  (0,0.5) ;; K12 THETA(ADVANA)  \n  (0,0.5) ;; K21 THETA(ADVANB) "
                 ],
 
 Note that whether the current model is one compartment or two is selected by the search algorithm and provided in the model :ref:`phenotype<phenotype>`.
@@ -157,14 +160,18 @@ into the template, then scans the resulting text again. This nested token will t
 Several notes:
 
 
-1. The :ref:`token stem<token stem>` is "ADVAN" and identifies the :ref:`token group<token group>`. This stem must be unique in the tokens groups. The token stem also  serves as the token key in the :ref:`token key-value pairs<token key-text pair>`. In this example, three replacements must be made in the template, in $SUBS, $PK and $THETA. In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3]}. Note the curly braces, these are required in the template, but not the tokens file. The indices correspond to the indices of the :ref:`tokens<token>` in the token set. In this case there are 3 :ref:`token key-value pairs<token key-text pair>` in each token set. There may be additional unused tokens (as may be the case with :ref:`nest tokens<nested tokens>`, but each token in the template file must have a corresponding token key-value pair in the tokens file. 2 token sets in this token group, one coding for ADVAN1 and one coding for ADVAN3.
+1. The :ref:`token stem<token stem>` is "ADVAN" and identifies the :ref:`token group<token group>`. This stem must be unique in the tokens groups. The token stem also typically 
+serves as the token key in the :ref:`token key-value pairs<token key-text pair>`. In this example, three replacements must be made in the template, in $SUBS, $PK and $THETA. 
+In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3]}. Note the curly braces, these are required in the template, but not the tokens file. The indices correspond to the indices of the :ref:`tokens<token>` in the token set. In this case there are 3 :ref:`token key-value pairs<token key-text pair>` in each token set. There may be additional unused tokens (as may be the case with :ref:`nest tokens<nested tokens>`, but each token in the template file must have a corresponding token key-value pair in the tokens file. 2 token sets in this token group, one coding for ADVAN1 and one coding for ADVAN3.
+
 2. New lines in JSON files are ignored. To code a new line, enter the newline escape character "\\n". Similarly, a tab is coded as "\\t".
+
 3. Comments are not permitted in JSON files. However comments for the generated NMTRAN control file maybe included with the usual syntax ";".
+
 4. There is no dependency on the sequence of token sets in the file, any order is acceptable, they need not be in the same order as they appear in the :ref:`template file.<template_file_target>`
+
 5. All other JSON (`JSON <https://www.json.org/json-en.html>`_ ) rules apply.
 
-
-   
 
 
 .. _options_file_target:
@@ -263,65 +270,7 @@ Options File
     }
     }
 
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-|      Field              | Type                       | Description                                                                       |
-+=========================+============================+===================================================================================+
-| author                  | String                     | Author name                                                                       |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| project_name            | String                     | Name of the project                                                               |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| algorithm               | String                     | ML algorthim, options are  "GA", "GP", "RF", "GBRT", "EXHAUSTIVE"                 |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| :ref:`GA <ga>`          | JSON                       | Key-value pairs related to "GA". Only applicable if ``"algorithm" : "GA"``        |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> elitist_num        | Integer                    | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> crossoverRate      | Integer                    | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> mutationRate       | Integer                    | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> sharing_alpha      | Integer                    | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> selection          | String                     | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> selection_size     | Integer                    | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> crossoverOperator  | String                     | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> mutate             | String                     | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> attribute_mutation | String                     | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> niche_penalty      | String                     | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-    
-
-.. _ga:
-
-
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-|      Field              | Type                       | Description                                                                       |
-+=========================+============================+===================================================================================+
-| <GA> elitist_num        | Integer                    | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> crossoverRate      | Integer                    | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> mutationRate       | Integer                    | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> sharing_alpha      | Integer                    | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> selection          | String                     | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> selection_size     | Integer                    | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> crossoverOperator  | String                     | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> mutate             | String                     | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> attribute_mutation | String                     | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
-| <GA> niche_penalty      | String                     | <DESCRIPTION>                                                                     |
-+-------------------------+----------------------------+-----------------------------------------------------------------------------------+
+Description of the options is given in :ref:`Options<Options>`.
 
 
 

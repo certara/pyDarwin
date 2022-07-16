@@ -322,35 +322,64 @@ details</p>
 <td><p>Probability of any bit being mutated, values between 0 and 1</p></td>
 <td><p>true,</p></td>
 </tr>
-<tr class="row-odd"><td><p>GA::niche_penalty</p></td>
-<td><p>The penalty added to the fitness for being to close to other models.</p></td>
-<td><p>20,</p></td>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">GA::niche_penalty</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Numeric, required if using GA. Require for calculation of the crowding penalty. The niche penalty is calculate</div>
+<div class="line">by first calculating the “distance matrix”, the pair wise</div>
+<div class="line"><a class="reference external" href="https://en.wikipedia.org/wiki/Minkowski_distance">Mikowski distance</a> distances from the present model</div>
+<div class="line">to all other. The “crowding” quantity is then calculated a the sum of: (distance/niche_radius)**sharing_alpha</div>
+<div class="line">for all other models in the generation for which the Mikowski distance is less than the niche radius.</div>
+<div class="line">Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a</div>
+<div class="line">niche penalty is to maintain diversity of models, to avoid premature convergence of the search,</div>
+<div class="line">by penalizing when models are too similar to other models in the current generation. A typical value for</div>
+<div class="line">the penalty is 10.</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">10,</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td><p>penalty</p></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p>Penalties::THETA</p></td>
+<tr class="row-even"><td><p>Penalties::THETA</p></td>
 <td><p>Penalty added to fitness/reward for each estimated THETA</p></td>
 <td><p>2,</p></td>
 </tr>
-<tr class="row-even"><td><p>Penalties::OMEGA</p></td>
+<tr class="row-odd"><td><p>Penalties::OMEGA</p></td>
 <td><p>Penalty added to fitness/reward for each estimated OMEGA element</p></td>
 <td><p>0.95,</p></td>
 </tr>
-<tr class="row-odd"><td><p>Penalties::SIGMA</p></td>
+<tr class="row-even"><td><p>Penalties::SIGMA</p></td>
 <td><p>Penalty added to fitness/reward for each estimated SIGMA element</p></td>
 <td><p>0.95,</p></td>
 </tr>
-<tr class="row-even"><td><p>Penalties::convergence</p></td>
+<tr class="row-odd"><td><p>Penalties::convergence</p></td>
 <td><p>Penalty added to fitness/reward for failing to converge (real number)</p></td>
 <td><p>0.1,</p></td>
 </tr>
-<tr class="row-odd"><td><p>Penalties::covariance</p></td>
+<tr class="row-even"><td><p>Penalties::covariance</p></td>
 <td><p>Penalty added to fitness/reward for failing the covariance step (real   number)</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><div class="line-block">
+<tr class="row-odd"><td><div class="line-block">
 <div class="line">Penalties::correlation</div>
 <div class="line">Penalties::correlation</div>
 </div>
@@ -366,75 +395,75 @@ details</p>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>Penalties::conditionNumber</p></td>
+<tr class="row-even"><td><p>Penalties::conditionNumber</p></td>
 <td><p>Penalty added to fitness/reward if the condition number is &gt; 1000   (real number)</p></td>
 <td><p>“cxOnePoint”,</p></td>
 </tr>
-<tr class="row-even"><td><p>Penalties::non_influential_tokens</p></td>
+<tr class="row-odd"><td><p>Penalties::non_influential_tokens</p></td>
 <td><p>Penalty added to fitness/reward if any tokens do not influence the   control file (relevant for nested tokens)</p></td>
 <td><p>“flipBit”,</p></td>
 </tr>
-<tr class="row-odd"><td><p>postprocess</p></td>
+<tr class="row-even"><td><p>postprocess</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p>postprocess::useR</p></td>
+<tr class="row-odd"><td><p>postprocess::useR</p></td>
 <td></td>
 <td><p>true,</p></td>
 </tr>
-<tr class="row-odd"><td><p>postprocess::RScriptPath</p></td>
+<tr class="row-even"><td><p>postprocess::RScriptPath</p></td>
 <td></td>
 <td><p>“/some/R/path/rscript”,</p></td>
 </tr>
-<tr class="row-even"><td><p>postprocess::postRunRCode</p></td>
+<tr class="row-odd"><td><p>postprocess::postRunRCode</p></td>
 <td></td>
 <td><p>“{project_dir}/simplefunc.r”,</p></td>
 </tr>
-<tr class="row-odd"><td><p>postprocess::R_timeout</p></td>
+<tr class="row-even"><td><p>postprocess::R_timeout</p></td>
 <td></td>
 <td><p>30,</p></td>
 </tr>
-<tr class="row-even"><td><p>postprocess::usePython</p></td>
+<tr class="row-odd"><td><p>postprocess::usePython</p></td>
 <td></td>
 <td><p>true,</p></td>
 </tr>
-<tr class="row-odd"><td><p>postprocess::postRunPythonCode</p></td>
+<tr class="row-even"><td><p>postprocess::postRunPythonCode</p></td>
 <td></td>
 <td><p>“{project_dir}/../simplefunc_common.py”</p></td>
 </tr>
-<tr class="row-even"><td><p>grid_manager</p></td>
+<tr class="row-odd"><td><p>grid_manager</p></td>
 <td></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p>grid_manager::python_path</p></td>
+<tr class="row-even"><td><p>grid_manager::python_path</p></td>
 <td></td>
 <td><p>“~/darwin/venv/bin/python”,</p></td>
 </tr>
-<tr class="row-even"><td><p>grid_manager::submit_search_command</p></td>
+<tr class="row-odd"><td><p>grid_manager::submit_search_command</p></td>
 <td></td>
 <td><p>“qsub -b y -o   {project_dir}/out.txt -e {project_dir}/err.txt -N ‘{project_name}’”,</p></td>
 </tr>
-<tr class="row-odd"><td><p>grid_manager::submit_command</p></td>
+<tr class="row-even"><td><p>grid_manager::submit_command</p></td>
 <td></td>
 <td><p>“qsub -b y -o   {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N   {job_name}”,</p></td>
 </tr>
-<tr class="row-even"><td><p>grid_manager::submit_job_id_re</p></td>
+<tr class="row-odd"><td><p>grid_manager::submit_job_id_re</p></td>
 <td></td>
 <td><p>“Your job (\w+)   \(&quot;.+?&quot;\) has been submitted”,</p></td>
 </tr>
-<tr class="row-odd"><td><p>grid_manager::poll_command</p></td>
+<tr class="row-even"><td><p>grid_manager::poll_command</p></td>
 <td></td>
 <td><p>“qstat -s z”,</p></td>
 </tr>
-<tr class="row-even"><td><p>grid_manager::poll_job_id_re</p></td>
+<tr class="row-odd"><td><p>grid_manager::poll_job_id_re</p></td>
 <td></td>
 <td><p>“^\s+(\w+)”,</p></td>
 </tr>
-<tr class="row-odd"><td><p>grid_manager::poll_interval</p></td>
+<tr class="row-even"><td><p>grid_manager::poll_interval</p></td>
 <td></td>
 <td><p>5,</p></td>
 </tr>
-<tr class="row-even"><td><p>grid_manager::delete_command</p></td>
+<tr class="row-odd"><td><p>grid_manager::delete_command</p></td>
 <td></td>
 <td><p>“qdel {project_stem}-*”</p></td>
 </tr>

@@ -98,7 +98,7 @@
 <p>First step:</p>
 <p>As is the usual practise in POPPK model selection, the first step will be exploratory data analysis. This serves at least two purposes: To validate the data set
 and to generate initial hypotheses. We will however, for the purpose of this tutorial, skip this step and assume that we have a “correct” data set and list of
-hypotheses to be tests.</p>
+hypotheses to be tested.</p>
 <p>The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
@@ -140,7 +140,7 @@ $EST METHOD=COND INTER MAX = 9999 MSFO=MSF1
 $COV UNCOND PRINT=E
 </pre></div>
 </div>
-<p>This text will serve as the starting point for developing the template file
+<p>This text will serve as the starting point for developing the template file.
 Note that the relative path to the data file is up two folders. When pyDarwin runs models, it does not copy the data file to the run directory. Rather,
 typically the data file is in the home directory, and the models are run in home directory/generation/model. Therefore, the relative path to the run directory will
 be up two levels.</p>
@@ -149,12 +149,12 @@ be up two levels.</p>
 <p>The initial simple model can then be editted by adding tokens. This first example will include covariates, residual error and one structural feature.
 Each token group is identified by a <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a>, e.g. “V2~WT” for the dimension of the
 relationship between weight a volume of distribution. Each token group includes
-2 or more <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a>, one for each option in the that dimension, These dimensions are:</p>
+2 or more <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a>, one for each option in the that dimension, These dimensions and the associated <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a> are:</p>
 <ol class="arabic simple">
 <li><p>Effect of Weight on Volume (“V2~WT”) - None or a power model.</p></li>
 <li><p>Effect of Sex (Gender) on Volume (“V2~GENDER”) - None or a power model</p></li>
 <li><p>Effect of Weight on Clearance (“CL~WT”) - None or a power model</p></li>
-<li><p>Presence of between subject variability (BSF) on Ka (“KAETA”)- None or exponential model</p></li>
+<li><p>Presence of between subject variability (BSV) on Ka (“KAETA”)- None or exponential model</p></li>
 <li><p>Presence of an absorption lag time - ALAG1 (“ALAG”) - Present or not</p></li>
 <li><p>Residual error model (“RESERR”) - additive or combined additive and proportional</p></li>
 </ol>
@@ -227,7 +227,7 @@ Example 1 searchs a 6 dimensional space. The dimensions corresponds to <a class=
 </section>
 <section id="data-file-path">
 <h3>Data file path<a class="headerlink" href="#data-file-path" title="Permalink to this heading">¶</a></h3>
-<p>Typically, the NMTRAN data file will be located in the <a class="reference internal" href="Glossary.html#working-directory"><span class="std std-ref">working directory directory</span></a>. As the models are run in a directory two levels down
+<p>Typically, the NMTRAN data file will be located in the <a class="reference internal" href="Glossary.html#working-directory"><span class="std std-ref">working directory</span></a>. As the models are run in a directory two levels down
 (home directory/generation/model) the path to the data set can be given as</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$DATA ..\..\data.csv
 </pre></div>
@@ -295,9 +295,10 @@ are substitued into the template file. This is a <a class="reference external" h
 Unfortunately, comments are not  permitted in JSON files and so this file without annotation. Requirements are that
 each <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a> within a <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a> must have the same number of <a class="reference internal" href="Glossary.html#token"><span class="std std-ref">tokens</span></a>
 and new lines must be coded using the escape syntax (”\n”), not just a new line in the file (which will be ignored). One level of
-nest tokens (tokens within tokens is permitted. This can be useful, when for example one might want to search for covariates
+nested tokens (tokens within tokens is permitted. This can be useful, when for example one might want to search for covariates
 on an search parameter, as in searching for an effect of FED vs FASTED state on ALAG1, when ALAG1 is also searched (see
-<a class="reference internal" href="Example3.html#startpk3"><span class="std std-ref">PK example 3</span></a>). The tokens file for Example 1 is given below.</p>
+<a class="reference internal" href="Example3.html#startpk3"><span class="std std-ref">PK example 3</span></a>). Additional levels of nested token are permitted, but the logic of correctly coding them quickly becomes daunting.
+The tokens file for Example 1 is given below.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 
     <span class="s2">&quot;V2~WT&quot;</span><span class="p">:</span> <span class="p">[</span>

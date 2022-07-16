@@ -87,7 +87,18 @@ def _init_model_results():
     GlobalVars.results_file = results_file
 
 
+def _reset_global_vars():
+    GlobalVars.results_file = None
+    GlobalVars.BestRun = None
+    GlobalVars.UniqueModels = 0
+    GlobalVars.UniqueModelsToBest = 0
+    GlobalVars.StartTime = GlobalVars.TimeToBest = 0
+    GlobalVars.BestModelOutput = "No output yet"
+
+
 def _init_app(options_file: str, folder: str = None):
+    _reset_global_vars()
+
     # if running in folder, options_file may be a relative path, so need to cd to the folder first
     # but if it's an absolute path, then folder may not even exist, in which case we create it
     _go_to_folder(folder)

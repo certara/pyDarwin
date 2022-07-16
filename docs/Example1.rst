@@ -12,7 +12,7 @@ First step:
 
 As is the usual practise in POPPK model selection, the first step will be exploratory data analysis. This serves at least two purposes: To validate the data set 
 and to generate initial hypotheses. We will however, for the purpose of this tutorial, skip this step and assume that we have a "correct" data set and list of 
-hypotheses to be tests. 
+hypotheses to be tested. 
 
 The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:
 
@@ -59,7 +59,7 @@ The next step for ML model selection is to get a simple model running. The contr
     
 
 
-This text will serve as the starting point for developing the template file
+This text will serve as the starting point for developing the template file. 
 Note that the relative path to the data file is up two folders. When pyDarwin runs models, it does not copy the data file to the run directory. Rather, 
 typically the data file is in the home directory, and the models are run in home directory/generation/model. Therefore, the relative path to the run directory will 
 be up two levels.
@@ -72,12 +72,12 @@ The Template file
 The initial simple model can then be editted by adding tokens. This first example will include covariates, residual error and one structural feature. 
 Each token group is identified by a :ref:`token stem <token stem>`, e.g. "V2~WT" for the dimension of the 
 relationship between weight a volume of distribution. Each token group includes 
-2 or more :ref:`token set <token set>`, one for each option in the that dimension, These dimensions are:
+2 or more :ref:`token set <token set>`, one for each option in the that dimension, These dimensions and the associated :ref:`token stem<token stem>` are:
 
 1. Effect of Weight on Volume ("V2~WT") - None or a power model.
 2. Effect of Sex (Gender) on Volume ("V2~GENDER") - None or a power model
 3. Effect of Weight on Clearance ("CL~WT") - None or a power model
-4. Presence of between subject variability (BSF) on Ka ("KAETA")- None or exponential model
+4. Presence of between subject variability (BSV) on Ka ("KAETA")- None or exponential model
 5. Presence of an absorption lag time - ALAG1 ("ALAG") - Present or not
 6. Residual error model ("RESERR") - additive or combined additive and proportional
 
@@ -98,7 +98,6 @@ and the 2nd an index of 2:
     
 
 note the curly braces, these are required for tokens in the template file. The record in the $PK will have the token appended to it, resulting this text:
-
 
 ::
 
@@ -169,13 +168,12 @@ Between subject variability
 -----------------------------
 
 
-
 Example 1 template file :download:`template file <../examples/user/Example1/template.txt>`
 Example 1 searchs a 6 dimensional space. The dimensions corresponds to :ref:`token group <token group>`. 
 
 Data file path
 --------------
-Typically, the NMTRAN data file will be located in the :ref:`working directory directory<working directory>`. As the models are run in a directory two levels down 
+Typically, the NMTRAN data file will be located in the :ref:`working directory<working directory>`. As the models are run in a directory two levels down 
 (home directory/generation/model) the path to the data set can be given as 
 
 ::
@@ -250,9 +248,10 @@ are substitued into the template file. This is a `JSON <https://www.json.org/jso
 Unfortunately, comments are not  permitted in JSON files and so this file without annotation. Requirements are that 
 each :ref:`token set <token set>` within a :ref:`token group <token group>` must have the same number of :ref:`tokens <token>` 
 and new lines must be coded using the escape syntax ("\\n"), not just a new line in the file (which will be ignored). One level of 
-nest tokens (tokens within tokens is permitted. This can be useful, when for example one might want to search for covariates 
+nested tokens (tokens within tokens is permitted. This can be useful, when for example one might want to search for covariates 
 on an search parameter, as in searching for an effect of FED vs FASTED state on ALAG1, when ALAG1 is also searched (see
-:ref:`PK example 3 <startpk3>`). The tokens file for Example 1 is given below.
+:ref:`PK example 3 <startpk3>`). Additional levels of nested token are permitted, but the logic of correctly coding them quickly becomes daunting. 
+The tokens file for Example 1 is given below.
 
 ::
 

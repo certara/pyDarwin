@@ -34,6 +34,8 @@ Minimum and recommended requirements:
 +=========================+============================+============================+
 | Processor               | Intel i5 processor 3 GHz   | Intel i7 processor 4 GHz   |
 +-------------------------+----------------------------+----------------------------+
+| Number of pysical cores | 4                          | 16                         |
++-------------------------+----------------------------+----------------------------+
 | RAM                     | 16 GB RAM                  | 32 GB RAM                  |
 +-------------------------+----------------------------+----------------------------+
 | Internal Storage Device | 1 GB 7200 RPM Magnetic HD  | 1 GB SSD                   |
@@ -52,7 +54,7 @@ Software Requirements
 - NONMEM >= 7.4.3
 - R >= 4.0.0 (optional)
 
-*Note: Requirements are Python and NONMEM installation with nmfe.bat available. R installation is required if using* ``"postRunRcode"`` *in* ``options.json`` *with* ``"useR" : true``.
+*Note: Requirements are Python and NONMEM installation with nmfe.bat available. R installation is required if using* ``"postRunRcode"`` *in* :ref:`options.json<options file>` *with* ``"useR" : true``.
 
 Install pyDarwin
 -----------------------

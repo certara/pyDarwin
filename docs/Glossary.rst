@@ -139,8 +139,9 @@ Parameter estimate must be enclosed in parentheses, e.g, (0,1)
 
 .. _Nested Tokens:
 
-**Nested Tokens:** pyDarwin permits nested tokens to be used in the :ref:`tokens file<tokens file_s>`. This permits on token to contain another token, to an arbitary level. Note that 
-using nested token does **not** reduce the search space size, it only reduces the number of token groups the user need generate. For example, assume that the search is to contain one compartment 
+**Nested Tokens:** pyDarwin permits nested tokens to be used in the :ref:`tokens file<tokens file_s>`. This permits one token to contain another token, to an arbitary level. Note that 
+using nested token does **not** reduce the search space size, it only reduces the number of token set the user need generate, and perhaps simplify the logic (although commonly the logic quickly 
+becomes impenetrable). For example, assume that the search is to contain one compartment 
 (ADVAN2) and two compartment (ADVAN4), and if ADVAN4 is selected, search whether K23 and K32 are functions of weight. K23 is not a parameter of a one compartment model. One option would be to simply write out 
 all posssible models:
 
@@ -170,7 +171,7 @@ all posssible models:
 
 2 bits would required to specify this (3 options). 
 
-An alternative is to have on token group for number of compartments:
+An alternative is to have one token group for number of compartments:
 
 1 compartment vs 2 compartment, and have the K32~WT nested within the ADVAN4::
 
@@ -292,22 +293,49 @@ N is the index of the token within the token set. While indices to token can be 
 that they start at 1 be numbered sequentially through the template file. The ALAG :ref:`token group <token group>` 
 would be required in the tokens files. Exactly one :ref:`token set <token set>` would 
 be selected (by the search algorithm) for substitution into the template file. If the first 
-token set is selected, and this token set contains these token key-text pairs:
+token set is selected, and this token set contains these token key-text pairs::
 
-ALAG[1] -> "ALAG1=THETA(ALAG)"
+   ALAG[1] -> "ALAG1=THETA(ALAG)"
 
-ALAG[2] -> "(0,1) ;; initial estimate for ALAG1"
+   ALAG[2] -> "(0,1) ;; initial estimate for ALAG1"
 
 The text "ALAG[1]" in the template file would be replaced by "ALAG1=THETA(ALAG)" and 
 the "ALAG[2]" text in the template would be replace by "(0,1) ;; initial estimate for ALAG1". This would then 
-result in syntactically correct NMTRAN code.
+result in syntactically correct NMTRAN code (except that the index to THETA is still a text string). The appropriate 
+index for THETA can be determined only after all the features/token sets are selected. This is handled by pyDarwin. Similar 
+logic (ETAs index by text strings, which are replace by integers) for ETAs and EPSs. It is most convenient to use the :ref:`token stem<token stem>` to 
+index the parameters, e.g., for the CL~WT tokens set, one might used THETA(CL~WT). If more than one THETA is used in a token set, one can 
+simply add an integer (e.g., THETA(CL~WT1) and THETA(CL~WT2)), but the THETA text indices must be unique, so as to generate unique integer values. Any 
+duplication of THETA text indices is permitted (e.g., if you want the same exponent for CL and Q) but will result in duplication of the integer indices, e.g., :: 
 
+   {*WTKG**THETA(CL~WT)} ;; for clearance
+   and
+   {*WTKG**THETA(CL~WT)} ;; for Q
+
+would result in::
+
+   CL=THETA(1)*WT**THETA(2) ;; for clearance
+   and
+   Q =THETA(2)*WT**THETA(2) ;; for Q
+
+duplicate text indices will yield duplicate integer indices. By the same logic, comments can be put into initial estimates by includind 
+THETA(CL~WT) after a ";" in the $THETA block, e.g., :: 
+
+   (0,0.75) \t; THETA(CL~WT) exponent on clearances 
+
+will result in ::
+
+   (0,0.75)    ;THETA(2) exponent on clearances 
+
+as the THETA(CL~WT) is similarly replaced by THETA(2)
 
 
 .. _token stem:
 
-**Token stem:** XXXXXX
+**Token stem:**
 
+.. figure:: tokens.png
+ 
 
 .. _working directory:
 

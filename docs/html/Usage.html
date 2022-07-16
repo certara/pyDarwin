@@ -86,7 +86,7 @@
              
   <section id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h1>
-<p>The <span class="xref std std-ref">darwin.run_search</span> function executes the candidate search for the optimal population model.</p>
+<p>The <a class="reference internal" href="API.html#darwin-run-search"><span class="std std-ref">darwin.run_search</span></a> function executes the candidate search for the optimal population model.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">run_search</span> <span class="o">&lt;</span><span class="n">template_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">tokens_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">options_path</span><span class="o">&gt;</span>
 </pre></div>
 </div>
@@ -140,19 +140,20 @@ For a one compartment model the following substutions would be made:</p>
 <p>{ADVAN[3]} -&gt; ;; 1 compartment</p>
 <p>and for 2 compartment:</p>
 <p>{ADVAN[1]} -&gt; ADVAN3</p>
-<p>{ADVAN[2]} -&gt; K = THETA(?) ;; 2 compartment</p>
+<p>{ADVAN[2]} -&gt; K = THETA(ADVAN) ;; 2 compartment</p>
 <p>{ADVAN[3]} -&gt;(0,0.5)) ;; 2 compartment non fixed THETA</p>
 <p>These sets of tokens are called tokens sets (2 tokens sets in this example one for ADVAN1, one for ADVAN3). The group of token sets
 is called a token group. In this example “ADVAN” is the token key. Each token group must have a unique token key. For the first set of options the text “ADVAN1” is refered to as
 the token text. Each token set consists of key-text pairs:</p>
 <p>token keys (described above) and</p>
 <p>token text</p>
-<p>The token, (consisting of “{” + token stem +[n] + “}” where n is an integer index) in the template file is replaced by the token text,
+<p>The token, (consisting of “{” + token stem +[Some Text] + “}” where Some Text will eventually be an integer index) in the template file is replaced by the token text,
 specified in the tokens file. Which set of token key-text pairs is substitituted is determined by the search algorithm, and provides in
 the <a class="reference internal" href="Glossary.html#phenotype"><span class="std std-ref">phenotype.</span></a></p>
 <p>Note that the THETA (and ETA and EPS) indices cannot be determined until the final control file is defined, as THETAs may be included in one and not another.
 For this reason, all fixed initial estimates in the $THETA block MUST occur before the THETA values that are not fixed. This is so the
-algorithm can parse the resulting file and correctly calculate the appropriate THETA (and ETA and EPS) indices.
+algorithm can parse the resulting file and correctly calculate the appropriate THETA (and ETA and EPS) indices. Further, the “Some Text” index of in the token <em>must</em> be unique in the token groups.
+The most convenient way to insure that the “Some Text” is unique in the Token groups is to use the token stem as the THETA index (e.g., THETA(ADVAN) is the token stem is ADVAN)
 Note that the permited syntax for residual error is EPS() or ERR().</p>
 <p>Special notes on strucutre of $THETA/$OMEGA/$SIGMA:</p>
 <p>Parameter initial estimate blocks require special treatment. A template file will typically include 2 types of initial estimates:</p>
@@ -170,7 +171,7 @@ Note that the permited syntax for residual error is EPS() or ERR().</p>
 <section id="the-tokens-file">
 <span id="tokens-file-target"></span><h2>The Tokens File<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
 <p>The tokens file provide a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>. Token groups are
-defined by a unique <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a>. The token stem also serves as the key in the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">tokenn key-text pairs.</span></a> The token stem is a text string that corresponds to the token key that appears in the <a class="reference internal" href="Glossary.html#template"><span class="std std-ref">template file</span></a>.
+defined by a unique <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a>. The token stem also serves as the key in the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs.</span></a> The token stem is a text string that corresponds to the token key that appears in the <a class="reference internal" href="Glossary.html#template"><span class="std std-ref">template file</span></a>.
 The 2nd level in the tokens dictionary are the <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token sets</span></a>. In the template file the tokens are indexed (e.g., ADVAN[1]), as typically multiple token keys will be to be
 replace by text to create correct syntax. For example, if the search if for 1 compartment (ADVAN1) vs 2 compartment (ADVAN3), for ADVAN3, definitions of K23 and K32 must be provided
 in the $PK block, and (typically) initial estimates must be provided in the $THETA block. Thus, a set of 3 replacements must be made, one in $SUBS, one in $PK and one in
@@ -426,11 +427,11 @@ Options include</p>
 <p>author: String, Author, currently not used, Default - blank</p>
 <p>homeDir: String, Linux style for the home directory, generation/interation subfolders will be placed here, Required</p>
 <p>algorithm: String, Required GA (
-<a class="reference internal" href="Overview.html#genetic-algorithm"><span class="std std-ref">Genetic Algorithm</span></a> ) EX (
-<a class="reference internal" href="Overview.html#exhaustive-search"><span class="std std-ref">Exhaustive Search</span></a> ) GP (
-<a class="reference internal" href="Overview.html#gaussian-process-bayesian-optimization"><span class="std std-ref">Gaussian Process</span></a> ) RF (
-<a class="reference internal" href="Overview.html#random-forest"><span class="std std-ref">Random Forest</span></a>  ) GBRT (
-<a class="reference internal" href="Overview.html#gradient-boosted-random-tree"><span class="std std-ref">Gradient Boosted Random Tree</span></a>). Which algorithm to use.</p>
+<a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">Genetic Algorithm</span></a>) EX (
+<a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive Search</span></a>) GP (
+<a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a>) RF (
+<a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">Random Forest</span></a>) GBRT (
+<a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">Gradient Boosted Random Tree</span></a>). Which algorithm to use.</p>
 <p>random_seed: Integer, required if using GA/GP/RF or GBRT,</p>
 <p>population_size: Integer, required if using algorithm other than exhaustive search</p>
 <p>nmfePath: String, required, path to nmfe??.bat file. Currently supported are nmfe74.bat and nmfe75.bat.</p>

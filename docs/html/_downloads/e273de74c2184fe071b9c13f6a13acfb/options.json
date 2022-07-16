@@ -1,16 +1,15 @@
 {
     "author": "Mark Sale",
     "algorithm":"EXHAUSTIVE",
-        "exhaustive_batch_size": 100,
-        "working_dir ": "u:/msale/example1",
+        "exhaustive_batch_size": 100,   
         "temp_dir": "u:/msale/example1/rundir",
         "output_dir": "u:/msale/example1",
 
-    "num_parallel": 2,
+    "num_parallel": 4,
     "crash_value": 99999999,
 
-    "penalty": {
-        "THETA": 10,
+        "penalty": {
+            "THETA": 10,
         "OMEGA": 10,
         "SIGMA": 10,
         "convergence": 100,

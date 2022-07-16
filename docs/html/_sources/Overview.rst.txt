@@ -86,27 +86,27 @@ The same 3 files are required for any search, whether exhausitve, GA, GP, RF or 
 .. _The Algorithms:
 
 
-.. _Exhaustive Search:
+.. _EX_desc:
 
 Exhaustive Search
 ------------------
 The exhausitve search algorithm is simple to understand. The search space is initally represented as a string of integers - one for each dimension. To facilitate the search, 
 this interger string is coded into a "minimal binary". T 
  
-.. _Genetic Algorithm:
+.. _GA_desc:
 
 Genetic Algorithm
 -------------------------
  
-.. _Gaussian Process (Bayesian Optimization):
+.. _GP_desc:
 
 Gaussian Process
 -------------------------
-.. _Random Forest:
+.. _RF_desc:
 
 Random Forest
 -------------------------
-.. _Gradient Boosted Random Tree:
+.. _GBRT_desc:
 
 Gradient Boosted Random Tree
 ------------------------------

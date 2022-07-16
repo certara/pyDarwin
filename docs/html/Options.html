@@ -80,34 +80,37 @@
              
   <section id="options-list">
 <span id="options"></span><h1>Options List<a class="headerlink" href="#options-list" title="Permalink to this heading">¶</a></h1>
+<p>Note that the the options are saved to a json file. Json supports string, numeric and Boolen (true|false). String options must be in quotes. See <a class="reference external" href="https://www.json.org/">JSON</a> for
+details</p>
+<p>Options include</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 15%" />
-<col style="width: 70%" />
-<col style="width: 15%" />
+<col style="width: 46%" />
+<col style="width: 39%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>option</p></th>
 <th class="head"><p>Description</p></th>
-<th class="head"><p>Example</p></th>
+<th class="head"><p>Default</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>author</p></td>
 <td><p>Author Name</p></td>
-<td><p>“Charles Robert Darwin”,</p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>project_name</p></td>
 <td><p>User defined Project Name</p></td>
-<td><p>“Delicious armadillos”,</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>algorithm</p></td>
-<td><p>Which algorithm, one of EX,GA,GP,RF,GBRT</p></td>
-<td><p>“GA”,</p></td>
+<td><p>One of <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a> , <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a> , <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a> , <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a></p></td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><p>random_seed</p></td>
 <td><p>User defined seed for random number generator</p></td>
-<td><p>11,</p></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><p>num_parallel</p></td>
 <td><p>How many model to run in parallel</p></td>
@@ -119,11 +122,23 @@
 </tr>
 <tr class="row-even"><td><p>population_size</p></td>
 <td><p>Size of population, not used for Exhaustive search</p></td>
-<td><p>4,</p></td>
+<td><p>40,</p></td>
 </tr>
-<tr class="row-odd"><td><p>num_opt_chains</p></td>
-<td><p>For GP,RF and GBRT multiple chains can be used. Using multiple chains   will improve the performance of the “ask” step.</p></td>
-<td><p>4,</p></td>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">num_opt_chains</div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">For GP,RF and GBRT multiple chains can be used. Using multiple</div>
+<div class="line">chains will improve the performance of the “ask” step.</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">4,</div>
+<div class="line"><br /></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td><div class="line-block">
 <div class="line">exhaustive_batch_size</div>
@@ -144,49 +159,288 @@
 </div>
 </td>
 </tr>
-</tbody>
-</table>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 9%" />
-<col style="width: 83%" />
-<col style="width: 9%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Header 1</p></th>
-<th class="head"><p>Header 2</p></th>
-<th class="head"><p>Header 3</p></th>
+<tr class="row-odd"><td><p>crash_value</p></td>
+<td><p>Value of fitness or reward assigned when model output is not generated.</p></td>
+<td></td>
 </tr>
-</thead>
-<tbody>
 <tr class="row-even"><td><div class="line-block">
-<div class="line">Item 1</div>
+<div class="line">downhill_period</div>
+<div class="line"><br /></div>
 </div>
 </td>
 <td><div class="line-block">
-<div class="line">For a large exhaustive search, a complete list of all models may exceed the available memory.</div>
+<div class="line">How often to run the downhill set, default is 2, meaning that 2 generations/iterations will be run, followed</div>
+<div class="line">by the downhill step, then an additional 2 generations/iterations.</div>
 </div>
 </td>
+<td><div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">num_niches</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Only used for GA. A penalty is assigned for each model based on the number of similar models within a niche</div>
+<div class="line">radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose</div>
+<div class="line">is to insure maintaining a degree of diversity in the population</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>niche_radius</p></td>
+<td><p>The radius of the niches. See  <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">Niche Radius</span></a></p></td>
 <td></td>
 </tr>
 <tr class="row-odd"><td><div class="line-block">
-<div class="line">Item 1</div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
+<div class="line">local_2_bit_search</div>
 <div class="line"><br /></div>
 </div>
 </td>
 <td><div class="line-block">
-<div class="line">For a large exhaustive search, a complete list of all models may exceed the available memory.</div>
-<div class="line">Using and exhaustive_search_batch_size  | will limit the number of models generated at any</div>
-<div class="line">time. There may be modest impact on performace as the batch size gets smaller, as all</div>
-<div class="line">models in a batch must be completed before the next batch of models is generated.</div>
+<div class="line">Whether to perform the <a class="reference internal" href="Glossary.html#local-two-bit-search"><span class="std std-ref">two bit local search</span></a> . The two bit local seach</div>
+<div class="line">substantially increase the robustness of the search.</div>
 </div>
 </td>
+<td><div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>final_downhill_search</p></td>
+<td><p>Whether to perform a local search (1 and 2 bit) at the end of the global search</p></td>
 <td></td>
+</tr>
+<tr class="row-odd"><td><p>nmfePath</p></td>
+<td><p>Path to nmfe??.bat, the default command line for executing NONMEM</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>model_run_timeout</p></td>
+<td><p>Time after which the NONMEM execution will be terminated, and the crash value assigned.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>model_run_priority_class</p></td>
+<td><p>Priority class, below_normal is recommended to maintain user interface responsiveness</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>use_saved_models</p></td>
+<td><p>Whether to read models that have been save in a JSON file from a previous search</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>model_run_man</p></td>
+<td></td>
+<td><p>“darwin.GridRunManager”,</p></td>
+</tr>
+<tr class="row-even"><td><p>model_cache</p></td>
+<td></td>
+<td><p>“darwin.MemoryModelCache”,</p></td>
+</tr>
+<tr class="row-odd"><td><p>grid_man</p></td>
+<td></td>
+<td><p>“darwin.GenericGridManager”,</p></td>
+</tr>
+<tr class="row-even"><td><p>engine_adapter</p></td>
+<td></td>
+<td><p>“nonmem”,</p></td>
+</tr>
+<tr class="row-odd"><td><p>working_dir</p></td>
+<td></td>
+<td><p>“~/darwin/Ex1”,</p></td>
+</tr>
+<tr class="row-even"><td><p>data_dir</p></td>
+<td></td>
+<td><p>“{project_dir}/data”,</p></td>
+</tr>
+<tr class="row-odd"><td><p>output_dir</p></td>
+<td></td>
+<td><p>“{project_dir}/output”,</p></td>
+</tr>
+<tr class="row-even"><td><p>temp_dir</p></td>
+<td></td>
+<td><p>“{working_dir}/temp”,</p></td>
+</tr>
+<tr class="row-odd"><td><p>GA</p></td>
+<td></td>
+<td><p>GA,</p></td>
+</tr>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">GA::elitist_num</div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">How many of the best models from any generation to carry over unchanged to the next generation</div>
+<div class="line">Function like <a class="reference external" href="https://deap.readthedocs.io/en/master/api/tools.html#hall-of-fame/">Hall of Fame</a>  in DEAP</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">2,</div>
+<div class="line"><br /></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>crossoverRate</p></td>
+<td><p>What fraction of the mating pairs will undergo cross over</p></td>
+<td><p>10,</p></td>
+</tr>
+<tr class="row-even"><td><p>mutationRate</p></td>
+<td><p>Probability that any bit in the genome will be “flipped”, 0 to   1, or 1 to 0, must be between 0 and 1</p></td>
+<td><p>4,</p></td>
+</tr>
+<tr class="row-odd"><td><p>sharing_alpha</p></td>
+<td><p>Parameter of the niche penalty calculation</p></td>
+<td><p>6,</p></td>
+</tr>
+<tr class="row-even"><td><p>GA::selection</p></td>
+<td><p>Selection algorithm for GA,   currently only “tournament” is available</p></td>
+<td><p>“tournament”</p></td>
+</tr>
+<tr class="row-odd"><td><p>GA::selection_size</p></td>
+<td><p>How many “parents” enter in the selection, 2 is   highly recommended, very limited experience with other values</p></td>
+<td><p>2,</p></td>
+</tr>
+<tr class="row-even"><td><p>GA::crossoverOperator</p></td>
+<td><p>The algorithm for cross over, only    “cxOnePoint” (single point cross over) is available</p></td>
+<td><p>“cxOnePoint”</p></td>
+</tr>
+<tr class="row-odd"><td><p>GA::mutate</p></td>
+<td><p>The algorithm for mutation, currently only “flipBit” is   available</p></td>
+<td><p>“flipBit”</p></td>
+</tr>
+<tr class="row-even"><td><p>GA::attribute_mutation_probability</p></td>
+<td><p>Probability of any bit being mutated, values between 0 and 1</p></td>
+<td><p>true,</p></td>
+</tr>
+<tr class="row-odd"><td><p>GA::niche_penalty</p></td>
+<td><p>The penalty added to the fitness for being to close to other models.</p></td>
+<td><p>20,</p></td>
+</tr>
+<tr class="row-even"><td><p>penalty</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Penalties::THETA</p></td>
+<td><p>Penalty added to fitness/reward for each estimated THETA</p></td>
+<td><p>2,</p></td>
+</tr>
+<tr class="row-even"><td><p>Penalties::OMEGA</p></td>
+<td><p>Penalty added to fitness/reward for each estimated OMEGA element</p></td>
+<td><p>0.95,</p></td>
+</tr>
+<tr class="row-odd"><td><p>Penalties::SIGMA</p></td>
+<td><p>Penalty added to fitness/reward for each estimated SIGMA element</p></td>
+<td><p>0.95,</p></td>
+</tr>
+<tr class="row-even"><td><p>Penalties::convergence</p></td>
+<td><p>Penalty added to fitness/reward for failing to converge (real number)</p></td>
+<td><p>0.1,</p></td>
+</tr>
+<tr class="row-odd"><td><p>Penalties::covariance</p></td>
+<td><p>Penalty added to fitness/reward for failing the covariance step (real   number)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">Penalties::correlation</div>
+<div class="line">Penalties::correlation</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Penalty added to fitness/reward if any off diagonal element of</div>
+<div class="line">the correlation matrix of estimate has absolute value &gt; 0.95 (real number)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">2,</div>
+<div class="line"><br /></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Penalties::conditionNumber</p></td>
+<td><p>Penalty added to fitness/reward if the condition number is &gt; 1000   (real number)</p></td>
+<td><p>“cxOnePoint”,</p></td>
+</tr>
+<tr class="row-even"><td><p>Penalties::non_influential_tokens</p></td>
+<td><p>Penalty added to fitness/reward if any tokens do not influence the   control file (relevant for nested tokens)</p></td>
+<td><p>“flipBit”,</p></td>
+</tr>
+<tr class="row-odd"><td><p>postprocess</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>postprocess::useR</p></td>
+<td></td>
+<td><p>true,</p></td>
+</tr>
+<tr class="row-odd"><td><p>postprocess::RScriptPath</p></td>
+<td></td>
+<td><p>“/some/R/path/rscript”,</p></td>
+</tr>
+<tr class="row-even"><td><p>postprocess::postRunRCode</p></td>
+<td></td>
+<td><p>“{project_dir}/simplefunc.r”,</p></td>
+</tr>
+<tr class="row-odd"><td><p>postprocess::R_timeout</p></td>
+<td></td>
+<td><p>30,</p></td>
+</tr>
+<tr class="row-even"><td><p>postprocess::usePython</p></td>
+<td></td>
+<td><p>true,</p></td>
+</tr>
+<tr class="row-odd"><td><p>postprocess::postRunPythonCode</p></td>
+<td></td>
+<td><p>“{project_dir}/../simplefunc_common.py”</p></td>
+</tr>
+<tr class="row-even"><td><p>grid_manager</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>grid_manager::python_path</p></td>
+<td></td>
+<td><p>“~/darwin/venv/bin/python”,</p></td>
+</tr>
+<tr class="row-even"><td><p>grid_manager::submit_search_command</p></td>
+<td></td>
+<td><p>“qsub -b y -o   {project_dir}/out.txt -e {project_dir}/err.txt -N ‘{project_name}’”,</p></td>
+</tr>
+<tr class="row-odd"><td><p>grid_manager::submit_command</p></td>
+<td></td>
+<td><p>“qsub -b y -o   {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N   {job_name}”,</p></td>
+</tr>
+<tr class="row-even"><td><p>grid_manager::submit_job_id_re</p></td>
+<td></td>
+<td><p>“Your job (\w+)   \(&quot;.+?&quot;\) has been submitted”,</p></td>
+</tr>
+<tr class="row-odd"><td><p>grid_manager::poll_command</p></td>
+<td></td>
+<td><p>“qstat -s z”,</p></td>
+</tr>
+<tr class="row-even"><td><p>grid_manager::poll_job_id_re</p></td>
+<td></td>
+<td><p>“^\s+(\w+)”,</p></td>
+</tr>
+<tr class="row-odd"><td><p>grid_manager::poll_interval</p></td>
+<td></td>
+<td><p>5,</p></td>
+</tr>
+<tr class="row-even"><td><p>grid_manager::delete_command</p></td>
+<td></td>
+<td><p>“qdel {project_stem}-*”</p></td>
 </tr>
 </tbody>
 </table>
+<p>Author and project_name are currently not used, Default - blank</p>
 </section>
 
 

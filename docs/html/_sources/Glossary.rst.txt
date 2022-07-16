@@ -113,6 +113,10 @@ and a bit string of [1,1] isn't permitted. This eliminates running the same mode
 
 The minimal binary is on contrast to the :ref:`full binary <full binary>`.
 
+.. _Niche Radius:
+
+Niche Radius here
+
 .. _Parameter sorting:
 
 **Parameter sorting:** The template file-tokens files-phenotype is first merged. In this merged file the parameters in the searched text are indexed only with 
@@ -245,12 +249,12 @@ Default value is :ref:`{working_dir<working directory>`}/temp. May be deleted af
 
 .. _template:
 
-**Template:** A text string, saved in the :ref:`template file<The template file>` that forms the basis for the models to be run. The template file is similar to a NONMEM control file, but with :ref:`tokens<token>`
-that are replaced by text string specified in the :ref:`tokens file<tokens file>`.
+**Template:** A text string, saved in the :ref:`template file<template_file_target>` that forms the basis for the models to be run. The template file is similar to a NONMEM control file, but with :ref:`tokens<token>`
+that are replaced by text string specified in the :ref:`tokens file<tokens_file_target>`.
 
 .. _token:
 
-**Token:** A token is a text string that appears in the :ref:`Template<template>`.  The format of the string is {:ref:`token stem<token stem>` [index]}, where *token stem* identifies the :ref:`token group<token group>` and index identifies which :ref:`token key-text pair<token key-text pair>` within the :ref:`token set<token set>` is to be substituted. 
+**Token:** A token is a text string that appears in the :ref:`Template<template_file_target>`.  The format of the string is {:ref:`token stem<token stem>` [index]}, where *token stem* identifies the :ref:`token group<token group>` and index identifies which :ref:`token key-text pair<token key-text pair>` within the :ref:`token set<token set>` is to be substituted. 
  
 
 .. _tokens file_s:

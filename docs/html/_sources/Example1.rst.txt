@@ -64,8 +64,11 @@ Note that the relative path to the data file is up two folders. When pyDarwin ru
 typically the data file is in the home directory, and the models are run in home directory/generation/model. Therefore, the relative path to the run directory will 
 be up two levels.
 
+
+.. _template file: 
+
 The Template file
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 The initial simple model can then be editted by adding tokens. This first example will include covariates, residual error and one structural feature. 
 Each token group is identified by a :ref:`token stem <token stem>`, e.g. "V2~WT" for the dimension of the 
 relationship between weight a volume of distribution. Each token group includes 
@@ -235,6 +238,7 @@ The final template file for Example 1 is given below.
     $EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 
     $COV UNCOND PRINT=E
     
+.. _tokens File:
 
 The Tokens file
 ~~~~~~~~~~~~~~~~
@@ -304,6 +308,9 @@ on an search parameter, as in searching for an effect of FED vs FASTED state on 
             ]
         ]
     }
+
+
+.. _The Options File:
 
 The Options file
 ~~~~~~~~~~~~~~~~

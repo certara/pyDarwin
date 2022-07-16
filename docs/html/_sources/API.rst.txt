@@ -6,6 +6,7 @@ High level functions
 
 run\_search
 -------------------------
+.. _darwin.run_search:
 
 .. automodule:: darwin.run_search
    :members:

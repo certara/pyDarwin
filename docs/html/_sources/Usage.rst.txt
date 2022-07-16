@@ -2,7 +2,7 @@
 Usage
 ==============================================
  
-The :ref:`darwin.run_search <run_search_target>` function executes the candidate search for the optimal population model.
+The :ref:`darwin.run_search <darwin.run_search>` function executes the candidate search for the optimal population model.
 
 .. code:: python
     
@@ -76,7 +76,7 @@ and for 2 compartment:
 
 {ADVAN[1]} -> ADVAN3
 
-{ADVAN[2]} -> K = THETA(?) ;; 2 compartment
+{ADVAN[2]} -> K = THETA(ADVAN) ;; 2 compartment
 
 {ADVAN[3]} ->(0,0.5)) ;; 2 compartment non fixed THETA
 
@@ -88,14 +88,15 @@ token keys (described above) and
 
 token text
 
-The token, (consisting of "{" + token stem +[n] + "}" where n is an integer index) in the template file is replaced by the token text, 
+The token, (consisting of "{" + token stem +[Some Text] + "}" where Some Text will eventually be an integer index) in the template file is replaced by the token text, 
 specified in the tokens file. Which set of token key-text pairs is substitituted is determined by the search algorithm, and provides in 
 the :ref:`phenotype.<Phenotype>`
 
 
 Note that the THETA (and ETA and EPS) indices cannot be determined until the final control file is defined, as THETAs may be included in one and not another. 
 For this reason, all fixed initial estimates in the $THETA block MUST occur before the THETA values that are not fixed. This is so the 
-algorithm can parse the resulting file and correctly calculate the appropriate THETA (and ETA and EPS) indices.
+algorithm can parse the resulting file and correctly calculate the appropriate THETA (and ETA and EPS) indices. Further, the "Some Text" index of in the token *must* be unique in the token groups. 
+The most convenient way to insure that the "Some Text" is unique in the Token groups is to use the token stem as the THETA index (e.g., THETA(ADVAN) is the token stem is ADVAN)
 Note that the permited syntax for residual error is EPS() or ERR(). 
 
 Special notes on strucutre of $THETA/$OMEGA/$SIGMA:
@@ -123,7 +124,7 @@ The Tokens File
 ~~~~~~~~~~~~~~~
 
 The tokens file provide a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the :ref:`token group <token group>`. Token groups are 
-defined by a unique :ref:`token stem<token stem>`. The token stem also serves as the key in the :ref:`tokenn key-text pairs.<token key-text pair>` The token stem is a text string that corresponds to the token key that appears in the :ref:`template file<template>`. 
+defined by a unique :ref:`token stem<token stem>`. The token stem also serves as the key in the :ref:`token key-text pairs.<token key-text pair>` The token stem is a text string that corresponds to the token key that appears in the :ref:`template file<template>`. 
 The 2nd level in the tokens dictionary are the :ref:`token sets<token set>`. In the template file the tokens are indexed (e.g., ADVAN[1]), as typically multiple token keys will be to be 
 replace by text to create correct syntax. For example, if the search if for 1 compartment (ADVAN1) vs 2 compartment (ADVAN3), for ADVAN3, definitions of K23 and K32 must be provided 
 in the $PK block, and (typically) initial estimates must be provided in the $THETA block. Thus, a set of 3 replacements must be made, one in $SUBS, one in $PK and one in 
@@ -334,11 +335,11 @@ author: String, Author, currently not used, Default - blank
 homeDir: String, Linux style for the home directory, generation/interation subfolders will be placed here, Required
 
 algorithm: String, Required GA (
-:ref:`Genetic Algorithm` ) EX (
-:ref:`Exhaustive Search` ) GP (
-:ref:`Gaussian Process (Bayesian Optimization)` ) RF (
-:ref:`Random Forest`  ) GBRT (
-:ref:`Gradient Boosted Random Tree`). Which algorithm to use.
+:ref:`GA_desc`) EX (
+:ref:`EX_desc`) GP (
+:ref:`GP_desc`) RF (
+:ref:`RF_desc`) GBRT (
+:ref:`GBRT_desc`). Which algorithm to use.
 
 random_seed: Integer, required if using GA/GP/RF or GBRT, 
 

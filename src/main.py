@@ -20,7 +20,6 @@ from darwin.options import options
    
   
 
-
 final = run_search("C:\\fda\\pyDarwin\\examples\\user\\Example1\\template.txt",
                    "C:\\fda\\pyDarwin\\examples\\user\\Example1\\tokens.json",
                    "C:\\fda\\pyDarwin\\examples\\user\\Example1\\options.json")

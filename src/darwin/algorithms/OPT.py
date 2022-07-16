@@ -51,7 +51,7 @@ def _opt_ask(opt: Optimizer, n_points: int) -> list:
         return []
 
     try:
-        return opt.ask(n_points)
+        return opt[0].ask(n_points)
     # if we don't catch it, pool will do it silently
     except:
         traceback.print_exc()
@@ -60,20 +60,23 @@ def _opt_ask(opt: Optimizer, n_points: int) -> list:
 
 
 def _ask_models(opts: list, n_points: int) -> list:
-    n_opts = len(opts)
+    #n_opts = len(opts)
 
-    pool = Pool(n_opts)
+    #pool = Pool(n_opts)
 
-    n_ask = int(n_points / n_opts)
-    lens = [n_ask] * n_opts
-    lens[-1] += n_points % n_opts
+    #n_ask = int(n_points / n_opts)
+    #lens = [n_ask] * n_opts
+    #lens[-1] += n_points % n_opts
 
-    asks = pool.starmap(_opt_ask, zip(opts, lens))
+    #asks = pool.starmap(_opt_ask, zip(opts, lens))
+    asks = _opt_ask(opts,n_points)
 
-    pool.close()
-    pool.join()
 
-    return [x for xs in asks for x in xs]
+    #pool.close()
+    #pool.join()
+
+    #return [x for xs in asks for x in xs]
+    return asks
 
 
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html

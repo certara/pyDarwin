@@ -11,7 +11,7 @@ import traceback
 
 from darwin.Log import log
 from darwin.options import options
-from darwin.execution_man import keep_going
+from darwin.ExecutionManager import keep_going
 
 import darwin.GlobalVars as GlobalVars
 
@@ -23,7 +23,6 @@ from darwin.ModelRun import ModelRun
 from darwin.Population import Population
 
 logger = logging.getLogger(__name__)
-Models = []  # will put models here to query them and not rerun models, will eventually be a MongoDB
 
 warnings.filterwarnings("ignore", message="The objective has been evaluated ")
 warnings.filterwarnings("ignore", message="The optimal value found for ", append=True)

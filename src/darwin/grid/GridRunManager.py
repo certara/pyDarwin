@@ -4,7 +4,7 @@ from darwin.PipelineRunManager import PipelineRunManager
 import darwin.utils as utils
 from darwin.options import options
 
-from darwin.execution_man import keep_going
+from darwin.ExecutionManager import keep_going
 from darwin.ModelRun import ModelRun
 import darwin.grid.GenericGridAdapter
 

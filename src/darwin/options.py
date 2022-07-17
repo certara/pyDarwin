@@ -82,7 +82,7 @@ class Options:
     def apply_aliases(self, text: str) -> str:
         return utils.apply_aliases(text, self.aliases)
 
-    def _init_options(self, folder, options_file: str):
+    def _init_options(self, options_file: str, folder):
         opts = json.loads(open(options_file, 'r').read())
 
         self._options = opts
@@ -196,7 +196,7 @@ class Options:
             sys.exit()
 
         try:
-            self._init_options(folder, options_file)
+            self._init_options(options_file, folder)
         except Exception as error:
             log.error(str(error))
             log.error(f"Failed to parse JSON options in '{options_file}', exiting")

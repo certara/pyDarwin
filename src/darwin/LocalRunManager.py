@@ -10,7 +10,7 @@ from .ModelRun import ModelRun
 from .ModelRunManager import ModelRunManager, register_model_run_man
 from .PipelineRunManager import PipelineRunManager
 
-from darwin.execution_man import keep_going, wait_for_subprocesses
+from darwin.ExecutionManager import keep_going, wait_for_subprocesses
 
 
 class LocalRunManager(PipelineRunManager):

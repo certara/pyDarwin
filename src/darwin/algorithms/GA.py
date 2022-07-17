@@ -7,7 +7,7 @@ import darwin.GlobalVars as GlobalVars
 
 from darwin.Log import log
 from darwin.options import options
-from darwin.execution_man import keep_going
+from darwin.ExecutionManager import keep_going
 from darwin.ModelCode import ModelCode
 from darwin.algorithms.run_downhill import run_downhill
 from darwin.Population import Population

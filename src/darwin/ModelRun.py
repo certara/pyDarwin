@@ -12,7 +12,7 @@ import traceback
 
 from darwin.Log import log
 from darwin.options import options
-from darwin.execution_man import interrupted, keep_going, dont_even_start
+from darwin.ExecutionManager import interrupted, keep_going, dont_even_start
 
 import darwin.utils as utils
 import darwin.GlobalVars as GlobalVars
@@ -20,10 +20,6 @@ import darwin.GlobalVars as GlobalVars
 from .Model import Model
 from .ModelResults import ModelResults
 from .ModelEngineAdapter import ModelEngineAdapter, get_engine_adapter
-
-_files_checked = False
-_files_ok = False
-_lock_file_check = threading.Lock()
 
 JSON_ATTRIBUTES = [
     'model_num', 'generation',
@@ -37,6 +33,45 @@ def _dummy():
     return 0, ""
 
 
+class ModelFileChecker:
+    _lock_file_check = threading.Lock()
+
+    def __init__(self):
+        self._files_checked = False
+        self._files_ok = False
+
+    def reset(self):
+        self._files_checked = False
+        self._files_ok = False
+
+    def check_files_present(self, run):
+        """
+        Checks if required files are present.
+        """
+
+        if self._files_ok:
+            return True
+
+        with self._lock_file_check:
+            if self._files_checked and not self._files_ok:
+                log.error('files not ok')
+                return False
+
+            try:
+                if not self._files_checked:
+                    self._files_checked = True
+
+                    run.check_files_present_impl()
+
+                self._files_ok = True
+            except Exception as e:
+                dont_even_start()
+                log.error(str(e))
+
+        return self._files_ok
+
+
+file_checker = ModelFileChecker()
 _python_post_process = _dummy
 
 
@@ -177,40 +212,7 @@ class ModelRun:
             f.write(self.model.control)
             f.flush()
 
-    def _check_files_present(self):
-        """
-        Checks if required files are present.
-        """
-
-        global _files_checked
-        global _files_ok
-
-        if _files_ok:
-            return True
-
-        with _lock_file_check:
-            if _files_checked and not _files_ok:
-                log.error('files not ok')
-                return False
-
-            try:
-                self._check_files_present_impl()
-
-                _files_ok = True
-            except Exception as e:
-                dont_even_start()
-                log.error(str(e))
-
-        return _files_ok
-
-    def _check_files_present_impl(self):
-        global _files_checked
-
-        if _files_checked:
-            return
-
-        _files_checked = True
-
+    def check_files_present_impl(self):
         self._adapter.check_settings()
 
         if options.use_r:
@@ -279,7 +281,7 @@ class ModelRun:
 
         self._make_control_file()
 
-        if not self._check_files_present():
+        if not file_checker.check_files_present(self):
             return
 
         command = self._adapter.get_model_run_command(self)

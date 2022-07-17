@@ -5,8 +5,6 @@ from copy import copy
 
 from abc import abstractmethod
 
-from darwin.execution_man import interrupted
-
 from darwin.Log import log
 from darwin.options import options
 
@@ -16,7 +14,7 @@ from .ModelRunManager import ModelRunManager
 
 import darwin.GlobalVars as GlobalVars
 from darwin.utils import Pipeline
-from darwin.execution_man import keep_going
+from darwin.ExecutionManager import keep_going, interrupted
 
 
 class PipelineRunManager(ModelRunManager):

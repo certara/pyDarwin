@@ -4,7 +4,7 @@ from scipy.spatial import distance_matrix
 from darwin.Log import log
 from darwin.options import options
 from darwin.utils import get_n_best_index, get_n_worst_index
-from darwin.execution_man import keep_going
+from darwin.ExecutionManager import keep_going
 
 from darwin.Template import Template
 from darwin.ModelRun import ModelRun

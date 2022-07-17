@@ -1,7 +1,7 @@
 import sys
 
 from darwin.options import options
-from darwin.execution_man import start_execution_manager
+from darwin.ExecutionManager import ExecutionManager
 
 import darwin.nonmem.NMEngineAdapter
 
@@ -25,8 +25,7 @@ if __name__ == '__main__':
 
     darwin.nonmem.NMEngineAdapter.register()
 
-    start_execution_manager()
+    with ExecutionManager(options.working_dir):
+        run_to_json(_run_model(json_to_run(input_file)), output_file)
 
-    run_to_json(_run_model(json_to_run(input_file)), output_file)
-
-    log.message('Done')
+        log.message('Done')

@@ -2,7 +2,7 @@ import sys
 
 from .Template import Template
 from .ModelRun import ModelRun
-from .DarwinApp import DarwinApp, run_template
+from .DarwinApp import DarwinApp
 
 
 def run_search(template_file: str, tokens_file: str, options_file: str) -> ModelRun:
@@ -14,11 +14,11 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Model
     function returns the final model object
     """
 
-    _ = DarwinApp(options_file)
+    app = DarwinApp(options_file)
 
     model_template = Template(template_file, tokens_file)
 
-    return run_template(model_template)
+    return app.run_template(model_template)
 
 
 if __name__ == '__main__':

@@ -42,15 +42,13 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Folder%20Structure%20and%20naming.html">File Structure and Naming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example 2: PK Model 2, Simulation model by GP with Python code</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#calling-post-run-python-code">Calling Post Run Python code</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
@@ -88,28 +86,344 @@
            <div itemprop="articleBody">
              
   <section id="example-2-pk-model-2-simulation-model-by-gp-with-python-code">
-<h1>Example 2: PK Model 2, Simulation model by GP with Python code<a class="headerlink" href="#example-2-pk-model-2-simulation-model-by-gp-with-python-code" title="Permalink to this heading">¶</a></h1>
+<span id="startpk2"></span><h1>Example 2: PK Model 2, Simulation model by GP with Python code<a class="headerlink" href="#example-2-pk-model-2-simulation-model-by-gp-with-python-code" title="Permalink to this heading">¶</a></h1>
+<p>Example 2 is still a fairly simple search. The search space contains 12,960 models, 10 dimensions. The dimensions are:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 32%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Token Stem</p></th>
+<th class="head"><p>Values</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Number of compartments</p></td>
+<td><p>ADVAN</p></td>
+<td><p>1|2|3</p></td>
+</tr>
+<tr class="row-odd"><td><p>Is K23 related to weight?</p></td>
+<td><p>K23~WT</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-even"><td><p>Is there ETA on Ka?</p></td>
+<td><p>KAETA</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Is V2 related to weight?</p></td>
+<td><p>V2~WT</p></td>
+<td><p>None|Power|exponential</p></td>
+</tr>
+<tr class="row-even"><td><p>Is V2 related to Gender?</p></td>
+<td><p>V2~GENDER</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Is CL related to weight?</p></td>
+<td><p>CL~WT</p></td>
+<td><p>None|Power|exponential</p></td>
+</tr>
+<tr class="row-even"><td><p>Is CL related to Age?</p></td>
+<td><p>CL~AGE</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">Is there ETA on D1 and/or</div>
+<div class="line">and/or ALAG1 (nested</div>
+<div class="line">the D1LAG token group)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">ETAD1LAG</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">None or ETA on D1 or ETA</div>
+<div class="line">ETA on ALAGa or ETA on</div>
+<div class="line">both or on both (BLOCK)</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">Is the zero order</div>
+<div class="line">infusion and/or ALAG1</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">D1LAG</div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">D1 or ALAG or Both</div>
+<div class="line"><br /></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">Residual Error Model</div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">RESERR</div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">Additive or combined</div>
+<div class="line">Additive and Proportional</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This gives a search space of 3 x 2 x 2 x 3 x 2 x 3 x 2 x 5 x 3 x 2 = 12960 models. We’ll use the <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> algorithm for the search,
+with a population size of 40 models, for up to 7 iterations. We’ll run the downhill (1 and 2 bit search) each 5 iterations. The dowhill step will be
+done starting with 2 models. The models are selected as the best in each of the two best niches. To selected the best models in each of 2 niches, first
+the best model in the entire population is identified. This will be the model for the first niche. Then all models within a <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">niche radius</span></a>
+of 2 are identified. The best in the 2nd niche then is the best model that is not in a niche. In this way we ensure that the downhill step is done starting
+with 2 models that are at least somewhat dissimilar (by at least a distance of 2). Commonly the <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">niche radius</span></a> would be larger than 2,
+but, given that there are only 10 bits in the entire genome, a 2 bit radius will span a significant part of the search space. All parsimony penalties (THETA, OMEGA,
+and SIGMA) will be 10 points, and we would really like a model that converges, has a successful covariance step, passes the correlation test and has a condition
+number &lt; 100, so all of these penalties will be 100. As there are nested tokens in this search, there is a reason to penalize models with non-influential
+tokens, the penalty for non-influential tokens will be set to 0.00001. This small penalty is only to insure that in a tournament selection the model that
+does not have non-influential tokens will be selected.</p>
 <section id="the-template-file">
 <h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
+<p>The template file for example 2 is given below</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
+$INPUT       ID TIME AMT DV WTKG GENDER AGE {D1LAG[1]}
+$DATA      {data_dir}/datalarge.csv IGNORE=@
+
+$SUBROUTINE {ADVAN[1]} ;; ADVAN2, ADVAN4, ADVAN12
+$PK
+CWTKGONE = WTKG/70  ;; CENTERED ON ONE
+CWTKGZERO = WTKG-70  ;; CENTERED ON ZERO
+CAGE = AGE/40
+TVV2=THETA(2){V2~WT[1]} {V2~GENDER[1]} ;; optional covariates effects of WT and Gender
+V2=TVV2*EXP(ETA(2))
+TVCL= THETA(1) {CL~WT[1]}  {CL~AGE[1]} ;; optional covariates effects of WT and AGE
+CL=TVCL*EXP(ETA(1))
+K=CL/V2
+{ADVAN[2]}         ;; for K23,K32,K24,K42 needed?
+{D1LAG[2]}         ;; include D1 and lag, with diag or block OMEGA
+
+TVKA=THETA(3)
+KA=TVKA  {KAETA[1]}
+S2   = V2/1000
+$ERROR
+REP = IREP
+IPRED =F
+IOBS = F {RESERR[1]}
+Y=IOBS
+$THETA  ;; must be one THETA per line.
+(0.001,100)  ; THETA(1) CL UNITS =  L/HR
+(0.001,500)  ; THETA(2) V  UNITS = L
+(0.001,2)    ; THETA(3) KA UNITS = 1/HR
+
+{ADVAN[3]}  ;; are initial estimates for K23,K32,K24,K42 needed?
+{V2~WT[2]}   ;;; is initial estimate for Volume a function of weight needed?
+{V2~GENDER[2]}   ;;; is initial estimate for Volume a function of gender needed?
+{CL~WT[2]}
+{CL~AGE[2]}
+{D1LAG[3]}
+$OMEGA   ;; must be one ETA/line
+0.2                  ; ETA(1) CLEARANCE
+$OMEGA
+0.2  ; ETA(2) VOLUME
+;; optional $OMEGA blocks
+{KAETA[2]}   ;; optional initial estimates for ETA on KA
+
+{D1LAG[4]}   ;; optional initial estimates for ETA on D1 and ALAG1
+$SIGMA
+
+{RESERR[2]}   ;; additive or proportional or combined
+$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1
+$COV UNCOND PRINT=E
+</pre></div>
+</div>
 <p>Example 2 template file <a class="reference download internal" download="" href="_downloads/c25509ade5d7364c88a1f0ca276a42ca/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
 </section>
 <section id="the-tokens-file">
 <h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
+<p>Notes:</p>
+<ol class="arabic simple" id="example2-nested-tokens">
+<li><p>The example includes nested tokens. The K23~WT token group is nested within the ADVAN token group and the ETAD1LAG token group is nested with the D1LAG group</p></li>
+<li><p>Nested tokens can result in non-influential tokens. E.g., if ADVAN2 is selected, the selection of K23~WT tokens will have no effect on the constructed control file</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="s2">&quot;ADVAN&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;ADVAN2 ;; advan2&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;;; PK 1 compartment &quot;</span><span class="p">,</span>
+         <span class="s2">&quot;;; THETA 1 compartment&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;ADVAN4 ;; advan4&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; K23=THETA(ADVANA){K23~WT[1]}</span><span class="se">\n</span><span class="s2"> K32=THETA(ADVANB){K23~WT[1]}&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (0.001,0.02)  </span><span class="se">\t</span><span class="s2"> ;; THETA(ADVANA) K23 </span><span class="se">\n</span><span class="s2"> (0.001,0.3) </span><span class="se">\t</span><span class="s2"> ;; THETA(ADVANB) K32 </span><span class="se">\n</span><span class="s2">{K23~WT[2]} </span><span class="se">\t</span><span class="s2"> ;; init for K23~WT &quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;ADVAN12 ;; advan12&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; K23=THETA(ADVANA){K23~WT[1]}</span><span class="se">\n</span><span class="s2">  K32=THETA(ADVANB){K23~WT[1]}</span><span class="se">\n</span><span class="s2">  K24=THETA(ADVANC)</span><span class="se">\n</span><span class="s2">  K42=THETA(ADVAND)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (0.001,0.1) </span><span class="se">\t</span><span class="s2">;; THETA(ADVANA) k23 </span><span class="se">\n</span><span class="s2"> (0.001,0.1) </span><span class="se">\t</span><span class="s2"> ;;THETA(ADVANB) k32 </span><span class="se">\n</span><span class="s2"> (0.001,0.1) </span><span class="se">\t</span><span class="s2">;; THETA(ADVANC) k24  </span><span class="se">\n</span><span class="s2"> (0.001,0.1) </span><span class="se">\t</span><span class="s2">;; THETA(ADVAND)k42  </span><span class="se">\n</span><span class="s2"> {K23~WT[2]} </span><span class="se">\t</span><span class="s2"> ;; init for K23~WT&quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+   <span class="s2">&quot;K23~WT&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;*CWTKGONE**THETA(K23~WT)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (0,0.1) </span><span class="se">\t</span><span class="s2">; THETA(K23~WT) K23~WT&quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+   <span class="s2">&quot;KAETA&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;*EXP(ETA(KAETA)) &quot;</span><span class="p">,</span>
+         <span class="s2">&quot;$OMEGA ;; 2nd??OMEGA block </span><span class="se">\n</span><span class="s2">  0.1</span><span class="se">\t\t</span><span class="s2">; ETA(KAETA) ETA ON KA&quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+   <span class="s2">&quot;V2~WT&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;*CWTKGONE**THETA(V2~WT)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (-4,0.8,4) </span><span class="se">\t</span><span class="s2">; THETA(V2~WT) POWER volume ~WT &quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;*EXP(CWTKGZERO*THETA(V2~WT))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (-1,0.01,2) </span><span class="se">\t</span><span class="s2">; THETA(V2~WT) EXPONENTIAL volume ~WT &quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+
+   <span class="s2">&quot;V2~GENDER&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;*CWTKGONE**THETA(V2~GENDER)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (-4,0.1,4) </span><span class="se">\t</span><span class="s2">; THETA(V2~GENDER) POWER volume ~SEX &quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+   <span class="s2">&quot;CL~WT&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;*CWTKGONE**THETA(CL~WT)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (-4,.7,4) </span><span class="se">\t</span><span class="s2">; THETA(CL~WT) POWER clearance~WT &quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;*EXP(CWTKGZERO*THETA(CL~WT))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (-1,0.01,4) </span><span class="se">\t</span><span class="s2">; THETA(CL~WT) EXPONENTIAL clearance~WT &quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+   <span class="s2">&quot;CL~AGE&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;*CAGE**THETA(CL~AGE)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (-4,-0.2,4) </span><span class="se">\t</span><span class="s2">; THETA(CL~AGE) POWER clearance~AGE &quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+   <span class="s2">&quot;ETAD1LAG&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;*EXP(ETA(ETALAG))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;$OMEGA ;; 3rd OMEGA block </span><span class="se">\n</span><span class="s2">  0.1 </span><span class="se">\t\t</span><span class="s2">;; ETA(ETALAG) ETA ON ALAG1&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;*EXP(ETA(ETALAG1))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;$OMEGA ;; 3rd??OMEGA block </span><span class="se">\n</span><span class="s2">  0.1 </span><span class="se">\t\t</span><span class="s2">;; ETA(ETALAG1) ETA ON D1&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;*EXP(ETA(ETALAG1))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;*EXP(ETA(ETALAG2))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;$OMEGA  ;; diagonal OMEGA </span><span class="se">\n</span><span class="s2">  0.1 </span><span class="se">\t\t</span><span class="s2">;; ETA(ETALAG1) ETA ON ALAG1</span><span class="se">\n</span><span class="s2">  0.1 </span><span class="se">\t\t</span><span class="s2">;; ETA(ETALAG2) ETA ON D1&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;*EXP(ETA(ETALAG1))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;*EXP(ETA(ETALAG2))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;$OMEGA BLOCK(2) ;; block OMEGA block </span><span class="se">\n</span><span class="s2">  0.1 </span><span class="se">\t\t</span><span class="s2">;; ETA(ETALAG1) ETA ON ALAG1</span><span class="se">\n</span><span class="s2">  0.01 0.1 </span><span class="se">\t\t</span><span class="s2">;; ETA(ETALAG2) ETA ON D1&quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+   <span class="s2">&quot;D1LAG&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;DROP&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; ALAG1=THETA(ALAG)</span><span class="si">{ETAD1LAG[1]}</span><span class="se">\n</span><span class="s2">;; No D1&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (0.001,0.3) </span><span class="se">\t</span><span class="s2">; ALAG1 THETA(ALAG) &quot;</span><span class="p">,</span>
+         <span class="s2">&quot;</span><span class="si">{ETAD1LAG[3]}</span><span class="s2">&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;RATE&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  D1=THETA(D1) </span><span class="si">{ETAD1LAG[1]}</span><span class="s2"> ; infusion only&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (0.01,0.2) </span><span class="se">\t\t</span><span class="s2">;; D1 THETA &quot;</span><span class="p">,</span>
+         <span class="s2">&quot;</span><span class="si">{ETAD1LAG[3]}</span><span class="s2"> </span><span class="se">\t\t</span><span class="s2">;; D1 ETA only&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;RATE&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  ALAG1=THETA(ALAG)</span><span class="si">{ETAD1LAG[1]}</span><span class="se">\n</span><span class="s2">  D1=THETA(D1)</span><span class="si">{ETAD1LAG[2]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  (0.001,0.1,1) </span><span class="se">\t\t</span><span class="s2">;; D1 THETA Init</span><span class="se">\n</span><span class="s2">  (0.001,0.1,1) ;; ALAG THETA Init&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;</span><span class="si">{ETAD1LAG[3]}</span><span class="s2"> </span><span class="se">\t\t</span><span class="s2">;; ETA on D1 and lag, block&quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+   <span class="s2">&quot;RESERR&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;*EXP(EPS(RESERRA))+EPS(RESERRB)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  0.3 </span><span class="se">\t</span><span class="s2">; EPS(RESERRA) proportional error</span><span class="se">\n</span><span class="s2">  0.3 </span><span class="se">\t</span><span class="s2">; EPS(RESERRB) additive error&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;+EPS(RESERRA)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;  3000 </span><span class="se">\t</span><span class="s2">; EPS(RESERRA) additive error&quot;</span>
+      <span class="p">]</span>
+   <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <p>Example 2 tokens file <a class="reference download internal" download="" href="_downloads/01b97a58723c3fc8ea6cc3d653b01a85/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
-<p>Example 2 template file <a class="reference download internal" download="" href="_downloads/58fecf53d8ecd9a84f5f6d862a0bb03a/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
-<figure class="align-default" id="id2">
-<span id="startpk2"></span><img alt="_images/MLSelection.png" src="_images/MLSelection.png" />
-<figcaption>
-<p><span class="caption-text">Current 12,960 model search space by GA</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
-</figcaption>
-</figure>
-<p>As you can see in the <a class="reference internal" href="#startpk2"><span class="std std-ref">Current 12,960 model search space by GA</span></a> image</p>
-<section id="calling-post-run-python-code">
-<span id="id1"></span><h3>Calling Post Run Python code<a class="headerlink" href="#calling-post-run-python-code" title="Permalink to this heading">¶</a></h3>
-</section>
+<ol class="arabic simple">
+<li><p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p></li>
+<li><p>The user should provide appropriate paths for <a class="reference internal" href="Glossary.html#working-directory"><span class="std std-ref">“working_dir”</span></a>, <a class="reference internal" href="Glossary.html#temp-dir"><span class="std std-ref">“temp_dir”</span></a> and <a class="reference internal" href="Glossary.html#output-directory"><span class="std std-ref">“output_dir”</span></a></p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/msale/example2/working&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/msale/example2/rundir&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/msale/example2/output&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span><span class="s2">&quot;GP&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;num_opt_chains&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+
+   <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+   <span class="s2">&quot;population_size&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+   <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+   <span class="s2">&quot;num_generations&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+
+   <span class="s2">&quot;downhill_period&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+   <span class="s2">&quot;num_niches&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+   <span class="s2">&quot;niche_radius&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+   <span class="s2">&quot;local_2_bit_search&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+   <span class="s2">&quot;final_downhill_search&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+
+   <span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
+
+   <span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;THETA&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="s2">&quot;OMEGA&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="s2">&quot;SIGMA&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+      <span class="s2">&quot;covariance&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+      <span class="s2">&quot;correlation&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+      <span class="s2">&quot;conditionNumber&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+      <span class="s2">&quot;non_influential_tokens&quot;</span><span class="p">:</span> <span class="mf">0.00001</span>
+   <span class="p">},</span>
+
+   <span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+
+   <span class="s2">&quot;nmfePath&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm744/util/nmfe74.bat&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;model_run_timeout&quot;</span><span class="p">:</span> <span class="mi">1200</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Example 2 options file <a class="reference download internal" download="" href="_downloads/58fecf53d8ecd9a84f5f6d862a0bb03a/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 </section>
 

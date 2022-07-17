@@ -1,8 +1,8 @@
 {
     "author": "Mark Sale",
-    "working_dir ": "u:/msale/example4",
+    "working_dir": "u:/msale/example4/working",
     "temp_dir": "u:/msale/example4/rundir",
-    "output_dir": "u:/msale/example4",
+    "output_dir": "u:/msale/example4/output",
     "algorithm": "GA",
     "GA": {
         "crossoverRate": 0.95,

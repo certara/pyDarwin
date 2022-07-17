@@ -1,5 +1,6 @@
 {
-    "author": "Mark Sale", 
+    "author": "Certara", 
+    "working_dir": "u:/msale/example2/working",
     "temp_dir": "u:/msale/example2/rundir",
     "output_dir": "u:/msale/example2/output",
     "algorithm":"GP",

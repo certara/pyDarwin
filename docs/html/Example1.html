@@ -42,6 +42,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Folder%20Structure%20and%20naming.html">File Structure and Naming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example 1: PK Model, Trivial Exhaustive Search</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a><ul>
@@ -297,7 +298,7 @@ each <a class="reference internal" href="Glossary.html#token-set"><span class="s
 and new lines must be coded using the escape syntax (”\n”), not just a new line in the file (which will be ignored). One level of
 nested tokens (tokens within tokens is permitted. This can be useful, when for example one might want to search for covariates
 on an search parameter, as in searching for an effect of FED vs FASTED state on ALAG1, when ALAG1 is also searched (see
-<a class="reference internal" href="Example3.html#startpk3"><span class="std std-ref">PK example 3</span></a>). Additional levels of nested token are permitted, but the logic of correctly coding them quickly becomes daunting.
+<a class="reference internal" href="Example2.html#example2-nested-tokens"><span class="std std-ref">PK example 2</span></a>). Additional levels of nested token are permitted, but the logic of correctly coding them quickly becomes daunting.
 The tokens file for Example 1 is given below.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 
@@ -359,6 +360,10 @@ The tokens file for Example 1 is given below.</p>
 <p>Example 1 <a class="reference internal" href="Glossary.html#options-file"><span class="std std-ref">Options file</span></a>  <a class="reference download internal" download="" href="_downloads/e273de74c2184fe071b9c13f6a13acfb/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">options</span> <span class="pre">file</span></code></a>
 The options file will likely need to be editted, as the path to nmfe??.bat must be provided
 The options file for Example 1 is given below:</p>
+<ol class="arabic simple">
+<li><p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p></li>
+<li><p>The user should provide appropriate paths for <a class="reference internal" href="Glossary.html#working-directory"><span class="std std-ref">“working_dir”</span></a>, <a class="reference internal" href="Glossary.html#temp-dir"><span class="std std-ref">“temp_dir”</span></a> and <a class="reference internal" href="Glossary.html#output-directory"><span class="std std-ref">“output_dir”</span></a></p></li>
+</ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
     <span class="s2">&quot;homeDir&quot;</span><span class="p">:</span> <span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">fda</span><span class="se">\\</span><span class="s2">pydarwin</span><span class="se">\\</span><span class="s2">examples</span><span class="se">\\</span><span class="s2">Example1&quot;</span><span class="p">,</span>

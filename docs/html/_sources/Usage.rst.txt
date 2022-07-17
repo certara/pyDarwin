@@ -273,9 +273,6 @@ Options File
 Description of the options is given in :ref:`Options<Options>`.
 
 
-
-
-
 Note that the the options are saved to a json file. Json supports string, numeric and Boolen (true|false)
 Options include
 

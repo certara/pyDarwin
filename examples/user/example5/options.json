@@ -1,8 +1,8 @@
 {
     "author": "Mark Sale",
-    "working_dir ": "u:/msale/example5",
+    "working_dir": "u:/msale/example5/working",
     "temp_dir": "u:/msale/example5/rundir",
-    "output_dir": "u:/msale/example5",
+    "output_dir": "u:/msale/example5/output",
     "algorithm":"GP",
     "num_opt_chains": 4,
 

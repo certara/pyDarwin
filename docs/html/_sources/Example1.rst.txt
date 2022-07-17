@@ -250,7 +250,7 @@ each :ref:`token set <token set>` within a :ref:`token group <token group>` must
 and new lines must be coded using the escape syntax ("\\n"), not just a new line in the file (which will be ignored). One level of 
 nested tokens (tokens within tokens is permitted. This can be useful, when for example one might want to search for covariates 
 on an search parameter, as in searching for an effect of FED vs FASTED state on ALAG1, when ALAG1 is also searched (see
-:ref:`PK example 3 <startpk3>`). Additional levels of nested token are permitted, but the logic of correctly coding them quickly becomes daunting. 
+:ref:`PK example 2 <Example2_nested_tokens>`). Additional levels of nested token are permitted, but the logic of correctly coding them quickly becomes daunting. 
 The tokens file for Example 1 is given below.
 
 ::
@@ -317,6 +317,11 @@ The Options file
 Example 1 :ref:`Options file <options file>`  :download:`json options file <../examples/user/Example1/options.json>` 
 The options file will likely need to be editted, as the path to nmfe??.bat must be provided
 The options file for Example 1 is given below:
+
+#. The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
+
+#. The user should provide appropriate paths for :ref:`"working_dir"<working directory>`, :ref:`"temp_dir"<temp_dir>` and :ref:`"output_dir"<Output Directory>`
+
 
 ::
 

@@ -1,11 +1,11 @@
 {
-    "author": "Shuhua Hu",
+    "author": "Certara",
 
     "algorithm":"EXHAUSTIVE",
     "exhaustive_batch_size": 100,
-    "working_dir ": "u:/msale/example3",
+    "working_dir": "u:/msale/example3",
     "temp_dir": "u:/msale/example3/rundir",
-    "output_dir": "u:/msale/example3",
+    "output_dir": "u:/msale/example3/output",
     "num_parallel": 4,
 
     "crash_value": 99999999999,

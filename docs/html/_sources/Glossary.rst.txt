@@ -202,6 +202,12 @@ groups. While more than one level of nested tokens is permitted, the logic of co
 
 The full example is given :ref:`example 4<startpk4>`
 
+.. _nmfePath:
+
+**nmfePath:**
+
+
+
 .. _Options file:
 
 **Options File:** Specified the options for the search, inculding the algorith, the :ref:`fitness/reward criteria <fitness>`, the population size, the number 

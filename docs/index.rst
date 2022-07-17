@@ -12,6 +12,7 @@ Welcome to pyDarwin's documentation
 
    Install 
    Overview
+   Folder Structure and naming
    Usage
    Example1 
    Example2

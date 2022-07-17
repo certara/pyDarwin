@@ -42,6 +42,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Folder%20Structure%20and%20naming.html">File Structure and Naming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
@@ -81,14 +82,82 @@
              
   <section id="example-4-pk-model-dmag-by-ga-with-post-run-r-code">
 <h1>Example 4: PK Model, DMAG by GA with post-run R code<a class="headerlink" href="#example-4-pk-model-dmag-by-ga-with-post-run-r-code" title="Permalink to this heading">¶</a></h1>
-<p id="startpk4">Example 4 is the first realistic model search example. The search space contains 1.6 million possible models, and searches:</p>
+<p id="startpk4">Example 4 is the first realistic model search example, with real data (courtesy of <a class="reference external" href="https:/pharmacy.buffalo.edu/content/pharmacy/faculty-staff/faculty-profile.html?ubit=robertbi">Dr. Rob Bies</a> and the
+<a class="reference external" href="https://www.nimh.nih.gov/funding/clinical-research/practical/catie#:~:text=The%20NIMH%2Dfunded%20Clinical%20Antipsychotic,medications%20used%20to%20treat%20schizophrenia">CATIE study</a> ).
+This search again uses <a class="reference internal" href="Glossary.html#nested-tokens"><span class="std std-ref">nested tokens</span></a>, as it searches whether K32 is a function of Weight, and 1 vs 2 vs 3 compartments.
+Another important feature of example 4 is the use of post run R code. In this case, it was of interest to capture the Cmax value. The is no straightforward way to include a penalty for missing the Cmax
+in the NONMEM control stream. Therefore, the penalty for missing Cmax is added after the NONMEM run is complete. Any R code can be provided by the user, and should return a vector of two values. The
+first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to NONMEM output file to desribe the results of the R code execution.</p>
+<p>The search space contains 1.66 million possible models, and searches:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 32%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Token Stem</p></th>
+<th class="head"><p>Values</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Number of compartments</p></td>
+<td><p>ADVAN</p></td>
+<td><p>1|2|3</p></td>
+</tr>
+<tr class="row-odd"><td><p>Is K23 related to weight?</p></td>
+<td><p>K23~WT</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-even"><td><p>Is there ETA on Ka?</p></td>
+<td><p>KAETA</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Is V2 related to weight?</p></td>
+<td><p>V2~WT</p></td>
+<td><p>None|Power|exponential</p></td>
+</tr>
+<tr class="row-even"><td><p>Is V2 related to Gender?</p></td>
+<td><p>V2~GENDER</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Is CL related to weight?</p></td>
+<td><p>CL~WT</p></td>
+<td><p>None|Power|exponential</p></td>
+</tr>
+<tr class="row-even"><td><p>Is CL related to Age?</p></td>
+<td><p>CL~AGE</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">Is there ETA on D1 and/or</div>
+<div class="line">and/or ALAG1 (nested</div>
+<div class="line">the D1LAG token group)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">ETAD1LAG</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">None or ETA on D1 or ETA</div>
+<div class="line">ETA on ALAGa or ETA on</div>
+<div class="line">both or on both (BLOCK)</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
 <p>1,2,3 compartments</p>
 <p>Between occasion variability</p>
-<p>Multiple covaraites (but probably still not as amany as real search)</p>
+<p>Multiple covaraiates (but probably still not as many as a real search)</p>
 <p>Different absorption models</p>
 <p>Different residual error models</p>
 <p>Block OMEGA structures</p>
-<p>Different initial estimates (also likely not as many as a real search).</p>
+<p>Different initial estimates (also likely not as many as a real search should include).</p>
 </section>
 
 

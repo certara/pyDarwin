@@ -223,10 +223,10 @@ darwin.DarwinApp module
    :members:
    :undoc-members:
 
-darwin.execution_man module
----------------------------
+darwin.ExecutionManager module
+------------------------------
 
-.. automodule:: darwin.execution_man
+.. automodule:: darwin.ExecutionManager
    :members:
    :undoc-members:
 

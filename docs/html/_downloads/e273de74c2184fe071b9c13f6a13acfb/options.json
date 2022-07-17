@@ -1,14 +1,12 @@
 {
     "author": "Mark Sale",
     "algorithm":"EXHAUSTIVE",
-        "exhaustive_batch_size": 100,
-        "temp_dir": "u:/msale/example1/rundir",
-        "output_dir": "u:/msale/example1",
+    "exhaustive_batch_size": 100,
 
     "num_parallel": 4,
     "crash_value": 99999999,
 
-        "penalty": {
+    "penalty": {
         "THETA": 10,
         "OMEGA": 10,
         "SIGMA": 10,
@@ -21,6 +19,6 @@
 
     "remove_run_dir": false,
 
-    "nmfePath": "c:/nm744/util/nmfe74.bat",
+    "nmfePath": "c:/nm74g64/util/nmfe74.bat",
     "model_run_timeout": 1200
 }

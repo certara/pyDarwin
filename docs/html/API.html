@@ -100,7 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-darwin.utils">darwin.utils module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-darwin.DarwinApp">darwin.DarwinApp module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.execution_man">darwin.execution_man module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.ExecutionManager">darwin.ExecutionManager module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-darwin.Log">darwin.Log module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-darwin.options">darwin.options module</a></li>
 </ul>
@@ -466,6 +466,22 @@ Need to look in output file for parameter at boundary and parameter non-positive
 <section id="module-darwin.ModelRun">
 <span id="darwin-modelrun"></span><h3>darwin.ModelRun<a class="headerlink" href="#module-darwin.ModelRun" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
+<dt class="sig sig-object py" id="darwin.ModelRun.ModelFileChecker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.ModelRun.</span></span><span class="sig-name descname"><span class="pre">ModelFileChecker</span></span><a class="headerlink" href="#darwin.ModelRun.ModelFileChecker" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="darwin.ModelRun.ModelFileChecker.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelFileChecker.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.ModelRun.ModelFileChecker.check_files_present">
+<span class="sig-name descname"><span class="pre">check_files_present</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelFileChecker.check_files_present" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if required files are present.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.ModelRun.</span></span><span class="sig-name descname"><span class="pre">ModelRun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adapter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelEngineAdapter.ModelEngineAdapter" title="darwin.ModelEngineAdapter.ModelEngineAdapter"><span class="pre">ModelEngineAdapter</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelRun" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
@@ -516,6 +532,11 @@ Defined as stem_prefix + generation + model_num.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.from_dict">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelRun.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.check_files_present_impl">
+<span class="sig-name descname"><span class="pre">check_files_present_impl</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelRun.check_files_present_impl" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1371,42 +1392,72 @@ in the resulting control file. A small penalty, is specified in the options file
 </section>
 <section id="module-darwin.DarwinApp">
 <span id="darwin-darwinapp-module"></span><h3>darwin.DarwinApp module<a class="headerlink" href="#module-darwin.DarwinApp" title="Permalink to this heading">¶</a></h3>
-<dl class="py function">
-<dt class="sig sig-object py" id="darwin.DarwinApp.run_template">
-<span class="sig-prename descclassname"><span class="pre">darwin.DarwinApp.</span></span><span class="sig-name descname"><span class="pre">run_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.DarwinApp.run_template" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.DarwinApp.DarwinApp">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.DarwinApp.</span></span><span class="sig-name descname"><span class="pre">DarwinApp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.DarwinApp.DarwinApp" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="darwin.DarwinApp.DarwinApp.run_template">
+<span class="sig-name descname"><span class="pre">run_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.DarwinApp.DarwinApp.run_template" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
 
 </section>
-<section id="module-darwin.execution_man">
-<span id="darwin-execution-man-module"></span><h3>darwin.execution_man module<a class="headerlink" href="#module-darwin.execution_man" title="Permalink to this heading">¶</a></h3>
+<section id="module-darwin.ExecutionManager">
+<span id="darwin-executionmanager-module"></span><h3>darwin.ExecutionManager module<a class="headerlink" href="#module-darwin.ExecutionManager" title="Permalink to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="darwin.ExecutionManager.ExecutionManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.ExecutionManager.</span></span><span class="sig-name descname"><span class="pre">ExecutionManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">working_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ExecutionManager.ExecutionManager" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="darwin.ExecutionManager.ExecutionManager.keep_going">
+<span class="sig-name descname"><span class="pre">keep_going</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ExecutionManager.ExecutionManager.keep_going" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.ExecutionManager.ExecutionManager.interrupted">
+<span class="sig-name descname"><span class="pre">interrupted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ExecutionManager.ExecutionManager.interrupted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.ExecutionManager.ExecutionManager.dont_even_start">
+<span class="sig-name descname"><span class="pre">dont_even_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ExecutionManager.ExecutionManager.dont_even_start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.ExecutionManager.ExecutionManager.wait_for_subprocesses">
+<span class="sig-name descname"><span class="pre">wait_for_subprocesses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ExecutionManager.ExecutionManager.wait_for_subprocesses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.ExecutionManager.ExecutionManager.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ExecutionManager.ExecutionManager.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.ExecutionManager.ExecutionManager.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ExecutionManager.ExecutionManager.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.execution_man.keep_going">
-<span class="sig-prename descclassname"><span class="pre">darwin.execution_man.</span></span><span class="sig-name descname"><span class="pre">keep_going</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.execution_man.keep_going" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.ExecutionManager.keep_going">
+<span class="sig-prename descclassname"><span class="pre">darwin.ExecutionManager.</span></span><span class="sig-name descname"><span class="pre">keep_going</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ExecutionManager.keep_going" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.execution_man.interrupted">
-<span class="sig-prename descclassname"><span class="pre">darwin.execution_man.</span></span><span class="sig-name descname"><span class="pre">interrupted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.execution_man.interrupted" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.ExecutionManager.interrupted">
+<span class="sig-prename descclassname"><span class="pre">darwin.ExecutionManager.</span></span><span class="sig-name descname"><span class="pre">interrupted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ExecutionManager.interrupted" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.execution_man.dont_even_start">
-<span class="sig-prename descclassname"><span class="pre">darwin.execution_man.</span></span><span class="sig-name descname"><span class="pre">dont_even_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.execution_man.dont_even_start" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.ExecutionManager.dont_even_start">
+<span class="sig-prename descclassname"><span class="pre">darwin.ExecutionManager.</span></span><span class="sig-name descname"><span class="pre">dont_even_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ExecutionManager.dont_even_start" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.execution_man.wait_for_subprocesses">
-<span class="sig-prename descclassname"><span class="pre">darwin.execution_man.</span></span><span class="sig-name descname"><span class="pre">wait_for_subprocesses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.execution_man.wait_for_subprocesses" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="darwin.execution_man.start_execution_manager">
-<span class="sig-prename descclassname"><span class="pre">darwin.execution_man.</span></span><span class="sig-name descname"><span class="pre">start_execution_manager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.execution_man.start_execution_manager" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.ExecutionManager.wait_for_subprocesses">
+<span class="sig-prename descclassname"><span class="pre">darwin.ExecutionManager.</span></span><span class="sig-name descname"><span class="pre">wait_for_subprocesses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ExecutionManager.wait_for_subprocesses" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>

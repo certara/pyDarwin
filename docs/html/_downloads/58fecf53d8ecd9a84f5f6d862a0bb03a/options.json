@@ -1,10 +1,7 @@
 {
     "author": "Certara", 
-    "working_dir": "u:/msale/example2/working",
-    "temp_dir": "u:/msale/example2/rundir",
-    "output_dir": "u:/msale/example2/output",
     "algorithm":"GP",
-    "num_opt_chains": 1,
+    "num_opt_chains": 4,
 
     "random_seed": 11,
     "population_size": 40,
@@ -32,6 +29,6 @@
 
     "remove_run_dir": false,
 
-    "nmfePath": "c:/nm744/util/nmfe74.bat",
+    "nmfePath": "c:/nm74g64/util/nmfe74.bat",
     "model_run_timeout": 1200
 }

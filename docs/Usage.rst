@@ -182,92 +182,92 @@ Options File
 .. code:: json
 
     {
-    "author": "Charles Robert Darwin",
-    "project_name": "Delicious armadillos",
+        "author": "Charles Robert Darwin",
+        "project_name": "Delicious armadillos",
 
-    "algorithm": "GA",
+        "algorithm": "GA",
 
-    "GA": {
-        "elitist_num": 2,
-        "crossoverRate": 0.95,
-        "mutationRate": 0.95,
-        "sharing_alpha": 0.1,
-        "selection": "tournament",
-        "selection_size": 2,
-        "crossoverOperator": "cxOnePoint",
-        "mutate": "flipBit",
-        "attribute_mutation_probability": 0.1,
-        "niche_penalty": 10
-    },
+        "GA": {
+            "elitist_num": 2,
+            "crossoverRate": 0.95,
+            "mutationRate": 0.95,
+            "sharing_alpha": 0.1,
+            "selection": "tournament",
+            "selection_size": 2,
+            "crossoverOperator": "cxOnePoint",
+            "mutate": "flipBit",
+            "attribute_mutation_probability": 0.1,
+            "niche_penalty": 10
+        },
 
-    "random_seed": 11,
-    "num_parallel": 4,
-    "num_generations": 6,
-    "population_size": 4,
+        "random_seed": 11,
+        "num_parallel": 4,
+        "num_generations": 6,
+        "population_size": 4,
 
-    "num_opt_chains": 4,
+        "num_opt_chains": 4,
 
-    "exhaustive_batch_size": 100,
+        "exhaustive_batch_size": 100,
 
-    "crash_value": 99999999,
+        "crash_value": 99999999,
 
-    "penalty": {
-        "THETA": 10,
-        "OMEGA": 10,
-        "SIGMA": 10,
-        "convergence": 100,
-        "covariance": 100,
-        "correlation": 100,
-        "conditionNumber": 100,
-        "non_influential_tokens": 0.00001
-    },
+        "penalty": {
+            "THETA": 10,
+            "OMEGA": 10,
+            "SIGMA": 10,
+            "convergence": 100,
+            "covariance": 100,
+            "correlation": 100,
+            "conditionNumber": 100,
+            "non_influential_tokens": 0.00001
+        },
 
-    "downhill_period": 2,
-    "num_niches": 2,
-    "niche_radius": 2,
-    "local_2_bit_search": true,
-    "final_downhill_search": true,
+        "downhill_period": 2,
+        "num_niches": 2,
+        "niche_radius": 2,
+        "local_2_bit_search": true,
+        "final_downhill_search": true,
 
-    "nmfePath": "/opt/nm751/util/nmfe75",
-    "model_run_timeout": 1200,
-    "model_run_priority_class": "below_normal",
+        "nmfePath": "/opt/nm751/util/nmfe75",
+        "model_run_timeout": 1200,
+        "model_run_priority_class": "below_normal",
 
-    "postprocess": {
-        "useR": true,
-        "RScriptPath": "/some/R/path/rscript",
-        "postRunRCode": "{project_dir}/simplefunc.r",
-        "R_timeout": 30,
-        "usePython": true,
-        "postRunPythonCode": "{project_dir}/../simplefunc_common.py"
-    },
+        "postprocess": {
+            "useR": true,
+            "RScriptPath": "/some/R/path/rscript",
+            "postRunRCode": "{project_dir}/simplefunc.r",
+            "R_timeout": 30,
+            "usePython": true,
+            "postRunPythonCode": "{project_dir}/../simplefunc_common.py"
+        },
 
-    "use_saved_models": false,
-    "saved_models_file": "{working_dir}/models0.json",
-    "saved_models_readonly": false,
+        "use_saved_models": false,
+        "saved_models_file": "{working_dir}/models0.json",
+        "saved_models_readonly": false,
 
-    "remove_run_dir": false,
-    "remove_temp_dir": true,
+        "remove_run_dir": false,
+        "remove_temp_dir": true,
 
-    "model_run_man": "darwin.GridRunManager",
-    "model_cache": "darwin.MemoryModelCache",
-    "grid_adapter": "darwin.GenericGridAdapter",
-    "engine_adapter": "nonmem",
+        "model_run_man": "darwin.GridRunManager",
+        "model_cache": "darwin.MemoryModelCache",
+        "grid_adapter": "darwin.GenericGridAdapter",
+        "engine_adapter": "nonmem",
 
-    "working_dir": "~/darwin/Ex1",
-    "data_dir": "{project_dir}/data",
-    "output_dir": "{project_dir}/output",
-    "temp_dir": "{working_dir}/temp",
+        "working_dir": "~/darwin/Ex1",
+        "data_dir": "{project_dir}/data",
+        "output_dir": "{project_dir}/output",
+        "temp_dir": "{working_dir}/temp",
 
-    "generic_grid_adapter": {
-        "python_path": "~/darwin/venv/bin/python",
-        "submit_search_command": "qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'",
-        "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
-        "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
-        "poll_command": "qstat -s z",
-        "poll_job_id_re": "^\\s+(\\w+)",
-        "poll_interval": 5,
-        "delete_command": "qdel {project_stem}-*"
-    }
+        "generic_grid_adapter": {
+            "python_path": "~/darwin/venv/bin/python",
+            "submit_search_command": "qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'",
+            "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
+            "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
+            "poll_command": "qstat -s z",
+            "poll_job_id_re": "^\\s+(\\w+)",
+            "poll_interval": 5,
+            "delete_command": "qdel {project_stem}-*"
+        }
     }
 
 Description of the options is given in :ref:`Options<Options>`.

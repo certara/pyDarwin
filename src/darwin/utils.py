@@ -195,7 +195,10 @@ def terminate_processes(processes: list):
     log.message(f'Terminating {len(processes)} processes...')
 
     for p in processes:
-        p.terminate()
+        try:
+            p.terminate()
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            pass
 
     gone, alive = psutil.wait_procs(processes, timeout=4)
 
@@ -203,7 +206,10 @@ def terminate_processes(processes: list):
         log.warn(f'{len(alive)} are still alive')
 
         for p in alive:
-            p.kill()
+            try:
+                p.kill()
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                pass
 
 
 class PipelineStep:

@@ -128,8 +128,8 @@ class NMEngineAdapter(ModelEngineAdapter):
         non_influential_token_num = sum(non_influential_tokens)
 
         if not token_found:
-            log.error("No tokens found, exiting")
-            raise RuntimeError("No tokens found")
+            log.error("No tokens used in template, exiting")
+            raise RuntimeError("No tokens used")
 
         if any_found:
             log.error("It appears that there is more than four level of nested tokens."

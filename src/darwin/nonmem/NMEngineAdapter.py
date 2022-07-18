@@ -17,7 +17,7 @@ from darwin.options import options
 from darwin.Template import Template
 from darwin.ModelCode import ModelCode
 
-from .utils import set_omega_bands, match_thetas, match_rands
+from .utils import set_omega_bands, match_vars
 
 
 class NMEngineAdapter(ModelEngineAdapter):
@@ -136,14 +136,14 @@ class NMEngineAdapter(ModelEngineAdapter):
                       " Only four levels are supported, exiting")
             raise RuntimeError("Are there more than 4 levels of nested tokens?")
 
-        control = match_thetas(control, template.tokens, template.var_theta_block, phenotype,
-                               template.last_fixed_theta)
-        control = match_rands(control, template.tokens, template.var_omega_block, phenotype,
-                              template.last_fixed_eta, "ETA")
-        control = match_rands(control, template.tokens, template.var_sigma_block, phenotype,
-                              template.last_fixed_eps, "EPS")
-        control = match_rands(control, template.tokens, template.var_sigma_block, phenotype,
-                              template.last_fixed_eps, "ERR")  # check for ERRo as well
+        control = match_vars(control, template.tokens, template.var_theta_block, phenotype,
+                             template.last_fixed_theta, "THETA")
+        control = match_vars(control, template.tokens, template.var_omega_block, phenotype,
+                             template.last_fixed_eta, "ETA")
+        control = match_vars(control, template.tokens, template.var_sigma_block, phenotype,
+                             template.last_fixed_eps, "EPS")
+        control = match_vars(control, template.tokens, template.var_sigma_block, phenotype,
+                             template.last_fixed_eps, "ERR")  # check for ERRo as well
 
         model_code_str = str(model_code.FullBinCode if (options.isGA or options.isPSO) else model_code.IntCode)
 

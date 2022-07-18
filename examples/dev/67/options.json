@@ -1,0 +1,25 @@
+{
+    "author": "Mark Sale",
+
+    "algorithm":"EXHAUSTIVE",
+    "exhaustive_batch_size": 100,
+
+    "num_parallel": 4,
+
+    "crash_value": 99999999,
+
+    "penalty": {
+        "THETA": 10,
+        "OMEGA": 10,
+        "SIGMA": 10,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "conditionNumber": 100,
+        "non_influential_tokens": 0.00001
+    },
+
+    "remove_run_dir": true,
+
+    "nmfePath": "c:/nm74g64/util/nmfe74.bat"
+}

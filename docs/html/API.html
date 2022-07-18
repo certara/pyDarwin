@@ -1130,8 +1130,8 @@ By default, key files (.lst, .xml, mod and any $TABLE files are retained).</p>
 <section id="module-darwin.nonmem.utils">
 <span id="darwin-nonmem-utils-module"></span><h3>darwin.nonmem.utils module<a class="headerlink" href="#module-darwin.nonmem.utils" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.nonmem.utils.match_thetas">
-<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">match_thetas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_theta_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phenotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_fixed_theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.nonmem.utils.match_thetas" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.nonmem.utils.match_vars">
+<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">match_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phenotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_fixed_var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.nonmem.utils.match_vars" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parses current control file text, looking for THETA(*) and calculates the appropriate index for that THETA
 (starting with the last_fixed_theta - the largest value used for THETA() in the fixed code)</p>
 <dl class="field-list simple">
@@ -1139,14 +1139,15 @@ By default, key files (.lst, .xml, mod and any $TABLE files are retained).</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>control</strong> (<em>str</em>) – control file text</p></li>
 <li><p><strong>tokens</strong> (<em>dict</em>) – token groups</p></li>
-<li><p><strong>var_theta_block</strong> (<em>str</em>) – variable theta block</p></li>
+<li><p><strong>var_block</strong> (<em>str</em>) – variable block</p></li>
 <li><p><strong>phenotype</strong> (<em>dict</em>) – phenotype for model</p></li>
-<li><p><strong>last_fixed_theta</strong> (<em>int</em>) – highest value used for THETA in fixed code. Fixed values for THETA must start with 1
-and be continuous until the last fixed THETA</p></li>
+<li><p><strong>last_fixed_var</strong> (<em>int</em>) – highest value used for variable in fixed code. Fixed values for variables must start with 1
+and be continuous until the last fixed variable</p></li>
+<li><p><strong>stem</strong> (<em>str</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>new control file</p>
+<dd class="field-even"><p>new control content</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>str</p>
@@ -1155,18 +1156,8 @@ and be continuous until the last fixed THETA</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.nonmem.utils._get_theta_matches">
-<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_theta_matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expanded_theta_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_phenotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#darwin.nonmem.utils._get_theta_matches" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="darwin.nonmem.utils._get_rand_var_matches">
-<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_rand_var_matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expanded_block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_phenotype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">which_rand</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.utils._get_rand_var_matches" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="darwin.nonmem.utils.match_rands">
-<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">match_rands</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_rand_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phenotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_fixed_rand</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.nonmem.utils.match_rands" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.nonmem.utils._get_var_matches">
+<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_var_matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expanded_block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_phenotype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.utils._get_var_matches" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">

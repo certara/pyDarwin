@@ -1,0 +1,55 @@
+{
+    "author": "Mark Sale",
+
+    "algorithm": "GA",
+    "GA": {
+        "crossoverRate": 0.95,
+        "elitist_num": 4,
+        "mutationRate": 0.95,
+        "attribute_mutation_probability": 0.1,
+        "mutate": "flipBit",
+        "niche_penalty": 20,
+        "selection": "tournament",
+        "selection_size": 2,
+        "sharing_alpha": 0.1,
+        "crossoverOperator": "cxOnePoint"
+    },
+
+    "random_seed": 11,
+    "population_size": 80,
+    "num_parallel": 4,
+    "num_generations": 7,
+
+    "downhill_period": 5,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "local_2_bit_search": true,
+    "final_downhill_search": true,
+
+    "crash_value": 99999999,
+
+    "penalty": {
+        "THETA": 10,
+        "OMEGA": 10,
+        "SIGMA": 10,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "conditionNumber": 100,
+        "non_influential_tokens": 0.00001
+    },
+
+    "remove_run_dir": false,
+
+    "nmfePath": "c:/nm74g64/util/nmfe74.bat",
+    "model_run_timeout": 1200,
+
+	 "postprocess": {
+        "userR": false,
+        "RScriptPath": "/some/R/path/rscript",
+        "postRunRCode": "{project_dir}/simplefunc.r",
+        "R_timeout": 30,
+        "usePython": true,
+        "postRunPythonCode": "C:/R/FDA-OGD-ML/examples/user/example6/simplefunc.py"
+    }
+}

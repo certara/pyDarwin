@@ -98,6 +98,15 @@ class ModelEngineAdapter(ABC):
 
         return model
 
+    @staticmethod
+    @abstractmethod
+    def init_template(template: Template):
+        """
+        perform any adapter-specific initialization, e.g. initialize theta/omega/sigma blocks
+        """
+
+        pass
+
 
 def register_engine_adapter(name: str, engine):
     global _ENGINES

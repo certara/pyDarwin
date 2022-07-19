@@ -1,10 +1,7 @@
 import sys
-import re
 import json
 import math
 import collections
-
-import darwin.utils as utils
 
 from darwin.Log import log
 
@@ -57,13 +54,8 @@ class Template:
         self._get_gene_length()
         self._check_omega_search()
 
-        self.last_fixed_theta, self.last_fixed_eta, self.last_fixed_eps, theta_block, omega_block, sigma_block\
-            = _get_fixed_params(self.template_text)
-
-        # list of only the variable tokens in $THETA in template, will population with
-        self.var_theta_block = _get_variable_block(theta_block)
-        self.var_omega_block = _get_variable_block(omega_block)
-        self.var_sigma_block = _get_variable_block(sigma_block)
+        # to be initialized by adapter
+        self.theta_block = self.omega_block = self.sigma_block = []
 
         self.template_text = options.apply_aliases(self.template_text)
 
@@ -91,60 +83,3 @@ class Template:
             self.gene_length.append(math.ceil(math.log(options.max_omega_band_width + 1, 2)))
 
             log.message(f"Including search of band OMEGA, with width up to {options.max_omega_band_width}")
-
-
-def _get_fixed_params(template_text):
-    n_fixed_theta, theta_block = _get_fixed_block(template_text, "$THETA")
-    n_fixed_omega, omega_block = _get_fixed_block(template_text, "$OMEGA")
-    n_fixed_sigma, sigma_block = _get_fixed_block(template_text, "$SIGMA")
-
-    return n_fixed_theta, n_fixed_omega, n_fixed_sigma, theta_block, omega_block, sigma_block
-
-
-def _get_variable_block(code) -> list:
-    clean_code = utils.remove_comments(code)
-    lines = clean_code.splitlines()
-
-    # remove any blanks
-    while "" in lines:
-        lines.remove("")
-
-    var_block = []
-
-    # how many $ blocks - assume only 1 (for now??)
-
-    for line in lines:
-        if re.search("{.+}", line) is not None:
-            var_block.append(line)
-
-    return var_block
-
-
-def _get_fixed_block(code, key):
-    nkeys = code.count(key)
-    # get the block from NONMEM control/template
-    # e.g., $THETA, even if $THETA is in several sections
-    # were key is $THETA,$OMEGA,$SIGMA
-    block = ""
-    start = 0
-    full_block = []
-
-    for _ in range(nkeys):
-        start = code.find(key, start)
-        end = code.find("$", start + 1)
-        block = block + code[start: end] + '\n'
-        start = end
-        # remove blank lines, and trim
-
-    lines = block.splitlines()
-    full_block.append(lines)
-    fixed_count = 0
-
-    for line in lines:
-        # remove blanks, options and tokens, comments
-        line = utils.remove_comments(line).strip()
-        # count fixed only, n
-        if (line != "" and (not (re.search("^{.+}", line)))) and not re.search(r"^\$.+", line):
-            fixed_count += 1
-
-    return fixed_count, full_block

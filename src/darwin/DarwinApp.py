@@ -15,6 +15,8 @@ import darwin.LocalRunManager
 import darwin.grid.GridRunManager
 import darwin.nonmem.NMEngineAdapter
 
+from darwin.ModelEngineAdapter import get_engine_adapter
+
 from .Template import Template
 from .ModelRun import ModelRun, write_best_model_files, file_checker
 from .ModelCache import set_model_cache, create_model_cache
@@ -135,6 +137,9 @@ class DarwinApp:
     def run_template(self, model_template: Template) -> ModelRun:
 
         algorithm = options.algorithm
+
+        adapter = get_engine_adapter(options.engine_adapter)
+        adapter.init_template(model_template)
 
         self.exec_man.start()
 

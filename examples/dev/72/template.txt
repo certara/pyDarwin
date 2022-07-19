@@ -1,0 +1,34 @@
+$PROBLEM Test
+$INPUT ID TIME AMT DROP SEX RACE AGE BW DV
+$DATA {data_dir}/OralBolus.csv IGNORE=@
+$SUBROUTINE ADVAN2 TRANS2
+$PK
+CL = THETA(CL) * EXP(ETA(CL)) ; CL
+ 
+ {V~RACE[1]}V = THETA(V) {V~RACE[2]} * EXP(ETA(V))
+SC = V ; V
+Ka = THETA(Ka) * EXP(ETA(Ka)) ; Ka
+$ERROR
+IPRED = F
+IOBS = F *(1+EPS(RESERRA))+EPS(RESERRB)
+Y = IOBS
+$SIGMA
+            ; proportional error
+	0.01	; RESERRA
+            ; additive error
+	0.01	; RESERRB
+$THETA
+(0, 1) ; CL
+ ; CL
+(0, 5) ; V
+
+{V~RACE[3]} ; V
+(0, 1) ; Ka
+ ; Ka
+$OMEGA
+1  ; CL
+1  ; V
+1  ; Ka
+$EST METHOD = COND INTER NOABORT MAX = 99
+$COV UNCOND PRINT=E
+

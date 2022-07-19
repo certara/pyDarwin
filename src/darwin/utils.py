@@ -66,19 +66,12 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
 
 
 def get_token_parts(token):
-    match = re.search(r"{.+\[", token).span()
-    stem = token[match[0] + 1:match[1] - 1]
-    rest_part = token[match[1]:]
-    match = re.search("[0-9]+]", rest_part).span()
+    match = re.search(r"{(.+?)\[(\d+)]", token)
 
-    try:
-        index = int(rest_part[match[0]:match[1] - 1])  # should be integer
-    except:
-        return "none integer found in " + stem + ", " + token
-        # json.load seems to return its own error and exit immediately
-        # this try/except doesn't do anything
+    if match is None:
+        return None, None
 
-    return stem, index
+    return match.group(1), int(match.group(2))
 
 
 def expand_tokens(tokens: dict, text_block: list, phenotype: dict) -> list:
@@ -103,6 +96,10 @@ def _expand_line(tokens: dict, text_line: str, phenotype: dict, loop_num: int) -
     new_expanded_text_block = []
 
     key, index = get_token_parts(text_line)
+
+    if not key:
+        return [text_line]
+
     token = tokens.get(key)[phenotype[key]][index - 1]  # problem here???
     token = remove_comments(token).splitlines()
 
@@ -130,19 +127,15 @@ def remove_comments(code: str, comment_mark=';') -> str:
     :return: code with comments removed
     :rtype: str
     """
-    new_code = ""
 
     if type(code) != list:
         lines = code.splitlines()
     else:
-        lines = code[0]
+        lines = code
 
-    for line in lines:
-        if line.find(comment_mark) > -1:
-            line = line[:line.find(comment_mark)]
-        new_code += line.strip() + '\n'
+    lines = [(line[:line.find(comment_mark)] if line.find(comment_mark) > -1 else line).strip() for line in lines]
 
-    return new_code
+    return '\n'.join(lines)
 
 
 def remove_file(file_path: str):

@@ -27,6 +27,14 @@ class NMEngineAdapter(ModelEngineAdapter):
         return 'nonmem'
 
     @staticmethod
+    def init_template(template: Template):
+        template_text = template.template_text
+
+        template.theta_block = _get_variable_block(template_text, "$THETA")
+        template.omega_block = _get_variable_block(template_text, "$OMEGA")
+        template.sigma_block = _get_variable_block(template_text, "$SIGMA")
+
+    @staticmethod
     def check_settings():
         nmfe_path = options.get('nmfePath', None)
         if not nmfe_path:
@@ -136,14 +144,10 @@ class NMEngineAdapter(ModelEngineAdapter):
                       " Only four levels are supported, exiting")
             raise RuntimeError("Are there more than 4 levels of nested tokens?")
 
-        control = match_vars(control, template.tokens, template.var_theta_block, phenotype,
-                             template.last_fixed_theta, "THETA")
-        control = match_vars(control, template.tokens, template.var_omega_block, phenotype,
-                             template.last_fixed_eta, "ETA")
-        control = match_vars(control, template.tokens, template.var_sigma_block, phenotype,
-                             template.last_fixed_eps, "EPS")
-        control = match_vars(control, template.tokens, template.var_sigma_block, phenotype,
-                             template.last_fixed_eps, "ERR")  # check for ERRo as well
+        control = match_vars(control, template.tokens, template.theta_block, phenotype, "THETA")
+        control = match_vars(control, template.tokens, template.omega_block, phenotype, "ETA")
+        control = match_vars(control, template.tokens, template.sigma_block, phenotype, "EPS")
+        control = match_vars(control, template.tokens, template.sigma_block, phenotype, "ERR")
 
         model_code_str = str(model_code.FullBinCode if (options.isGA or options.isPSO) else model_code.IntCode)
 
@@ -541,6 +545,48 @@ def _get_block(start, fcon, fixed=False):
     this_block = [i for i in this_block if i != 0]
 
     return len(this_block)
+
+
+def _not_empty_line(line: str) -> bool:
+    return line and utils.remove_comments(line) != ''
+
+
+def _get_variable_block(template_text, key) -> list:
+    code = _get_full_block(template_text, key)
+
+    lines = list(filter(_not_empty_line, code))
+
+    var_block = []
+
+    # how many $ blocks - assume only 1 (for now??)
+
+    for line in lines:
+        if re.search(r"{.+}|;\s*\w+", line) is not None:
+            var_block.append(line)
+
+    return var_block
+
+
+def _get_full_block(code, key):
+    nkeys = code.count(key)
+    # get the block from NONMEM control/template
+    # e.g., $THETA, even if $THETA is in several sections
+    # were key is $THETA,$OMEGA,$SIGMA
+    block = ""
+    start = 0
+    full_block = []
+
+    for _ in range(nkeys):
+        start = code.find(key, start)
+        end = code.find("$", start + 1)
+        block = block + code[start: end] + '\n'
+        start = end
+        # remove blank lines, and trim
+
+    lines = block.splitlines()
+    full_block.extend(lines)
+
+    return full_block
 
 
 def register():

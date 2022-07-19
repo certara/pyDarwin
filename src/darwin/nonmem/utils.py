@@ -6,7 +6,7 @@ import copy
 from darwin.utils import remove_comments, expand_tokens, get_token_parts
 
 
-def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, last_fixed_var: int, stem: str) -> str:
+def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, stem: str) -> str:
     """
     Parses current control file text, looking for THETA(*) and calculates the appropriate index for that THETA
     (starting with the last_fixed_theta - the largest value used for THETA() in the fixed code)
@@ -22,10 +22,6 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, las
 
     :param phenotype: phenotype for model
     :type phenotype: dict
-
-    :param last_fixed_var: highest value used for variable in fixed code. Fixed values for variables must start with 1
-        and be continuous until the last fixed variable
-    :type last_fixed_var: int
 
     :param stem:
     :type stem: str
@@ -47,12 +43,23 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, las
     for k, v in rand_indices.items():
         # add last fixed parm value to all
         # and put into control file
-        control = control.replace(stem + "(" + k + ")", stem + "(" + str(v + last_fixed_var) + ")")
+        control = control.replace(stem + "(" + k + ")", stem + "(" + str(v) + ")")
 
     return control
 
 
-def _get_var_matches(expanded_block, tokens, full_phenotype, var_type):
+def _get_var_name(row: str, var_type: str):
+    match = re.search(r";\s*(\w+)\s*$", row) \
+            or re.search(r";.*?\b" + var_type + r"\((\w+)\)", row) \
+            or re.search(r";.*?\b" + var_type + r"\s(?:ON|on)\s(\w+)", row)
+
+    if match:
+        return match.group(1)
+
+    return None
+
+
+def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, var_type: str):
     # shouldn't be any THETA(alpha) in expandedTHETABlock, should  be trimmed out
     # get stem and index, look in other tokens in this token set (phenotype)
     # tokens can be ignored here, they are already expanded, just list the alpha indices of each THETA(alpha) in order
@@ -76,6 +83,17 @@ def _get_var_matches(expanded_block, tokens, full_phenotype, var_type):
     for var_row in expanded_block:
         # get all THETA(alpha) indices in other tokens in this token set
         stem, index = get_token_parts(var_row)
+
+        # not from token
+        if not stem:
+            var = _get_var_name(var_row, var_type)
+
+            if var and var not in var_matches:
+                var_matches[var] = var_index
+                var_index += 1
+
+            continue
+
         phenotype = full_phenotype[stem]
         full_token = ""  # assemble full token, except the one in $THETA, to search for THETA(alpha)
 

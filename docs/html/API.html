@@ -298,15 +298,14 @@ NOT YET STABLE
 <span id="downhill"></span><h3>downhill<a class="headerlink" href="#module-darwin.algorithms.run_downhill" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.algorithms.run_downhill.run_downhill">
-<span class="sig-prename descclassname"><span class="pre">darwin.algorithms.run_downhill.</span></span><span class="sig-name descname"><span class="pre">run_downhill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Population.Population" title="darwin.Population.Population"><span class="pre">Population</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.algorithms.run_downhill.run_downhill" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">darwin.algorithms.run_downhill.</span></span><span class="sig-name descname"><span class="pre">run_downhill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Population.Population" title="darwin.Population.Population"><span class="pre">Population</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.algorithms.run_downhill.run_downhill" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the downhill step, with full (2 bit) search if requested,
 arguments a population of full models
 return value is list of length num_niches full models after search 
 if return_all is true, will also return a list of ALL models
 to be used in GP only, to update the distribution, not helpful in other algorithms
 arguments are the current population of models
-and whether to return all models (not implemented, maybe can be used for GP??)
-return is the single best model, the worst models (length num_niches) +/- the entire list of models</p>
+and whether to return all models</p>
 </dd></dl>
 
 </section>
@@ -1029,6 +1028,12 @@ Ignore last value if self_search_omega_bands.</p>
 <span class="sig-name descname"><span class="pre">create_new_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelCode.ModelCode" title="darwin.ModelCode.ModelCode"><span class="pre">ModelCode</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></span><a class="headerlink" href="#darwin.ModelEngineAdapter.ModelEngineAdapter.create_new_model" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.ModelEngineAdapter.ModelEngineAdapter.init_template">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelEngineAdapter.ModelEngineAdapter.init_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform any adapter-specific initialization, e.g. initialize theta/omega/sigma blocks</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py function">
@@ -1052,6 +1057,12 @@ Ignore last value if self_search_omega_bands.</p>
 <dt class="sig sig-object py" id="darwin.nonmem.NMEngineAdapter.NMEngineAdapter.get_engine_name">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_engine_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.get_engine_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.nonmem.NMEngineAdapter.NMEngineAdapter.init_template">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.init_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>perform any adapter-specific initialization, e.g. initialize theta/omega/sigma blocks</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.nonmem.NMEngineAdapter.NMEngineAdapter.check_settings">
@@ -1131,7 +1142,7 @@ By default, key files (.lst, .xml, mod and any $TABLE files are retained).</p>
 <span id="darwin-nonmem-utils-module"></span><h3>darwin.nonmem.utils module<a class="headerlink" href="#module-darwin.nonmem.utils" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.nonmem.utils.match_vars">
-<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">match_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phenotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_fixed_var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.nonmem.utils.match_vars" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">match_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phenotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.nonmem.utils.match_vars" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parses current control file text, looking for THETA(*) and calculates the appropriate index for that THETA
 (starting with the last_fixed_theta - the largest value used for THETA() in the fixed code)</p>
 <dl class="field-list simple">
@@ -1141,8 +1152,6 @@ By default, key files (.lst, .xml, mod and any $TABLE files are retained).</p>
 <li><p><strong>tokens</strong> (<em>dict</em>) – token groups</p></li>
 <li><p><strong>var_block</strong> (<em>str</em>) – variable block</p></li>
 <li><p><strong>phenotype</strong> (<em>dict</em>) – phenotype for model</p></li>
-<li><p><strong>last_fixed_var</strong> (<em>int</em>) – highest value used for variable in fixed code. Fixed values for variables must start with 1
-and be continuous until the last fixed variable</p></li>
 <li><p><strong>stem</strong> (<em>str</em>) – </p></li>
 </ul>
 </dd>
@@ -1156,8 +1165,13 @@ and be continuous until the last fixed variable</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="darwin.nonmem.utils._get_var_name">
+<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_var_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.utils._get_var_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="darwin.nonmem.utils._get_var_matches">
-<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_var_matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expanded_block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_phenotype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.utils._get_var_matches" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_var_matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expanded_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_phenotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.utils._get_var_matches" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">

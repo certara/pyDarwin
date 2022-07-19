@@ -64,7 +64,7 @@ def _get_niches(runs: list) -> list:
     return [_Niche(run) for run in best_runs]
 
 
-def run_downhill(template: Template, pop: Population):  # only return new models - best _in_niches
+def run_downhill(template: Template, pop: Population, return_all: bool = False) -> list:
     """
     Run the downhill step, with full (2 bit) search if requested,
     arguments a population of full models
@@ -72,8 +72,7 @@ def run_downhill(template: Template, pop: Population):  # only return new models
     if return_all is true, will also return a list of ALL models
     to be used in GP only, to update the distribution, not helpful in other algorithms
     arguments are the current population of models
-    and whether to return all models (not implemented, maybe can be used for GP??)
-    return is the single best model, the worst models (length num_niches) +/- the entire list of models
+    and whether to return all models
     """
     this_step = 0
 
@@ -84,6 +83,8 @@ def run_downhill(template: Template, pop: Population):  # only return new models
     worst = get_n_worst_index(options.num_niches, fitnesses)
 
     niches = _get_niches(pop.runs)
+
+    all_runs = []
 
     for this_step in range(100):     # up to 99 steps
         if all([n.done for n in niches]):
@@ -129,6 +130,9 @@ def run_downhill(template: Template, pop: Population):  # only return new models
 
         runs = population.runs
 
+        if return_all:
+            all_runs.extend(runs)
+
         # check, for each niche, whether any in the fitnesses is better
         # if so, that become the source for the next round
         # repeat until there's no better runs
@@ -160,7 +164,9 @@ def run_downhill(template: Template, pop: Population):  # only return new models
                     f" phenotype = {run_for_search.model.phenotype} model Num = {run_for_search.model_num},"
                     f" fitness = {run_for_search.result.fitness}")
 
-        run_for_search = _full_search(template, run_for_search, generation, this_step)
+        run_for_search, runs = _full_search(template, run_for_search, generation, this_step, return_all)
+
+        all_runs.extend(runs)
 
         # fitness should already be added to all_results here, gets added by _full_search after call to run_all GA
         # and only use the fullbest  
@@ -170,6 +176,8 @@ def run_downhill(template: Template, pop: Population):  # only return new models
 
     for i in range(len(niches)):
         pop.runs[worst[i]] = niches[i].best_run
+
+    return all_runs
 
 
 def _change_each_bit(source_models: list, radius: int):  # only need upper triangle, add start row here
@@ -201,7 +209,7 @@ def _change_each_bit(source_models: list, radius: int):  # only need upper trian
     return models, radius
 
 
-def _full_search(model_template: Template, best_pre: ModelRun, base_generation, base_step) -> ModelRun:
+def _full_search(model_template: Template, best_pre: ModelRun, base_generation, base_step, return_all: bool = False):
     """perform 2 bit search (radius should always be 2 bits), will always be called after run_downhill (1 bit search),
     argument is:
     best_pre - base model for search 
@@ -213,6 +221,8 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
     current_best_fitness = best_pre_fitness
     overall_best_run = best_pre
     current_best_model = best_pre.model.model_code.MinBinCode
+
+    all_runs = []
 
     while current_best_fitness < last_best_fitness or this_step == 0:  # run at least once
         full_generation = str(base_generation) + "S" + str(base_step) + "" + str(this_step)
@@ -230,6 +240,9 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
         if not keep_going():
             break
 
+        if return_all:
+            all_runs.extend(population.runs)
+
         best = population.get_best_run()
 
         current_best_fitness = best.result.fitness
@@ -242,4 +255,4 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
 
         this_step += 1
 
-    return overall_best_run
+    return overall_best_run, all_runs

@@ -135,6 +135,8 @@ def run_skopt(model_template: Template) -> ModelRun:
         if not keep_going():
             break
 
+        downhill_runs = []
+
         # run downhill?
         if downhill_period > 0 and generation % downhill_period == 0:
             # pop will have the fitnesses without the niche penalty here
@@ -143,7 +145,7 @@ def run_skopt(model_template: Template) -> ModelRun:
 
             log.message(f"Starting downhill, iteration = {generation}")
 
-            run_downhill(model_template, population)
+            downhill_runs = run_downhill(model_template, population, return_all=True)
 
             if not keep_going():
                 break
@@ -156,6 +158,9 @@ def run_skopt(model_template: Template) -> ModelRun:
 
         opt = opts[0]
         opt.tell(suggested, fitnesses)
+
+        if downhill_runs:
+            opt.tell([r.model.model_code.IntCode for r in downhill_runs], [r.result.fitness for r in downhill_runs])
 
         opts = [opt.copy(random_state=o.rng) for o in opts]
 

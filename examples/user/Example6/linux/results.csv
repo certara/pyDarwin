@@ -1,0 +1,641 @@
+Run Directory,Fitness,Model,ofv,success,covar,correlation #,ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages
+/home/vnazarov/pydarwin/Example6/temp/0/37,99999999.000000,20101002011011420,99999999,False,False,False,13,7,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/38,99999999.000000,20020102010100221,99999999,False,False,False,13,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/14,99999999.000000,20021100001011301,99999999,False,False,False,12,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/3,99999999.000000,20000112001101300,99999999,False,False,False,12,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/40,99999999.000000,20000111100011420,99999999,False,False,False,13,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/20,99999999.000000,20020000010001121,99999999,False,False,False,11,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/22,99999999.000000,20111102001110211,99999999,False,False,False,13,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/12,99999999.000000,21120102100110200,99999999,False,False,False,13,4,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/29,99999999.000000,21020111100111320,99999999,False,False,False,15,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/11,99999999.000000,21010100110010221,99999999,False,False,False,14,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/1,99999999.000000,21010012001100000,99999999,False,False,False,13,3,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/23,99999999.000000,21011002000111101,99999999,False,False,False,12,3,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/36,99999999.000000,20110102100000020,99999999,False,False,False,13,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/21,99999999.000000,20100012110000311,99999999,False,False,False,12,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/16,99999999.000000,21020101001010121,99999999,False,False,False,14,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/32,99999999.000000,21020002011111420,99999999,False,False,False,14,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/2,99999999.000000,21011002101101021,99999999,False,False,False,15,3,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/15,99999999.000000,21100101010110211,99999999,False,False,False,12,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/27,99999999.000000,20111111000000220,99999999,False,False,False,14,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/9,99999999.000000,20110102000001421,99999999,False,False,False,12,8,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/25,99999999.000000,21100002011010220,99999999,False,False,False,13,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/13,99999999.000000,21001101000110320,99999999,False,False,False,13,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/24,99999999.000000,21110011101011421,99999999,False,False,False,15,7,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/30,99999999.000000,21101111111111211,99999999,False,False,False,16,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/34,99999999.000000,21110002101000321,99999999,False,False,False,14,7,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/5,99999999.000000,00020112000001421,99999999,False,False,False,9,7,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/7,99999999.000000,00021000111000201,99999999,False,False,False,9,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/53,99999999.000000,20010010010011401,99999999,False,False,False,11,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/60,99999999.000000,20120102110111400,99999999,False,False,False,13,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/45,99999999.000000,21021112000101211,99999999,False,False,False,14,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/54,99999999.000000,20120112001010420,99999999,False,False,False,14,7,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/57,99999999.000000,21110000011110420,99999999,False,False,False,13,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/58,99999999.000000,21020012000010321,99999999,False,False,False,13,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/51,99999999.000000,21111012001010220,99999999,False,False,False,15,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/56,99999999.000000,20020102010000411,99999999,False,False,False,12,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/63,99999999.000000,20110001111111320,99999999,False,False,False,14,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/49,99999999.000000,21010010101000401,99999999,False,False,False,13,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/61,99999999.000000,21121112000110321,99999999,False,False,False,15,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/47,99999999.000000,21010112101001120,99999999,False,False,False,16,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/43,99999999.000000,21001010110001321,99999999,False,False,False,14,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/67,99999999.000000,21011101010111321,99999999,False,False,False,15,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/68,99999999.000000,20010002001101411,99999999,False,False,False,11,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/72,99999999.000000,21001002101101210,99999999,False,False,False,13,4,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/77,99999999.000000,20001002111100120,99999999,False,False,False,14,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/70,99999999.000000,21021100011111421,99999999,False,False,False,15,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/80,99999999.000000,20020102100101220,99999999,False,False,False,13,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/75,99999999.000000,21101012001100310,99999999,False,False,False,13,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/74,99999999.000000,21120110100000200,99999999,False,False,False,13,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/79,99999999.000000,21021112110001321,99999999,False,False,False,17,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/52,18001.554800,00001102100110211,17481.554799910184,False,False,False,8,3,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/76,99999999.000000,10110102110001211,99999999,False,False,False,11,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/4,99999999.000000,00120101101100401,99999999,False,False,False,9,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/46,10942.476298,01101000010101211,10822.476287945587,True,True,True,6,5,1,914.5868795399504,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/39,99999999.000000,10021112110000010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/28,99999999.000000,01000112011100221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/33,99999999.000000,11021010110001221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/10,99999999.000000,01020012011000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/35,99999999.000000,11021112101000401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/19,99999999.000000,00001102001000420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/6,99999999.000000,01000012100001221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/8,99999999.000000,11001110010110120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/26,99999999.000000,10001100100110420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/31,99999999.000000,11111000110000310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/18,99999999.000000,10110102000000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/17,99999999.000000,11021101010000021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/66,9997.384560,00020111010111210,9757.38456015383,False,True,True,9,3,2,7.010922949711609,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/78,19102.753210,01121100110101221,18542.753200258143,False,False,False,10,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/50,9386.408873,00100012100011300,9236.408872735847,True,True,True,7,6,2,478646.4682688309,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/64,11456.297820,00021101101111421,10886.297820095797,False,False,False,11,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/44,8627.324435,10110002011111420,8437.324434820704,True,True,True,11,6,2,97.07897606265716,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/71,8687.295601,11000010100011210,8437.295600922731,False,True,True,9,4,2,13.724160010392643,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/65,10017.810343,01020012001011420,9747.810333269672,False,True,True,9,6,2,48943.20275510647,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/62,99999999.000000,01121001010001111,99999999,False,False,False,8,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/69,8658.621542,10100001101010110,8398.621541968003,False,True,True,9,5,2,43782.43342945798,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/42,99999999.000000,00121012010001201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/41,99999999.000000,11021011100110300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/48,99999999.000000,00001112111000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/55,99999999.000000,11001011111101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/59,99999999.000000,10111012111001220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/0/73,8727.034866,10021002111010220,8437.03486585731,False,True,True,13,4,2,15.007725819956127,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/44,8627.324435,10110002011111420,8437.324434820704,True,True,True,11,6,2,97.07897606265716,0,0.0,From NM_0_44: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/69,8658.621542,10100001101010110,8398.621541968003,False,True,True,9,5,2,43782.43342945798,0,0.0,From NM_0_69: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/0/71,8687.295601,11000010100011210,8437.295600922731,False,True,True,9,4,2,13.724160010392643,0,0.0,From NM_0_71: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/73,8727.034866,10021002111010220,8437.03486585731,False,True,True,13,4,2,15.007725819956127,0,0.0,From NM_0_73: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/19,99999999.000000,20110012001100001,99999999,False,False,False,12,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/6,99999999.000000,20000002000100321,99999999,False,False,False,10,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/8,99999999.000000,20100012110101401,99999999,False,False,False,12,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/33,99999999.000000,20111002011011020,99999999,False,False,False,14,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/16,99999999.000000,20010001111011301,99999999,False,False,False,13,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/23,99999999.000000,21110102110011211,99999999,False,False,False,14,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/35,99999999.000000,21111012001011011,99999999,False,False,False,14,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/42,99999999.000000,20001000110000211,99999999,False,False,False,11,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/31,99999999.000000,21001010100110211,99999999,False,False,False,12,3,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/15,99999999.000000,21011101010111320,99999999,False,False,False,15,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/9,99999999.000000,11000012100110211,99999999,False,False,False,10,3,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/7,99999999.000000,21001002001000311,99999999,False,False,False,12,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/34,99999999.000000,21001001001110420,99999999,False,False,False,13,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/39,99999999.000000,21101110010110120,99999999,False,False,False,14,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/27,99999999.000000,21011000111000200,99999999,False,False,False,14,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/5,99999999.000000,21120010111000200,99999999,False,False,False,14,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/21,99999999.000000,21011111101000320,99999999,False,False,False,17,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/11,99999999.000000,21110112111000320,99999999,False,False,False,17,7,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/37,99999999.000000,10020112010001121,99999999,False,False,False,12,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/25,99999999.000000,11021000000110321,99999999,False,False,False,10,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/48,99999999.000000,20120012001100000,99999999,False,False,False,12,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/50,99999999.000000,21010100110010211,99999999,False,False,False,13,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/57,99999999.000000,21020101100111220,99999999,False,False,False,14,3,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/45,99999999.000000,21021112110011310,99999999,False,False,False,16,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/51,99999999.000000,10000102000010321,99999999,False,False,False,9,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/60,99999999.000000,21001001010110211,99999999,False,False,False,12,3,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/53,99999999.000000,21020101000110320,99999999,False,False,False,13,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/47,99999999.000000,21010112001010410,99999999,False,False,False,14,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/46,99999999.000000,21101012101100321,99999999,False,False,False,15,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/56,99999999.000000,21020010110001410,99999999,False,False,False,13,7,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/59,99999999.000000,21100101000110320,99999999,False,False,False,12,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/58,99999999.000000,21100110001010121,99999999,False,False,False,13,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/52,99999999.000000,21020012000000310,99999999,False,False,False,12,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/63,99999999.000000,20020000010101121,99999999,False,False,False,11,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/64,99999999.000000,21021112000110321,99999999,False,False,False,15,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/13,99999999.000000,11120010000011121,99999999,False,False,False,10,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/67,99999999.000000,20021112100011300,99999999,False,False,False,14,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/74,99999999.000000,20111102100101021,99999999,False,False,False,14,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/69,99999999.000000,20020110100011210,99999999,False,False,False,12,4,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/71,99999999.000000,21111102011101201,99999999,False,False,False,15,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/20,9886.960094,01101000010111210,9766.96008446578,True,True,True,6,4,2,3.2365256628298473,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/66,99999999.000000,21010112001001421,99999999,False,False,False,15,7,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/77,99999999.000000,21020012000010401,99999999,False,False,False,12,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/75,99999999.000000,21010012100011300,99999999,False,False,False,13,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/73,99999999.000000,21000011110000311,99999999,False,False,False,13,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/79,99999999.000000,21001000000101220,99999999,False,False,False,11,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/10,10163.098578,00001100000011210,9743.098578112045,True,False,False,6,4,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/17,16942.128619,10011112110001211,16352.128618893747,False,False,False,13,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/68,99999999.000000,00100012101111401,99999999,False,False,False,8,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/30,99999999.000000,10100012011100220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/36,99999999.000000,10120010110000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/44,99999999.000000,10110010100011210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/29,99999999.000000,01010102110001211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/32,99999999.000000,00001102111111201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/14,99999999.000000,01121011100110400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/43,99999999.000000,11010002011111320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/12,99999999.000000,00001111100101320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/22,99999999.000000,00011112110001120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/24,99999999.000000,10011110000101221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/18,99999999.000000,11111112110100320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/41,99999999.000000,00020100100101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/38,99999999.000000,00020000100001421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/26,99999999.000000,00021101101111400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/40,99999999.000000,11001002011001420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/28,99999999.000000,10120001000111321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/55,9883.726664,00101000100010020,9753.72666404906,True,True,True,7,4,2,598.9408540448026,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/65,14941.164223,00020110111000311,14371.164222816049,False,False,False,10,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/70,8612.654078,11000111010111200,8452.654078329564,True,True,True,11,3,2,620.2465283616714,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/72,10629.572988,00121012001110201,10489.572988045624,True,True,True,9,4,1,3.832888650148899,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/80,9912.253189,00001112001010410,9742.25318884138,True,True,True,9,6,2,1.4980972458364174e+16,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/62,8655.101999,10110102000010110,8395.101998549744,False,True,True,9,5,2,159142.43924258903,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/49,99999999.000000,01020012111000421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/54,99999999.000000,11021011101010120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/1/61,8678.121254,10120001101010120,8398.121253982967,False,True,True,11,5,2,5898.826004914547,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/78,8657.114838,10110102101001020,8367.114837861873,False,True,True,12,5,2,314.45291532050834,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/76,9760.547192,10100010101000401,9580.547192106056,True,True,True,9,8,1,460535.6876914816,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/70,8612.654078,11000111010111200,8452.654078329564,True,True,True,11,3,2,620.2465283616714,0,0.0,From NM_1_70: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/0/44,8627.324435,10110002011111420,8437.324434820704,True,True,True,11,6,2,97.07897606265716,0,0.0,From NM_0_44: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/62,8655.101999,10110102000010110,8395.101998549744,False,True,True,9,5,2,159142.43924258903,0,0.0,From NM_1_62: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/1/78,8657.114838,10110102101001020,8367.114837861873,False,True,True,12,5,2,314.45291532050834,0,0.0,From NM_1_78: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/17,99999999.000000,20111102011101201,99999999,False,False,False,14,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/7,99999999.000000,21000011111111201,99999999,False,False,False,14,3,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/19,99999999.000000,20010102101111120,99999999,False,False,False,14,3,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/13,99999999.000000,21111112001111020,99999999,False,False,False,16,3,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/27,99999999.000000,20121011110111420,99999999,False,False,False,15,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/43,99999999.000000,21111102011111200,99999999,False,False,False,15,4,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/31,99999999.000000,21010012100111310,99999999,False,False,False,13,4,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/18,99999999.000000,21001011100110201,99999999,False,False,False,13,3,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/33,99999999.000000,20120002101001301,99999999,False,False,False,12,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/34,99999999.000000,21111112011110120,99999999,False,False,False,17,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/15,99999999.000000,21111002001110301,99999999,False,False,False,13,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/12,99999999.000000,21021011100010410,99999999,False,False,False,14,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/26,99999999.000000,21110012111110211,99999999,False,False,False,15,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/5,99999999.000000,20001000101001020,99999999,False,False,False,12,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/11,99999999.000000,21010112001001210,99999999,False,False,False,14,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/41,99999999.000000,21011002011000420,99999999,False,False,False,15,7,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/29,99999999.000000,21110112101111401,99999999,False,False,False,15,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/40,99999999.000000,21111012001110120,99999999,False,False,False,15,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/44,99999999.000000,21020010100001420,99999999,False,False,False,13,7,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/25,99999999.000000,21120102100001320,99999999,False,False,False,14,7,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/35,99999999.000000,00120100110111421,99999999,False,False,False,9,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/22,99999999.000000,11020011111011410,99999999,False,False,False,13,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/61,99999999.000000,20000112101100321,99999999,False,False,False,14,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/47,99999999.000000,20101112001010310,99999999,False,False,False,13,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/49,99999999.000000,21010101101101320,99999999,False,False,False,15,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/55,99999999.000000,21111102011111201,99999999,False,False,False,15,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/62,99999999.000000,21101012001010410,99999999,False,False,False,13,7,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/45,99999999.000000,21120100111001311,99999999,False,False,False,14,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/66,99999999.000000,20100010000101221,99999999,False,False,False,10,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/65,99999999.000000,10011111110000111,99999999,False,False,False,13,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/8,13141.948628,00001112110000011,12591.948628486685,False,False,False,10,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/72,99999999.000000,21011111100011320,99999999,False,False,False,16,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/46,12780.029109,00000012100110321,12250.029109224433,False,False,False,8,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/20,99999999.000000,01010002111111301,99999999,False,False,False,9,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/10,99999999.000000,11021002111001220,99999999,False,False,False,14,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/30,99999999.000000,00100012111001320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/32,99999999.000000,11110102010010100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/39,99999999.000000,11100110010011020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/23,99999999.000000,10000102101010110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/9,99999999.000000,00111112010010220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/42,99999999.000000,11011001111100210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/14,99999999.000000,00010102011101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/24,99999999.000000,10100011000110020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/16,99999999.000000,00121012010101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/36,99999999.000000,00100012101000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/37,99999999.000000,00120001000100021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/38,99999999.000000,11120010000001321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/21,99999999.000000,01121111100110400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/28,99999999.000000,10110002110000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/6,99999999.000000,10110100110000211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/52,13118.065865,10010010001010421,12548.065864982951,False,False,False,10,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/79,99999999.000000,20001000110000400,99999999,False,False,False,11,7,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/80,99999999.000000,20020012000010221,99999999,False,False,False,12,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/75,13524.531367,11020111010010121,12944.531367083342,False,False,False,13,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/67,10558.671962,00001111100101401,10398.671962487482,True,True,True,9,6,1,428.5441929317651,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/48,99999999.000000,00121112000011300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/50,99999999.000000,00101110110010211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/51,99999999.000000,10000010100011210,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/53,99999999.000000,10101012011101020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/54,99999999.000000,10110102101000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/56,99999999.000000,00121012101101201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/57,99999999.000000,10001000100010020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/58,99999999.000000,00101111000101320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/59,99999999.000000,10110002000010110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/60,99999999.000000,01011112110001120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/63,99999999.000000,00021002111010410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/74,8563.237175,10020112000100000,8413.237174702605,True,True,True,10,3,2,616.2600431705536,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/70,10038.849675,00021102001110420,9768.849675392898,False,True,True,10,5,2,6.888250920743462,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/64,99999999.000000,01101000011101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/2/68,12747.849102,01010012110001211,12197.849092120465,False,False,False,9,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/76,8550.856780,10100002101111200,8400.85678020831,True,True,True,9,4,2,62.96569263560431,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/69,8571.086160,10110001100111400,8401.086159916049,True,True,True,9,6,2,64.71814137781311,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/71,10003.469449,00001100001000320,9743.469449330885,False,True,True,8,6,2,291243.4456523423,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/78,8729.549764,10101002011111420,8439.549763590469,False,True,True,11,6,2,15.843396883557258,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/77,8668.251263,10111000101010020,8398.251263219043,False,True,True,11,4,2,107.74957206465857,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/73,12355.938255,01120102010001121,12095.938245467127,False,True,True,9,6,1,176915.38402663157,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/76,8550.856780,10100002101111200,8400.85678020831,True,True,True,9,4,2,62.96569263560431,0,0.0,From NM_2_76: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/74,8563.237175,10020112000100000,8413.237174702605,True,True,True,10,3,2,616.2600431705536,0,0.0,From NM_2_74: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/69,8571.086160,10110001100111400,8401.086159916049,True,True,True,9,6,2,64.71814137781311,0,0.0,From NM_2_69: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/1/70,8612.654078,11000111010111200,8452.654078329564,True,True,True,11,3,2,620.2465283616714,0,0.0,From NM_1_70: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/49,99999999.000000,21010101101101320,99999999,False,False,False,15,5,2,99999999,0,0.0,From NM_2_49: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/12,99999999.000000,20011012010010220,99999999,False,False,False,14,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/42,99999999.000000,20020011111011410,99999999,False,False,False,14,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/14,99999999.000000,20100110010011201,99999999,False,False,False,11,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/24,99999999.000000,20120000010011020,99999999,False,False,False,11,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/78,8729.549764,10101002011111420,8439.549763590469,False,True,True,11,6,2,15.843396883557258,0,0.0,From NM_2_78: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/6,99999999.000000,20111101101101320,99999999,False,False,False,15,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/8,99999999.000000,20000000110000401,99999999,False,False,False,10,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/21,99999999.000000,20110100100000210,99999999,False,False,False,11,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/5,99999999.000000,21010010011100201,99999999,False,False,False,13,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/29,99999999.000000,21110012101110210,99999999,False,False,False,14,4,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/45,99999999.000000,21021110001010410,99999999,False,False,False,14,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/15,99999999.000000,21111112110011220,99999999,False,False,False,17,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/44,99999999.000000,21111002111101101,99999999,False,False,False,15,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/30,99999999.000000,21021011100010411,99999999,False,False,False,14,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/32,99999999.000000,21111002001110110,99999999,False,False,False,13,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/37,99999999.000000,21020112000110321,99999999,False,False,False,14,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/40,99999999.000000,21110012111101211,99999999,False,False,False,15,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/7,99999999.000000,21120002101001011,99999999,False,False,False,13,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/34,99999999.000000,21121112100000320,99999999,False,False,False,16,7,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/39,99999999.000000,21010012111000211,99999999,False,False,False,15,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/33,99999999.000000,21110112101111411,99999999,False,False,False,15,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/31,99999999.000000,10110102000010121,99999999,False,False,False,10,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/28,99999999.000000,21121100001000321,99999999,False,False,False,14,7,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/52,99999999.000000,20020012011101201,99999999,False,False,False,13,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/46,99999999.000000,20101112010011121,99999999,False,False,False,14,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/54,99999999.000000,20001001101001220,99999999,False,False,False,13,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/51,99999999.000000,00010112000010221,99999999,False,False,False,9,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/41,99999999.000000,10001112101100321,99999999,False,False,False,13,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/63,99999999.000000,10110010001011221,99999999,False,False,False,10,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/73,99999999.000000,20111102010101020,99999999,False,False,False,14,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/58,10476.295330,10001002011111220,9916.295329988005,False,False,False,11,3,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/68,99999999.000000,10000002100110321,99999999,False,False,False,9,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/59,99999999.000000,01120102010011421,99999999,False,False,False,9,7,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/16,99999999.000000,01010002111111101,99999999,False,False,False,9,3,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/26,99999999.000000,21110012111110211,99999999,False,False,False,15,4,1,99999999,0,0.0,From NM_2_26: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/62,99999999.000000,10101012101000311,99999999,False,False,False,11,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/23,99999999.000000,11101012101011301,99999999,False,False,False,12,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/75,99999999.000000,10100102000010111,99999999,False,False,False,8,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/61,12109.732065,00100102001011111,11579.732065007192,False,False,False,7,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/78,99999999.000000,20010102110001221,99999999,False,False,False,14,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/20,99999999.000000,10100002100100020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/27,99999999.000000,00000102100001320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/9,99999999.000000,10021111110000111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/43,99999999.000000,11110002101110201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/22,99999999.000000,01120102000001120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/25,99999999.000000,00101000011101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/38,99999999.000000,10000010100011420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/26,99999999.000000,11120112000110211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/13,99999999.000000,00010102011101110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/11,99999999.000000,10110102101110110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/17,99999999.000000,10120002001011200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/35,99999999.000000,10020112000100100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/10,99999999.000000,00001112110000321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/19,99999999.000000,10110011011110200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/18,99999999.000000,11021002111101301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/70,10021.722540,10020112000100101,9871.72254025403,True,True,True,10,4,1,19.129653335318327,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/57,11281.230256,00100002101000411,10821.230255623579,True,False,False,7,8,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/47,99999999.000000,00101011001101111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/48,99999999.000000,10021101110000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/50,99999999.000000,01111012011110120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/53,99999999.000000,00110102100001020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/55,99999999.000000,11100101101111200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/56,99999999.000000,10100110010011020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/65,8697.531050,10110001101111110,8437.531049951394,False,True,True,10,4,2,13.514788054531774,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/60,99999999.000000,10010010101001121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/64,99999999.000000,10121110000011300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/66,99999999.000000,10110102100001400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/67,99999999.000000,00111112101001021,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/76,10951.673020,00001012110000011,10811.673019861853,True,True,True,9,4,1,120.56661267645879,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/74,17077.780508,10111102101001201,16487.780507961914,False,False,False,12,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/69,8603.987701,11000111010110220,8433.987701271628,True,True,True,12,3,2,979.8196961920388,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/71,9371.001729,00110100110000200,9211.001728611147,True,True,True,8,6,2,869.2621477243499,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/80,8725.435323,11110001011110420,8425.43532273414,False,True,True,12,6,2,108286.44610736144,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/3/72,99999999.000000,00021102001110421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/3/77,10595.062561,01120002101101301,10445.062550670798,True,True,True,8,6,1,1.0,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/76,8550.856780,10100002101111200,8400.85678020831,True,True,True,9,4,2,62.96569263560431,0,0.0,From NM_2_76: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/74,8563.237175,10020112000100000,8413.237174702605,True,True,True,10,3,2,616.2600431705536,0,0.0,From NM_2_74: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/69,8571.086160,10110001100111400,8401.086159916049,True,True,True,9,6,2,64.71814137781311,0,0.0,From NM_2_69: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/3/69,8603.987701,11000111010110220,8433.987701271628,True,True,True,12,3,2,979.8196961920388,0,0.0,From NM_3_69: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/9,99999999.000000,20020011111000321,99999999,False,False,False,15,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/33,99999999.000000,20110001101111110,99999999,False,False,False,12,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/38,99999999.000000,20120011011110200,99999999,False,False,False,13,4,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/19,99999999.000000,20120100110001201,99999999,False,False,False,12,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/12,99999999.000000,20000000100001421,99999999,False,False,False,10,7,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/25,99999999.000000,21021011010010420,99999999,False,False,False,15,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/39,99999999.000000,21011010001010321,99999999,False,False,False,14,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/23,99999999.000000,21111102010101320,99999999,False,False,False,15,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/42,99999999.000000,20121001000001400,99999999,False,False,False,11,8,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/40,99999999.000000,21120012111000210,99999999,False,False,False,15,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/11,99999999.000000,21100002110000401,99999999,False,False,False,12,8,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/44,99999999.000000,21121000101001320,99999999,False,False,False,14,7,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/37,99999999.000000,10110002000001401,99999999,False,False,False,8,8,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/7,99999999.000000,10101102001011111,99999999,False,False,False,10,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/15,99999999.000000,11110110010000411,99999999,False,False,False,11,8,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/27,99999999.000000,10020012000110211,99999999,False,False,False,9,3,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/45,99999999.000000,20120101110000211,99999999,False,False,False,13,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/49,99999999.000000,20020012110000001,99999999,False,False,False,13,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/46,99999999.000000,21111112101111400,99999999,False,False,False,16,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/56,99999999.000000,20020112000100020,99999999,False,False,False,13,3,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/58,99999999.000000,20121112110100420,99999999,False,False,False,16,7,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/43,99999999.000000,00000002100000421,99999999,False,False,False,7,7,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/54,13218.063179,00001112000110221,12688.063178593347,False,False,False,9,3,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/17,99999999.000000,10001002011101220,99999999,False,False,False,11,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/59,99999999.000000,21121101100001111,99999999,False,False,False,14,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/60,99999999.000000,20001000001000321,99999999,False,False,False,11,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/63,99999999.000000,20111111011110201,99999999,False,False,False,15,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/67,99999999.000000,20100012111000211,99999999,False,False,False,13,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/68,99999999.000000,21101001001001121,99999999,False,False,False,13,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/70,99999999.000000,20110111100000220,99999999,False,False,False,14,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/71,99999999.000000,21011002001100120,99999999,False,False,False,14,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/62,15427.578034,11000112010110321,14857.578034255623,False,False,False,12,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/21,99999999.000000,10000012100000001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/32,99999999.000000,00110102100110400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/31,99999999.000000,10011001100001000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/24,99999999.000000,00000002100001220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/8,99999999.000000,01021100001110421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/5,99999999.000000,00110112101100320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/28,99999999.000000,11121101010001310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/13,99999999.000000,11110102100000300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/20,99999999.000000,01111002001110100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/41,99999999.000000,10110112100000320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/18,99999999.000000,01110102100011200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/10,99999999.000000,10011102101111320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/29,99999999.000000,10100102001111420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/36,99999999.000000,10020111100001320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/14,99999999.000000,10121010101011401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/35,99999999.000000,00000102000100101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/16,99999999.000000,00100002101010020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/34,99999999.000000,00100002101000421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/30,99999999.000000,10101002011111421,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/26,99999999.000000,10001002011111211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/6,99999999.000000,10001100110000200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/22,99999999.000000,01100102100000020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/50,10664.187258,01000012011101201,10534.18724848217,True,True,True,8,4,1,4.90423303760472,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/74,99999999.000000,20121002111101101,99999999,False,False,False,14,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/73,99999999.000000,21101112010011111,99999999,False,False,False,14,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/76,99999999.000000,20101002011100201,99999999,False,False,False,12,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/65,13147.109173,01001002101000411,12587.109162657545,False,False,False,8,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/52,10971.459394,00110100101011021,10831.459393753252,True,True,True,9,4,1,1055.5453075613714,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/77,99999999.000000,21121112100000321,99999999,False,False,False,16,7,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/55,8636.411517,10101002011111400,8456.411517014216,True,True,True,10,6,2,631.9284715683189,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/57,8567.770526,11111001011111000,8397.770525711983,True,True,True,12,3,2,64.5002897393088,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/48,9391.034796,00101110100011300,9231.034796368685,True,True,True,8,6,2,75266.39497713643,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/47,99999999.000000,10021102010111221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/51,99999999.000000,11121000110000200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/53,99999999.000000,11120102010001120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/66,9682.407957,00100101010000400,9212.407957075506,True,False,False,7,8,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/64,99999999.000000,11021002101011301,99999999,False,False,False,12,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/75,8595.949287,10010011001101110,8435.94928720227,True,True,True,10,4,2,17.55700896850738,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/72,8640.424388,10100102100100010,8390.424388237041,False,True,True,9,4,2,2470.813205359533,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/61,99999999.000000,11000002100010220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/4/80,9959.165540,11120001101001201,9779.16553953941,True,True,True,11,6,1,1450.0527164478956,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/4/79,8683.968961,10111102101011110,8393.96896115321,False,True,True,12,5,2,467217.7739655515,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/78,8589.354486,10001112101100320,8389.354486217333,True,True,True,13,5,2,13417.848597917566,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/69,9024.537982,11121012011011420,8394.537982071679,False,False,False,14,7,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/76,8550.856780,10100002101111200,8400.85678020831,True,True,True,9,4,2,62.96569263560431,0,0.0,From NM_2_76: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/69,8571.086160,10110001100111400,8401.086159916049,True,True,True,9,6,2,64.71814137781311,0,0.0,From NM_2_69: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/74,8563.237175,10020112000100000,8413.237174702605,True,True,True,10,3,2,616.2600431705536,0,0.0,From NM_2_74: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/57,8567.770526,11111001011111000,8397.770525711983,True,True,True,12,3,2,64.5002897393088,0,0.0,From NM_4_57: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/4/6,99999999.000000,10001100110000200,99999999,False,False,False,0,0,0,99999999,0,0,From NM_4_6: 
+/home/vnazarov/pydarwin/Example6/temp/4/5,99999999.000000,00110112101100320,99999999,False,False,False,0,0,0,99999999,0,0,From NM_4_5: 
+/home/vnazarov/pydarwin/Example6/temp/5/15,99999999.000000,20021102011011320,99999999,False,False,False,15,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/10,99999999.000000,20011112001011110,99999999,False,False,False,14,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/42,99999999.000000,20120002101110200,99999999,False,False,False,12,4,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/18,99999999.000000,20001000001010320,99999999,False,False,False,11,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/31,99999999.000000,20020012101100320,99999999,False,False,False,14,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/6,99999999.000000,20001000001001321,99999999,False,False,False,11,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/8,99999999.000000,21120001101110211,99999999,False,False,False,13,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/12,99999999.000000,21120012101111420,99999999,False,False,False,15,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/22,99999999.000000,21121112101100320,99999999,False,False,False,17,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/44,99999999.000000,10000002101000421,99999999,False,False,False,10,7,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/32,99999999.000000,10001111111100321,99999999,False,False,False,14,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/16,99999999.000000,11121012010111221,99999999,False,False,False,13,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/48,99999999.000000,20100000100001210,99999999,False,False,False,9,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/53,99999999.000000,21120012110100121,99999999,False,False,False,15,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/47,99999999.000000,21120012011000221,99999999,False,False,False,15,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/55,99999999.000000,21110112100111221,99999999,False,False,False,15,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/13,99999999.000000,10120011011111201,99999999,False,False,False,11,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/58,99999999.000000,10121002100111301,99999999,False,False,False,10,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/52,99999999.000000,10100102100100001,99999999,False,False,False,9,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/59,99999999.000000,20020112001010321,99999999,False,False,False,14,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/41,99999999.000000,01120011111000201,99999999,False,False,False,10,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/60,99999999.000000,21011010100100020,99999999,False,False,False,14,3,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/64,99999999.000000,20121000110001200,99999999,False,False,False,12,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/63,99999999.000000,11121000011100221,99999999,False,False,False,12,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/51,17264.015722,11000012100000011,16714.015721877928,False,False,False,10,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/65,99999999.000000,10020102101100301,99999999,False,False,False,11,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/66,99999999.000000,20110002111101320,99999999,False,False,False,14,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/67,99999999.000000,10101002011100201,99999999,False,False,False,10,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/68,99999999.000000,20100012111001401,99999999,False,False,False,13,8,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/30,99999999.000000,00120112100100110,99999999,False,False,False,9,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/40,99999999.000000,00110112101110411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/26,99999999.000000,10021002100111400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/11,99999999.000000,10011002110000211,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/29,99999999.000000,10111111011110101,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/20,99999999.000000,10121102010001310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/38,99999999.000000,10111112000001010,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/25,99999999.000000,10010011101111310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/33,99999999.000000,01121002001110100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/34,99999999.000000,11100112010000411,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/5,99999999.000000,11001012111100301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/17,99999999.000000,10111001100001001,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/28,99999999.000000,10121001100010400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/7,99999999.000000,11120102010001221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/46,99999999.000000,11020111010111120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/19,99999999.000000,10120001101001201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/37,99999999.000000,10120102101011100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/36,99999999.000000,11100002100010220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/21,99999999.000000,00110101100001011,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/45,99999999.000000,11001002100010220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/23,99999999.000000,01021102010111221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/35,99999999.000000,10101110000010300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/39,99999999.000000,01011110001100320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/9,99999999.000000,00120102110001100,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/43,99999999.000000,00111102101111320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/24,99999999.000000,00101110101011300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/70,99999999.000000,20101100001110421,99999999,False,False,False,12,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/72,99999999.000000,01120102100001201,99999999,False,False,False,8,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/73,99999999.000000,11000102011101201,99999999,False,False,False,11,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/75,99999999.000000,11020012000111411,99999999,False,False,False,10,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/79,99999999.000000,20010011001101110,99999999,False,False,False,12,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/78,99999999.000000,21110102100011200,99999999,False,False,False,13,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/74,99999999.000000,11000012010110321,99999999,False,False,False,11,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/80,13263.097701,10020010111000321,12673.097700784063,False,False,False,12,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/69,11399.383573,01000012111010221,11249.383563201067,True,True,True,10,4,1,91.33255241009275,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/76,10727.510836,00120100100110301,10497.510836222991,False,True,True,7,5,1,6.781706001607058,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/49,99999999.000000,00111012011010420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/50,99999999.000000,11120100101111121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/54,99999999.000000,00001112011100410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/5/56,8509.118492,10110002000001200,8349.118491522322,True,True,True,8,6,2,351.11624075901574,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/62,9690.138482,00120101010000400,9210.138481922528,True,False,False,8,8,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/77,10975.058705,01110011010000411,10805.05869523699,True,True,True,8,8,1,4.755725948812894,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/57,8561.507039,11020100101100020,8391.507039459582,True,True,True,12,3,2,9422449.298045957,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/61,10002.456872,00110002000001320,9742.456871850993,False,True,True,7,7,2,3124.9981574757194,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/71,10008.228143,01000012011000120,9748.228132904853,False,True,True,9,5,2,4.14890804938014,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/56,8509.118492,10110002000001200,8349.118491522322,True,True,True,8,6,2,351.11624075901574,0,0.0,From NM_5_56: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/76,8550.856780,10100002101111200,8400.85678020831,True,True,True,9,4,2,62.96569263560431,0,0.0,From NM_2_76: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/57,8561.507039,11020100101100020,8391.507039459582,True,True,True,12,3,2,9422449.298045957,0,0.0,From NM_5_57: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/2/74,8563.237175,10020112000100000,8413.237174702605,True,True,True,10,3,2,616.2600431705536,0,0.0,From NM_2_74: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/7,99999999.000000,20100000000011220,99999999,False,False,False,9,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/35,99999999.000000,20121000110100200,99999999,False,False,False,12,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/27,99999999.000000,20020112000100000,99999999,False,False,False,12,3,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/33,99999999.000000,20020000101001301,99999999,False,False,False,11,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/20,99999999.000000,20010012101000011,99999999,False,False,False,13,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/8,99999999.000000,20110100100110321,99999999,False,False,False,12,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/39,99999999.000000,20020112001100001,99999999,False,False,False,13,3,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/30,99999999.000000,21111100011110201,99999999,False,False,False,14,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/34,99999999.000000,20101002111000321,99999999,False,False,False,14,7,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/26,99999999.000000,20121012010111221,99999999,False,False,False,14,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/32,99999999.000000,21011010111010301,99999999,False,False,False,15,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/11,99999999.000000,21121012100001401,99999999,False,False,False,14,8,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/10,99999999.000000,21000012101000120,99999999,False,False,False,14,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/15,99999999.000000,21121000010000410,99999999,False,False,False,12,8,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/41,99999999.000000,21120012011000220,99999999,False,False,False,15,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/17,99999999.000000,10020110100100321,99999999,False,False,False,11,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/9,99999999.000000,10020100111011211,99999999,False,False,False,11,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/25,99999999.000000,11120001111000201,99999999,False,False,False,12,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/44,99999999.000000,10121012100000221,99999999,False,False,False,12,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/43,10668.196076,01000001010111201,10568.19606619712,True,True,True,6,3,1,5.114753797005839,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/47,99999999.000000,20020101110000410,99999999,False,False,False,13,7,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/49,99999999.000000,20101100001100301,99999999,False,False,False,11,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/46,99999999.000000,21110102100011101,99999999,False,False,False,13,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/45,99999999.000000,21121111111100320,99999999,False,False,False,18,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/54,99999999.000000,20010011001000321,99999999,False,False,False,13,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/55,99999999.000000,21121110001011310,99999999,False,False,False,14,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/58,99999999.000000,10011002111101201,99999999,False,False,False,12,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/50,99999999.000000,21001012101110421,99999999,False,False,False,15,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/59,99999999.000000,21021012101101420,99999999,False,False,False,16,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/52,99999999.000000,11121012011111221,99999999,False,False,False,14,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/57,8561.507039,11020100101100020,8391.507039459582,True,True,True,12,3,2,9422449.298045957,0,0.0,From NM_5_57: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/70,99999999.000000,20101100001110421,99999999,False,False,False,12,6,1,99999999,0,0.0,From NM_5_70: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/60,99999999.000000,21120012100100020,99999999,False,False,False,14,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/62,99999999.000000,21120012011001420,99999999,False,False,False,15,8,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/65,99999999.000000,20120012111000101,99999999,False,False,False,14,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/68,99999999.000000,20010111001101121,99999999,False,False,False,14,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/72,99999999.000000,20020112101010400,99999999,False,False,False,14,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/71,99999999.000000,20121101100010321,99999999,False,False,False,14,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/76,99999999.000000,20021102011011321,99999999,False,False,False,15,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/67,99999999.000000,00100112111100310,99999999,False,False,False,10,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/78,99999999.000000,10000012101100421,99999999,False,False,False,11,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/21,10629.440228,00120000100110401,10499.440228307845,True,True,True,6,6,1,3.8731262589348048,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/18,9491.033800,01120100100110300,9251.033789501289,False,True,True,7,5,2,937.5677622356119,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/14,99999999.000000,11120102010001220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/12,99999999.000000,01020102100101420,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/13,99999999.000000,01111012101111321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/23,99999999.000000,10111012000110300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/40,99999999.000000,10020102001000220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/36,99999999.000000,01001100110001200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/22,99999999.000000,10000101010000300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/38,99999999.000000,11101100101111121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/6,99999999.000000,10011112000001110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/28,99999999.000000,11110112100111020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/16,99999999.000000,00020101111001200,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/31,99999999.000000,01020010100101221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/29,99999999.000000,11120102100111201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/42,99999999.000000,11120002000001201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/19,99999999.000000,01000010001101310,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/37,99999999.000000,01020101010000400,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/24,99999999.000000,11020012010111410,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/5,99999999.000000,11111011011111000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/73,10383.675494,11020101001100020,9813.67549443387,False,False,False,12,3,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/51,8593.845108,10020000101110100,8453.845108274332,True,True,True,9,3,2,527.5634894297289,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/79,13287.779064,01120102010110421,12727.779053558259,False,False,False,9,6,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/48,10200.779894,10121001100011001,10050.779894197201,True,True,True,10,4,1,433.7609208326886,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/57,8613.983759,11000111101111310,8433.98375924624,True,True,True,12,4,2,8326.380597806537,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/77,99999999.000000,11111111011110101,99999999,False,False,False,14,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/69,8561.801869,10110001000011300,8401.801869261144,True,True,True,8,6,2,64.91823662303473,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/80,10084.838855,11000002010011211,9844.838855306138,False,True,True,9,4,1,402.8839783573609,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/53,99999999.000000,10020010111101110,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/70,9383.930953,00101110101001200,9213.93095262335,True,True,True,9,6,2,2570.416264881929,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/56,99999999.000000,00100001110101121,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/6/64,11260.468554,01020011111010211,11010.468544319507,False,True,True,10,4,1,5.025901140650771,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/66,10024.613918,01120112110100120,9744.613907938947,False,True,True,11,5,2,1808.1034357174144,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/61,11454.071099,01110112110000411,10964.071088760362,True,False,False,10,8,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/6/63,10615.510329,00110112101000301,10435.510329204599,True,True,True,10,7,1,113982.99718728154,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/56,8509.118492,10110002000001200,8349.118491522322,True,True,True,8,6,2,351.11624075901574,0,0.0,From NM_5_56: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/2/76,8550.856780,10100002101111200,8400.85678020831,True,True,True,9,4,2,62.96569263560431,0,0.0,From NM_2_76: NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/5/57,8561.507039,11020100101100020,8391.507039459582,True,True,True,12,3,2,9422449.298045957,0,0.0,From NM_5_57: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/5/57,8561.507039,11020100101100020,8391.507039459582,True,True,True,12,3,2,9422449.298045957,0,0.0,From NM_5_57: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/6/26,99999999.000000,20121012010111221,99999999,False,False,False,14,4,1,99999999,0,0.0,From NM_6_26: No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/18,99999999.000000,11020101011111001,99999999,False,False,False,12,2,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/27,99999999.000000,20020011111101100,99999999,False,False,False,14,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/31,99999999.000000,20120012101100020,99999999,False,False,False,14,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/37,99999999.000000,20021102011010310,99999999,False,False,False,14,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/30,99999999.000000,20101100101100020,99999999,False,False,False,13,4,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/10,99999999.000000,21111102111111320,99999999,False,False,False,17,5,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/23,99999999.000000,21021012100111120,99999999,False,False,False,15,3,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/26,99999999.000000,21100002011001201,99999999,False,False,False,12,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/33,99999999.000000,20100101010001400,99999999,False,False,False,11,8,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/44,99999999.000000,21101012100100300,99999999,False,False,False,13,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/39,99999999.000000,21110010111000301,99999999,False,False,False,14,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/32,99999999.000000,21000111101001320,99999999,False,False,False,15,6,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/42,99999999.000000,21020011001000021,99999999,False,False,False,14,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/43,99999999.000000,11021112010100201,99999999,False,False,False,13,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/20,99999999.000000,10020000100110401,99999999,False,False,False,8,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/15,99999999.000000,10121002100011001,99999999,False,False,False,10,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/16,99999999.000000,10121001100011021,99999999,False,False,False,11,4,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/50,99999999.000000,20121002101111200,99999999,False,False,False,13,4,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/52,99999999.000000,20120000100110300,99999999,False,False,False,10,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/58,99999999.000000,20121010111100200,99999999,False,False,False,14,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/54,99999999.000000,20101102110001201,99999999,False,False,False,13,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/47,99999999.000000,11020100111011201,99999999,False,False,False,12,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/60,99999999.000000,21020100010011310,99999999,False,False,False,12,5,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/59,99999999.000000,21000112101010410,99999999,False,False,False,14,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/61,99999999.000000,20020111010101201,99999999,False,False,False,13,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/14,13887.552356,01000112111001411,13307.552346122986,False,False,False,10,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/46,99999999.000000,11100012010011211,99999999,False,False,False,10,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/9,10622.250862,01111000001110201,10502.2508520873,True,True,True,7,4,1,3.3521807972586326,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/25,10960.520779,01000001010110321,10840.520768671657,True,True,True,7,4,1,4.351084597785772,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/45,11050.520782,01000001010111221,10840.520772173673,False,True,True,7,3,1,4.351832290686767,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/67,99999999.000000,21001002101110300,99999999,False,False,False,13,4,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/6,9010.242264,10100001000011300,8460.242264047394,False,False,False,7,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/35,13499.898116,01120011111010221,12929.898106472943,False,False,False,11,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/38,16874.359626,10011112000001121,16294.359625759449,False,False,False,12,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/73,99999999.000000,20000000000111301,99999999,False,False,False,8,4,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/75,99999999.000000,20121110101001200,99999999,False,False,False,14,6,2,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/13,10955.161402,00110010001101311,10815.161402237647,True,True,True,7,6,1,120.56242716277137,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/77,99999999.000000,21001111101101321,99999999,False,False,False,16,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/78,99999999.000000,20020000111001420,99999999,False,False,False,13,7,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/8,99999999.000000,11100101111111000,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/40,99999999.000000,11000100101100120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/24,99999999.000000,11110112101101320,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/41,99999999.000000,11020000001100321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/22,99999999.000000,10020010100101220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/29,99999999.000000,11020000011110300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/5,99999999.000000,11020102101100120,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/70,99999999.000000,11000112110000411,99999999,False,False,False,12,7,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/19,99999999.000000,00120110100100321,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/72,99999999.000000,01020002000001301,99999999,False,False,False,6,6,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/17,99999999.000000,11121001100000020,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/34,99999999.000000,11020000100111221,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/28,99999999.000000,11101012100011401,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/11,99999999.000000,10120100000000300,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/36,99999999.000000,00101011110101111,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/12,99999999.000000,11120101100110301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/7,99999999.000000,10111011001100220,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/76,99999999.000000,00101111100010121,99999999,False,False,False,10,5,1,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/56,9340.529019,01000001010100000,9230.529008809235,True,True,True,6,3,2,3428.977450795162,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/69,9889.814726,01010111100111010,9759.814716158746,True,True,True,9,2,2,7.07044571833307,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/53,8696.871937,11100000011110000,8456.871937161397,False,True,True,9,3,2,604.6599084742543,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/51,10537.460130,01120100100100401,10387.460119927367,True,True,True,7,7,1,3186.576207238284,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/63,11085.690286,00021001101111321,10835.690286284313,False,True,True,10,4,1,4.942082280769808,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/57,10656.363744,01120102100011101,10416.363733934075,False,True,True,8,5,1,5.718229827396516,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/79,9919.629113,01121012001111020,9769.629103485062,True,True,True,10,3,2,3.6388067397789783,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/64,9412.920557,01121012101110100,9252.920547318117,True,True,True,10,4,2,1015.8813092053807,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/68,11102.257739,10101112000110411,10832.257739010121,False,True,True,10,6,1,37.65821348734801,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/66,99999999.000000,01110002010011211,99999999,False,False,False,7,5,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/48,10183.922747,01021100101100010,9743.922736537057,True,False,False,9,3,2,99999999,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/65,8699.201537,11000100100110320,8439.201537141827,False,True,True,10,4,2,753677897.2648126,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/49,99999999.000000,10100100100100301,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/74,9987.824011,00120000100011220,9747.824011145984,False,True,True,7,5,2,637.0771337773654,0,0.0,No important warnings
+/home/vnazarov/pydarwin/Example6/temp/7/62,9372.599026,01000101110000300,9212.599015602767,True,True,True,8,6,2,104980.2989264393,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/55,99999999.000000,00020002001011201,99999999,False,False,False,0,0,0,99999999,0,0,
+/home/vnazarov/pydarwin/Example6/temp/7/80,10049.344439,10000101010000301,9889.34443854869,True,True,True,9,6,1,6094.245462545588,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+/home/vnazarov/pydarwin/Example6/temp/7/71,10385.440469,11110112110000411,9865.4404690081,True,False,False,13,8,1,99999999,0,0.0,NON-FIXED OMEGA NON-FIXED PARAMETER 

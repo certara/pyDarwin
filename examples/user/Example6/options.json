@@ -44,12 +44,12 @@
     "nmfePath": "c:/nm74g64/util/nmfe74.bat",
     "model_run_timeout": 1200,
 
-	 "postprocess": {
+    "postprocess": {
         "userR": false,
         "RScriptPath": "/some/R/path/rscript",
         "postRunRCode": "{project_dir}/simplefunc.r",
         "R_timeout": 30,
         "usePython": true,
-        "postRunPythonCode": "C:/R/FDA-OGD-ML/examples/user/example6/simplefunc.py"
+        "postRunPythonCode": "{project_dir}/simplefunc.py"
     }
 }

@@ -1,5 +1,4 @@
 import os
-import sys
 import re
 import shutil
 import heapq
@@ -41,6 +40,26 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
     
     """
 
+    any_found = True  # keep looping, looking for nested tokens
+    token_found = False  # error check to see if any tokens are present
+
+    for _ in range(3):  # up to 3 levels of nesting?
+
+        any_found, text = _replace_tokens(tokens, text, phenotype, non_influential_tokens)
+        token_found = token_found or any_found
+
+        if not any_found:
+            break
+
+    if any_found:
+        log.error("It appears that there is more than four level of nested tokens."
+                  " Only four levels are supported, exiting")
+        raise RuntimeError("Are there more than 4 levels of nested tokens?")
+
+    return token_found, text
+
+
+def _replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list):
     any_found = False
     current_token_set = 0
 
@@ -56,7 +75,9 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
             if full_key in text:
                 text = text.replace(full_key, this_token)
                 any_found = True
-                non_influential_tokens[current_token_set] = False  # is influential
+
+                if non_influential_tokens:
+                    non_influential_tokens[current_token_set] = False  # is influential
 
             token_num = token_num + 1
 
@@ -72,50 +93,6 @@ def get_token_parts(token):
         return None, None
 
     return match.group(1), int(match.group(2))
-
-
-def expand_tokens(tokens: dict, text_block: list, phenotype: dict) -> list:
-    expanded_text_block = []
-
-    for text_line in text_block:
-        new_lines = _expand_line(tokens, text_line, phenotype, 0)
-
-        expanded_text_block.extend(new_lines)
-
-    return expanded_text_block
-
-
-def _expand_line(tokens: dict, text_line: str, phenotype: dict, loop_num: int) -> list:
-    # text_line should be simple string, not list
-    # should return simple list (not list of lists)
-
-    if loop_num > 4:
-        log.error(f"Greater than 4 recursive calls to _expand_line with {text_line}, possibly circular nested tokens")
-        sys.exit()
-
-    new_expanded_text_block = []
-
-    key, index = get_token_parts(text_line)
-
-    if not key:
-        return [text_line]
-
-    token = tokens.get(key)[phenotype[key]][index - 1]  # problem here???
-    token = remove_comments(token).splitlines()
-
-    for token_line in token:  # for each line in the token
-        if not token_line:
-            continue
-
-        # if there is no token ("{XXXX}"), this is terminal, just append
-        if re.search("{.+}", token_line) is None:
-            new_expanded_text_block.append(text_line)
-        else:  # expand that line recursively
-            new_lines = _expand_line(tokens, token_line, phenotype, loop_num + 1)
-
-            new_expanded_text_block.extend(new_lines)
-
-    return new_expanded_text_block
 
 
 def remove_comments(code: str, comment_mark=';') -> str:

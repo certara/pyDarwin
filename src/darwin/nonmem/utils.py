@@ -3,7 +3,9 @@ import math
 import numpy as np
 import copy
 
-from darwin.utils import remove_comments, expand_tokens, get_token_parts
+from darwin.utils import remove_comments, get_token_parts, replace_tokens
+
+_var_regex = {}
 
 
 def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, stem: str) -> str:
@@ -34,10 +36,11 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, ste
     # token ({'ADVAN[3]}) will be present on if there is a THETA(???) in it
     # one instance of token for each theta present, so they can be counted
     # may be empty list ([]), but each element must contain '{??[N]}
-    expanded_var_block = expand_tokens(tokens, var_block, phenotype)
+
+    any_found, expanded_var_block = replace_tokens(tokens, '\n'.join(var_block), phenotype, [])
 
     # then look at each token, get THETA(alpha) from non-THETA block tokens
-    var_indices = _get_var_matches(expanded_var_block, tokens, phenotype, stem)
+    var_indices = _get_var_matches(expanded_var_block.split('\n'), tokens, phenotype, stem)
 
     # add last fixed var value to all
     for k, v in var_indices.items():
@@ -48,14 +51,30 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, ste
     return control
 
 
-def _get_var_name(row: str, var_type: str):
-    var_name_pattern = r'([\w~]+)'
-    match = re.search(r";\s*" + var_name_pattern + r"\s*$", row) or \
-            re.search(r";.*?\b" + var_type + r"\(" + var_name_pattern + r"\)", row) or \
-            re.search(r";.*?\b" + var_type + r"\s(?:ON|on)\s" + var_name_pattern, row)
+def _get_var_regex(var_type: str):
+    regex = _var_regex.get(var_type)
 
-    if match:
-        return match.group(1)
+    if not regex:
+        var_name_pattern = r'([\w~]+)'
+
+        regex = [
+            re.compile(r"[^;]+;\s*" + var_name_pattern + r"\s*$"),
+            re.compile(r";.*?\b" + var_type + r"\(" + var_name_pattern + r"\)"),
+            re.compile(r";.*?\b" + var_type + r"\s(?:ON|on)\s" + var_name_pattern),
+            re.compile(r";\s*" + var_name_pattern + r"\s+" + var_type + r"\s*$")
+        ]
+
+        _var_regex[var_type] = regex
+
+    return regex
+
+
+def _get_var_name(row: str, var_type: str):
+    for regex in _get_var_regex(var_type):
+        match = regex.search(row)
+
+        if match:
+            return match.group(1)
 
     return None
 
@@ -81,7 +100,7 @@ def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, v
     for row in full_block.split('\n'):
         var = _get_var_name(row, var_type)
 
-        if var and var not in var_matches:
+        if var and var not in var_matches and remove_comments(row) != '':
             var_matches[var] = var_index
             var_index += 1
 

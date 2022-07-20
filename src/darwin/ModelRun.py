@@ -373,6 +373,13 @@ class ModelRun:
 
             with open(os.path.join(self.run_dir, self.output_file_name), "a") as f:
                 f.write("Post run R code failed\n")
+
+                if r_process is not None:
+                    f.write(r_process.stderr.decode("utf-8") + '\n')
+
+            self.status = "Post process R failed"
+
+            return False
         else:
             self._decode_r_stdout(r_process.stdout)
 

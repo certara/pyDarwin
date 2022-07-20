@@ -122,27 +122,13 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         control = template.template_text
 
-        any_found = True  # keep looping, looking for nested tokens
-        token_found = False  # error check to see if any tokens are present
-
-        for _ in range(3):  # up to 3 levels of nesting?
-
-            any_found, control = utils.replace_tokens(template.tokens, control, phenotype, non_influential_tokens)
-            token_found = token_found or any_found
-
-            if not any_found:
-                break
+        token_found, control = utils.replace_tokens(template.tokens, control, phenotype, non_influential_tokens)
 
         non_influential_token_num = sum(non_influential_tokens)
 
         if not token_found:
             log.error("No tokens used in template, exiting")
             raise RuntimeError("No tokens used")
-
-        if any_found:
-            log.error("It appears that there is more than four level of nested tokens."
-                      " Only four levels are supported, exiting")
-            raise RuntimeError("Are there more than 4 levels of nested tokens?")
 
         control = match_vars(control, template.tokens, template.theta_block, phenotype, "THETA")
         control = match_vars(control, template.tokens, template.omega_block, phenotype, "ETA")

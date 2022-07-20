@@ -1,7 +1,7 @@
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT {D1LAG[1]} DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
 
-$DATA      C:\R\FDA-OGD-ML\examples\user\example6\dmag_with_period.csv IGNORE=@
+$DATA      {data_dir}/dmag_with_period.csv IGNORE=@
            
 $SUBROUTINE {ADVAN[1]} 
 $PK      
@@ -31,7 +31,7 @@ $ERROR
 $THETA      
  (0.001,100) 	; THETA(1) V  UNITS = L
  (0.001, 10) 	; THETA(2) KA UNITS = 1/HR    
- {INITCL[2]}	; THETA(3) CL UNITS =  L/HR
+ {INITCL[2]}	; THETA(INITCL) CL UNITS =  L/HR
  {ADVAN[3]}   
  {V2~WT[2]}   
  {V2~SEX[2]}   
@@ -64,4 +64,3 @@ $DATA      {data_dir}/dmag_with_period.csv IGNORE=@  REWIND
 $MSFI = MSF1
 $SIMULATION (1) ONLYSIM  
 $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
-  

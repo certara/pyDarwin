@@ -14,18 +14,25 @@ from .ModelRunManager import get_run_manager
 
 class Population:
 
-    def __init__(self, template: Template, name, start_number=0):
+    def __init__(self, template: Template, name, start_number=0, max_number=0, max_iteration=0):
+        try:
+            iter_format = '{:0' + str(len(str(max_iteration))) + 'd}'
+            name = iter_format.format(name)
+        except ValueError:
+            pass
+
         self.name = str(name)
         self.runs = []
         self.model_number = start_number
+        self.num_format = '{:0' + str(len(str(max_number))) + 'd}'
         self.template = template
         self.adapter = get_engine_adapter(options.engine_adapter)
 
         self.model_cache = get_model_cache()
 
     @classmethod
-    def from_codes(cls, template: Template, name, codes, code_converter, start_number=0):
-        pop = cls(template, name, start_number)
+    def from_codes(cls, template: Template, name, codes, code_converter, start_number=0, max_number=0, max_iteration=0):
+        pop = cls(template, name, start_number, max_number or len(codes), max_iteration)
 
         maxes = template.gene_max
         lengths = template.gene_length
@@ -56,7 +63,7 @@ class Population:
             run.generation = self.name
             run.result.messages = f"From {run.file_stem}: " + str(run.result.messages)
         else:
-            run = ModelRun(model, self.model_number, self.name, self.adapter)
+            run = ModelRun(model, self.num_format.format(self.model_number), self.name, self.adapter)
 
         self.runs.append(run)
 

@@ -128,7 +128,8 @@ def run_skopt(model_template: Template) -> ModelRun:
         if not keep_going():
             break
 
-        population = Population.from_codes(model_template, generation, suggested, ModelCode.from_int)
+        population = Population.from_codes(model_template, generation, suggested, ModelCode.from_int,
+                                           max_iteration=options.num_generations)
 
         population.run()
 

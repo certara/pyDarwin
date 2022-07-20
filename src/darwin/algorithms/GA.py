@@ -22,10 +22,12 @@ logger = logging.getLogger(__name__)
 
 
 class _GARunner:
-    def __init__(self, template: Template, pop_size, elitist_num):
+    def __init__(self, template: Template, pop_size, elitist_num, num_generations):
         self.generation = -1
         self.template = template
         self.elitist_num = elitist_num
+        self.population = None
+        self.num_generations = num_generations
 
         self.toolbox = DeapToolbox(template)
 
@@ -37,6 +39,9 @@ class _GARunner:
     def run_generation(self):
         self.generation += 1
 
+        if self.generation > self.num_generations or not keep_going():
+            return False
+
         log.message("-- Starting Generation %i --" % self.generation)
 
         if self.generation > 0:
@@ -46,22 +51,22 @@ class _GARunner:
             for i in range(self.elitist_num):
                 self.pop_full_bits[i] = copy(self.best_for_elitism[i])
 
-        population = Population.from_codes(self.template, self.generation, self.pop_full_bits,
-                                           ModelCode.from_full_binary)
+        self.population = Population.from_codes(self.template, self.generation, self.pop_full_bits,
+                                                ModelCode.from_full_binary, max_iteration=self.num_generations)
 
-        population.run()
+        self.population.run()
 
         if not keep_going():
-            return population, False
+            return False
 
-        for ind, run in zip(self.pop_full_bits, population.runs):
+        for ind, run in zip(self.pop_full_bits, self.population.runs):
             ind.fitness.values = (run.result.fitness,)
 
-        best_runs = population.get_best_runs(self.elitist_num)
+        best_runs = self.population.get_best_runs(self.elitist_num)
 
         self.best_for_elitism = [model_run_to_deap_ind(run) for run in best_runs]
 
-        return population, True
+        return True
 
     def run_downhill(self, population: Population):
         # pop will have the fitnesses without the niche penalty here
@@ -107,27 +112,18 @@ def run_ga(model_template: Template) -> ModelRun:
     pop_size = options.population_size
     elitist_num = options.GA['elitist_num']
 
-    runner = _GARunner(model_template, pop_size, elitist_num)
+    runner = _GARunner(model_template, pop_size, elitist_num, options.num_generations)
 
     # run generation 0
-    population, cont = runner.run_generation()
-
-    if not cont:
+    if not runner.run_generation():
         return GlobalVars.BestRun
 
     generations_no_change = 0
     overall_best_fitness = options.crash_value
-    num_generations = options.num_generations
 
     # Begin evolution
-    while runner.generation < num_generations:
-        if not keep_going():
-            break
-
-        population, cont = runner.run_generation()
-
-        if not cont:
-            break
+    while runner.run_generation():
+        population = runner.population
 
         if downhill_period > 0 and runner.generation % downhill_period == 0:
             runner.run_downhill(population)
@@ -155,6 +151,8 @@ def run_ga(model_template: Template) -> ModelRun:
                         f" best fitness = {overall_best_fitness:.4f}")
 
     log.message(f"-- End of GA component at {time.asctime()} --")
+
+    population = runner.population
 
     final_ga_run = population.get_best_run()
 

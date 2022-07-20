@@ -46,7 +46,7 @@ def run_exhaustive(model_template: Template) -> ModelRun:
 
     for start in range(0, num_models, batch_size):
         pop = Population.from_codes(model_template, '0', codes[start:start + batch_size], ModelCode.from_int,
-                                    start_number=start)
+                                    start_number=start, max_number=num_models)
 
         pop.run()
 

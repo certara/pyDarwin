@@ -112,13 +112,12 @@ class ModelRun:
 
     model_result_class = ModelResults
 
-    def __init__(self, model: Model, model_num: int, generation, adapter: ModelEngineAdapter):
+    def __init__(self, model: Model, model_num, generation, adapter: ModelEngineAdapter):
         """
 
         :param model_num:  Model number, within the generation, Generation + model_num creates a unique "file_stem" that
             is used to name the control file, the executable and the relative path from the home directory (home_dir)
             to the run directory
-        :type model_num: int
 
         :param generation: The current generation/iteration. This value is used to construct both the control
             and executable name (NM_generation_modelNum.exe) and the run directory (./generation/model_num)
@@ -128,12 +127,12 @@ class ModelRun:
         self._adapter = adapter
         self.result = self.model_result_class()
 
-        self.model_num = model_num
+        self.model_num = int(model_num)
         self.generation = str(generation)
 
         self.file_stem = adapter.get_stem(generation, model_num)
 
-        self.run_dir = os.path.join(options.temp_dir, self.generation, str(self.model_num))
+        self.run_dir = os.path.join(options.temp_dir, self.generation, str(model_num))
 
         self.status = "Not Started"
 

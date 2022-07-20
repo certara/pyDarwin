@@ -86,7 +86,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
 
     all_runs = []
 
-    for this_step in range(100):     # up to 99 steps
+    for this_step in range(1, 100):     # up to 99 steps
         if all([n.done for n in niches]):
             break
 
@@ -117,7 +117,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
 
             niche.runs_finish = len(test_models)
 
-        population = Population.from_codes(template, str(generation) + "D" + str(this_step),
+        population = Population.from_codes(template, str(generation) + "D" + f'{this_step:02d}',
                                            test_models, ModelCode.from_min_binary)
 
         log.message(f"Starting downhill step {this_step},"
@@ -225,7 +225,7 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
     all_runs = []
 
     while current_best_fitness < last_best_fitness or this_step == 0:  # run at least once
-        full_generation = str(base_generation) + "S" + str(base_step) + "" + str(this_step)
+        full_generation = str(base_generation) + f'S{base_step:02d}' + str(this_step)
         last_best_fitness = current_best_fitness
         radius = 1
         test_models = [current_best_model]  # start with just one, then call recursively for each radius

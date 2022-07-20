@@ -1,4 +1,4 @@
-import re 
+import re
 import math
 import numpy as np
 import copy
@@ -37,10 +37,10 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, ste
     expanded_var_block = expand_tokens(tokens, var_block, phenotype)
 
     # then look at each token, get THETA(alpha) from non-THETA block tokens
-    rand_indices = _get_var_matches(expanded_var_block, tokens, phenotype, stem)
+    var_indices = _get_var_matches(expanded_var_block, tokens, phenotype, stem)
 
     # add last fixed var value to all
-    for k, v in rand_indices.items():
+    for k, v in var_indices.items():
         # add last fixed parm value to all
         # and put into control file
         control = control.replace(stem + "(" + k + ")", stem + "(" + str(v) + ")")
@@ -49,9 +49,10 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, ste
 
 
 def _get_var_name(row: str, var_type: str):
-    match = re.search(r";\s*(\w+)\s*$", row) \
-            or re.search(r";.*?\b" + var_type + r"\((\w+)\)", row) \
-            or re.search(r";.*?\b" + var_type + r"\s(?:ON|on)\s(\w+)", row)
+    var_name_pattern = r'([\w~]+)'
+    match = re.search(r";\s*" + var_name_pattern + r"\s*$", row) or \
+            re.search(r";.*?\b" + var_type + r"\(" + var_name_pattern + r"\)", row) or \
+            re.search(r";.*?\b" + var_type + r"\s(?:ON|on)\s" + var_name_pattern, row)
 
     if match:
         return match.group(1)
@@ -60,59 +61,29 @@ def _get_var_name(row: str, var_type: str):
 
 
 def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, var_type: str):
-    # shouldn't be any THETA(alpha) in expandedTHETABlock, should  be trimmed out
-    # get stem and index, look in other tokens in this token set (phenotype)
-    # tokens can be ignored here, they are already expanded, just list the alpha indices of each THETA(alpha) in order
-    # and match the row in the expandedTHETAblock
-    # note that commonly a stem will have more than one THETA, e.g, THETA(ADVANA)
-    # and THETA(ADVANB) for ADVAN4, K23 and K32
-    # however, an alpha index MAY NOT appear more than once, e.g.,
-    # e.g. TVCL = THETA()**THETA(CL~WT)
-    #      TVQ  = THETA()**THETA(CL~WT)
-    # is NOT PERMITTED, need to do:
-    # CLPWR = THETA(CL~WT)
-    # TVCL = THETA()**CLPWR
-    # TVQ  = THETA()**CLPWR
-
     var_matches = {}
     var_index = 1
 
-    # keep track of added/check token, don't want to repeat them, otherwise sequence of THETA indices will be wrong
-    all_checked_tokens = []
+    full_block = ""
 
     for var_row in expanded_block:
-        # get all THETA(alpha) indices in other tokens in this token set
         stem, index = get_token_parts(var_row)
 
-        # not from token
-        if not stem:
-            var = _get_var_name(var_row, var_type)
+        if stem:
+            phenotype = full_phenotype[stem]
 
-            if var and var not in var_matches:
-                var_matches[var] = var_index
-                var_index += 1
+            new_string = tokens[stem][phenotype][index - 1]
+        else:
+            new_string = var_row
 
-            continue
+        full_block += new_string + '\n'
 
-        phenotype = full_phenotype[stem]
-        full_token = ""  # assemble full token, except the one in $THETA, to search for THETA(alpha)
+    for row in full_block.split('\n'):
+        var = _get_var_name(row, var_type)
 
-        if not (any(stem in s for s in all_checked_tokens)):  # add if not already in list
-            for thisToken in range(len(tokens[stem][phenotype])):
-                if thisToken != index - 1:
-                    new_string = tokens[stem][phenotype][thisToken]  # can't always replace spaces, sometimes needed
-                    new_string = remove_comments(new_string).strip()
-                    full_token = full_token + new_string + "\n"
-
-            # get ETA/EPS(alphas)
-            variables = list(dict.fromkeys(x[1] for x in re.finditer(r"\b" + var_type + r"\((.+?)\)", full_token)))
-
-            for var in variables:
-                if var not in var_matches:
-                    var_matches[var] = var_index
-                    var_index += 1
-
-            all_checked_tokens.append(stem)
+        if var and var not in var_matches:
+            var_matches[var] = var_index
+            var_index += 1
 
     return var_matches
 
@@ -157,53 +128,53 @@ def set_omega_bands(control: str, bandwidth: int):
         # if so, keep block as is,
         if is_block_or_diag:
             all_omega_blocks.append(copy.deepcopy(this_start))
-                
+
         else:  # is diagonal, but not explicitly stated to be diagonal
             # get values, start by replacing $OMEGA, and if present, DIAG
             this_block = copy.deepcopy(this_start)
             this_block[0] = this_block[0].replace("$OMEGA", "")
             # and collect the values, to be used on diagonal
-            this_block = ' '.join([str(elem) for elem in this_block]).replace("\n", "")\
+            this_block = ' '.join([str(elem) for elem in this_block]).replace("\n", "") \
                 .replace("  ", " ").replace("  ", " ").strip()
             this_block = this_block.split(" ")
             this_block = np.array(this_block, dtype=np.float32)  # this_block.split(" ")
-            
+
             size = len(this_block)
             # get max value, for first guess at diagonals
-            off_diag = math.sqrt(float(max(this_block))/2)  # no good reason to start here, assum +ive covariances
+            off_diag = math.sqrt(float(max(this_block)) / 2)  # no good reason to start here, assum +ive covariances
             # build matrix, check if positive definite
             is_pos_def = False
-            
+
             count = 0
             matrix = []
 
             while not is_pos_def and count < 100:
-                off_diag *= 0.5 
+                off_diag *= 0.5
                 matrix = np.zeros([size, size])
                 # bands up to bandwidth
-                for this_row in range(size-1):
+                for this_row in range(size - 1):
                     if this_row < bandwidth:
                         val = off_diag
                     else:
-                        val = 0 
+                        val = 0
                     for this_col in range(this_row):
                         matrix[this_row, this_col] = val
-                
+
                 np.fill_diagonal(matrix, this_block)
                 is_pos_def = np.all(np.linalg.eigvals(matrix) > 0)  # works if matrix is symmetrical
                 count += 1
             # only include band width up to band width
             new_block = ["$OMEGA BLOCK(" + str(size) + ")"]
             for this_eta in range(size):
-                new_block.append(np.array2string(matrix[this_eta][:(1+this_eta)]).replace("[", "").replace("]", ""))
+                new_block.append(np.array2string(matrix[this_eta][:(1 + this_eta)]).replace("[", "").replace("]", ""))
             new_omega_block = copy.copy(new_block)
             new_omega_block = '\n'.join(str(x) for x in new_omega_block)
             new_omega_block = new_omega_block.replace(",", "\n").replace("[", "").replace("]", "")
             all_omega_blocks.append(copy.deepcopy(new_omega_block))
         # start from the bottom (so the line number doesn't change) delete all $OMEGA,
         # but replace the first one with the new_omega_block
-            
-    num_omega_blocks = len(omega_starts) 
+
+    num_omega_blocks = len(omega_starts)
     for num in range(num_omega_blocks):
         line_in_block = 0
         # split this omega block into lines ONLY if it is just a string (will already be array if BLOCK)
@@ -219,5 +190,5 @@ def set_omega_bands(control: str, bandwidth: int):
             line_in_block += 1
             # reassemble into a single string
     control = '\n'.join(control_list)
-    
+
     return control

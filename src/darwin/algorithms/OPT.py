@@ -46,9 +46,6 @@ def _create_optimizer(model_template: Template, algorithm, chain_num) -> list:
 
 
 def _opt_ask(opt: Optimizer, n_points: int) -> list:
-    if not keep_going():
-        return []
-
     try:
         return opt.ask(n_points)
     # if we don't catch it, pool will do it silently
@@ -59,6 +56,9 @@ def _opt_ask(opt: Optimizer, n_points: int) -> list:
 
 
 def _ask_models(opts: list, n_points: int) -> list:
+    if not keep_going():
+        return []
+
     n_opts = len(opts)
 
     pool = Pool(n_opts)

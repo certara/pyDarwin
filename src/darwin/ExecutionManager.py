@@ -13,7 +13,7 @@ class _FakeMan:
     _ok = True
 
     def keep_going(self) -> bool:
-        return self._ok
+        return not self._ok
 
     def interrupted(self) -> bool:
         return not self._ok

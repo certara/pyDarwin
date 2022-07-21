@@ -253,41 +253,38 @@ The Options file
 ::
 
    {
-      "author": "Certara", 
-      "working_dir": "u:/msale/example2/working",
-      "temp_dir": "u:/msale/example2/rundir",
-      "output_dir": "u:/msale/example2/output",
-      "algorithm":"GP",
-      "num_opt_chains": 1,
+       "author": "Certara",
+       "algorithm":"GP",
+       "num_opt_chains": 2,
 
-      "random_seed": 11,
-      "population_size": 40,
-      "num_parallel": 4,
-      "num_generations": 7,
+       "random_seed": 11,
+       "population_size": 10,
+       "num_parallel": 4,
+       "num_generations": 7,
 
-      "downhill_period": 5,
-      "num_niches": 2,
-      "niche_radius": 2,
-      "local_2_bit_search": true,
-      "final_downhill_search": true,
+       "downhill_period": 5,
+       "num_niches": 2,
+       "niche_radius": 2,
+       "local_2_bit_search": false,
+       "final_downhill_search": true,
 
-      "crash_value": 99999999,
+       "crash_value": 99999999,
 
-      "penalty": {
-         "THETA": 10,
-         "OMEGA": 10,
-         "SIGMA": 10,
-         "convergence": 100,
-         "covariance": 100,
-         "correlation": 100,
-         "conditionNumber": 100,
-         "non_influential_tokens": 0.00001
-      },
+       "penalty": {
+           "THETA": 10,
+           "OMEGA": 10,
+           "SIGMA": 10,
+           "convergence": 100,
+           "covariance": 100,
+           "correlation": 100,
+           "conditionNumber": 100,
+           "non_influential_tokens": 0.00001
+       },
 
-      "remove_run_dir": false,
+       "remove_run_dir": false,
 
-      "nmfePath": "c:/nm744/util/nmfe74.bat",
-      "model_run_timeout": 1200
+       "nmfePath": "c:/nm74g64/util/nmfe74.bat",
+       "model_run_timeout": 1200
    }
 
 Example 2 options file :download:`json <../examples/user/Example2/options.json>`

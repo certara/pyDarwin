@@ -1,17 +1,17 @@
 {
-    "author": "Certara", 
+    "author": "Certara",
     "algorithm":"GP",
-    "num_opt_chains": 4,
+    "num_opt_chains": 2,
 
     "random_seed": 11,
-    "population_size": 40,
+    "population_size": 10,
     "num_parallel": 4,
     "num_generations": 7,
 
     "downhill_period": 5,
     "num_niches": 2,
     "niche_radius": 2,
-    "local_2_bit_search": true,
+    "local_2_bit_search": false,
     "final_downhill_search": true,
 
     "crash_value": 99999999,

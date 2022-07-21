@@ -1,11 +1,11 @@
 {
-    "author": "Certara", 
+    "author": "Certara",
     "algorithm":"GP",
-    "num_opt_chains": 4,
+    "num_opt_chains": 2,
 
     "random_seed": 11,
     "population_size": 10,
-    "num_parallel": 2,
+    "num_parallel": 4,
     "num_generations": 7,
 
     "downhill_period": 5,

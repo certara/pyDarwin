@@ -7,18 +7,18 @@
     "crash_value": 99999999,
 
     "penalty": {
-        "THETA": 10,
-        "OMEGA": 10,
-        "SIGMA": 10,
+        "theta": 10,
+        "omega": 10,
+        "sigma": 10,
         "convergence": 100,
         "covariance": 100,
         "correlation": 100,
-        "conditionNumber": 100,
+        "condition_number": 100,
         "non_influential_tokens": 0.00001
     },
 
-    "nmfePath": "/opt/nm751/util/nmfe75",
-    "NM_timeout_sec": 1200,
+    "nmfe_path": "/opt/nm751/util/nmfe75",
+    "model_run_timeout": 1200,
 
     "model_run_man": "darwin.GridRunManager",
 

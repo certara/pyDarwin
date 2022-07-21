@@ -13,5 +13,5 @@
 	"local_2_bit_search": true,
 	"final_downhill_search": true,
 
-	"nmfePath": "c:/nm75g64/util/nmfe75.bat"
+	"nmfe_path": "c:/nm75g64/util/nmfe75.bat"
 }

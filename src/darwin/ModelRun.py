@@ -218,14 +218,14 @@ class ModelRun:
             rscript_path = options.rscript_path
 
             if not os.path.isfile(rscript_path):
-                raise RuntimeError(f"RScriptPath doesn't exist: {rscript_path}")
+                raise RuntimeError(f"RScript path doesn't exist: {rscript_path}")
 
-            log.message(f"RScript.exe found at {rscript_path}")
+            log.message(f"RScript found at {rscript_path}")
 
-            if not exists(options.postRunRCode):
-                raise RuntimeError(f"Post Run R code path '{options.postRunRCode}' seems to be missing")
+            if not exists(options.post_run_r_code):
+                raise RuntimeError(f"Post Run R code path '{options.post_run_r_code}' seems to be missing")
 
-            log.message(f"Post Run R code found at {options.postRunRCode}")
+            log.message(f"Post Run R code found at {options.post_run_r_code}")
         else:
             log.message("Not using Post Run R code")
 
@@ -344,7 +344,7 @@ class ModelRun:
         if not options.use_r:
             return True
 
-        command = [options.rscript_path, options.postRunRCode]
+        command = [options.rscript_path, options.post_run_r_code]
 
         try:
             self.status = "Running post process R code"

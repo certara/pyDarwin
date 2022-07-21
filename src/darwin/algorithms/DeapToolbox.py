@@ -47,7 +47,7 @@ class DeapToolbox:
         # the goal ('fitness') function to be maximized
 
         # register the crossover operator
-        if ga_options['crossoverOperator'] == "cxOnePoint":
+        if ga_options['crossover_operator'] == "cxOnePoint":
             toolbox.register("mate", tools.cxOnePoint)
 
         # other cross over options here
@@ -77,7 +77,7 @@ class DeapToolbox:
         niche_penalty = ga_options['niche_penalty']
 
         crossover_probability = ga_options['crossoverRate']
-        mutation_probability = ga_options['mutationRate']
+        mutation_probability = ga_options['mutation_rate']
 
         # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
         # so fitnesses in pop are only used for selection in GA

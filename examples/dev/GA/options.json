@@ -6,12 +6,12 @@
 
     "GA": {
         "elitist_num": 2,
-        "crossoverRate": 0.95,
-        "mutationRate": 0.95,
+        "crossover_rate": 0.95,
+        "mutation_rate": 0.95,
         "sharing_alpha": 0.1,
         "selection": "tournament",
         "selection_size": 2,
-        "crossoverOperator": "cxOnePoint",
+        "crossover_operator": "cxOnePoint",
         "mutate": "flipBit",
         "attribute_mutation_probability": 0.1,
         "niche_penalty": 10
@@ -29,13 +29,13 @@
     "crash_value": 99999999,
 
     "penalty": {
-        "THETA": 10,
-        "OMEGA": 10,
-        "SIGMA": 10,
+        "theta": 10,
+        "omega": 10,
+        "sigma": 10,
         "convergence": 100,
         "covariance": 100,
         "correlation": 100,
-        "conditionNumber": 100,
+        "condition_number": 100,
         "non_influential_tokens": 0.00001
     },
 
@@ -45,17 +45,17 @@
     "local_2_bit_search": true,
     "final_downhill_search": true,
 
-    "nmfePath": "/opt/nm751/util/nmfe75",
+    "nmfe_path": "/opt/nm751/util/nmfe75",
     "model_run_timeout": 1200,
     "model_run_priority_class": "below_normal",
 
     "postprocess": {
-        "useR": true,
-        "RScriptPath": "/some/R/path/rscript",
-        "postRunRCode": "{project_dir}/simplefunc.r",
-        "R_timeout": 30,
-        "usePython": true,
-        "postRunPythonCode": "{project_dir}/../simplefunc_common.py"
+        "use_r": true,
+        "rscript_path": "/some/R/path/rscript",
+        "post_run_r_code": "{project_dir}/simplefunc.r",
+        "r_timeout": 30,
+        "use_python": true,
+        "post_run_python_code": "{project_dir}/../simplefunc_common.py"
     },
 
     "use_saved_models": false,

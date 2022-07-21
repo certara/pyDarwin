@@ -1,6 +1,5 @@
 {
 	"author": "Mark Sale",
-	"project_dir": "c:\\fda\\FDA-OGD-ML\\examples\\RF",
 
 	"algorithm":"RF",
 	"random_seed": 11,
@@ -13,15 +12,15 @@
 	"downhill_period": 5,
 	"local_2_bit_search": true,
 	"final_downhill_search": true,
-	"nmfePath": "c:/nm75g64/util/nmfe75.bat",
+	"nmfe_path": "c:/nm75g64/util/nmfe75.bat",
     "model_run_timeout": 1200,
 
     "postprocess": {
-		"useR": true,
-	    "R_timeout": 30,
-		"postRunRCode": "{project_dir}/simplefunc.r",
-		"RScriptPath": "c:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe",
-		"usePython": true,
-		"postRunPythonCode": "{project_dir}/../simplefunc_common.py"
+		"use_r": true,
+	    "r_timeout": 30,
+		"post_run_r_code": "{project_dir}/simplefunc.r",
+		"rscript_path": "c:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe",
+		"use_python": true,
+		"post_run_python_code": "{project_dir}/../simplefunc_common.py"
 	}
 }

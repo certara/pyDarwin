@@ -4,16 +4,16 @@
 
 	"num_parallel": 4,
 
-	"nmfePath": "c:/nm74g64/util/nmfe74.bat",
+	"nmfe_path": "c:/nm74g64/util/nmfe74.bat",
     "model_run_timeout": 1200,
 
     "postprocess": {
-		"useR": true,
-		"postRunRCode": "{project_dir}/simplefunc.r",
-	    "R_timeout": 30,
-		"usePython": true,
-		"postRunPythonCode": "{project_dir}/simplefunc_local.py",
-		"RScriptPath": "c:/Program Files/R/R-4.0.2/bin/Rscript.exe"
+		"use_r": true,
+		"post_run_r_code": "{project_dir}/simplefunc.r",
+	    "r_timeout": 30,
+		"use_python": true,
+		"post_run_python_code": "{project_dir}/simplefunc_local.py",
+		"rscript_path": "c:/Program Files/R/R-4.0.2/bin/Rscript.exe"
 	},
 
 	"use_saved_models": true,

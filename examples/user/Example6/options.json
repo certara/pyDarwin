@@ -4,16 +4,16 @@
     "algorithm": "GA",
 
     "GA": {
-        "crossoverRate": 0.95,
+        "crossover_rate": 0.95,
         "elitist_num": 4,
-        "mutationRate": 0.95,
+        "mutation_rate": 0.95,
         "attribute_mutation_probability": 0.1,
         "mutate": "flipBit",
         "niche_penalty": 20,
         "selection": "tournament",
         "selection_size": 2,
         "sharing_alpha": 0.1,
-        "crossoverOperator": "cxOnePoint"
+        "crossover_operator": "cxOnePoint"
     },
 
     "random_seed": 11,
@@ -30,23 +30,23 @@
     "crash_value": 99999999,
 
     "penalty": {
-        "THETA": 10,
-        "OMEGA": 10,
-        "SIGMA": 10,
+        "theta": 10,
+        "omega": 10,
+        "sigma": 10,
         "convergence": 100,
         "covariance": 100,
         "correlation": 100,
-        "conditionNumber": 100,
+        "condition_number": 100,
         "non_influential_tokens": 0.00001
     },
 
     "remove_run_dir": false,
 
-    "nmfePath": "c:/nm74g64/util/nmfe74.bat",
+    "nmfe_path": "c:/nm74g64/util/nmfe74.bat",
     "model_run_timeout": 1200,
 
     "postprocess": {
-        "usePython": true,
-        "postRunPythonCode": "{project_dir}/simplefunc.py"
+        "use_python": true,
+        "post_run_python_code": "{project_dir}/simplefunc.py"
     }
 }

@@ -3,5 +3,5 @@
     "exhaustive_batch_size": 100,
 
     "num_parallel": 4,
-    "nmfePath": "c:/nm744/util/nmfe74.bat"
+    "nmfe_path": "c:/nm744/util/nmfe74.bat"
 }

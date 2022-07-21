@@ -10,27 +10,27 @@ import darwin.utils as utils
 from darwin.Log import log
 
 _default_penalty = {
-    'THETA': 10,
-    'OMEGA': 10,
-    'SIGMA': 10,
+    'theta': 10,
+    'omega': 10,
+    'sigma': 10,
     'convergence': 100,
     'covariance': 100,
     'correlation': 100,
-    'conditionNumber': 100,
+    'condition_number': 100,
     'non_influential_tokens': 0.00001
 }
 
 _default_GA = {
     'crossoverRate': 0.95,
     'elitist_num': 4,
-    'mutationRate': 0.95,
+    'mutation_rate': 0.95,
     'attribute_mutation_probability': 0.1,
     'mutate': 'flipBit',
     'niche_penalty': 20,
     'selection': 'tournament',
     'selection_size': 2,
     'sharing_alpha': 0.1,
-    'crossoverOperator': 'cxOnePoint'
+    'crossover_operator': 'cxOnePoint'
 }
 
 
@@ -172,20 +172,20 @@ class Options:
 
         pp_opts = opts.get('postprocess', {})
 
-        self.use_r = pp_opts.get('useR', False)
-        self.use_python = pp_opts.get('usePython', False)
+        self.use_r = pp_opts.get('use_r', False)
+        self.use_python = pp_opts.get('use_python', False)
 
-        self.r_timeout = int(pp_opts.get('R_timeout', 90))
+        self.r_timeout = int(pp_opts.get('r_timeout', 90))
 
         if self.use_r:
-            self.rscript_path = _get_mandatory_option(pp_opts, 'RScriptPath')
+            self.rscript_path = _get_mandatory_option(pp_opts, 'rscript_path')
 
-            rr = utils.apply_aliases(_get_mandatory_option(pp_opts, 'postRunRCode'), project_dir_alias)
+            rr = utils.apply_aliases(_get_mandatory_option(pp_opts, 'post_run_r_code'), project_dir_alias)
 
-            self.postRunRCode = os.path.abspath(rr)
+            self.post_run_r_code = os.path.abspath(rr)
 
         if self.use_python:
-            rp = utils.apply_aliases(_get_mandatory_option(pp_opts, 'postRunPythonCode'), project_dir_alias)
+            rp = utils.apply_aliases(_get_mandatory_option(pp_opts, 'post_run_python_code'), project_dir_alias)
 
             self.python_post_process_path = os.path.abspath(rp)
 

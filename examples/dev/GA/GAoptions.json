@@ -12,14 +12,14 @@
 	"local_2_bit_search": true,
 	"final_downhill_search": true,
 
-	"nmfePath": "c:/nm75g64/util/nmfe75.bat",
+	"nmfe_path": "c:/nm75g64/util/nmfe75.bat",
 
     "postprocess": {
-		"useR": true,
-	    "R_timeout": 30,
-		"postRunRCode": "{project_dir}/simplefunc.r",
-		"RScriptPath": "C:/Program Files/R/R-4.0.2/bin/Rscript.exe",
-		"usePython": true,
-		"postRunPythonCode": "{project_dir}/../simplefunc_common.py"
+		"use_r": true,
+	    "r_timeout": 30,
+		"post_run_r_code": "{project_dir}/simplefunc.r",
+		"rscript_path": "C:/Program Files/R/R-4.0.2/bin/Rscript.exe",
+		"use_python": true,
+		"post_run_python_code": "{project_dir}/../simplefunc_common.py"
 	}
 }

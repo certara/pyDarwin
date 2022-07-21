@@ -3,16 +3,16 @@
     "algorithm": "GA",
 
     "GA": {
-        "crossoverRate": 0.95,
+        "crossover_rate": 0.95,
         "elitist_num": 4,
-        "mutationRate": 0.95,
+        "mutation_rate": 0.95,
         "attribute_mutation_probability": 0.1,
         "mutate": "flipBit",
         "niche_penalty": 20,
         "selection": "tournament",
         "selection_size": 2,
         "sharing_alpha": 0.1,
-        "crossoverOperator": "cxOnePoint"
+        "crossover_operator": "cxOnePoint"
     },
 
     "random_seed": 11,
@@ -29,26 +29,26 @@
     "crash_value": 99999999,
 
     "penalty": {
-        "THETA": 10,
-        "OMEGA": 10,
-        "SIGMA": 10,
+        "theta": 10,
+        "omega": 10,
+        "sigma": 10,
         "convergence": 100,
         "covariance": 100,
         "correlation": 100,
-        "conditionNumber": 100,
+        "condition_number": 100,
         "non_influential_tokens": 0.00001
     },
 
     "postprocess": {
-        "useR": true,
-        "postRunRCode": "{project_dir}/Cmaxppc.r",
-        "RScriptPath": "/usr/local/bin/Rscript",
-        "R_timeout": 120,
-        "usePython": false
+        "use_r": true,
+        "post_run_r_code": "{project_dir}/Cmaxppc.r",
+        "rscript_path": "/usr/local/bin/Rscript",
+        "r_timeout": 120,
+        "use_python": false
     },
 
-    "nmfePath": "/opt/nm751/util/nmfe75",
-    "NM_timeout_sec": 1200,
+    "nmfe_path": "/opt/nm751/util/nmfe75",
+    "model_run_timeout": 1200,
 
     "model_run_man": "darwin.GridRunManager",
 

@@ -12,7 +12,7 @@
 	"niche_radius": 2,
 	"final_downhill_search": true, 
 
-    "nmfePath": "/opt/nm751/util/nmfe75",
+    "nmfe_path": "/opt/nm751/util/nmfe75",
 
     "model_run_man": "darwin.GridRunManager",
 

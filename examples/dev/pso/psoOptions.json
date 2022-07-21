@@ -1,11 +1,10 @@
 {
 	"author": "Mark Sale",
-	"project_dir": "c:/fda/FDA-OGD-ML/examples/PSO",
 	"algorithm":"PSO",
 	"population_size": 40,
 	"num_parallel": 4,
 	"num_generations": 30,
     "model_run_timeout": 1200,
-	"nmfePath": "c:/nm744/util/nmfe74.bat"
+	"nmfe_path": "c:/nm744/util/nmfe74.bat"
 }
  

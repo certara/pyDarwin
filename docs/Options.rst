@@ -279,7 +279,7 @@ Description
 
 .. _postprocess_options_desc:
 
-* penalty: JSON
+* postprocess: JSON
 
 .. _useR_options_desc:
 

@@ -245,16 +245,14 @@ The Options file
 ~~~~~~~~~~~~~~~~
 
 
-#. The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
-
-#. The user should provide appropriate paths for :ref:`"working_dir"<working directory>`, :ref:`"temp_dir"<temp_dir>` and :ref:`"output_dir"<Output Directory>`
+The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
 
 
 ::
 
    {
       "author": "Certara",
-      "algorithm":"GP",
+      "algorithm": "GP",
       "num_opt_chains": 2,
 
       "random_seed": 11,

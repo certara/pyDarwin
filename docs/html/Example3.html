@@ -337,14 +337,11 @@ $COV UNCOND PRINT = E
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
 <p>The options file is fairly traditiona, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long.</p>
-<ol class="arabic simple">
-<li><p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p></li>
-<li><p>The user should provide appropriate paths for <a class="reference internal" href="Glossary.html#working-directory"><span class="std std-ref">“working_dir”</span></a>, <a class="reference internal" href="Glossary.html#temp-dir"><span class="std std-ref">“temp_dir”</span></a> and <a class="reference internal" href="Glossary.html#output-directory"><span class="std std-ref">“output_dir”</span></a></p></li>
-</ol>
+<p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
    <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
 
-   <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span><span class="s2">&quot;EXHAUSTIVE&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;EXHAUSTIVE&quot;</span><span class="p">,</span>
    <span class="s2">&quot;exhaustive_batch_size&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
 
    <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>

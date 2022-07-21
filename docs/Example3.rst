@@ -264,9 +264,7 @@ The Options file
 
 The options file is fairly traditiona, :ref:`Exhaustive search<EX_desc>`.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long. 
 
-#. The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
-
-#. The user should provide appropriate paths for :ref:`"working_dir"<working directory>`, :ref:`"temp_dir"<temp_dir>` and :ref:`"output_dir"<Output Directory>`
+The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
 
 
 ::
@@ -274,7 +272,7 @@ The options file is fairly traditiona, :ref:`Exhaustive search<EX_desc>`.  Note 
    {
       "author": "Certara",
 
-      "algorithm":"EXHAUSTIVE",
+      "algorithm": "EXHAUSTIVE",
       "exhaustive_batch_size": 100,
 
       "num_parallel": 4,

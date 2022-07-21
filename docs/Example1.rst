@@ -318,9 +318,7 @@ Example 1 :ref:`Options file <options file>`  :download:`json options file <../e
 The options file will likely need to be editted, as the path to nmfe??.bat must be provided
 The options file for Example 1 is given below:
 
-#. The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
-
-#. The user should provide appropriate paths for :ref:`"working_dir"<working directory>`, :ref:`"temp_dir"<temp_dir>` and :ref:`"output_dir"<Output Directory>`
+The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
 
 
 ::
@@ -328,7 +326,7 @@ The options file for Example 1 is given below:
     {
         "author": "Certara",
  
-        "algorithm":"EXHAUSTIVE",
+        "algorithm": "EXHAUSTIVE",
  
         "max_model_list_size": 500,
         "num_parallel": 4,

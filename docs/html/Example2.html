@@ -385,38 +385,38 @@ $COV UNCOND PRINT=E
 <li><p>The user should provide appropriate paths for <a class="reference internal" href="Glossary.html#working-directory"><span class="std std-ref">“working_dir”</span></a>, <a class="reference internal" href="Glossary.html#temp-dir"><span class="std std-ref">“temp_dir”</span></a> and <a class="reference internal" href="Glossary.html#output-directory"><span class="std std-ref">“output_dir”</span></a></p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span><span class="s2">&quot;GP&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;num_opt_chains&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+   <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span><span class="s2">&quot;GP&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;num_opt_chains&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
 
-    <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
-    <span class="s2">&quot;population_size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="s2">&quot;num_generations&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+   <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+   <span class="s2">&quot;population_size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+   <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+   <span class="s2">&quot;num_generations&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
 
-    <span class="s2">&quot;downhill_period&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-    <span class="s2">&quot;num_niches&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s2">&quot;niche_radius&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="s2">&quot;local_2_bit_search&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
-    <span class="s2">&quot;final_downhill_search&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+   <span class="s2">&quot;downhill_period&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+   <span class="s2">&quot;num_niches&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+   <span class="s2">&quot;niche_radius&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+   <span class="s2">&quot;local_2_bit_search&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+   <span class="s2">&quot;final_downhill_search&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
 
-    <span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
+   <span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
 
-    <span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;THETA&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="s2">&quot;OMEGA&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="s2">&quot;SIGMA&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="s2">&quot;covariance&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="s2">&quot;correlation&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="s2">&quot;conditionNumber&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="s2">&quot;non_influential_tokens&quot;</span><span class="p">:</span> <span class="mf">0.00001</span>
-    <span class="p">},</span>
+   <span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+      <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+      <span class="s2">&quot;covariance&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+      <span class="s2">&quot;correlation&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+      <span class="s2">&quot;condition_number&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+      <span class="s2">&quot;non_influential_tokens&quot;</span><span class="p">:</span> <span class="mf">0.00001</span>
+   <span class="p">},</span>
 
-    <span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+   <span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
 
-    <span class="s2">&quot;nmfePath&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm74g64/util/nmfe74.bat&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;model_run_timeout&quot;</span><span class="p">:</span> <span class="mi">1200</span>
+   <span class="s2">&quot;nmfe_path&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm74g64/util/nmfe74.bat&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;model_run_timeout&quot;</span><span class="p">:</span> <span class="mi">1200</span>
 <span class="p">}</span>
 </pre></div>
 </div>

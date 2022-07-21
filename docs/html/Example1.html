@@ -103,7 +103,7 @@ hypotheses to be tested.</p>
 <p>The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
-$DATA      ..\..\datalarge.csv IGNORE=@
+$DATA      {data_dir}/datalarge.csv IGNORE=@
 
 $SUBROUTINE ADVAN2
 $ABBR DERIV2=NO
@@ -230,7 +230,7 @@ Example 1 searchs a 6 dimensional space. The dimensions corresponds to <a class=
 <h3>Data file path<a class="headerlink" href="#data-file-path" title="Permalink to this heading">¶</a></h3>
 <p>Typically, the NMTRAN data file will be located in the <a class="reference internal" href="Glossary.html#working-directory"><span class="std std-ref">working directory</span></a>. As the models are run in a directory two levels down
 (home directory/generation/model) the path to the data set can be given as</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$DATA ..\..\data.csv
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$DATA {data_dir}/data.csv
 </pre></div>
 </div>
 <p>Alternatively, the full path can be given.</p>
@@ -241,7 +241,7 @@ Example 1 searchs a 6 dimensional space. The dimensions corresponds to <a class=
 The final template file for Example 1 is given below.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
-$DATA      ..\..\datalarge.csv IGNORE=@
+$DATA      {data_dir}/datalarge.csv IGNORE=@
 
 $SUBROUTINE ADVAN2
 $ABBR DERIV2=NO
@@ -366,28 +366,13 @@ The options file for Example 1 is given below:</p>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;homeDir&quot;</span><span class="p">:</span> <span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">fda</span><span class="se">\\</span><span class="s2">pydarwin</span><span class="se">\\</span><span class="s2">examples</span><span class="se">\\</span><span class="s2">Example1&quot;</span><span class="p">,</span>
+
     <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span><span class="s2">&quot;EXHAUSTIVE&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+
     <span class="s2">&quot;max_model_list_size&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
-    <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
-    <span class="s2">&quot;THETAPenalty&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="s2">&quot;OMEGAPenalty&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="s2">&quot;SIGMAPenalty&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="s2">&quot;covergencePenalty&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s2">&quot;covariancePenalty&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s2">&quot;correlationPenalty&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s2">&quot;correlationLimit&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
-    <span class="s2">&quot;conditionNumberPenalty&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s2">&quot;input_model_json&quot;</span><span class="p">:</span> <span class="s2">&quot;None&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
-    <span class="s2">&quot;non_influential_tokens_penalty&quot;</span><span class="p">:</span> <span class="mf">0.00001</span><span class="p">,</span>
-    <span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
-    <span class="s2">&quot;timeout_sec&quot;</span><span class="p">:</span> <span class="mi">1200</span><span class="p">,</span>
-    <span class="s2">&quot;useR&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
-    <span class="s2">&quot;usePython&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
-    <span class="s2">&quot;nmfePath&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm741/util/nmfe74.bat &quot;</span> <span class="p">,</span>
-    <span class="s2">&quot;NM_priority_class&quot;</span><span class="p">:</span> <span class="s2">&quot;below_normal&quot;</span>
+    <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+
+    <span class="s2">&quot;nmfe_path&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm741/util/nmfe74.bat&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>

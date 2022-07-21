@@ -84,7 +84,7 @@
              
   <section id="options-list">
 <span id="options"></span><h1>Options List<a class="headerlink" href="#options-list" title="Permalink to this heading">¶</a></h1>
-<p>Note that the the options are saved to a json file. Json supports string, numeric and Boolen (true|false). String options must be in quotes. See <a class="reference external" href="https://www.json.org/">JSON</a> for
+<p>Note that the options are saved to a json file. Json supports string, numeric and Boolen (true|false). String options must be in quotes. See <a class="reference external" href="https://www.json.org/">JSON</a> for
 details.</p>
 <p>Example JSON</p>
 <pre class="literal-block">{
@@ -95,12 +95,12 @@ details.</p>
 
     <a class="reference internal" href="#ga-options-desc"><span class="std std-ref">&quot;GA&quot;</span></a>: {
         <a class="reference internal" href="#elitist-num-options-desc"><span class="std std-ref">&quot;elitist_num&quot;</span></a>: 2,
-        <a class="reference internal" href="#crossoverrate-options-desc"><span class="std std-ref">&quot;crossoverRate&quot;</span></a>: 0.95,
-        <a class="reference internal" href="#mutationrate-options-desc"><span class="std std-ref">&quot;mutationRate&quot;</span></a>: 0.95,
+        <a class="reference internal" href="#crossover-rate-options-desc"><span class="std std-ref">&quot;crossover_rate&quot;</span></a>: 0.95,
+        <a class="reference internal" href="#mutation-rate-options-desc"><span class="std std-ref">&quot;mutation_rate&quot;</span></a>: 0.95,
         <a class="reference internal" href="#sharing-alpha-options-desc"><span class="std std-ref">&quot;sharing_alpha&quot;</span></a>: 0.1,
         <a class="reference internal" href="#selection-options-desc"><span class="std std-ref">&quot;selection&quot;</span></a>: &quot;tournament&quot;,
         <a class="reference internal" href="#selection-size-options-desc"><span class="std std-ref">&quot;selection_size&quot;</span></a>: 2,
-        <a class="reference internal" href="#crossoveroperator-options-desc"><span class="std std-ref">&quot;crossoverOperator&quot;</span></a>: &quot;cxOnePoint&quot;,
+        <a class="reference internal" href="#crossover-operator-options-desc"><span class="std std-ref">&quot;crossover_operator&quot;</span></a>: &quot;cxOnePoint&quot;,
         <a class="reference internal" href="#mutate-options-desc"><span class="std std-ref">&quot;mutate&quot;</span></a>: &quot;flipBit&quot;,
         <a class="reference internal" href="#attribute-mutation-probability-options-desc"><span class="std std-ref">&quot;attribute_mutation_probability&quot;</span></a>: 0.1,
         <a class="reference internal" href="#niche-penalty-options-desc"><span class="std std-ref">&quot;niche_penalty&quot;</span></a>: 10
@@ -118,13 +118,13 @@ details.</p>
     <a class="reference internal" href="#crash-value-options-desc"><span class="std std-ref">&quot;crash_value&quot;</span></a>: 99999999,
 
     <a class="reference internal" href="#penalty-options-desc"><span class="std std-ref">&quot;penalty&quot;</span></a>: {
-        <a class="reference internal" href="#theta-options-desc"><span class="std std-ref">&quot;THETA&quot;</span></a>: 10,
-        <a class="reference internal" href="#omega-options-desc"><span class="std std-ref">&quot;OMEGA&quot;</span></a>: 10,
-        <a class="reference internal" href="#sigma-options-desc"><span class="std std-ref">&quot;SIGMA&quot;</span></a>: 10,
+        <a class="reference internal" href="#theta-options-desc"><span class="std std-ref">&quot;theta&quot;</span></a>: 10,
+        <a class="reference internal" href="#omega-options-desc"><span class="std std-ref">&quot;omega&quot;</span></a>: 10,
+        <a class="reference internal" href="#sigma-options-desc"><span class="std std-ref">&quot;sigma&quot;</span></a>: 10,
         <a class="reference internal" href="#convergence-options-desc"><span class="std std-ref">&quot;convergence&quot;</span></a>: 100,
         <a class="reference internal" href="#covariance-options-desc"><span class="std std-ref">&quot;covariance&quot;</span></a>: 100,
         <a class="reference internal" href="#correlation-options-desc"><span class="std std-ref">&quot;correlation&quot;</span></a>: 100,
-        <a class="reference internal" href="#conditionnumber-options-desc"><span class="std std-ref">&quot;conditionNumber&quot;</span></a>: 100,
+        <a class="reference internal" href="#condition-number-options-desc"><span class="std std-ref">&quot;condition_number&quot;</span></a>: 100,
         <a class="reference internal" href="#non-influential-tokens-options-desc"><span class="std std-ref">&quot;non_influential_tokens&quot;</span></a>: 0.00001
     },
 
@@ -134,17 +134,17 @@ details.</p>
     <a class="reference internal" href="#local-2-bit-search-options-desc"><span class="std std-ref">&quot;local_2_bit_search&quot;</span></a>: true,
     <a class="reference internal" href="#final-downhill-search-options-desc"><span class="std std-ref">&quot;final_downhill_search&quot;</span></a>: true,
 
-    <a class="reference internal" href="#nmfepath-options-desc"><span class="std std-ref">&quot;nmfePath&quot;</span></a>: &quot;/opt/nm751/util/nmfe75&quot;,
+    <a class="reference internal" href="#nmfe-path-options-desc"><span class="std std-ref">&quot;nmfe_path&quot;</span></a>: &quot;/opt/nm751/util/nmfe75&quot;,
     <a class="reference internal" href="#model-run-timeout-options-desc"><span class="std std-ref">&quot;model_run_timeout&quot;</span></a>: 1200,
     <a class="reference internal" href="#model-run-priority-class-options-desc"><span class="std std-ref">&quot;model_run_priority_class&quot;</span></a>: &quot;below_normal&quot;,
 
     <a class="reference internal" href="#postprocess-options-desc"><span class="std std-ref">&quot;postprocess&quot;</span></a>: {
-        <a class="reference internal" href="#user-options-desc"><span class="std std-ref">&quot;useR&quot;</span></a>: true,
-        <a class="reference internal" href="#rscriptpath-options-desc"><span class="std std-ref">&quot;RScriptPath&quot;</span></a>: &quot;/some/R/path/rscript&quot;,
-        <a class="reference internal" href="#postrunrcode-options-desc"><span class="std std-ref">&quot;postRunRCode&quot;</span></a>: &quot;{project_dir}/simplefunc.r&quot;,
-        <a class="reference internal" href="#r-timeout-options-desc"><span class="std std-ref">&quot;R_timeout&quot;</span></a>: 30,
-        <a class="reference internal" href="#usepython-options-desc"><span class="std std-ref">&quot;usePython&quot;</span></a>: true,
-        <a class="reference internal" href="#postrunpythoncode-options-desc"><span class="std std-ref">&quot;postRunPythonCode&quot;</span></a>: &quot;{project_dir}/../simplefunc_common.py&quot;
+        <a class="reference internal" href="#use-r-options-desc"><span class="std std-ref">&quot;use_r&quot;</span></a>: true,
+        <a class="reference internal" href="#rscript-path-options-desc"><span class="std std-ref">&quot;rscript_path&quot;</span></a>: &quot;/some/R/path/rscript&quot;,
+        <a class="reference internal" href="#post-run-r-code-options-desc"><span class="std std-ref">&quot;post_run_r_code&quot;</span></a>: &quot;{project_dir}/simplefunc.r&quot;,
+        <a class="reference internal" href="#r-timeout-options-desc"><span class="std std-ref">&quot;r_timeout&quot;</span></a>: 30,
+        <a class="reference internal" href="#use-python-options-desc"><span class="std std-ref">&quot;use_python&quot;</span></a>: true,
+        <a class="reference internal" href="#post-run-python-code-options-desc"><span class="std std-ref">&quot;post_run_python_code&quot;</span></a>: &quot;{project_dir}/../simplefunc_common.py&quot;
     },
 
     <a class="reference internal" href="#use-saved-models-options-desc"><span class="std std-ref">&quot;use_saved_models&quot;</span></a>: false,
@@ -172,7 +172,7 @@ details.</p>
         <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">&quot;poll_command&quot;</span></a>: &quot;qstat -s z&quot;,
         <a class="reference internal" href="#poll-job-id-re-options-desc"><span class="std std-ref">&quot;poll_job_id_re&quot;</span></a>: &quot;^\s+(\w+)&quot;,
         <a class="reference internal" href="#poll-interval-options-desc"><span class="std std-ref">&quot;poll_interval&quot;</span></a>: 5,
-        <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">&quot;delete_command&quot;</span></a>: &quot;qdel {project_stem}-<a href="#id1"><span class="problematic" id="id2">*</span></a>&quot;
+        <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">&quot;delete_command&quot;</span></a>: &quot;qdel {project_stem}-*&quot;
     }
 }</pre>
 <section id="description">
@@ -194,14 +194,14 @@ details.</p>
 <li><p>elitist_num: Positive integer; How many of the best models from any generation to carry over unchanged to the next generation. Function like <a class="reference external" href="https://deap.readthedocs.io/en/master/api/tools.html#hall-of-fame/">Hall of Fame</a>  in DEAP.</p></li>
 </ul>
 </div></blockquote>
-<blockquote id="crossoverrate-options-desc">
+<blockquote id="crossover-rate-options-desc">
 <div><ul class="simple">
-<li><p>crossoverRate: What fraction of the mating pairs will undergo cross over (real 0.0-1.0)</p></li>
+<li><p>crossover_rate: What fraction of the mating pairs will undergo cross over (real 0.0-1.0)</p></li>
 </ul>
 </div></blockquote>
-<blockquote id="mutationrate-options-desc">
+<blockquote id="mutation-rate-options-desc">
 <div><ul class="simple">
-<li><p>mutationRate: Probability that at least one bit in the genome will be “flipped”, 0 to 1, or 1 to 0, (real 0.0-1.0)</p></li>
+<li><p>mutation_rate: Probability that at least one bit in the genome will be “flipped”, 0 to 1, or 1 to 0, (real 0.0-1.0)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="sharing-alpha-options-desc">
@@ -219,9 +219,9 @@ details.</p>
 <li><p>selection_size: How many “parents” enter in the selection, 2 is highly recommended, very limited experience with other values</p></li>
 </ul>
 </div></blockquote>
-<blockquote id="crossoveroperator-options-desc">
+<blockquote id="crossover-operator-options-desc">
 <div><ul class="simple">
-<li><p>crossoverOperator: The algorithm for cross over, only “cxOnePoint” (single point cross over) is available</p></li>
+<li><p>crossover_operator: The algorithm for cross over, only “cxOnePoint” (single point cross over) is available</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="mutate-options-desc">
@@ -276,18 +276,18 @@ Should be set larger than any anticipate completed model fitness (positive real)
 </ul>
 <blockquote id="theta-options-desc">
 <div><ul class="simple">
-<li><p>THETA: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
+<li><p>theta: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
 1 df and p&lt; 0.05 (for nested models) a value of 2 for 1 df corresponds to the Akaike information criterion (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="omega-options-desc">
 <div><ul class="simple">
-<li><p>OMEGA: Penalty added to fitness/reward for each estimated OMEGA element (real)</p></li>
+<li><p>omega: Penalty added to fitness/reward for each estimated OMEGA element (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="sigma-options-desc">
 <div><ul class="simple">
-<li><p>SIGMA: Penalty added to fitness/reward for each estimated SIGMA element (real)</p></li>
+<li><p>sigma: Penalty added to fitness/reward for each estimated SIGMA element (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="convergence-options-desc">
@@ -308,9 +308,9 @@ set to 0</p></li>
 value &gt; 0.95 (real number). This penalty will be added if the covariance step fails (or is not) requested (real)</p></li>
 </ul>
 </div></blockquote>
-<blockquote id="conditionnumber-options-desc">
+<blockquote id="condition-number-options-desc">
 <div><ul class="simple">
-<li><p>conditionNumber: Penalty added to fitness/reward if the condition number is &gt; 1000
+<li><p>condition_number: Penalty added to fitness/reward if the condition number is &gt; 1000
 This penalty will be added if the covariance step fails (or is not) requested (real)</p></li>
 </ul>
 </div></blockquote>
@@ -340,8 +340,8 @@ The two bit local search substantially increase the robustness of the search. (t
 <ul class="simple" id="final-downhill-search-options-desc">
 <li><p>final_downhill_search: Whether to perform a local search (1 and 2 bit) at the end of the global search (true|false)</p></li>
 </ul>
-<ul class="simple" id="nmfepath-options-desc">
-<li><p>nmfePath: Path to nmfe??.bat, the default command line for executing NONMEM (string)</p></li>
+<ul class="simple" id="nmfe-path-options-desc">
+<li><p>nmfe_path: Path to nmfe??.bat, the default command line for executing NONMEM (string)</p></li>
 </ul>
 <ul class="simple" id="model-run-timeout-options-desc">
 <li><p>model_run_timeout: Time after which the NONMEM execution will be terminated, and the crash value assigned. (positive real)</p></li>
@@ -352,34 +352,34 @@ The two bit local search substantially increase the robustness of the search. (t
 <ul class="simple" id="postprocess-options-desc">
 <li><p>postprocess: JSON</p></li>
 </ul>
-<blockquote id="user-options-desc">
+<blockquote id="use-r-options-desc">
 <div><ul class="simple">
-<li><p>userR: Whether user supplied R code is to be run after NONMEM execution (true|false)</p></li>
+<li><p>use_r: Whether user supplied R code is to be run after NONMEM execution (true|false)</p></li>
 </ul>
 </div></blockquote>
-<blockquote id="rscriptpath-options-desc">
+<blockquote id="rscript-path-options-desc">
 <div><ul class="simple">
-<li><p>RScriptPath: Absolute path to Rscript.exe  (string)</p></li>
+<li><p>rscript_path: Absolute path to Rscript.exe  (string)</p></li>
 </ul>
 </div></blockquote>
-<blockquote id="postrunrcode-options-desc">
+<blockquote id="post-run-r-code-options-desc">
 <div><ul class="simple">
-<li><p>postRunRCode: Path to R file to be run after each NONMEM execution (string with .r extension)</p></li>
+<li><p>post_run_r_code: Path to R file to be run after each NONMEM execution (string with .r extension)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="r-timeout-options-desc">
 <div><ul class="simple">
-<li><p>R_timeout: Time out (seconds) for R code execution (positive real)</p></li>
+<li><p>r_timeout: Time out (seconds) for R code execution (positive real)</p></li>
 </ul>
 </div></blockquote>
-<blockquote id="usepython-options-desc">
+<blockquote id="use-python-options-desc">
 <div><ul class="simple">
-<li><p>usePython: Whether user supplied Python code is to be run after NONMEM execution (true|false)</p></li>
+<li><p>use_python: Whether user supplied Python code is to be run after NONMEM execution (true|false)</p></li>
 </ul>
 </div></blockquote>
-<blockquote id="postrunpythoncode-options-desc">
+<blockquote id="post-run-python-code-options-desc">
 <div><ul class="simple">
-<li><p>postRunPythonCode: Path to python code file to be run after each NONMEM execution  (string, with .py extension)</p></li>
+<li><p>post_run_python_code: Path to python code file to be run after each NONMEM execution  (string, with .py extension)</p></li>
 </ul>
 </div></blockquote>
 <ul class="simple" id="use-saved-models-options-desc">

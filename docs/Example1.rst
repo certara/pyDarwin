@@ -20,7 +20,7 @@ The next step for ML model selection is to get a simple model running. The contr
 
     $PROBLEM    2 compartment fitting
     $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
-    $DATA      ..\..\datalarge.csv IGNORE=@
+    $DATA      {data_dir}/datalarge.csv IGNORE=@
             
     $SUBROUTINE ADVAN2
     $ABBR DERIV2=NO
@@ -178,7 +178,7 @@ Typically, the NMTRAN data file will be located in the :ref:`working directory<w
 
 ::
 
-    $DATA ..\..\data.csv
+    $DATA {data_dir}/data.csv
 
 Alternatively, the full path can be given.
 
@@ -192,7 +192,7 @@ The final template file for Example 1 is given below.
 
     $PROBLEM    2 compartment fitting
     $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
-    $DATA      ..\..\datalarge.csv IGNORE=@
+    $DATA      {data_dir}/datalarge.csv IGNORE=@
             
     $SUBROUTINE ADVAN2
     $ABBR DERIV2=NO
@@ -327,28 +327,13 @@ The options file for Example 1 is given below:
 
     {
         "author": "Certara",
-        "homeDir": "C:\\fda\\pydarwin\\examples\\Example1",
+ 
         "algorithm":"EXHAUSTIVE",
-        "random_seed": 11,  
+ 
         "max_model_list_size": 500,
-        "num_parallel": 40,
-        "THETAPenalty": 10,
-        "OMEGAPenalty": 10,
-        "SIGMAPenalty": 10,
-        "covergencePenalty": 100,
-        "covariancePenalty": 100,
-        "correlationPenalty": 100,
-        "correlationLimit": 0.95,
-        "conditionNumberPenalty": 100,  
-        "input_model_json": "None", 
-        "crash_value": 99999999,
-        "non_influential_tokens_penalty": 0.00001,
-        "remove_run_dir": false, 
-        "timeout_sec": 1200, 
-        "useR": false,     
-        "usePython": false,   
-        "nmfePath": "c:/nm741/util/nmfe74.bat " , 
-        "NM_priority_class": "below_normal"
+        "num_parallel": 4,
+
+        "nmfe_path": "c:/nm741/util/nmfe74.bat"
     }
 
 

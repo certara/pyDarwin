@@ -3,7 +3,7 @@
 Options List
 ============
 
-Note that the the options are saved to a json file. Json supports string, numeric and Boolen (true|false). String options must be in quotes. See `JSON <https://www.json.org/>`_ for 
+Note that the options are saved to a json file. Json supports string, numeric and Boolen (true|false). String options must be in quotes. See `JSON <https://www.json.org/>`_ for 
 details.
 
 Example JSON
@@ -18,12 +18,12 @@ Example JSON
 
         :ref:`"GA" <GA_options_desc>`: {
             :ref:`"elitist_num" <elitist_num_options_desc>`: 2,
-            :ref:`"crossoverRate" <crossoverRate_options_desc>`: 0.95,
-            :ref:`"mutationRate" <mutationRate_options_desc>`: 0.95,
+            :ref:`"crossover_rate" <crossover_rate_options_desc>`: 0.95,
+            :ref:`"mutation_rate" <mutation_rate_options_desc>`: 0.95,
             :ref:`"sharing_alpha" <sharing_alpha_options_desc>`: 0.1,
             :ref:`"selection" <selection_options_desc>`: "tournament",
             :ref:`"selection_size" <selection_size_options_desc>`: 2,
-            :ref:`"crossoverOperator" <crossoverOperator_options_desc>`: "cxOnePoint",
+            :ref:`"crossover_operator" <crossover_operator_options_desc>`: "cxOnePoint",
             :ref:`"mutate" <mutate_options_desc>`: "flipBit",
             :ref:`"attribute_mutation_probability" <attribute_mutation_probability_options_desc>`: 0.1,
             :ref:`"niche_penalty" <niche_penalty_options_desc>`: 10
@@ -41,13 +41,13 @@ Example JSON
         :ref:`"crash_value" <crash_value_options_desc>`: 99999999,
 
         :ref:`"penalty" <penalty_options_desc>`: {
-            :ref:`"THETA" <THETA_options_desc>`: 10,
-            :ref:`"OMEGA" <OMEGA_options_desc>`: 10,
-            :ref:`"SIGMA" <SIGMA_options_desc>`: 10,
+            :ref:`"theta" <theta_options_desc>`: 10,
+            :ref:`"omega" <omega_options_desc>`: 10,
+            :ref:`"sigma" <sigma_options_desc>`: 10,
             :ref:`"convergence" <convergence_options_desc>`: 100,
             :ref:`"covariance" <covariance_options_desc>`: 100,
             :ref:`"correlation" <correlation_options_desc>`: 100,
-            :ref:`"conditionNumber" <conditionNumber_options_desc>`: 100,
+            :ref:`"condition_number" <condition_number_options_desc>`: 100,
             :ref:`"non_influential_tokens" <non_influential_tokens_options_desc>`: 0.00001
         },
 
@@ -57,17 +57,17 @@ Example JSON
         :ref:`"local_2_bit_search" <local_2_bit_search_options_desc>`: true,
         :ref:`"final_downhill_search" <final_downhill_search_options_desc>`: true,
 
-        :ref:`"nmfePath" <nmfePath_options_desc>`: "/opt/nm751/util/nmfe75",
+        :ref:`"nmfe_path" <nmfe_path_options_desc>`: "/opt/nm751/util/nmfe75",
         :ref:`"model_run_timeout" <model_run_timeout_options_desc>`: 1200,
         :ref:`"model_run_priority_class" <model_run_priority_class_options_desc>`: "below_normal",
 
         :ref:`"postprocess" <postprocess_options_desc>`: {
-            :ref:`"useR" <useR_options_desc>`: true,
-            :ref:`"RScriptPath" <RScriptPath_options_desc>`: "/some/R/path/rscript",
-            :ref:`"postRunRCode" <postRunRCode_options_desc>`: "{project_dir}/simplefunc.r",
-            :ref:`"R_timeout" <R_timeout_options_desc>`: 30,
-            :ref:`"usePython" <usePython_options_desc>`: true,
-            :ref:`"postRunPythonCode" <postRunPythonCode_options_desc>`: "{project_dir}/../simplefunc_common.py"
+            :ref:`"use_r" <use_r_options_desc>`: true,
+            :ref:`"rscript_path" <rscript_path_options_desc>`: "/some/R/path/rscript",
+            :ref:`"post_run_r_code" <post_run_r_code_options_desc>`: "{project_dir}/simplefunc.r",
+            :ref:`"r_timeout" <r_timeout_options_desc>`: 30,
+            :ref:`"use_python" <use_python_options_desc>`: true,
+            :ref:`"post_run_python_code" <post_run_python_code_options_desc>`: "{project_dir}/../simplefunc_common.py"
         },
 
         :ref:`"use_saved_models" <use_saved_models_options_desc>`: false,
@@ -95,7 +95,7 @@ Example JSON
             :ref:`"poll_command" <poll_command_options_desc>`: "qstat -s z",
             :ref:`"poll_job_id_re" <poll_job_id_re_options_desc>`: "^\\s+(\\w+)",
             :ref:`"poll_interval" <poll_interval_options_desc>`: 5,
-            :ref:`"delete_command" <delete_command_options_desc>`: "qdel {project_stem}-*"
+            :ref:`"delete_command" <delete_command_options_desc>`: "qdel {project_stem}-\*"
         }
     }
 
@@ -123,13 +123,13 @@ Description
 
     * elitist_num: Positive integer; How many of the best models from any generation to carry over unchanged to the next generation. Function like `Hall of Fame <https://deap.readthedocs.io/en/master/api/tools.html#hall-of-fame/>`_  in DEAP. 
 
-.. _crossoverRate_options_desc:
+.. _crossover_rate_options_desc:
 
-    * crossoverRate: What fraction of the mating pairs will undergo cross over (real 0.0-1.0)
+    * crossover_rate: What fraction of the mating pairs will undergo cross over (real 0.0-1.0)
 
-.. _mutationRate_options_desc:
+.. _mutation_rate_options_desc:
 
-    * mutationRate: Probability that at least one bit in the genome will be "flipped", 0 to 1, or 1 to 0, (real 0.0-1.0)
+    * mutation_rate: Probability that at least one bit in the genome will be "flipped", 0 to 1, or 1 to 0, (real 0.0-1.0)
 
 .. _sharing_alpha_options_desc:
 
@@ -143,9 +143,9 @@ Description
 
     * selection_size: How many "parents" enter in the selection, 2 is highly recommended, very limited experience with other values
 
-.. _crossoverOperator_options_desc:
+.. _crossover_operator_options_desc:
 
-    * crossoverOperator: The algorithm for cross over, only "cxOnePoint" (single point cross over) is available
+    * crossover_operator: The algorithm for cross over, only "cxOnePoint" (single point cross over) is available
 
 .. _mutate_options_desc:
 
@@ -202,18 +202,18 @@ Description
 
 * penalty: JSON
 
-.. _THETA_options_desc:
+.. _theta_options_desc:
 
-    * THETA: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
+    * theta: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
       1 df and p< 0.05 (for nested models) a value of 2 for 1 df corresponds to the Akaike information criterion (real)
 
-.. _OMEGA_options_desc:
+.. _omega_options_desc:
 
-    * OMEGA: Penalty added to fitness/reward for each estimated OMEGA element (real)
+    * omega: Penalty added to fitness/reward for each estimated OMEGA element (real)
 
-.. _SIGMA_options_desc:
+.. _sigma_options_desc:
 
-    * SIGMA: Penalty added to fitness/reward for each estimated SIGMA element (real)
+    * sigma: Penalty added to fitness/reward for each estimated SIGMA element (real)
 
 .. _convergence_options_desc:
 
@@ -230,9 +230,9 @@ Description
     * correlation: Penalty added to fitness/reward if any off diagonal element of the correlation matrix of estimate has absolute 
       value > 0.95 (real number). This penalty will be added if the covariance step fails (or is not) requested (real)
 
-.. _conditionNumber_options_desc:
+.. _condition_number_options_desc:
 
-    * conditionNumber: Penalty added to fitness/reward if the condition number is > 1000
+    * condition_number: Penalty added to fitness/reward if the condition number is > 1000
       This penalty will be added if the covariance step fails (or is not) requested (real)
 
 .. _non_influential_tokens_options_desc:
@@ -265,9 +265,9 @@ Description
 
 * final_downhill_search: Whether to perform a local search (1 and 2 bit) at the end of the global search (true|false)
 
-.. _nmfePath_options_desc:
+.. _nmfe_path_options_desc:
 
-* nmfePath: Path to nmfe??.bat, the default command line for executing NONMEM (string)
+* nmfe_path: Path to nmfe??.bat, the default command line for executing NONMEM (string)
 
 .. _model_run_timeout_options_desc:
 
@@ -281,29 +281,29 @@ Description
 
 * postprocess: JSON
 
-.. _useR_options_desc:
+.. _use_r_options_desc:
 
-    * userR: Whether user supplied R code is to be run after NONMEM execution (true|false)
+    * use_r: Whether user supplied R code is to be run after NONMEM execution (true|false)
 
-.. _RScriptPath_options_desc:
+.. _rscript_path_options_desc:
 
-    * RScriptPath: Absolute path to Rscript.exe  (string)
+    * rscript_path: Absolute path to Rscript.exe  (string)
 
-.. _postRunRCode_options_desc:
+.. _post_run_r_code_options_desc:
 
-    * postRunRCode: Path to R file to be run after each NONMEM execution (string with .r extension)
+    * post_run_r_code: Path to R file to be run after each NONMEM execution (string with .r extension)
 
-.. _R_timeout_options_desc:
+.. _r_timeout_options_desc:
 
-    * R_timeout: Time out (seconds) for R code execution (positive real)
+    * r_timeout: Time out (seconds) for R code execution (positive real)
 
-.. _usePython_options_desc:
+.. _use_python_options_desc:
 
-    * usePython: Whether user supplied Python code is to be run after NONMEM execution (true|false)
+    * use_python: Whether user supplied Python code is to be run after NONMEM execution (true|false)
 
-.. _postRunPythonCode_options_desc:
+.. _post_run_python_code_options_desc:
 
-    * postRunPythonCode: Path to python code file to be run after each NONMEM execution  (string, with .py extension)
+    * post_run_python_code: Path to python code file to be run after each NONMEM execution  (string, with .py extension)
 
 .. _use_saved_models_options_desc:
 

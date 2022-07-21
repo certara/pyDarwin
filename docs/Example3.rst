@@ -276,27 +276,25 @@ The options file is fairly traditiona, :ref:`Exhaustive search<EX_desc>`.  Note 
 
       "algorithm":"EXHAUSTIVE",
       "exhaustive_batch_size": 100,
-      "working_dir": "u:/msale/example3",
-      "temp_dir": "u:/msale/example3/rundir",
-      "output_dir": "u:/msale/example3/output",
+
       "num_parallel": 4,
 
       "crash_value": 99999999999,
 
       "penalty": {
-         "THETA": 2,
-         "OMEGA": 2,
-         "SIGMA": 2,
+         "theta": 10,
+         "omega": 10,
+         "sigma": 10,
          "convergence": 100,
          "covariance": 100,
          "correlation": 100,
-         "conditionNumber": 100,
+         "condition_number": 100,
          "non_influential_tokens": 0.00001
       },
 
       "remove_run_dir": false,
 
-      "nmfePath": "c:/nm744/util/nmfe74.bat",
+      "nmfe_path": "c:/nm744/util/nmfe74.bat",
       "model_run_timeout": 9600
    }
 

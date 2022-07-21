@@ -9,18 +9,18 @@
     "crash_value": 99999999999,
 
     "penalty": {
-        "THETA": 2,
-        "OMEGA": 2,
-        "SIGMA": 2,
+        "theta": 2,
+        "omega": 2,
+        "sigma": 2,
         "convergence": 100,
         "covariance": 100,
         "correlation": 100,
-        "conditionNumber": 100,
+        "condition_number": 100,
         "non_influential_tokens": 0.00001
     },
 
     "remove_run_dir": false,
 
-    "nmfePath": "c:/nm74g64/util/nmfe74.bat",
+    "nmfe_path": "c:/nm74g64/util/nmfe74.bat",
     "model_run_timeout": 9600
 }

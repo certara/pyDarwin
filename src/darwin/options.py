@@ -21,7 +21,7 @@ _default_penalty = {
 }
 
 _default_GA = {
-    'crossoverRate': 0.95,
+    'crossover_rate': 0.95,
     'elitist_num': 4,
     'mutation_rate': 0.95,
     'attribute_mutation_probability': 0.1,

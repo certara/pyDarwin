@@ -90,4 +90,8 @@ class Population:
 
         No return value, just updates models.
         """
+
+        if not self.runs:
+            raise RuntimeError('Nothing to run')
+
         self.runs = get_run_manager().run_all(self.runs)

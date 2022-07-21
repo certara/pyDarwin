@@ -1,6 +1,7 @@
 import os
 import time
 import sys
+import traceback
 
 import darwin.GlobalVars as GlobalVars
 import darwin.utils as utils
@@ -135,6 +136,14 @@ class DarwinApp:
         darwin.ModelRunManager.get_run_manager().cleanup_folders()
 
     def run_template(self, model_template: Template) -> ModelRun:
+        try:
+            return self._run_template(model_template)
+        except:
+            traceback.print_exc()
+
+        return GlobalVars.BestRun
+
+    def _run_template(self, model_template: Template) -> ModelRun:
 
         algorithm = options.algorithm
 

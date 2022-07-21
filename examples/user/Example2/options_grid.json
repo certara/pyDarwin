@@ -1,0 +1,46 @@
+{
+    "author": "Certara",
+    "algorithm": "GP",
+    "num_opt_chains": 2,
+
+    "random_seed": 11,
+    "population_size": 10,
+    "num_parallel": 4,
+    "num_generations": 7,
+
+    "downhill_period": 5,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "local_2_bit_search": false,
+    "final_downhill_search": true,
+
+    "crash_value": 99999999,
+
+    "penalty": {
+        "THETA": 10,
+        "OMEGA": 10,
+        "SIGMA": 10,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "conditionNumber": 100,
+        "non_influential_tokens": 0.00001
+    },
+
+    "nmfePath": "/opt/nm751/util/nmfe75",
+    "NM_timeout_sec": 1200,
+
+    "model_run_man": "darwin.GridRunManager",
+
+    "remove_run_dir": true,
+
+    "generic_grid_adapter": {
+            "submit_search_command": "qsub -b y -o {working_dir}/out.txt -e {working_dir}/err.txt -N '{project_name}'",
+            "python_path": "/home/ppolozov/darwin/venv/bin/python",
+            "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
+            "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
+            "poll_command": "qstat -s z",
+            "poll_job_id_re": "^\\s+(\\w+)",
+            "delete_command": "qdel {project_stem}-*"
+    }
+}

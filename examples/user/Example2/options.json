@@ -1,6 +1,6 @@
 {
     "author": "Certara",
-    "algorithm":"GP",
+    "algorithm": "GP",
     "num_opt_chains": 2,
 
     "random_seed": 11,

@@ -40,13 +40,25 @@
         "non_influential_tokens": 0.00001
     },
 
-    "remove_run_dir": false,
-
-    "nmfePath": "c:/nm74g64/util/nmfe74.bat",
-    "model_run_timeout": 1200,
-
     "postprocess": {
         "usePython": true,
         "postRunPythonCode": "{project_dir}/simplefunc.py"
+    },
+
+    "nmfePath": "/opt/nm751/util/nmfe75",
+    "NM_timeout_sec": 1200,
+
+    "model_run_man": "darwin.GridRunManager",
+
+    "remove_run_dir": true,
+
+    "generic_grid_adapter": {
+            "submit_search_command": "qsub -b y -o {working_dir}/out.txt -e {working_dir}/err.txt -N '{project_name}'",
+            "python_path": "/home/ppolozov/darwin/venv/bin/python",
+            "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
+            "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
+            "poll_command": "qstat -s z",
+            "poll_job_id_re": "^\\s+(\\w+)",
+            "delete_command": "qdel {project_stem}-*"
     }
 }

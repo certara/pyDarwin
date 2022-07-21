@@ -15,7 +15,7 @@ from darwin.ExecutionManager import keep_going, wait_for_subprocesses
 
 class LocalRunManager(PipelineRunManager):
     def _create_model_pipeline(self, runs: list) -> utils.Pipeline:
-        num_parallel = min(len(runs), options.num_parallel)
+        num_parallel = min(1 or len(runs), options.num_parallel)
 
         pipe = utils.Pipeline(utils.PipelineStep(self._start_local_run, size=num_parallel, name='Start model run')) \
             .link(utils.PipelineStep(self._process_run_results, size=1, name='Process run results'))

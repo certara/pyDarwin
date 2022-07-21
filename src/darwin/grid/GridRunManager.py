@@ -20,7 +20,7 @@ class GridRunManager(PipelineRunManager):
         self.grid_adapter = create_grid_adapter(options.grid_adapter)
 
     def _create_model_pipeline(self, runs: list) -> utils.Pipeline:
-        num_parallel = min(len(runs), options.num_parallel)
+        num_parallel = min(1 or len(runs), options.num_parallel)
         p_i = int(options.get('generic_grid_adapter', {}).get('poll_interval', 10))
 
         pipe = utils.Pipeline(utils.PipelineStep(self._start_remote_run, size=num_parallel, name='Start model run')) \

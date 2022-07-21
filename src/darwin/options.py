@@ -94,7 +94,13 @@ class Options:
         self.model_run_man = opts.get('model_run_man', 'darwin.LocalRunManager')
         self.grid_adapter = opts.get('grid_adapter', 'darwin.GenericGridAdapter')
 
-        self.num_parallel = opts.get('num_parallel', 4)
+        try:
+            self.num_parallel = int(opts.get('num_parallel', 4))
+        except ValueError:
+            self.num_parallel = 0
+
+        if self.num_parallel < 1:
+            raise RuntimeError('num_parallel must be a positive integer')
 
         self.options_file = os.path.abspath(options_file)
 

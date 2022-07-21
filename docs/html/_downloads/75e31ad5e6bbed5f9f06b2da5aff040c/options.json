@@ -1,7 +1,7 @@
 {
     "author": "Certara",
 
-    "algorithm":"EXHAUSTIVE",
+    "algorithm": "EX",
     "exhaustive_batch_size": 100,
 
     "num_parallel": 4,

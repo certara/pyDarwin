@@ -1,19 +1,12 @@
 {
     "author": "Mark Sale",
+    "project_name": "Ex6_GA_grid",
 
     "algorithm": "GA",
 
     "GA": {
-        "crossover_rate": 0.95,
         "elitist_num": 4,
-        "mutation_rate": 0.95,
-        "attribute_mutation_probability": 0.1,
-        "mutate": "flipBit",
-        "niche_penalty": 20,
-        "selection": "tournament",
-        "selection_size": 2,
-        "sharing_alpha": 0.1,
-        "crossover_operator": "cxOnePoint"
+        "niche_penalty": 20
     },
 
     "random_seed": 11,
@@ -27,26 +20,12 @@
     "local_2_bit_search": true,
     "final_downhill_search": true,
 
-    "crash_value": 99999999,
-
-    "penalty": {
-        "theta": 10,
-        "omega": 10,
-        "sigma": 10,
-        "convergence": 100,
-        "covariance": 100,
-        "correlation": 100,
-        "condition_number": 100,
-        "non_influential_tokens": 0.00001
-    },
-
     "postprocess": {
         "use_python": true,
         "post_run_python_code": "{project_dir}/simplefunc.py"
     },
 
     "nmfe_path": "/opt/nm751/util/nmfe75",
-    "model_run_timeout": 1200,
 
     "model_run_man": "darwin.GridRunManager",
 

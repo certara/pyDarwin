@@ -29,7 +29,7 @@ JSON_ATTRIBUTES = [
 ]
 
 
-def _dummy():
+def _dummy(run_dir: str):
     return 0, ""
 
 
@@ -395,7 +395,7 @@ class ModelRun:
         res = self.result
 
         try:
-            res.post_run_python_penalty, res.post_run_python_text = _python_post_process()
+            res.post_run_python_penalty, res.post_run_python_text = _python_post_process(self.run_dir)
 
             with open(os.path.join(self.run_dir, self.output_file_name), "a") as f:
                 f.write(f"Post run Python code Penalty = {str(res.post_run_python_penalty)}\n")

@@ -2,11 +2,9 @@ import os
 import time
 
 
-def post_process():
-    cwd = os.getcwd()
-
-    with open("python_output", "a") as f:  # just to check we're in the right directory
-        f.write(cwd)
+def post_process(run_dir: str):
+    with open(os.path.join(run_dir, "python_output"), "a") as f:
+        f.write(run_dir)
 
     time.sleep(1)
 

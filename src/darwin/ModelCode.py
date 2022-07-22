@@ -1,5 +1,18 @@
 import math
 
+_code_separator = ', '
+
+
+def _code_to_str(code: list) -> str:
+    return _code_separator.join(str(x) for x in code)
+
+
+def _restore_code(stored) -> list:
+    if type(stored) != list:
+        stored = [int(x) for x in stored.split(_code_separator)]
+
+    return stored
+
 
 class ModelCode:
     """
@@ -44,15 +57,19 @@ class ModelCode:
         return res
 
     def to_dict(self):
-        return {'IntCode': self.IntCode, 'MinBinCode': self.MinBinCode, 'FullBinCode': self.FullBinCode}
+        return {
+            'IntCode': _code_to_str(self.IntCode),
+            'MinBinCode': _code_to_str(self.MinBinCode),
+            'FullBinCode': _code_to_str(self.FullBinCode)
+        }
 
     @classmethod
     def from_dict(cls, src: dict):
         res = cls()
 
-        res.IntCode = src['IntCode']
-        res.MinBinCode = src['MinBinCode']
-        res.FullBinCode = src['FullBinCode']
+        res.IntCode = _restore_code(src['IntCode'])
+        res.MinBinCode = _restore_code(src['MinBinCode'])
+        res.FullBinCode = _restore_code(src['FullBinCode'])
 
         return res
 

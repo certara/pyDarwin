@@ -57,26 +57,22 @@ def _get_var_regex(var_type: str):
     if not regex:
         var_name_pattern = r'([\w~]+)'
 
-        regex = [
-            re.compile(r"[^;]+;\s*" + var_name_pattern + r"\s*$"),
-            re.compile(r";.*?\b" + var_type + r"\(" + var_name_pattern + r"\)"),
-            re.compile(r";.*?\b" + var_type + r"\s(?:ON|on)\s" + var_name_pattern),
-            re.compile(r";\s*" + var_name_pattern + r"\s+" + var_type + r"\s*$")
-        ]
+        simple_def = r";\s*" + var_name_pattern + r"\s*(?![^;])"
+        bracket_def = r";.*?\b" + var_type + r"\(" + var_name_pattern + r"\)"
+        on_def = r";.*?\b" + var_type + r"\s(?:ON|on)\s" + var_name_pattern
 
+        regex = re.compile(f'{simple_def}|{bracket_def}|{on_def}')
         _var_regex[var_type] = regex
 
     return regex
 
 
-def _get_var_name(row: str, var_type: str):
-    for regex in _get_var_regex(var_type):
-        match = regex.search(row)
+def _get_var_names(row: str, var_type: str):
+    regex = _get_var_regex(var_type)
 
-        if match:
-            return match.group(1)
+    res = [m for t in [x.groups() for x in regex.finditer(row)] for m in t if m is not None]
 
-    return None
+    return res
 
 
 def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, var_type: str):
@@ -98,11 +94,15 @@ def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, v
         full_block += new_string + '\n'
 
     for row in full_block.split('\n'):
-        var = _get_var_name(row, var_type)
+        if not remove_comments(row):
+            continue
 
-        if var and var not in var_matches and remove_comments(row) != '':
-            var_matches[var] = var_index
-            var_index += 1
+        variables = _get_var_names(row, var_type)
+
+        for var in variables:
+            if var and var not in var_matches:
+                var_matches[var] = var_index
+                var_index += 1
 
     return var_matches
 

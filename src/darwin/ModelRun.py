@@ -411,6 +411,7 @@ class ModelRun:
             with open(os.path.join(self.run_dir, self.output_file_name), "a") as f:
                 log.error("Post run Python code crashed in " + self.run_dir)
                 f.write("Post run Python code crashed\n")
+                f.write(traceback.format_exc())
 
             return False
 

@@ -6,7 +6,6 @@ from copy import deepcopy
 from collections import OrderedDict
 import threading
 
-import darwin.GlobalVars as GlobalVars
 import darwin.utils as utils
 
 from darwin.Log import log
@@ -36,6 +35,11 @@ class MemoryModelCache(ModelCache):
         self.file = default_models_file
 
         utils.remove_file(default_models_file)
+
+        self.sort_keys = options.get('MemoryModelCache.sort_keys', True)
+        self.indent = options.get('MemoryModelCache.indent', 4)
+        if self.indent == 'None':
+            self.indent = None
 
         self.load()
 
@@ -102,10 +106,10 @@ class MemoryModelCache(ModelCache):
             return
 
         with self._lock_all_runs:
-            runs = {f"{r.generation}-{r.model_num}": r for r in self.all_runs.values()}
+            runs = {f"{r.file_stem}": r for r in self.all_runs.values()}
 
         with open(self.file, 'w', encoding='utf-8') as f:
-            json.dump(runs, f, indent=4, sort_keys=True, ensure_ascii=False, cls=_ModelRunEncoder)
+            json.dump(runs, f, indent=self.indent, sort_keys=self.sort_keys, ensure_ascii=False, cls=_ModelRunEncoder)
 
 
 class AsyncMemoryModelCache(MemoryModelCache):

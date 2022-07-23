@@ -42,6 +42,12 @@ class Template:
         try:
             self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
 
+            for group in self.tokens.values():
+                for tokens in group:
+                    for i, token in enumerate(tokens):
+                        if type(token) == list:
+                            tokens[i] = '\n'.join(token)
+
             log.message(f"Tokens file found at {tokens_file}")
         except Exception as error:
             log.error(str(error))

@@ -316,11 +316,11 @@ class ModelRun:
 
         if run_process is None or run_process.returncode != 0:
             if interrupted():
-                log.error(f'Model run {self.model_num} was interrupted')
                 self.status = "Model run interrupted"
-
-            self.status = "Model run failed"
-            self._get_error_messages()
+                log.error(f'Model run {self.model_num} was interrupted')
+            else:
+                self.status = "Model run failed"
+                self._get_error_messages()
 
             return
 

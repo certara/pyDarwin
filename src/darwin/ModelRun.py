@@ -269,6 +269,11 @@ class ModelRun:
         finally:
             os.chdir(cwd)
 
+    def _get_error_messages(self):
+        res = self.result
+
+        res.errors, res.messages = self._adapter.get_error_messages(self)
+
     def run_model(self):
         """
         Runs the model. Will terminate model if the timeout option (timeout_sec) is exceeded.
@@ -301,7 +306,9 @@ class ModelRun:
         except TimeoutExpired:
             log.error(f'run {self.model_num} has timed out')
             utils.terminate_process(run_process.pid)
+
             self.status = "Model run timed out"
+            self._get_error_messages()
 
             return
         except Exception as e:
@@ -311,11 +318,16 @@ class ModelRun:
             if interrupted():
                 log.error(f'Model run {self.model_num} was interrupted')
                 self.status = "Model run interrupted"
-            else:
-                log.error(f'Model run {self.model_num} has failed')
+
             self.status = "Model run failed"
+            self._get_error_messages()
 
             return
+
+        self._get_error_messages()
+
+        if not self.result.messages:
+            self.result.messages = 'No important warnings'
 
         if self._post_run_r() and self._post_run_python() and self._calc_fitness():
             self.status = "Done"
@@ -426,12 +438,8 @@ class ModelRun:
         try:
             engine = self._adapter
 
-            res = self.result
-
-            res.errors, res.messages = engine.get_error_messages(self)
-
             if engine.read_model(self) and engine.read_results(self):
-                res.calc_fitness(self.model)
+                self.result.calc_fitness(self.model)
 
         except:
             traceback.print_exc()

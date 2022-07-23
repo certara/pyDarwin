@@ -82,23 +82,21 @@ class NMEngineAdapter(ModelEngineAdapter):
             if warning in f_msg:
                 nm_translation_message += short_warning
 
-        errors = [' AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.']
+        errors = [' AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.\n']
 
         # if an error is found, print out the rest of the text immediately, and add to errors
         for error in errors:
             if error in f_msg:
                 start = f_msg.index(error)
 
-                error_text = ", ".join(f_msg[start:])
-
-                # log.error("ERROR in Model " + str(self.model_num) + ": " + error_text)
+                error_text = ''.join(f_msg[start:])
 
                 nm_translation_message += error_text
 
                 break
 
-        if nm_translation_message == "" or nm_translation_message.strip() == ",":
-            nm_translation_message = "No important warnings"
+        if nm_translation_message.strip() == ",":
+            nm_translation_message = ''
 
         # try to sort relevant message?
         # key are

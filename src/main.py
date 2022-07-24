@@ -17,8 +17,7 @@ Modified By: Mark Sale
 """ 
 from darwin.run_search import run_search
 
-
-if __name__ == '__main__':
+if __name__ == '__main__':  
     final = run_search("..\\examples\\user\\Example1\\template.txt",
                        "..\\examples\\user\\Example1\\tokens.json",
                        "..\\examples\\user\\Example1\\options.json")
@@ -38,3 +37,4 @@ if __name__ == '__main__':
     final = run_search("..\\examples\\user\\Example5\\template.txt",
                        "..\\examples\\user\\Example5\\tokens.json",
                        "..\\examples\\user\\Example5\\options.json")
+    

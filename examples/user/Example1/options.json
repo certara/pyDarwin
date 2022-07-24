@@ -3,6 +3,9 @@
     "algorithm": "EXHAUSTIVE",
     "exhaustive_batch_size": 100,
 
+    "working_dir": "u:/msale/example1/working",
+    "temp_dir": "u:/msale/example1/rundir",
+    "output_dir": "u:/msale/example1/output",	
     "num_parallel": 4,
     "crash_value": 99999999,
 
@@ -19,6 +22,6 @@
 
     "remove_run_dir": false,
 
-    "nmfe_path": "c:/nm74g64/util/nmfe74.bat",
+    "nmfe_path": "c:/nm744/util/nmfe74.bat",
     "model_run_timeout": 1200
 }

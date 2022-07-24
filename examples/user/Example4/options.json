@@ -1,6 +1,10 @@
 {
     "author": "Mark Sale",
     "algorithm": "GA",
+    "working_dir": "u:/msale/example4/working",
+    "temp_dir": "u:/msale/example4/rundir",
+    "output_dir": "u:/msale/example4/output",	
+
 
     "GA": {
         "crossover_rate": 0.95,
@@ -41,7 +45,7 @@
 
     "remove_run_dir": false,
 
-    "nmfe_path": "c:/nm74g64/util/nmfe74.bat",
+    "nmfe_path": "c:/nm744/util/nmfe74.bat",
     "model_run_timeout": 1200,
 
     "postprocess": {

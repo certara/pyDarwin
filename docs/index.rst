@@ -14,6 +14,7 @@ Welcome to pyDarwin's documentation
    Overview
    Folder Structure and naming
    Usage
+   pyDarwin Outputs
    Example1 
    Example2
    Example3 
@@ -24,6 +25,7 @@ Welcome to pyDarwin's documentation
    Glossary
    Support 
    Options
+   Error messages
 
 Indices and tables
 ==================

@@ -15,11 +15,10 @@ h1, h2, h3 {
     z-index: 200;
     background-color: #efefef;
     text-align: center;
-    color: #fcfcfc;
 }
 
 menu-vertical p.caption {
-    color: #03779c;
+    color: #03579c;
     height: 32px;
     line-height: 32px;
     padding: 0 1.618em;
@@ -33,10 +32,6 @@ menu-vertical p.caption {
 
 a:visited {
     color: #03779c;
-}
-
-.wy-menu-vertical a:hover {
-    background-color: #c9c9c9;
 }
 
 .wy-nav-side {
@@ -59,3 +54,25 @@ a:visited {
     background-color: #c9c9c9;
 }
 
+.wy-menu-vertical a {
+    line-height: 18px;
+    padding: 0.4045em 1.618em;
+    display: block;
+    position: relative;
+    font-size: 90%;
+    color: #415364;
+}
+
+.wy-menu-vertical a:hover {
+    background-color: #c9c9c9;
+}
+
+.wy-side-nav-search .wy-dropdown>a, .wy-side-nav-search>a {
+    color: #415364;
+    font-size: 100%;
+    font-weight: 700;
+    display: inline-block;
+    padding: 4px 6px;
+    margin-bottom: 0.809em;
+    max-width: 100%;
+}

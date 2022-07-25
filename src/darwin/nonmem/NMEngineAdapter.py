@@ -135,7 +135,10 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         model_code_str = str(model_code.FullBinCode if (options.isGA or options.isPSO) else model_code.IntCode)
 
-        control += "\n ;; Phenotype \n ;; " + str(phenotype) + "\n;; Genotype \n ;; " + model_code_str \
+        control = re.sub(r'^[^\S\r\n]*', '  ', control, flags=re.RegexFlag.MULTILINE)
+        control = re.sub(r'^ {2}(?=\$|$)', '', control, flags=re.RegexFlag.MULTILINE)
+
+        control += "\n;; Phenotype \n;; " + str(phenotype) + "\n;; Genotype \n;; " + model_code_str \
                    + "\n;; Num non-influential tokens = " + str(non_influential_token_num)
 
         # add band OMEGA

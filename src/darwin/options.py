@@ -69,6 +69,27 @@ def _get_priority_class(opts: dict):
     return priorities[priority]
 
 
+def _load_system_options(opts: dict) -> dict:
+    global_opts_file = os.environ.get('PYDARWIN_OPTIONS')
+
+    if global_opts_file:
+        if not os.path.exists(global_opts_file):
+            log.warn(f'System options file not found: {global_opts_file}')
+            return opts
+
+        log.message(f'Loading system options: {global_opts_file}')
+
+        global_opts = json.loads(open(global_opts_file, 'r').read())
+
+        for x, y in global_opts.items():
+            if type(y) == dict:
+                opts[x] = opts.get(x, {}) | y
+            else:
+                opts[x] = y
+
+    return opts
+
+
 class Options:
     def __init__(self):
         self._options = {}
@@ -84,6 +105,9 @@ class Options:
 
     def _init_options(self, options_file: str, folder):
         opts = json.loads(open(options_file, 'r').read())
+
+        if opts.get('use_system_options', True):
+            opts = _load_system_options(opts)
 
         self._options = opts
 

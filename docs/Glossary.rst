@@ -342,6 +342,9 @@ as the THETA(CL~WT) is similarly replaced by THETA(2)
 
 .. figure:: tokens.png
  
+.. _Tournament selection:
+
+** Tournament Selection
 
 .. _working directory:
 

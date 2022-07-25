@@ -27,8 +27,8 @@ $THETA  ;; must be one THETA per line.
  (0.001,500) 	; THETA(2) V  UNITS = L
  (0.001,2) 	; THETA(3) KA UNITS = 1/HR  
   
- {V2~WT[2]}   ;;; comment ;; comment
- {V2~GENDER[2]}   ;;; comment ;; comment 
+ {V2~WT[2]}   ;;; comment must consist of more than one word
+ {V2~GENDER[2]}   ;;; otherwise it's a definition, and it will push you back
  {CL~WT[2]}  
  {ALAG[2]}
  

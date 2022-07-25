@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyDarwin Outputs &mdash; pyDarwin 1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example 1: PK Model, Trivial Exhaustive Search" href="Example1.html" />
+    <link rel="prev" title="Usage" href="Usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Folder%20Structure%20and%20naming.html">File Structure and Naming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyDarwin Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#command-line-output">Command Line output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#file-output">File output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#messages-txt">Messages.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#models-json">models.json</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#results-csv">results.csv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Error%20messages.html">Error Messages and how to fix them</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>pyDarwin Outputs</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pydarwin-outputs">
+<h1>pyDarwin Outputs<a class="headerlink" href="#pydarwin-outputs" title="Permalink to this heading">¶</a></h1>
+</section>
+<section id="command-line-output">
+<h1>Command Line output<a class="headerlink" href="#command-line-output" title="Permalink to this heading">¶</a></h1>
+<p>When pyDarwin first starts, it starts by confirming that key files are available. These files include:</p>
+<ol class="arabic simple">
+<li><p>The template file</p></li>
+<li><p>The tokens file</p></li>
+<li><p>The options file</p></li>
+<li><p>nmfe??.bat - executes NONMEM</p></li>
+<li><p>The data file(s) for the first control that is intiated</p></li>
+<li><p>If post run R code is requested, Rscript.exe</p></li>
+</ol>
+<p>The start up output also lists the location of:</p>
+<ol class="arabic simple">
+<li><p>Data dir - folder where datasets are located. It is recommended that this be an absolute path</p></li>
+<li><p>Project working dir - folder where template, token and options files are located, this is not set by the user</p></li>
+<li><p>Project temp dir - root folder where model file will be found, if the option is not set to remove them</p></li>
+<li><p>Project output dir - folder where all the files that considered as results will be put, such as results.csv and Final* files.</p></li>
+<li><p>Where intermediate output will be written (e.g. u:/user/example2/outputresults.csv)</p></li>
+<li><p>Where models will be saved to (e.g., u:/user/example2/workingmodels.json)</p></li>
+<li><p>NMFE??.bat file</p></li>
+<li><p>Rscript.exe, if used</p></li>
+</ol>
+<p>When run from command line (<a class="reference external" href="https://code.visualstudio.com/">or from Visual Studio Code</a>) pyDarwin provides significant output about whether individual models
+have executed successfully. A typical line of output might be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">1</span><span class="p">,</span>       <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mf">123.34</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span>  <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+</pre></div>
+</div>
+<p>The columns in this output are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Time</span> <span class="n">of</span> <span class="n">completion</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="n">Iteration</span><span class="o">/</span><span class="n">generation</span><span class="p">,</span> <span class="n">Model</span>     <span class="n">Model</span> <span class="n">Number</span><span class="p">,</span>       <span class="n">Final</span> <span class="n">Staus</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="o">/</span><span class="n">reward</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span>  <span class="n">Messages</span> <span class="kn">from</span> <span class="nn">NMTRAN</span>
+</pre></div>
+</div>
+<p>If there are messages from NONMEM execution, these will also be written to command line, as well as if excecution failed, and, if request, if R execution failed.</p>
+<p>If the XXXXXX is not set to true, the NONMEM control file, output file and other key files can be found in {temp_dir}Iteration/generationModel Number for debugging.</p>
+</section>
+<section id="file-output">
+<h1>File output<a class="headerlink" href="#file-output" title="Permalink to this heading">¶</a></h1>
+<p>The file output from pyDarwin is generated real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly,
+messages (what appears on the command line output) is written continuously to the messages.txt file.</p>
+<p><strong>NOTE</strong>. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the “locks” them, e.g. Excel. If, for example
+the results.csv file is opened in Excel, the next time pyDarwin trys to open it to write the next model output, an exception will occur. The work around is to copy the file to
+another file (e.g., cp results.csv results1.csv), then open the copied file.</p>
+</section>
+<section id="messages-txt">
+<h1>Messages.txt<a class="headerlink" href="#messages-txt" title="Permalink to this heading">¶</a></h1>
+<p>The messages.txt file will be found in the working dir. This file contents is the same as that output to the command line</p>
+</section>
+<section id="models-json">
+<h1>models.json<a class="headerlink" href="#models-json" title="Permalink to this heading">¶</a></h1>
+<p>The models.json will contain the key output from all models that are run. This is not a very user friendly file, as a fairly complex json. The primary (maybe only) use
+for this file is if a search is interupted, it can be restarted, and the contents of this file read in, rather than rerunning all of the models. If the goal is to make simple diagnostics
+of the search progress, the results.csv file is likely more useful.</p>
+</section>
+<section id="results-csv">
+<h1>results.csv<a class="headerlink" href="#results-csv" title="Permalink to this heading">¶</a></h1>
+<p>The results.csv file contains key information about all models that are run in a more user-friendly format. This file can be used to make plots to monitor progress of the search
+or to identify models that had unexpected results (Crashes)</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Example1.html" class="btn btn-neutral float-right" title="Example 1: PK Model, Trivial Exhaustive Search" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ms.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

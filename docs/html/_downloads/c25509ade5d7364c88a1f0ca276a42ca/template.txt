@@ -36,13 +36,15 @@
   {CL~AGE[2]} 
   {D1LAG[3]}
   $OMEGA   ;; must be one ETA/line
-  0.2  		; ETA(1) CLEARANCE
+    0.2  		; ETA(1) CLEARANCE
   $OMEGA 
-  0.2 	; ETA(2) VOLUME
+    0.2 	; ETA(2) VOLUME
   ;; optional $OMEGA blocks
-  {KAETA[2]}   ;; optional initial estimates for ETA on KA
+  ;; optional initial estimates for ETA on KA
+  {KAETA[2]}
    
-  {D1LAG[4]}   ;; optional initial estimates for ETA on D1 and ALAG1
+  ;; optional initial estimates for ETA on D1 and ALAG1
+  {D1LAG[4]}
   $SIGMA   
 
   {RESERR[2]}   ;; additive or proportional or combined

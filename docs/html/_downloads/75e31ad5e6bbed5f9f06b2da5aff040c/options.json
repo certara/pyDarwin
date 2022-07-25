@@ -21,6 +21,6 @@
 
     "remove_run_dir": false,
 
-    "nmfe_path": "c:/nm74g64/util/nmfe74.bat",
+    "nmfe_path": "c:/nm744/util/nmfe74.bat",
     "model_run_timeout": 9600
 }

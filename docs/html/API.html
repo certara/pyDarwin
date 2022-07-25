@@ -46,6 +46,12 @@
 <li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Folder%20Structure%20and%20naming.html">File Structure and Naming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html">pyDarwin Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#command-line-output">Command Line output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#file-output">File output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#messages-txt">Messages.txt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#models-json">models.json</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#results-csv">results.csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
@@ -120,6 +126,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Error%20messages.html">Error Messages and how to fix them</a></li>
 </ul>
 
         </div>
@@ -369,6 +376,16 @@ string, integer string and minimal binary representation of the model
 </section>
 <section id="module-darwin.ModelCode">
 <span id="darwin-modelcode"></span><h3>darwin.ModelCode<a class="headerlink" href="#module-darwin.ModelCode" title="Permalink to this heading">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="darwin.ModelCode._code_to_str">
+<span class="sig-prename descclassname"><span class="pre">darwin.ModelCode.</span></span><span class="sig-name descname"><span class="pre">_code_to_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.ModelCode._code_to_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="darwin.ModelCode._restore_code">
+<span class="sig-prename descclassname"><span class="pre">darwin.ModelCode.</span></span><span class="sig-name descname"><span class="pre">_restore_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stored</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.ModelCode._restore_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.ModelCode.</span></span><span class="sig-name descname"><span class="pre">ModelCode</span></span><a class="headerlink" href="#darwin.ModelCode.ModelCode" title="Permalink to this definition">¶</a></dt>
@@ -1171,8 +1188,8 @@ By default, key files (.lst, .xml, mod and any $TABLE files are retained).</p>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="darwin.nonmem.utils._get_var_name">
-<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_var_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.utils._get_var_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="darwin.nonmem.utils._get_var_names">
+<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_var_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.utils._get_var_names" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">

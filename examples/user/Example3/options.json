@@ -6,9 +6,6 @@
 
     "num_parallel": 4,
 
-    "working_dir": "u:/msale/example3/working",
-    "temp_dir": "u:/msale/example3/rundir",
-    "output_dir": "u:/msale/example3/output",	
     "crash_value": 99999999999,
 
     "penalty": {

@@ -1,65 +1,65 @@
 Run Directory,Fitness,Model,ofv,success,covar,correlation #,ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages
-C:/R/Example1\0\3,5964.744813,100000,5574.744812947827,True,False,False,5,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\4,5974.743012,110000,5574.743012050177,True,False,False,6,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\1,5973.472028,000000,5573.472028486418,True,False,False,6,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\2,5983.471651,010000,5573.4716512776795,True,False,False,7,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\5,5989.205710,001000,5599.205710022597,True,False,False,5,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\7,5979.749744,101000,5599.749744153642,True,False,False,4,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\6,5999.191982,011000,5599.191981967155,True,False,False,6,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\8,5989.744899,111000,5599.744899492152,True,False,False,5,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\9,5673.451399,000100,5583.451398779233,True,True,True,6,2,1,72.17012761919531,0,0,No important warnings
-C:/R/Example1\0\10,5683.432579,010100,5583.432578522225,True,True,True,7,2,1,83.50245864182484,0,0,No important warnings
-C:/R/Example1\0\11,5669.313713,100100,5589.313712538691,True,True,True,5,2,1,70.44001362580607,0,0,No important warnings
-C:/R/Example1\0\12,5679.313400,110100,5589.313399855971,True,True,True,6,2,1,81.29085553241913,0,0,No important warnings
-C:/R/Example1\0\13,5669.995082,001100,5589.995081880458,True,True,True,5,2,1,65.39075295212855,0,0,No important warnings
-C:/R/Example1\0\14,5679.981609,011100,5589.981608736424,True,True,True,6,2,1,70.99438525229932,0,0,No important warnings
-C:/R/Example1\0\15,5666.872765,101100,5596.872764912672,True,True,True,4,2,1,68.52013622797635,0,0,No important warnings
-C:/R/Example1\0\16,5676.872591,111100,5596.8725909137165,True,True,True,5,2,1,76.46911166245344,0,0,No important warnings
-C:/R/Example1\0\17,5739.872187,000010,5649.872186596784,True,True,True,5,3,1,25.88290938787202,0,0,No important warnings
-C:/R/Example1\0\18,6070.225978,010010,5670.225977666846,True,False,False,6,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\19,6053.195954,100010,5673.195954467858,True,False,False,4,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\20,6063.093459,110010,5673.093459198256,True,False,False,5,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\21,6072.632004,001010,5692.632004382776,True,False,False,4,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\22,6082.449975,011010,5692.449974901249,True,False,False,5,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\23,6062.719046,101010,5692.719045715924,True,False,False,3,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\25,5739.283750,000110,5659.283749609762,True,True,True,5,2,1,19.055498218165653,0,0,No important warnings
-C:/R/Example1\0\24,6072.533632,111010,5692.533632457232,True,False,False,4,3,1,99999999,0,0,No important warnings
-C:/R/Example1\0\26,5749.244719,010110,5659.244719392001,True,True,True,6,2,1,21.838559586348016,0,0,No important warnings
-C:/R/Example1\0\27,5734.664617,100110,5664.664616642245,True,True,True,4,2,1,20.58901245755407,0,0,No important warnings
-C:/R/Example1\0\28,5744.657028,110110,5664.6570282814655,True,True,True,5,2,1,24.64146595296626,0,0,No important warnings
-C:/R/Example1\0\29,5736.422779,001110,5666.422778953053,True,True,True,4,2,1,16.927012399148783,0,0,No important warnings
-C:/R/Example1\0\30,5746.395468,011110,5666.395467713189,True,True,True,5,2,1,19.591951736336416,0,0,No important warnings
-C:/R/Example1\0\31,5733.129804,101110,5673.129803784894,True,True,True,3,2,1,18.79701652843478,0,0,No important warnings
-C:/R/Example1\0\32,5743.128050,111110,5673.128049556445,True,True,True,4,2,1,22.068569018453882,0,0,No important warnings
-C:/R/Example1\0\33,4836.138450,000001,4726.138450470505,True,True,True,6,3,2,59.9265598458896,0,0,No important warnings
-C:/R/Example1\0\35,4834.624586,100001,4734.624585975112,True,True,True,5,3,2,57.366314083067365,0,0,No important warnings
-C:/R/Example1\0\34,4845.818664,010001,4725.818663665387,True,True,True,7,3,2,61.87343717289881,0,0,No important warnings
-C:/R/Example1\0\36,5144.246539,110001,4734.246538622994,True,False,False,6,3,2,99999999,0,0,No important warnings
-C:/R/Example1\0\37,4832.578000,001001,4732.5779997976915,True,True,True,5,3,2,53.84877146899757,0,0,No important warnings
-C:/R/Example1\0\38,4842.313608,011001,4732.313607634316,True,True,True,6,3,2,55.91749216212104,0,0,No important warnings
-C:/R/Example1\0\39,5128.765370,101001,4738.765369535121,True,False,False,4,3,2,99999999,0,0,No important warnings
-C:/R/Example1\0\40,4838.349067,111001,4738.3490668616405,True,True,True,5,3,2,59.745157244751056,0,0,No important warnings
-C:/R/Example1\0\41,4826.178798,000101,4726.178798478515,True,True,True,6,2,2,57.909570984987354,0,0,No important warnings
-C:/R/Example1\0\43,4824.659081,100101,4734.659080991382,True,True,True,5,2,2,54.04742062314532,0,0,No important warnings
-C:/R/Example1\0\42,4835.883968,010101,4725.883968207985,True,True,True,7,2,2,60.31711564464119,0,0,No important warnings
-C:/R/Example1\0\44,4834.247149,110101,4734.247149217831,True,True,True,6,2,2,59.18235550283497,0,0,No important warnings
-C:/R/Example1\0\45,4822.599672,001101,4732.599671960998,True,True,True,5,2,2,51.93342460450126,0,0,No important warnings
-C:/R/Example1\0\46,4832.352723,011101,4732.352723187981,True,True,True,6,2,2,54.214704613579634,0,0,No important warnings
-C:/R/Example1\0\47,4818.765529,101101,4738.765528943412,True,True,True,4,2,2,50.82168897271416,0,0,No important warnings
-C:/R/Example1\0\48,4828.400607,111101,4738.400606809394,True,True,True,5,2,2,55.72736092755332,0,0,No important warnings
-C:/R/Example1\0\49,5185.430742,000011,4785.430742386302,True,False,False,5,3,2,99999999,0,0,No important warnings
-C:/R/Example1\0\50,5194.924459,010011,4784.924459043158,True,False,False,6,3,2,99999999,0,0,No important warnings
-C:/R/Example1\0\51,5183.613154,100011,4793.613154040141,True,False,False,4,3,2,99999999,0,0,No important warnings
-C:/R/Example1\0\52,5193.004294,110011,4793.0042936307955,True,False,False,5,3,2,99999999,0,0,No important warnings
-C:/R/Example1\0\53,5182.221009,001011,4792.221009000265,True,False,False,4,3,2,99999999,0,0,No important warnings
-C:/R/Example1\0\54,5191.791568,011011,4791.791567848453,True,False,False,5,3,2,99999999,0,0,No important warnings
-C:/R/Example1\0\55,5177.911416,101011,4797.911415701458,True,False,False,3,3,2,99999999,0,0,No important warnings
-C:/R/Example1\0\56,5187.363775,111011,4797.363775173307,True,False,False,4,3,2,99999999,0,0,No important warnings
-C:/R/Example1\0\57,4875.430415,000111,4785.430414959343,True,True,True,5,2,2,7.92532148351086,0,0,No important warnings
-C:/R/Example1\0\58,4884.924133,010111,4784.924133418764,True,True,True,6,2,2,11.095851321634516,0,0,No important warnings
-C:/R/Example1\0\59,4873.612774,100111,4793.612773689091,True,True,True,4,2,2,4.212502048368023,0,0,No important warnings
-C:/R/Example1\0\60,4883.003917,110111,4793.003917468885,True,True,True,5,2,2,9.267277954423585,0,0,No important warnings
-C:/R/Example1\0\61,4872.220635,001111,4792.220635436343,True,True,True,4,2,2,5.839026847053884,0,0,No important warnings
-C:/R/Example1\0\62,4881.791195,011111,4791.791194811075,True,True,True,5,2,2,9.41834342654575,0,0,No important warnings
-C:/R/Example1\0\63,4867.911024,101111,4797.911024208659,True,True,True,3,2,2,4.60379036588984,0,0,No important warnings
-C:/R/Example1\0\64,4877.363388,111111,4797.363388245454,True,True,True,4,2,2,10.241975489760037,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\2,5683.471651,010000,5573.471651195442,True,True,True,7,3,1,55.8583367171093,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\4,99999999.000000,110000,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\1,99999999.000000,000000,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\3,99999999.000000,100000,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\5,99999999.000000,001000,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\6,99999999.000000,011000,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\8,5689.744899,111000,5599.744899492152,True,True,True,5,3,1,52.82577769033533,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\7,5679.749744,101000,5599.749744143031,True,True,True,4,3,1,36.881968612947546,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\9,5673.451399,000100,5583.451398779233,True,True,True,6,2,1,72.1701345146513,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\13,99999999.000000,001100,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\12,99999999.000000,110100,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\10,5683.432579,010100,5583.432578604754,True,True,True,7,2,1,85.91079222280953,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\11,5669.313713,100100,5589.313712621895,True,True,True,5,2,1,70.40258456334769,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\16,99999999.000000,111100,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\14,5679.981609,011100,5589.981608811263,True,True,True,6,2,1,73.98679569477012,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\15,5666.872765,101100,5596.872764905432,True,True,True,4,2,1,68.95329220123583,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\17,99999999.000000,000010,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\18,99999999.000000,010010,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\19,5753.195954,100010,5673.195954419792,True,True,True,4,3,1,23.859920270789715,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\20,5763.093459,110010,5673.093459227485,True,True,True,5,3,1,31.816934085274056,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\21,5772.632008,001010,5692.632008303359,True,True,True,4,3,1,28.173565509888746,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\22,5782.449975,011010,5692.449974895428,True,True,True,5,3,1,34.817977029803274,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\23,5762.719046,101010,5692.719045670697,True,True,True,3,3,1,23.946536619915687,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\24,5772.533632,111010,5692.5336324440395,True,True,True,4,3,1,29.548555548637847,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\25,99999999.000000,000110,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\26,5749.244719,010110,5659.244719392002,True,True,True,6,2,1,21.83856468960462,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\27,5734.664617,100110,5664.66461651907,True,True,True,4,2,1,20.04455824712298,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\29,99999999.000000,001110,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\28,5744.657028,110110,5664.6570282814655,True,True,True,5,2,1,24.641465972984676,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\31,5733.129804,101110,5673.129803784894,True,True,True,3,2,1,18.797015669429832,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\30,5746.395468,011110,5666.3954676416815,True,True,True,5,2,1,19.42988528310672,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\32,5743.128050,111110,5673.128049556445,True,True,True,4,2,1,22.06856893155114,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\33,99999999.000000,000001,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\36,99999999.000000,110001,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\35,4834.624586,100001,4734.624585991721,True,True,True,5,3,2,57.16864980706972,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\34,4845.818664,010001,4725.81866371102,True,True,True,7,3,2,61.449892663620794,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\37,4832.578000,001001,4732.5779997881755,True,True,True,5,3,2,53.65368149005296,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\39,99999999.000000,101001,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\38,4842.313608,011001,4732.31360762249,True,True,True,6,3,2,55.95688777443302,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\41,99999999.000000,000101,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\40,4838.349067,111001,4738.349066867371,True,True,True,5,3,2,59.916102904864935,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\42,99999999.000000,010101,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\44,99999999.000000,110101,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\43,4824.659081,100101,4734.6590810149555,True,True,True,5,2,2,54.23925438447327,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\45,99999999.000000,001101,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\46,99999999.000000,011101,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\47,99999999.000000,101101,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\48,4828.400607,111101,4738.4006068016015,True,True,True,5,2,2,55.853122228592404,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\50,99999999.000000,010011,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\49,4885.430742,000011,4785.430742336881,True,True,True,5,3,2,8.12990472171795,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\51,4883.613154,100011,4793.61315404014,True,True,True,4,3,2,4.258106580802914,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\54,99999999.000000,011011,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\52,4893.004294,110011,4793.0042936307955,True,True,True,5,3,2,9.219069085290188,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\53,4882.221009,001011,4792.221009000265,True,True,True,4,3,2,5.793908200221528,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\55,99999999.000000,101011,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\56,99999999.000000,111011,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\57,4875.430415,000111,4785.430414988528,True,True,True,5,2,2,8.10167376909068,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\58,4884.924133,010111,4784.924133453327,True,True,True,6,2,2,11.134000483981168,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\60,4883.003917,110111,4793.003917455465,True,True,True,5,2,2,9.246164418591178,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\62,4881.791195,011111,4791.791194792438,True,True,True,5,2,2,9.402395197538631,0,0,No important warnings
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\59,99999999.000000,100111,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\63,99999999.000000,101111,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\61,99999999.000000,001111,99999999,False,False,False,0,0,0,99999999,0,0,
+C:\Users\vnazarov.CERTARA\pydarwin\Example1\temp\0\64,99999999.000000,111111,99999999,False,False,False,0,0,0,99999999,0,0,

@@ -2,7 +2,7 @@
     "author": "Certara",
 
     "algorithm": "EX",
-    "exhaustive_batch_size": 100,
+    "exhaustive_batch_size": 400,
 
     "num_parallel": 4,
 

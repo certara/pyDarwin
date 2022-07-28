@@ -44,6 +44,15 @@
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#execution-overview">Execution Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#running-local-search">Running Local Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stopping-execution">Stopping Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#execution-on-linux-grids">Execution on Linux Grids</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#running-grid-search">Running Grid Search</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#required-files">Required Files</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#template-file">Template File</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tokens-file">Tokens File</a></li>
@@ -58,13 +67,13 @@
 <li class="toctree-l4"><a class="reference internal" href="#results-csv">results.csv</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#file-structure-and-naming">File Structure and Naming</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#saving-nonmem-outputs">Saving NONMEM outputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-structure">File Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-folder-naming">Model/folder naming</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#saving-models">Saving models</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#file-structure-and-naming">File Structure and Naming</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#saving-nonmem-outputs">Saving NONMEM outputs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#file-structure">File Structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#model-folder-naming">Model/folder naming</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#saving-models">Saving models</a></li>
 </ul>
 </li>
 </ul>
@@ -107,6 +116,11 @@
              
   <section id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h1>
+<p>Darwin may be executed locally, on Linux Grids, or as a combination of both e.g., execute NONMEM models on grids and run search locally.</p>
+<section id="execution-overview">
+<h2>Execution Overview<a class="headerlink" href="#execution-overview" title="Permalink to this heading">¶</a></h2>
+<section id="running-local-search">
+<h3>Running Local Search<a class="headerlink" href="#running-local-search" title="Permalink to this heading">¶</a></h3>
 <p>The <a class="reference internal" href="API.html#darwin-run-search"><span class="std std-ref">darwin.run_search</span></a> function executes the candidate search for the optimal population model.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">run_search</span> <span class="o">&lt;</span><span class="n">template_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">tokens_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">options_path</span><span class="o">&gt;</span>
 </pre></div>
@@ -117,6 +131,7 @@
 <li><p><a class="reference internal" href="#tokens-file-target"><span class="std std-ref">Tokens file</span></a> (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension</p></li>
 <li><p><a class="reference internal" href="#options-file-target"><span class="std std-ref">Options file</span></a> (e.g., options.json) - json file describing algorithim, run options, and post-run penalty code configurations.</p></li>
 </ol>
+<p>See <a class="reference internal" href="#startrequiredfiles"><span class="std std-ref">required files</span></a> for additional details.</p>
 <p>Alternatively, you may execute the <a class="reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a> function,
 specifying the path to the folder containing the <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">options.json</span></code> files
 as a single argument:</p>
@@ -125,6 +140,50 @@ as a single argument:</p>
 </div>
 <p><em>Note: Files must be named as</em> <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code>, <em>and</em> <code class="docutils literal notranslate"><span class="pre">options.json</span></code> <em>when using</em>
 <a class="reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a>.</p>
+</section>
+<section id="stopping-execution">
+<h3>Stopping Execution<a class="headerlink" href="#stopping-execution" title="Permalink to this heading">¶</a></h3>
+<p>Once a search is started, <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> will track the presence of various files in the <code class="docutils literal notranslate"><span class="pre">working_dir</span></code>.
+Creating either of the two files listed below inside the user’s <code class="docutils literal notranslate"><span class="pre">working_dir</span></code>, will stop <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> execution.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stop.darwin</span></code>: Execution will stop immediately</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">soft_stop.darwin</span></code>: Execution will stop after current model runs are finished</p></li>
+</ol>
+<p><em>Note: models.json will contain all model runs finished before interruption</em></p>
+</section>
+<section id="execution-on-linux-grids">
+<h3>Execution on Linux Grids<a class="headerlink" href="#execution-on-linux-grids" title="Permalink to this heading">¶</a></h3>
+<p>The following requirements should be met in order to execute <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> on Linux Grids.</p>
+<ul class="simple">
+<li><p>You must have access to the grid system e.g., you are able to connect to the system via terminal session.</p></li>
+<li><p>You must make <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> installation available for all grid nodes.</p></li>
+<li><p>Your search project must be available for all grid nodes as well.</p></li>
+<li><p>You should be familiar with your grid controller commands e.g., how to submit a job, query finished jobs, and delete jobs.</p></li>
+<li><p>You should be familiar with regular expressions e.g., for usage in <code class="docutils literal notranslate"><span class="pre">&quot;submit_job_id_re&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;poll_job_id_re&quot;</span></code> fields in <code class="docutils literal notranslate"><span class="pre">options.json</span></code>.</p></li>
+</ul>
+<p><em>Note: If all grid nodes share the same file system you can simply deploy pyDarwin in your home directory (always use virtual environment!).</em></p>
+<p>There are two ways to utilize grids for search in <cite>pyDarwin</cite>:</p>
+<ol class="arabic simple">
+<li><p>Run search locally, submit individual model runs to the grid (local search, grid model runs).</p></li>
+<li><p>Submit search to the grid, as well as all the model runs (grid search, grid model runs).</p></li>
+</ol>
+<p>In both cases you need to setup grid settings in your <code class="docutils literal notranslate"><span class="pre">options.json</span></code>.</p>
+<p>Both ways you can stop the search using <code class="docutils literal notranslate"><span class="pre">darwin.stop_search</span></code>. Just keep in mind that in second case it may be not very responsive (due to load/IO latency/grid deployment details), so be patient.</p>
+<p><em>Note: Although it’s possible to submit a “local search with local model runs” to the grid, this is not suggested.</em></p>
+<section id="running-grid-search">
+<h4>Running Grid Search<a class="headerlink" href="#running-grid-search" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">run_search</span> <span class="o">&lt;</span><span class="n">template_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">tokens_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">options_path</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Or alternatively, run grid search in folder:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">run_search_in_folder</span> <span class="o">&lt;</span><span class="n">folder_path</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><em>Note: You must ensure that</em> <code class="docutils literal notranslate"><span class="pre">submit_search_command</span></code> <em>has been setup correctly in options.json, in addition to other grid settings.
+See</em> <a class="reference internal" href="Options.html#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a></p>
+</section>
+</section>
+</section>
 <section id="required-files">
 <h2>Required Files<a class="headerlink" href="#required-files" title="Permalink to this heading">¶</a></h2>
 <p id="startrequiredfiles">The same 3 files are required for any search, whether exhausitve, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a> , <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a> ,
@@ -310,19 +369,18 @@ of the search progress, the results.csv file is likely more useful.</p>
 or to identify models that had unexpected results (Crashes)</p>
 </section>
 </section>
-</section>
 <section id="file-structure-and-naming">
-<h2>File Structure and Naming<a class="headerlink" href="#file-structure-and-naming" title="Permalink to this heading">¶</a></h2>
+<h3>File Structure and Naming<a class="headerlink" href="#file-structure-and-naming" title="Permalink to this heading">¶</a></h3>
 <p>NONMEM control, executable and output file naming</p>
 <section id="saving-nonmem-outputs">
-<h3>Saving NONMEM outputs<a class="headerlink" href="#saving-nonmem-outputs" title="Permalink to this heading">¶</a></h3>
+<h4>Saving NONMEM outputs<a class="headerlink" href="#saving-nonmem-outputs" title="Permalink to this heading">¶</a></h4>
 <p>NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an isssue for disc space.
 By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space.
 In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
 Care should be take to not generate unneeded table files, as these can become quite large, and will not be removed by pyDarwin.</p>
 </section>
 <section id="file-structure">
-<h3>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading">¶</a></h3>
+<h4>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading">¶</a></h4>
 <p>Three user define file locations can be set in the <a class="reference internal" href="Options.html#options"><span class="std std-ref">options file</span></a>. In addition to the fodlers that are user defined
 the project directory (project_dir) is the folder where template, token and options files are located. The user define folders are:</p>
 <ol class="arabic simple">
@@ -332,7 +390,7 @@ the project directory (project_dir) is the folder where template, token and opti
 </ol>
 </section>
 <section id="model-folder-naming">
-<h3>Model/folder naming<a class="headerlink" href="#model-folder-naming" title="Permalink to this heading">¶</a></h3>
+<h4>Model/folder naming<a class="headerlink" href="#model-folder-naming" title="Permalink to this heading">¶</a></h4>
 <p>A model stem is generated from the current generation/iteration and model number or the form NM_genration_model_num. For example, if this is iteration 2, model 3 the model stem would be
 NM_2_3. For the 1 bit downhill, the model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill
 model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file etc. This results in unique names for all models in the search. Models
@@ -343,9 +401,10 @@ are also frequently duplicated. Duplicated files are not rerun, and so those wil
 </figure>
 </section>
 <section id="saving-models">
-<h3>Saving models<a class="headerlink" href="#saving-models" title="Permalink to this heading">¶</a></h3>
+<h4>Saving models<a class="headerlink" href="#saving-models" title="Permalink to this heading">¶</a></h4>
 <p>Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficients. The name of the saved JSON file can be set by the user. A .csv
 file describing the course of the search is also save to results.csv. This file can be used to monitor the progress of the search.</p>
+</section>
 </section>
 </section>
 </section>

@@ -12,15 +12,19 @@ pyDarwin implements a number of machine learning algorithms for model selection.
 For supervised learning, the algorithm "learns" to associate certain patterns (e.g., a collection of bitmap pictures) with a set of labeled examples. For example, if one has
 10,000 pictures of cats and dogs (a training set), with each image labeled as "cat" or "dog", an artificial neural network (ANN) can find patterns in 
 the 0's and 1's that are associated with "catness" or "dogness", and can be fairly successful at predicting for any similar set of bitmaps (a test set) which is a 
-cat and which is a dog. In contrast, unsupervised learning has no labeled training set. Linear regression is a simple example of supervised learning. 
+cat and which is a dog. 
+
+In contrast, unsupervised learning has no labeled training set. Linear regression is a simple example of supervised learning. 
 There is an input (X's) and an output (Y's) and the algorithm identified patterns that match the inputs to the output (intercept and slope(s)). 
 The traditional model selection/building process for pop pk models is unsupervised. There is no "labeled" training data set, no collection of data sets 
 that are known to be 1 compartment, with Volume~WT. Rather each data set is a new learning and the algorithm must discover relationships based just on that data set. 
 In the case of model selection, the inputs (X's) are the "features" of the model search (not the model, but the model search) 
-(number of compartments, covariates, random effects etc) and the output is some measure of model goodness. For pyDarwin the model goodness is a user defined function, 
-with a base of the -2LL output, with user defined penalties, including parsimony (penalties for estimate parameters), convergence, successful covariance step plus optional 
+(number of compartments, covariates, random effects etc) and the output is some measure of model goodness. 
+
+For pyDarwin the model goodness is a user defined function, with a base of the -2LL output, with user defined penalties, including parsimony (penalties for estimate parameters), convergence, successful covariance step plus optional 
 user written R or python code that can be excuted after each run (postRunRCode or postRunPythonCode). This post run code is useful, for example if the  user wants to add 
 a penalty for under or over prediction of Cmax (basically a penalty for `posterior predictive check <https://link.springer.com/article/10.1023/A:1011555016423>`_). 
+
 Supervised learning includes algorithms such as regression, artificial neural networks (ANN), decision trees/random forest and k-nearest neighbor. 
 Recently, hybrid supervised/unsupervised learning algorithm have been introduced and have proven to be very powerful. The best know of these is deep q network/reinforcement 
 learning(DQN/RL). DQN/RL is a deep neural network (a slightly more complex ANN). However, unlike traditional supervised ANN, there is no training set. 

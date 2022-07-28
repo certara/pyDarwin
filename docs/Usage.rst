@@ -1,6 +1,15 @@
-
+##########
 Usage
-========
+##########
+
+Darwin may be executed locally, on Linux Grids, or as a combination of both e.g., execute NONMEM models on grids and run search locally. 
+
+********************
+Execution Overview
+********************
+
+Running Local Search
+=========================
 
 The :ref:`darwin.run_search <darwin.run_search>` function executes the candidate search for the optimal population model.
 
@@ -14,6 +23,8 @@ To execute, call the ``darwin.run_search`` function and provide the paths to the
 2. :ref:`Tokens file <tokens_file_target>` (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension
 3. :ref:`Options file <options_file_target>` (e.g., options.json) - json file describing algorithim, run options, and post-run penalty code configurations.
 
+See :ref:`required files <startRequiredFiles>` for additional details.
+
 Alternatively, you may execute the :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function, 
 specifying the path to the folder containing the ``template.txt``, ``tokens.json``, and ``options.json`` files
 as a single argument:
@@ -25,8 +36,67 @@ as a single argument:
 *Note: Files must be named as* ``template.txt``, ``tokens.json``, *and* ``options.json`` *when using*
 :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>`.
 
+
+Stopping Execution
+=========================
+
+Once a search is started, ``pyDarwin`` will track the presence of various files in the ``working_dir``.
+Creating either of the two files listed below inside the user's ``working_dir``, will stop ``pyDarwin`` execution.
+
+1. ``stop.darwin``: Execution will stop immediately
+2. ``soft_stop.darwin``: Execution will stop after current model runs are finished
+
+*Note: models.json will contain all model runs finished before interruption*
+
+
+Execution on Linux Grids
+=========================
+
+The following requirements should be met in order to execute ``pyDarwin`` on Linux Grids.
+
+* You must have access to the grid system e.g., you are able to connect to the system via terminal session.
+* You must make ``pyDarwin`` installation available for all grid nodes. 
+* Your search project must be available for all grid nodes as well.
+* You should be familiar with your grid controller commands e.g., how to submit a job, query finished jobs, and delete jobs.
+* You should be familiar with regular expressions e.g., for usage in ``"submit_job_id_re"`` and ``"poll_job_id_re"`` fields in ``options.json``.
+
+*Note: If all grid nodes share the same file system you can simply deploy pyDarwin in your home directory (always use virtual environment!).*
+
+
+
+There are two ways to utilize grids for search in `pyDarwin`:
+
+1. Run search locally, submit individual model runs to the grid (local search, grid model runs).
+2. Submit search to the grid, as well as all the model runs (grid search, grid model runs).
+
+In both cases you need to setup grid settings in your ``options.json``.
+
+Both ways you can stop the search using ``darwin.stop_search``. Just keep in mind that in second case it may be not very responsive (due to load/IO latency/grid deployment details), so be patient.
+
+*Note: Although it’s possible to submit a "local search with local model runs" to the grid, this is not suggested.*
+
+
+Running Grid Search
+---------------------
+
+.. code:: python
+    
+    python -m darwin.grid.run_search <template_path> <tokens_path> <options_path>
+
+
+Or alternatively, run grid search in folder:
+
+.. code:: python
+    
+    python -m darwin.grid.run_search_in_folder <folder_path>
+
+*Note: You must ensure that* ``submit_search_command`` *has been setup correctly in options.json, in addition to other grid settings.
+See* :ref:`submit_search_command <submit_search_command_options_desc>`
+
+
+********************
 Required Files
-~~~~~~~~~~~~~~~~~~~
+********************
 
 .. _startRequiredFiles:
  
@@ -40,8 +110,9 @@ and misc other options related to execution. See :ref:`Options List<Options>.
  
 .. _template_file_target:
 
+
 Template File
----------------
+=========================
 
 The template file is a plain ASCII text file. This file is the framework for the construction of the NONMEM 
 control files. Typically, the structure will be quite similar to a NONMEM control file, with all of the usual 
@@ -143,7 +214,7 @@ There are 3 restriction for the parseing of the initial estimates blocks:
 .. _tokens_file_target:
 
 Tokens File
----------------
+=========================
 
 The tokens file provide a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the :ref:`token group <token group>`. Token groups are 
 defined by a unique :ref:`token stem<token stem>`. The token stem also typically serves as the key in the :ref:`token key-text pairs.<token key-text pair>` The token stem is 
@@ -197,7 +268,7 @@ In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3
 .. _options_file_target:
 
 Options File
----------------
+=========================
 
 A JSON file with key-value pairs specifying various options for executing pyDarwin. While some fields are mandatory, some are
 algorithim specific, while others are only relevant for execution on Linux grids.
@@ -205,11 +276,12 @@ algorithim specific, while others are only relevant for execution on Linux grids
 See :ref:`Options List<Options>` for details.
 
 
+********************
 pyDarwin Outputs
-~~~~~~~~~~~~~~~~~~~
+********************
 
 Console output
----------------------
+=========================
 
 When pyDarwin first starts, it starts by confirming that key files are available. These files include:
 
@@ -248,7 +320,7 @@ If there are messages from NONMEM execution, these will also be written to comma
 If the XXXXXX is not set to true, the NONMEM control file, output file and other key files can be found in {temp_dir}\Iteration/generation\Model Number for debugging. 
 
 File output
----------------
+=========================
 
 The file output from pyDarwin is generated real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly, 
 messages (what appears on the command line output) is written continuously to the messages.txt file.
@@ -258,13 +330,13 @@ the results.csv file is opened in Excel, the next time pyDarwin trys to open it 
 another file (e.g., cp results.csv results1.csv), then open the copied file.
 
 Messages.txt
-````````````````
+--------------
 
 The messages.txt file will be found in the working dir. This file contents is the same as that output to the command line
 
 
 models.json
-````````````````
+--------------
 
 The models.json will contain the key output from all models that are run. This is not a very user friendly file, as a fairly complex json. The primary (maybe only) use 
 for this file is if a search is interupted, it can be restarted, and the contents of this file read in, rather than rerunning all of the models. If the goal is to make simple diagnostics 
@@ -272,26 +344,26 @@ of the search progress, the results.csv file is likely more useful.
 
 
 results.csv
-````````````````
+--------------
 
 The results.csv file contains key information about all models that are run in a more user-friendly format. This file can be used to make plots to monitor progress of the search 
 or to identify models that had unexpected results (Crashes)
 
 
 File Structure and Naming
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+==========================
 
 NONMEM control, executable and output file naming
 
 Saving NONMEM outputs
----------------------
+-----------------------
 NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an isssue for disc space. 
 By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space. 
 In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
 Care should be take to not generate unneeded table files, as these can become quite large, and will not be removed by pyDarwin. 
 
 File Structure
----------------
+----------------
 Three user define file locations can be set in the :ref:`options file<Options>`. In addition to the fodlers that are user defined
 the project directory (project_dir) is the folder where template, token and options files are located. The user define folders are:
 
@@ -316,7 +388,7 @@ Run folders are similarly named for the generation/iteration and model number. B
 .. figure:: FileStructure.png
 
 Saving models
--------------
+---------------
 
 Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficients. The name of the saved JSON file can be set by the user. A .csv 
 file describing the course of the search is also save to results.csv. This file can be used to monitor the progress of the search. 

@@ -1,6 +1,15 @@
+.. include:: .special.rst
+
 ##########
 Usage
 ##########
+
+:comment:`This is a comment`
+
+:review:`this is a review item`
+
+:comment:`Note that ..includ:: .special.rst must be included at the top of each rst where you are using comment/review`
+
 
 Darwin may be executed locally, on Linux Grids, or as a combination of both e.g., execute NONMEM models on grids and run search locally. 
 

@@ -12,9 +12,8 @@ Welcome to pyDarwin's documentation
 
    Install 
    Overview
-   Folder Structure and naming
    Usage
-   pyDarwin Outputs
+   Options
    Example1 
    Example2
    Example3 
@@ -23,9 +22,8 @@ Welcome to pyDarwin's documentation
    Example6 
    API 
    Glossary
+   Troubleshooting
    Support 
-   Options
-   Error messages
 
 Indices and tables
 ==================

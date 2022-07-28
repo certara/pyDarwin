@@ -13,6 +13,7 @@ run\_search
 
 run\_search\_in\_folder
 --------------------------
+.. _darwin.run_search_in_folder:
 
 .. automodule:: darwin.run_search_in_folder
    :members:

@@ -8,32 +8,50 @@ The :ref:`darwin.run_search <darwin.run_search>` function executes the candidate
     
     python -m darwin.run_search <template_path> <tokens_path> <options_path>
 
-To execute, call the ``darwin.run_search`` function and provide the following file paths as arguments:
+To execute, call the ``darwin.run_search`` function and provide the paths to the following files as arguments:
 
 1. :ref:`Template file <template_file_target>` (e.g., template.txt) - basic shell for NONMEM control files
 2. :ref:`Tokens file <tokens_file_target>` (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension
 3. :ref:`Options file <options_file_target>` (e.g., options.json) - json file describing algorithim, run options, and post-run penalty code configurations.
 
+Alternatively, you may execute the :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function, 
+specifying the path to the folder containing the ``template.txt``, ``tokens.json``, and ``options.json`` files
+as a single argument:
+
+.. code:: python
+    
+    python -m darwin.run_search_in_folder <folder_path>
+
+*Note: Files must be named as* ``template.txt``, ``tokens.json``, *and* ``options.json`` *when using*
+:ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>`.
+
+Required Files
+~~~~~~~~~~~~~~~~~~~
+
 .. _startRequiredFiles:
  
  
-The same 3 files are required for any search, whether exhausitve, :ref:`EX<EX_desc>` , :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` or :ref:`GBRT<GBRT_desc>`. 
-Which algorithm is used is defined in the :ref:`options file<options_file_target>`. The template 
-file serves as a framework, and looks similar to a NONMEM/NMTRAN control file. The tokens file specifies the range of "features" to be searched, and the options 
-file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution etc.
+The same 3 files are required for any search, whether exhausitve, :ref:`EX<EX_desc>` , :ref:`GA<GA_desc>` ,
+:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` or :ref:`GBRT<GBRT_desc>`. Which algorithm is used is defined in the 
+:ref:`options file<options_file_target>`. The template  file serves as a framework, and looks similar to a 
+NONMEM/NMTRAN control file. The tokens file specifies the range of "features" to be searched, and the options 
+file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution,
+and misc other options related to execution. See :ref:`Options List<Options>.
  
 .. _template_file_target:
 
 Template File
-~~~~~~~~~~~~~~~~~~~
-The template file is a plain ASCII text file. This file is the framework for the construction of the NONMEM control files. 
-Typically, the structure will be quite similar to a NONMEM control file, with all of the 
-usual blocks, e.g. $PROB, $INPUT, $DATA, $SUBS, $PK, $ERROR, $THETA, $OMEGA, $SIGMA, $EST. However, this format is 
-completely flexible and entire blocks may be missing from the template file (to be provided from the  :ref:`tokens file<tokens_file_target>`)
+---------------
 
-The difference between a standard NONMEM control file and the temlate file is that the user will define code 
+The template file is a plain ASCII text file. This file is the framework for the construction of the NONMEM 
+control files. Typically, the structure will be quite similar to a NONMEM control file, with all of the usual 
+blocks, e.g. $PROB, $INPUT, $DATA, $SUBS, $PK, $ERROR, $THETA, $OMEGA, $SIGMA, $EST. However, this format is 
+completely flexible and entire blocks may be missing from the template file (to be provided from the 
+:ref:`tokens file<tokens_file_target>`)
+
+The difference between a standard NONMEM control file and the template file is that the user will define code 
 segments in the template file that will be replaced by other text. These code segments are refered to as "token keys". 
-Tokens keys come in sets, as in most case several code segements will need to be replace together to generate syntacatically 
+Tokens keys come in sets, and in most cases, several token keys will need to be replaced together to generate syntacatically 
 correct code. The syntax for a token key in the template file is:
 
 ::
@@ -42,6 +60,8 @@ correct code. The syntax for a token key in the template file is:
 
 Where Token_stem is a unique identified for that token set and N is which target text is to be substituted. An 
 example is instructive.
+
+*Example:*
 
 Assume the user would like to consider 1 compartment (ADVAN1) or 2 compartment (ADVAN3) models as a dimension of the search. 
 The relevant template file for this might be:
@@ -65,7 +85,7 @@ The relevant template file for this might be:
     {ADVAN[3]}
 
 Note that tokens nearly always come in sets, as in nearly all cases, several substitions must be made to create correct syntax. 
-For a one compartment model the following substutions would be made:
+For a one compartment model the following substitutions would be made:
 
 {ADVAN[1]} -> ADVAN1
 
@@ -97,7 +117,7 @@ the :ref:`phenotype.<Phenotype>`
 Note that the THETA (and ETA and EPS) indices cannot be determined until the final control file is defined, as THETAs may be included in one and not another token set. 
 For this reason, all fixed initial estimates in the $THETA block MUST occur before the THETA values that are not fixed. This is so the 
 algorithm can parse the resulting file and correctly calculate the appropriate THETA (and ETA and EPS) indices. Further, the text string index of in the token (e.g., ADVANA and ADVANB) 
-*must* be unique in the token groups. The most convenient way to insure that the text string index is unique in the Token groups is to use the token stem as the 
+*must* be unique in the token groups. The most convenient way to ensure that the text string index is unique in the Token groups is to use the token stem as the 
 THETA index (e.g., THETA(ADVAN) is the token stem is ADVAN). Additional characters (e.g., ADVANA, ADVANB) can be added if multiple THETA text indices are needed. 
 Note that the permited syntax for residual error is EPS() or ERR(). 
 
@@ -122,8 +142,8 @@ There are 3 restriction for the parseing of the initial estimates blocks:
 
 .. _tokens_file_target:
 
-The Tokens File
-~~~~~~~~~~~~~~~
+Tokens File
+---------------
 
 The tokens file provide a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the :ref:`token group <token group>`. Token groups are 
 defined by a unique :ref:`token stem<token stem>`. The token stem also typically serves as the key in the :ref:`token key-text pairs.<token key-text pair>` The token stem is 
@@ -177,215 +197,126 @@ In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3
 .. _options_file_target:
 
 Options File
+---------------
+
+A JSON file with key-value pairs specifying various options for executing pyDarwin. While some fields are mandatory, some are
+algorithim specific, while others are only relevant for execution on Linux grids.
+
+See :ref:`Options List<Options>` for details.
+
+
+pyDarwin Outputs
 ~~~~~~~~~~~~~~~~~~~
 
-.. code:: json
+Console output
+---------------------
 
-    {
-        "author": "Charles Robert Darwin",
-        "project_name": "Delicious armadillos",
+When pyDarwin first starts, it starts by confirming that key files are available. These files include:
 
-        "algorithm": "GA",
-
-        "GA": {
-            "elitist_num": 2,
-            "crossoverRate": 0.95,
-            "mutationRate": 0.95,
-            "sharing_alpha": 0.1,
-            "selection": "tournament",
-            "selection_size": 2,
-            "crossoverOperator": "cxOnePoint",
-            "mutate": "flipBit",
-            "attribute_mutation_probability": 0.1,
-            "niche_penalty": 10
-        },
-
-        "random_seed": 11,
-        "num_parallel": 4,
-        "num_generations": 6,
-        "population_size": 4,
-
-        "num_opt_chains": 4,
-
-        "exhaustive_batch_size": 100,
-
-        "crash_value": 99999999,
-
-        "penalty": {
-            "THETA": 10,
-            "OMEGA": 10,
-            "SIGMA": 10,
-            "convergence": 100,
-            "covariance": 100,
-            "correlation": 100,
-            "conditionNumber": 100,
-            "non_influential_tokens": 0.00001
-        },
-
-        "downhill_period": 2,
-        "num_niches": 2,
-        "niche_radius": 2,
-        "local_2_bit_search": true,
-        "final_downhill_search": true,
-
-        "nmfePath": "/opt/nm751/util/nmfe75",
-        "model_run_timeout": 1200,
-        "model_run_priority_class": "below_normal",
-
-        "postprocess": {
-            "useR": true,
-            "RScriptPath": "/some/R/path/rscript",
-            "postRunRCode": "{project_dir}/simplefunc.r",
-            "R_timeout": 30,
-            "usePython": true,
-            "postRunPythonCode": "{project_dir}/../simplefunc_common.py"
-        },
-
-        "use_saved_models": false,
-        "saved_models_file": "{working_dir}/models0.json",
-        "saved_models_readonly": false,
-
-        "remove_run_dir": false,
-        "remove_temp_dir": true,
-
-        "model_run_man": "darwin.GridRunManager",
-        "model_cache": "darwin.MemoryModelCache",
-        "grid_adapter": "darwin.GenericGridAdapter",
-        "engine_adapter": "nonmem",
-
-        "working_dir": "~/darwin/Ex1",
-        "data_dir": "{project_dir}/data",
-        "output_dir": "{project_dir}/output",
-        "temp_dir": "{working_dir}/temp",
-
-        "generic_grid_adapter": {
-            "python_path": "~/darwin/venv/bin/python",
-            "submit_search_command": "qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'",
-            "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
-            "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
-            "poll_command": "qstat -s z",
-            "poll_job_id_re": "^\\s+(\\w+)",
-            "poll_interval": 5,
-            "delete_command": "qdel {project_stem}-*"
-        }
-    }
-
-Description of the options is given in :ref:`Options<Options>`.
+#. The template file
+#. The tokens file
+#. The options file
+#. nmfe??.bat - executes NONMEM
+#. The data file(s) for the first control that is intiated
+#. If post run R code is requested, Rscript.exe
 
 
-Note that the the options are saved to a json file. Json supports string, numeric and Boolen (true|false)
-Options include
+The start up output also lists the location of:
+ 
+#. Data dir - folder where datasets are located. It is recommended that this be an absolute path
+#. Project working dir - folder where template, token and options files are located, this is not set by the user
+#. Project temp dir - root folder where model file will be found, if the option is not set to remove them
+#. Project output dir - folder where all the files that considered as results will be put, such as results.csv and Final* files. 
+#. Where intermediate output will be written (e.g. u:/user/example2/output\results.csv)
+#. Where models will be saved to (e.g., u:/user/example2/working\models.json)
+#. NMFE??.bat file
+#. Rscript.exe, if used
 
-author: String, Author, currently not used, Default - blank
 
-homeDir: String, Linux style for the home directory, generation/interation subfolders will be placed here, Required
+When run from command line (`or from Visual Studio Code <https://code.visualstudio.com/>`_) pyDarwin provides significant output about whether individual models 
+have executed successfully. A typical line of output might be::
 
-algorithm: String, Required GA (
-:ref:`GA_desc`) EX (
-:ref:`EX_desc`) GP (
-:ref:`GP_desc`) RF (
-:ref:`RF_desc`) GBRT (
-:ref:`GBRT_desc`). Which algorithm to use.
+    [16:22:11] Iteration = 1, Model     1,       Done,    fitness = 123.34,    message =  No important warnings
 
-random_seed: Integer, required if using GA/GP/RF or GBRT, 
 
-population_size: Integer, required if using algorithm other than exhaustive search
+The columns in this output are::
+    
+    [Time of completion] Iteration = Iteration/generation, Model     Model Number,       Final Staus,    fitness = fitness/reward,    message =  Messages from NMTRAN
 
-nmfePath: String, required, path to nmfe??.bat file. Currently supported are nmfe74.bat and nmfe75.bat. 
+If there are messages from NONMEM execution, these will also be written to command line, as well as if excecution failed, and, if request, if R execution failed.
 
-num_parallel: Integer, optional. Number of NONMEM models to run in parallel, Default = 4
+If the XXXXXX is not set to true, the NONMEM control file, output file and other key files can be found in {temp_dir}\Iteration/generation\Model Number for debugging. 
 
-num_generations: Integer, required if using GA/GP/RF or GBRT
+File output
+---------------
 
-niche_penalty: Numeric, required if using GA. Require for calculation of the crowding penalty. 
-The niche penalty is calculate by first calculating the "distance matrix", the pair wise Mikowski distance (https://en.wikipedia.org/wiki/Minkowski_distance) from the present model to all other models in the generation. 
-The "crowding" quantity is then calculated a the sum of:
-1 - (distance/niche_radius)**sharing_alpha for all other models in the generation for which the Mikowski distance is less than the niche radius. 
-Finally, the penalty is calculated as:
-exp((crowding-1)*niche_penalty)-1
-The objective of using a niche penalty is to maintain diversity of models, to avoid premature convergence of the search, by penalizing when models are too 
-similar to other models in the current generation.
-A typical value for the penalty is 10.
+The file output from pyDarwin is generated real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly, 
+messages (what appears on the command line output) is written continuously to the messages.txt file.
 
-num_niches: Integer, required if using GA.
+**NOTE**. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the "locks" them, e.g. Excel. If, for example 
+the results.csv file is opened in Excel, the next time pyDarwin trys to open it to write the next model output, an exception will occur. The work around is to copy the file to 
+another file (e.g., cp results.csv results1.csv), then open the copied file.
 
-niche_radius: Numeric, required if using GA. A typical value for niche_radius is 2.
+Messages.txt
+````````````````
 
-THETAPenalty: Numeric, required  
+The messages.txt file will be found in the working dir. This file contents is the same as that output to the command line
 
-OMEGAPenalty: Numeric, required  
 
-SIGMAPenalty: Numeric, required  
+models.json
+````````````````
 
-conditionNumberPenalty: Numeric, required   
+The models.json will contain the key output from all models that are run. This is not a very user friendly file, as a fairly complex json. The primary (maybe only) use 
+for this file is if a search is interupted, it can be restarted, and the contents of this file read in, rather than rerunning all of the models. If the goal is to make simple diagnostics 
+of the search progress, the results.csv file is likely more useful.
 
-covariancePenalty: Numeric, required 
 
-covergencePenalty: Numeric, required 
+results.csv
+````````````````
 
-correlationLimit: Numeric, required
+The results.csv file contains key information about all models that are run in a more user-friendly format. This file can be used to make plots to monitor progress of the search 
+or to identify models that had unexpected results (Crashes)
 
-correlationPenalty: Numeric, required. Penalty if the absolute value of any off diagonal of the OMEGA matrix exceeds correlationLimit
 
-crash_value: numeric, required. The fitness/reward value to assign to a model that fails to complete. Typical value is 99999999, should be larger than that 
-expected from any model that does complete.  
+File Structure and Naming
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-crossoverRate: 0.95, 
+NONMEM control, executable and output file naming
 
-downhill_q:5,
+Saving NONMEM outputs
+---------------------
+NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an isssue for disc space. 
+By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space. 
+In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
+Care should be take to not generate unneeded table files, as these can become quite large, and will not be removed by pyDarwin. 
 
-elitist_num: 4,
+File Structure
+---------------
+Three user define file locations can be set in the :ref:`options file<Options>`. In addition to the fodlers that are user defined
+the project directory (project_dir) is the folder where template, token and options files are located. The user define folders are:
 
-mutationRate: 0.95, 
+#. output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results is intended.
 
-attribute_mutation_probability: 0.1, 
+#. temp_dir - NONMEM models are run in subfolders of this folder Default value is working_dir/temp. May be deleted after search finished/stopped if remove_temp_dir is set to true.  
 
-input_model_json: None, 
+#. working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files. Default value - %USER_HOME%/pydarwin/project_name where project name is defined in the :ref:`options file<Options>`
+ 
 
-max_model_list_size: Integer, required. The algorithm generates models in batches. For exhausitve search in particular, this may result in a very large number of 
-model (100,000's?). This can lead to memory issues with a very large array of large objects. To address this, the user can (and should) define that only a 
-limited number of models will be gnerated at a time, all those model run, then the list recreated. A typical value for a capable computer is 10,000.
+Model/folder naming
+--------------------
 
-mutate: string, required for GA. What method to use for mutation, only available option is flipBit
 
-non_influential_tokens_penalty: 0.00001,
+A model stem is generated from the current generation/iteration and model number or the form NM_genration_model_num. For example, if this is iteration 2, model 3 the model stem would be 
+NM_2_3. For the 1 bit downhill, the model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill 
+model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file etc. This results in unique names for all models in the search. Models 
+are also frequently duplicated. Duplicated files are not rerun, and so those will not appear in the file structure.
 
-remove_run_dir: Boolean, options (false), Delete entire run directory. By default, all F*, WKS* file, the executable file and other non-essential files will be deleted.
-NONMEM $TABLE files (unless deleted as F* or WKS*) will be retained. If large $TABLE files are written for each run, a great deal of disk space can be required. If $TABLE 
-file are needed to postRunRCode, they can be deleted in the user provided R code to preserve disc space.
+Run folders are similarly named for the generation/iteration and model number. Below is a folder tree for :ref:`Example 2<startpk2>`
 
-fullExhaustiveSearch_qdownhill: Boolean, required. The option exists to run a local exhausitve search with 2 bit radius after each dowhill search. Note that for large dimension 
-search space, this can be time consuming. The number of models in each step is (dimension*dimension)/2 + dimension/2, where dimension is the number of bits Required
-to define the search space.
+.. figure:: FileStructure.png
 
-final_fullExhaustiveSearch:  Boolean, required. The option exists to run a local exhausitve search with 2 bit radius at the end of the search. Note that for large dimension 
-search space, this can be time consuming. The number of models in each step is (dimension*dimension)/2 + dimension/2, where dimension is the number of bits Required
-to define the search space.
+Saving models
+-------------
 
-selection: string, required for GA. The algorithm used for the selection step in GA, only currently available algorithm is tournament.
-
-selection_size: integer, required for GA. How many "parents" to select for the tournament  
-
-sharing_alpha: 0.1,  
-
-timeout_sec: numeric (seconds), optional(1200);. NONMEM run will be terminated (and result will be CRASH) if run time exceeds this. 
-
-useR: boolean, optional (false). Whether to call user provided R code after each NONMEM run. If true, postRunRCode must provide path to R code
-
-postRunRCode: string, required if useR is true. Path to R code to be run after each NONMEM run. Required return values a vector of 
-length 2. The first will be a numeric (or character that can be cast as numeric) that will be added to the fitness/reward values. The 2nd is a character 
-string that will be appended to the NONMEM output file.
-
-usePython: boolean, optional (false). Whether to call user provided Python code after each NONMEM run. If true, postRunPythonCode must provide path to R code   
-
-postRunPythonCode: string, required if usePython is true.  
-crossoverOperator: cxOnePoint ,
-
-NM_priority_class: string, optional, default = normal. Recommended to maintain interface responsiveness is below_normal,
-
-search_omega_bands: false,
-
-max_omega_band_width: integer, required if seach_omega_bands is true. Unfortunately is was not possible to query the temlate file and token groups to, in general,
-determine the maximum size of all $OMEGA blocks. Therefore, the user is required to provide the maximum number of off diagonal bands that would be searched. This is 
-required to determine the number of bits to be included in the bit string/search space.
-
+Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficients. The name of the saved JSON file can be set by the user. A .csv 
+file describing the course of the search is also save to results.csv. This file can be used to monitor the progress of the search. 

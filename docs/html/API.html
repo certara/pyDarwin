@@ -44,14 +44,8 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Folder%20Structure%20and%20naming.html">File Structure and Naming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html">pyDarwin Outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#command-line-output">Command Line output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#file-output">File output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#messages-txt">Messages.txt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#models-json">models.json</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#results-csv">results.csv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
@@ -61,7 +55,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#high-level-functions">High level functions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#run-search">run_search</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.run_search_in_folder">run_search_in_folder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-search-in-folder">run_search_in_folder</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#algorithms">Algorithms</a><ul>
@@ -114,7 +108,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#runnable-modules">Runnable modules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">darwin.run_search</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#darwin-run-search-in-folder">darwin.run_search_in_folder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">darwin.run_search_in_folder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#darwin-stop-search">darwin.stop_search</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#darwin-run-model">darwin.run_model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#darwin-grid-run-search">darwin.grid.run_search</a></li>
@@ -124,9 +118,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Error Messages and how to fix them</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Error%20messages.html">Error Messages and how to fix them</a></li>
 </ul>
 
         </div>
@@ -169,9 +162,9 @@ function returns the final model object</p>
 </dd></dl>
 
 </section>
-<section id="module-darwin.run_search_in_folder">
-<span id="run-search-in-folder"></span><h3>run_search_in_folder<a class="headerlink" href="#module-darwin.run_search_in_folder" title="Permalink to this heading">¶</a></h3>
-<dl class="py function">
+<section id="run-search-in-folder">
+<h3>run_search_in_folder<a class="headerlink" href="#run-search-in-folder" title="Permalink to this heading">¶</a></h3>
+<span class="target" id="module-darwin.run_search_in_folder"><span id="darwin-run-search-in-folder"></span></span><dl class="py function">
 <dt class="sig sig-object py" id="darwin.run_search_in_folder.run_search_in_folder">
 <span class="sig-prename descclassname"><span class="pre">darwin.run_search_in_folder.</span></span><span class="sig-name descname"><span class="pre">run_search_in_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'template.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tokens.json'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'options.json'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.run_search_in_folder.run_search_in_folder" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1545,8 +1538,8 @@ in the resulting control file. A small penalty, is specified in the options file
 <section id="id2">
 <h3>darwin.run_search<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 </section>
-<section id="darwin-run-search-in-folder">
-<h3>darwin.run_search_in_folder<a class="headerlink" href="#darwin-run-search-in-folder" title="Permalink to this heading">¶</a></h3>
+<section id="id3">
+<h3>darwin.run_search_in_folder<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 </section>
 <section id="darwin-stop-search">
 <h3>darwin.stop_search<a class="headerlink" href="#darwin-stop-search" title="Permalink to this heading">¶</a></h3>

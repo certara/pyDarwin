@@ -20,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Error Messages and how to fix them" href="Error%20messages.html" />
-    <link rel="prev" title="Support" href="Support.html" /> 
+    <link rel="next" title="Example 1: PK Model, Trivial Exhaustive Search" href="Example1.html" />
+    <link rel="prev" title="Usage" href="Usage.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,14 +43,11 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Folder%20Structure%20and%20naming.html">File Structure and Naming</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html">pyDarwin Outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#command-line-output">Command Line output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#file-output">File output</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#messages-txt">Messages.txt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#models-json">models.json</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyDarwin%20Outputs.html#results-csv">results.csv</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Options List</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
@@ -59,12 +56,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Error Messages and how to fix them</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Options List</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#description">Description</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Error%20messages.html">Error Messages and how to fix them</a></li>
 </ul>
 
         </div>
@@ -92,8 +85,8 @@
              
   <section id="options-list">
 <span id="options"></span><h1>Options List<a class="headerlink" href="#options-list" title="Permalink to this heading">¶</a></h1>
-<p>Note that the options are saved to a json file. Json supports string, numeric and Boolen (true|false). String options must be in quotes. See <a class="reference external" href="https://www.json.org/">JSON</a> for
-details.</p>
+<p>Note that the options are saved to a JSON file. JSON supports string, numeric and Boolen (true|false).
+String options must be in quotes. See <a class="reference external" href="https://www.json.org/">JSON</a> for details.</p>
 <p>Example JSON</p>
 <pre class="literal-block">{
     <a class="reference internal" href="#author-options-desc"><span class="std std-ref">&quot;author&quot;</span></a>: &quot;Charles Robert Darwin&quot;,
@@ -185,66 +178,67 @@ details.</p>
 }</pre>
 <section id="description">
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
+<p>All fields marked with * are required.</p>
 <ul class="simple" id="author-options-desc">
-<li><p>author: String; Author, currently not used, Default - blank</p></li>
+<li><p><strong>author</strong> - <em>string</em>: Name of user. Currently not used and for documentation purposes only.</p></li>
 </ul>
 <ul class="simple" id="project-name-options-desc">
-<li><p>project_name: String; Name of the project</p></li>
+<li><p><strong>project_name</strong> - <em>string</em>: Name of the project.</p></li>
 </ul>
 <ul class="simple" id="algorithim-options-desc">
-<li><p>algorithim: One of <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a> , <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a> , <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a> , <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a></p></li>
+<li><p><strong>algorithim</strong>* - <em>string</em>: One of <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a> , <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a> , <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a> , <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a></p></li>
 </ul>
 <ul class="simple" id="ga-options-desc">
-<li><p>GA: JSON</p></li>
+<li><p><strong>GA</strong> - <em>JSON</em></p></li>
 </ul>
 <blockquote id="elitist-num-options-desc">
 <div><ul class="simple">
-<li><p>elitist_num: Positive integer; How many of the best models from any generation to carry over unchanged to the next generation. Function like <a class="reference external" href="https://deap.readthedocs.io/en/master/api/tools.html#hall-of-fame/">Hall of Fame</a>  in DEAP.</p></li>
+<li><p><strong>elitist_num</strong>: Positive integer; How many of the best models from any generation to carry over unchanged to the next generation. Function like <a class="reference external" href="https://deap.readthedocs.io/en/master/api/tools.html#hall-of-fame/">Hall of Fame</a>  in DEAP.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="crossover-rate-options-desc">
 <div><ul class="simple">
-<li><p>crossover_rate: What fraction of the mating pairs will undergo cross over (real 0.0-1.0)</p></li>
+<li><p><strong>crossover_rate</strong> - <em>int</em>: What fraction of the mating pairs will undergo cross over (real 0.0-1.0)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="mutation-rate-options-desc">
 <div><ul class="simple">
-<li><p>mutation_rate: Probability that at least one bit in the genome will be “flipped”, 0 to 1, or 1 to 0, (real 0.0-1.0)</p></li>
+<li><p><strong>mutation_rate</strong> - <em>int</em>: Probability that at least one bit in the genome will be “flipped”, 0 to 1, or 1 to 0, (real 0.0-1.0)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="sharing-alpha-options-desc">
 <div><ul class="simple">
-<li><p>sharing_alpha: Parameter of the niche penalty calculation</p></li>
+<li><p><strong>sharing_alpha</strong> - <em>int</em>: Parameter of the niche penalty calculation</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="selection-options-desc">
 <div><ul class="simple">
-<li><p>selection: Selection algorithm for GA, currently only “tournament” is available</p></li>
+<li><p><strong>selection</strong> - <em>int</em>: Selection algorithm for GA, currently only “tournament” is available</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="selection-size-options-desc">
 <div><ul class="simple">
-<li><p>selection_size: How many “parents” enter in the selection, 2 is highly recommended, very limited experience with other values</p></li>
+<li><p><strong>selection_size</strong> - <em>int</em>: How many “parents” enter in the selection, 2 is highly recommended, very limited experience with other values</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="crossover-operator-options-desc">
 <div><ul class="simple">
-<li><p>crossover_operator: The algorithm for cross over, only “cxOnePoint” (single point cross over) is available</p></li>
+<li><p><strong>crossover_operator</strong> - <em>int</em>: The algorithm for cross over, only “cxOnePoint” (single point cross over) is available</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="mutate-options-desc">
 <div><ul class="simple">
-<li><p>mutate: The algorithm for mutation, currently only “flipBit” is available</p></li>
+<li><p><strong>mutate</strong> - <em>int</em>: The algorithm for mutation, currently only “flipBit” is available</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="attribute-mutation-probability-options-desc">
 <div><ul class="simple">
-<li><p>attribute_mutation_probability: Probability of any bit being mutated, (real 0.0-1.0)</p></li>
+<li><p><strong>attribute_mutation_probability</strong> - <em>int</em>: Probability of any bit being mutated, (real 0.0-1.0)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="niche-penalty-options-desc">
 <div><ul>
-<li><p>niche_penalty: Numeric, required if using GA. Require for calculation of the crowding penalty.
+<li><p><strong>niche_penalty</strong>* - <em>int</em>: Required if using GA. Require for calculation of the crowding penalty.
 The niche penalty is calculate by first calculating the “distance matrix”, the pair wise
 <a class="reference external" href="https://en.wikipedia.org/wiki/Minkowski_distance">Mikowski distance</a> from the present model to all
 other models. The “crowding” quantity is then calculated a the sum of: (distance/niche_radius)**sharing_alpha
@@ -255,221 +249,223 @@ penalty is to maintain diversity of models, to avoid premature convergence of th
 </ul>
 </div></blockquote>
 <ul class="simple" id="random-seed-options-desc">
-<li><p>random_seed: User defined seed for random number generator  (positive integer)</p></li>
+<li><p><strong>random_seed</strong> - <em>int</em>: User defined seed for random number generator  (positive integer)</p></li>
 </ul>
 <ul class="simple" id="num-parallel-options-desc">
-<li><p>num_parallel: How many model to run in parallel  (positive integer)</p></li>
+<li><p><strong>num_parallel</strong> - <em>int</em>: How many model to run in parallel  (positive integer)</p></li>
 </ul>
 <ul class="simple" id="num-generations-options-desc">
-<li><p>num_generations: How many iterations or generations, not used for Exhaustive Search (positive integer)</p></li>
+<li><p><strong>num_generations</strong>* - <em>int</em>: How many iterations or generations, not used for Exhaustive Search (positive integer)</p></li>
 </ul>
 <ul class="simple" id="population-size-options-desc">
-<li><p>population_size: Size of population, not used for Exhaustive search  (positive integer)</p></li>
+<li><p><strong>population_size</strong>* - <em>int</em>: Size of population, not used for Exhaustive search  (positive integer)</p></li>
 </ul>
 <ul class="simple" id="num-opt-chains-options-desc">
-<li><p>num_opt_chains: For GP,RF and GBRT multiple chains can be used. Using multiple chains will improve the
+<li><p><strong>num_opt_chains</strong>* - <em>int</em>: For GP,RF and GBRT multiple chains can be used. Using multiple chains will improve the
 performance of the “ask” step. (positive integer)</p></li>
 </ul>
 <ul class="simple" id="exhaustive-batch-size-options-desc">
-<li><p>exhaustive_batch_size:  For a large exhaustive search, a complete list of all models may exceed the available memory.
+<li><p><strong>exhaustive_batch_size</strong> - <em>int</em>:  For a large exhaustive search, a complete list of all models may exceed the available memory.
 Using and exhaustive_search_batch_size will limit the number of models generated at any time.
 There may be modest impact on performace as the batch size gets smaller. (positive integer)</p></li>
 </ul>
 <ul class="simple" id="crash-value-options-desc">
-<li><p>crash_value:  Value of fitness or reward assigned when model output is not generated.
+<li><p><strong>crash_value</strong> - <em>int</em>:  Value of fitness or reward assigned when model output is not generated.
 Should be set larger than any anticipate completed model fitness (positive real)</p></li>
 </ul>
 <ul class="simple" id="penalty-options-desc">
-<li><p>penalty: JSON</p></li>
+<li><p><strong>penalty</strong> - <em>JSON</em>:</p></li>
 </ul>
 <blockquote id="theta-options-desc">
 <div><ul class="simple">
-<li><p>theta: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
+<li><p><strong>theta</strong> - <em>int</em>: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
 1 df and p&lt; 0.05 (for nested models) a value of 2 for 1 df corresponds to the Akaike information criterion (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="omega-options-desc">
 <div><ul class="simple">
-<li><p>omega: Penalty added to fitness/reward for each estimated OMEGA element (real)</p></li>
+<li><p><strong>omega</strong> - <em>int</em>: Penalty added to fitness/reward for each estimated OMEGA element (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="sigma-options-desc">
 <div><ul class="simple">
-<li><p>sigma: Penalty added to fitness/reward for each estimated SIGMA element (real)</p></li>
+<li><p><strong>sigma</strong> - <em>int</em>: Penalty added to fitness/reward for each estimated SIGMA element (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="convergence-options-desc">
 <div><ul class="simple">
-<li><p>convergence: Penalty added to fitness/reward for failing to converge (real)</p></li>
+<li><p><strong>convergence</strong> - <em>int</em>: Penalty added to fitness/reward for failing to converge (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="covariance-options-desc">
 <div><ul class="simple">
-<li><p>covariance: Penalty added to fitness/reward for failing the covariance step (real number). If a successful covariance step
+<li><p><strong>covariance</strong> - <em>int</em>: Penalty added to fitness/reward for failing the covariance step (real number). If a successful covariance step
 is important, this can be set to a large value (e.g., 100), if successful covariance is not important, it can
 set to 0</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="correlation-options-desc">
 <div><ul class="simple">
-<li><p>correlation: Penalty added to fitness/reward if any off diagonal element of the correlation matrix of estimate has absolute
+<li><p><strong>correlation</strong> - <em>int</em>: Penalty added to fitness/reward if any off diagonal element of the correlation matrix of estimate has absolute
 value &gt; 0.95 (real number). This penalty will be added if the covariance step fails (or is not) requested (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="condition-number-options-desc">
 <div><ul class="simple">
-<li><p>condition_number: Penalty added to fitness/reward if the condition number is &gt; 1000
+<li><p><strong>condition_number</strong> - <em>int</em>: Penalty added to fitness/reward if the condition number is &gt; 1000
 This penalty will be added if the covariance step fails (or is not) requested (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="non-influential-tokens-options-desc">
 <div><ul class="simple">
-<li><p>non_influential_tokens: Penalty added to fitness/reward if any tokens do not influence the control file (relevant for nested tokens)
+<li><p><strong>non_influential_tokens</strong> - <em>int</em>: Penalty added to fitness/reward if any tokens do not influence the control file (relevant for nested tokens)
 Should be very small, as the purpose is only for the model with non-influential tokens to be minimially worse
 than the same model without the non influential token(s) (real)</p></li>
 </ul>
 </div></blockquote>
 <ul class="simple" id="downhill-period-options-desc">
-<li><p>downhill_period: How often to run the downhill set, default is 2, meaning that 2 generations/iterations will be run, followed by the
+<li><p><strong>downhill_period</strong> - <em>numeric</em>: How often to run the downhill set, default is 2, meaning that 2 generations/iterations will be run, followed by the
 downhill step, then an additional 2 generations/iterations. (integer)</p></li>
 </ul>
 <ul class="simple" id="num-niches-options-desc">
-<li><p>num_niches: Only used for GA. A penalty is assigned for each model based on the number of similar models within a niche
+<li><p><strong>num_niches</strong>* - <em>string</em>: Only used for GA. A penalty is assigned for each model based on the number of similar models within a niche
 radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose
 is to insure maintaining a degree of diversity in the population (integer)</p></li>
 </ul>
 <ul class="simple" id="niche-radius-options-desc">
-<li><p>niche_radius: The radius of the niches. See  <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">Niche Radius</span></a> (positive real)</p></li>
+<li><p><strong>niche_radius</strong>* - <em>int</em>: The radius of the niches. See  <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">Niche Radius</span></a> (positive real)</p></li>
 </ul>
 <ul class="simple" id="local-2-bit-search-options-desc">
-<li><p>local_2_bit_search: Whether to perform the <a class="reference internal" href="Glossary.html#local-two-bit-search"><span class="std std-ref">two bit local search</span></a> .
+<li><p><strong>local_2_bit_search</strong> - <em>boolean</em>: Whether to perform the <a class="reference internal" href="Glossary.html#local-two-bit-search"><span class="std std-ref">two bit local search</span></a> .
 The two bit local search substantially increase the robustness of the search. (true|false)</p></li>
 </ul>
 <ul class="simple" id="final-downhill-search-options-desc">
-<li><p>final_downhill_search: Whether to perform a local search (1 and 2 bit) at the end of the global search (true|false)</p></li>
+<li><p><strong>final_downhill_search</strong> - <em>boolean</em>: Whether to perform a local search (1 and 2 bit) at the end of the global search (true|false)</p></li>
 </ul>
 <ul class="simple" id="nmfe-path-options-desc">
-<li><p>nmfe_path: Path to nmfe??.bat, the default command line for executing NONMEM (string)</p></li>
+<li><p><strong>nmfe_path</strong> - <em>string</em>: Path to nmfe??.bat, the default command line for executing NONMEM (string)</p></li>
 </ul>
 <ul class="simple" id="model-run-timeout-options-desc">
-<li><p>model_run_timeout: Time after which the NONMEM execution will be terminated, and the crash value assigned. (positive real)</p></li>
+<li><p><strong>model_run_timeout</strong> - <em>int</em>: Time after which the NONMEM execution will be terminated, and the crash value assigned. (positive real)</p></li>
 </ul>
 <ul class="simple" id="model-run-priority-class-options-desc">
-<li><p>model_run_priority_class: Priority class, below_normal is recommended to maintain user interface responsiveness (normal|below_normal)</p></li>
+<li><p><strong>model_run_priority_class</strong> - <em>string</em>: Priority class, below_normal is recommended to maintain user interface responsiveness (normal|below_normal)</p></li>
 </ul>
 <ul class="simple" id="postprocess-options-desc">
-<li><p>postprocess: JSON</p></li>
+<li><p><strong>postprocess</strong> - <em>JSON</em>:</p></li>
 </ul>
 <blockquote id="use-r-options-desc">
 <div><ul class="simple">
-<li><p>use_r: Whether user supplied R code is to be run after NONMEM execution (true|false)</p></li>
+<li><p><strong>use_r</strong> - <em>boolean</em>: Whether user supplied R code is to be run after NONMEM execution (true|false)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="rscript-path-options-desc">
 <div><ul class="simple">
-<li><p>rscript_path: Absolute path to Rscript.exe  (string)</p></li>
+<li><p><strong>rscript_path</strong>* - <em>string</em>: Absolute path to Rscript.exe. Required if <code class="docutils literal notranslate"><span class="pre">use_r</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="post-run-r-code-options-desc">
 <div><ul class="simple">
-<li><p>post_run_r_code: Path to R file to be run after each NONMEM execution (string with .r extension)</p></li>
+<li><p><strong>post_run_r_code</strong>* - <em>string</em>: Path to R file (.r extension) to be run after each NONMEM execution.
+Required if <code class="docutils literal notranslate"><span class="pre">use_r</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="r-timeout-options-desc">
 <div><ul class="simple">
-<li><p>r_timeout: Time out (seconds) for R code execution (positive real)</p></li>
+<li><p><strong>r_timeout</strong> - <em>int</em>: Time out (seconds) for R code execution (positive real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="use-python-options-desc">
 <div><ul class="simple">
-<li><p>use_python: Whether user supplied Python code is to be run after NONMEM execution (true|false)</p></li>
+<li><p><strong>use_python</strong> - <em>boolean</em>: Whether user supplied Python code is to be run after NONMEM execution (true|false)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="post-run-python-code-options-desc">
 <div><ul class="simple">
-<li><p>post_run_python_code: Path to python code file to be run after each NONMEM execution  (string, with .py extension)</p></li>
+<li><p><strong>post_run_python_code</strong>* - <em>string</em>: Path to python code file (.py extension) to be run after each NONMEM execution.
+Required if <code class="docutils literal notranslate"><span class="pre">usepython</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
 </ul>
 </div></blockquote>
 <ul class="simple" id="use-saved-models-options-desc">
-<li><p>use_saved_models:</p></li>
+<li><p><strong>use_saved_models</strong> - <em>boolean</em>:</p></li>
 </ul>
 <ul class="simple" id="saved-models-file-options-desc">
-<li><p>saved_models_file:</p></li>
+<li><p><strong>saved_models_file</strong> - <em>string</em>:</p></li>
 </ul>
 <ul class="simple" id="saved-models-readonly-options-desc">
-<li><p>saved_models_readonly:</p></li>
+<li><p><strong>saved_models_readonly</strong> - <em>boolean</em>:</p></li>
 </ul>
 <ul class="simple" id="remove-run-dir-options-desc">
-<li><p>remove_run_dir:</p></li>
+<li><p><strong>remove_run_dir</strong> - <em>boolean</em>:</p></li>
 </ul>
 <ul class="simple" id="remove-temp-dir-options-desc">
-<li><p>remove_temp_dir:</p></li>
+<li><p><strong>remove_temp_dir</strong> - <em>boolean</em>:</p></li>
 </ul>
 <ul class="simple" id="model-run-man-options-desc">
-<li><p>model_run_man:</p></li>
+<li><p><strong>model_run_man</strong> - <em>string</em>:</p></li>
 </ul>
 <ul class="simple" id="model-cache-options-desc">
-<li><p>model_cache:</p></li>
+<li><p><strong>model_cache</strong> - <em>string</em>:</p></li>
 </ul>
 <ul class="simple" id="grid-adapter-options-desc">
-<li><p>grid_adapter:</p></li>
+<li><p><strong>grid_adapter</strong> - <em>string</em>:</p></li>
 </ul>
 <ul class="simple" id="engine-adapter-options-desc">
-<li><p>engine_adapter:</p></li>
+<li><p><strong>engine_adapter</strong> - <em>string</em>:</p></li>
 </ul>
 <ul class="simple" id="working-dir-options-desc">
-<li><p>working_dir:</p></li>
+<li><p><strong>working_dir</strong> - <em>string</em>:</p></li>
 </ul>
 <ul class="simple" id="data-dir-options-desc">
-<li><p>data_dir:</p></li>
+<li><p><strong>data_dir</strong> - <em>string</em>:</p></li>
 </ul>
 <ul class="simple" id="output-dir-options-desc">
-<li><p>output_dir:</p></li>
+<li><p><strong>output_dir</strong> - <em>string</em>:</p></li>
 </ul>
 <ul class="simple" id="temp-dir-options-desc">
-<li><p>temp_dir:</p></li>
+<li><p><strong>temp_dir</strong> - <em>string</em>:</p></li>
 </ul>
 <ul class="simple" id="generic-grid-adapter-options-desc">
-<li><p>generic_grid_adapter: JSON</p></li>
+<li><p><strong>generic_grid_adapter</strong> - <em>JSON</em>:</p></li>
 </ul>
 <blockquote id="python-path-options-desc">
 <div><ul class="simple">
-<li><p>python_path:</p></li>
+<li><p><strong>python_path</strong> - <em>string</em>:</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="submit-search-command-options-desc">
 <div><ul class="simple">
-<li><p>submit_search_command:</p></li>
+<li><p><strong>submit_search_command</strong> - <em>string</em>:</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="submit-command-options-desc">
 <div><ul class="simple">
-<li><p>submit_command:</p></li>
+<li><p><strong>submit_command</strong> - <em>string</em>:</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="submit-job-id-re-options-desc">
 <div><ul class="simple">
-<li><p>submit_job_id_re:</p></li>
+<li><p><strong>submit_job_id_re</strong> - <em>string</em>:</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="poll-command-options-desc">
 <div><ul class="simple">
-<li><p>poll_command:</p></li>
+<li><p><strong>poll_command</strong> - <em>string</em>:</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="poll-job-id-re-options-desc">
 <div><ul class="simple">
-<li><p>poll_job_id_re:</p></li>
+<li><p><strong>poll_job_id_re</strong> - <em>string</em>:</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="poll-interval-options-desc">
 <div><ul class="simple">
-<li><p>poll_interval:</p></li>
+<li><p><strong>poll_interval</strong> - <em>int</em>:</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="delete-command-options-desc">
 <div><ul class="simple">
-<li><p>delete_command:</p></li>
+<li><p><strong>delete_command</strong> - <em>string</em>:</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -479,8 +475,8 @@ The two bit local search substantially increase the robustness of the search. (t
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Support.html" class="btn btn-neutral float-left" title="Support" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Error%20messages.html" class="btn btn-neutral float-right" title="Error Messages and how to fix them" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Example1.html" class="btn btn-neutral float-right" title="Example 1: PK Model, Trivial Exhaustive Search" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

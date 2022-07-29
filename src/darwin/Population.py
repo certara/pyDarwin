@@ -59,11 +59,15 @@ class Population:
             run.reference_model_num = existing_runs[0].model_num
             run.status = f'Duplicate({run.reference_model_num})'
         elif run:
+            if run.generation != self.name or run.model_num != self.model_number:
+                run.result.messages = f"From {run.file_stem}: " + str(run.result.messages)
+
             run.model_num = self.model_number
             run.generation = self.name
-            run.result.messages = f"From {run.file_stem}: " + str(run.result.messages)
         else:
             run = ModelRun(model, self.num_format.format(self.model_number), self.name, self.adapter)
+
+        run.wide_model_num = self.num_format.format(self.model_number)
 
         self.runs.append(run)
 

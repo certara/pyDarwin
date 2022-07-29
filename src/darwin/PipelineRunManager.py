@@ -91,7 +91,8 @@ class PipelineRunManager(ModelRunManager):
             prd_err_text = ", error = " + res.errors
 
         with open(GlobalVars.results_file, "a") as result_file:
-            result_file.write(f"{run.run_dir},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
+            result_file.write(f"{run.generation},{run.wide_model_num},"
+                              f"{run.run_dir},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
                               f"{res.ofv},{res.success},{res.covariance},{res.correlation},{model.theta_num},"
                               f"{model.omega_num},{model.sigma_num},{res.condition_num},{res.post_run_r_penalty},"
                               f"{res.post_run_python_penalty},{res.messages}\n")

@@ -127,6 +127,7 @@ class ModelRun:
         self._adapter = adapter
         self.result = self.model_result_class()
 
+        self.wide_model_num = str(model_num)
         self.model_num = int(model_num)
         self.generation = str(generation)
 

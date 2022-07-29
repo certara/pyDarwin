@@ -133,9 +133,10 @@ class Options:
         self.project_name = opts.get('project_name') or options_file_parent.name
         self.project_stem = re.sub(r'[^\w]', '_', self.project_name)
 
+        darwin_home = os.environ.get('PYDARWIN_HOME') or os.path.join(pathlib.Path.home(), 'pydarwin')
+
         self.project_dir = str(folder or options_file_parent)
-        self.working_dir = str(opts.get('working_dir')
-                               or os.path.join(pathlib.Path.home(), 'pydarwin', self.project_stem))
+        self.working_dir = str(opts.get('working_dir') or os.path.join(darwin_home, self.project_stem))
 
         project_dir_alias = {'project_dir': self.project_dir, 'working_dir': self.working_dir}
 

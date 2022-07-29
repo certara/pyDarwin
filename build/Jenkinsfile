@@ -239,5 +239,18 @@ pipeline {
                 }
             }
         }
+        stage('Release Artifact Promotion') {
+            when {
+                tag pattern: "[0-9]+.[0-9]+.[0-9]+", comparator: "REGEXP"
+            }
+            steps {
+                container('certara-python') {
+                    labelledShell label: 'echo tag', script: """
+                        sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
+                    """
+                    echo "Git $TAG_NAME"
+                }
+            }
+        }
     }
 }

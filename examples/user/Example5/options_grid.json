@@ -4,7 +4,7 @@
     "num_opt_chains": 4,
 
     "random_seed": 11,
-    "population_size": 80,
+    "population_size": 20,
     "num_parallel": 4,
     "num_generations": 8,
 

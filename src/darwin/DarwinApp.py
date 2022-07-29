@@ -113,7 +113,10 @@ class DarwinApp:
     def __init__(self, options_file: str, folder: str = None):
         self.initialized = False
 
-        _init_app(options_file, os.path.abspath(folder))
+        if folder:
+            folder = os.path.abspath(folder)
+
+        _init_app(options_file, folder)
 
         self.cache = create_model_cache(options.model_cache_class)
 

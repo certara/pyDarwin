@@ -17,7 +17,7 @@
     },
 
     "random_seed": 11,
-    "population_size": 80,
+    "population_size": 5,
     "num_parallel": 4,
     "num_generations": 7,
 

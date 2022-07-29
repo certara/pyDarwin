@@ -19,9 +19,9 @@ def post_process(run_dir: str):
         csv_reader = csv.DictReader(fp, skipinitialspace=True, delimiter=" ")
 
         for row in csv_reader:
-            if float(row["EVID"]) == 0 and float(row["TIME"]) <= 24:
-                if row["ID"] not in hash_map_org or math.log(abs(float(row["DV"]))) > hash_map_org[row["ID"]]:
-                    hash_map_org[row["ID"]] = math.log(abs(float(row["DV"])))
+            if float(row["EVID"]) == 0 and float(row["TIME"]) <= 24 and float(row["DV"]) > 0:
+                if row["ID"] not in hash_map_org or math.log(float(row["DV"])) > hash_map_org[row["ID"]]:
+                    hash_map_org[row["ID"]] = math.log(float(row["DV"]))
 
     obs_geo_mean = math.exp(sum(hash_map_org.values()) / len(hash_map_org))
 
@@ -33,9 +33,9 @@ def post_process(run_dir: str):
         csv_reader = csv.DictReader(fp, skipinitialspace=True, delimiter=" ")
 
         for row in csv_reader:
-            if float(row["EVID"]) == 0 and float(row["TIME"]) <= 24:
-                if row["ID"] not in hash_map_sim or math.log(abs(float(row["IOBS"]))) > hash_map_sim[row["ID"]]:
-                    hash_map_sim[row["ID"]] = math.log(abs(float(row["IOBS"])))
+            if float(row["EVID"]) == 0 and float(row["TIME"]) <= 24 and float(row["IOBS"]) > 0:
+                if row["ID"] not in hash_map_sim or math.log(float(row["IOBS"])) > hash_map_sim[row["ID"]]:
+                    hash_map_sim[row["ID"]] = math.log(float(row["IOBS"]))
 
     sim_geo_mean = math.exp(sum(hash_map_sim.values()) / len(hash_map_sim))
 

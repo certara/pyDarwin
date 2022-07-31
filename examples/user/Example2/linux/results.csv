@@ -1,969 +1,135 @@
-Run Directory,Fitness,Model,ofv,success,covar,correlation #,ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages
-/home/vnazarov/projects/Darwin_runs/Example2/1/13,99999999.000000,2002000121,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/1/22,99999999.000000,2000110201,99999999,False,False,False,10,3,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/9,99999999.000000,2100120201,99999999,False,False,False,11,3,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/19,99999999.000000,2111111200,99999999,False,False,False,13,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/28,99999999.000000,2111121111,99999999,False,False,False,13,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/13,99999999.000000,2002000121,99999999,False,False,False,10,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/38,99999999.000000,2010020301,99999999,False,False,False,9,5,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/24,5990.728147,0002011201,5580.728146799053,True,False,False,7,3,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/3,6002.759918,0100120401,5582.759907536763,True,False,False,6,5,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/17,6004.629499,1001010201,5584.629499466198,True,False,False,8,3,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/18,6019.686108,0102010401,5599.6860981515465,True,False,False,6,5,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/32,5146.266801,0012010100,4726.266801417597,True,False,False,6,4,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/31,6030.377333,0100110311,5520.377323371002,False,False,False,6,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/25,5911.069715,0002010111,5511.069714967913,True,False,False,6,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/37,5158.175927,0112001300,4728.175917159571,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/8,4836.638844,1011001010,4706.638844158437,True,True,True,8,3,2,366.89690015428465,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/12,6001.169515,0101000321,5491.169504664488,False,False,False,6,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/14,5148.225283,1010021210,4708.225282750192,True,False,False,8,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/4,5145.647850,0001010310,4725.647849923723,True,False,False,6,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/35,6002.745400,0000001321,5492.745400016371,False,False,False,6,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/1,6105.504250,1110100211,5575.504250464039,False,False,False,8,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/5,5181.480932,0011121400,4721.480931667415,True,False,False,8,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/15,6022.422932,1002001321,5482.422932417866,False,False,False,9,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/29,5152.892361,1111001210,4702.892361238125,True,False,False,9,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/34,5158.773292,1101100310,4708.773292225217,True,False,False,9,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/7,5162.892361,1111101210,4702.892360955854,True,False,False,10,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/40,5902.518827,1101120311,5452.518827397844,True,False,False,10,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/6,5177.936145,1111100410,4707.936145436143,True,False,False,9,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/21,5167.571621,1101111310,4697.57162053934,True,False,False,11,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/11,6264.488111,1110111301,5804.4881108700565,True,False,False,10,5,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/30,5136.017902,1001020020,4706.017901614942,True,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/36,6348.855364,0111001201,5838.8553539659615,False,False,False,6,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/1/2,5171.151380,0110111320,4721.1513700703545,True,False,False,8,5,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/10,5161.241000,1110020120,4711.241000340173,True,False,False,9,4,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/27,6020.152084,1011020321,5470.15208371154,False,False,False,9,5,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/39,6075.338015,1002020121,5545.33801547692,False,False,False,9,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/20,5172.898350,1111001320,4702.898349643796,True,False,False,10,5,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/23,5167.536669,1102111120,4697.536668579067,True,False,False,12,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/33,5190.271963,1011111420,4700.271963036205,True,False,False,11,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/1/26,5167.397967,1102121120,4697.397967258673,True,False,False,12,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/4,99999999.000000,1101100321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/4,99999999.000000,1101100321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/8,99999999.000000,1102100321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/4,99999999.000000,1101100321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/1,99999999.000000,1101110121,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/9,99999999.000000,1102100121,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/8,99999999.000000,1102100321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/9,99999999.000000,1102100121,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/1,99999999.000000,1101110121,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/2,99999999.000000,0010000210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/9,99999999.000000,1102100121,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/9,99999999.000000,1102100121,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/9,99999999.000000,1102100121,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/4,99999999.000000,1101100321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/4,99999999.000000,1101100321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,99999999.000000,1101110321,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/2/28,5988.662065,0000010301,5588.662064802361,True,False,False,5,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/2/33,5969.853202,0010010301,5559.853201554885,True,False,False,5,5,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/2/31,5143.911993,0010020210,4733.911993424513,True,False,False,5,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/2/2,5138.142698,0010000210,4738.142697770601,True,False,False,4,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/2/12,4828.142698,0010000010,4738.142698070713,True,True,True,4,3,2,105.32187217333365,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/9,6082.939477,1102100121,5542.93947689871,False,False,False,10,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/4,6070.335626,1101100321,5520.335626128013,False,False,False,10,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/40,5162.820615,1101110120,4702.820615134137,True,False,False,11,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/1,6089.885488,1101110121,5539.885487521867,False,False,False,11,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/3,5927.760861,1101110321,5467.760861300339,True,False,False,11,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/8,6006.205697,1102100321,5456.20569698148,False,False,False,10,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/4,99999999.000000,1110111110,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/4,99999999.000000,1110111110,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/4,99999999.000000,1110111110,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,99999999.000000,1110111210,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/3/1,5156.601335,1110111210,4696.601335431155,True,False,False,10,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/3/4,5156.601892,1110111110,4696.60189229537,True,False,False,10,4,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,99999999.000000,1011011320,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/4/4,5146.128547,1002020120,4706.128547228244,True,False,False,9,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/4/17,5165.333924,1011010320,4705.333923591052,True,False,False,9,5,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/4/14,5157.691886,1102021120,4697.6918859737825,True,False,False,11,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/4/24,5166.673887,1112021120,4696.673886643144,True,False,False,11,4,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/4/34,5252.781285,1102020120,4702.781284707469,False,False,False,10,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/4/1,5170.271970,1011011320,4700.2719702356635,True,False,False,10,5,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/4/2,5176.607844,1111011320,4696.607844076644,True,False,False,11,5,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/9,99999999.000000,1001001101,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/5/11,99999999.000000,1101000011,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/5/3,99999999.000000,1001120300,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/5/9,99999999.000000,1001001101,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/5/8,99999999.000000,0001011111,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/5/11,99999999.000000,1101000011,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/5/12,99999999.000000,0102001121,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/5/3,99999999.000000,1001120300,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/5/36,5672.751533,0001020011,5582.751532685786,True,True,True,6,2,1,76.11795117044414,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/5,5680.077364,0002021011,5580.077364411546,True,True,True,7,2,1,89.12014288334665,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/16,5680.011440,0001021011,5580.011439558924,True,True,True,7,2,1,90.70856103048476,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/4,4828.112616,0001001000,4728.1126157248955,True,True,True,6,2,2,60.31427341080531,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/20,5964.765255,0110100011,5574.7652447964965,True,False,False,5,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/26,5625.570076,0011020011,5525.570075610599,True,True,True,6,3,1,44.24459074355369,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/25,4832.578009,0111000000,4732.577999281067,True,True,True,5,3,2,53.99251919449191,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/11,5689.263173,1101000011,5579.263173180208,True,True,True,8,2,1,2323.826263469429,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/10,5972.318820,0010101011,5572.318819797444,True,False,False,6,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/6,5982.771421,0001020021,5582.771420599902,True,False,False,7,2,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/24,5940.845815,0012021021,5520.845814914369,True,False,False,8,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/18,5578.392960,0001010111,5478.392959708634,True,True,True,6,3,1,10.909294397579906,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/37,5135.972338,0101020100,4725.9723276263985,True,False,False,6,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/14,4838.089222,0011001000,4728.089222050816,True,True,True,6,3,2,62.60671491004503,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/17,4835.440259,0101020110,4725.440249161959,True,True,True,6,3,2,267.5688844027731,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/40,5976.187061,0110100021,5576.187050985968,True,False,False,6,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/8,5583.303335,0001011111,5473.303335156039,True,True,True,7,3,1,12.793477928045126,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/30,5976.187051,0010100021,5576.187050985968,True,False,False,6,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/12,5960.638258,0102001121,5550.638248243393,True,False,False,7,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/9,6006.699631,1001001101,5586.699630902099,True,False,False,8,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/38,6058.861937,0001011121,5538.861936538007,False,False,False,8,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/27,4841.000229,0101021110,4721.000219186427,True,True,True,7,3,2,264.550614971555,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/3,5156.320419,1001120300,4706.32041938035,True,False,False,9,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5/7,5145.459128,0101020120,4725.459117834869,True,False,False,7,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/1,6078.304003,1111000011,5558.304003259737,False,False,False,8,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/39,5979.105058,1011001101,5549.105057758816,True,False,False,8,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/22,5992.940317,0102001321,5472.940306523005,False,False,False,7,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/15,6000.724377,0012020321,5470.724376723934,False,False,False,7,5,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/13,5165.548441,1011120300,4705.548441455568,True,False,False,9,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5/35,6000.724387,0112020321,5470.724376723934,False,False,False,7,5,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/34,5147.598173,0111001020,4727.598162763267,True,False,False,7,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/2,6017.487345,0112000321,5497.4873352907525,False,False,False,6,5,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/14,4838.089222,0011001000,4728.089222050816,True,True,True,6,3,2,62.60671491004503,0,0,From saved model NM_5_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/17,4835.440259,0101020110,4725.440249161959,True,True,True,6,3,2,267.5688844027731,0,0,From saved model NM_5_17.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/27,4841.000229,0101021110,4721.000219186427,True,True,True,7,3,2,264.550614971555,0,0,From saved model NM_5_27.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/7,5145.459128,0101020120,4725.459117834869,True,False,False,7,3,2,99999999,0,0,From saved model NM_5_7.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/37,5135.972338,0101020100,4725.9723276263985,True,False,False,6,3,2,99999999,0,0,From saved model NM_5_37.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/1,99999999.000000,2001001000,99999999,False,False,False,10,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/17,99999999.000000,2101020110,99999999,False,False,False,11,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/16,5677.686350,0001001001,5587.68634955178,True,True,True,6,2,1,77.0196138093518,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/10,4822.599691,0001000000,4732.599691029321,True,True,True,5,2,2,51.42306398073291,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/6,4824.394434,0000001000,4734.39443442629,True,True,True,5,2,2,59.82573495075637,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/3,4828.112626,0101001000,4728.1126157248955,True,True,True,6,2,2,60.31427341080531,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/9,4831.651055,0001011000,4721.6510547735625,True,True,True,7,2,2,66.03166083920111,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/5,4828.195865,0002001000,4728.195864928042,True,True,True,6,2,2,59.9783864485098,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/29,4825.449457,0101020010,4725.449447199858,True,True,True,6,2,2,112.86783904258445,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/7,5138.112625,0001101000,4728.112625293946,True,False,False,7,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/15,4827.654419,0001001010,4727.654418760156,True,True,True,6,2,2,119.10360331617571,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/24,4832.126230,0101000110,4732.126219623088,True,True,True,5,3,2,208.0417513988666,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/32,5578.366781,0101020111,5478.366771252478,True,True,True,6,3,1,10.408001537242626,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/8,4831.522563,0001021000,4721.522562595369,True,True,True,7,2,2,64.87946140460083,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/22,5133.911802,0100020110,4733.911792290158,True,False,False,5,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/12,5138.112616,0001001200,4728.112615696874,True,False,False,6,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/27,5135.449457,0101020210,4725.449447122532,True,False,False,6,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/2,4827.564351,1001001000,4707.564351361975,True,True,True,8,2,2,422.89537534398033,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/21,5135.564605,0102020110,4725.564595190518,True,False,False,6,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/13,5138.113580,0001001100,4728.113579707764,True,False,False,6,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/23,4845.440253,0101120110,4725.440242872865,True,True,True,7,3,2,9560740.673025936,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/11,5158.113581,0001001400,4728.113580689954,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/14,5137.664311,0001001020,4727.664311283183,True,False,False,7,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/20,5145.367806,0111020110,4725.367795920701,True,False,False,6,4,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/19,4835.440249,0001020110,4725.440249161959,True,True,True,6,3,2,267.5688844027731,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/18,4842.507542,1101020110,4702.507541691796,True,True,True,9,3,2,366.92963967328996,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/28,5145.440411,0101020310,4725.440400554992,True,False,False,6,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5/4,4828.112616,0001001000,4728.1126157248955,True,True,True,6,2,2,60.31427341080531,0,0,From saved model NM_5_4.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/29,4825.449457,0101020010,4725.449447199858,True,True,True,6,2,2,112.86783904258445,0,0,From saved model NM_5D0_29.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/27,5135.449457,0101020210,4725.449447122532,True,False,False,6,3,2,99999999,0,0,From saved model NM_5D0_27.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5/17,4835.440259,0101020110,4725.440249161959,True,True,True,6,3,2,267.5688844027731,0,0,From saved model NM_5_17.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/1,99999999.000000,2001000000,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/17,99999999.000000,2101020010,99999999,False,False,False,11,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/6,4818.765530,0000000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/32,5672.751543,0101020011,5582.751532685786,True,True,True,6,2,1,76.11795117044414,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/16,5669.995137,0001000001,5589.995136827383,True,True,True,5,2,1,65.80190349375822,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/5,4822.695792,0002000000,4732.695792010834,True,True,True,5,2,2,52.139073437377526,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/3,4822.599701,0101000000,4732.599691029321,True,True,True,5,2,2,51.42306398073291,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/15,4822.127004,0001000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/22,4823.912741,0100020010,4733.912730816779,True,True,True,5,2,2,102.25752327440534,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/24,4822.127014,0101000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/31,4825.971754,0101020000,4725.9717438038115,True,True,True,6,2,2,57.58718181974971,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/21,4825.565474,0102020010,4725.565463585418,True,True,True,6,2,2,111.23254133202538,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/9,4826.178799,0001010000,4726.178799391891,True,True,True,6,2,2,57.52451490709125,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/7,5132.599672,0001100000,4732.599671883741,True,False,False,6,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/8,4825.971744,0001020000,4725.9717438038115,True,True,True,6,2,2,57.58718181974971,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/23,4835.449455,0101120010,4725.449444774599,True,True,True,7,2,2,33845208.46616986,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/19,4825.449447,0001020010,4725.449447199858,True,True,True,6,2,2,112.86783904258445,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/2,4822.659304,1001000000,4712.659303967393,True,True,True,7,2,2,296.0774214543103,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/26,4831.012886,0101021010,4721.012876067919,True,True,True,7,2,2,125.26713321123863,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/4,4832.577999,0011000000,4732.577999281067,True,True,True,5,3,2,53.99251919449191,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/12,5132.599691,0001000200,4732.59969104891,True,False,False,5,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/13,5132.600609,0001000100,4732.600608787021,True,False,False,5,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/20,5135.448215,0111020010,4725.448205093278,True,False,False,6,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/11,5152.600609,0001000400,4732.600608787021,True,False,False,5,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/18,4832.599050,1101020010,4702.599050020651,True,True,True,9,2,2,393.7566891339009,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/14,5132.136689,0001000020,4732.136688918659,True,False,False,6,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/27,5155.440459,0101020410,4725.440448982041,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/30,5135.459127,0101020020,4725.45911737099,True,False,False,7,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/5,4822.695792,0002000000,4732.695792010834,True,True,True,5,2,2,52.139073437377526,0,0,From saved model NM_5D1_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/10,4822.599691,0001000000,4732.599691029321,True,True,True,5,2,2,51.42306398073291,0,0,From saved model NM_5D0_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/6,4824.394434,0000001000,4734.39443442629,True,True,True,5,2,2,59.82573495075637,0,0,From saved model NM_5D0_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/15,4822.127004,0001000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/29,4825.449457,0101020010,4725.449447199858,True,True,True,6,2,2,112.86783904258445,0,0,From saved model NM_5D0_29.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/24,4832.126230,0101000110,4732.126219623088,True,True,True,5,3,2,208.0417513988666,0,0,From saved model NM_5D0_24.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/3,4822.599701,0101000000,4732.599691029321,True,True,True,5,2,2,51.42306398073291,0,0,From saved model NM_5D1_3.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/1,99999999.000000,2000000000,99999999,False,False,False,8,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/17,99999999.000000,2101000010,99999999,False,False,False,10,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/16,5666.872777,0000000001,5596.872776813025,True,True,True,4,2,1,69.44701314322958,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/32,5669.307774,0101000011,5589.307763892846,True,True,True,5,2,1,68.5575126544287,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/3,4818.765540,0100000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/15,4818.223228,0000000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/9,4824.659047,0000010000,4734.65904688074,True,True,True,5,2,2,54.544731421712484,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/22,4818.223238,0100000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/8,4824.497554,0000020000,4734.497553515627,True,True,True,5,2,2,54.104129314224515,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/7,4822.599672,0000100000,4732.5996715380725,True,True,True,5,2,2,51.64264593020395,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/21,4822.224187,0102000010,4732.224176656223,True,True,True,5,2,2,103.90449669686679,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/2,4818.488248,1000000000,4718.488247830306,True,True,True,6,2,2,268.9132962596027,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/25,4825.657037,0101010010,4725.657027330966,True,True,True,6,2,2,113.52882643358093,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/12,5128.765530,0000000200,4738.765529518972,True,False,False,4,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/23,5132.127009,0101100010,4732.126998708994,True,False,False,6,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/28,5132.127014,0101000210,4732.127003973789,True,False,False,5,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/13,5128.766544,0000000100,4738.766544038316,True,False,False,4,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/26,4827.654429,0101001010,4727.654418760156,True,True,True,6,2,2,119.10360331617571,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/4,4828.736007,0010000000,4738.736007166065,True,True,True,4,3,2,53.444738362450266,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/11,5148.766544,0000000400,4738.766544045628,True,False,False,4,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/20,4832.063335,0111000010,4732.063324753814,True,True,True,5,3,2,108.9303760325213,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/18,4828.807872,1101000010,4708.807872282135,True,True,True,8,2,2,312.3429865831617,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/27,5152.126230,0101000410,4732.126219623088,True,False,False,5,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/14,5128.233216,0000000020,4738.233216250294,True,False,False,5,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/30,5132.136699,0101000020,4732.136688918659,True,False,False,6,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/22,4818.223238,0100000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_22.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/12,4828.142698,0010000010,4738.142698070713,True,True,True,4,3,2,105.32187217333365,0,0,From saved model NM_2_12.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/15,4822.127004,0001000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/14,5128.233216,0000000020,4738.233216250294,True,False,False,5,2,2,99999999,0,0,From saved model NM_5D2_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/6,4818.765530,0000000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,From saved model NM_5D1_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/15,4818.223228,0000000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/21,4822.224187,0102000010,4732.224176656223,True,True,True,5,2,2,103.90449669686679,0,0,From saved model NM_5D2_21.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/24,4822.127014,0101000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_24.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/22,4823.912741,0100020010,4733.912730816779,True,True,True,5,2,2,102.25752327440534,0,0,From saved model NM_5D1_22.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/3,4818.765540,0100000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,From saved model NM_5D2_3.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/1,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/17,99999999.000000,2100000010,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/16,5666.157680,0000000011,5596.1576804434935,True,True,True,4,2,1,72.23555343844505,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/32,5666.157690,0100000011,5596.1576804434935,True,True,True,4,2,1,72.23555343844505,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/10,4823.865549,0000001010,4733.865549364081,True,True,True,5,2,2,116.3355329010414,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/5,4822.224177,0002000010,4732.224176656223,True,True,True,5,2,2,103.90449669686679,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/8,4823.912731,0000020010,4733.912730816779,True,True,True,5,2,2,102.25752327440534,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/23,4822.127010,0100100010,4732.127000230402,True,True,True,5,2,2,103.4104411246364,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/29,4828.222687,0100000110,4738.2226768985065,True,True,True,4,3,2,254.92937726524974,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/9,4824.074779,0000010010,4734.07477884948,True,True,True,5,2,2,101.61822544132383,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/25,4824.074789,0100010010,4734.07477884948,True,True,True,5,2,2,101.61822544132383,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/26,4823.865559,0100001010,4733.865549364081,True,True,True,5,2,2,116.3355329010414,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/7,4822.127000,0000100010,4732.127000230402,True,True,True,5,2,2,103.4104411246364,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/12,5128.223228,0000000210,4738.223228315375,True,False,False,4,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/28,5128.223238,0100000210,4738.223228315375,True,False,False,4,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/13,4828.222677,0000000110,4738.2226768985065,True,True,True,4,3,2,254.92937726524974,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/18,4826.189141,1100000010,4716.18914141708,True,True,True,7,2,2,176.24766312019395,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/20,4828.142708,0110000010,4738.142698070713,True,True,True,4,3,2,105.32187217333365,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/27,5148.222687,0100000410,4738.222676675195,True,False,False,4,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/11,5148.222677,0000000410,4738.222676675195,True,False,False,4,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/30,5128.233226,0100000020,4738.233216250294,True,False,False,5,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/1,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From saved model NM_5D3_1.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/18,4826.189141,1100000010,4716.18914141708,True,True,True,7,2,2,176.24766312019395,0,0,From saved model NM_5D3_18.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/15,4818.223228,0000000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/2,4818.488248,1000000000,4718.488247830306,True,True,True,6,2,2,268.9132962596027,0,0,From saved model NM_5D2_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/1,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From saved model NM_5D3_1.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/22,4818.223238,0100000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_22.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/12,4828.142698,0010000010,4738.142698070713,True,True,True,4,3,2,105.32187217333365,0,0,From saved model NM_2_12.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/5,4822.224177,0002000010,4732.224176656223,True,True,True,5,2,2,103.90449669686679,0,0,From saved model NM_5D3_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/15,4822.127004,0001000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/7,4822.127000,0000100010,4732.127000230402,True,True,True,5,2,2,103.4104411246364,0,0,From saved model NM_5D3_7.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/8,4823.912731,0000020010,4733.912730816779,True,True,True,5,2,2,102.25752327440534,0,0,From saved model NM_5D3_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/9,4824.074779,0000010010,4734.07477884948,True,True,True,5,2,2,101.61822544132383,0,0,From saved model NM_5D3_9.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/10,4823.865549,0000001010,4733.865549364081,True,True,True,5,2,2,116.3355329010414,0,0,From saved model NM_5D3_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/11,5148.222677,0000000410,4738.222676675195,True,False,False,4,5,2,99999999,0,0,From saved model NM_5D3_11.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/12,5128.223228,0000000210,4738.223228315375,True,False,False,4,3,2,99999999,0,0,From saved model NM_5D3_12.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/13,4828.222677,0000000110,4738.2226768985065,True,True,True,4,3,2,254.92937726524974,0,0,From saved model NM_5D3_13.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/14,5128.233216,0000000020,4738.233216250294,True,False,False,5,2,2,99999999,0,0,From saved model NM_5D2_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/6,4818.765530,0000000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,From saved model NM_5D1_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/16,5666.157680,0000000011,5596.1576804434935,True,True,True,4,2,1,72.23555343844505,0,0,From saved model NM_5D3_16.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/16,5676.163601,1000000011,5586.163601060285,True,True,True,6,2,1,2428.2176012003024,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/9,4824.091262,1000010010,4714.091262258949,True,True,True,7,2,2,208.23105565609248,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/8,4823.929930,1000020010,4713.929930004272,True,True,True,7,2,2,459.9836456954913,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/12,5128.163467,1000000210,4718.163467479479,True,False,False,6,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/10,4823.185558,1000001010,4713.185558051499,True,True,True,7,2,2,324.87222563017724,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/7,4822.403389,1000100010,4712.403389249772,True,True,True,7,2,2,597.2740650463154,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/5,4822.497151,1002000010,4712.497150957455,True,True,True,7,2,2,134.1901956969758,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/6,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/4,4827.258229,1010000010,4717.258229128296,True,True,True,6,3,2,405.14338458699257,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/11,5148.135329,1000000410,4718.135328559378,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/13,4828.135329,1000000110,4718.135328516055,True,True,True,6,3,2,182.73646556573757,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/14,5128.168312,1000000020,4718.168312304225,True,False,False,7,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/1,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From saved model NM_5D3_1.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/15,4818.223228,0000000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/18,4826.189141,1100000010,4716.18914141708,True,True,True,7,2,2,176.24766312019395,0,0,From saved model NM_5D3_18.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/4,4827.258229,1010000010,4717.258229128296,True,True,True,6,3,2,405.14338458699257,0,0,From saved model NM_5D4_4.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/5,4822.497151,1002000010,4712.497150957455,True,True,True,7,2,2,134.1901956969758,0,0,From saved model NM_5D4_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/6,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,From saved model NM_5D4_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/7,4822.403389,1000100010,4712.403389249772,True,True,True,7,2,2,597.2740650463154,0,0,From saved model NM_5D4_7.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/8,4823.929930,1000020010,4713.929930004272,True,True,True,7,2,2,459.9836456954913,0,0,From saved model NM_5D4_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/9,4824.091262,1000010010,4714.091262258949,True,True,True,7,2,2,208.23105565609248,0,0,From saved model NM_5D4_9.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/10,4823.185558,1000001010,4713.185558051499,True,True,True,7,2,2,324.87222563017724,0,0,From saved model NM_5D4_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/11,5148.135329,1000000410,4718.135328559378,True,False,False,6,5,2,99999999,0,0,From saved model NM_5D4_11.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/12,5128.163467,1000000210,4718.163467479479,True,False,False,6,3,2,99999999,0,0,From saved model NM_5D4_12.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/13,4828.135329,1000000110,4718.135328516055,True,True,True,6,3,2,182.73646556573757,0,0,From saved model NM_5D4_13.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/14,5128.168312,1000000020,4718.168312304225,True,False,False,7,2,2,99999999,0,0,From saved model NM_5D4_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/2,4818.488248,1000000000,4718.488247830306,True,True,True,6,2,2,268.9132962596027,0,0,From saved model NM_5D2_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/16,5676.163601,1000000011,5586.163601060285,True,True,True,6,2,1,2428.2176012003024,0,0,From saved model NM_5D4_16.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/1,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From saved model NM_5D3_1.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/17,99999999.000000,2100000010,99999999,False,False,False,9,2,2,99999999,0,0,From saved model NM_5D3_17.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/1,99999999.000000,2000000000,99999999,False,False,False,8,2,2,99999999,0,0,From saved model NM_5D2_1.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/22,4818.223238,0100000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_22.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/12,4828.142698,0010000010,4738.142698070713,True,True,True,4,3,2,105.32187217333365,0,0,From saved model NM_2_12.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/5,4822.224177,0002000010,4732.224176656223,True,True,True,5,2,2,103.90449669686679,0,0,From saved model NM_5D3_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/15,4822.127004,0001000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/7,4822.127000,0000100010,4732.127000230402,True,True,True,5,2,2,103.4104411246364,0,0,From saved model NM_5D3_7.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/8,4823.912731,0000020010,4733.912730816779,True,True,True,5,2,2,102.25752327440534,0,0,From saved model NM_5D3_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/9,4824.074779,0000010010,4734.07477884948,True,True,True,5,2,2,101.61822544132383,0,0,From saved model NM_5D3_9.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/10,4823.865549,0000001010,4733.865549364081,True,True,True,5,2,2,116.3355329010414,0,0,From saved model NM_5D3_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/11,5148.222677,0000000410,4738.222676675195,True,False,False,4,5,2,99999999,0,0,From saved model NM_5D3_11.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/12,5128.223228,0000000210,4738.223228315375,True,False,False,4,3,2,99999999,0,0,From saved model NM_5D3_12.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/13,4828.222677,0000000110,4738.2226768985065,True,True,True,4,3,2,254.92937726524974,0,0,From saved model NM_5D3_13.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/14,5128.233216,0000000020,4738.233216250294,True,False,False,5,2,2,99999999,0,0,From saved model NM_5D2_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/6,4818.765530,0000000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,From saved model NM_5D1_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/16,5666.157680,0000000011,5596.1576804434935,True,True,True,4,2,1,72.23555343844505,0,0,From saved model NM_5D3_16.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/18,4828.807872,1101000010,4708.807872282135,True,True,True,8,2,2,312.3429865831617,0,0,From saved model NM_5D2_18.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/5,4822.497151,1002000010,4712.497150957455,True,True,True,7,2,2,134.1901956969758,0,0,From saved model NM_5D4_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/6,99999999.000000,2001000010,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/5,99999999.000000,2002000010,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/14,99999999.000000,2000000020,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/8,99999999.000000,2000020010,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/16,99999999.000000,2000000011,99999999,False,False,False,8,2,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/10,99999999.000000,2000001010,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/7,99999999.000000,2000100010,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/9,99999999.000000,2000010010,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/12,99999999.000000,2000000210,99999999,False,False,False,8,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/13,99999999.000000,2000000110,99999999,False,False,False,8,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/4,99999999.000000,2010000010,99999999,False,False,False,8,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/11,99999999.000000,2000000410,99999999,False,False,False,8,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/44,4826.515841,1100000000,4716.515841359578,True,True,True,7,2,2,243.13573352909847,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/63,4826.334799,1002010010,4706.3347991186665,True,True,True,8,2,2,180.62437838796714,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/62,4826.123836,1002020010,4706.123836286617,True,True,True,8,2,2,126.95015469592029,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/2,4822.659304,1001000000,4712.659303967393,True,True,True,7,2,2,296.0774214543103,0,0,From saved model NM_5D1_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/34,4828.958814,1102000010,4708.958814436563,True,True,True,8,2,2,277.8590390133601,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/39,4831.204405,1100001010,4711.204404596774,True,True,True,8,2,2,261.05664742151487,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/37,4832.202413,1100020010,4712.202412925385,True,True,True,8,2,2,237.5151747128634,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/36,4828.807878,1100100010,4708.807877689023,True,True,True,8,2,2,355.0867395117124,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/57,4827.697843,1010000000,4717.697843070773,True,True,True,6,3,2,614.4582505859981,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/64,4827.411828,1002001010,4707.411827727982,True,True,True,8,2,2,901.9876824309313,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/58,5975.439238,1010000011,5575.439238297995,True,False,False,6,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/38,4832.368365,1100010010,4712.368364901794,True,True,True,8,2,2,294.14513440238596,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/41,5136.189142,1100000210,4716.189141528016,True,False,False,7,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/45,5660.997022,1100000011,5560.997022451411,True,True,True,7,2,1,247.8353061844924,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/8,4823.929930,1000020010,4713.929930004272,True,True,True,7,2,2,459.9836456954913,0,0,From saved model NM_5D4_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/54,5137.258229,1010000210,4717.258229178488,True,False,False,6,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/50,4832.934273,1010020010,4712.93427297833,True,True,True,7,3,2,449.30040828536505,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/33,4835.345775,1110000010,4715.3457747064995,True,True,True,7,3,2,296.83270824812433,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/48,4831.650935,1011000010,4711.650935433274,True,True,True,7,3,2,341.6631389243463,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/47,4831.761525,1012000010,4711.761525043679,True,True,True,7,3,2,494.7636476929371,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/61,4832.318913,1002100010,4712.318912568762,True,True,True,8,2,2,2554.6174951844887,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/52,4832.365406,1010001010,4712.365406430844,True,True,True,7,3,2,337.94347272374364,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/49,4831.650935,1010100010,4711.650935287997,True,True,True,7,3,2,588.4756574255057,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/70,5679.432566,1002000011,5579.4325658737835,True,True,True,7,2,1,1158.2892211724977,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/51,4833.091263,1010010010,4713.091262551034,True,True,True,7,3,2,1461.8486181387323,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/42,4836.162717,1100000110,4716.162716732584,True,True,True,7,3,2,272.4339506975578,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/69,4822.752127,1002000000,4712.752126868384,True,True,True,7,2,2,225.45220488577448,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/40,5156.162717,1100000410,4716.162716732584,True,False,False,7,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/72,5132.403389,1001100010,4712.403389498389,True,False,False,8,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/55,5237.258814,1010000110,4717.258813656987,False,False,False,6,4,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/66,5132.497151,1002000210,4712.497150979783,True,False,False,7,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/73,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/53,5257.258814,1010000410,4717.258813656987,False,False,False,6,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/75,4827.330983,1001001010,4707.33098261923,True,True,True,8,2,2,143.40702426042114,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/74,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/43,5136.194086,1100000020,4716.19408593283,True,False,False,8,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/12,5128.163467,1000000210,4718.163467479479,True,False,False,6,3,2,99999999,0,0,From saved model NM_5D4_12.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/56,5137.264189,1010000020,4717.26418925765,True,False,False,7,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/77,5132.403391,1001000210,4712.403390570206,True,False,False,7,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/67,4832.478649,1002000110,4712.478648914036,True,True,True,7,3,2,154.22521143471587,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/117,99999999.000000,1000000310,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/81,5679.368115,1001000011,5579.368115392021,True,True,True,7,2,1,1162.9368618809544,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/91,5679.368117,1000100011,5579.368116691763,True,True,True,7,2,1,1041.759873214075,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/65,5152.478649,1002000410,4712.478648914036,True,False,False,7,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/90,4822.659303,1000100000,4712.659302938767,True,True,True,7,2,2,355.57696439881994,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/76,5152.382428,1001000410,4712.382428364315,True,False,False,7,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/100,5678.851142,1000020011,5578.851141627648,True,True,True,7,2,1,16473.96548638061,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/14,5128.168312,1000000020,4718.168312304225,True,False,False,7,2,2,99999999,0,0,From saved model NM_5D4_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/83,4826.013182,1000120010,4706.013181976791,True,True,True,8,2,2,359.6876970336011,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/85,4827.330980,1000101010,4707.330979579088,True,True,True,8,2,2,258.3746299061164,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/84,4826.215953,1000110010,4706.215953247745,True,True,True,8,2,2,446.9496072341288,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/99,4824.301310,1000020000,4714.301309600729,True,True,True,7,2,2,214.2882263313563,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/94,4829.122165,1000021010,4709.122164838954,True,True,True,8,2,2,196.74206611358287,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/87,5132.403389,1000100210,4712.403389030746,True,False,False,7,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/78,4832.382428,1001000110,4712.382428364315,True,True,True,7,3,2,444.34499306143255,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/68,5132.501459,1002000020,4712.501459385584,True,False,False,8,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/96,5133.929930,1000020210,4713.929929996203,True,False,False,7,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/108,5678.879291,1000010011,5578.879291309789,True,True,True,7,2,1,14509.711712519049,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/88,4832.382428,1000100110,4712.382428370007,True,True,True,7,3,2,149.04706367182555,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/102,4829.218786,1000011010,4709.218786207646,True,True,True,8,2,2,384.6873587755921,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/107,4824.461912,1000010000,4714.461912046474,True,True,True,7,2,2,217.9791251530941,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/104,5134.091262,1000010210,4714.091262246247,True,False,False,7,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/115,5684.115701,1000001011,5584.115700980544,True,True,True,7,2,1,715.6543463159,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/97,4833.888167,1000020110,4713.888167010976,True,True,True,7,3,2,377.59693989130307,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/86,5152.382428,1000100410,4712.382428370007,True,False,False,7,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/95,5153.888167,1000020410,4713.888167010976,True,False,False,7,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/114,4823.488895,1000001000,4713.488894643469,True,True,True,7,2,2,243.36219581484667,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/105,4834.048696,1000010110,4714.04869643844,True,True,True,7,3,2,194.79352278959703,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/111,5133.185558,1000001210,4713.185558077855,True,False,False,7,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/103,5154.048696,1000010410,4714.04869643844,True,False,False,7,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/79,5132.407710,1001000020,4712.40770950613,True,False,False,8,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/135,5986.634239,1000000001,5596.6342388085895,True,False,False,6,2,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/125,5128.488248,1000000200,4718.488247796184,True,False,False,6,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/117,5138.135329,1000000310,4718.135328564358,True,False,False,6,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/126,5986.163601,1000000211,5586.163601060285,True,False,False,6,3,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/89,5132.407709,1000100020,4712.407709285203,True,False,False,8,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/98,4833.935072,1000020020,4713.9350720358525,True,True,True,8,2,2,2974821.4444634533,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/120,5148.487952,1000000400,4718.487952098229,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/130,6174.659952,1000000111,5774.659952099488,True,False,False,6,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/106,4834.096399,1000010020,4714.096399252626,True,True,True,8,2,2,218.8128019631477,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/110,5153.160002,1000001410,4713.1600024754825,True,False,False,7,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/112,4833.160002,1000001110,4713.1600024754825,True,True,True,7,3,2,397.7223178069183,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/129,4828.487952,1000000100,4718.487952121128,True,True,True,6,3,2,218.86069219638705,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/133,5986.174421,1000000021,5586.17442100428,True,False,False,7,2,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/113,5133.190363,1000001020,4713.190362860305,True,False,False,8,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/124,5138.168154,1000000220,4718.168154007486,True,False,False,7,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/128,5138.168312,1000000120,4718.168311848179,True,False,False,7,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/119,5158.141535,1000000420,4718.141534553389,True,False,False,7,5,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/121,6011.418349,1000000411,5491.418349096232,False,False,False,6,5,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/9,4826.178799,0001010000,4726.178799391891,True,True,True,6,2,2,57.52451490709125,0,0,From saved model NM_5D1_9.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/9,99999999.000000,1101101010,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/1,99999999.000000,1001101020,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/5,99999999.000000,0111011400,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/3,99999999.000000,1101121020,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/6,99999999.000000,1101121410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/8,99999999.000000,0010121311,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/9,99999999.000000,1101101010,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/1,99999999.000000,1001101020,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/9,4826.178799,0001010000,4726.178799391891,True,True,True,6,2,2,57.52451490709125,0,0,From saved model NM_5D1_9.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/9,99999999.000000,1101101010,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/9,99999999.000000,1101101010,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/1,99999999.000000,1001101020,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/22,99999999.000000,0111011100,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/3,99999999.000000,1101121020,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/4,99999999.000000,1001100100,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/9,99999999.000000,1101101010,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/9,99999999.000000,1101101010,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/6/17,5136.178809,0101010200,4726.178799392077,True,False,False,6,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/6/35,4841.607576,0111011000,4721.607566227988,True,True,True,7,3,2,68.70110632184881,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/19,5138.807872,1101100010,4708.807872151383,True,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/9,4843.708261,1101101010,4703.708260966662,True,True,True,10,2,2,76989963.70708215,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/4,4842.659073,1001100100,4712.659073139493,True,True,True,8,3,2,113616030.60745023,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/22,5151.609084,0111011100,4721.609074255574,True,False,False,7,4,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/5,5171.609084,0111011400,4721.609074235727,True,False,False,7,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/6/23,4847.524044,1101121010,4697.5240440759735,True,True,True,11,2,2,40709591.68678451,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/14,5147.564230,1001101100,4707.564230417093,True,False,False,9,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/38,5940.733053,0010121021,5520.733053048995,True,False,False,8,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/36,4857.434450,1101121110,4697.434450314703,True,True,True,11,3,2,81507895.10184361,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/15,5161.151481,0011011120,4721.1514808347,True,False,False,8,4,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/2,5161.151491,0111011120,4721.1514808347,True,False,False,8,4,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/37,5165.666375,0001010420,4725.666374909802,True,False,False,7,5,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/28,6006.182183,0010121321,5466.18218334269,False,False,False,8,5,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/1,5147.335259,1001101020,4707.335259122288,True,False,False,10,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/6,5177.434450,1101121410,4697.434450314703,True,False,False,11,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/6/8,6460.379002,0010121311,5930.3790018451355,False,False,False,7,5,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/6/24,5152.407710,1001100120,4712.407709503307,True,False,False,9,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/25,5181.140229,0111011420,4721.1402190527315,True,False,False,8,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/3,5157.528861,1101121020,4697.528861083807,True,False,False,12,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/6/26,5167.528861,1101121120,4697.528861170558,True,False,False,12,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/5,99999999.000000,0011021410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/5,99999999.000000,0011021410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/2,99999999.000000,0011020410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/5,99999999.000000,0011021410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/5,99999999.000000,0011021410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/11,99999999.000000,0110111121,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/14,99999999.000000,0011001410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/22,99999999.000000,0111020410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/18,99999999.000000,0010111421,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/5,99999999.000000,0011021410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/12,99999999.000000,0111021410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/7,99999999.000000,0010111221,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/5,99999999.000000,0011021410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/15,99999999.000000,0011021420,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/3,99999999.000000,0111021420,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/2,99999999.000000,0011020410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/5,99999999.000000,0011021410,99999999,False,False,False,0,0,0,99999999,0,0,
-/home/vnazarov/projects/Darwin_runs/Example2/7/16,5948.339673,0010110011,5548.339673218614,True,False,False,6,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/6,5924.372931,0010111001,5814.3729313968615,True,True,True,7,3,1,44.89106366564234,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/36,5924.372941,0110111001,5814.3729313968615,True,True,True,7,3,1,44.89106366564234,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/34,5162.064242,0011000410,4732.064242276169,True,False,False,5,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/17,6234.372931,0010111201,5814.3729313968615,True,False,False,7,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/26,5953.336746,0010111011,5543.33674603799,True,False,False,7,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/38,6358.165535,0010110401,5828.165534575158,False,False,False,6,6,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/23,5171.480931,0011021400,4721.480931274853,True,False,False,7,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/2,5165.367796,0011020410,4725.367795920701,True,False,False,6,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/14,5167.587597,0011001410,4727.587597136966,True,False,False,6,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/22,5165.367806,0111020410,4725.367795920701,True,False,False,6,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/8,6199.315739,0010110411,5669.31573922312,False,False,False,6,6,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/7,5996.821314,0010111221,5466.821313737716,False,False,False,8,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/12,5170.999686,0111021410,4720.99967614204,True,False,False,7,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/5,5170.999676,0011021410,4720.99967614204,True,False,False,7,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/37,6035.128360,0010111111,5515.1283599066655,False,False,False,7,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/27,6153.875418,0110110221,5633.875408313072,False,False,False,7,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/4,5177.663018,0111001420,4727.663007735956,True,False,False,7,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/15,5181.011535,0011021420,4721.011535287714,True,False,False,8,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/3,5181.011545,0111021420,4721.011535287714,True,False,False,8,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/1,6143.810667,0010110121,5623.8106666162985,False,False,False,7,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/11,6156.441442,0110111121,5626.44143209945,False,False,False,8,4,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/18,6112.989591,0010111421,5562.989590906054,False,False,False,8,6,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/2,5165.367796,0011020410,4725.367795920701,True,False,False,6,6,2,99999999,0,0,From saved model NM_7_2.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/14,5167.587597,0011001410,4727.587597136966,True,False,False,6,6,2,99999999,0,0,From saved model NM_7_14.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/7/15,5181.011535,0011021420,4721.011535287714,True,False,False,8,6,2,99999999,0,0,From saved model NM_7_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/4,5177.663018,0111001420,4727.663007735956,True,False,False,7,6,2,99999999,0,0,From saved model NM_7_4.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/3,5181.011545,0111021420,4721.011535287714,True,False,False,8,6,2,99999999,0,0,From saved model NM_7_3.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/3,5181.011545,0111021420,4721.011535287714,True,False,False,8,6,2,99999999,0,0,From saved model NM_7_3.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/1,99999999.000000,2011000410,99999999,False,False,False,9,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/17,99999999.000000,2111021420,99999999,False,False,False,13,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/4,5152.126220,0001000410,4732.126219623088,True,False,False,5,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/11,4832.063325,0011000010,4732.063324753814,True,True,True,5,3,2,108.9303760325213,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/5,5162.222487,0012000410,4732.222486739728,True,False,False,5,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/12,5152.064242,0011000310,4732.064242277092,True,False,False,5,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/13,5142.063325,0011000210,4732.063324707407,True,False,False,5,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/3,5162.064252,0111000410,4732.064242276169,True,False,False,5,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/6,5158.221359,0010000410,4738.221359161711,True,False,False,4,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/15,5162.579538,0011000400,4732.579537643867,True,False,False,5,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/9,5165.647771,0011010410,4725.647771182012,True,False,False,6,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/30,5171.480941,0111021400,4721.480931274853,True,False,False,7,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/7,5272.063480,0011100410,4732.0634801417655,False,False,False,6,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/16,6180.407514,0011000411,5660.407514173943,False,False,False,5,6,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/32,6011.213999,0111021421,5561.213988564439,True,False,False,8,6,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/2,5161.651486,1011000410,4711.651485960701,True,False,False,7,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/27,5151.022654,0111021020,4721.022643672259,True,False,False,8,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/28,5171.022541,0111021320,4721.022530957793,True,False,False,8,5,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/29,5161.022541,0111021220,4721.022531015358,True,False,False,8,4,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/26,5175.451478,0111020420,4725.451468130417,True,False,False,7,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/14,5172.135833,0011000420,4732.1358326480495,True,False,False,6,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/20,5171.011735,0101021420,4721.011725487822,True,False,False,8,5,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/22,5179.745545,0110021420,4729.745534733521,True,False,False,7,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/21,5181.122900,0112021420,4721.122889526061,True,False,False,8,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/23,5191.012839,0111121420,4721.012828653202,True,False,False,9,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/18,5186.471865,1111021420,4696.471865410254,True,False,False,11,6,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/48,4831.650935,1011000010,4711.650935433274,True,True,True,7,3,2,341.6631389243463,0,0,From saved model NM_5S60_48.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/20,4832.063335,0111000010,4732.063324753814,True,True,True,5,3,2,108.9303760325213,0,0,From saved model NM_5D2_20.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/15,4822.127004,0001000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/12,4828.142698,0010000010,4738.142698070713,True,True,True,4,3,2,105.32187217333365,0,0,From saved model NM_2_12.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/34,5162.064242,0011000410,4732.064242276169,True,False,False,5,6,2,99999999,0,0,From saved model NM_7_34.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/13,5142.063325,0011000210,4732.063324707407,True,False,False,5,4,2,99999999,0,0,From saved model NM_FND0_13.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/4,4832.577999,0011000000,4732.577999281067,True,True,True,5,3,2,53.99251919449191,0,0,From saved model NM_5D1_4.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/34,5147.598173,0111001020,4727.598162763267,True,False,False,7,3,2,99999999,0,0,From saved model NM_5_34.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/27,5151.022654,0111021020,4721.022643672259,True,False,False,8,3,2,99999999,0,0,From saved model NM_FND0_27.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/7/3,5181.011545,0111021420,4721.011535287714,True,False,False,8,6,2,99999999,0,0,From saved model NM_7_3.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/29,5161.022541,0111021220,4721.022531015358,True,False,False,8,4,2,99999999,0,0,From saved model NM_FND0_29.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/27,5151.022654,0111021020,4721.022643672259,True,False,False,8,3,2,99999999,0,0,From saved model NM_FND0_27.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/1,99999999.000000,2011000010,99999999,False,False,False,9,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/17,99999999.000000,2111021020,99999999,False,False,False,13,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/5,5132.223997,0012000010,4732.223996640318,True,False,False,5,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/10,5137.652979,0011001010,4727.652978522307,True,False,False,6,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/8,5135.448205,0011020010,4725.448205093278,True,False,False,6,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/16,5964.765208,0011000011,5574.765207631994,True,False,False,5,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/13,4842.064242,0011000110,4732.064242328491,True,True,True,5,4,2,155.1027685503808,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/9,4835.575363,0011010010,4725.575362958955,True,True,True,6,3,2,117.01539666952135,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/32,5940.733062,0111021021,5520.733052419181,True,False,False,8,3,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/30,4841.479427,0111021000,4721.479417271301,True,True,True,7,3,2,67.53909706712767,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/7,4842.063368,0011100010,4732.063367892974,True,True,True,6,3,2,23451681.81847855,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/14,5142.136590,0011000020,4732.136589658018,True,False,False,6,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/20,4841.022776,0101021020,4721.022765809374,True,True,True,8,2,2,125.88739544429474,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/22,5149.662804,0110021020,4729.662794007451,True,False,False,7,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/26,5145.459019,0111020020,4725.459008653028,True,False,False,7,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/21,5151.123284,0112021020,4721.12327373817,True,False,False,8,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/19,5151.022644,0011021020,4721.022643672259,True,False,False,8,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/23,5261.022653,0111121020,4721.022643414903,False,False,False,9,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/29,5160.937354,0111021120,4720.937343505532,True,False,False,8,4,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/18,5156.471544,1111021020,4696.471544325928,True,False,False,11,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/6,99999999.000000,2001000010,99999999,False,False,False,9,2,2,99999999,0,0,From saved model NM_5S60_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/6,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,From saved model NM_5D4_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/4,5152.126220,0001000410,4732.126219623088,True,False,False,5,5,2,99999999,0,0,From saved model NM_FND0_4.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/24,4822.127014,0101000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_24.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/5,4822.224177,0002000010,4732.224176656223,True,True,True,5,2,2,103.90449669686679,0,0,From saved model NM_5D3_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/15,4818.223228,0000000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/19,4825.449447,0001020010,4725.449447199858,True,True,True,6,2,2,112.86783904258445,0,0,From saved model NM_5D1_19.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/15,4827.654419,0001001010,4727.654418760156,True,True,True,6,2,2,119.10360331617571,0,0,From saved model NM_5D0_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/11,4832.063325,0011000010,4732.063324753814,True,True,True,5,3,2,108.9303760325213,0,0,From saved model NM_FND0_11.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/14,5132.136689,0001000020,4732.136688918659,True,False,False,6,2,2,99999999,0,0,From saved model NM_5D1_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/10,4822.599691,0001000000,4732.599691029321,True,True,True,5,2,2,51.42306398073291,0,0,From saved model NM_5D0_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/27,5151.022654,0111021020,4721.022643672259,True,False,False,8,3,2,99999999,0,0,From saved model NM_FND0_27.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/20,4841.022776,0101021020,4721.022765809374,True,True,True,8,2,2,125.88739544429474,0,0,From saved model NM_FND1_20.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/30,5135.459127,0101020020,4725.45911737099,True,False,False,7,2,2,99999999,0,0,From saved model NM_5D1_30.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND0/20,5171.011735,0101021420,4721.011725487822,True,False,False,8,5,2,99999999,0,0,From saved model NM_FND0_20.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/20,4841.022776,0101021020,4721.022765809374,True,True,True,8,2,2,125.88739544429474,0,0,From saved model NM_FND1_20.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/17,99999999.000000,2101021020,99999999,False,False,False,13,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/16,5669.307764,0001000011,5589.307763892846,True,True,True,5,2,1,68.5575126544287,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/7,5132.126999,0001100010,4732.126998708994,True,False,False,6,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/9,4825.657027,0001010010,4725.657027330966,True,True,True,6,2,2,113.52882643358093,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/12,5132.127004,0001000210,4732.127003973789,True,False,False,5,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/30,4831.522573,0101021000,4721.522562595369,True,True,True,7,2,2,64.87946140460083,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/13,4832.126220,0001000110,4732.126219623088,True,True,True,5,3,2,208.0417513988666,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/32,5990.031660,0101021021,5580.031650167708,True,False,False,8,2,1,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/22,5139.745986,0100021020,4729.745975770948,True,False,False,7,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/24,5137.664321,0101001020,4727.664311283183,True,False,False,7,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/19,4841.022766,0001021020,4721.022765809374,True,True,True,8,2,2,125.88739544429474,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/21,5141.123374,0102021020,4721.123364203399,True,False,False,8,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/23,5151.022772,0101121020,4721.022762393717,True,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/28,5151.022658,0101021220,4721.022648032781,True,False,False,8,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/29,5151.022771,0101021120,4721.022761203419,True,False,False,8,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/18,5147.528863,1101021020,4697.528862998568,True,False,False,11,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/1,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From saved model NM_5D3_1.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/22,4818.223238,0100000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_22.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/12,4828.142698,0010000010,4738.142698070713,True,True,True,4,3,2,105.32187217333365,0,0,From saved model NM_2_12.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/5,4822.224177,0002000010,4732.224176656223,True,True,True,5,2,2,103.90449669686679,0,0,From saved model NM_5D3_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/15,4822.127004,0001000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/7,4822.127000,0000100010,4732.127000230402,True,True,True,5,2,2,103.4104411246364,0,0,From saved model NM_5D3_7.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/8,4823.912731,0000020010,4733.912730816779,True,True,True,5,2,2,102.25752327440534,0,0,From saved model NM_5D3_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/9,4824.074779,0000010010,4734.07477884948,True,True,True,5,2,2,101.61822544132383,0,0,From saved model NM_5D3_9.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/10,4823.865549,0000001010,4733.865549364081,True,True,True,5,2,2,116.3355329010414,0,0,From saved model NM_5D3_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/11,5148.222677,0000000410,4738.222676675195,True,False,False,4,5,2,99999999,0,0,From saved model NM_5D3_11.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/12,5128.223228,0000000210,4738.223228315375,True,False,False,4,3,2,99999999,0,0,From saved model NM_5D3_12.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/13,4828.222677,0000000110,4738.2226768985065,True,True,True,4,3,2,254.92937726524974,0,0,From saved model NM_5D3_13.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/6,4818.765530,0000000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,From saved model NM_5D1_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/14,5128.233216,0000000020,4738.233216250294,True,False,False,5,2,2,99999999,0,0,From saved model NM_5D2_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/16,5666.157680,0000000011,5596.1576804434935,True,True,True,4,2,1,72.23555343844505,0,0,From saved model NM_5D3_16.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/8,4831.522563,0001021000,4721.522562595369,True,True,True,7,2,2,64.87946140460083,0,0,From saved model NM_5D0_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/30,4841.479427,0111021000,4721.479417271301,True,True,True,7,3,2,67.53909706712767,0,0,From saved model NM_FND1_30.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/3,4828.112626,0101001000,4728.1126157248955,True,True,True,6,2,2,60.31427341080531,0,0,From saved model NM_5D0_3.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/30,4831.522573,0101021000,4721.522562595369,True,True,True,7,2,2,64.87946140460083,0,0,From saved model NM_FND2_30.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/31,4825.971754,0101020000,4725.9717438038115,True,True,True,6,2,2,57.58718181974971,0,0,From saved model NM_5D1_31.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND1/20,4841.022776,0101021020,4721.022765809374,True,True,True,8,2,2,125.88739544429474,0,0,From saved model NM_FND1_20.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/26,4831.012886,0101021010,4721.012876067919,True,True,True,7,2,2,125.26713321123863,0,0,From saved model NM_5D1_26.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND3/17,99999999.000000,2101021000,99999999,False,False,False,12,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND3/32,5680.721579,0101021001,5580.721568653659,True,True,True,7,2,1,84.24312605216258,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND3/21,4831.621640,0102021000,4721.621629660938,True,True,True,7,2,2,64.70754499047264,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND3/22,4830.308001,0100021000,4730.307991261717,True,True,True,6,2,2,63.33974412536452,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND3/23,5141.522572,0101121000,4721.522562319743,True,False,False,8,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND3/28,5141.522573,0101021200,4721.522562590449,True,False,False,7,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND3/29,5141.523163,0101021100,4721.5231533713495,True,False,False,7,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND3/27,5161.523163,0101021400,4721.5231533713495,True,False,False,7,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND3/18,4837.810424,1101021000,4697.810423705595,True,True,True,10,2,2,541.2297779534625,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/1,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From saved model NM_5D3_1.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/6,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,From saved model NM_5D4_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/7,4822.403389,1000100010,4712.403389249772,True,True,True,7,2,2,597.2740650463154,0,0,From saved model NM_5D4_7.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/8,4823.929930,1000020010,4713.929930004272,True,True,True,7,2,2,459.9836456954913,0,0,From saved model NM_5D4_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/4,4827.258229,1010000010,4717.258229128296,True,True,True,6,3,2,405.14338458699257,0,0,From saved model NM_5D4_4.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/5,4822.497151,1002000010,4712.497150957455,True,True,True,7,2,2,134.1901956969758,0,0,From saved model NM_5D4_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/15,4818.223228,0000000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/18,4826.189141,1100000010,4716.18914141708,True,True,True,7,2,2,176.24766312019395,0,0,From saved model NM_5D3_18.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/9,4824.091262,1000010010,4714.091262258949,True,True,True,7,2,2,208.23105565609248,0,0,From saved model NM_5D4_9.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/10,4823.185558,1000001010,4713.185558051499,True,True,True,7,2,2,324.87222563017724,0,0,From saved model NM_5D4_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/11,5148.135329,1000000410,4718.135328559378,True,False,False,6,5,2,99999999,0,0,From saved model NM_5D4_11.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/12,5128.163467,1000000210,4718.163467479479,True,False,False,6,3,2,99999999,0,0,From saved model NM_5D4_12.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/13,4828.135329,1000000110,4718.135328516055,True,True,True,6,3,2,182.73646556573757,0,0,From saved model NM_5D4_13.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/14,5128.168312,1000000020,4718.168312304225,True,False,False,7,2,2,99999999,0,0,From saved model NM_5D4_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/2,4818.488248,1000000000,4718.488247830306,True,True,True,6,2,2,268.9132962596027,0,0,From saved model NM_5D2_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/16,5676.163601,1000000011,5586.163601060285,True,True,True,6,2,1,2428.2176012003024,0,0,From saved model NM_5D4_16.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/8,4825.971744,0001020000,4725.9717438038115,True,True,True,6,2,2,57.58718181974971,0,0,From saved model NM_5D1_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/3,4822.599701,0101000000,4732.599691029321,True,True,True,5,2,2,51.42306398073291,0,0,From saved model NM_5D1_3.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/31,4825.971754,0101020000,4725.9717438038115,True,True,True,6,2,2,57.58718181974971,0,0,From saved model NM_5D1_31.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND2/30,4831.522573,0101021000,4721.522562595369,True,True,True,7,2,2,64.87946140460083,0,0,From saved model NM_FND2_30.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/37,5135.972338,0101020100,4725.9723276263985,True,False,False,6,3,2,99999999,0,0,From saved model NM_5_37.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/30,5135.459127,0101020020,4725.45911737099,True,False,False,7,2,2,99999999,0,0,From saved model NM_5D1_30.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/29,4825.449457,0101020010,4725.449447199858,True,True,True,6,2,2,112.86783904258445,0,0,From saved model NM_5D0_29.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND4/17,99999999.000000,2101020000,99999999,False,False,False,11,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND4/32,5673.452603,0101020001,5583.452593047238,True,True,True,6,2,1,73.36005006561226,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND4/22,4824.497564,0100020000,4734.497553515627,True,True,True,5,2,2,54.104129314224515,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND4/21,4826.086295,0102020000,4726.086285489436,True,True,True,6,2,2,57.30877524815469,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND4/23,5135.971752,0101120000,4725.9717423381535,True,False,False,7,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND4/20,4835.931552,0111020000,4725.93154162338,True,True,True,6,3,2,59.92604756594568,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND4/28,5135.971754,0101020200,4725.971743772385,True,False,False,6,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND4/27,5155.972338,0101020400,4725.97232762147,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND4/18,4832.904558,1101020000,4702.904558270005,True,True,True,9,2,2,417.20179487266466,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/10,4822.599691,0001000000,4732.599691029321,True,True,True,5,2,2,51.42306398073291,0,0,From saved model NM_5D0_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5/25,4832.578009,0111000000,4732.577999281067,True,True,True,5,3,2,53.99251919449191,0,0,From saved model NM_5_25.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/3,4818.765540,0100000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,From saved model NM_5D2_3.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/31,4825.971754,0101020000,4725.9717438038115,True,True,True,6,2,2,57.58718181974971,0,0,From saved model NM_5D1_31.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D0/3,4828.112626,0101001000,4728.1126157248955,True,True,True,6,2,2,60.31427341080531,0,0,From saved model NM_5D0_3.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/30,5132.136699,0101000020,4732.136688918659,True,False,False,6,2,2,99999999,0,0,From saved model NM_5D2_30.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/24,4822.127014,0101000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_24.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND5/1,99999999.000000,2101000000,99999999,False,False,False,10,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND5/16,5669.995147,0101000001,5589.995136827383,True,True,True,5,2,1,65.80190349375822,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND5/7,5132.599682,0101100000,4732.599671883741,True,False,False,6,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND5/5,4822.695802,0102000000,4732.695792010834,True,True,True,5,2,2,52.139073437377526,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND5/9,4826.178809,0101010000,4726.178799391891,True,True,True,6,2,2,57.52451490709125,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND5/12,5132.599701,0101000200,4732.59969104891,True,False,False,5,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND5/13,5132.600619,0101000100,4732.600608787021,True,False,False,5,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND5/11,5152.600619,0101000400,4732.600608787021,True,False,False,5,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND5/2,4829.052868,1101000000,4709.052867866357,True,True,True,8,2,2,323.11054238461935,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/44,4826.515841,1100000000,4716.515841359578,True,True,True,7,2,2,243.13573352909847,0,0,From saved model NM_5S60_44.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/6,4818.765530,0000000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,From saved model NM_5D1_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND5/5,4822.695802,0102000000,4732.695792010834,True,True,True,5,2,2,52.139073437377526,0,0,From saved model NM_FND5_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/3,4822.599701,0101000000,4732.599691029321,True,True,True,5,2,2,51.42306398073291,0,0,From saved model NM_5D1_3.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND4/22,4824.497564,0100020000,4734.497553515627,True,True,True,5,2,2,54.104129314224515,0,0,From saved model NM_FND4_22.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/30,5128.233226,0100000020,4738.233216250294,True,False,False,5,2,2,99999999,0,0,From saved model NM_5D3_30.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/22,4818.223238,0100000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_22.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND6/1,99999999.000000,2100000000,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND6/16,5666.872787,0100000001,5596.872776813025,True,True,True,4,2,1,69.44701314322958,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND6/9,4824.659057,0100010000,4734.65904688074,True,True,True,5,2,2,54.544731421712484,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND6/10,4824.394444,0100001000,4734.39443442629,True,True,True,5,2,2,59.82573495075637,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND6/7,4822.599682,0100100000,4732.5996715380725,True,True,True,5,2,2,51.64264593020395,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND6/4,4828.736017,0110000000,4738.736007166065,True,True,True,4,3,2,53.444738362450266,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND6/13,5128.766554,0100000100,4738.766544038316,True,False,False,4,3,2,99999999,0,0,No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/FND6/12,5128.765540,0100000200,4738.765529518972,True,False,False,4,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/FND6/11,5148.766554,0100000400,4738.766544045628,True,False,False,4,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/17,99999999.000000,2100000010,99999999,False,False,False,9,2,2,99999999,0,0,From saved model NM_5D3_17.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/18,4826.189141,1100000010,4716.18914141708,True,True,True,7,2,2,176.24766312019395,0,0,From saved model NM_5D3_18.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/20,4828.142708,0110000010,4738.142698070713,True,True,True,4,3,2,105.32187217333365,0,0,From saved model NM_5D3_20.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/21,4822.224187,0102000010,4732.224176656223,True,True,True,5,2,2,103.90449669686679,0,0,From saved model NM_5D2_21.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/15,4818.223228,0000000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/24,4822.127014,0101000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_24.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/23,4822.127010,0100100010,4732.127000230402,True,True,True,5,2,2,103.4104411246364,0,0,From saved model NM_5D3_23.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/22,4823.912741,0100020010,4733.912730816779,True,True,True,5,2,2,102.25752327440534,0,0,From saved model NM_5D1_22.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/30,5128.233226,0100000020,4738.233216250294,True,False,False,5,2,2,99999999,0,0,From saved model NM_5D3_30.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/25,4824.074789,0100010010,4734.07477884948,True,True,True,5,2,2,101.61822544132383,0,0,From saved model NM_5D3_25.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/27,5148.222687,0100000410,4738.222676675195,True,False,False,4,5,2,99999999,0,0,From saved model NM_5D3_27.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/28,5128.223238,0100000210,4738.223228315375,True,False,False,4,3,2,99999999,0,0,From saved model NM_5D3_28.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/29,4828.222687,0100000110,4738.2226768985065,True,True,True,4,3,2,254.92937726524974,0,0,From saved model NM_5D3_29.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/26,4823.865559,0100001010,4733.865549364081,True,True,True,5,2,2,116.3355329010414,0,0,From saved model NM_5D3_26.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/3,4818.765540,0100000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,From saved model NM_5D2_3.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/32,5666.157690,0100000011,5596.1576804434935,True,True,True,4,2,1,72.23555343844505,0,0,From saved model NM_5D3_32.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/1,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From saved model NM_5D3_1.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/22,4818.223238,0100000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_22.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/12,4828.142698,0010000010,4738.142698070713,True,True,True,4,3,2,105.32187217333365,0,0,From saved model NM_2_12.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/5,4822.224177,0002000010,4732.224176656223,True,True,True,5,2,2,103.90449669686679,0,0,From saved model NM_5D3_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/15,4822.127004,0001000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/7,4822.127000,0000100010,4732.127000230402,True,True,True,5,2,2,103.4104411246364,0,0,From saved model NM_5D3_7.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/8,4823.912731,0000020010,4733.912730816779,True,True,True,5,2,2,102.25752327440534,0,0,From saved model NM_5D3_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/9,4824.074779,0000010010,4734.07477884948,True,True,True,5,2,2,101.61822544132383,0,0,From saved model NM_5D3_9.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/10,4823.865549,0000001010,4733.865549364081,True,True,True,5,2,2,116.3355329010414,0,0,From saved model NM_5D3_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/11,5148.222677,0000000410,4738.222676675195,True,False,False,4,5,2,99999999,0,0,From saved model NM_5D3_11.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/12,5128.223228,0000000210,4738.223228315375,True,False,False,4,3,2,99999999,0,0,From saved model NM_5D3_12.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/13,4828.222677,0000000110,4738.2226768985065,True,True,True,4,3,2,254.92937726524974,0,0,From saved model NM_5D3_13.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/14,5128.233216,0000000020,4738.233216250294,True,False,False,5,2,2,99999999,0,0,From saved model NM_5D2_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/6,4818.765530,0000000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,From saved model NM_5D1_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/16,5666.157680,0000000011,5596.1576804434935,True,True,True,4,2,1,72.23555343844505,0,0,From saved model NM_5D3_16.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/1,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From saved model NM_5D3_1.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/15,4818.223228,0000000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/18,4826.189141,1100000010,4716.18914141708,True,True,True,7,2,2,176.24766312019395,0,0,From saved model NM_5D3_18.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/4,4827.258229,1010000010,4717.258229128296,True,True,True,6,3,2,405.14338458699257,0,0,From saved model NM_5D4_4.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/5,4822.497151,1002000010,4712.497150957455,True,True,True,7,2,2,134.1901956969758,0,0,From saved model NM_5D4_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/6,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,From saved model NM_5D4_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/7,4822.403389,1000100010,4712.403389249772,True,True,True,7,2,2,597.2740650463154,0,0,From saved model NM_5D4_7.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/8,4823.929930,1000020010,4713.929930004272,True,True,True,7,2,2,459.9836456954913,0,0,From saved model NM_5D4_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/9,4824.091262,1000010010,4714.091262258949,True,True,True,7,2,2,208.23105565609248,0,0,From saved model NM_5D4_9.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/10,4823.185558,1000001010,4713.185558051499,True,True,True,7,2,2,324.87222563017724,0,0,From saved model NM_5D4_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/11,5148.135329,1000000410,4718.135328559378,True,False,False,6,5,2,99999999,0,0,From saved model NM_5D4_11.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/12,5128.163467,1000000210,4718.163467479479,True,False,False,6,3,2,99999999,0,0,From saved model NM_5D4_12.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/13,4828.135329,1000000110,4718.135328516055,True,True,True,6,3,2,182.73646556573757,0,0,From saved model NM_5D4_13.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/14,5128.168312,1000000020,4718.168312304225,True,False,False,7,2,2,99999999,0,0,From saved model NM_5D4_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/2,4818.488248,1000000000,4718.488247830306,True,True,True,6,2,2,268.9132962596027,0,0,From saved model NM_5D2_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/16,5676.163601,1000000011,5586.163601060285,True,True,True,6,2,1,2428.2176012003024,0,0,From saved model NM_5D4_16.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/5,99999999.000000,2002000010,99999999,False,False,False,9,2,2,99999999,0,0,From saved model NM_5S60_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/17,99999999.000000,2100000010,99999999,False,False,False,9,2,2,99999999,0,0,From saved model NM_5D3_17.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/7,99999999.000000,2000100010,99999999,False,False,False,9,2,2,99999999,0,0,From saved model NM_5S60_7.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/8,99999999.000000,2000020010,99999999,False,False,False,9,2,2,99999999,0,0,From saved model NM_5S60_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/9,99999999.000000,2000010010,99999999,False,False,False,9,2,2,99999999,0,0,From saved model NM_5S60_9.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/10,99999999.000000,2000001010,99999999,False,False,False,9,2,2,99999999,0,0,From saved model NM_5S60_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/4,99999999.000000,2010000010,99999999,False,False,False,8,3,2,99999999,0,0,From saved model NM_5S60_4.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/1,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From saved model NM_5D3_1.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/6,99999999.000000,2001000010,99999999,False,False,False,9,2,2,99999999,0,0,From saved model NM_5S60_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/11,99999999.000000,2000000410,99999999,False,False,False,8,5,2,99999999,0,0,From saved model NM_5S60_11.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/12,99999999.000000,2000000210,99999999,False,False,False,8,3,2,99999999,0,0,From saved model NM_5S60_12.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/13,99999999.000000,2000000110,99999999,False,False,False,8,3,2,99999999,0,0,From saved model NM_5S60_13.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/14,99999999.000000,2000000020,99999999,False,False,False,9,2,2,99999999,0,0,From saved model NM_5S60_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/2/12,4828.142698,0010000010,4738.142698070713,True,True,True,4,3,2,105.32187217333365,0,0,From saved model NM_2_12.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/1,99999999.000000,2000000000,99999999,False,False,False,8,2,2,99999999,0,0,From saved model NM_5D2_1.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/22,4818.223238,0100000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From saved model NM_5D2_22.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/16,99999999.000000,2000000011,99999999,False,False,False,8,2,1,99999999,0,0,From saved model NM_5S60_16.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/5,4822.224177,0002000010,4732.224176656223,True,True,True,5,2,2,103.90449669686679,0,0,From saved model NM_5D3_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/15,4822.127004,0001000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,From saved model NM_5D1_15.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/7,4822.127000,0000100010,4732.127000230402,True,True,True,5,2,2,103.4104411246364,0,0,From saved model NM_5D3_7.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/8,4823.912731,0000020010,4733.912730816779,True,True,True,5,2,2,102.25752327440534,0,0,From saved model NM_5D3_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/9,4824.074779,0000010010,4734.07477884948,True,True,True,5,2,2,101.61822544132383,0,0,From saved model NM_5D3_9.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/10,4823.865549,0000001010,4733.865549364081,True,True,True,5,2,2,116.3355329010414,0,0,From saved model NM_5D3_10.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/11,5148.222677,0000000410,4738.222676675195,True,False,False,4,5,2,99999999,0,0,From saved model NM_5D3_11.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/12,5128.223228,0000000210,4738.223228315375,True,False,False,4,3,2,99999999,0,0,From saved model NM_5D3_12.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/13,4828.222677,0000000110,4738.2226768985065,True,True,True,4,3,2,254.92937726524974,0,0,From saved model NM_5D3_13.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/14,5128.233216,0000000020,4738.233216250294,True,False,False,5,2,2,99999999,0,0,From saved model NM_5D2_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/6,4818.765530,0000000000,4738.765529518845,True,True,True,4,2,2,50.87267786603591,0,0,From saved model NM_5D1_6.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/16,5666.157680,0000000011,5596.1576804434935,True,True,True,4,2,1,72.23555343844505,0,0,From saved model NM_5D3_16.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/33,4835.345775,1110000010,4715.3457747064995,True,True,True,7,3,2,296.83270824812433,0,0,From saved model NM_5S60_33.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/34,4828.958814,1102000010,4708.958814436563,True,True,True,8,2,2,277.8590390133601,0,0,From saved model NM_5S60_34.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D2/18,4828.807872,1101000010,4708.807872282135,True,True,True,8,2,2,312.3429865831617,0,0,From saved model NM_5D2_18.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/36,4828.807878,1100100010,4708.807877689023,True,True,True,8,2,2,355.0867395117124,0,0,From saved model NM_5S60_36.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/37,4832.202413,1100020010,4712.202412925385,True,True,True,8,2,2,237.5151747128634,0,0,From saved model NM_5S60_37.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/38,4832.368365,1100010010,4712.368364901794,True,True,True,8,2,2,294.14513440238596,0,0,From saved model NM_5S60_38.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/39,4831.204405,1100001010,4711.204404596774,True,True,True,8,2,2,261.05664742151487,0,0,From saved model NM_5S60_39.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/40,5156.162717,1100000410,4716.162716732584,True,False,False,7,5,2,99999999,0,0,From saved model NM_5S60_40.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/41,5136.189142,1100000210,4716.189141528016,True,False,False,7,3,2,99999999,0,0,From saved model NM_5S60_41.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/42,4836.162717,1100000110,4716.162716732584,True,True,True,7,3,2,272.4339506975578,0,0,From saved model NM_5S60_42.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/43,5136.194086,1100000020,4716.19408593283,True,False,False,8,2,2,99999999,0,0,From saved model NM_5S60_43.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/44,4826.515841,1100000000,4716.515841359578,True,True,True,7,2,2,243.13573352909847,0,0,From saved model NM_5S60_44.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/45,5660.997022,1100000011,5560.997022451411,True,True,True,7,2,1,247.8353061844924,0,0,From saved model NM_5S60_45.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/47,4831.761525,1012000010,4711.761525043679,True,True,True,7,3,2,494.7636476929371,0,0,From saved model NM_5S60_47.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/48,4831.650935,1011000010,4711.650935433274,True,True,True,7,3,2,341.6631389243463,0,0,From saved model NM_5S60_48.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/49,4831.650935,1010100010,4711.650935287997,True,True,True,7,3,2,588.4756574255057,0,0,From saved model NM_5S60_49.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/50,4832.934273,1010020010,4712.93427297833,True,True,True,7,3,2,449.30040828536505,0,0,From saved model NM_5S60_50.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/51,4833.091263,1010010010,4713.091262551034,True,True,True,7,3,2,1461.8486181387323,0,0,From saved model NM_5S60_51.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/52,4832.365406,1010001010,4712.365406430844,True,True,True,7,3,2,337.94347272374364,0,0,From saved model NM_5S60_52.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/53,5257.258814,1010000410,4717.258813656987,False,False,False,6,6,2,99999999,0,0,From saved model NM_5S60_53.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/54,5137.258229,1010000210,4717.258229178488,True,False,False,6,4,2,99999999,0,0,From saved model NM_5S60_54.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/55,5237.258814,1010000110,4717.258813656987,False,False,False,6,4,2,99999999,0,0,From saved model NM_5S60_55.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/56,5137.264189,1010000020,4717.26418925765,True,False,False,7,3,2,99999999,0,0,From saved model NM_5S60_56.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/57,4827.697843,1010000000,4717.697843070773,True,True,True,6,3,2,614.4582505859981,0,0,From saved model NM_5S60_57.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/58,5975.439238,1010000011,5575.439238297995,True,False,False,6,3,1,99999999,0,0,From saved model NM_5S60_58.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/5,4822.497151,1002000010,4712.497150957455,True,True,True,7,2,2,134.1901956969758,0,0,From saved model NM_5D4_5.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/61,4832.318913,1002100010,4712.318912568762,True,True,True,8,2,2,2554.6174951844887,0,0,From saved model NM_5S60_61.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/62,4826.123836,1002020010,4706.123836286617,True,True,True,8,2,2,126.95015469592029,0,0,From saved model NM_5S60_62.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/63,4826.334799,1002010010,4706.3347991186665,True,True,True,8,2,2,180.62437838796714,0,0,From saved model NM_5S60_63.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/64,4827.411828,1002001010,4707.411827727982,True,True,True,8,2,2,901.9876824309313,0,0,From saved model NM_5S60_64.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/65,5152.478649,1002000410,4712.478648914036,True,False,False,7,5,2,99999999,0,0,From saved model NM_5S60_65.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/66,5132.497151,1002000210,4712.497150979783,True,False,False,7,3,2,99999999,0,0,From saved model NM_5S60_66.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/67,4832.478649,1002000110,4712.478648914036,True,True,True,7,3,2,154.22521143471587,0,0,From saved model NM_5S60_67.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/68,5132.501459,1002000020,4712.501459385584,True,False,False,8,2,2,99999999,0,0,From saved model NM_5S60_68.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/69,4822.752127,1002000000,4712.752126868384,True,True,True,7,2,2,225.45220488577448,0,0,From saved model NM_5S60_69.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/70,5679.432566,1002000011,5579.4325658737835,True,True,True,7,2,1,1158.2892211724977,0,0,From saved model NM_5S60_70.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/72,5132.403389,1001100010,4712.403389498389,True,False,False,8,2,2,99999999,0,0,From saved model NM_5S60_72.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/73,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From saved model NM_5S60_73.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/74,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,From saved model NM_5S60_74.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/75,4827.330983,1001001010,4707.33098261923,True,True,True,8,2,2,143.40702426042114,0,0,From saved model NM_5S60_75.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/76,5152.382428,1001000410,4712.382428364315,True,False,False,7,5,2,99999999,0,0,From saved model NM_5S60_76.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/77,5132.403391,1001000210,4712.403390570206,True,False,False,7,3,2,99999999,0,0,From saved model NM_5S60_77.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/78,4832.382428,1001000110,4712.382428364315,True,True,True,7,3,2,444.34499306143255,0,0,From saved model NM_5S60_78.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/79,5132.407710,1001000020,4712.40770950613,True,False,False,8,2,2,99999999,0,0,From saved model NM_5S60_79.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D1/2,4822.659304,1001000000,4712.659303967393,True,True,True,7,2,2,296.0774214543103,0,0,From saved model NM_5D1_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/81,5679.368115,1001000011,5579.368115392021,True,True,True,7,2,1,1162.9368618809544,0,0,From saved model NM_5S60_81.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/83,4826.013182,1000120010,4706.013181976791,True,True,True,8,2,2,359.6876970336011,0,0,From saved model NM_5S60_83.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/84,4826.215953,1000110010,4706.215953247745,True,True,True,8,2,2,446.9496072341288,0,0,From saved model NM_5S60_84.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/85,4827.330980,1000101010,4707.330979579088,True,True,True,8,2,2,258.3746299061164,0,0,From saved model NM_5S60_85.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/86,5152.382428,1000100410,4712.382428370007,True,False,False,7,5,2,99999999,0,0,From saved model NM_5S60_86.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/87,5132.403389,1000100210,4712.403389030746,True,False,False,7,3,2,99999999,0,0,From saved model NM_5S60_87.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/88,4832.382428,1000100110,4712.382428370007,True,True,True,7,3,2,149.04706367182555,0,0,From saved model NM_5S60_88.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/89,5132.407709,1000100020,4712.407709285203,True,False,False,8,2,2,99999999,0,0,From saved model NM_5S60_89.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/90,4822.659303,1000100000,4712.659302938767,True,True,True,7,2,2,355.57696439881994,0,0,From saved model NM_5S60_90.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/91,5679.368117,1000100011,5579.368116691763,True,True,True,7,2,1,1041.759873214075,0,0,From saved model NM_5S60_91.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/8,4823.929930,1000020010,4713.929930004272,True,True,True,7,2,2,459.9836456954913,0,0,From saved model NM_5D4_8.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/94,4829.122165,1000021010,4709.122164838954,True,True,True,8,2,2,196.74206611358287,0,0,From saved model NM_5S60_94.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/95,5153.888167,1000020410,4713.888167010976,True,False,False,7,5,2,99999999,0,0,From saved model NM_5S60_95.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/96,5133.929930,1000020210,4713.929929996203,True,False,False,7,3,2,99999999,0,0,From saved model NM_5S60_96.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/97,4833.888167,1000020110,4713.888167010976,True,True,True,7,3,2,377.59693989130307,0,0,From saved model NM_5S60_97.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/98,4833.935072,1000020020,4713.9350720358525,True,True,True,8,2,2,2974821.4444634533,0,0,From saved model NM_5S60_98.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/99,4824.301310,1000020000,4714.301309600729,True,True,True,7,2,2,214.2882263313563,0,0,From saved model NM_5S60_99.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/100,5678.851142,1000020011,5578.851141627648,True,True,True,7,2,1,16473.96548638061,0,0,From saved model NM_5S60_100.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/102,4829.218786,1000011010,4709.218786207646,True,True,True,8,2,2,384.6873587755921,0,0,From saved model NM_5S60_102.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/103,5154.048696,1000010410,4714.04869643844,True,False,False,7,5,2,99999999,0,0,From saved model NM_5S60_103.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/104,5134.091262,1000010210,4714.091262246247,True,False,False,7,3,2,99999999,0,0,From saved model NM_5S60_104.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/105,4834.048696,1000010110,4714.04869643844,True,True,True,7,3,2,194.79352278959703,0,0,From saved model NM_5S60_105.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/106,4834.096399,1000010020,4714.096399252626,True,True,True,8,2,2,218.8128019631477,0,0,From saved model NM_5S60_106.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/107,4824.461912,1000010000,4714.461912046474,True,True,True,7,2,2,217.9791251530941,0,0,From saved model NM_5S60_107.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/108,5678.879291,1000010011,5578.879291309789,True,True,True,7,2,1,14509.711712519049,0,0,From saved model NM_5S60_108.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/110,5153.160002,1000001410,4713.1600024754825,True,False,False,7,5,2,99999999,0,0,From saved model NM_5S60_110.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/111,5133.185558,1000001210,4713.185558077855,True,False,False,7,3,2,99999999,0,0,From saved model NM_5S60_111.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/112,4833.160002,1000001110,4713.1600024754825,True,True,True,7,3,2,397.7223178069183,0,0,From saved model NM_5S60_112.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/113,5133.190363,1000001020,4713.190362860305,True,False,False,8,2,2,99999999,0,0,From saved model NM_5S60_113.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/114,4823.488895,1000001000,4713.488894643469,True,True,True,7,2,2,243.36219581484667,0,0,From saved model NM_5S60_114.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/115,5684.115701,1000001011,5584.115700980544,True,True,True,7,2,1,715.6543463159,0,0,From saved model NM_5S60_115.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/117,5138.135329,1000000310,4718.135328564358,True,False,False,6,4,2,99999999,0,0,From saved model NM_5S60_117.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/12,5128.163467,1000000210,4718.163467479479,True,False,False,6,3,2,99999999,0,0,From saved model NM_5D4_12.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/119,5158.141535,1000000420,4718.141534553389,True,False,False,7,5,2,99999999,0,0,From saved model NM_5S60_119.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/120,5148.487952,1000000400,4718.487952098229,True,False,False,6,5,2,99999999,0,0,From saved model NM_5S60_120.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/121,6011.418349,1000000411,5491.418349096232,False,False,False,6,5,1,99999999,0,0,From saved model NM_5S60_121.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/117,5138.135329,1000000310,4718.135328564358,True,False,False,6,4,2,99999999,0,0,From saved model NM_5S60_117.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/124,5138.168154,1000000220,4718.168154007486,True,False,False,7,3,2,99999999,0,0,From saved model NM_5S60_124.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/125,5128.488248,1000000200,4718.488247796184,True,False,False,6,3,2,99999999,0,0,From saved model NM_5S60_125.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/126,5986.163601,1000000211,5586.163601060285,True,False,False,6,3,1,99999999,0,0,From saved model NM_5S60_126.mod: NON-FIXED OMEGA NON-FIXED PARAMETER 
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/128,5138.168312,1000000120,4718.168311848179,True,False,False,7,3,2,99999999,0,0,From saved model NM_5S60_128.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/129,4828.487952,1000000100,4718.487952121128,True,True,True,6,3,2,218.86069219638705,0,0,From saved model NM_5S60_129.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/130,6174.659952,1000000111,5774.659952099488,True,False,False,6,3,1,99999999,0,0,From saved model NM_5S60_130.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D4/14,5128.168312,1000000020,4718.168312304225,True,False,False,7,2,2,99999999,0,0,From saved model NM_5D4_14.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/133,5986.174421,1000000021,5586.17442100428,True,False,False,7,2,1,99999999,0,0,From saved model NM_5S60_133.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5S60/135,5986.634239,1000000001,5596.6342388085895,True,False,False,6,2,1,99999999,0,0,From saved model NM_5S60_135.mod: No important warnings
-/home/vnazarov/projects/Darwin_runs/Example2/5D3/2,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,From saved model NM_5D3_2.mod: No important warnings
+Iteration,Model number,Run Directory,Fitness,Model,ofv,success,covar,correlation #,ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages
+1,08,/home/ppolozov/pydarwin/Example2/temp/1/08,99999999.000000,2002000121,99999999,False,False,False,10,3,1,99999999,0,0,No important warnings
+1,03,/home/ppolozov/pydarwin/Example2/temp/1/03,6002.759918,0100120401,5582.759907536763,True,False,False,6,5,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+1,07,/home/ppolozov/pydarwin/Example2/temp/1/07,5999.534430,0101000321,5489.534419966527,False,False,False,6,4,1,99999999,0,0,No important warnings
+1,09,/home/ppolozov/pydarwin/Example2/temp/1/09,5148.225283,1010021210,4708.225282750192,True,False,False,8,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+1,01,/home/ppolozov/pydarwin/Example2/temp/1/01,6105.504250,1110100211,5575.504250464039,False,False,False,8,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+1,05,/home/ppolozov/pydarwin/Example2/temp/1/05,5181.480932,0011121400,4721.480931667415,True,False,False,8,6,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+1,04,/home/ppolozov/pydarwin/Example2/temp/1/04,5145.647850,0001010310,4725.647849923723,True,False,False,6,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+1,10,/home/ppolozov/pydarwin/Example2/temp/1/10,6022.130967,1002001321,5482.130966610449,False,False,False,9,4,1,99999999,0,0,No important warnings
+1,02,/home/ppolozov/pydarwin/Example2/temp/1/02,5171.151376,0110111320,4721.151366456956,True,False,False,8,5,2,99999999,0,0,No important warnings
+1,06,/home/ppolozov/pydarwin/Example2/temp/1/06,6264.488111,1110111301,5804.4881108700565,True,False,False,10,5,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+2,01,/home/ppolozov/pydarwin/Example2/temp/2/01,99999999.000000,2000121021,99999999,False,False,False,12,2,1,99999999,0,0,No important warnings
+2,07,/home/ppolozov/pydarwin/Example2/temp/2/07,99999999.000000,2101000301,99999999,False,False,False,10,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+2,02,/home/ppolozov/pydarwin/Example2/temp/2/02,99999999.000000,2010101211,99999999,False,False,False,10,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+2,05,/home/ppolozov/pydarwin/Example2/temp/2/05,99999999.000000,2012010411,99999999,False,False,False,10,6,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+2,10,/home/ppolozov/pydarwin/Example2/temp/2/10,99999999.000000,2001010310,99999999,False,False,False,10,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+2,06,/home/ppolozov/pydarwin/Example2/temp/2/06,4827.564351,1001001000,4707.564351361975,True,True,True,8,2,2,422.89537534398033,0,0,No important warnings
+2,03,/home/ppolozov/pydarwin/Example2/temp/2/03,5151.651649,0101011300,4721.651639348894,True,False,False,7,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+2,04,/home/ppolozov/pydarwin/Example2/temp/2/04,4838.320447,1111000000,4708.320446875684,True,True,True,8,3,2,432.92004172403193,0,0,No important warnings
+2,09,/home/ppolozov/pydarwin/Example2/temp/2/09,5958.316885,0112110011,5548.316875238082,True,False,False,7,3,1,99999999,0,0,No important warnings
+2,08,/home/ppolozov/pydarwin/Example2/temp/2/08,6003.258730,1012120221,5453.258730061923,False,False,False,10,4,1,99999999,0,0,No important warnings
+3,04,/home/ppolozov/pydarwin/Example2/temp/3/03,99999999.000000,0010011310,99999999,False,False,False,0,0,0,99999999,0,0,
+3,05,/home/ppolozov/pydarwin/Example2/temp/3/03,99999999.000000,0010011310,99999999,False,False,False,0,0,0,99999999,0,0,
+3,07,/home/ppolozov/pydarwin/Example2/temp/3/03,99999999.000000,0010011310,99999999,False,False,False,0,0,0,99999999,0,0,
+3,09,/home/ppolozov/pydarwin/Example2/temp/3/03,99999999.000000,0010011310,99999999,False,False,False,0,0,0,99999999,0,0,
+3,10,/home/ppolozov/pydarwin/Example2/temp/3/03,99999999.000000,0010011310,99999999,False,False,False,0,0,0,99999999,0,0,
+3,06,/home/ppolozov/pydarwin/Example2/temp/3/06,5972.814432,0010001211,5572.814431566266,True,False,False,5,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+3,08,/home/ppolozov/pydarwin/Example2/temp/3/08,5149.751799,0010011210,4729.751798826133,True,False,False,6,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+3,03,/home/ppolozov/pydarwin/Example2/temp/3/03,5159.830553,0010011310,4729.830552860662,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+3,02,/home/ppolozov/pydarwin/Example2/temp/3/02,6092.510536,0010001111,5692.510535691081,True,False,False,5,4,1,99999999,0,0,No important warnings
+3,01,/home/ppolozov/pydarwin/Example2/temp/3/01,4852.510913,1102110110,4702.51091334452,True,True,True,10,3,2,4840.154282606461,0,0,No important warnings
+4,03,/home/ppolozov/pydarwin/Example2/temp/4/01,99999999.000000,1001010010,99999999,False,False,False,0,0,0,99999999,0,0,
+4,04,/home/ppolozov/pydarwin/Example2/temp/4/01,99999999.000000,1001010010,99999999,False,False,False,0,0,0,99999999,0,0,
+4,05,/home/ppolozov/pydarwin/Example2/temp/4/01,99999999.000000,1001010010,99999999,False,False,False,0,0,0,99999999,0,0,
+4,06,/home/ppolozov/pydarwin/Example2/temp/4/01,99999999.000000,1001010010,99999999,False,False,False,0,0,0,99999999,0,0,
+4,07,/home/ppolozov/pydarwin/Example2/temp/4/01,99999999.000000,1001010010,99999999,False,False,False,0,0,0,99999999,0,0,
+4,08,/home/ppolozov/pydarwin/Example2/temp/4/01,99999999.000000,1001010010,99999999,False,False,False,0,0,0,99999999,0,0,
+4,09,/home/ppolozov/pydarwin/Example2/temp/4/01,99999999.000000,1001010010,99999999,False,False,False,0,0,0,99999999,0,0,
+4,10,/home/ppolozov/pydarwin/Example2/temp/4/01,99999999.000000,1001010010,99999999,False,False,False,0,0,0,99999999,0,0,
+4,01,/home/ppolozov/pydarwin/Example2/temp/4/01,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,No important warnings
+4,02,/home/ppolozov/pydarwin/Example2/temp/4/02,4832.815787,1101010010,4702.815787399182,True,True,True,9,2,2,529.6746047318237,0,0,No important warnings
+5,01,/home/ppolozov/pydarwin/Example2/temp/4/01,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,From NM_4_01: No important warnings
+5,03,/home/ppolozov/pydarwin/Example2/temp/4/01,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,From NM_4_01: No important warnings
+5,02,/home/ppolozov/pydarwin/Example2/temp/4/01,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,From NM_4_01: No important warnings
+5,05,/home/ppolozov/pydarwin/Example2/temp/4/01,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,From NM_4_01: No important warnings
+5,04,/home/ppolozov/pydarwin/Example2/temp/4/01,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,From NM_4_01: No important warnings
+5,06,/home/ppolozov/pydarwin/Example2/temp/4/01,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,From NM_4_01: No important warnings
+5,09,/home/ppolozov/pydarwin/Example2/temp/4/01,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,From NM_4_01: No important warnings
+5,07,/home/ppolozov/pydarwin/Example2/temp/4/01,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,From NM_4_01: No important warnings
+5,10,/home/ppolozov/pydarwin/Example2/temp/5/08,99999999.000000,1001020010,99999999,False,False,False,0,0,0,99999999,0,0,
+5,08,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,No important warnings
+5D01,09,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+5D01,01,/home/ppolozov/pydarwin/Example2/temp/5D01/01,99999999.000000,2001020010,99999999,False,False,False,10,2,2,99999999,0,0,No important warnings
+5D01,16,/home/ppolozov/pydarwin/Example2/temp/5D01/16,5683.507366,1001020011,5573.507366341469,True,True,True,8,2,1,476.97836261675815,0,0,No important warnings
+5D01,06,/home/ppolozov/pydarwin/Example2/temp/5D01/06,4823.929930,1000020010,4713.929930004272,True,True,True,7,2,2,459.9836456954913,0,0,No important warnings
+5D01,12,/home/ppolozov/pydarwin/Example2/temp/5D01/12,5136.013181,1001020210,4706.013181078709,True,False,False,8,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D01,02,/home/ppolozov/pydarwin/Example2/temp/5D01/02,4825.449447,0001020010,4725.449447199858,True,True,True,6,2,2,112.86783904258445,0,0,No important warnings
+5D01,03,/home/ppolozov/pydarwin/Example2/temp/5D01/03,4832.599050,1101020010,4702.599050020651,True,True,True,9,2,2,393.7566891339009,0,0,No important warnings
+5D01,07,/home/ppolozov/pydarwin/Example2/temp/5D01/07,5136.013181,1001120010,4706.013180660067,True,False,False,9,2,2,99999999,0,0,No important warnings
+5D01,10,/home/ppolozov/pydarwin/Example2/temp/5D01/10,4830.965471,1001021010,4700.965470779185,True,True,True,9,2,2,214.8927999532509,0,0,No important warnings
+5D01,08,/home/ppolozov/pydarwin/Example2/temp/5D01/08,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,No important warnings
+5D01,04,/home/ppolozov/pydarwin/Example2/temp/5D01/04,4835.129247,1011020010,4705.129247322546,True,True,True,8,3,2,494.91946826412254,0,0,No important warnings
+5D01,05,/home/ppolozov/pydarwin/Example2/temp/5D01/05,4826.123836,1002020010,4706.123836286617,True,True,True,8,2,2,126.95015469592029,0,0,No important warnings
+5D01,15,/home/ppolozov/pydarwin/Example2/temp/5D01/15,4826.325349,1001020000,4706.32534872249,True,True,True,8,2,2,199.07591641638328,0,0,No important warnings
+5D01,13,/home/ppolozov/pydarwin/Example2/temp/5D01/13,4835.961383,1001020110,4705.961383462418,True,True,True,8,3,2,199.71710059375667,0,0,No important warnings
+5D01,14,/home/ppolozov/pydarwin/Example2/temp/5D01/14,5136.017906,1001020020,4706.017906075701,True,False,False,9,2,2,99999999,0,0,No important warnings
+5D01,11,/home/ppolozov/pydarwin/Example2/temp/5D01/11,5155.961383,1001020410,4705.961383386426,True,False,False,8,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D02,08,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+5D02,09,/home/ppolozov/pydarwin/Example2/temp/4/01,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,From NM_4_01: No important warnings
+5D02,01,/home/ppolozov/pydarwin/Example2/temp/5D02/01,99999999.000000,2001000010,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
+5D02,16,/home/ppolozov/pydarwin/Example2/temp/5D02/16,5679.368115,1001000011,5579.368115392021,True,True,True,7,2,1,1162.9368618809544,0,0,No important warnings
+5D02,02,/home/ppolozov/pydarwin/Example2/temp/5D02/02,4822.127004,0001000010,4732.127003978429,True,True,True,5,2,2,102.58332172522722,0,0,No important warnings
+5D02,06,/home/ppolozov/pydarwin/Example2/temp/5D02/06,4818.163468,1000000010,4718.163467524965,True,True,True,6,2,2,259.1084198967072,0,0,No important warnings
+5D02,10,/home/ppolozov/pydarwin/Example2/temp/5D02/10,4827.330983,1001001010,4707.33098261923,True,True,True,8,2,2,143.40702426042114,0,0,No important warnings
+5D02,12,/home/ppolozov/pydarwin/Example2/temp/5D02/12,5132.403391,1001000210,4712.403390570206,True,False,False,7,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D02,03,/home/ppolozov/pydarwin/Example2/temp/5D02/03,4828.807872,1101000010,4708.807872282135,True,True,True,8,2,2,312.3429865831617,0,0,No important warnings
+5D02,15,/home/ppolozov/pydarwin/Example2/temp/5D02/15,4822.659304,1001000000,4712.659303967393,True,True,True,7,2,2,296.0774214543103,0,0,No important warnings
+5D02,07,/home/ppolozov/pydarwin/Example2/temp/5D02/07,5132.403389,1001100010,4712.403389498389,True,False,False,8,2,2,99999999,0,0,No important warnings
+5D02,05,/home/ppolozov/pydarwin/Example2/temp/5D02/05,4822.497151,1002000010,4712.497150957455,True,True,True,7,2,2,134.1901956969758,0,0,No important warnings
+5D02,13,/home/ppolozov/pydarwin/Example2/temp/5D02/13,4832.382428,1001000110,4712.382428364315,True,True,True,7,3,2,444.34499306143255,0,0,No important warnings
+5D02,11,/home/ppolozov/pydarwin/Example2/temp/5D02/11,5152.382428,1001000410,4712.382428364315,True,False,False,7,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D02,04,/home/ppolozov/pydarwin/Example2/temp/5D02/04,4831.650935,1011000010,4711.650935433274,True,True,True,7,3,2,341.6631389243463,0,0,No important warnings
+5D02,14,/home/ppolozov/pydarwin/Example2/temp/5D02/14,5132.407725,1001000020,4712.4077247566465,True,False,False,8,2,2,99999999,0,0,No important warnings
+5D03,05,/home/ppolozov/pydarwin/Example2/temp/5D02/05,4822.497151,1002000010,4712.497150957455,True,True,True,7,2,2,134.1901956969758,0,0,From NM_5D02_05: No important warnings
+5D03,06,/home/ppolozov/pydarwin/Example2/temp/5D01/08,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,From NM_5D01_08: No important warnings
+5D03,08,/home/ppolozov/pydarwin/Example2/temp/5D01/06,4823.929930,1000020010,4713.929930004272,True,True,True,7,2,2,459.9836456954913,0,0,From NM_5D01_06: No important warnings
+5D03,01,/home/ppolozov/pydarwin/Example2/temp/5D03/01,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,No important warnings
+5D03,02,/home/ppolozov/pydarwin/Example2/temp/5D03/02,4818.223228,0000000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,No important warnings
+5D03,15,/home/ppolozov/pydarwin/Example2/temp/5D03/15,4818.488248,1000000000,4718.488247830306,True,True,True,6,2,2,268.9132962596027,0,0,No important warnings
+5D03,07,/home/ppolozov/pydarwin/Example2/temp/5D03/07,4822.403389,1000100010,4712.403389249772,True,True,True,7,2,2,597.2740650463154,0,0,No important warnings
+5D03,16,/home/ppolozov/pydarwin/Example2/temp/5D03/16,5676.163601,1000000011,5586.163601060285,True,True,True,6,2,1,2428.2176012003024,0,0,No important warnings
+5D03,09,/home/ppolozov/pydarwin/Example2/temp/5D03/09,4824.091262,1000010010,4714.091262258949,True,True,True,7,2,2,208.23105565609248,0,0,No important warnings
+5D03,04,/home/ppolozov/pydarwin/Example2/temp/5D03/04,4827.258229,1010000010,4717.258229128296,True,True,True,6,3,2,405.14338458699257,0,0,No important warnings
+5D03,13,/home/ppolozov/pydarwin/Example2/temp/5D03/13,4828.135329,1000000110,4718.135328516055,True,True,True,6,3,2,182.73646556573757,0,0,No important warnings
+5D03,03,/home/ppolozov/pydarwin/Example2/temp/5D03/03,4826.189141,1100000010,4716.18914141708,True,True,True,7,2,2,176.24766312019395,0,0,No important warnings
+5D03,14,/home/ppolozov/pydarwin/Example2/temp/5D03/14,5128.168312,1000000020,4718.168312091349,True,False,False,7,2,2,99999999,0,0,No important warnings
+5D03,10,/home/ppolozov/pydarwin/Example2/temp/5D03/10,4823.185558,1000001010,4713.185558051499,True,True,True,7,2,2,324.87222563017724,0,0,No important warnings
+5D03,12,/home/ppolozov/pydarwin/Example2/temp/5D03/12,5128.163467,1000000210,4718.163467479479,True,False,False,6,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D03,11,/home/ppolozov/pydarwin/Example2/temp/5D03/11,5148.135329,1000000410,4718.135328559378,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+6,01,/home/ppolozov/pydarwin/Example2/temp/5D01/08,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,From NM_5D01_08: No important warnings
+6,02,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+6,03,/home/ppolozov/pydarwin/Example2/temp/5D01/08,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,From NM_5D01_08: No important warnings
+6,04,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+6,05,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+6,06,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+6,07,/home/ppolozov/pydarwin/Example2/temp/5D01/08,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,From NM_5D01_08: No important warnings
+6,08,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+6,09,/home/ppolozov/pydarwin/Example2/temp/5D01/08,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,From NM_5D01_08: No important warnings
+6,10,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+7,01,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+7,03,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+7,02,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+7,04,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+7,08,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+7,09,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+7,07,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+7,10,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+7,05,/home/ppolozov/pydarwin/Example2/temp/4/01,4826.215955,1001010010,4706.215955415484,True,True,True,8,2,2,319.12677800969504,0,0,From NM_4_01: No important warnings
+7,06,/home/ppolozov/pydarwin/Example2/temp/5/08,4826.013181,1001020010,4706.013181129213,True,True,True,8,2,2,250.664175954472,0,0,From NM_5_08: No important warnings
+FND01,01,/home/ppolozov/pydarwin/Example2/temp/5D03/01,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From NM_5D03_01: No important warnings
+FND01,03,/home/ppolozov/pydarwin/Example2/temp/5D03/03,4826.189141,1100000010,4716.18914141708,True,True,True,7,2,2,176.24766312019395,0,0,From NM_5D03_03: No important warnings
+FND01,02,/home/ppolozov/pydarwin/Example2/temp/5D03/02,4818.223228,0000000010,4738.223228316518,True,True,True,4,2,2,99.39651510396196,0,0,From NM_5D03_02: No important warnings
+FND01,07,/home/ppolozov/pydarwin/Example2/temp/5D03/07,4822.403389,1000100010,4712.403389249772,True,True,True,7,2,2,597.2740650463154,0,0,From NM_5D03_07: No important warnings
+FND01,08,/home/ppolozov/pydarwin/Example2/temp/5D01/06,4823.929930,1000020010,4713.929930004272,True,True,True,7,2,2,459.9836456954913,0,0,From NM_5D01_06: No important warnings
+FND01,09,/home/ppolozov/pydarwin/Example2/temp/5D03/09,4824.091262,1000010010,4714.091262258949,True,True,True,7,2,2,208.23105565609248,0,0,From NM_5D03_09: No important warnings
+FND01,10,/home/ppolozov/pydarwin/Example2/temp/5D03/10,4823.185558,1000001010,4713.185558051499,True,True,True,7,2,2,324.87222563017724,0,0,From NM_5D03_10: No important warnings
+FND01,11,/home/ppolozov/pydarwin/Example2/temp/5D03/11,5148.135329,1000000410,4718.135328559378,True,False,False,6,5,2,99999999,0,0,From NM_5D03_11: NON-FIXED OMEGA NON-FIXED PARAMETER 
+FND01,12,/home/ppolozov/pydarwin/Example2/temp/5D03/12,5128.163467,1000000210,4718.163467479479,True,False,False,6,3,2,99999999,0,0,From NM_5D03_12: NON-FIXED OMEGA NON-FIXED PARAMETER 
+FND01,13,/home/ppolozov/pydarwin/Example2/temp/5D03/13,4828.135329,1000000110,4718.135328516055,True,True,True,6,3,2,182.73646556573757,0,0,From NM_5D03_13: No important warnings
+FND01,14,/home/ppolozov/pydarwin/Example2/temp/5D03/14,5128.168312,1000000020,4718.168312091349,True,False,False,7,2,2,99999999,0,0,From NM_5D03_14: No important warnings
+FND01,15,/home/ppolozov/pydarwin/Example2/temp/5D03/15,4818.488248,1000000000,4718.488247830306,True,True,True,6,2,2,268.9132962596027,0,0,From NM_5D03_15: No important warnings
+FND01,04,/home/ppolozov/pydarwin/Example2/temp/5D03/04,4827.258229,1010000010,4717.258229128296,True,True,True,6,3,2,405.14338458699257,0,0,From NM_5D03_04: No important warnings
+FND01,05,/home/ppolozov/pydarwin/Example2/temp/5D02/05,4822.497151,1002000010,4712.497150957455,True,True,True,7,2,2,134.1901956969758,0,0,From NM_5D02_05: No important warnings
+FND01,06,/home/ppolozov/pydarwin/Example2/temp/5D01/08,4822.403389,1001000010,4712.403389024515,True,True,True,7,2,2,405.94210615675104,0,0,From NM_5D01_08: No important warnings
+FND01,16,/home/ppolozov/pydarwin/Example2/temp/5D03/16,5676.163601,1000000011,5586.163601060285,True,True,True,6,2,1,2428.2176012003024,0,0,From NM_5D03_16: No important warnings

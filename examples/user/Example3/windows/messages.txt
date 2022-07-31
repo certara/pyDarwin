@@ -1,0 +1,363 @@
+[03:35:55] Model run priority is below_normal
+[03:35:55] Using darwin.MemoryModelCache
+[03:35:55] Project dir: C:\workspace\ffe\user\Example3
+[03:35:55] Data dir: C:\workspace\ffe\user\Example3
+[03:35:55] Project working dir: C:\workspace\ffe\Example3
+[03:35:55] Project temp dir: C:\workspace\ffe\Example3\temp
+[03:35:55] Project output dir: C:\workspace\ffe\Example3\output
+[03:35:55] Writing intermediate output to C:\workspace\ffe\Example3\output\results.csv
+[03:35:55] Loading saved models...
+[03:35:55] +++ 'C:\workspace\ffe\Example3\models1.json' is empty
+[03:35:55] Models will be saved in C:\workspace\ffe\Example3\models1.json
+[03:35:55] Template file found at template.txt
+[03:35:55] Tokens file found at tokens.json
+[03:35:55] Search start time = Sun Jul 31 03:35:55 2022
+[03:35:55] Total of 324 to be run in exhaustive search
+[03:35:56] NMFE found: c:/nm74g64/util/nmfe74.bat
+[03:35:56] Not using Post Run R code
+[03:35:56] Not using Post Run Python code
+[03:35:56] Checking files in C:\workspace\ffe\Example3\temp\0\001
+[03:35:56] Data set # 1 was found: C:\workspace\ffe\user\Example3/OralBolus_PlasmaUrine_ResetCpt2.csv
+[03:36:46] Iteration = 0, Model     1,           Done,    fitness = 3797.907,    message = No important warnings
+[03:36:58] Iteration = 0, Model     3,           Done,    fitness = 3399.550,    message = No important warnings
+[03:37:00] Iteration = 0, Model     2,           Done,    fitness = 4027.401,    message = No important warnings
+[03:37:21] Iteration = 0, Model     4,           Done,    fitness = 3503.631,    message = No important warnings
+[03:37:42] Iteration = 0, Model     5,           Done,    fitness = 3403.439,    message = No important warnings
+[03:37:56] Iteration = 0, Model     7,           Done,    fitness = 3117.292,    message = No important warnings
+[03:38:25] Iteration = 0, Model     6,           Done,    fitness = 3458.619,    message = No important warnings
+[03:38:46] Iteration = 0, Model     9,           Done,    fitness = 2896.586,    message = No important warnings
+[03:39:07] Iteration = 0, Model     8,           Done,    fitness = 3182.376,    message = No important warnings
+[03:39:44] Iteration = 0, Model    10,           Done,    fitness = 2963.877,    message = No important warnings
+[03:39:49] Iteration = 0, Model    11,           Done,    fitness = 2963.581,    message = No important warnings
+[03:41:34] Iteration = 0, Model    12,           Done,    fitness = 3064.898,    message = No important warnings
+[03:41:54] Iteration = 0, Model    13,           Done,    fitness = 2941.883,    message = No important warnings
+[03:42:30] Iteration = 0, Model    14,           Done,    fitness = 3176.052,    message = No important warnings
+[03:44:13] Iteration = 0, Model    15,           Done,    fitness = 2967.444,    message = No important warnings
+[03:44:34] Iteration = 0, Model    19,           Done,    fitness = 3799.804,    message = No important warnings
+[03:44:34] Iteration = 0, Model    17,           Done,    fitness = 2964.491,    message = No important warnings
+[03:45:08] Iteration = 0, Model    21,           Done,    fitness = 3401.712,    message = No important warnings
+[03:45:19] Iteration = 0, Model    20,           Done,    fitness = 4208.189,    message = No important warnings
+[03:45:55] Iteration = 0, Model    23,           Done,    fitness = 3405.685,    message = No important warnings
+[03:45:56] Iteration = 0, Model    22,           Done,    fitness = 3506.088,    message = No important warnings
+[03:46:39] Iteration = 0, Model    25,           Done,    fitness = 3119.778,    message = No important warnings
+[03:46:57] Iteration = 0, Model    24,           Done,    fitness = 3431.013,    message = No important warnings
+[03:47:45] Iteration = 0, Model    27,           Done,    fitness = 2961.963,    message = No important warnings
+[03:48:11] Iteration = 0, Model    26,           Done,    fitness = 3286.376,    message = No important warnings
+[03:48:59] Iteration = 0, Model    28,           Done,    fitness = 3067.625,    message = No important warnings
+[03:49:29] Iteration = 0, Model    29,           Done,    fitness = 2962.945,    message = No important warnings
+[03:51:27] Iteration = 0, Model    30,           Done,    fitness = 3082.669,    message = No important warnings
+[03:51:40] Iteration = 0, Model    31,           Done,    fitness = 2945.888,    message = No important warnings
+[03:53:36] Iteration = 0, Model    33,           Done,    fitness = 2843.004,    message = No important warnings
+[03:54:35] Iteration = 0, Model    18,           Done,    fitness = 3069.604,    message = No important warnings
+[03:55:40] Iteration = 0, Model    16,           Done,    fitness = 3067.436,    message = No important warnings
+[03:57:02] Iteration = 0, Model    32,           Done,    fitness = 3775.657,    message = No important warnings, error = Unidentified error in PRDERR for model run 0, 32
+
+[03:57:31] Iteration = 0, Model    37,           Done,    fitness = 4046.374,    message = No important warnings
+[03:57:50] Iteration = 0, Model    35,           Done,    fitness = 2973.949,    message = No important warnings
+[03:58:22] Iteration = 0, Model    38,           Done,    fitness = 3827.887,    message = No important warnings
+[03:58:31] Iteration = 0, Model    39,           Done,    fitness = 3349.679,    message = No important warnings
+[03:59:09] Iteration = 0, Model    41,           Done,    fitness = 3353.722,    message = No important warnings
+[03:59:33] Iteration = 0, Model    40,           Done,    fitness = 3454.083,    message = No important warnings
+[04:00:16] Iteration = 0, Model    43,           Done,    fitness = 3050.936,    message = No important warnings
+[04:00:40] Iteration = 0, Model    42,           Done,    fitness = 3459.153,    message = No important warnings
+[04:01:28] Iteration = 0, Model    44,           Done,    fitness = 3229.571,    message = No important warnings
+[04:01:53] Iteration = 0, Model    34,           Done,    fitness = 3011.183,    message = No important warnings
+[04:02:11] Iteration = 0, Model    45,           Done,    fitness = 3700.906,    message = No important warnings
+[04:02:58] Iteration = 0, Model    46,           Done,    fitness = 2947.171,    message = No important warnings
+[04:03:39] Iteration = 0, Model    47,           Done,    fitness = 3704.742,    message = No important warnings
+[04:04:22] Iteration = 0, Model    48,           Done,    fitness = 2929.494,    message = No important warnings
+[04:05:32] Iteration = 0, Model    36,           Done,    fitness = 2976.597,    message = No important warnings
+[04:06:29] Iteration = 0, Model    51,           Done,    fitness = 2784.031,    message = No important warnings
+[04:07:39] Iteration = 0, Model    49,           Done,    fitness = 3542.920,    message = No important warnings, error = Unidentified error in PRDERR for model run 0, 49
+
+[04:08:30] Iteration = 0, Model    50,           Done,    fitness = 3592.675,    message = No important warnings, error = Unidentified error in PRDERR for model run 0, 50
+
+[04:08:49] Iteration = 0, Model    55,           Done,    fitness = 3441.034,    message = No important warnings
+[04:09:20] Iteration = 0, Model    56,           Done,    fitness = 3445.047,    message = No important warnings
+[04:09:45] Iteration = 0, Model    53,           Done,    fitness = 2791.989,    message = No important warnings
+[04:09:49] Iteration = 0, Model    57,           Done,    fitness = 3288.240,    message = No important warnings
+[04:10:24] Iteration = 0, Model    59,           Done,    fitness = 3292.241,    message = No important warnings
+[04:10:25] Iteration = 0, Model    58,           Done,    fitness = 3445.612,    message = No important warnings
+[04:11:02] Iteration = 0, Model    61,           Done,    fitness = 3101.962,    message = No important warnings
+[04:11:15] Iteration = 0, Model    60,           Done,    fitness = 99999999999,    message = No important warnings
+[04:11:57] Iteration = 0, Model    63,           Done,    fitness = 2866.105,    message = No important warnings
+[04:12:49] Iteration = 0, Model    62,           Done,    fitness = 3271.605,    message = No important warnings
+[04:13:28] Iteration = 0, Model    64,           Done,    fitness = 2970.165,    message = No important warnings
+[04:13:54] Iteration = 0, Model    65,           Done,    fitness = 2869.742,    message = No important warnings
+[04:15:29] Iteration = 0, Model    66,           Done,    fitness = 2974.027,    message = No important warnings
+[04:16:47] Iteration = 0, Model    52,           Done,    fitness = 2935.432,    message = No important warnings
+[04:18:48] Iteration = 0, Model    68,           Done,    fitness = 3118.057,    message = No important warnings
+[04:19:28] Iteration = 0, Model    67,           Done,    fitness = 3007.165,    message = No important warnings
+[04:21:05] Iteration = 0, Model    69,           Done,    fitness = 2874.110,    message = No important warnings
+[04:24:34] Iteration = 0, Model    71,           Done,    fitness = 2877.742,    message = No important warnings
+[04:24:57] Iteration = 0, Model    73,           Done,    fitness = 3739.951,    message = No important warnings
+[04:25:34] Iteration = 0, Model    74,           Done,    fitness = 3431.977,    message = No important warnings
+[04:26:00] Iteration = 0, Model    75,           Done,    fitness = 3265.826,    message = No important warnings
+[04:27:05] Iteration = 0, Model    76,           Done,    fitness = 3269.845,    message = No important warnings
+[04:27:42] Iteration = 0, Model    77,           Done,    fitness = 3257.165,    message = No important warnings
+[04:27:43] Iteration = 0, Model    54,           Done,    fitness = 3244.409,    message = No important warnings, error = Unidentified error in PRDERR for model run 0, 54
+
+[04:28:24] Iteration = 0, Model    79,           Done,    fitness = 3169.797,    message = No important warnings
+[04:29:37] Iteration = 0, Model    78,           Done,    fitness = 3236.593,    message = No important warnings
+[04:29:48] Iteration = 0, Model    80,           Done,    fitness = 3108.624,    message = No important warnings
+[04:30:30] Iteration = 0, Model    81,           Done,    fitness = 2868.480,    message = No important warnings
+[04:31:03] Iteration = 0, Model    70,           Done,    fitness = 3281.962,    message = No important warnings, error = Unidentified error in PRDERR for model run 0, 70
+
+[04:31:19] Iteration = 0, Model    82,           Done,    fitness = 3401.663,    message = No important warnings
+[04:31:43] Iteration = 0, Model    83,           Done,    fitness = 2872.120,    message = No important warnings
+[04:32:55] Iteration = 0, Model    84,           Done,    fitness = 3723.275,    message = No important warnings
+[04:34:49] Iteration = 0, Model    87,           Done,    fitness = 2850.090,    message = No important warnings
+[04:35:53] Iteration = 0, Model    85,           Done,    fitness = 2913.311,    message = No important warnings
+[04:38:16] Iteration = 0, Model    88,           Done,    fitness = 2905.393,    message = No important warnings
+[04:39:02] Iteration = 0, Model    89,           Done,    fitness = 2866.421,    message = No important warnings
+[04:39:34] Iteration = 0, Model    91,           Done,    fitness = 3701.474,    message = No important warnings
+[04:40:04] Iteration = 0, Model    92,           Done,    fitness = 3324.668,    message = No important warnings
+[04:40:29] Iteration = 0, Model    93,           Done,    fitness = 3357.467,    message = No important warnings
+[04:41:09] Iteration = 0, Model    94,           Done,    fitness = 3482.820,    message = No important warnings
+[04:41:55] Iteration = 0, Model    72,           Done,    fitness = 2982.190,    message = No important warnings, error = Unidentified error in PRDERR for model run 0, 72
+
+[04:42:16] Iteration = 0, Model    95,           Done,    fitness = 3126.076,    message = No important warnings
+[04:43:08] Iteration = 0, Model    97,           Done,    fitness = 3028.444,    message = No important warnings
+[04:43:08] Iteration = 0, Model    86,           Done,    fitness = 2917.542,    message = No important warnings
+[04:43:47] Iteration = 0, Model    96,           Done,    fitness = 3134.864,    message = No important warnings
+[04:44:42] Iteration = 0, Model    99,           Done,    fitness = 2826.218,    message = No important warnings
+[04:44:43] Iteration = 0, Model    98,           Done,    fitness = 3148.005,    message = No important warnings
+[04:45:35] Iteration = 0, Model   100,           Done,    fitness = 3051.713,    message = No important warnings
+[04:45:50] Iteration = 0, Model    90,           Done,    fitness = 99999999999,    message = No important warnings
+[04:46:54] Iteration = 0, Model   101,           Done,    fitness = 2792.213,    message = No important warnings
+[04:48:31] Iteration = 0, Model   102,           Done,    fitness = 3055.487,    message = No important warnings
+[04:50:42] Iteration = 0, Model   104,           Done,    fitness = 3628.829,    message = No important warnings
+[04:52:42] Iteration = 0, Model   105,           Done,    fitness = 3234.645,    message = No important warnings, error = Unidentified error in PRDERR for model run 0, 105
+
+[04:53:32] Iteration = 0, Model   103,           Done,    fitness = 2877.901,    message = No important warnings
+[04:53:51] Iteration = 0, Model   109,           Done,    fitness = 3300.957,    message = No important warnings
+[04:54:13] Iteration = 0, Model   110,           Done,    fitness = 3740.914,    message = No important warnings
+[04:54:33] Iteration = 0, Model   111,           Done,    fitness = 3025.378,    message = No important warnings
+[04:55:07] Iteration = 0, Model   112,           Done,    fitness = 3029.923,    message = No important warnings
+[04:55:32] Iteration = 0, Model   113,           Done,    fitness = 2952.051,    message = No important warnings
+[04:55:53] Iteration = 0, Model   107,           Done,    fitness = 2814.985,    message = No important warnings
+[04:56:18] Iteration = 0, Model   114,           Done,    fitness = 3056.594,    message = No important warnings
+[04:56:24] Iteration = 0, Model   115,           Done,    fitness = 2760.221,    message = No important warnings
+[04:57:04] Iteration = 0, Model   117,           Done,    fitness = 2498.801,    message = No important warnings
+[04:57:24] Iteration = 0, Model   116,           Done,    fitness = 2864.582,    message = No important warnings
+[04:58:16] Iteration = 0, Model   119,           Done,    fitness = 2500.950,    message = No important warnings
+[04:58:27] Iteration = 0, Model   118,           Done,    fitness = 2603.369,    message = No important warnings
+[04:59:52] Iteration = 0, Model   108,           Done,    fitness = 2903.208,    message = No important warnings
+[05:00:16] Iteration = 0, Model   120,           Done,    fitness = 2605.462,    message = No important warnings
+[05:01:28] Iteration = 0, Model   123,           Done,    fitness = 2503.762,    message = No important warnings
+[05:01:42] Iteration = 0, Model   121,           Done,    fitness = 2562.233,    message = No important warnings
+[05:04:55] Iteration = 0, Model   125,           Done,    fitness = 2508.249,    message = No important warnings
+[05:05:30] Iteration = 0, Model   122,           Done,    fitness = 2659.646,    message = No important warnings
+[05:05:54] Iteration = 0, Model   127,           Done,    fitness = 3261.747,    message = No important warnings
+[05:06:24] Iteration = 0, Model   128,           Done,    fitness = 3268.356,    message = No important warnings
+[05:06:26] Iteration = 0, Model   106,           Done,    fitness = 2901.426,    message = No important warnings
+[05:06:55] Iteration = 0, Model   129,           Done,    fitness = 3026.796,    message = No important warnings
+[05:07:16] Iteration = 0, Model   130,           Done,    fitness = 3131.372,    message = No important warnings
+[05:07:29] Iteration = 0, Model   131,           Done,    fitness = 3030.820,    message = No important warnings
+[05:07:48] Iteration = 0, Model   126,           Done,    fitness = 2909.239,    message = No important warnings, error = Unidentified error in PRDERR for model run 0, 126
+
+[05:08:07] Iteration = 0, Model   133,           Done,    fitness = 2760.072,    message = No important warnings
+[05:08:41] Iteration = 0, Model   134,           Done,    fitness = 2866.458,    message = No important warnings
+[05:09:02] Iteration = 0, Model   135,           Done,    fitness = 2496.241,    message = No important warnings
+[05:09:03] Iteration = 0, Model   132,           Done,    fitness = 3059.360,    message = No important warnings
+[05:10:07] Iteration = 0, Model   136,           Done,    fitness = 2604.714,    message = No important warnings
+[05:10:23] Iteration = 0, Model   137,           Done,    fitness = 2498.168,    message = No important warnings
+[05:11:00] Iteration = 0, Model   138,           Done,    fitness = 2606.849,    message = No important warnings
+[05:11:14] Iteration = 0, Model   124,           Done,    fitness = 2609.416,    message = No important warnings
+[05:14:24] Iteration = 0, Model   139,           Done,    fitness = 2560.259,    message = No important warnings
+[05:14:37] Iteration = 0, Model   141,           Done,    fitness = 2501.299,    message = No important warnings
+[05:16:14] Iteration = 0, Model   142,           Done,    fitness = 2606.904,    message = No important warnings
+[05:16:33] Iteration = 0, Model   145,           Done,    fitness = 3263.635,    message = No important warnings
+[05:17:08] Iteration = 0, Model   146,           Done,    fitness = 3369.013,    message = No important warnings
+[05:17:34] Iteration = 0, Model   147,           Done,    fitness = 3001.179,    message = No important warnings
+[05:18:11] Iteration = 0, Model   148,           Done,    fitness = 3105.958,    message = No important warnings
+[05:18:23] Iteration = 0, Model   143,           Done,    fitness = 2500.910,    message = No important warnings
+[05:18:28] Iteration = 0, Model   140,           Done,    fitness = 2916.836,    message = No important warnings, error = Unidentified error in PRDERR for model run 0, 140
+
+[05:19:13] Iteration = 0, Model   149,           Done,    fitness = 2929.329,    message = No important warnings
+[05:19:25] Iteration = 0, Model   151,           Done,    fitness = 2806.569,    message = No important warnings
+[05:20:15] Iteration = 0, Model   152,           Done,    fitness = 2868.708,    message = No important warnings
+[05:20:28] Iteration = 0, Model   153,           Done,    fitness = 2497.860,    message = No important warnings
+[05:21:29] Iteration = 0, Model   150,           Done,    fitness = 3035.390,    message = No important warnings
+[05:21:49] Iteration = 0, Model   155,           Done,    fitness = 2499.750,    message = No important warnings
+[05:23:10] Iteration = 0, Model   154,           Done,    fitness = 2598.652,    message = No important warnings
+[05:23:28] Iteration = 0, Model   144,           Done,    fitness = 2609.129,    message = No important warnings
+[05:24:38] Iteration = 0, Model   156,           Done,    fitness = 2600.392,    message = No important warnings
+[05:26:03] Iteration = 0, Model   157,           Done,    fitness = 2814.566,    message = No important warnings
+[05:27:40] Iteration = 0, Model   159,           Done,    fitness = 2502.960,    message = No important warnings
+[05:28:15] Iteration = 0, Model   160,           Done,    fitness = 2604.375,    message = No important warnings
+[05:28:36] Iteration = 0, Model   163,           Done,    fitness = 3143.456,    message = No important warnings
+[05:29:09] Iteration = 0, Model   164,           Done,    fitness = 3247.655,    message = No important warnings
+[05:29:32] Iteration = 0, Model   165,           Done,    fitness = 2924.578,    message = No important warnings
+[05:30:07] Iteration = 0, Model   166,           Done,    fitness = 3028.636,    message = No important warnings
+[05:30:41] Iteration = 0, Model   167,           Done,    fitness = 2882.443,    message = No important warnings
+[05:31:28] Iteration = 0, Model   168,           Done,    fitness = 2986.562,    message = No important warnings
+[05:32:06] Iteration = 0, Model   169,           Done,    fitness = 2790.667,    message = No important warnings
+[05:32:18] Iteration = 0, Model   158,           Done,    fitness = 2566.873,    message = No important warnings
+[05:32:55] Iteration = 0, Model   171,           Done,    fitness = 2500.553,    message = No important warnings
+[05:32:56] Iteration = 0, Model   170,           Done,    fitness = 2907.510,    message = No important warnings
+[05:34:14] Iteration = 0, Model   173,           Done,    fitness = 2504.552,    message = No important warnings
+[05:34:34] Iteration = 0, Model   172,           Done,    fitness = 2605.161,    message = No important warnings
+[05:35:48] Iteration = 0, Model   161,           Done,    fitness = 2606.883,    message = No important warnings
+[05:36:00] Iteration = 0, Model   174,           Done,    fitness = 2607.101,    message = No important warnings
+[05:38:17] Iteration = 0, Model   162,           Done,    fitness = 2607.961,    message = No important warnings
+[05:38:42] Iteration = 0, Model   177,           Done,    fitness = 2506.054,    message = No important warnings
+[05:40:21] Iteration = 0, Model   175,           Done,    fitness = 2559.096,    message = No important warnings
+[05:41:08] Iteration = 0, Model   179,           Done,    fitness = 2509.548,    message = No important warnings
+[05:41:20] Iteration = 0, Model   178,           Done,    fitness = 2606.100,    message = No important warnings
+[05:41:33] Iteration = 0, Model   181,           Done,    fitness = 3132.810,    message = No important warnings
+[05:41:53] Iteration = 0, Model   182,           Done,    fitness = 3236.894,    message = No important warnings
+[05:42:02] Iteration = 0, Model   183,           Done,    fitness = 2920.205,    message = No important warnings
+[05:42:34] Iteration = 0, Model   184,           Done,    fitness = 3030.326,    message = No important warnings
+[05:42:39] Iteration = 0, Model   185,           Done,    fitness = 2877.074,    message = No important warnings
+[05:43:26] Iteration = 0, Model   187,           Done,    fitness = 2761.878,    message = No important warnings
+[05:43:44] Iteration = 0, Model   186,           Done,    fitness = 2988.119,    message = No important warnings
+[05:44:28] Iteration = 0, Model   189,           Done,    fitness = 2498.012,    message = No important warnings
+[05:44:40] Iteration = 0, Model   188,           Done,    fitness = 2866.515,    message = No important warnings
+[05:46:12] Iteration = 0, Model   190,           Done,    fitness = 2602.481,    message = No important warnings
+[05:46:13] Iteration = 0, Model   191,           Done,    fitness = 2502.010,    message = No important warnings
+[05:46:31] Iteration = 0, Model   176,           Done,    fitness = 2660.757,    message = No important warnings
+[05:48:10] Iteration = 0, Model   180,           Done,    fitness = 2610.271,    message = No important warnings
+[05:49:45] Iteration = 0, Model   192,           Done,    fitness = 2604.244,    message = No important warnings
+[05:50:54] Iteration = 0, Model   193,           Done,    fitness = 2594.071,    message = No important warnings
+[05:52:31] Iteration = 0, Model   195,           Done,    fitness = 2503.073,    message = No important warnings
+[05:55:29] Iteration = 0, Model   194,           Done,    fitness = 2565.378,    message = No important warnings
+[05:55:51] Iteration = 0, Model   199,           Done,    fitness = 3134.811,    message = No important warnings
+[05:56:26] Iteration = 0, Model   200,           Done,    fitness = 3251.638,    message = No important warnings
+[05:56:52] Iteration = 0, Model   197,           Done,    fitness = 2507.074,    message = No important warnings
+[05:57:04] Iteration = 0, Model   201,           Done,    fitness = 2914.470,    message = No important warnings
+[05:57:42] Iteration = 0, Model   203,           Done,    fitness = 2869.094,    message = No important warnings
+[05:57:46] Iteration = 0, Model   202,           Done,    fitness = 3023.784,    message = No important warnings
+[05:58:28] Iteration = 0, Model   205,           Done,    fitness = 2807.288,    message = No important warnings
+[05:59:03] Iteration = 0, Model   204,           Done,    fitness = 2873.979,    message = No important warnings
+[05:59:50] Iteration = 0, Model   196,           Done,    fitness = 2608.111,    message = No important warnings
+[06:00:05] Iteration = 0, Model   207,           Done,    fitness = 2499.159,    message = No important warnings
+[06:01:07] Iteration = 0, Model   206,           Done,    fitness = 2867.357,    message = No important warnings
+[06:01:37] Iteration = 0, Model   198,           Done,    fitness = 2912.073,    message = No important warnings, error = Unidentified error in PRDERR for model run 0, 198
+
+[06:01:52] Iteration = 0, Model   209,           Done,    fitness = 2499.536,    message = No important warnings
+[06:03:05] Iteration = 0, Model   208,           Done,    fitness = 2600.368,    message = No important warnings
+[06:03:16] Iteration = 0, Model   210,           Done,    fitness = 2607.877,    message = No important warnings
+[06:05:43] Iteration = 0, Model   213,           Done,    fitness = 2501.013,    message = No important warnings
+[06:09:51] Iteration = 0, Model   211,           Done,    fitness = 2812.378,    message = No important warnings
+[06:13:26] Iteration = 0, Model   215,           Done,    fitness = 2504.287,    message = No important warnings
+[06:13:48] Iteration = 0, Model   217,           Done,    fitness = 3302.936,    message = No important warnings
+[06:14:19] Iteration = 0, Model   218,           Done,    fitness = 3742.923,    message = No important warnings
+[06:14:42] Iteration = 0, Model   219,           Done,    fitness = 3027.372,    message = No important warnings
+[06:15:17] Iteration = 0, Model   220,           Done,    fitness = 3131.979,    message = No important warnings
+[06:16:06] Iteration = 0, Model   221,           Done,    fitness = 3052.504,    message = No important warnings
+[06:16:32] Iteration = 0, Model   212,           Done,    fitness = 2577.322,    message = No important warnings, error = Unidentified error in PRDERR for model run 0, 212
+
+[06:16:55] Iteration = 0, Model   222,           Done,    fitness = 3058.490,    message = No important warnings
+[06:17:14] Iteration = 0, Model   223,           Done,    fitness = 2758.586,    message = No important warnings
+[06:18:02] Iteration = 0, Model   225,           Done,    fitness = 2498.497,    message = No important warnings
+[06:18:31] Iteration = 0, Model   224,           Done,    fitness = 2907.812,    message = No important warnings
+[06:19:23] Iteration = 0, Model   226,           Done,    fitness = 2602.755,    message = No important warnings
+[06:19:43] Iteration = 0, Model   227,           Done,    fitness = 2500.714,    message = No important warnings
+[06:21:19] Iteration = 0, Model   228,           Done,    fitness = 2604.997,    message = No important warnings
+[06:23:11] Iteration = 0, Model   229,           Done,    fitness = 2589.882,    message = No important warnings
+[06:24:38] Iteration = 0, Model   216,           Done,    fitness = 2609.400,    message = No important warnings
+[06:25:46] Iteration = 0, Model   214,           Done,    fitness = 2604.356,    message = No important warnings
+[06:26:43] Iteration = 0, Model   231,           Done,    fitness = 2503.995,    message = No important warnings
+[06:27:52] Iteration = 0, Model   230,           Done,    fitness = 2837.845,    message = No important warnings
+[06:28:13] Iteration = 0, Model   235,           Done,    fitness = 3263.615,    message = No important warnings
+[06:28:37] Iteration = 0, Model   236,           Done,    fitness = 3726.559,    message = No important warnings
+[06:29:02] Iteration = 0, Model   237,           Done,    fitness = 3012.458,    message = No important warnings
+[06:29:53] Iteration = 0, Model   238,           Done,    fitness = 3133.973,    message = No important warnings
+[06:29:54] Iteration = 0, Model   233,           Done,    fitness = 2505.653,    message = No important warnings
+[06:30:35] Iteration = 0, Model   239,           Done,    fitness = 3116.442,    message = No important warnings
+[06:30:56] Iteration = 0, Model   240,           Done,    fitness = 3059.835,    message = No important warnings
+[06:31:17] Iteration = 0, Model   241,           Done,    fitness = 2762.149,    message = No important warnings
+[06:31:40] Iteration = 0, Model   234,           Done,    fitness = 2611.667,    message = No important warnings
+[06:31:55] Iteration = 0, Model   242,           Done,    fitness = 2864.872,    message = No important warnings
+[06:32:18] Iteration = 0, Model   243,           Done,    fitness = 2497.144,    message = No important warnings
+[06:33:08] Iteration = 0, Model   244,           Done,    fitness = 2605.251,    message = No important warnings
+[06:33:26] Iteration = 0, Model   245,           Done,    fitness = 2501.141,    message = No important warnings
+[06:34:37] Iteration = 0, Model   246,           Done,    fitness = 2604.398,    message = No important warnings
+[06:35:03] Iteration = 0, Model   232,           Done,    fitness = 2610.928,    message = No important warnings
+[06:37:10] Iteration = 0, Model   249,           Done,    fitness = 2502.793,    message = No important warnings
+[06:39:07] Iteration = 0, Model   247,           Done,    fitness = 2587.741,    message = No important warnings
+[06:42:13] Iteration = 0, Model   250,           Done,    fitness = 2609.780,    message = No important warnings
+[06:42:37] Iteration = 0, Model   253,           Done,    fitness = 3265.579,    message = No important warnings
+[06:43:03] Iteration = 0, Model   254,           Done,    fitness = 3746.911,    message = No important warnings
+[06:43:31] Iteration = 0, Model   255,           Done,    fitness = 3003.181,    message = No important warnings
+[06:44:20] Iteration = 0, Model   256,           Done,    fitness = 3107.993,    message = No important warnings
+[06:44:58] Iteration = 0, Model   251,           Done,    fitness = 2506.353,    message = No important warnings
+[06:45:14] Iteration = 0, Model   257,           Done,    fitness = 3030.938,    message = No important warnings
+[06:45:57] Iteration = 0, Model   259,           Done,    fitness = 2807.341,    message = No important warnings
+[06:46:53] Iteration = 0, Model   260,           Done,    fitness = 2866.983,    message = No important warnings
+[06:47:10] Iteration = 0, Model   252,           Done,    fitness = 2610.745,    message = No important warnings
+[06:47:52] Iteration = 0, Model   258,           Done,    fitness = 3036.629,    message = No important warnings
+[06:48:09] Iteration = 0, Model   261,           Done,    fitness = 2494.602,    message = No important warnings
+[06:48:59] Iteration = 0, Model   262,           Done,    fitness = 2601.189,    message = No important warnings
+[06:49:27] Iteration = 0, Model   263,           Done,    fitness = 2498.602,    message = No important warnings
+[06:51:07] Iteration = 0, Model   248,           Done,    fitness = 3213.129,    message = No important warnings
+[06:51:36] Iteration = 0, Model   264,           Done,    fitness = 2600.912,    message = No important warnings
+[06:53:26] Iteration = 0, Model   267,           Done,    fitness = 2500.153,    message = No important warnings
+[06:54:59] Iteration = 0, Model   268,           Done,    fitness = 2605.044,    message = No important warnings
+[06:56:39] Iteration = 0, Model   269,           Done,    fitness = 2499.849,    message = No important warnings
+[06:56:59] Iteration = 0, Model   271,           Done,    fitness = 3108.506,    message = No important warnings
+[06:57:27] Iteration = 0, Model   272,           Done,    fitness = 3126.879,    message = No important warnings
+[06:57:52] Iteration = 0, Model   273,           Done,    fitness = 2920.921,    message = No important warnings
+[06:58:30] Iteration = 0, Model   274,           Done,    fitness = 3030.647,    message = No important warnings
+[06:58:51] Iteration = 0, Model   265,           Done,    fitness = 2815.459,    message = No important warnings
+[06:59:10] Iteration = 0, Model   275,           Done,    fitness = 2883.578,    message = No important warnings
+[06:59:50] Iteration = 0, Model   276,           Done,    fitness = 2988.531,    message = No important warnings
+[07:00:08] Iteration = 0, Model   277,           Done,    fitness = 2786.394,    message = No important warnings
+[07:00:40] Iteration = 0, Model   270,           Done,    fitness = 2606.287,    message = No important warnings
+[07:00:55] Iteration = 0, Model   279,           Done,    fitness = 2500.239,    message = No important warnings
+[07:00:57] Iteration = 0, Model   278,           Done,    fitness = 2864.787,    message = No important warnings
+[07:02:11] Iteration = 0, Model   280,           Done,    fitness = 2604.557,    message = No important warnings
+[07:02:35] Iteration = 0, Model   281,           Done,    fitness = 2504.236,    message = No important warnings
+[07:03:25] Iteration = 0, Model   282,           Done,    fitness = 2506.898,    message = No important warnings
+[07:06:26] Iteration = 0, Model   266,           Done,    fitness = 2668.454,    message = No important warnings
+[07:07:38] Iteration = 0, Model   285,           Done,    fitness = 2505.732,    message = No important warnings
+[07:08:04] Iteration = 0, Model   283,           Done,    fitness = 2588.353,    message = No important warnings
+[07:09:37] Iteration = 0, Model   286,           Done,    fitness = 2509.432,    message = No important warnings
+[07:09:59] Iteration = 0, Model   289,           Done,    fitness = 3087.994,    message = No important warnings
+[07:10:30] Iteration = 0, Model   290,           Done,    fitness = 3192.019,    message = No important warnings
+[07:10:56] Iteration = 0, Model   291,           Done,    fitness = 2913.758,    message = No important warnings
+[07:11:37] Iteration = 0, Model   292,           Done,    fitness = 3032.301,    message = No important warnings
+[07:12:14] Iteration = 0, Model   293,           Done,    fitness = 2877.399,    message = No important warnings
+[07:13:13] Iteration = 0, Model   294,           Done,    fitness = 2990.171,    message = No important warnings
+[07:13:48] Iteration = 0, Model   287,           Done,    fitness = 2509.788,    message = No important warnings
+[07:13:49] Iteration = 0, Model   295,           Done,    fitness = 2762.174,    message = No important warnings
+[07:14:13] Iteration = 0, Model   284,           Done,    fitness = 2564.604,    message = No important warnings
+[07:14:51] Iteration = 0, Model   297,           Done,    fitness = 2498.909,    message = No important warnings
+[07:15:09] Iteration = 0, Model   296,           Done,    fitness = 2865.425,    message = No important warnings
+[07:15:39] Iteration = 0, Model   288,           Done,    fitness = 2609.469,    message = No important warnings
+[07:16:21] Iteration = 0, Model   299,           Done,    fitness = 2502.907,    message = No important warnings
+[07:16:45] Iteration = 0, Model   298,           Done,    fitness = 2603.954,    message = No important warnings
+[07:17:38] Iteration = 0, Model   300,           Done,    fitness = 2607.452,    message = No important warnings
+[07:20:45] Iteration = 0, Model   301,           Done,    fitness = 2588.857,    message = No important warnings
+[07:21:45] Iteration = 0, Model   303,           Done,    fitness = 2504.115,    message = No important warnings
+[07:22:49] Iteration = 0, Model   304,           Done,    fitness = 2607.965,    message = No important warnings
+[07:23:11] Iteration = 0, Model   307,           Done,    fitness = 3089.987,    message = No important warnings
+[07:23:45] Iteration = 0, Model   308,           Done,    fitness = 3094.095,    message = No important warnings
+[07:24:13] Iteration = 0, Model   309,           Done,    fitness = 2924.922,    message = No important warnings
+[07:24:55] Iteration = 0, Model   310,           Done,    fitness = 3025.766,    message = No important warnings
+[07:25:09] Iteration = 0, Model   305,           Done,    fitness = 2503.389,    message = No important warnings
+[07:25:55] Iteration = 0, Model   311,           Done,    fitness = 2867.894,    message = No important warnings
+[07:26:25] Iteration = 0, Model   312,           Done,    fitness = 2975.123,    message = No important warnings
+[07:26:47] Iteration = 0, Model   313,           Done,    fitness = 2761.888,    message = No important warnings
+[07:27:36] Iteration = 0, Model   314,           Done,    fitness = 2912.194,    message = No important warnings
+[07:27:56] Iteration = 0, Model   315,           Done,    fitness = 2496.003,    message = No important warnings
+[07:29:01] Iteration = 0, Model   306,           Done,    fitness = 2613.448,    message = No important warnings
+[07:29:23] Iteration = 0, Model   316,           Done,    fitness = 2503.497,    message = No important warnings
+[07:29:57] Iteration = 0, Model   317,           Done,    fitness = 2499.984,    message = No important warnings
+[07:30:19] Iteration = 0, Model   302,           Done,    fitness = 2666.344,    message = No important warnings
+[07:31:53] Iteration = 0, Model   318,           Done,    fitness = 2604.626,    message = No important warnings
+[07:34:27] Iteration = 0, Model   321,           Done,    fitness = 2500.974,    message = No important warnings
+[07:35:37] Iteration = 0, Model   319,           Done,    fitness = 2559.974,    message = No important warnings
+[07:41:18] Iteration = 0, Model   323,           Done,    fitness = 2504.900,    message = No important warnings
+[07:41:59] Iteration = 0, Model   320,           Done,    fitness = 2921.354,    message = No important warnings
+[07:43:33] Iteration = 0, Model   324,           Done,    fitness = 2605.978,    message = No important warnings
+[07:54:51] Iteration = 0, Model   322,           Done,    fitness = 2606.384,    message = No important warnings
+[07:54:51] Current Best fitness = 2494.6016423312294
+[07:54:51] Final output from best model is in C:\workspace\ffe\Example3\output\FinalResultFile.lst
+[07:54:51] Number of unique models to best model = 264
+[07:54:51] Time to best model = 192.2 minutes
+[07:54:51] Best overall fitness = 2494.601642, iteration 0, model 261
+[07:54:51] Elapsed time = 258.9 minutes 
+
+[07:54:51] Search end time = Sun Jul 31 07:54:51 2022

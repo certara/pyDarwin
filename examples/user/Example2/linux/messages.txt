@@ -1,0 +1,206 @@
+[16:22:49] Using darwin.MemoryModelCache
+[16:22:49] Project dir: /home/ppolozov/darwin/examples/user/Example2
+[16:22:49] Data dir: /home/ppolozov/darwin/examples/user/Example2
+[16:22:49] Project working dir: /home/ppolozov/pydarwin/Example2
+[16:22:49] Project temp dir: /home/ppolozov/pydarwin/Example2/temp
+[16:22:49] Project output dir: /home/ppolozov/pydarwin/Example2/output
+[16:22:49] Writing intermediate output to /home/ppolozov/pydarwin/Example2/output/results.csv
+[16:22:49] Models will be saved in /home/ppolozov/pydarwin/Example2/models.json
+[16:22:49] Template file found at template.txt
+[16:22:49] Tokens file found at tokens.json
+[16:22:49] Search start time = Fri Jul 29 16:22:49 2022
+[16:22:49] Algorithm is GP
+[16:22:49] Starting generation 1
+[16:22:49] Done asking
+[16:23:30] Iteration = 1, Model     8,           Done,    fitness = 99999999,    message = No important warnings, error = K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0 
+[16:23:40] Iteration = 1, Model     3,           Done,    fitness = 6002.760,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:23:50] Iteration = 1, Model     7,           Done,    fitness = 5999.534,    message = No important warnings
+[16:24:00] Iteration = 1, Model    10,           Done,    fitness = 6022.131,    message = No important warnings
+[16:24:11] Iteration = 1, Model     5,           Done,    fitness = 5181.481,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:24:20] Iteration = 1, Model     6,           Done,    fitness = 6264.488,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:24:30] Iteration = 1, Model     1,           Done,    fitness = 6105.504,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:24:33] Iteration = 1, Model     2,           Done,    fitness = 5171.151,    message = No important warnings
+[16:24:42] Iteration = 1, Model     4,           Done,    fitness = 5145.648,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:24:52] Iteration = 1, Model     9,           Done,    fitness = 5148.225,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:24:52] Tell...
+[16:24:54] Done telling
+[16:24:54] Best fitness this iteration = 5145.647850  at Fri Jul 29 16:24:54 2022
+[16:24:54] Best overall fitness = 5145.647850, iteration 1, model 4
+[16:24:54] Starting generation 2
+[16:25:00] Done asking
+[16:25:42] Iteration = 2, Model     1,           Done,    fitness = 99999999,    message = No important warnings, error = K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0 
+[16:25:52] Iteration = 2, Model     2,           Done,    fitness = 99999999,    message = NON-FIXED OMEGA NON-FIXED PARAMETER, error = KA, K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0 
+[16:26:03] Iteration = 2, Model     5,           Done,    fitness = 99999999,    message = NON-FIXED OMEGA NON-FIXED PARAMETER, error = KA, K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0 
+[16:26:13] Iteration = 2, Model     7,           Done,    fitness = 99999999,    message = NON-FIXED OMEGA NON-FIXED PARAMETER, error = K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0 
+[16:26:23] Iteration = 2, Model    10,           Done,    fitness = 99999999,    message = NON-FIXED OMEGA NON-FIXED PARAMETER, error = KA, K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0 
+[16:26:33] Iteration = 2, Model     9,           Done,    fitness = 5958.317,    message = No important warnings
+[16:26:37] Iteration = 2, Model     4,           Done,    fitness = 4838.320,    message = No important warnings
+[16:26:47] Iteration = 2, Model     3,           Done,    fitness = 5151.652,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:26:47] Iteration = 2, Model     6,           Done,    fitness = 4827.564,    message = No important warnings
+[16:26:57] Iteration = 2, Model     8,           Done,    fitness = 6003.259,    message = No important warnings
+[16:26:57] Tell...
+[16:27:00] Done telling
+[16:27:00] Best fitness this iteration = 4827.564351  at Fri Jul 29 16:27:00 2022
+[16:27:00] Best overall fitness = 4827.564351, iteration 2, model 6
+[16:27:00] Starting generation 3
+[16:27:07] Done asking
+[16:27:07] Iteration = 3, Model     4,   Duplicate(3),    fitness = 99999999,    message = 
+[16:27:07] Iteration = 3, Model     5,   Duplicate(3),    fitness = 99999999,    message = 
+[16:27:07] Iteration = 3, Model     7,   Duplicate(3),    fitness = 99999999,    message = 
+[16:27:07] Iteration = 3, Model     9,   Duplicate(3),    fitness = 99999999,    message = 
+[16:27:07] Iteration = 3, Model    10,   Duplicate(3),    fitness = 99999999,    message = 
+[16:27:47] Iteration = 3, Model     6,           Done,    fitness = 5972.814,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:27:57] Iteration = 3, Model     3,           Done,    fitness = 5159.831,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:28:08] Iteration = 3, Model     2,           Done,    fitness = 6092.511,    message = No important warnings
+[16:28:18] Iteration = 3, Model     8,           Done,    fitness = 5149.752,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:28:28] Iteration = 3, Model     1,           Done,    fitness = 4852.511,    message = No important warnings
+[16:28:28] Tell...
+[16:28:31] Done telling
+[16:28:31] Best fitness this iteration = 4852.510913  at Fri Jul 29 16:28:31 2022
+[16:28:31] Best overall fitness = 4827.564351, iteration 2, model 6
+[16:28:31] Starting generation 4
+[16:28:39] Done asking
+[16:28:40] Iteration = 4, Model     3,   Duplicate(1),    fitness = 99999999,    message = 
+[16:28:40] Iteration = 4, Model     4,   Duplicate(1),    fitness = 99999999,    message = 
+[16:28:40] Iteration = 4, Model     5,   Duplicate(1),    fitness = 99999999,    message = 
+[16:28:40] Iteration = 4, Model     6,   Duplicate(1),    fitness = 99999999,    message = 
+[16:28:40] Iteration = 4, Model     8,   Duplicate(1),    fitness = 99999999,    message = 
+[16:28:40] Iteration = 4, Model     7,   Duplicate(1),    fitness = 99999999,    message = 
+[16:28:40] Iteration = 4, Model    10,   Duplicate(1),    fitness = 99999999,    message = 
+[16:28:40] Iteration = 4, Model     9,   Duplicate(1),    fitness = 99999999,    message = 
+[16:29:09] Iteration = 4, Model     1,           Done,    fitness = 4826.216,    message = No important warnings
+[16:29:19] Iteration = 4, Model     2,           Done,    fitness = 4832.816,    message = No important warnings
+[16:29:19] Tell...
+[16:29:23] Done telling
+[16:29:23] Best fitness this iteration = 4826.215955  at Fri Jul 29 16:29:23 2022
+[16:29:23] Best overall fitness = 4826.215955, iteration 4, model 1
+[16:29:23] Starting generation 5
+[16:29:33] Done asking
+[16:29:33] Iteration = 5, Model     1,           Done,    fitness = 4826.216,    message = From NM_4_01: No important warnings
+[16:29:33] Iteration = 5, Model     2,   Duplicate(1),    fitness = 4826.216,    message = From NM_4_01: No important warnings
+[16:29:33] Iteration = 5, Model     3,   Duplicate(1),    fitness = 4826.216,    message = From NM_4_01: No important warnings
+[16:29:33] Iteration = 5, Model     4,   Duplicate(1),    fitness = 4826.216,    message = From NM_4_01: No important warnings
+[16:29:33] Iteration = 5, Model     5,   Duplicate(1),    fitness = 4826.216,    message = From NM_4_01: No important warnings
+[16:29:33] Iteration = 5, Model     6,   Duplicate(1),    fitness = 4826.216,    message = From NM_4_01: No important warnings
+[16:29:33] Iteration = 5, Model     7,   Duplicate(1),    fitness = 4826.216,    message = From NM_4_01: No important warnings
+[16:29:33] Iteration = 5, Model     9,   Duplicate(1),    fitness = 4826.216,    message = From NM_4_01: No important warnings
+[16:29:33] Iteration = 5, Model    10,   Duplicate(8),    fitness = 99999999,    message = 
+[16:30:13] Iteration = 5, Model     8,           Done,    fitness = 4826.013,    message = No important warnings
+[16:30:13] Starting downhill, iteration = 5
+[16:30:13] code for niche (minimal binary) 1 = [0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0], fitness = 4826.013181129213
+[16:30:13] Starting downhill step 1, total of 16 in 1 niches to be run.
+[16:30:14] Iteration = 5D01, Model     9,           Done,    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:30:41] Iteration = 5D01, Model     1,           Done,    fitness = 99999999,    message = No important warnings, error = KA, K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0 
+[16:30:48] Iteration = 5D01, Model     2,           Done,    fitness = 4825.449,    message = No important warnings
+[16:30:56] Iteration = 5D01, Model     6,           Done,    fitness = 4823.930,    message = No important warnings
+[16:31:03] Iteration = 5D01, Model     8,           Done,    fitness = 4822.403,    message = No important warnings
+[16:31:11] Iteration = 5D01, Model     7,           Done,    fitness = 5136.013,    message = No important warnings
+[16:31:18] Iteration = 5D01, Model    12,           Done,    fitness = 5136.013,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:31:25] Iteration = 5D01, Model     4,           Done,    fitness = 4835.129,    message = No important warnings
+[16:31:32] Iteration = 5D01, Model    15,           Done,    fitness = 4826.325,    message = No important warnings
+[16:31:39] Iteration = 5D01, Model    16,           Done,    fitness = 5683.507,    message = No important warnings
+[16:31:46] Iteration = 5D01, Model    13,           Done,    fitness = 4835.961,    message = No important warnings
+[16:31:46] Iteration = 5D01, Model     3,           Done,    fitness = 4832.599,    message = No important warnings
+[16:31:53] Iteration = 5D01, Model     5,           Done,    fitness = 4826.124,    message = No important warnings
+[16:31:54] Iteration = 5D01, Model    11,           Done,    fitness = 5155.961,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:32:02] Iteration = 5D01, Model    10,           Done,    fitness = 4830.965,    message = No important warnings
+[16:32:02] Iteration = 5D01, Model    14,           Done,    fitness = 5136.018,    message = No important warnings
+[16:32:02] code for niche (minimal binary) 1 = [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], fitness = 4822.403389024515
+[16:32:02] Starting downhill step 2, total of 16 in 1 niches to be run.
+[16:32:03] Iteration = 5D02, Model     8,           Done,    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:32:03] Iteration = 5D02, Model     9,           Done,    fitness = 4826.216,    message = From NM_4_01: No important warnings
+[16:32:43] Iteration = 5D02, Model     2,           Done,    fitness = 4822.127,    message = No important warnings
+[16:32:53] Iteration = 5D02, Model     6,           Done,    fitness = 4818.163,    message = No important warnings
+[16:33:04] Iteration = 5D02, Model     1,           Done,    fitness = 99999999,    message = No important warnings, error = KA, K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0 
+[16:33:14] Iteration = 5D02, Model     7,           Done,    fitness = 5132.403,    message = No important warnings
+[16:33:24] Iteration = 5D02, Model    15,           Done,    fitness = 4822.659,    message = No important warnings
+[16:33:34] Iteration = 5D02, Model    10,           Done,    fitness = 4827.331,    message = No important warnings
+[16:33:41] Iteration = 5D02, Model     3,           Done,    fitness = 4828.808,    message = No important warnings
+[16:33:41] Iteration = 5D02, Model     4,           Done,    fitness = 4831.651,    message = No important warnings
+[16:33:41] Iteration = 5D02, Model    16,           Done,    fitness = 5679.368,    message = No important warnings
+[16:33:49] Iteration = 5D02, Model    13,           Done,    fitness = 4832.382,    message = No important warnings
+[16:33:52] Iteration = 5D02, Model     5,           Done,    fitness = 4822.497,    message = No important warnings
+[16:33:56] Iteration = 5D02, Model    12,           Done,    fitness = 5132.403,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:33:57] Iteration = 5D02, Model    11,           Done,    fitness = 5152.382,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:33:57] Iteration = 5D02, Model    14,           Done,    fitness = 5132.408,    message = No important warnings
+[16:33:57] code for niche (minimal binary) 1 = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], fitness = 4818.163467524965
+[16:33:57] Starting downhill step 3, total of 16 in 1 niches to be run.
+[16:33:58] Iteration = 5D03, Model     5,           Done,    fitness = 4822.497,    message = From NM_5D02_05: No important warnings
+[16:33:58] Iteration = 5D03, Model     6,           Done,    fitness = 4822.403,    message = From NM_5D01_08: No important warnings
+[16:33:58] Iteration = 5D03, Model     8,           Done,    fitness = 4823.930,    message = From NM_5D01_06: No important warnings
+[16:34:26] Iteration = 5D03, Model     1,           Done,    fitness = 99999999,    message = No important warnings, error = KA, K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0 
+[16:34:35] Iteration = 5D03, Model     2,           Done,    fitness = 4818.223,    message = No important warnings
+[16:34:44] Iteration = 5D03, Model     7,           Done,    fitness = 4822.403,    message = No important warnings
+[16:34:53] Iteration = 5D03, Model    15,           Done,    fitness = 4818.488,    message = No important warnings
+[16:35:01] Iteration = 5D03, Model     9,           Done,    fitness = 4824.091,    message = No important warnings
+[16:35:09] Iteration = 5D03, Model    10,           Done,    fitness = 4823.186,    message = No important warnings
+[16:35:18] Iteration = 5D03, Model    13,           Done,    fitness = 4828.135,    message = No important warnings
+[16:35:27] Iteration = 5D03, Model    16,           Done,    fitness = 5676.164,    message = No important warnings
+[16:35:28] Iteration = 5D03, Model     3,           Done,    fitness = 4826.189,    message = No important warnings
+[16:35:28] Iteration = 5D03, Model     4,           Done,    fitness = 4827.258,    message = No important warnings
+[16:35:28] Iteration = 5D03, Model    12,           Done,    fitness = 5128.163,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:35:28] Iteration = 5D03, Model    14,           Done,    fitness = 5128.168,    message = No important warnings
+[16:35:29] Iteration = 5D03, Model    11,           Done,    fitness = 5148.135,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:35:29] Tell...
+[16:35:33] Done telling
+[16:35:33] Best fitness this iteration = 4818.163468  at Fri Jul 29 16:35:33 2022
+[16:35:33] Best overall fitness = 4818.163468, iteration 5D02, model 6
+[16:35:33] Starting generation 6
+[16:35:44] Done asking
+[16:35:44] Iteration = 6, Model     1,           Done,    fitness = 4822.403,    message = From NM_5D01_08: No important warnings
+[16:35:44] Iteration = 6, Model     2,           Done,    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:35:44] Iteration = 6, Model     3,   Duplicate(1),    fitness = 4822.403,    message = From NM_5D01_08: No important warnings
+[16:35:44] Iteration = 6, Model     4,   Duplicate(2),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:35:44] Iteration = 6, Model     5,   Duplicate(2),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:35:44] Iteration = 6, Model     6,   Duplicate(2),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:35:44] Iteration = 6, Model     7,   Duplicate(1),    fitness = 4822.403,    message = From NM_5D01_08: No important warnings
+[16:35:44] Iteration = 6, Model     8,   Duplicate(2),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:35:44] Iteration = 6, Model     9,   Duplicate(1),    fitness = 4822.403,    message = From NM_5D01_08: No important warnings
+[16:35:44] Iteration = 6, Model    10,   Duplicate(2),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:35:44] Tell...
+[16:35:49] Done telling
+[16:35:49] Best fitness this iteration = 4822.403389  at Fri Jul 29 16:35:49 2022
+[16:35:49] Best overall fitness = 4818.163468, iteration 5D02, model 6
+[16:35:49] Starting generation 7
+[16:36:01] Done asking
+[16:36:01] Iteration = 7, Model     1,           Done,    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:36:01] Iteration = 7, Model     4,   Duplicate(1),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:36:01] Iteration = 7, Model     3,   Duplicate(1),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:36:01] Iteration = 7, Model     5,           Done,    fitness = 4826.216,    message = From NM_4_01: No important warnings
+[16:36:01] Iteration = 7, Model     8,   Duplicate(1),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:36:01] Iteration = 7, Model     9,   Duplicate(1),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:36:01] Iteration = 7, Model     2,   Duplicate(1),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:36:01] Iteration = 7, Model     7,   Duplicate(1),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:36:01] Iteration = 7, Model     6,   Duplicate(1),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:36:01] Iteration = 7, Model    10,   Duplicate(1),    fitness = 4826.013,    message = From NM_5_08: No important warnings
+[16:36:01] Tell...
+[16:36:06] Done telling
+[16:36:06] Best fitness this iteration = 4826.013181  at Fri Jul 29 16:36:06 2022
+[16:36:06] Best overall fitness = 4818.163468, iteration 5D02, model 6
+[16:36:06] Starting final downhill
+[16:36:06] code for niche (minimal binary) 1 = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], fitness = 4818.163467524965
+[16:36:06] Starting downhill step 1, total of 16 in 1 niches to be run.
+[16:36:06] Iteration = FND01, Model     1,           Done,    fitness = 99999999,    message = From NM_5D03_01: No important warnings, error = KA, K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0 
+[16:36:06] Iteration = FND01, Model     2,           Done,    fitness = 4818.223,    message = From NM_5D03_02: No important warnings
+[16:36:06] Iteration = FND01, Model     5,           Done,    fitness = 4822.497,    message = From NM_5D02_05: No important warnings
+[16:36:06] Iteration = FND01, Model     4,           Done,    fitness = 4827.258,    message = From NM_5D03_04: No important warnings
+[16:36:06] Iteration = FND01, Model     3,           Done,    fitness = 4826.189,    message = From NM_5D03_03: No important warnings
+[16:36:06] Iteration = FND01, Model     6,           Done,    fitness = 4822.403,    message = From NM_5D01_08: No important warnings
+[16:36:06] Iteration = FND01, Model     7,           Done,    fitness = 4822.403,    message = From NM_5D03_07: No important warnings
+[16:36:06] Iteration = FND01, Model     8,           Done,    fitness = 4823.930,    message = From NM_5D01_06: No important warnings
+[16:36:06] Iteration = FND01, Model     9,           Done,    fitness = 4824.091,    message = From NM_5D03_09: No important warnings
+[16:36:06] Iteration = FND01, Model    10,           Done,    fitness = 4823.186,    message = From NM_5D03_10: No important warnings
+[16:36:06] Iteration = FND01, Model    11,           Done,    fitness = 5148.135,    message = From NM_5D03_11: NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:36:06] Iteration = FND01, Model    12,           Done,    fitness = 5128.163,    message = From NM_5D03_12: NON-FIXED OMEGA NON-FIXED PARAMETER
+[16:36:06] Iteration = FND01, Model    13,           Done,    fitness = 4828.135,    message = From NM_5D03_13: No important warnings
+[16:36:06] Iteration = FND01, Model    14,           Done,    fitness = 5128.168,    message = From NM_5D03_14: No important warnings
+[16:36:06] Iteration = FND01, Model    15,           Done,    fitness = 4818.488,    message = From NM_5D03_15: No important warnings
+[16:36:06] Iteration = FND01, Model    16,           Done,    fitness = 5676.164,    message = From NM_5D03_16: No important warnings
+[16:36:07] No change in fitness in 7 iterations
+[16:36:07] Final output from best model is in /home/ppolozov/pydarwin/Example2/output/FinalResultFile.lst
+[16:36:07] Number of unique models to best model = 0
+[16:36:07] Time to best model = 10.1 minutes
+[16:36:07] Best overall fitness = 4818.163468, iteration 5D02, model 6
+[16:36:07] Elapsed time = 13.3 minutes 
+
+[16:36:07] Search end time = Fri Jul 29 16:36:07 2022

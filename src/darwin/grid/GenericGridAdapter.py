@@ -106,9 +106,13 @@ class GenericGridAdapter(GridAdapter):
 
             # and it was requested by this poll
             if job and job.name in remaining:
+                res = json_to_run(job.output_path)
+                res.wide_model_num = remaining[job.name].wide_model_num
+
+                finished.append(res)
+
                 del self.jobs[job_id]
                 del remaining[job.name]
-                finished.append(json_to_run(job.output_path))
 
         return finished, list(remaining.values())
 

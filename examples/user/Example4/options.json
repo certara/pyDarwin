@@ -20,6 +20,9 @@
     "num_parallel": 4,
     "num_generations": 12,
 
+    "working_dir": "u:/pyDarwin/example4/working",
+    "temp_dir": "u:/pyDarwin/example4/rundir",
+    "output_dir": "u:/pyDarwin/example4/output",
     "downhill_period": 5,
     "num_niches": 2,
     "niche_radius": 2,

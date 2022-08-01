@@ -494,5 +494,44 @@ Example 4 options file :download:`json <../examples/user/Example4/options.json>`
 Initialization output should look similar to this:
 
 ::
-    exmple 4 output header
+    [05:46:53] Options file found at ..\examples\user\Example4\options.json
+	[05:46:53] Preparing project working folder...
+	[05:46:53] Preparing project output folder...
+	[05:46:53] Preparing project temp folder...
+	[05:47:21] Model run priority is below_normal
+	[05:47:21] Using darwin.MemoryModelCache
+	[05:47:21] Project dir: c:\fda\pyDarwin\examples\user\Example4
+	[05:47:21] Data dir: c:\fda\pyDarwin\examples\user\Example4
+	[05:47:21] Project working dir: u:/pyDarwin/example4/working
+	[05:47:21] Project temp dir: u:/pyDarwin/example4/rundir
+	[05:47:21] Project output dir: u:/pyDarwin/example4/output
+	[05:47:21] Writing intermediate output to u:/pyDarwin/example4/output\results.csv
+	[05:47:21] Models will be saved in u:/pyDarwin/example4/working\models.json
+	[05:47:21] Template file found at ..\examples\user\Example4\template.txt
+	[05:47:21] Tokens file found at ..\examples\user\Example4\tokens.json
+	[05:47:21] Search start time = Mon Aug  1 05:47:21 2022
+	[05:47:21] -- Starting Generation 0 --
+	[05:47:21] NMFE found: c:/nm744/util/nmfe74.bat
+	[05:47:21] RScript found at c:\Program Files\R\R-4.1.3\bin\Rscript.exe
+	[05:47:21] Post Run R code found at c:\fda\pyDarwin\examples\user\Example4\Cmaxppc.r
+	[05:47:21] Not using Post Run Python code
+	[05:47:21] Checking files in u:\pyDarwin\example4\rundir\00\01
+	[05:47:21] Data set # 1 was found: c:\fda\pyDarwin\examples\user\Example4/dmag_with_period.csv
+	[05:47:21] Data set # 2 was found: c:\fda\pyDarwin\examples\user\Example4/dmag_with_period.csv
 
+
+After a few seconds, the NONMEM execution should begind, with output simlar to this:
+
+::
+
+	[05:59:52] Generation = 00, Model     2, Post process R failed,    fitness = 99999999,    message = No important warnings, error = K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE
+	[05:59:54] Generation = 00, Model     3, Post process R failed,    fitness = 99999999,    message = NON-FIXED OMEGA NON-FIXED PARAMETER, error = K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0
+	[05:59:56] Generation = 00, Model     1, Post process R failed,    fitness = 99999999,    message = No important warnings, error = K32, OR K42 IS TOO CLOSE TO AN EIGENVALUE
+	[06:00:41] Generation = 00, Model     7, Post process R failed,    fitness = 99999999,    message = NON-FIXED OMEGA NON-FIXED PARAMETER
+
+
+Note that (as in the case of human generated NONMEM code) the first 4 models crash, and the :ref:`crash value<Crash Value>` (99999999) is assigned 
+to the fitness. There also may be a message that "NON-FIXED OMEGA NON-FIXED PARAMETER". This is a consequence of the nested tokens. With nested token 
+there commonly will be tokens that are not used, e.g., covariates relationships for K23 when a cone compartment model (ADVAN1) is selected. A small 
+penalty should be added (the non influential token penalty) in this case, simply to prefer this model over the same model without the non influential 
+token(s). 

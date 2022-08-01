@@ -43,18 +43,21 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#exhaustive-search">Exhaustive Search</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#genetic-algorithm">Genetic Algorithm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gaussian-process">Gaussian Process</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#random-forest">Random Forest</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gradient-boosted-random-tree">Gradient Boosted Random Tree</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#file-structure-and-naming">File Structure and Naming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#algorithms">Algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exhaustive-search">Exhaustive Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#genetic-algorithm">Genetic Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gaussian-process">Gaussian Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-forest">Random Forest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gradient-boosted-random-tree">Gradient Boosted Random Tree</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#saving-nonmem-outputs">Saving NONMEM outputs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#file-structure">File Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#model-folder-naming">Model/folder naming</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#saving-models">Saving models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file-structure-and-naming">File Structure and Naming</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#saving-nonmem-outputs">Saving NONMEM outputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-structure">File Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-folder-naming">Model/folder naming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#saving-models">Saving models</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
@@ -67,7 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Error Messages and how to fix them</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -108,8 +111,10 @@
 the 0’s and 1’s that are associated with “catness” or “dogness”, and can be fairly successful at predicting for any similar set of bitmaps (a test set) which is a
 cat and which is a dog.</p>
 <p>In contrast, unsupervised learning has no labeled training set. Linear regression is a simple example of supervised learning.
-There is an input (X’s) and an output (Y’s) and the algorithm identified patterns that match the inputs to the output (intercept and slope(s)).
-The traditional model selection/building process for pop pk models is unsupervised. There is no “labeled” training data set, no collection of data sets
+There is an input (X’s) and an output (Y’s) and the algorithm identified patterns that match the inputs to the output (intercept and slope(s)). However,
+looking for the best independent variables to include in a linear regression model is an unsupervised learning problem, there is not training set of examples
+with the “correct” list of independnet variables to include.
+The traditional model selection/building process for pop pk models is similarly unsupervised. There is no “labeled” training data set, no collection of data sets
 that are known to be 1 compartment, with Volume~WT. Rather each data set is a new learning and the algorithm must discover relationships based just on that data set.
 In the case of model selection, the inputs (X’s) are the “features” of the model search (not the model, but the model search)
 (number of compartments, covariates, random effects etc) and the output is some measure of model goodness.</p>
@@ -166,25 +171,23 @@ which is used for the downhill step.</p>
 </div></blockquote>
 <p>The same 3 files are required for any search, whether exhausitve, <a class="reference internal" href="#ex-desc"><span class="std std-ref">EX</span></a> , <a class="reference internal" href="#ga-desc"><span class="std std-ref">GA</span></a> , <a class="reference internal" href="#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="#rf-desc"><span class="std std-ref">RF</span></a> or <a class="reference internal" href="#gbrt-desc"><span class="std std-ref">GBRT</span></a>.
 These file are described in <a class="reference internal" href="Usage.html#startrequiredfiles"><span class="std std-ref">required files.</span></a></p>
-<blockquote id="the-algorithms">
-<div><p>Algorithms</p>
-</div></blockquote>
-<hr class="docutils" />
+<section id="algorithms">
+<span id="the-algorithms"></span><h2>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this heading">¶</a></h2>
 <section id="exhaustive-search">
-<span id="ex-desc"></span><h2>Exhaustive Search<a class="headerlink" href="#exhaustive-search" title="Permalink to this heading">¶</a></h2>
+<span id="ex-desc"></span><h3>Exhaustive Search<a class="headerlink" href="#exhaustive-search" title="Permalink to this heading">¶</a></h3>
 <p>The exhausitve search algorithm is simple to understand. The search space is initally represented as a string of integers - one for each dimension. To facilitate the search,
 this interger string is coded into a “minimal binary”. T</p>
 </section>
 <section id="genetic-algorithm">
-<span id="ga-desc"></span><h2>Genetic Algorithm<a class="headerlink" href="#genetic-algorithm" title="Permalink to this heading">¶</a></h2>
-<p>Genetic Algorithm (GA) is a reproduction of the mathematics of evoluation/survival of the fitest. A more detailed discussion can be found <a class="reference external" href="https://en.wikipedia.org/wiki/Genetic_algorithm">here</a>, and
+<span id="ga-desc"></span><h3>Genetic Algorithm<a class="headerlink" href="#genetic-algorithm" title="Permalink to this heading">¶</a></h3>
+<p>Genetic Algorithm (GA) is a reproduction of the mathematics of evoluation/survival of the fitest. A more detailed discussion <a class="reference external" href="https://en.wikipedia.org/wiki/Genetic_algorithm">on GA can be found here</a>, and
 a very readable (but somewhat dated) reference is Genetic Algorithms in Search, Optimization and Machine Learning 13th ed. Edition by David Goldberg. Details of the options (not all of which are available in pyDarwin)
 can be found at <a class="reference external" href="https://deap.readthedocs.io/en/master/">here</a>.
 Briefly, GA presents the search space as a bit string, with each “gene” being a binary number that is decoded into the integer value for that option. For example, for a dimension of Additive vs Additive + proportional
 residual error, the intger codes would be:</p>
 <ol class="arabic simple">
 <li><p>Additive error (e.g., +EPS(1))</p></li>
-<li><p>Additive + proportional error (e.g., <a href="#id6"><span class="problematic" id="id7">*</span></a>EXP(EPS(1))+EPS(s))</p></li>
+<li><p>Additive + proportional error (e.g., EXP(EPS(1))+EPS(s))</p></li>
 </ol>
 <p>It is straightforward enough to code these value [1,2] into a binary [0,1]. For dimenions with more than 2 values, more than 1 bit will be needed. For example, if 1 or 2 or 3 compartments are the searched, the bit
 string representation might be:</p>
@@ -205,16 +208,16 @@ The next generations is created by randomly selecting sets of parent candidates 
 Once the sets of parents are selected, they undergo cross over and mutation and a new generation is created. This process is repeated until no further improvement is seen.</p>
 </section>
 <section id="gaussian-process">
-<span id="gp-desc"></span><h2>Gaussian Process<a class="headerlink" href="#gaussian-process" title="Permalink to this heading">¶</a></h2>
+<span id="gp-desc"></span><h3>Gaussian Process<a class="headerlink" href="#gaussian-process" title="Permalink to this heading">¶</a></h3>
 <p>Gaussian Process is one of the two options used in <a class="reference external" href="https://en.wikipedia.org/wiki/Bayesian_optimization#">Baysian Optimization</a>. The Gaussian Process specifies the form of the prior and posterior distribution.
 Initially the distribtion is random, as is the case for all the the global serach algorithms. Once some models have been run, the distribtion can be updated (the “tell” step) and new, more imformative samples can be
 generated (the “tell” step).</p>
 </section>
 <section id="random-forest">
-<span id="rf-desc"></span><h2>Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this heading">¶</a></h2>
+<span id="rf-desc"></span><h3>Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this heading">¶</a></h3>
 </section>
 <section id="gradient-boosted-random-tree">
-<span id="gbrt-desc"></span><h2>Gradient Boosted Random Tree<a class="headerlink" href="#gradient-boosted-random-tree" title="Permalink to this heading">¶</a></h2>
+<span id="gbrt-desc"></span><h3>Gradient Boosted Random Tree<a class="headerlink" href="#gradient-boosted-random-tree" title="Permalink to this heading">¶</a></h3>
 <dl class="footnote brackets">
 <dt class="label" id="f1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>)</span></dt>
 <dd><p>Wade JR, Beal SL, Sambol NC. 1994  Interaction between structural, statistical, and covariate models in population pharmacokinetic analysis. J Pharmacokinet Biopharm. 22(2):165-77</p>
@@ -226,13 +229,13 @@ generated (the “tell” step).</p>
 <dd><p>PAGE 30 (2022) Abstr 10053 [<a class="reference external" href="https://www.page-meeting.org/default.asp?abstract=10053">https://www.page-meeting.org/default.asp?abstract=10053</a>]</p>
 </dd>
 </dl>
+</section>
+</section>
 <section id="file-structure-and-naming">
-<h3>File Structure and Naming<a class="headerlink" href="#file-structure-and-naming" title="Permalink to this heading">¶</a></h3>
+<h2>File Structure and Naming<a class="headerlink" href="#file-structure-and-naming" title="Permalink to this heading">¶</a></h2>
 <p>NONMEM control, executable and output file naming</p>
-</section>
-</section>
 <section id="saving-nonmem-outputs">
-<h2>Saving NONMEM outputs<a class="headerlink" href="#saving-nonmem-outputs" title="Permalink to this heading">¶</a></h2>
+<h3>Saving NONMEM outputs<a class="headerlink" href="#saving-nonmem-outputs" title="Permalink to this heading">¶</a></h3>
 <p>NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an isssue for disc space.
 By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space.
 In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
@@ -240,7 +243,7 @@ Users should take caution and ensure only required tables are generated (as spec
 large, and will not be removed by pyDarwin.</p>
 </section>
 <section id="file-structure">
-<h2>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading">¶</a></h2>
+<h3>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading">¶</a></h3>
 <p>Three user defined file locations can be set in the <a class="reference internal" href="Options.html#options"><span class="std std-ref">options file</span></a>. In addition to the folders that are user defined
 the project directory (project_dir) is the folder where template, token and options files are located. The user define folders are:</p>
 <ol class="arabic simple">
@@ -250,7 +253,7 @@ the project directory (project_dir) is the folder where template, token and opti
 </ol>
 </section>
 <section id="model-folder-naming">
-<h2>Model/folder naming<a class="headerlink" href="#model-folder-naming" title="Permalink to this heading">¶</a></h2>
+<h3>Model/folder naming<a class="headerlink" href="#model-folder-naming" title="Permalink to this heading">¶</a></h3>
 <p>A model stem is generated from the current generation/iteration and model number or the form NM_genration_model_num. For example, if this is iteration 2, model 3 the model stem would be
 NM_2_3. For the 1 bit downhill, the model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill
 model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file etc. This results in unique names for all models in the search. Models
@@ -261,9 +264,10 @@ are also frequently duplicated. Duplicated files are not rerun, and so those wil
 </figure>
 </section>
 <section id="saving-models">
-<h2>Saving models<a class="headerlink" href="#saving-models" title="Permalink to this heading">¶</a></h2>
+<h3>Saving models<a class="headerlink" href="#saving-models" title="Permalink to this heading">¶</a></h3>
 <p>Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficients. The name of the saved JSON file can be set by the user. A .csv
 file describing the course of the search is also save to results.csv. This file can be used to monitor the progress of the search.</p>
+</section>
 </section>
 </section>
 

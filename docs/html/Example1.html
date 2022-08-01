@@ -56,6 +56,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-data-file">The data file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#starting-pydarwin-and-command-line-output">Starting pyDarwin and command line output</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
@@ -65,7 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Error Messages and how to fix them</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -99,11 +100,11 @@
 <p>First step:</p>
 <p>As is the usual practise in POPPK model selection, the first step will be exploratory data analysis. This serves at least two purposes: To validate the data set
 and to generate initial hypotheses. We will however, for the purpose of this tutorial, skip this step and assume that we have a “correct” data set and list of
-hypotheses to be tested.</p>
+hypotheses to be tested. The data set for this example is dataExample1.csv and can be found in the pydarwin/examples/user/Example1 folder.</p>
 <p>The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
-$DATA      {data_dir}/datalarge.csv IGNORE=@
+$DATA      dataExample1.csv IGNORE=@
 
 $SUBROUTINE ADVAN2
 $ABBR DERIV2=NO
@@ -142,9 +143,9 @@ $COV UNCOND PRINT=E
 </pre></div>
 </div>
 <p>This text will serve as the starting point for developing the template file.
-Note that the relative path to the data file is up two folders. When pyDarwin runs models, it does not copy the data file to the run directory. Rather,
-typically the data file is in the home directory, and the models are run in home directory/generation/model. Therefore, the relative path to the run directory will
-be up two levels.</p>
+Note that the for the template file the data file can either be specified as a full path (prefered) or staring with {data_dir}. When pyDarwin runs models, it does not copy the data file to the run directory. Rather,
+typically the data file is in the home directory. PyDarwin determines the {data_dir} at run time, and so this short cut can be used. However, the most straighforward and least error prone solution
+if to prvode the full pata.</p>
 <section id="the-template-file">
 <span id="template-file"></span><h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
 <p>The initial simple model can then be editted by adding tokens. This first example will include covariates, residual error and one structural feature.
@@ -194,7 +195,6 @@ be defined:</p>
 <li><p>“”</p></li>
 <li><p>”  (-4,0.8,4) \t; THETA(V2~WT) POWER volume ~WT “</p></li>
 </ol>
-<p>The resulting $THETA block for this initial feature will be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$THETA  ;; must be one THETA per line.
 (0.001,100) ; THETA(1) CL UNITS =  L/HR
 (0.001,500) ; THETA(2) V  UNITS = L
@@ -219,6 +219,20 @@ multiple text substittion must be made to results in a syntactically correct NMT
 example, if ALAG1 is to be used in the $PK block, a corresponding initial estimate for
 this parameter must be provided in the $THETA block. These tokens (collectively called a token set)
 are then replaced by the corresponding text value in the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pair</span></a>.</p>
+<p><strong>Note !!!</strong>
+In order to parse the text in the initial estimates blocks (THETA, OMEGA and SIGMA) the user MUST include token stem text as a comment (i.e. after “;”). There is
+no other way to identify which intial estimates are to be associated with which THETA.
+E.g, if an token stem as two THETAs:</p>
+<p>Effect = THETA(EMAX) * CONC/(THETA(EC50) + CONC)
+for the text in the $PK block, then code to be put into the $THETA block will be:</p>
+<p>The resulting $THETA block for this initial feature will be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;  (0,100) </span><span class="se">\\</span><span class="s2">t; THETA(EMAX) &quot;</span>
+<span class="s2">&quot;  (0,1000) </span><span class="se">\\</span><span class="s2">t; THETA(EC50) &quot;</span>
+</pre></div>
+</div>
+<p>Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn’t be any way to identify which initial estiamate is to be associated with which
+THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file
+is created, this approach would lead to ambiguity. Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier.</p>
 <p>Other covariate effects are coded similarly.</p>
 </section>
 <section id="between-subject-variability">
@@ -233,7 +247,7 @@ Example 1 searchs a 6 dimensional space. The dimensions corresponds to <a class=
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$DATA {data_dir}/data.csv
 </pre></div>
 </div>
-<p>Alternatively, the full path can be given.</p>
+<p>Alternatively (and possibly prefered), the full path can be given.</p>
 </section>
 <section id="final-template-file">
 <h3>Final template file<a class="headerlink" href="#final-template-file" title="Permalink to this heading">¶</a></h3>
@@ -241,7 +255,7 @@ Example 1 searchs a 6 dimensional space. The dimensions corresponds to <a class=
 The final template file for Example 1 is given below.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
-$DATA      {data_dir}/datalarge.csv IGNORE=@
+$DATA      {data_dir}/dataExample1.csv IGNORE=@
 
 $SUBROUTINE ADVAN2
 $ABBR DERIV2=NO
@@ -354,6 +368,13 @@ The tokens file for Example 1 is given below.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>Note again, the <strong>required</strong> parameter identifier as a comment in all initial estimates, e.g.,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;  (-4,0.1,4) </span><span class="se">\t</span><span class="s2">; THETA(V2~GENDER) POWER volume ~SEX &quot;</span>
+<span class="s2">&quot;  (-4,0.1,4) </span><span class="se">\t</span><span class="s2">; THETA(V2~GENDER) POWER volume ~SEX &quot;</span>
+<span class="s2">&quot;  0.1</span><span class="se">\t\t</span><span class="s2">; ETA(KAETA) ETA ON KA&quot;</span>
+<span class="s2">&quot;  0.3 </span><span class="se">\t</span><span class="s2">; EPS(RESERRA) proportional error</span><span class="se">\n</span><span class="s2">  0.3 </span><span class="se">\t</span><span class="s2">; EPS(RESERRB) additive error&quot;</span>
+</pre></div>
+</div>
 </section>
 <section id="the-options-file">
 <span id="id1"></span><h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
@@ -362,21 +383,109 @@ The options file will likely need to be editted, as the path to nmfe??.bat must 
 The options file for Example 1 is given below:</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;{</span>
+<span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Mark Sale&quot;</span><span class="p">,</span>
+<span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;EXHAUSTIVE&quot;</span><span class="p">,</span>
+<span class="s2">&quot;exhaustive_batch_size&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
 
-    <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;EXHAUSTIVE&quot;</span><span class="p">,</span>
+<span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
 
-    <span class="s2">&quot;max_model_list_size&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
-    <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;covariance&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;correlation&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;condition_number&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;non_influential_tokens&quot;</span><span class="p">:</span> <span class="mf">0.00001</span>
+<span class="p">},</span>
 
-    <span class="s2">&quot;nmfe_path&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm741/util/nmfe74.bat&quot;</span>
+<span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+
+<span class="s2">&quot;nmfe_path&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm744/util/nmfe74.bat&quot;</span><span class="p">,</span>
+<span class="s2">&quot;model_run_timeout&quot;</span><span class="p">:</span> <span class="mi">1200</span>
+<span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 </section>
 <section id="the-data-file">
 <h2>The data file<a class="headerlink" href="#the-data-file" title="Permalink to this heading">¶</a></h2>
-<p>Example 1 Data file <a class="reference download internal" download="" href="_downloads/eda03a9a74a1ba2a420bc8a1b72dfc79/datalarge.csv"><code class="xref download docutils literal notranslate"><span class="pre">datalarge.csv</span></code></a></p>
+<p>Example 1 Data file <a class="reference download internal" download="" href="_downloads/8d590aab5252b163b123c5c7a9145ecb/dataExample1.csv"><code class="xref download docutils literal notranslate"><span class="pre">dataExample1.csv</span></code></a></p>
+</section>
+<section id="starting-pydarwin-and-command-line-output">
+<h2>Starting pyDarwin and command line output<a class="headerlink" href="#starting-pydarwin-and-command-line-output" title="Permalink to this heading">¶</a></h2>
+<p>The command for launching pyDarwin will depend on the specific environment. From Windows command line:</p>
+<p>navigate to the darwin/src folder</p>
+<p>start python (type python at command line)</p>
+<p>from python prompt</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">darwin.run_search</span> <span class="kn">import</span> <span class="n">run_search</span>
+</pre></div>
+</div>
+<p>then the run_search command with the (relative or absolute) path to the template, tokens and options files, with the <a class="reference external" href="https://docs.python.org/3/library/__main__.html#:~:text=__main__%20is%20the,entry%20point%20to%20the%20application.">_main_</a>, syntax, e.g.,</p>
+<dl class="simple">
+<dt>::</dt><dd><p>if __name__ == ‘__main__’:
+final = run_search(“..\examples\user\Example1\template.txt”,  “..\examples\user\Example1\tokens.json”,  “..\examples\user\Example1\options.json”)</p>
+</dd>
+</dl>
+<p>From Visual Studio Code, creat a main.py file, containing:</p>
+<p>from darwin.run_search import run_search</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">final</span> <span class="o">=</span> <span class="n">run_search</span><span class="p">(</span><span class="s2">&quot;..</span><span class="se">\\</span><span class="s2">examples</span><span class="se">\\</span><span class="s2">user</span><span class="se">\\</span><span class="s2">Example1</span><span class="se">\\</span><span class="s2">template.txt&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;..</span><span class="se">\\</span><span class="s2">examples</span><span class="se">\\</span><span class="s2">user</span><span class="se">\\</span><span class="s2">Example1</span><span class="se">\\</span><span class="s2">tokens.json&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;..</span><span class="se">\\</span><span class="s2">examples</span><span class="se">\\</span><span class="s2">user</span><span class="se">\\</span><span class="s2">Example1</span><span class="se">\\</span><span class="s2">options.json&quot;</span><span class="p">)</span>
+
+<span class="ow">and</span> <span class="n">launch</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">usual</span> <span class="n">way</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">F5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Initialization of the run should generate output similar to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">33</span><span class="p">]</span> <span class="n">Options</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example1</span>\<span class="n">options</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">33</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">working</span> <span class="n">folder</span><span class="o">...</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">33</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">output</span> <span class="n">folder</span><span class="o">...</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">33</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">temp</span> <span class="n">folder</span><span class="o">...</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Model</span> <span class="n">run</span> <span class="n">priority</span> <span class="ow">is</span> <span class="n">below_normal</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Using</span> <span class="n">darwin</span><span class="o">.</span><span class="n">MemoryModelCache</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Project</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span>\<span class="n">fda</span>\<span class="n">pyDarwin</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example1</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span>\<span class="n">fda</span>\<span class="n">pyDarwin</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example1</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Project</span> <span class="n">working</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example1</span><span class="o">/</span><span class="n">working</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Project</span> <span class="n">temp</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example1</span><span class="o">/</span><span class="n">rundir</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Project</span> <span class="n">output</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example1</span><span class="o">/</span><span class="n">output</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Writing</span> <span class="n">intermediate</span> <span class="n">output</span> <span class="n">to</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example1</span><span class="o">/</span><span class="n">output</span>\<span class="n">results</span><span class="o">.</span><span class="n">csv</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Models</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example1</span><span class="o">/</span><span class="n">working</span>\<span class="n">models</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Template</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example1</span>\<span class="n">template</span><span class="o">.</span><span class="n">txt</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Tokens</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example1</span>\<span class="n">tokens</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Search</span> <span class="n">start</span> <span class="n">time</span> <span class="o">=</span> <span class="n">Sun</span> <span class="n">Jul</span> <span class="mi">31</span> <span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span> <span class="mi">2022</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Total</span> <span class="n">of</span> <span class="mi">64</span> <span class="n">to</span> <span class="n">be</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">exhaustive</span> <span class="n">search</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">NMFE</span> <span class="n">found</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span><span class="o">/</span><span class="n">nm744</span><span class="o">/</span><span class="n">util</span><span class="o">/</span><span class="n">nmfe74</span><span class="o">.</span><span class="n">bat</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">42</span><span class="p">]</span> <span class="n">Not</span> <span class="n">using</span> <span class="n">Post</span> <span class="n">Run</span> <span class="n">R</span> <span class="n">code</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">42</span><span class="p">]</span> <span class="n">Not</span> <span class="n">using</span> <span class="n">Post</span> <span class="n">Run</span> <span class="n">Python</span> <span class="n">code</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">42</span><span class="p">]</span> <span class="n">Checking</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span>\<span class="n">pyDarwin</span>\<span class="n">example1</span>\<span class="n">rundir</span>\<span class="mi">0</span>\<span class="mi">01</span>
+<span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">42</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 1 was found: c:\fda\pyDarwin\examples\user\Example1/dataExample1.csv</span>
+</pre></div>
+</div>
+<p>Importantly, the temp directory (temp_dir) is listed since</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>is set to false in the options file, all key NONMEM outputs are saved. This is where you should look for them after the
+inevitable errors.
+During the search, the current, interim best model files can be found in the Project working dir, along with the messages (same content as output
+to command line) and a models.json file that can be used to restart searches that are interupted.
+The final outputs will be found in the Project output dir.
+At the end of the run, the output should look similar to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">11</span><span class="p">:</span><span class="mi">16</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Current</span> <span class="n">Best</span> <span class="n">fitness</span> <span class="o">=</span> <span class="mf">4818.765528670225</span>
+<span class="p">[</span><span class="mi">11</span><span class="p">:</span><span class="mi">16</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Final</span> <span class="n">output</span> <span class="kn">from</span> <span class="nn">best</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example1</span><span class="o">/</span><span class="n">output</span>\<span class="n">FinalResultFile</span><span class="o">.</span><span class="n">lst</span>
+<span class="p">[</span><span class="mi">11</span><span class="p">:</span><span class="mi">16</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">unique</span> <span class="n">models</span> <span class="n">to</span> <span class="n">best</span> <span class="n">model</span> <span class="o">=</span> <span class="mi">51</span>
+<span class="p">[</span><span class="mi">11</span><span class="p">:</span><span class="mi">16</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Time</span> <span class="n">to</span> <span class="n">best</span> <span class="n">model</span> <span class="o">=</span> <span class="mf">9.7</span> <span class="n">minutes</span>
+<span class="p">[</span><span class="mi">11</span><span class="p">:</span><span class="mi">16</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Best</span> <span class="n">overall</span> <span class="n">fitness</span> <span class="o">=</span> <span class="mf">4818.765529</span><span class="p">,</span> <span class="n">iteration</span> <span class="mi">0</span><span class="p">,</span> <span class="n">model</span> <span class="mi">47</span>
+<span class="p">[</span><span class="mi">11</span><span class="p">:</span><span class="mi">16</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Elapsed</span> <span class="n">time</span> <span class="o">=</span> <span class="mf">12.8</span> <span class="n">minutes</span>
+</pre></div>
+</div>
+<p>and the final best model files and a list of all runs (results.csv) can be found in the output folder.</p>
 </section>
 </section>
 

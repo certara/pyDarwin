@@ -46,6 +46,58 @@ number < 100, so all of these penalties will be 100. As there are nested tokens 
 tokens, the penalty for non-influential tokens will be set to 0.00001. This small penalty is only to insure that in a tournament selection the model that 
 does not have non-influential tokens will be selected. 
 
+
+Notes on Gaussian Process performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Gaussian Process is an approach in `Bayesian Optimization <https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf>`_ 
+and `here <https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py>`_  where the samples are drawn from 
+a Gaussian Process. There are reasons to beleive that this this approach should be the most effecient (fewer reward evaluations to convergence). However, the sampling itself can be very 
+computionally  expensive. Therefore the :ref:`GP option <GP_desc>` is best suited when the number of reward calculation number of NONMEM models run) is relatively small, perhaps < 1000, 
+and the NONMEM run time is long (1 hour). Below is a table of the `ask and tell <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ step times  (hh:mm:ss), by iteration. The sample size ws 80, with 4 chains on a 4 core computer: 
+
++-----------+----------+----------+ 
+| iteration | ask      | tell     | 
++===========+==========+==========+ 
+| 1         |          | 0:00:15  |
++-----------+----------+----------+ 
+| 2         | 0:01:18  | 0:00:35  |
++-----------+----------+----------+ 
+| 3         | 0:03:12  | 0:01:03  |
++-----------+----------+----------+ 
+| 4         | 0:05:56  | 0:01:55  |
++-----------+----------+----------+ 
+| 5         | 0:09:33  | 0:03:55  |
++-----------+----------+----------+ 
+| 6         | 0:16:22  | 0:04:47  |
++-----------+----------+----------+ 
+| 7         | 0:25:25  | 0:08:30  |
++-----------+----------+----------+ 
+| 8         | 0:33:43  | 0:09:30  |
++-----------+----------+----------+ 
+| 9         | 0:50:11  | 0:10:26  |
++-----------+----------+----------+ 
+| 10        | 0:55:32  | 0:13:52  |
++-----------+----------+----------+ 
+| 11        | 1:09:00  | 0:17:14  |
++-----------+----------+----------+ 
+| 12        | 1:22:18  | 0:21:14  |
++-----------+----------+----------+ 
+| 13        | 1:40:25  |          |
++-----------+----------+----------+
+
+
+
+note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the data set size increases.
+For problems with larger search spaces, and greater number of model evaluations, :ref:`Genetic algorithm<GA_desc>` or :ref:`Random Forest <RF_desc>` may 
+be more appropriate.
+
+Below is a table of recommenations for algorithm selection.
+
+ - Fast execution, large search space (> 100,000 models, expected sample > 1000 models)– :ref:`GA<GA_desc>` or :ref:`RF<RF_desc>`
+ - Small seach space (<100,000, expected # of samples < 1000) - :ref:`Gaussian Process<GP_desc>`.
+ - Very small search space (< 500 models), many cores (> 20) – :ref:`exhaustive search <EX_desc>`.
+
 The Template file 
 ~~~~~~~~~~~~~~~~~
 
@@ -238,6 +290,16 @@ Notes:
       ]
    }
 
+**NOTE AGAIN!!**
+The use of THETA(paremeter identifier), e.g.
+
+
+::
+
+   (-4,.7,4) \t; THETA(CL~WT)
+
+
+for **ALL** initial estimate token text (THETA, OMEGA and SIGMA).
 
 Example 2 tokens file :download:`json <../examples/user/Example2/tokens.json>`
 
@@ -251,39 +313,42 @@ The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NON
 ::
 
    {
-      "author": "Certara",
-      "algorithm": "GP",
-      "num_opt_chains": 2,
+    "author": "Certara",
+    "algorithm": "GP",
+    "num_opt_chains": 2,
+    
+    "random_seed": 11,
+    "population_size": 10,
+    "num_parallel": 4,
+    "num_generations": 7,
 
-      "random_seed": 11,
-      "population_size": 10,
-      "num_parallel": 4,
-      "num_generations": 7,
+    "downhill_period": 5,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "local_2_bit_search": false,
+    "final_downhill_search": true,
 
-      "downhill_period": 5,
-      "num_niches": 2,
-      "niche_radius": 2,
-      "local_2_bit_search": false,
-      "final_downhill_search": true,
+    "crash_value": 99999999,
 
-      "crash_value": 99999999,
+    "penalty": {
+        "theta": 10,
+        "omega": 10,
+        "sigma": 10,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "condition_number": 100,
+        "non_influential_tokens": 0.00001
+    },
 
-      "penalty": {
-         "theta": 10,
-         "omega": 10,
-         "sigma": 10,
-         "convergence": 100,
-         "covariance": 100,
-         "correlation": 100,
-         "condition_number": 100,
-         "non_influential_tokens": 0.00001
-      },
+    "remove_run_dir": false,
 
-      "remove_run_dir": false,
-
-      "nmfe_path": "c:/nm74g64/util/nmfe74.bat",
-      "model_run_timeout": 1200
+    "nmfe_path": "c:/nm744/util/nmfe74.bat",
+    "model_run_timeout": 1200
    }
+
+Once again, note that remove_run_dir is set to false, so NONMEM model and output files will be preserved in the temp_dir.
+
 
 Example 2 options file :download:`json <../examples/user/Example2/options.json>`
  

@@ -76,3 +76,13 @@ a:visited {
     margin-bottom: 0.809em;
     max-width: 100%;
 }
+
+.review {
+    color: red;
+    background-color: yellow;
+}
+
+.comment {
+    color: red;
+    text-decoration: none;
+}

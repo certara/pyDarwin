@@ -47,6 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example 2: PK Model 2, Simulation model by GP with Python code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#notes-on-gaussian-process-performance">Notes on Gaussian Process performance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
@@ -193,6 +194,92 @@ and SIGMA) will be 10 points, and we would really like a model that converges, h
 number &lt; 100, so all of these penalties will be 100. As there are nested tokens in this search, there is a reason to penalize models with non-influential
 tokens, the penalty for non-influential tokens will be set to 0.00001. This small penalty is only to insure that in a tournament selection the model that
 does not have non-influential tokens will be selected.</p>
+<section id="notes-on-gaussian-process-performance">
+<h2>Notes on Gaussian Process performance<a class="headerlink" href="#notes-on-gaussian-process-performance" title="Permalink to this heading">¶</a></h2>
+<p>Gaussian Process is an approach in <a class="reference external" href="https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf">Bayesian Optimization</a>
+and <a class="reference external" href="https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py">here</a>  where the samples are drawn from
+a Gaussian Process. There are reasons to beleive that this this approach should be the most effecient (fewer reward evaluations to convergence). However, the sampling itself can be very
+computionally  expensive. Therefore the <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP option</span></a> is best suited when the number of reward calculation number of NONMEM models run) is relatively small, perhaps &lt; 1000,
+and the NONMEM run time is long (1 hour). Below is a table of the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask and tell</a> step times  (hh:mm:ss), by iteration. The sample size ws 80, with 4 chains on a 4 core computer:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 32%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>iteration</p></th>
+<th class="head"><p>ask</p></th>
+<th class="head"><p>tell</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td></td>
+<td><p>0:00:15</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>0:01:18</p></td>
+<td><p>0:00:35</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>0:03:12</p></td>
+<td><p>0:01:03</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>0:05:56</p></td>
+<td><p>0:01:55</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>0:09:33</p></td>
+<td><p>0:03:55</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>0:16:22</p></td>
+<td><p>0:04:47</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>0:25:25</p></td>
+<td><p>0:08:30</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>0:33:43</p></td>
+<td><p>0:09:30</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>0:50:11</p></td>
+<td><p>0:10:26</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>0:55:32</p></td>
+<td><p>0:13:52</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p>1:09:00</p></td>
+<td><p>0:17:14</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p>1:22:18</p></td>
+<td><p>0:21:14</p></td>
+</tr>
+<tr class="row-even"><td><p>13</p></td>
+<td><p>1:40:25</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the data set size increases.
+For problems with larger search spaces, and greater number of model evaluations, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">Genetic algorithm</span></a> or <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">Random Forest</span></a> may
+be more appropriate.</p>
+<p>Below is a table of recommenations for algorithm selection.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Fast execution, large search space (&gt; 100,000 models, expected sample &gt; 1000 models)– <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a> or <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a></p></li>
+<li><p>Small seach space (&lt;100,000, expected # of samples &lt; 1000) - <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a>.</p></li>
+<li><p>Very small search space (&lt; 500 models), many cores (&gt; 20) – <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">exhaustive search</span></a>.</p></li>
+</ul>
+</div></blockquote>
+</section>
 <section id="the-template-file">
 <h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
 <p>The template file for example 2 is given below</p>
@@ -376,47 +463,54 @@ $COV UNCOND PRINT=E
 <span class="p">}</span>
 </pre></div>
 </div>
+<p><strong>NOTE AGAIN!!</strong>
+The use of THETA(paremeter identifier), e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mf">.7</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> \<span class="n">t</span><span class="p">;</span> <span class="n">THETA</span><span class="p">(</span><span class="n">CL</span><span class="o">~</span><span class="n">WT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>for <strong>ALL</strong> initial estimate token text (THETA, OMEGA and SIGMA).</p>
 <p>Example 2 tokens file <a class="reference download internal" download="" href="_downloads/01b97a58723c3fc8ea6cc3d653b01a85/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-   <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
-   <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;GP&quot;</span><span class="p">,</span>
-   <span class="s2">&quot;num_opt_chains&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+ <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;GP&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;num_opt_chains&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
 
-   <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
-   <span class="s2">&quot;population_size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-   <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-   <span class="s2">&quot;num_generations&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+ <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+ <span class="s2">&quot;population_size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+ <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+ <span class="s2">&quot;num_generations&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
 
-   <span class="s2">&quot;downhill_period&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-   <span class="s2">&quot;num_niches&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-   <span class="s2">&quot;niche_radius&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-   <span class="s2">&quot;local_2_bit_search&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
-   <span class="s2">&quot;final_downhill_search&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+ <span class="s2">&quot;downhill_period&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+ <span class="s2">&quot;num_niches&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+ <span class="s2">&quot;niche_radius&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+ <span class="s2">&quot;local_2_bit_search&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+ <span class="s2">&quot;final_downhill_search&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
 
-   <span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
+ <span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
 
-   <span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-      <span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-      <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-      <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-      <span class="s2">&quot;covariance&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-      <span class="s2">&quot;correlation&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-      <span class="s2">&quot;condition_number&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-      <span class="s2">&quot;non_influential_tokens&quot;</span><span class="p">:</span> <span class="mf">0.00001</span>
-   <span class="p">},</span>
+ <span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+     <span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+     <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+     <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+     <span class="s2">&quot;covariance&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+     <span class="s2">&quot;correlation&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+     <span class="s2">&quot;condition_number&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+     <span class="s2">&quot;non_influential_tokens&quot;</span><span class="p">:</span> <span class="mf">0.00001</span>
+ <span class="p">},</span>
 
-   <span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+ <span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
 
-   <span class="s2">&quot;nmfe_path&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm74g64/util/nmfe74.bat&quot;</span><span class="p">,</span>
-   <span class="s2">&quot;model_run_timeout&quot;</span><span class="p">:</span> <span class="mi">1200</span>
+ <span class="s2">&quot;nmfe_path&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm744/util/nmfe74.bat&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;model_run_timeout&quot;</span><span class="p">:</span> <span class="mi">1200</span>
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>Once again, note that remove_run_dir is set to false, so NONMEM model and output files will be preserved in the temp_dir.</p>
 <p>Example 2 options file <a class="reference download internal" download="" href="_downloads/58fecf53d8ecd9a84f5f6d862a0bb03a/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 </section>

@@ -3,9 +3,9 @@
     "algorithm": "EXHAUSTIVE",
     "exhaustive_batch_size": 100,
 
-    "working_dir": "u:/msale/example1/working",
-    "temp_dir": "u:/msale/example1/rundir",
-    "output_dir": "u:/msale/example1/output",	
+    "working_dir": "u:/pyDarwin/example1/working",
+    "temp_dir": "u:/pyDarwin/example1/rundir",
+    "output_dir": "u:/pyDarwin/example1/output",
     "num_parallel": 4,
     "crash_value": 99999999,
 

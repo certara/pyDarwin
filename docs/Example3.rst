@@ -8,8 +8,8 @@ different data sets. Therefore, there is a token in the $DATA record. Next, urin
 linear vs Michaelis-Menten. The token groups/set are quite complex.
 
 
-While the search space is small (384 models), we'll search by :ref:`Exhaustive search<EX_desc>`. Because of the complexity of the model and the 
-ODE solution, search times are long. For faster search, the FOCE method is used. 
+While the search space is small (324 models), we'll search by :ref:`Exhaustive search<EX_desc>`. Because of the complexity of the model and the 
+ODE solution,  model run times are long. For faster search, the FOCE method is used. 
 
 The Template file
 ~~~~~~~~~~~~~~~~~
@@ -257,6 +257,20 @@ The tokens file is quite complex:
       
       }
 
+
+
+**NOTE AGAIN!!**
+The use of THETA(paremeter identifier), e.g.
+
+
+::
+
+   (-4,.7,4) \t; THETA(CL~WT)
+
+
+for **ALL** initial estimate token text (THETA, OMEGA and SIGMA).
+
+
 Example 3 tokens file :download:`json <../examples/user/Example3/tokens.json>`
 
 The Options file
@@ -270,33 +284,62 @@ The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NON
 ::
 
    {
-      "author": "Certara",
+    "author": "Certara",
 
-      "algorithm": "EXHAUSTIVE",
-      "exhaustive_batch_size": 100,
+    "algorithm": "EX",
+    "exhaustive_batch_size": 100,
 
-      "num_parallel": 4,
+    "working_dir": "u:/pyDarwin/example3/working",
+    "temp_dir": "u:/pyDarwin/example3/rundir",
+    "output_dir": "u:/pyDarwin/example3/output",
+    "num_parallel": 4,
 
-      "crash_value": 99999999999,
+    "crash_value": 99999999999,
 
-      "penalty": {
-         "theta": 10,
-         "omega": 10,
-         "sigma": 10,
-         "convergence": 100,
-         "covariance": 100,
-         "correlation": 100,
-         "condition_number": 100,
-         "non_influential_tokens": 0.00001
-      },
+    "penalty": {
+        "theta": 2,
+        "omega": 2,
+        "sigma": 2,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "condition_number": 100,
+        "non_influential_tokens": 0.00001
+    },
 
-      "remove_run_dir": false,
+    "remove_run_dir": false,
 
-      "nmfe_path": "c:/nm744/util/nmfe74.bat",
-      "model_run_timeout": 9600
+    "nmfe_path": "c:/nm744/util/nmfe74.bat",
+    "model_run_timeout": 9600
    }
 
 Example 3 options file :download:`json <../examples/user/Example3/options.json>`
 
+Initialization output should look similar to this:
 
+::
+
+   [12:30:54] Options file found at ..\examples\user\Example3\options.json
+   [12:30:54] Preparing project working folder...
+   [12:30:54] Preparing project output folder...
+   [12:30:54] Preparing project temp folder...
+   [12:30:54] Model run priority is below_normal
+   [12:30:54] Using darwin.MemoryModelCache
+   [12:30:54] Project dir: c:\fda\pyDarwin\examples\user\Example3
+   [12:30:54] Data dir: c:\fda\pyDarwin\examples\user\Example3
+   [12:30:54] Project working dir: u:/pyDarwin/example3/working
+   [12:30:54] Project temp dir: u:/pyDarwin/example3/rundir
+   [12:30:54] Project output dir: u:/pyDarwin/example3/output
+   [12:30:54] Writing intermediate output to u:/pyDarwin/example3/output\results.csv
+   [12:30:54] Models will be saved in u:/pyDarwin/example3/working\models.json
+   [12:30:54] Template file found at ..\examples\user\Example3\template.txt
+   [12:30:54] Tokens file found at ..\examples\user\Example3\tokens.json
+   [12:30:54] Search start time = Sun Jul 31 12:30:54 2022
+   [12:30:54] Total of 324 to be run in exhaustive search
+   [12:30:54] NMFE found: c:/nm744/util/nmfe74.bat
+   [12:30:54] Not using Post Run R code
+   [12:30:54] Not using Post Run Python code
+   [12:30:54] Checking files in u:\pyDarwin\example3\rundir\0\001
+   [12:30:54] Data set # 1 was found: c:\fda\pyDarwin\examples\user\Example3/OralBolus_PlasmaUrine_ResetCpt2.csv
   
+

@@ -6,7 +6,20 @@
 Glossary
 ====================================
  
+.. _Crash Value:
 
+**Crash Value**: Anyone with any experience with Population PK model have experience with crashes. there are many sources of error, includeing:
+
+- syntax errors in the control file
+- math errors (divide by zero, log(negative value))
+- numerical error in execution
+
+Significant effort was made to capture theses errors an display them to the user on the command line and in the messages.txt file (in the working directory).
+For debuging purposes, there error can be reproduced by going to the run directory (run_dir\\generation\\model_num) and rerunning the model from the command line.
+
+In addition, error may occur in running post run R or python code. Finallly the NONMEM or R code may time out, producing no results.
+In all of these cases, the fitness/reward value assigned in called the crash_value. The crash value is set in the options file, and should be substaintially higher 
+than any anticipated fitness/reweard from a model that ran to completion, regardless of the "goodness" of the model.
 
 
 .. _Data Directory: 

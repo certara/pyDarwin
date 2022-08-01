@@ -1,6 +1,6 @@
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
-$DATA      {data_dir}/datalarge.csv IGNORE=@
+$DATA      {data_dir}/dataExample1.csv IGNORE=@
            
 $SUBROUTINE ADVAN2
 $ABBR DERIV2=NO

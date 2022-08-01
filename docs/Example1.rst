@@ -12,7 +12,7 @@ First step:
 
 As is the usual practise in POPPK model selection, the first step will be exploratory data analysis. This serves at least two purposes: To validate the data set 
 and to generate initial hypotheses. We will however, for the purpose of this tutorial, skip this step and assume that we have a "correct" data set and list of 
-hypotheses to be tested. 
+hypotheses to be tested. The data set for this example is dataExample1.csv and can be found in the pydarwin/examples/user/Example1 folder.
 
 The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:
 
@@ -20,7 +20,7 @@ The next step for ML model selection is to get a simple model running. The contr
 
     $PROBLEM    2 compartment fitting
     $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
-    $DATA      {data_dir}/datalarge.csv IGNORE=@
+    $DATA      dataExample1.csv IGNORE=@
             
     $SUBROUTINE ADVAN2
     $ABBR DERIV2=NO
@@ -60,10 +60,9 @@ The next step for ML model selection is to get a simple model running. The contr
 
 
 This text will serve as the starting point for developing the template file. 
-Note that the relative path to the data file is up two folders. When pyDarwin runs models, it does not copy the data file to the run directory. Rather, 
-typically the data file is in the home directory, and the models are run in home directory/generation/model. Therefore, the relative path to the run directory will 
-be up two levels.
-
+Note that the for the template file the data file can either be specified as a full path (prefered) or staring with {data_dir}. When pyDarwin runs models, it does not copy the data file to the run directory. Rather, 
+typically the data file is in the home directory. PyDarwin determines the {data_dir} at run time, and so this short cut can be used. However, the most straighforward and least error prone solution 
+if to prvode the full pata.
 
 .. _template file: 
 
@@ -128,9 +127,6 @@ The 2nd token for the initial estimate for THETA(V2~WT) wil be similar. The toke
 1. ""
 2. "  (-4,0.8,4) \\t; THETA(V2~WT) POWER volume ~WT "
 
-
-The resulting $THETA block for this initial feature will be:
-
 ::
 
     $THETA  ;; must be one THETA per line.
@@ -161,6 +157,27 @@ this parameter must be provided in the $THETA block. These tokens (collectively 
 are then replaced by the corresponding text value in the :ref:`token key-text pair <token key-text pair>`. 
 
 
+**Note !!!**
+In order to parse the text in the initial estimates blocks (THETA, OMEGA and SIGMA) the user MUST include token stem text as a comment (i.e. after ";"). There is 
+no other way to identify which intial estimates are to be associated with which THETA. 
+E.g, if an token stem as two THETAs:
+
+
+Effect = THETA(EMAX) * CONC/(THETA(EC50) + CONC)
+for the text in the $PK block, then code to be put into the $THETA block will be:
+
+
+The resulting $THETA block for this initial feature will be:
+
+::
+
+ "  (0,100) \\t; THETA(EMAX) "
+ "  (0,1000) \\t; THETA(EC50) "
+
+Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn't be any way to identify which initial estiamate is to be associated with which 
+THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file 
+is created, this approach would lead to ambiguity. Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier.
+
 Other covariate effects are coded similarly. 
 
 
@@ -180,7 +197,7 @@ Typically, the NMTRAN data file will be located in the :ref:`working directory<w
 
     $DATA {data_dir}/data.csv
 
-Alternatively, the full path can be given.
+Alternatively (and possibly prefered), the full path can be given.
 
 
 Final template file
@@ -192,7 +209,7 @@ The final template file for Example 1 is given below.
 
     $PROBLEM    2 compartment fitting
     $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
-    $DATA      {data_dir}/datalarge.csv IGNORE=@
+    $DATA      {data_dir}/dataExample1.csv IGNORE=@
             
     $SUBROUTINE ADVAN2
     $ABBR DERIV2=NO
@@ -308,6 +325,15 @@ The tokens file for Example 1 is given below.
         ]
     }
 
+Note again, the **required** parameter identifier as a comment in all initial estimates, e.g., 
+
+::
+
+  "  (-4,0.1,4) \t; THETA(V2~GENDER) POWER volume ~SEX "
+  "  (-4,0.1,4) \t; THETA(V2~GENDER) POWER volume ~SEX "
+  "  0.1\t\t; ETA(KAETA) ETA ON KA"
+  "  0.3 \t; EPS(RESERRA) proportional error\n  0.3 \t; EPS(RESERRB) additive error"
+
 
 .. _The Options File:
 
@@ -324,14 +350,30 @@ The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NON
 ::
 
     {
-        "author": "Certara",
+        "{
+    "author": "Mark Sale",
+    "algorithm": "EXHAUSTIVE",
+    "exhaustive_batch_size": 100,
  
-        "algorithm": "EXHAUSTIVE",
- 
-        "max_model_list_size": 500,
-        "num_parallel": 4,
+    "num_parallel": 4,
+    "crash_value": 99999999,
 
-        "nmfe_path": "c:/nm741/util/nmfe74.bat"
+    "penalty": {
+        "theta": 10,
+        "omega": 10,
+        "sigma": 10,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "condition_number": 100,
+        "non_influential_tokens": 0.00001
+    },
+
+    "remove_run_dir": false,
+
+    "nmfe_path": "c:/nm744/util/nmfe74.bat",
+    "model_run_timeout": 1200
+    }
     }
 
 
@@ -339,7 +381,95 @@ The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NON
 The data file
 ~~~~~~~~~~~~~~~~
 
-Example 1 Data file :download:`datalarge.csv <../examples/user/Example1/datalarge.csv>` 
-
+Example 1 Data file :download:`dataExample1.csv <../examples/user/Example1/dataExample1.csv>`
   
- 
+
+
+Starting pyDarwin and command line output
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The command for launching pyDarwin will depend on the specific environment. From Windows command line:
+
+navigate to the darwin/src folder
+
+start python (type python at command line)
+
+from python prompt
+
+::
+
+    from darwin.run_search import run_search
+
+
+then the run_search command with the (relative or absolute) path to the template, tokens and options files, with the `_main_ <https://docs.python.org/3/library/__main__.html#:~:text=__main__%20is%20the,entry%20point%20to%20the%20application.>`_, syntax, e.g.,
+
+::
+    if __name__ == '__main__':  
+    final = run_search("..\\examples\\user\\Example1\\template.txt",  "..\\examples\\user\\Example1\\tokens.json",  "..\\examples\\user\\Example1\\options.json")
+
+   
+
+From Visual Studio Code, creat a main.py file, containing:
+
+from darwin.run_search import run_search
+
+::
+
+
+    if __name__ == '__main__':  
+        final = run_search("..\\examples\\user\\Example1\\template.txt",
+                        "..\\examples\\user\\Example1\\tokens.json",
+                        "..\\examples\\user\\Example1\\options.json")
+                        
+    and launch in the usual way (e.g., F5)
+
+Initialization of the run should generate output similar to this:
+
+::
+
+    [10:50:33] Options file found at ..\examples\user\Example1\options.json
+    [10:50:33] Preparing project working folder...
+    [10:50:33] Preparing project output folder...
+    [10:50:33] Preparing project temp folder...
+    [10:50:41] Model run priority is below_normal
+    [10:50:41] Using darwin.MemoryModelCache
+    [10:50:41] Project dir: c:\fda\pyDarwin\examples\user\Example1
+    [10:50:41] Data dir: c:\fda\pyDarwin\examples\user\Example1
+    [10:50:41] Project working dir: u:/pyDarwin/example1/working
+    [10:50:41] Project temp dir: u:/pyDarwin/example1/rundir
+    [10:50:41] Project output dir: u:/pyDarwin/example1/output
+    [10:50:41] Writing intermediate output to u:/pyDarwin/example1/output\results.csv
+    [10:50:41] Models will be saved in u:/pyDarwin/example1/working\models.json
+    [10:50:41] Template file found at ..\examples\user\Example1\template.txt
+    [10:50:41] Tokens file found at ..\examples\user\Example1\tokens.json
+    [10:50:41] Search start time = Sun Jul 31 10:50:41 2022
+    [10:50:41] Total of 64 to be run in exhaustive search
+    [10:50:41] NMFE found: c:/nm744/util/nmfe74.bat
+    [10:50:42] Not using Post Run R code
+    [10:50:42] Not using Post Run Python code
+    [10:50:42] Checking files in u:\pyDarwin\example1\rundir\0\01
+    [10:50:42] Data set # 1 was found: c:\fda\pyDarwin\examples\user\Example1/dataExample1.csv
+
+Importantly, the temp directory (temp_dir) is listed since
+    
+    ::
+
+        "remove_run_dir": false,
+
+is set to false in the options file, all key NONMEM outputs are saved. This is where you should look for them after the
+inevitable errors.
+During the search, the current, interim best model files can be found in the Project working dir, along with the messages (same content as output 
+to command line) and a models.json file that can be used to restart searches that are interupted. 
+The final outputs will be found in the Project output dir. 
+At the end of the run, the output should look similar to this:
+
+::
+        
+    [11:16:28] Current Best fitness = 4818.765528670225
+    [11:16:28] Final output from best model is in u:/pyDarwin/example1/output\FinalResultFile.lst
+    [11:16:28] Number of unique models to best model = 51
+    [11:16:28] Time to best model = 9.7 minutes
+    [11:16:28] Best overall fitness = 4818.765529, iteration 0, model 47
+    [11:16:28] Elapsed time = 12.8 minutes
+
+and the final best model files and a list of all runs (results.csv) can be found in the output folder. 

@@ -1,7 +1,5 @@
-
-
 Overview
-=============================================
+=========
  
 .. _startTheory:
  
@@ -15,8 +13,10 @@ the 0's and 1's that are associated with "catness" or "dogness", and can be fair
 cat and which is a dog. 
 
 In contrast, unsupervised learning has no labeled training set. Linear regression is a simple example of supervised learning. 
-There is an input (X's) and an output (Y's) and the algorithm identified patterns that match the inputs to the output (intercept and slope(s)). 
-The traditional model selection/building process for pop pk models is unsupervised. There is no "labeled" training data set, no collection of data sets 
+There is an input (X's) and an output (Y's) and the algorithm identified patterns that match the inputs to the output (intercept and slope(s)). However, 
+looking for the best independent variables to include in a linear regression model is an unsupervised learning problem, there is not training set of examples 
+with the "correct" list of independnet variables to include. 
+The traditional model selection/building process for pop pk models is similarly unsupervised. There is no "labeled" training data set, no collection of data sets 
 that are known to be 1 compartment, with Volume~WT. Rather each data set is a new learning and the algorithm must discover relationships based just on that data set. 
 In the case of model selection, the inputs (X's) are the "features" of the model search (not the model, but the model search) 
 (number of compartments, covariates, random effects etc) and the output is some measure of model goodness. 
@@ -84,7 +84,7 @@ These file are described in :ref:`required files. <startRequiredFiles>`
 
 .. _The Algorithms:
 
- Algorithms
+Algorithms
 ~~~~~~~~~~~~~
 
 .. _EX_desc:
@@ -99,14 +99,14 @@ this interger string is coded into a "minimal binary". T
 Genetic Algorithm
 -------------------------
 
-Genetic Algorithm (GA) is a reproduction of the mathematics of evoluation/survival of the fitest. A more detailed discussion can be found `here <https://en.wikipedia.org/wiki/Genetic_algorithm>`_, and 
+Genetic Algorithm (GA) is a reproduction of the mathematics of evoluation/survival of the fitest. A more detailed discussion `on GA can be found here <https://en.wikipedia.org/wiki/Genetic_algorithm>`_, and 
 a very readable (but somewhat dated) reference is Genetic Algorithms in Search, Optimization and Machine Learning 13th ed. Edition by David Goldberg. Details of the options (not all of which are available in pyDarwin) 
 can be found at `here <https://deap.readthedocs.io/en/master/>`_.
 Briefly, GA presents the search space as a bit string, with each "gene" being a binary number that is decoded into the integer value for that option. For example, for a dimension of Additive vs Additive + proportional 
 residual error, the intger codes would be:
 
 #. Additive error (e.g., +EPS(1))
-#. Additive + proportional error (e.g., *EXP(EPS(1))+EPS(s))
+#. Additive + proportional error (e.g., EXP(EPS(1))+EPS(s))
 
 It is straightforward enough to code these value [1,2] into a binary [0,1]. For dimenions with more than 2 values, more than 1 bit will be needed. For example, if 1 or 2 or 3 compartments are the searched, the bit 
 string representation might be:

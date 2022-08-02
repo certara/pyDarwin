@@ -426,10 +426,27 @@ Example 3 tokens file :download:`json <../examples/user/Example3/tokens.json>`
 The Options file
 ~~~~~~~~~~~~~~~~
 
-The options file is fairly traditiona, :ref:`Exhaustive search<EX_desc>`.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long. 
+The options file is fairly traditional, :ref:`Exhaustive search<EX_desc>`.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long. 
 
 The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
 
+Note that to run in the enviroment used for this example, the directories are set to:
+
+::
+
+	
+    "working_dir": "u:/pyDarwin/example4/working",
+    "temp_dir": "u:/pyDarwin/example4/rundir",
+    "output_dir": "u:/pyDarwin/example4/output",
+
+It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set 
+the default is:
+
+::
+
+	{user_dir}\pydarwin\{project_name}
+
+In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.
 
 ::
 
@@ -535,3 +552,16 @@ to the fitness. There also may be a message that "NON-FIXED OMEGA NON-FIXED PARA
 there commonly will be tokens that are not used, e.g., covariates relationships for K23 when a cone compartment model (ADVAN1) is selected. A small 
 penalty should be added (the non influential token penalty) in this case, simply to prefer this model over the same model without the non influential 
 token(s). 
+
+The final output from the search should look similar to this:
+
+::
+
+	[23:04:28] Done with final downhill step. best fitness = 8504.69692879228
+	[23:04:28] Final output from best model is in u:/pyDarwin/example4/output\FinalResultFile.lst
+	[23:04:28] Number of unique models to best model = 897
+	[23:04:28] Time to best model = 474.6 minutes
+	[23:04:28] Best overall fitness = 8504.696929, iteration 05S071, model 90
+	[23:04:28] Elapsed time = 1015.4 minutes
+
+

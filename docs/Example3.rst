@@ -281,6 +281,24 @@ The options file is fairly traditiona, :ref:`Exhaustive search<EX_desc>`.  Note 
 The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
 
 
+Note that to run in the enviroment used for this example, the directories are set to:
+
+::
+
+	
+    "working_dir": "u:/pyDarwin/example3/working",
+    "temp_dir": "u:/pyDarwin/example3/rundir",
+    "output_dir": "u:/pyDarwin/example3/output",
+
+It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set 
+the default is:
+
+::
+
+	{user_dir}\pydarwin\{project_name}
+
+In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.
+
 ::
 
    {

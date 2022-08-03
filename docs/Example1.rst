@@ -406,40 +406,8 @@ Example 1 Data file :download:`dataExample1.csv <../examples/user/Example1/dataE
 Starting pyDarwin and command line output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The command for launching pyDarwin will depend on the specific environment. From Windows command line:
+:ref:`Starting the search is covered here<Execution>`
 
-navigate to the darwin/src folder
-
-start python (type python at command line)
-
-from python prompt
-
-::
-
-    from darwin.run_search import run_search
-
-
-then the run_search command with the (relative or absolute) path to the template, tokens and options files, with the `_main_ <https://docs.python.org/3/library/__main__.html#:~:text=__main__%20is%20the,entry%20point%20to%20the%20application.>`_, syntax, e.g.,
-
-::
-    if __name__ == '__main__':  
-    final = run_search("..\\examples\\user\\Example1\\template.txt",  "..\\examples\\user\\Example1\\tokens.json",  "..\\examples\\user\\Example1\\options.json")
-
-   
-
-From Visual Studio Code, creat a main.py file, containing:
-
-from darwin.run_search import run_search
-
-::
-
-
-    if __name__ == '__main__':  
-        final = run_search("..\\examples\\user\\Example1\\template.txt",
-                        "..\\examples\\user\\Example1\\tokens.json",
-                        "..\\examples\\user\\Example1\\options.json")
-                        
-    and launch in the usual way (e.g., F5)
 
 Initialization of the run should generate output similar to this:
 

@@ -369,4 +369,5 @@ Once again, note that remove_run_dir is set to false, so NONMEM model and output
 
 
 Example 2 options file :download:`json <../examples/user/Example2/options.json>`
- 
+
+Starting the search from command line is covered :ref:`here.<Execution>`

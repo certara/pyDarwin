@@ -15,6 +15,9 @@ whereas in :ref:`Example 4<startpk4>` it was found after the first round of 2 bi
 The template and tokens files are the same as for :ref:`Example 4<startpk4>`. The options file reflects the use of :ref:`Gaussian Process<GP_desc>` 
 and the required option; num_opt_chains. Other changes are the population size of 20
 
+The template file can be downloaded :download:`here <../examples/user/Example5/template.txt>`
+
+and the tokens file :download:`here <../examples/user/Example5/tokens.json>`
 
 As before, that to run in the enviroment used for this example, the directories are set to:
 
@@ -72,3 +75,9 @@ In either case, the folder names are given in the initial and final output to fa
     "model_run_timeout": 1200
     }
 
+
+
+Starting the search:
+------------------------
+
+:ref:`Starting the search is covered here<Execution>`

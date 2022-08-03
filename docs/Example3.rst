@@ -333,6 +333,12 @@ In either case, the folder names are given in the initial and final output to fa
 
 Example 3 options file :download:`json <../examples/user/Example3/options.json>`
 
+Starting the search and command line output:
+--------------------------------------------
+
+:ref:`Starting the search is covered here<Execution>`
+
+
 Initialization output should look similar to this:
 
 ::

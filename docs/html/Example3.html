@@ -50,15 +50,18 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example 3: PK Model, ODE model</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#starting-the-search-and-command-line-output">Starting the search and command line output:</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Error Messages and how to fix them</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -344,6 +347,18 @@ The use of THETA(paremeter identifier), e.g.</p>
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
 <p>The options file is fairly traditiona, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long.</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
+<p>Note that to run in the enviroment used for this example, the directories are set to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/working&quot;</span><span class="p">,</span>
+<span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/rundir&quot;</span><span class="p">,</span>
+<span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/output&quot;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set
+the default is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">user_dir</span><span class="p">}</span>\<span class="n">pydarwin</span>\<span class="p">{</span><span class="n">project_name</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
  <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
 
@@ -376,6 +391,9 @@ The use of THETA(paremeter identifier), e.g.</p>
 </pre></div>
 </div>
 <p>Example 3 options file <a class="reference download internal" download="" href="_downloads/75e31ad5e6bbed5f9f06b2da5aff040c/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+<section id="starting-the-search-and-command-line-output">
+<h3>Starting the search and command line output:<a class="headerlink" href="#starting-the-search-and-command-line-output" title="Permalink to this heading">¶</a></h3>
+<p><a class="reference internal" href="Usage.html#execution"><span class="std std-ref">Starting the search is covered here</span></a></p>
 <p>Initialization output should look similar to this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Options</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example3</span>\<span class="n">options</span><span class="o">.</span><span class="n">json</span>
 <span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">working</span> <span class="n">folder</span><span class="o">...</span>
@@ -401,6 +419,7 @@ The use of THETA(paremeter identifier), e.g.</p>
 <span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 1 was found: c:\fda\pyDarwin\examples\user\Example3/OralBolus_PlasmaUrine_ResetCpt2.csv</span>
 </pre></div>
 </div>
+</section>
 </section>
 </section>
 

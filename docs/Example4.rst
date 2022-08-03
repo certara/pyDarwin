@@ -421,7 +421,7 @@ The use of THETA(paremeter identifier), e.g.
 for **ALL** initial estimate token text (THETA, OMEGA and SIGMA).
 
 
-Example 3 tokens file :download:`json <../examples/user/Example3/tokens.json>`
+Example 4 tokens file :download:`json <../examples/user/Example4/tokens.json>`
 
 The Options file
 ~~~~~~~~~~~~~~~~
@@ -507,6 +507,12 @@ In either case, the folder names are given in the initial and final output to fa
 
 
 Example 4 options file :download:`json <../examples/user/Example4/options.json>`
+
+
+Starting the search and command line output:
+--------------------------------------------
+
+:ref:`Starting the search is covered here<Execution>`
 
 Initialization output should look similar to this:
 

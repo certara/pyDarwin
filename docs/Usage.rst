@@ -10,6 +10,7 @@ Usage
 
 :comment:`Note that ..includ:: .special.rst must be included at the top of each rst where you are using comment/review`
 
+.. _Execution:
 
 Darwin may be executed locally, on Linux Grids, or as a combination of both e.g., execute NONMEM models on grids and run search locally. 
 
@@ -17,8 +18,8 @@ Darwin may be executed locally, on Linux Grids, or as a combination of both e.g.
 Execution Overview
 ********************
 
-Running Local Search
-=========================
+Running Search on local machine
+================================
 
 The :ref:`darwin.run_search <darwin.run_search>` function executes the candidate search for the optimal population model.
 

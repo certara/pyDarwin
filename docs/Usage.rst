@@ -86,6 +86,8 @@ Both ways you can stop the search using ``darwin.stop_search``. Just keep in min
 *Note: Although it’s possible to submit a "local search with local model runs" to the grid, this is not suggested.*
 
 
+.. _running_grid_search:
+
 Running Grid Search
 ---------------------
 
@@ -111,12 +113,12 @@ Required Files
 .. _startRequiredFiles:
  
  
-The same 3 files are required for any search, whether exhausitve, :ref:`EX<EX_desc>` , :ref:`GA<GA_desc>` ,
+The same 3 files are required for any search, whether exhausitve, :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`,
 :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` or :ref:`GBRT<GBRT_desc>`. Which algorithm is used is defined in the 
 :ref:`options file<options_file_target>`. The template  file serves as a framework, and looks similar to a 
 NONMEM/NMTRAN control file. The tokens file specifies the range of "features" to be searched, and the options 
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution,
-and misc other options related to execution. See :ref:`Options List<Options>.
+and misc other options related to execution. See :ref:`Options List<Options>`.
  
 .. _template_file_target:
 

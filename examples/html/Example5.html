@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example 5: PK Model, DMAG by GP &mdash; pyDarwin 1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example 6: PK Model, DMAG by RF with post-run Python code" href="Example6.html" />
+    <link rel="prev" title="Example 4: PK Model, DMAG by GA with post-run R code" href="Example4.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example 5: PK Model, DMAG by GP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#starting-the-search">Starting the search:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Example 5: PK Model, DMAG by GP</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-5-pk-model-dmag-by-gp">
+<h1>Example 5: PK Model, DMAG by GP<a class="headerlink" href="#example-5-pk-model-dmag-by-gp" title="Permalink to this heading">¶</a></h1>
+<p id="startpk5">Example 5 is very similar to <a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">Example 4</span></a>. The important difference is the use of <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> rather than
+<a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">Genetic Algoritm</span></a>. As noted in <a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">Example 4</span></a> the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask step</a>
+for large cumulative sample sizes (&gt; 500) will become very long. In this example, the population/sample size is reduced to 20 from 80. This improves the
+execution time for the ask step, but note that the best model isn’t found until the 2nd round of 2 it local search,
+whereas in <a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">Example 4</span></a> it was found after the first round of 2 bit local search.</p>
+<p>The template and tokens files are the same as for <a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">Example 4</span></a>. The options file reflects the use of <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a>
+and the required option; num_opt_chains. Other changes are the population size of 20</p>
+<p>The template file can be downloaded <a class="reference download internal" download="" href="_downloads/9dac8a2622d441434882becfd0c3ccec/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a></p>
+<p>and the tokens file <a class="reference download internal" download="" href="_downloads/538516bcb23aee3fd1e95e9da503fe40/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a></p>
+<p>As before, that to run in the enviroment used for this example, the directories are set to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example5/working&quot;</span><span class="p">,</span>
+<span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example5/rundir&quot;</span><span class="p">,</span>
+<span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example5/output&quot;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set
+the default is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">user_dir</span><span class="p">}</span>\<span class="n">pydarwin</span>\<span class="p">{</span><span class="n">project_name</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
+<span class="s2">&quot;algorithm&quot;</span><span class="p">:</span><span class="s2">&quot;GP&quot;</span><span class="p">,</span>
+<span class="s2">&quot;num_opt_chains&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+
+<span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+<span class="s2">&quot;population_size&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+<span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="s2">&quot;num_generations&quot;</span><span class="p">:</span> <span class="p">,</span>
+
+<span class="s2">&quot;downhill_period&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="s2">&quot;num_niches&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="s2">&quot;niche_radius&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="s2">&quot;local_2_bit_search&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+<span class="s2">&quot;final_downhill_search&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+
+<span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
+
+<span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;covariance&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;correlation&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;condition_number&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;non_influential_tokens&quot;</span><span class="p">:</span> <span class="mf">0.00001</span>
+<span class="p">},</span>
+
+<span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+
+<span class="s2">&quot;nmfe_path&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm744/util/nmfe74.bat&quot;</span><span class="p">,</span>
+<span class="s2">&quot;model_run_timeout&quot;</span><span class="p">:</span> <span class="mi">1200</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="starting-the-search">
+<h2>Starting the search:<a class="headerlink" href="#starting-the-search" title="Permalink to this heading">¶</a></h2>
+<p><a class="reference internal" href="Usage.html#execution"><span class="std std-ref">Starting the search is covered here</span></a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Example4.html" class="btn btn-neutral float-left" title="Example 4: PK Model, DMAG by GA with post-run R code" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Example6.html" class="btn btn-neutral float-right" title="Example 6: PK Model, DMAG by RF with post-run Python code" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ms.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

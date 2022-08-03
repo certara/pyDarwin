@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example 6: PK Model, DMAG by RF with post-run Python code &mdash; pyDarwin 1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="API.html" />
+    <link rel="prev" title="Example 5: PK Model, DMAG by GP" href="Example5.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Example 6: PK Model, DMAG by RF with post-run Python code</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-6-pk-model-dmag-by-rf-with-post-run-python-code">
+<span id="startpk6"></span><h1>Example 6: PK Model, DMAG by RF with post-run Python code<a class="headerlink" href="#example-6-pk-model-dmag-by-rf-with-post-run-python-code" title="Permalink to this heading">¶</a></h1>
+<p>Example 6 is again the same data and search as Example 4 and 5, but using <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">Random Forest</span></a> for search, and python code for
+post run PPC penalty calculation.</p>
+<p>The template file can be downloaded <a class="reference download internal" download="" href="_downloads/a73bbb46765ebfbf07121b4014518c79/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a></p>
+<p>and the tokens file <a class="reference download internal" download="" href="_downloads/a64f8e4e8c4a889a50c8a444bff4bef1/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a></p>
+<p>As before, that to run in the enviroment used for this example, the directories are set to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example5/working&quot;</span><span class="p">,</span>
+<span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example5/rundir&quot;</span><span class="p">,</span>
+<span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example5/output&quot;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set
+the default is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">user_dir</span><span class="p">}</span>\<span class="n">pydarwin</span>\<span class="p">{</span><span class="n">project_name</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.</p>
+<p>The options file is given here:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
+<span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;RF&quot;</span><span class="p">,</span>
+<span class="s2">&quot;num_opt_chains&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+
+<span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+<span class="s2">&quot;population_size&quot;</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
+<span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="s2">&quot;num_generations&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+
+<span class="s2">&quot;downhill_period&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="s2">&quot;num_niches&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="s2">&quot;niche_radius&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="s2">&quot;local_2_bit_search&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+<span class="s2">&quot;final_downhill_search&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+
+<span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
+
+<span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;covariance&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;correlation&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;condition_number&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;non_influential_tokens&quot;</span><span class="p">:</span> <span class="mf">0.00001</span>
+<span class="p">},</span>
+
+<span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+
+<span class="s2">&quot;nmfe_path&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm744/util/nmfe74.bat&quot;</span><span class="p">,</span>
+<span class="s2">&quot;model_run_timeout&quot;</span><span class="p">:</span> <span class="mi">1200</span><span class="p">,</span>
+
+<span class="s2">&quot;postprocess&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;use_python&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">&quot;post_run_python_code&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{project_dir}</span><span class="s2">/CmaxPPC.py&quot;</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>and can be downloaded <a class="reference download internal" download="" href="_downloads/072a5abc9eaf354afba39cd5c0ff0eac/options.json"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a></p>
+<p>Starting the search and command line output:</p>
+<p><a class="reference internal" href="Usage.html#execution"><span class="std std-ref">Starting the search is covered here</span></a></p>
+<p>The initialization output should look similar to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Options</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example6</span>\<span class="n">options</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">working</span> <span class="n">folder</span><span class="o">...</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">output</span> <span class="n">folder</span><span class="o">...</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">temp</span> <span class="n">folder</span><span class="o">...</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Model</span> <span class="n">run</span> <span class="n">priority</span> <span class="ow">is</span> <span class="n">below_normal</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Using</span> <span class="n">darwin</span><span class="o">.</span><span class="n">MemoryModelCache</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Project</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">fda</span>\<span class="n">pyDarwin</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example6</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">fda</span>\<span class="n">pyDarwin</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example6</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Project</span> <span class="n">working</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example6</span><span class="o">/</span><span class="n">working</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Project</span> <span class="n">temp</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example6</span><span class="o">/</span><span class="n">rundir</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Project</span> <span class="n">output</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example6</span><span class="o">/</span><span class="n">output</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Writing</span> <span class="n">intermediate</span> <span class="n">output</span> <span class="n">to</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example6</span><span class="o">/</span><span class="n">output</span>\<span class="n">results</span><span class="o">.</span><span class="n">csv</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Models</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example6</span><span class="o">/</span><span class="n">working</span>\<span class="n">models</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Template</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example6</span>\<span class="n">template</span><span class="o">.</span><span class="n">txt</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Tokens</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example6</span>\<span class="n">tokens</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Search</span> <span class="n">start</span> <span class="n">time</span> <span class="o">=</span> <span class="n">Tue</span> <span class="n">Aug</span>  <span class="mi">2</span> <span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span> <span class="mi">2022</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">40</span><span class="p">]</span> <span class="n">Algorithm</span> <span class="ow">is</span> <span class="n">RF</span>
+</pre></div>
+</div>
+<p>and the final output should look something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">32</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="n">FNS060</span><span class="p">,</span> <span class="n">Model</span>   <span class="mi">271</span><span class="p">,</span>   <span class="n">Duplicate</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mf">8477.831</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">From</span> <span class="n">NM_5D05_12</span><span class="p">:</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">32</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="n">FNS060</span><span class="p">,</span> <span class="n">Model</span>   <span class="mi">272</span><span class="p">,</span>           <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mf">8534.422</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">From</span> <span class="n">NM_5D06_21</span><span class="p">:</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">32</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="n">FNS060</span><span class="p">,</span> <span class="n">Model</span>   <span class="mi">273</span><span class="p">,</span>           <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mi">99999999</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">From</span> <span class="n">NM_5S070_273</span><span class="p">:</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">32</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="n">FNS060</span><span class="p">,</span> <span class="n">Model</span>   <span class="mi">274</span><span class="p">,</span>   <span class="n">Duplicate</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mf">8477.831</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">From</span> <span class="n">NM_5D05_12</span><span class="p">:</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">32</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="n">FNS060</span><span class="p">,</span> <span class="n">Model</span>   <span class="mi">275</span><span class="p">,</span>           <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mf">10088.210</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">From</span> <span class="n">NM_5S070_275</span><span class="p">:</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">32</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="n">FNS060</span><span class="p">,</span> <span class="n">Model</span>   <span class="mi">276</span><span class="p">,</span>   <span class="n">Duplicate</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mf">8477.831</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">From</span> <span class="n">NM_5D05_12</span><span class="p">:</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">36</span><span class="p">]</span> <span class="n">No</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">fitness</span> <span class="ow">in</span> <span class="mi">7</span> <span class="n">iterations</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">36</span><span class="p">]</span> <span class="n">Final</span> <span class="n">output</span> <span class="kn">from</span> <span class="nn">best</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example6</span><span class="o">/</span><span class="n">output</span>\<span class="n">FinalResultFile</span><span class="o">.</span><span class="n">lst</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">36</span><span class="p">]</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">unique</span> <span class="n">models</span> <span class="n">to</span> <span class="n">best</span> <span class="n">model</span> <span class="o">=</span> <span class="mi">536</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">36</span><span class="p">]</span> <span class="n">Time</span> <span class="n">to</span> <span class="n">best</span> <span class="n">model</span> <span class="o">=</span> <span class="mf">283.0</span> <span class="n">minutes</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">36</span><span class="p">]</span> <span class="n">Best</span> <span class="n">overall</span> <span class="n">fitness</span> <span class="o">=</span> <span class="mf">8477.831400</span><span class="p">,</span> <span class="n">iteration</span> <span class="mi">5</span><span class="n">D05</span><span class="p">,</span> <span class="n">model</span> <span class="mi">12</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">36</span><span class="p">]</span> <span class="n">Elapsed</span> <span class="n">time</span> <span class="o">=</span> <span class="mf">538.9</span> <span class="n">minutes</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Example5.html" class="btn btn-neutral float-left" title="Example 5: PK Model, DMAG by GP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="API.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ms.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

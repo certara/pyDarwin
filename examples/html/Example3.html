@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example 3: PK Model, ODE model &mdash; pyDarwin 1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example 4: PK Model, DMAG by GA with post-run R code" href="Example4.html" />
+    <link rel="prev" title="Example 2: PK Model 2, Simulation model by GP with Python code" href="Example2.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example 3: PK Model, ODE model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#starting-the-search-and-command-line-output">Starting the search and command line output:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Example 3: PK Model, ODE model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-3-pk-model-ode-model">
+<h1>Example 3: PK Model, ODE model<a class="headerlink" href="#example-3-pk-model-ode-model" title="Permalink to this heading">¶</a></h1>
+<p>Example 3 is quite different from the two previous examples. First, it is and ODE model, using ADVAN13. Second, different models in the search space required
+different data sets. Therefore, there is a token in the $DATA record. Next, urine PK is included in the model. Finally,
+linear vs Michaelis-Menten. The token groups/set are quite complex.</p>
+<p>While the search space is small (324 models), we’ll search by <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>. Because of the complexity of the model and the
+ODE solution,  model run times are long. For faster search, the FOCE method is used.</p>
+<section id="the-template-file">
+<h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM ORAL BOLUS WITH PLASMA AND URINE OBSERVATIONS
+     ;
+     ; NUMBER OF COMPARTMENTS        : 1 OR 2 OR 3
+     ;
+     ; ABSORPTION                    : ZERO-ORDER OR FIRST-ORDER OR ZERO-ORDER FOLLOWED BY FIRST-ORDER
+     ;
+     ; ELIMINATION                   : FIRST-ORDER OR MICHAELIS-MENTEN
+     ;
+     ; BIOAVAILABLITY                : EITHER 1 OR BETWEEN 0 AND 1 (ASSOCIATED IIV IS ALSO SEARCHED)
+     ;
+     ; RESIDUAL ERROR FOR PLASMA OBS : PROPORTIONAL OR COMBINED
+     ; RESIDUAL ERROR FOR URINE OBS  : ADDITIVE OR PROPORTIONAL OR COMBINED
+
+
+; ====================================================================================================
+; DATA
+; ====================================================================================================
+
+$INPUT       ID TIME AMT CMT {ODE[1]} DV DVID EVID MDV
+$DATA      {data_dir}/{ODE[2]} IGNORE=@
+
+
+; ====================================================================================================
+; SUBROUTINE
+; ====================================================================================================
+$SUBROUTINE ADVAN13 TOL = 6
+
+$MODEL
+NCOMP = {ODE[3]}
+COMP = (URINE)
+
+
+; ===================================================================================================
+; STRUCTURAL PARAMETERS
+; ===================================================================================================
+$PK
+
+{ODE[4]}
+
+{BIOAVAIL[1]}
+
+; ====================================================================================================
+; INITIAL VALUES FOR FIXED EFFECTS
+; ====================================================================================================
+$THETA
+
+{ODE[5]}
+{BIOAVAIL[2]}
+
+
+; ====================================================================================================
+; INITIAL VALUES FOR OMEGA
+; ====================================================================================================
+$OMEGA
+
+{ODE[6]}
+{BIOAVAIL[3]}
+
+
+; ====================================================================================================
+; ODE MODEL
+; ====================================================================================================
+$DES
+
+{ODE[7]}
+
+
+; ===================================================================================================
+; RESIDUAL ERROR MODEL
+; ===================================================================================================
+$ERROR
+
+; IPRED
+{ODE[8]}
+
+; RESIDUAL ERROR MODEL
+IF (DVID == 1) Y = IPREDC {RESERRC[1]}
+IF (DVID == 2) Y = IPREDU {RESERRU[1]}
+
+
+$SIGMA
+
+{RESERRC[2]}
+{RESERRU[2]}
+
+
+; ==================================================================================================
+; ESTIMATION METHOD AND SE
+; ==================================================================================================
+
+$EST METHOD = 0 NOABORT MAX = 9999 SIGL = 6 NSIG = 2 PRINT = 5
+
+$COV UNCOND PRINT = E
+</pre></div>
+</div>
+<p>Example 3 template file <a class="reference download internal" download="" href="_downloads/3159e6868c64b78bfa23e32077ce0e54/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
+</section>
+<section id="the-tokens-file">
+<h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
+<p>The tokens file is quite complex:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="s2">&quot;ODE&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;RATE&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;OralBolus_PlasmaUrine_ResetCpt2.csv&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; 2 </span><span class="se">\n</span><span class="s2"> COMP = (CENTRAL)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;R1 = THETA(ODER1F) * EXP(ETA(ODER1R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VC = THETA(ODEVCF) * EXP(ETA(ODEVCR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[1]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 50) </span><span class="se">\t</span><span class="s2"> ; THETA(ODER1F) TVR1 </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVCF) TVVC </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[2]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODER1R) ETA ON R1 </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVCR) ETA ON VC </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[3]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;C = A(1)/VC </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(1) = - </span><span class="si">{ELIM[4]}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(2) = </span><span class="si">{ELIM[4]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;IPREDC = A(1)/VC </span><span class="se">\n</span><span class="s2"> IPREDU = A(2)&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;DROP&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;OralBolus_PlasmaUrine_ResetCpt3.csv&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; 3 </span><span class="se">\n</span><span class="s2"> COMP = (DEPOT) </span><span class="se">\n</span><span class="s2"> COMP = (CENTRAL)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;KA = THETA(ODEKAF) * EXP(ETA(ODEKAR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VC = THETA(ODEVCF) * EXP(ETA(ODEVCR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[1]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEKAF) TVKA </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVCF) TVVC </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[2]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEKAR) ETA ON KA </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVCR) ETA ON VC </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[3]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;C = A(2)/VC </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(1) = - KA * A(1) </span><span class="se">\n</span><span class="s2"> DADT(2) = KA * A(1) - </span><span class="si">{ELIM[4]}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(3) = </span><span class="si">{ELIM[4]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;IPREDC = A(2)/VC </span><span class="se">\n</span><span class="s2"> IPREDU = A(3)&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;RATE&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;OralBolus_PlasmaUrine_ResetCpt3.csv&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; 3 </span><span class="se">\n</span><span class="s2"> COMP = (DEPOT) </span><span class="se">\n</span><span class="s2"> COMP = (CENTRAL)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;R1 = THETA(ODER1F) * EXP(ETA(ODER1R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> KA = THETA(ODEKAF) * EXP(ETA(ODEKAR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VC = THETA(ODEVCF) * EXP(ETA(ODEVCR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[1]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 5000) </span><span class="se">\t</span><span class="s2"> ; THETA(ODER1F) TVR1 </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEKAF) TVKA </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVCF) TVVC </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[2]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODER1R) ETA ON R1 </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEKAR) ETA ON KA </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVCR) ETA ON VC </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[3]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;C = A(2)/VC </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(1) = - KA * A(1) </span><span class="se">\n</span><span class="s2"> DADT(2) = KA * A(1) - </span><span class="si">{ELIM[4]}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(3) = </span><span class="si">{ELIM[4]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;IPREDC = A(2)/VC </span><span class="se">\n</span><span class="s2"> IPREDU = A(3)&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;RATE&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;OralBolus_PlasmaUrine_ResetCpt3.csv&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; 3 </span><span class="se">\n</span><span class="s2"> COMP = (CENTRAL) </span><span class="se">\n</span><span class="s2"> COMP = (PERIPH)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;R1 = THETA(ODER1F) * EXP(ETA(ODER1R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VC = THETA(ODEVCF) * EXP(ETA(ODEVCR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VP = THETA(ODEVPF) * EXP(ETA(ODEVPR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> CLQ = THETA(ODECLQF) * EXP(ETA(ODECLQR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[1]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 50) </span><span class="se">\t</span><span class="s2"> ; THETA(ODER1F) TVR1 </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVCF) TVVC </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVPF) TVVP </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODECLQF) TVCLQ </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[2]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODER1R) ETA ON R1 </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVCR) ETA ON VC </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVPR) ETA ON VP </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODECLQR) ETA ON CLQ </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[3]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;C = A(1)/VC </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(1) = - </span><span class="si">{ELIM[4]}</span><span class="s2"> - CLQ * (A(1)/VC - A(2)/VP) </span><span class="se">\n</span><span class="s2"> DADT(2) = CLQ * (A(1)/VC - A(2)/VP) </span><span class="se">\n</span><span class="s2"> DADT(3) = </span><span class="si">{ELIM[4]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;IPREDC = A(1)/VC </span><span class="se">\n</span><span class="s2"> IPREDU = A(3)&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;DROP&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;OralBolus_PlasmaUrine_ResetCpt4.csv&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; 4 </span><span class="se">\n</span><span class="s2"> COMP = (DEPOT) </span><span class="se">\n</span><span class="s2"> COMP = (CENTRAL) </span><span class="se">\n</span><span class="s2"> COMP = (PERIPH)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;KA = THETA(ODEKAF) * EXP(ETA(ODEKAR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VC = THETA(ODEVCF) * EXP(ETA(ODEVCR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VP = THETA(ODEVPF) * EXP(ETA(ODEVPR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> CLQ = THETA(ODECLQF) * EXP(ETA(ODECLQR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[1]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEKAF) TVKA </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVCF) TVVC </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVPF) TVVP </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODECLQF) TVCLQ </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[2]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEKAR) ETA ON KA </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVCR) ETA ON VC </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVPR) ETA ON VP </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODECLQR) ETA ON CLQ </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[3]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;C = A(2)/VC </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(1) = - KA * A(1) </span><span class="se">\n</span><span class="s2"> DADT(2) = KA * A(1) - </span><span class="si">{ELIM[4]}</span><span class="s2"> - CLQ * (A(2)/VC - A(3)/VP) </span><span class="se">\n</span><span class="s2"> DADT(3) = CLQ * (A(2)/VC - A(3)/VP) </span><span class="se">\n</span><span class="s2"> DADT(4) = </span><span class="si">{ELIM[4]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;IPREDC = A(2)/VC </span><span class="se">\n</span><span class="s2"> IPREDU = A(4)&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;RATE&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;OralBolus_PlasmaUrine_ResetCpt4.csv&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; 4 </span><span class="se">\n</span><span class="s2"> COMP = (DEPOT) </span><span class="se">\n</span><span class="s2"> COMP = (CENTRAL) </span><span class="se">\n</span><span class="s2"> COMP = (PERIPH)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;R1 = THETA(ODER1F) * EXP(ETA(ODER1R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> KA = THETA(ODEKAF) * EXP(ETA(ODEKAR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VC = THETA(ODEVCF) * EXP(ETA(ODEVCR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VP = THETA(ODEVPF) * EXP(ETA(ODEVPR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> CLQ = THETA(ODECLQF) * EXP(ETA(ODECLQR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[1]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 5000) </span><span class="se">\t</span><span class="s2"> ; THETA(ODER1F) TVR1 </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEKAF) TVKA </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVCF) TVVC </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVPF) TVVP </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODECLQF) TVCLQ </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[2]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODER1R) ETA ON R1 </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEKAR) ETA ON KA </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVCR) ETA ON VC </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVPR) ETA ON VP </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODECLQR) ETA ON CLQ </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[3]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;C = A(2)/VC </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(1) = - KA * A(1) </span><span class="se">\n</span><span class="s2"> DADT(2) = KA * A(1) - </span><span class="si">{ELIM[4]}</span><span class="s2"> - CLQ * (A(2)/VC - A(3)/VP) </span><span class="se">\n</span><span class="s2"> DADT(3) = CLQ * (A(2)/VC - A(3)/VP) </span><span class="se">\n</span><span class="s2"> DADT(4) = </span><span class="si">{ELIM[4]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;IPREDC = A(2)/VC </span><span class="se">\n</span><span class="s2"> IPREDU = A(4)&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;RATE&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;OralBolus_PlasmaUrine_ResetCpt4.csv&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; 4 </span><span class="se">\n</span><span class="s2"> COMP = (CENTRAL) </span><span class="se">\n</span><span class="s2"> COMP = (PERIPH) </span><span class="se">\n</span><span class="s2"> COMP = (PERIPH2)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;R1 = THETA(ODER1F) * EXP(ETA(ODER1R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VC = THETA(ODEVCF) * EXP(ETA(ODEVCR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VP = THETA(ODEVPF) * EXP(ETA(ODEVPR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> CLQ = THETA(ODECLQF) * EXP(ETA(ODECLQR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VP2 = THETA(ODEVP2F) * EXP(ETA(ODEVP2R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> CLQ2 = THETA(ODECLQ2F) * EXP(ETA(ODECLQ2R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[1]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 50) </span><span class="se">\t</span><span class="s2"> ; THETA(ODER1F) TVR1 </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVCF) TVVC  </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVPF) TVVP </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODECLQF) TVCLQ </span><span class="se">\n</span><span class="s2"> (0, 0.1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVP2F) TVVP2  </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODECLQ2F) TVCLQ2 </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[2]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODER1R) ETA ON R1 </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVCR) ETA ON VC  </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVPR) ETA ON VP </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODECLQR) ETA ON CLQ  </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVP2R) ETA ON VP2 </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODECLQ2R) ETA ON CLQ2 </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[3]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;C = A(1)/VC </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(1) = - </span><span class="si">{ELIM[4]}</span><span class="s2"> - CLQ * (A(1)/VC - A(2)/VP) - CLQ2 * (A(1)/VC - A(3)/VP2) </span><span class="se">\n</span><span class="s2"> DADT(2) = CLQ * (A(1)/VC - A(2)/VP) </span><span class="se">\n</span><span class="s2"> DADT(3) = CLQ2 * (A(1)/VC - A(3)/VP2) </span><span class="se">\n</span><span class="s2"> DADT(4) = </span><span class="si">{ELIM[4]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;IPREDC = A(1)/VC </span><span class="se">\n</span><span class="s2"> IPREDU = A(4)&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;DROP&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;OralBolus_PlasmaUrine_ResetCpt5.csv&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; 5 </span><span class="se">\n</span><span class="s2"> COMP = (DEPOT) </span><span class="se">\n</span><span class="s2"> COMP = (CENTRAL) </span><span class="se">\n</span><span class="s2"> COMP = (PERIPH) </span><span class="se">\n</span><span class="s2"> COMP = (PERIPH2)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;KA = THETA(ODEKAF) * EXP(ETA(ODEKAR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VC = THETA(ODEVCF) * EXP(ETA(ODEVCR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VP = THETA(ODEVPF) * EXP(ETA(ODEVPR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> CLQ = THETA(ODECLQF) * EXP(ETA(ODECLQR))</span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VP2 = THETA(ODEVP2F) * EXP(ETA(ODEVP2R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> CLQ2 = THETA(ODECLQ2F) * EXP(ETA(ODECLQ2R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[1]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEKAF) TVKA </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVCF) TVVC  </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVPF) TVVP </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODECLQF) TVCLQ </span><span class="se">\n</span><span class="s2"> (0, 0.1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVP2F) TVVP2 </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODECLQ2F) TVCLQ2 </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[2]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEKAR) ETA ON KA </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVCR) ETA ON VC  </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVPR) ETA ON VP </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODECLQR) ETA ON CLQ </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVP2R) ETA ON VP2 </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODECLQ2R) ETA ON CLQ2 </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[3]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;C = A(2)/VC </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(1) = - KA * A(1) </span><span class="se">\n</span><span class="s2"> DADT(2) = KA * A(1) - </span><span class="si">{ELIM[4]}</span><span class="s2"> - CLQ * (A(2)/VC - A(3)/VP) - CLQ2 * (A(2)/VC - A(4)/VP2) </span><span class="se">\n</span><span class="s2"> DADT(3) = CLQ * (A(2)/VC - A(3)/VP) </span><span class="se">\n</span><span class="s2"> DADT(4) = CLQ2 * (A(2)/VC - A(4)/VP2) </span><span class="se">\n</span><span class="s2"> DADT(5) = </span><span class="si">{ELIM[4]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;IPREDC = A(2)/VC </span><span class="se">\n</span><span class="s2"> IPREDU = A(5)&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;RATE&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;OralBolus_PlasmaUrine_ResetCpt5.csv&quot;</span><span class="p">,</span>
+         <span class="s2">&quot; 5 </span><span class="se">\n</span><span class="s2"> COMP = (DEPOT) </span><span class="se">\n</span><span class="s2"> COMP = (CENTRAL) </span><span class="se">\n</span><span class="s2"> COMP = (PERIPH) </span><span class="se">\n</span><span class="s2"> COMP = (PERIPH2)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;R1 = THETA(ODER1F) * EXP(ETA(ODER1R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> KA = THETA(ODEKAF) * EXP(ETA(ODEKAR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VC = THETA(ODEVCF) * EXP(ETA(ODEVCR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VP = THETA(ODEVPF) * EXP(ETA(ODEVPR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> CLQ = THETA(ODECLQF) * EXP(ETA(ODECLQR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> VP2 = THETA(ODEVP2F) * EXP(ETA(ODEVP2R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> CLQ2 = THETA(ODECLQ2F) * EXP(ETA(ODECLQ2R)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[1]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 5000) </span><span class="se">\t</span><span class="s2"> ; THETA(ODER1F) TVR1 </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEKAF) TVKA </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVCF) TVVC </span><span class="se">\n</span><span class="s2"> (0, 5) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVPF) TVVP </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODECLQF) TVCLQ </span><span class="se">\n</span><span class="s2"> (0, 0.1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVP2F) TVVP2 </span><span class="se">\n</span><span class="s2"> (0, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(ODECLQ2F) TVCLQ2 </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[2]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODER1R) ETA ON R1 </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEKAR) ETA ON KA </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVCR) ETA ON VC </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVPR) ETA ON VP </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODECLQR) ETA ON CLQ </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVP2R) ETA ON VP2 </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODECLQ2R) ETA ON CLQ2 </span><span class="se">\n</span><span class="s2"> </span><span class="si">{ELIM[3]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;C = A(2)/VC </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> DADT(1) = - KA * A(1) </span><span class="se">\n</span><span class="s2"> DADT(2) = KA * A(1) -</span><span class="si">{ELIM[4]}</span><span class="s2"> - CLQ * (A(2)/VC - A(3)/VP) - CLQ2 * (A(2)/VC - A(4)/VP2) </span><span class="se">\n</span><span class="s2"> DADT(3) = CLQ * (A(2)/VC - A(3)/VP) </span><span class="se">\n</span><span class="s2"> DADT(4) = CLQ2 * (A(2)/VC - A(4)/VP2) </span><span class="se">\n</span><span class="s2"> DADT(5) = </span><span class="si">{ELIM[4]}</span><span class="s2">&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;IPREDC = A(2)/VC </span><span class="se">\n</span><span class="s2"> IPREDU = A(5)&quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+
+   <span class="s2">&quot;ELIM&quot;</span><span class="p">:[</span>
+      <span class="p">[</span><span class="s2">&quot;CLC = THETA(ODECLCF) * EXP(ETA(ODECLCR))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 2) </span><span class="se">\t</span><span class="s2"> ; THETA(ODECLCF) TVCLC&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODECLCR) ETA ON CLC&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;CLC * C&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;VM = THETA(ODEVMF) * EXP(ETA(ODEVMR)) </span><span class="se">\n</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> KM = THETA(ODEKMF) * EXP(ETA(ODEKMR))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 20) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEVMF) TVVM </span><span class="se">\n</span><span class="s2"> (0, 10) </span><span class="se">\t</span><span class="s2"> ; THETA(ODEKMF) TVKM&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEVMR) ETA ON VM </span><span class="se">\n</span><span class="s2"> 1 </span><span class="se">\t</span><span class="s2"> ; ETA(ODEKMR) ETA ON KM&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;VM * C/(KM + C)&quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+
+
+   <span class="s2">&quot;BIOAVAIL&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;F1 = THETA(BIOAVAIL)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;(0, 0.9, 1) </span><span class="se">\t</span><span class="s2"> ; THETA(BIOAVAIL) TVF&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;TEMP = EXP(THETA(BIOAVAILF) + ETA(BIOAVAILR)) </span><span class="se">\n</span><span class="s2"> F1 = TEMP/(1 + TEMP)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;3 </span><span class="se">\t</span><span class="s2"> ; THETA(BIOAVAILF) TVLOGITF&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;1 </span><span class="se">\t</span><span class="s2"> ; ETA(BIOAVAILR) ETA ON LOGITF&quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+
+   <span class="s2">&quot;RESERRC&quot;</span><span class="p">:[</span>
+      <span class="p">[</span><span class="s2">&quot;* (1 + EPS(RESERRCP))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;0.01 </span><span class="se">\t</span><span class="s2"> ; EPS(RESERRCP) VARIANCE OF PROPORTIONAL ERROR FOR PLASMA OBSERVATION&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;* (1 + EPS(RESERRCP)) + EPS(RESERRCA)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;0.01 </span><span class="se">\t</span><span class="s2"> ; EPS(RESERRCP)) VARIANCE OF PROPORTIONAL ERROR FOR PLASMA OBSERVATIONS </span><span class="se">\n</span><span class="s2"> 0.1 </span><span class="se">\t</span><span class="s2"> ; EPS(RESERRCA) VARIANCE OF ADDITIVE ERROR FOR PLASMA OBSERVATIONS&quot;</span>
+      <span class="p">]</span>
+   <span class="p">],</span>
+
+   <span class="s2">&quot;RESERRU&quot;</span><span class="p">:[</span>
+      <span class="p">[</span><span class="s2">&quot;+ EPS(RESERRUA)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;0.1 </span><span class="se">\t</span><span class="s2"> ; EPS(RESERRUA) VARIANCE OF ADDITIVE ERROR FOR URINE OBSERVATIONS&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;* (1 + EPS(RESERRUP))&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;0.01 </span><span class="se">\t</span><span class="s2"> ; EPS(RESERRUP) VARIANCE OF PROPORTIONAL ERROR FOR URINE OBSERVATIONS&quot;</span>
+      <span class="p">],</span>
+      <span class="p">[</span><span class="s2">&quot;* (1 + EPS(RESERRUP)) + EPS(RESERRUA)&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;0.01 </span><span class="se">\t</span><span class="s2"> ; EPS(RESERRUP)) VARIANCE OF PROPORTIONAL ERROR FOR URINE OBSERVATIONS </span><span class="se">\n</span><span class="s2"> 0.1 </span><span class="se">\t</span><span class="s2"> ; EPS(RESERRUA) VARIANCE OF ADDITIVE ERROR FOR URINE OBSERVATIONS&quot;</span>
+      <span class="p">]</span>
+   <span class="p">]</span>
+
+   <span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>NOTE AGAIN!!</strong>
+The use of THETA(paremeter identifier), e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mf">.7</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> \<span class="n">t</span><span class="p">;</span> <span class="n">THETA</span><span class="p">(</span><span class="n">CL</span><span class="o">~</span><span class="n">WT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>for <strong>ALL</strong> initial estimate token text (THETA, OMEGA and SIGMA).</p>
+<p>Example 3 tokens file <a class="reference download internal" download="" href="_downloads/ef386a3730d54e5133bc5329f57772b4/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+</section>
+<section id="the-options-file">
+<h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
+<p>The options file is fairly traditiona, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long.</p>
+<p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
+<p>Note that to run in the enviroment used for this example, the directories are set to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/working&quot;</span><span class="p">,</span>
+<span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/rundir&quot;</span><span class="p">,</span>
+<span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/output&quot;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set
+the default is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">user_dir</span><span class="p">}</span>\<span class="n">pydarwin</span>\<span class="p">{</span><span class="n">project_name</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+ <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
+
+ <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;EX&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;exhaustive_batch_size&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+
+ <span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/working&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/rundir&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/output&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+
+ <span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999999</span><span class="p">,</span>
+
+ <span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+     <span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+     <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+     <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+     <span class="s2">&quot;covariance&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+     <span class="s2">&quot;correlation&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+     <span class="s2">&quot;condition_number&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+     <span class="s2">&quot;non_influential_tokens&quot;</span><span class="p">:</span> <span class="mf">0.00001</span>
+ <span class="p">},</span>
+
+ <span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+
+ <span class="s2">&quot;nmfe_path&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm744/util/nmfe74.bat&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;model_run_timeout&quot;</span><span class="p">:</span> <span class="mi">9600</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Example 3 options file <a class="reference download internal" download="" href="_downloads/75e31ad5e6bbed5f9f06b2da5aff040c/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+<section id="starting-the-search-and-command-line-output">
+<h3>Starting the search and command line output:<a class="headerlink" href="#starting-the-search-and-command-line-output" title="Permalink to this heading">¶</a></h3>
+<p><a class="reference internal" href="Usage.html#execution"><span class="std std-ref">Starting the search is covered here</span></a></p>
+<p>Initialization output should look similar to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Options</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example3</span>\<span class="n">options</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">working</span> <span class="n">folder</span><span class="o">...</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">output</span> <span class="n">folder</span><span class="o">...</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">temp</span> <span class="n">folder</span><span class="o">...</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Model</span> <span class="n">run</span> <span class="n">priority</span> <span class="ow">is</span> <span class="n">below_normal</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Using</span> <span class="n">darwin</span><span class="o">.</span><span class="n">MemoryModelCache</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Project</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span>\<span class="n">fda</span>\<span class="n">pyDarwin</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example3</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span>\<span class="n">fda</span>\<span class="n">pyDarwin</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example3</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Project</span> <span class="n">working</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example3</span><span class="o">/</span><span class="n">working</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Project</span> <span class="n">temp</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example3</span><span class="o">/</span><span class="n">rundir</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Project</span> <span class="n">output</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example3</span><span class="o">/</span><span class="n">output</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Writing</span> <span class="n">intermediate</span> <span class="n">output</span> <span class="n">to</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example3</span><span class="o">/</span><span class="n">output</span>\<span class="n">results</span><span class="o">.</span><span class="n">csv</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Models</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example3</span><span class="o">/</span><span class="n">working</span>\<span class="n">models</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Template</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example3</span>\<span class="n">template</span><span class="o">.</span><span class="n">txt</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Tokens</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example3</span>\<span class="n">tokens</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Search</span> <span class="n">start</span> <span class="n">time</span> <span class="o">=</span> <span class="n">Sun</span> <span class="n">Jul</span> <span class="mi">31</span> <span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span> <span class="mi">2022</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Total</span> <span class="n">of</span> <span class="mi">324</span> <span class="n">to</span> <span class="n">be</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">exhaustive</span> <span class="n">search</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">NMFE</span> <span class="n">found</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span><span class="o">/</span><span class="n">nm744</span><span class="o">/</span><span class="n">util</span><span class="o">/</span><span class="n">nmfe74</span><span class="o">.</span><span class="n">bat</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Not</span> <span class="n">using</span> <span class="n">Post</span> <span class="n">Run</span> <span class="n">R</span> <span class="n">code</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Not</span> <span class="n">using</span> <span class="n">Post</span> <span class="n">Run</span> <span class="n">Python</span> <span class="n">code</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Checking</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span>\<span class="n">pyDarwin</span>\<span class="n">example3</span>\<span class="n">rundir</span>\<span class="mi">0</span>\<span class="mi">001</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 1 was found: c:\fda\pyDarwin\examples\user\Example3/OralBolus_PlasmaUrine_ResetCpt2.csv</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Example2.html" class="btn btn-neutral float-left" title="Example 2: PK Model 2, Simulation model by GP with Python code" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Example4.html" class="btn btn-neutral float-right" title="Example 4: PK Model, DMAG by GA with post-run R code" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ms.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

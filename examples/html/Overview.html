@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overview &mdash; pyDarwin 1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Usage" href="Usage.html" />
+    <link rel="prev" title="Installation" href="Install.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#algorithms">Algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exhaustive-search">Exhaustive Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#genetic-algorithm">Genetic Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gaussian-process">Gaussian Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-forest">Random Forest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gradient-boosted-random-tree">Gradient Boosted Random Tree</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#file-structure-and-naming">File Structure and Naming</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#saving-nonmem-outputs">Saving NONMEM outputs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-structure">File Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-folder-naming">Model/folder naming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#saving-models">Saving models</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Overview</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<dl class="simple" id="starttheory">
+<dt>pyDarwin implements a number of machine learning algorithms for model selection. Machine learning algorithms are broadly divided into two categories:</dt><dd><ul class="simple">
+<li><p>Supervised learning</p></li>
+<li><p>Unsupervised learning</p></li>
+</ul>
+</dd>
+</dl>
+<p>For supervised learning, the algorithm “learns” to associate certain patterns (e.g., a collection of bitmap pictures) with a set of labeled examples. For example, if one has
+10,000 pictures of cats and dogs (a training set), with each image labeled as “cat” or “dog”, an artificial neural network (ANN) can find patterns in
+the 0’s and 1’s that are associated with “catness” or “dogness”, and can be fairly successful at predicting for any similar set of bitmaps (a test set) which is a
+cat and which is a dog.</p>
+<p>In contrast, unsupervised learning has no labeled training set. Linear regression is a simple example of supervised learning.
+There is an input (X’s) and an output (Y’s) and the algorithm identified patterns that match the inputs to the output (intercept and slope(s)). However,
+looking for the best independent variables to include in a linear regression model is an unsupervised learning problem, there is not training set of examples
+with the “correct” list of independnet variables to include.
+The traditional model selection/building process for pop pk models is similarly unsupervised. There is no “labeled” training data set, no collection of data sets
+that are known to be 1 compartment, with Volume~WT. Rather each data set is a new learning and the algorithm must discover relationships based just on that data set.
+In the case of model selection, the inputs (X’s) are the “features” of the model search (not the model, but the model search)
+(number of compartments, covariates, random effects etc) and the output is some measure of model goodness.</p>
+<p>For pyDarwin the model goodness is a user defined function, with a base of the -2LL output, with user defined penalties, including parsimony (penalties for estimate parameters), convergence, successful covariance step plus optional
+user written R or python code that can be excuted after each run (postRunRCode or postRunPythonCode). This post run code is useful, for example if the  user wants to add
+a penalty for under or over prediction of Cmax (basically a penalty for <a class="reference external" href="https://link.springer.com/article/10.1023/A:1011555016423">posterior predictive check</a>).</p>
+<p>Supervised learning includes algorithms such as regression, artificial neural networks (ANN), decision trees/random forest and k-nearest neighbor.
+Recently, hybrid supervised/unsupervised learning algorithm have been introduced and have proven to be very powerful. The best know of these is deep q network/reinforcement
+learning(DQN/RL). DQN/RL is a deep neural network (a slightly more complex ANN). However, unlike traditional supervised ANN, there is no training set.
+Rather, the method starts with a randomly selected set of weights for nodes in the ANN. Then, based on this (random) ANN predicts the best model. Initially, this
+model will be far from the “true” optimal model. But, running a single model then provides a very small “training set”, and the ANN is now trained on this model.
+This process is repeated until the current best predicted model no longer improves. This approach (start with a random representation of the search space, run a few models,
+then train the representation) has been adapted to other traditionally supervised methods including Bayesian optimization (Gaussian process - GP),
+Random Forest (RF) and gradient boosted random trees (GBRT). These three hybrid algorithms (<a class="reference internal" href="#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="#rf-desc"><span class="std std-ref">RF</span></a> , <a class="reference internal" href="#gbrt-desc"><span class="std std-ref">GBRT</span></a>) have been include in the algorithms in pyDarwin
+along with the more traditional Genetic Algorithm (<a class="reference internal" href="#ga-desc"><span class="std std-ref">GA</span></a>) and exhaustive search (<a class="reference internal" href="#ex-desc"><span class="std std-ref">EX</span></a>).</p>
+<p>Traditional pop pk/pd model selection uses the “downhill method”, starting usually, at a trival model, then adding
+“features” (compartments, lag times, non linear elimination, covariate effects) and accepting the new model if it is better (“downhill”), based on some user defined, and somewhat informal criteria.
+Typicaly, this user defined criteria will include a lower -2LL + usually some penalty for added parameters + some other criteria the user feels important. The downhill method is easily the
+most effiicent methods (fewest evaluations of the reward/fitness to reach the convergence) but has been shown to be very prone to local minima. However, downhill does play a role in a very efficient
+local search, in combination with a global search algorithm (e.g., <a class="reference internal" href="#ex-desc"><span class="std std-ref">EX</span></a> , <a class="reference internal" href="#ga-desc"><span class="std std-ref">GA</span></a> , <a class="reference internal" href="#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="#rf-desc"><span class="std std-ref">RF</span></a> , <a class="reference internal" href="#gbrt-desc"><span class="std std-ref">GBRT</span></a>).</p>
+<p>Central to understanding the model selection process (with manual or machine learning), is the concept of the search space. The search space is an n dimensional
+space where each dimension represents a set of mutually exclusive options. That is, there likely will be a dimension for “number of compartments”, with possible
+values of 1, 2 or 3. Exactly one of these is required (ignoring the possibility of <a class="reference external" href="https://onlinelibrary.wiley.com/doi/abs/10.1111/insr.12243">Bayesian model averaging</a> .</p>
+<p>Another dimension might be the absorption model, with values of first order, zero order, first order with absorption lag time etc). Similarly candidate
+relationship between weight and volume might be [no relationship or linear or power model]. In addition to structural and statistical “features”, other features
+of the model, such as initial estimates for parameters can be searched on. Note that each of these dimension are discrete, and mostly strictly
+categorical (not ordered categorical, first order isn’t “more than” zero order). With this exception the model search space is analogous to the
+parameter search space used in non-linear regression. An important difference is that the continuous space in non-linear
+regression has derivatives, and quasi-Newton methods can be used to to a “downhill search” in that space. Please note that quasi-Newton methods are
+also at risk of finding local minima, and therefore are sensitive to the initial estimates. In the case of parameter estimation (non linear regression), efforts are made to start
+the search at a location in the search space near the final estimate, greatly reducing the chances ending up in a local minima. No such effort is
+made in the downhill model selection method. Rather, the search is usually start at a trivial model, which is likely far from the global minimum.</p>
+<p>As the discrete space of model search does not have derivatives, other search methods must be used. The simplest, and the one traditionally used in
+model selection, is downhill. While efficient it can be demonstrated that this method is not robust <a class="footnote-reference brackets" href="#f1" id="id1">1</a> <a class="footnote-reference brackets" href="#f2" id="id2">2</a>. This lack of robustness is due to
+the violation of convexity assumption. That is, the downhill search, in either a continuous space (parameter estimation) or a discrete space (model selection)
+assumes that the optimal solution is continuously downhill from every other point in the search space. That is, there are no local minima, and you can start anywhere
+and you’ll end up in the same place - the global minimum, the results is not sensitive to the “initial estimates”. With this assumption, a covariate will or will not be
+“downhill”, regardless of whether tested in a one compartment, two compartment; first order of zero order or any other base model, it’s all downhill, it doesn’t
+matter in what sequence you test hypotheses, the answer will be the same. Wade <a class="footnote-reference brackets" href="#f1" id="id3">1</a> showed that the results of tests of hypotheses do indeed depend on other
+features in the model and Chen <a class="footnote-reference brackets" href="#f2" id="id4">2</a> showed that different sequences of tests will commonly yield different final models.</p>
+<p>In contrast to the traditional downhill/local search, all algorithms implemented in pyDarwin are global search algorithms that are expected to have a greater
+degree of robustness to local minima than downhill search. Note howwever that all search algorithms (with the exception of exhaustive search) make assumptions about
+the search space. While none of the algorithms in pyDarwin assume convexity, none are completely robust,
+and search spaces can be deceptive.[#f3]_. For all algorithms, the basic process is the same, start at one or more random.</p>
+<p>The search space is key to implementation of each algorithm. The overall representation is the same for all algorithms - an n dimensional discrete search space. The values in each
+dimension are then coded into several forms, bit strings and integer string. Ultimately, the model is constructed from the integer string, e.g., values for the number
+of compartment dimenion are 1|2|3. However,for GA, this must be coded as bitstring. There is one additional representation, refered to as a minimal binary string,
+which is used for the downhill step.</p>
+<p>The overall process is shown in Figure 1 below:</p>
+<blockquote>
+<div><figure class="align-default">
+<img alt="_images/MLSelection.png" src="_images/MLSelection.png" />
+</figure>
+</div></blockquote>
+<p>The same 3 files are required for any search, whether exhausitve, <a class="reference internal" href="#ex-desc"><span class="std std-ref">EX</span></a> , <a class="reference internal" href="#ga-desc"><span class="std std-ref">GA</span></a> , <a class="reference internal" href="#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="#rf-desc"><span class="std std-ref">RF</span></a> or <a class="reference internal" href="#gbrt-desc"><span class="std std-ref">GBRT</span></a>.
+These file are described in <a class="reference internal" href="Usage.html#startrequiredfiles"><span class="std std-ref">required files.</span></a></p>
+<section id="algorithms">
+<span id="the-algorithms"></span><h2>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this heading">¶</a></h2>
+<section id="exhaustive-search">
+<span id="ex-desc"></span><h3>Exhaustive Search<a class="headerlink" href="#exhaustive-search" title="Permalink to this heading">¶</a></h3>
+<p>The exhausitve search algorithm is simple to understand. The search space is initally represented as a string of integers - one for each dimension. To facilitate the search,
+this interger string is coded into a “minimal binary”. T</p>
+</section>
+<section id="genetic-algorithm">
+<span id="ga-desc"></span><h3>Genetic Algorithm<a class="headerlink" href="#genetic-algorithm" title="Permalink to this heading">¶</a></h3>
+<p>Genetic Algorithm (GA) is a reproduction of the mathematics of evoluation/survival of the fitest. A more detailed discussion <a class="reference external" href="https://en.wikipedia.org/wiki/Genetic_algorithm">on GA can be found here</a>, and
+a very readable (but somewhat dated) reference is Genetic Algorithms in Search, Optimization and Machine Learning 13th ed. Edition by David Goldberg. Details of the options (not all of which are available in pyDarwin)
+can be found at <a class="reference external" href="https://deap.readthedocs.io/en/master/">here</a>.
+Briefly, GA presents the search space as a bit string, with each “gene” being a binary number that is decoded into the integer value for that option. For example, for a dimension of Additive vs Additive + proportional
+residual error, the intger codes would be:</p>
+<ol class="arabic simple">
+<li><p>Additive error (e.g., +EPS(1))</p></li>
+<li><p>Additive + proportional error (e.g., EXP(EPS(1))+EPS(s))</p></li>
+</ol>
+<p>It is straightforward enough to code these value [1,2] into a binary [0,1]. For dimenions with more than 2 values, more than 1 bit will be needed. For example, if 1 or 2 or 3 compartments are the searched, the bit
+string representation might be:</p>
+<ol class="arabic simple">
+<li><p>One compartment (ADVAN1)</p></li>
+<li><p>Two compartment (ADVAN3)</p></li>
+<li><p>Three compartment (ADVAN11)</p></li>
+</ol>
+<p>and the bit string representation might be:</p>
+<ul class="simple">
+<li><p>1 - [0,0]</p></li>
+<li><p>2 - [0,1] and [1,0]</p></li>
+<li><p>3 - [1,1]</p></li>
+</ul>
+<p>The bit strings for each gene are concatenate into a “chromosome”. The search starts with a popuation of random bit strings. These bit strings are decoded, and NONMEM control files constructed from the <a class="reference internal" href="Glossary.html#template"><span class="std std-ref">template file</span></a>
+by substituting the selected text from the <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a>. The resulting NONMEM control file is run and the <a class="reference internal" href="Glossary.html#fitness"><span class="std std-ref">fitness</span></a> is calculated.
+The next generations is created by randomly selecting sets of parent candidates from the population. These parent candidates are then selected based on <a class="reference internal" href="Glossary.html#tournament-selection"><span class="std std-ref">Tournament selection</span></a>.
+Once the sets of parents are selected, they undergo cross over and mutation and a new generation is created. This process is repeated until no further improvement is seen.</p>
+</section>
+<section id="gaussian-process">
+<span id="gp-desc"></span><h3>Gaussian Process<a class="headerlink" href="#gaussian-process" title="Permalink to this heading">¶</a></h3>
+<p>Gaussian Process is one of the two options used in <a class="reference external" href="https://en.wikipedia.org/wiki/Bayesian_optimization#">Baysian Optimization</a>. The Gaussian Process specifies the form of the prior and posterior distribution.
+Initially the distribtion is random, as is the case for all the the global serach algorithms. Once some models have been run, the distribtion can be updated (the “tell” step) and new, more imformative samples can be
+generated (the “tell” step).</p>
+</section>
+<section id="random-forest">
+<span id="rf-desc"></span><h3>Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this heading">¶</a></h3>
+</section>
+<section id="gradient-boosted-random-tree">
+<span id="gbrt-desc"></span><h3>Gradient Boosted Random Tree<a class="headerlink" href="#gradient-boosted-random-tree" title="Permalink to this heading">¶</a></h3>
+<dl class="footnote brackets">
+<dt class="label" id="f1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>)</span></dt>
+<dd><p>Wade JR, Beal SL, Sambol NC. 1994  Interaction between structural, statistical, and covariate models in population pharmacokinetic analysis. J Pharmacokinet Biopharm. 22(2):165-77</p>
+</dd>
+<dt class="label" id="f2"><span class="brackets">2</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id4">2</a>)</span></dt>
+<dd><p>PAGE 30 (2022) Abstr 10091 [<a class="reference external" href="https://www.page-meeting.org/?abstract=10091">https://www.page-meeting.org/?abstract=10091</a>]</p>
+</dd>
+<dt class="label" id="f3"><span class="brackets">3</span></dt>
+<dd><p>PAGE 30 (2022) Abstr 10053 [<a class="reference external" href="https://www.page-meeting.org/default.asp?abstract=10053">https://www.page-meeting.org/default.asp?abstract=10053</a>]</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="file-structure-and-naming">
+<h2>File Structure and Naming<a class="headerlink" href="#file-structure-and-naming" title="Permalink to this heading">¶</a></h2>
+<p>NONMEM control, executable and output file naming</p>
+<section id="saving-nonmem-outputs">
+<h3>Saving NONMEM outputs<a class="headerlink" href="#saving-nonmem-outputs" title="Permalink to this heading">¶</a></h3>
+<p>NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an isssue for disc space.
+By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space.
+In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
+Users should take caution and ensure only required tables are generated (as specified in <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>), as table files can become quite
+large, and will not be removed by pyDarwin.</p>
+</section>
+<section id="file-structure">
+<h3>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading">¶</a></h3>
+<p>Three user defined file locations can be set in the <a class="reference internal" href="Options.html#options"><span class="std std-ref">options file</span></a>. In addition to the folders that are user defined
+the project directory (project_dir) is the folder where template, token and options files are located. The user define folders are:</p>
+<ol class="arabic simple">
+<li><p>output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results is intended.</p></li>
+<li><p>temp_dir - NONMEM models are run in subfolders of this folder Default value is working_dir/temp. May be deleted after search finished/stopped if remove_temp_dir is set to true.</p></li>
+<li><p>working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files. Default value - %USER_HOME%/pydarwin/project_name where project name is defined in the <a class="reference internal" href="Options.html#options"><span class="std std-ref">options file</span></a></p></li>
+</ol>
+</section>
+<section id="model-folder-naming">
+<h3>Model/folder naming<a class="headerlink" href="#model-folder-naming" title="Permalink to this heading">¶</a></h3>
+<p>A model stem is generated from the current generation/iteration and model number or the form NM_genration_model_num. For example, if this is iteration 2, model 3 the model stem would be
+NM_2_3. For the 1 bit downhill, the model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill
+model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file etc. This results in unique names for all models in the search. Models
+are also frequently duplicated. Duplicated files are not rerun, and so those will not appear in the file structure.</p>
+<p>Run folders are similarly named for the generation/iteration and model number. Below is a folder tree for <a class="reference internal" href="Example2.html#startpk2"><span class="std std-ref">Example 2</span></a></p>
+<figure class="align-default">
+<img alt="_images/FileStructure.png" src="_images/FileStructure.png" />
+</figure>
+</section>
+<section id="saving-models">
+<h3>Saving models<a class="headerlink" href="#saving-models" title="Permalink to this heading">¶</a></h3>
+<p>Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficients. The name of the saved JSON file can be set by the user. A .csv
+file describing the course of the search is also save to results.csv. This file can be used to monitor the progress of the search.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Install.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, ms.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

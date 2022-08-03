@@ -63,7 +63,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
@@ -382,6 +382,18 @@ The tokens file for Example 1 is given below.</p>
 The options file will likely need to be editted, as the path to nmfe??.bat must be provided
 The options file for Example 1 is given below:</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
+<p>Note that to run in the enviroment used for this example, the directories are set to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example1/working&quot;</span><span class="p">,</span>
+<span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example1/rundir&quot;</span><span class="p">,</span>
+<span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example1/output&quot;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set
+the default is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">user_dir</span><span class="p">}</span>\<span class="n">pydarwin</span>\<span class="p">{</span><span class="n">project_name</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s2">&quot;{</span>
 <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Mark Sale&quot;</span><span class="p">,</span>

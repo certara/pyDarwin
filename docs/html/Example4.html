@@ -55,10 +55,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Error Messages and how to fix them</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -546,8 +546,20 @@ The use of THETA(paremeter identifier), e.g.</p>
 </section>
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
-<p>The options file is fairly traditiona, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long.</p>
+<p>The options file is fairly traditional, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long.</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
+<p>Note that to run in the enviroment used for this example, the directories are set to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example4/working&quot;</span><span class="p">,</span>
+<span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example4/rundir&quot;</span><span class="p">,</span>
+<span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example4/output&quot;</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set
+the default is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">user_dir</span><span class="p">}</span>\<span class="n">pydarwin</span>\<span class="p">{</span><span class="n">project_name</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
  <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
  <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;GA&quot;</span><span class="p">,</span>
@@ -607,9 +619,55 @@ The use of THETA(paremeter identifier), e.g.</p>
 <p>Example 4 options file <a class="reference download internal" download="" href="_downloads/dd612bb6e9e2d1663b19ca7c9a4d48fb/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 <p>Initialization output should look similar to this:</p>
 <dl class="simple">
-<dt>::</dt><dd><p>exmple 4 output header</p>
+<dt>::</dt><dd><dl class="simple">
+<dt>[05:46:53] Options file found at ..examplesuserExample4options.json</dt><dd><p>[05:46:53] Preparing project working folder…
+[05:46:53] Preparing project output folder…
+[05:46:53] Preparing project temp folder…
+[05:47:21] Model run priority is below_normal
+[05:47:21] Using darwin.MemoryModelCache
+[05:47:21] Project dir: c:fdapyDarwinexamplesuserExample4
+[05:47:21] Data dir: c:fdapyDarwinexamplesuserExample4
+[05:47:21] Project working dir: u:/pyDarwin/example4/working
+[05:47:21] Project temp dir: u:/pyDarwin/example4/rundir
+[05:47:21] Project output dir: u:/pyDarwin/example4/output
+[05:47:21] Writing intermediate output to u:/pyDarwin/example4/outputresults.csv
+[05:47:21] Models will be saved in u:/pyDarwin/example4/workingmodels.json
+[05:47:21] Template file found at ..examplesuserExample4template.txt
+[05:47:21] Tokens file found at ..examplesuserExample4tokens.json
+[05:47:21] Search start time = Mon Aug  1 05:47:21 2022
+[05:47:21] – Starting Generation 0 –
+[05:47:21] NMFE found: c:/nm744/util/nmfe74.bat
+[05:47:21] RScript found at c:Program FilesRR-4.1.3binRscript.exe
+[05:47:21] Post Run R code found at c:fdapyDarwinexamplesuserExample4Cmaxppc.r
+[05:47:21] Not using Post Run Python code
+[05:47:21] Checking files in u:pyDarwinexample4rundir0001
+[05:47:21] Data set # 1 was found: c:fdapyDarwinexamplesuserExample4/dmag_with_period.csv
+[05:47:21] Data set # 2 was found: c:fdapyDarwinexamplesuserExample4/dmag_with_period.csv</p>
 </dd>
 </dl>
+</dd>
+</dl>
+<p>After a few seconds, the NONMEM execution should begind, with output simlar to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mi">52</span><span class="p">]</span> <span class="n">Generation</span> <span class="o">=</span> <span class="mi">00</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">2</span><span class="p">,</span> <span class="n">Post</span> <span class="n">process</span> <span class="n">R</span> <span class="n">failed</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mi">99999999</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">K32</span><span class="p">,</span> <span class="n">OR</span> <span class="n">K42</span> <span class="n">IS</span> <span class="n">TOO</span> <span class="n">CLOSE</span> <span class="n">TO</span> <span class="n">AN</span> <span class="n">EIGENVALUE</span>
+<span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Generation</span> <span class="o">=</span> <span class="mi">00</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">3</span><span class="p">,</span> <span class="n">Post</span> <span class="n">process</span> <span class="n">R</span> <span class="n">failed</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mi">99999999</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">NON</span><span class="o">-</span><span class="n">FIXED</span> <span class="n">OMEGA</span> <span class="n">NON</span><span class="o">-</span><span class="n">FIXED</span> <span class="n">PARAMETER</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">K32</span><span class="p">,</span> <span class="n">OR</span> <span class="n">K42</span> <span class="n">IS</span> <span class="n">TOO</span> <span class="n">CLOSE</span> <span class="n">TO</span> <span class="n">AN</span> <span class="n">EIGENVALUE</span> <span class="n">OCCURS</span> <span class="n">DURING</span> <span class="n">SEARCH</span> <span class="n">FOR</span> <span class="n">ETA</span> <span class="n">AT</span> <span class="n">INITIAL</span> <span class="n">VALUE</span><span class="p">,</span> <span class="n">ETA</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mi">56</span><span class="p">]</span> <span class="n">Generation</span> <span class="o">=</span> <span class="mi">00</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">1</span><span class="p">,</span> <span class="n">Post</span> <span class="n">process</span> <span class="n">R</span> <span class="n">failed</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mi">99999999</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">K32</span><span class="p">,</span> <span class="n">OR</span> <span class="n">K42</span> <span class="n">IS</span> <span class="n">TOO</span> <span class="n">CLOSE</span> <span class="n">TO</span> <span class="n">AN</span> <span class="n">EIGENVALUE</span>
+<span class="p">[</span><span class="mi">06</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">41</span><span class="p">]</span> <span class="n">Generation</span> <span class="o">=</span> <span class="mi">00</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">7</span><span class="p">,</span> <span class="n">Post</span> <span class="n">process</span> <span class="n">R</span> <span class="n">failed</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mi">99999999</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">NON</span><span class="o">-</span><span class="n">FIXED</span> <span class="n">OMEGA</span> <span class="n">NON</span><span class="o">-</span><span class="n">FIXED</span> <span class="n">PARAMETER</span>
+</pre></div>
+</div>
+<p>Note that (as in the case of human generated NONMEM code) the first 4 models crash, and the <a class="reference internal" href="Glossary.html#crash-value"><span class="std std-ref">crash value</span></a> (99999999) is assigned
+to the fitness. There also may be a message that “NON-FIXED OMEGA NON-FIXED PARAMETER”. This is a consequence of the nested tokens. With nested token
+there commonly will be tokens that are not used, e.g., covariates relationships for K23 when a cone compartment model (ADVAN1) is selected. A small
+penalty should be added (the non influential token penalty) in this case, simply to prefer this model over the same model without the non influential
+token(s).</p>
+<p>The final output from the search should look similar to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Done</span> <span class="k">with</span> <span class="n">final</span> <span class="n">downhill</span> <span class="n">step</span><span class="o">.</span> <span class="n">best</span> <span class="n">fitness</span> <span class="o">=</span> <span class="mf">8504.69692879228</span>
+<span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Final</span> <span class="n">output</span> <span class="kn">from</span> <span class="nn">best</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example4</span><span class="o">/</span><span class="n">output</span>\<span class="n">FinalResultFile</span><span class="o">.</span><span class="n">lst</span>
+<span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">unique</span> <span class="n">models</span> <span class="n">to</span> <span class="n">best</span> <span class="n">model</span> <span class="o">=</span> <span class="mi">897</span>
+<span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Time</span> <span class="n">to</span> <span class="n">best</span> <span class="n">model</span> <span class="o">=</span> <span class="mf">474.6</span> <span class="n">minutes</span>
+<span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Best</span> <span class="n">overall</span> <span class="n">fitness</span> <span class="o">=</span> <span class="mf">8504.696929</span><span class="p">,</span> <span class="n">iteration</span> <span class="mi">05</span><span class="n">S071</span><span class="p">,</span> <span class="n">model</span> <span class="mi">90</span>
+<span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Elapsed</span> <span class="n">time</span> <span class="o">=</span> <span class="mf">1015.4</span> <span class="n">minutes</span>
+</pre></div>
+</div>
 </section>
 </section>
 

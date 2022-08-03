@@ -53,10 +53,10 @@
 <li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by GA with post-run Python code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Error Messages and how to fix them</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -180,13 +180,13 @@ String options must be in quotes. See <a class="reference external" href="https:
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
 <p>All fields marked with * are required.</p>
 <ul class="simple" id="author-options-desc">
-<li><p><strong>author</strong> - <em>string</em>: Name of user. Currently not used and for documentation purposes only.</p></li>
+<li><p><strong>author</strong> - <em>string</em>: Name of user. Currently not used and for documentation purposes only. <span class="comment">Why user? User is the one who runs the project, it’s not necessarily the author. It can be used with eponymous alias.</span></p></li>
 </ul>
 <ul class="simple" id="project-name-options-desc">
 <li><p><strong>project_name</strong> - <em>string</em>: Name of the project.</p></li>
 </ul>
 <ul class="simple" id="algorithim-options-desc">
-<li><p><strong>algorithim</strong>* - <em>string</em>: One of <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a> , <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a> , <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a> , <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a></p></li>
+<li><p><strong>algorithim</strong>* - <em>string</em>: One of <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a>, <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a>, <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a></p></li>
 </ul>
 <ul class="simple" id="ga-options-desc">
 <li><p><strong>GA</strong> - <em>JSON</em></p></li>
@@ -249,7 +249,7 @@ penalty is to maintain diversity of models, to avoid premature convergence of th
 </ul>
 </div></blockquote>
 <ul class="simple" id="random-seed-options-desc">
-<li><p><strong>random_seed</strong> - <em>int</em>: User defined seed for random number generator  (positive integer)</p></li>
+<li><p><strong>random_seed</strong> - <em>int</em>: User defined seed for random number generator <span class="review">, not used for Exhaustive search</span>  (positive integer)</p></li>
 </ul>
 <ul class="simple" id="num-parallel-options-desc">
 <li><p><strong>num_parallel</strong> - <em>int</em>: How many model to run in parallel  (positive integer)</p></li>
@@ -265,7 +265,7 @@ penalty is to maintain diversity of models, to avoid premature convergence of th
 performance of the “ask” step. (positive integer)</p></li>
 </ul>
 <ul class="simple" id="exhaustive-batch-size-options-desc">
-<li><p><strong>exhaustive_batch_size</strong> - <em>int</em>:  For a large exhaustive search, a complete list of all models may exceed the available memory.
+<li><p><strong>exhaustive_batch_size</strong> - <em>int</em>:  <span class="review">For a large exhaustive search, a complete list of all models may exceed the available memory.</span> <span class="comment">How large? You know there is a cache of model runs which is a dictionary that consumes a lot of memory, the bigger the search space the more memory it takes in the end. Wasn’t a problem with 1.6M runs. We should be more specific with such claims.</span>
 Using and exhaustive_search_batch_size will limit the number of models generated at any time.
 There may be modest impact on performace as the batch size gets smaller. (positive integer)</p></li>
 </ul>
@@ -324,8 +324,8 @@ than the same model without the non influential token(s) (real)</p></li>
 </ul>
 </div></blockquote>
 <ul class="simple" id="downhill-period-options-desc">
-<li><p><strong>downhill_period</strong> - <em>numeric</em>: How often to run the downhill set, default is 2, meaning that 2 generations/iterations will be run, followed by the
-downhill step, then an additional 2 generations/iterations. (integer)</p></li>
+<li><p><strong>downhill_period</strong> - <em>numeric</em>: How often to run <span class="review">the downhill set</span> <span class="comment">Why ‘set’? It is referred as ‘search’ in the Glossary.</span>, <span class="review">default is 2</span> <span class="comment">Not anymore, now it’s -1 meaning ‘no periodic downhill’</span>, meaning that 2 generations/iterations will be run, followed by the
+downhill step, <span class="review">then an additional 2 generations/iterations.</span> <span class="comment">Not necesseraly. There may be no more iterations left, or only 1.</span> (integer)</p></li>
 </ul>
 <ul class="simple" id="num-niches-options-desc">
 <li><p><strong>num_niches</strong>* - <em>string</em>: Only used for GA. A penalty is assigned for each model based on the number of similar models within a niche
@@ -343,7 +343,7 @@ The two bit local search substantially increase the robustness of the search. (t
 <li><p><strong>final_downhill_search</strong> - <em>boolean</em>: Whether to perform a local search (1 and 2 bit) at the end of the global search (true|false)</p></li>
 </ul>
 <ul class="simple" id="nmfe-path-options-desc">
-<li><p><strong>nmfe_path</strong> - <em>string</em>: Path to nmfe??.bat, the default command line for executing NONMEM (string)</p></li>
+<li><p><strong>nmfe_path</strong> - <em>string</em>: Path to <span class="review">nmfe ??.bat</span>, <span class="comment">There is no bat in Linux. Just call it ‘nmfe script’</span> the default command line for executing NONMEM (string)</p></li>
 </ul>
 <ul class="simple" id="model-run-timeout-options-desc">
 <li><p><strong>model_run_timeout</strong> - <em>int</em>: Time after which the NONMEM execution will be terminated, and the crash value assigned. (positive real)</p></li>
@@ -383,7 +383,7 @@ Required if <code class="docutils literal notranslate"><span class="pre">use_r</
 <blockquote id="post-run-python-code-options-desc">
 <div><ul class="simple">
 <li><p><strong>post_run_python_code</strong>* - <em>string</em>: Path to python code file (.py extension) to be run after each NONMEM execution.
-Required if <code class="docutils literal notranslate"><span class="pre">usepython</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
+Required if <code class="docutils literal notranslate"><span class="pre">use_python</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
 </ul>
 </div></blockquote>
 <ul class="simple" id="use-saved-models-options-desc">
@@ -430,42 +430,42 @@ Required if <code class="docutils literal notranslate"><span class="pre">usepyth
 </ul>
 <blockquote id="python-path-options-desc">
 <div><ul class="simple">
-<li><p><strong>python_path</strong> - <em>string</em>:</p></li>
-</ul>
-</div></blockquote>
-<blockquote id="submit-search-command-options-desc">
-<div><ul class="simple">
-<li><p><strong>submit_search_command</strong> - <em>string</em>:</p></li>
+<li><p><strong>python_path</strong> <sup>required</sup> - <em>string</em>: Path to your Python interpreter, preferably - to the instance of the interpreter located in <a class="reference internal" href="Install.html#install-python-venv"><span class="std std-ref">virtual environment</span></a> where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="submit-command-options-desc">
 <div><ul class="simple">
-<li><p><strong>submit_command</strong> - <em>string</em>:</p></li>
+<li><p><strong>submit_command</strong> <sup>required</sup> - <em>string</em>: A command that submits individual runs to the grid queue. The actual command submitted to the queue is <code class="docutils literal notranslate"><span class="pre">&lt;python_path&gt;</span> <span class="pre">-m</span> <span class="pre">darwin.run_model</span> <span class="pre">&lt;input</span> <span class="pre">file&gt;</span> <span class="pre">&lt;output</span> <span class="pre">file&gt;</span> <span class="pre">&lt;options</span> <span class="pre">file&gt;</span></code>, but you don’t put it in the <code class="docutils literal notranslate"><span class="pre">submit_command</span></code>. What you do put there is something like <code class="docutils literal notranslate"><span class="pre">qsub</span> <span class="pre">-b</span> <span class="pre">y</span> <span class="pre">-o</span> <span class="pre">{results_dir}/{run_name}.out</span> <span class="pre">-e</span> <span class="pre">{results_dir}/{run_name}.err</span> <span class="pre">-N</span> <span class="pre">{job_name}</span></code></p></li>
+</ul>
+</div></blockquote>
+<blockquote id="submit-search-command-options-desc">
+<div><ul class="simple">
+<li><p><strong>submit_search_command</strong> <sup>required</sup> - <em>string</em>: A command that submits search job to the grid queue. Similar to <code class="docutils literal notranslate"><span class="pre">submit_command</span></code>, but for entire search. Required only for <a class="reference internal" href="Usage.html#running-grid-search"><span class="std std-ref">grid search</span></a>. It may look like this: <code class="docutils literal notranslate"><span class="pre">qsub</span> <span class="pre">-b</span> <span class="pre">y</span> <span class="pre">-o</span> <span class="pre">{project_dir}/out.txt</span> <span class="pre">-e</span> <span class="pre">{project_dir}/err.txt</span> <span class="pre">-N</span> <span class="pre">'{project_name}'</span></code></p></li>
 </ul>
 </div></blockquote>
 <blockquote id="submit-job-id-re-options-desc">
 <div><ul class="simple">
-<li><p><strong>submit_job_id_re</strong> - <em>string</em>:</p></li>
+<li><p><strong>submit_job_id_re</strong> <sup>required</sup> - <em>string</em>: A regular expression to find a job id in <code class="docutils literal notranslate"><span class="pre">submit_command</span></code> output. Job id must be captured in first <a class="reference external" href="https://www.google.com/search?q=regular+expression+capturing+group">capturing group</a>, like this: <code class="docutils literal notranslate"><span class="pre">Your</span> <span class="pre">job</span> <span class="pre">(\\w+)</span> <span class="pre">\\(\&quot;.+?\&quot;\\)</span> <span class="pre">has</span> <span class="pre">been</span> <span class="pre">submitted</span></code></p></li>
 </ul>
 </div></blockquote>
 <blockquote id="poll-command-options-desc">
 <div><ul class="simple">
-<li><p><strong>poll_command</strong> - <em>string</em>:</p></li>
+<li><p><strong>poll_command</strong> <sup>required</sup> - <em>string</em>: A command that retrieves finished jobs from grid controller. If your controller/setup allows you to specify ids/patterns in polling commands, do it (see <code class="docutils literal notranslate"><span class="pre">delete_command</span></code>). If it doesn’t, you have to poll ALL finished jobs: <code class="docutils literal notranslate"><span class="pre">qstat</span> <span class="pre">-s</span> <span class="pre">z</span></code></p></li>
 </ul>
 </div></blockquote>
 <blockquote id="poll-job-id-re-options-desc">
 <div><ul class="simple">
-<li><p><strong>poll_job_id_re</strong> - <em>string</em>:</p></li>
+<li><p><strong>poll_job_id_re</strong> <sup>required</sup> - <em>string</em>: A regular expression to find a job id in every line of <code class="docutils literal notranslate"><span class="pre">poll_command</span></code> output. Similar to <code class="docutils literal notranslate"><span class="pre">submit_job_id_re</span></code>.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="poll-interval-options-desc">
 <div><ul class="simple">
-<li><p><strong>poll_interval</strong> - <em>int</em>:</p></li>
+<li><p><strong>poll_interval</strong> - <em>int</em>: How often to poll jobs. By default 10 (seconds).</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="delete-command-options-desc">
 <div><ul class="simple">
-<li><p><strong>delete_command</strong> - <em>string</em>:</p></li>
+<li><p><strong>delete_command</strong> - <em>string</em>: A command that deletes all unfinished jobs related to the search when you stop it. It may delete all of them by id (<code class="docutils literal notranslate"><span class="pre">qdel</span> <span class="pre">{job_ids}</span></code>) or by mask (<code class="docutils literal notranslate"><span class="pre">qdel</span> <span class="pre">{project_stem}-*</span></code>). Be careful when using a mask: if your mask matches search job name it may kill your search prematurely, e.g. during saving the cache data.</p></li>
 </ul>
 </div></blockquote>
 </section>

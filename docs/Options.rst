@@ -1,3 +1,5 @@
+.. include:: .special.rst
+
 .. _Options:
 
 Options List
@@ -108,7 +110,7 @@ All fields marked with * are required.
 
 .. _author_options_desc:
 
-* **author** - *string*: Name of user. Currently not used and for documentation purposes only. 
+* **author** - *string*: Name of user. Currently not used and for documentation purposes only. :comment:`Why user? User is the one who runs the project, it's not necessarily the author. It can be used with eponymous alias.`
 
 .. _project_name_options_desc:
 
@@ -116,7 +118,7 @@ All fields marked with * are required.
 
 .. _algorithim_options_desc:
 
-* **algorithim**\* - *string*: One of :ref:`EX<EX_desc>` , :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` , :ref:`GBRT<GBRT_desc>`
+* **algorithim**\* - *string*: One of :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`, :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`
 
 .. _GA_options_desc:
 
@@ -171,7 +173,7 @@ All fields marked with * are required.
 
 .. _random_seed_options_desc:
 
-* **random_seed** - *int*: User defined seed for random number generator  (positive integer)
+* **random_seed** - *int*: User defined seed for random number generator :review:`, not used for Exhaustive search`  (positive integer)
 
 .. _num_parallel_options_desc:
 
@@ -192,7 +194,7 @@ All fields marked with * are required.
 
 .. _exhaustive_batch_size_options_desc:
 
-* **exhaustive_batch_size** - *int*:  For a large exhaustive search, a complete list of all models may exceed the available memory.
+* **exhaustive_batch_size** - *int*:  :review:`For a large exhaustive search, a complete list of all models may exceed the available memory.` :comment:`How large? You know there is a cache of model runs which is a dictionary that consumes a lot of memory, the bigger the search space the more memory it takes in the end. Wasn't a problem with 1.6M runs. We should be more specific with such claims.`
   Using and exhaustive_search_batch_size will limit the number of models generated at any time.
   There may be modest impact on performace as the batch size gets smaller. (positive integer)     
 
@@ -246,8 +248,8 @@ All fields marked with * are required.
 
 .. _downhill_period_options_desc:
 
-* **downhill_period** - *numeric*: How often to run the downhill set, default is 2, meaning that 2 generations/iterations will be run, followed by the 
-  downhill step, then an additional 2 generations/iterations. (integer)
+* **downhill_period** - *numeric*: How often to run :review:`the downhill set` :comment:`Why 'set'? It is referred as 'search' in the Glossary.`, :review:`default is 2` :comment:`Not anymore, now it's -1 meaning 'no periodic downhill'`, meaning that 2 generations/iterations will be run, followed by the 
+  downhill step, :review:`then an additional 2 generations/iterations.` :comment:`Not necesseraly. There may be no more iterations left, or only 1.` (integer)
 
 .. _num_niches_options_desc:
 
@@ -270,7 +272,7 @@ All fields marked with * are required.
 
 .. _nmfe_path_options_desc:
 
-* **nmfe_path** - *string*: Path to nmfe??.bat, the default command line for executing NONMEM (string)
+* **nmfe_path** - *string*: Path to :review:`nmfe ??.bat`, :comment:`There is no bat in Linux. Just call it 'nmfe script'` the default command line for executing NONMEM (string)
 
 .. _model_run_timeout_options_desc:
 
@@ -308,7 +310,7 @@ All fields marked with * are required.
 .. _post_run_python_code_options_desc:
 
     * **post_run_python_code**\* - *string*: Path to python code file (.py extension) to be run after each NONMEM execution.
-      Required if ``usepython`` is set to ``true``.
+      Required if ``use_python`` is set to ``true``.
 
 .. _use_saved_models_options_desc:
 
@@ -368,32 +370,32 @@ All fields marked with * are required.
 
 .. _python_path_options_desc:
 
-    * **python_path** - *string*:
-
-.. _submit_search_command_options_desc:
-
-    * **submit_search_command** - *string*:
+    * **python_path** :superscript:`required` - *string*: Path to your Python interpreter, preferably - to the instance of the interpreter located in :ref:`virtual environment<install_python_venv>` where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.
 
 .. _submit_command_options_desc:
 
-    * **submit_command** - *string*:
+    * **submit_command** :superscript:`required` - *string*: A command that submits individual runs to the grid queue. The actual command submitted to the queue is ``<python_path> -m darwin.run_model <input file> <output file> <options file>``, but you don't put it in the ``submit_command``. What you do put there is something like ``qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}``
+
+.. _submit_search_command_options_desc:
+
+    * **submit_search_command** :superscript:`required` - *string*: A command that submits search job to the grid queue. Similar to ``submit_command``, but for entire search. Required only for :ref:`grid search<running_grid_search>`. It may look like this: ``qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'``
 
 .. _submit_job_id_re_options_desc:
 
-    * **submit_job_id_re** - *string*:
+    * **submit_job_id_re** :superscript:`required` - *string*: A regular expression to find a job id in ``submit_command`` output. Job id must be captured in first `capturing group <https://www.google.com/search?q=regular+expression+capturing+group>`_, like this: ``Your job (\\w+) \\(\".+?\"\\) has been submitted``
 
 .. _poll_command_options_desc:
 
-    * **poll_command** - *string*:
+    * **poll_command** :superscript:`required` - *string*: A command that retrieves finished jobs from grid controller. If your controller/setup allows you to specify ids/patterns in polling commands, do it (see ``delete_command``). If it doesn’t, you have to poll ALL finished jobs: ``qstat -s z``
 
 .. _poll_job_id_re_options_desc:
 
-    * **poll_job_id_re** - *string*:
+    * **poll_job_id_re** :superscript:`required` - *string*: A regular expression to find a job id in every line of ``poll_command`` output. Similar to ``submit_job_id_re``.
 
 .. _poll_interval_options_desc:
 
-    * **poll_interval** - *int*:
+    * **poll_interval** - *int*: How often to poll jobs. By default 10 (seconds).
 
 .. _delete_command_options_desc:
 
-    * **delete_command** - *string*:
+    * **delete_command** - *string*: A command that deletes all unfinished jobs related to the search when you stop it. It may delete all of them by id (``qdel {job_ids}``) or by mask (``qdel {project_stem}-*``). Be careful when using a mask: if your mask matches search job name it may kill your search prematurely, e.g. during saving the cache data. 

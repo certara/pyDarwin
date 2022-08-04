@@ -1,13 +1,9 @@
 {
-    "author": "Mark Sale",
-    "project_name": "Ex6_GA_grid",
+    "author": "Certara",
+    "project_name": "Ex6_RF_grid",
 
-    "algorithm": "GA",
-
-    "GA": {
-        "elitist_num": 4,
-        "niche_penalty": 20
-    },
+    "algorithm": "RF",
+    "num_opt_chains": 4,
 
     "random_seed": 11,
     "population_size": 80,
@@ -22,7 +18,7 @@
 
     "postprocess": {
         "use_python": true,
-        "post_run_python_code": "{project_dir}/simplefunc.py"
+        "post_run_python_code": "{project_dir}/CmaxPPC.py"
     },
 
     "nmfe_path": "/opt/nm751/util/nmfe75",

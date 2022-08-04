@@ -3,9 +3,6 @@
     "algorithm": "RF",
     "num_opt_chains": 4,
 
-    "working_dir": "u:/pyDarwin/example6/working",
-    "temp_dir": "u:/pyDarwin/example6/rundir",
-    "output_dir": "u:/pyDarwin/example6/output",
     "random_seed": 11,
     "population_size": 80,
     "num_parallel": 4,

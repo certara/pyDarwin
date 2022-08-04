@@ -1,8 +1,9 @@
+
+.. _startTheory:
+
 Overview
 =========
- 
-.. _startTheory:
- 
+
 pyDarwin implements a number of machine learning algorithms for model selection. Machine learning algorithms are broadly divided into two categories:
  - Supervised learning
  - Unsupervised learning
@@ -14,7 +15,7 @@ cat and which is a dog.
 
 In contrast, unsupervised learning has no labeled training set. Linear regression is a simple example of supervised learning. 
 There is an input (X's) and an output (Y's) and the algorithm identified patterns that match the inputs to the output (intercept and slope(s)). However, 
-looking for the best independent variables to include in a linear regression model is an unsupervised learning problem, there is not training set of examples 
+looking for the best independent variables to include in a linear regression model is an unsupervised learning problem, there is no training set of examples 
 with the "correct" list of independnet variables to include. 
 The traditional model selection/building process for pop pk models is similarly unsupervised. There is no "labeled" training data set, no collection of data sets 
 that are known to be 1 compartment, with Volume~WT. Rather each data set is a new learning and the algorithm must discover relationships based just on that data set. 
@@ -39,12 +40,11 @@ Traditional pop pk/pd model selection uses the "downhill method", starting usual
 "features" (compartments, lag times, non linear elimination, covariate effects) and accepting the new model if it is better ("downhill"), based on some user defined, and somewhat informal criteria. 
 Typicaly, this user defined criteria will include a lower -2LL + usually some penalty for added parameters + some other criteria the user feels important. The downhill method is easily the 
 most effiicent methods (fewest evaluations of the reward/fitness to reach the convergence) but has been shown to be very prone to local minima. However, downhill does play a role in a very efficient 
-local search, in combination with a global search algorithm (e.g., :ref:`EX<EX_desc>` , :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` , :ref:`GBRT<GBRT_desc>`). 
+local search, in combination with a global search algorithm (e.g., :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` , :ref:`GBRT<GBRT_desc>`). 
 
 Central to understanding the model selection process (with manual or machine learning), is the concept of the search space. The search space is an n dimensional 
 space where each dimension represents a set of mutually exclusive options. That is, there likely will be a dimension for "number of compartments", with possible 
-values of 1, 2 or 3. Exactly one of these is required (ignoring the possibility of `Bayesian model averaging <https://onlinelibrary.wiley.com/doi/abs/10.1111/insr.12243>`_ .
-
+values of 1, 2 or 3. Exactly one of these is required (ignoring the possibility of `Bayesian model averaging <https://onlinelibrary.wiley.com/doi/abs/10.1111/insr.12243>`_. 
 Another dimension might be the absorption model, with values of first order, zero order, first order with absorption lag time etc). Similarly candidate  
 relationship between weight and volume might be [no relationship or linear or power model]. In addition to structural and statistical "features", other features 
 of the model, such as initial estimates for parameters can be searched on. Note that each of these dimension are discrete, and mostly strictly 
@@ -53,7 +53,7 @@ parameter search space used in non-linear regression. An important difference is
 regression has derivatives, and quasi-Newton methods can be used to to a "downhill search" in that space. Please note that quasi-Newton methods are 
 also at risk of finding local minima, and therefore are sensitive to the initial estimates. In the case of parameter estimation (non linear regression), efforts are made to start 
 the search at a location in the search space near the final estimate, greatly reducing the chances ending up in a local minima. No such effort is 
-made in the downhill model selection method. Rather, the search is usually start at a trivial model, which is likely far from the global minimum. 
+made in the tradotopma; downhill model selection method. Rather, the search is usually start at a trivial model, which is likely far from the global minimum. 
 
 As the discrete space of model search does not have derivatives, other search methods must be used. The simplest, and the one traditionally used in 
 model selection, is downhill. While efficient it can be demonstrated that this method is not robust [#f1]_ [#f2]_. This lack of robustness is due to 
@@ -66,14 +66,20 @@ features in the model and Chen [#f2]_ showed that different sequences of tests w
 
 
 In contrast to the traditional downhill/local search, all algorithms implemented in pyDarwin are global search algorithms that are expected to have a greater 
-degree of robustness to local minima than downhill search. Note howwever that all search algorithms (with the exception of exhaustive search) make assumptions about 
+degree of robustness to local minima than downhill search. Note however that all search algorithms (with the exception of exhaustive search) make assumptions about 
 the search space. While none of the algorithms in pyDarwin assume convexity, none are completely robust, 
-and search spaces can be deceptive.[#f3]_. For all algorithms, the basic process is the same, start at one or more random. 
- 
+and search spaces can be deceptive [#f3]_ . For all algorithms, the basic process is the same, start at one or more random. 
+
+While the global search algoritm provide subtantial protection from a local minimum in the model search, the global search algorithm are typically not very 
+good at finding the one or two final change that results in the best model. This is illutrated in :ref:`Genetic Algorithm<GA_desc>` in that the final change likely 
+must be made by mutations, a rare event, not by cross over. The solution to this problem in to combined the stength of a global search (robustness to local 
+minima) with the effiency of local downhill, or even local exhaustive search. Thus the global search gets close to the final best solution (much like providing good 
+initial estimates to NONMEM), and the local search finds the best solution in that local volume of the search space. 
+
 The search space is key to implementation of each algorithm. The overall representation is the same for all algorithms - an n dimensional discrete search space. The values in each 
 dimension are then coded into several forms, bit strings and integer string. Ultimately, the model is constructed from the integer string, e.g., values for the number 
 of compartment dimenion are 1|2|3. However,for GA, this must be coded as bitstring. There is one additional representation, refered to as a minimal binary string, 
-which is used for the downhill step.
+which is used for the local exhaustive step.
 
 The overall process is shown in Figure 1 below:
 
@@ -139,16 +145,28 @@ generated (the "tell" step).
 
 Random Forest
 -------------------------
+
+`Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consist of spliting the data (the "goodness" of each model in this case) thus continuously dividing the 
+search space into "good" and "bad" regions. As before, the initial divisions are random, but become increasingly well informated a real values for the fitness/reward of models is 
+included.
+
 .. _GBRT_desc:
 
 Gradient Boosted Random Tree
 ------------------------------
+
+`Gradient Boosted Random Tree <https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad>`_ 
+are similar to Random forests, 
+but may increase the precision of the tree building by progresively building the tree, and calculating a gradient of the reward/fitness WRT each decision. 
+
   
 .. [#f1] Wade JR, Beal SL, Sambol NC. 1994  Interaction between structural, statistical, and covariate models in population pharmacokinetic analysis. J Pharmacokinet Biopharm. 22(2):165-77 
  
 .. [#f2] PAGE 30 (2022) Abstr 10091 [https://www.page-meeting.org/?abstract=10091]
 
+
 .. [#f3] PAGE 30 (2022) Abstr 10053 [https://www.page-meeting.org/default.asp?abstract=10053]
+
 
 
 File Structure and Naming
@@ -162,7 +180,7 @@ NONMEM generates a great deal of file output. For a search of perhaps up to 10,0
 By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space. 
 In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
 Users should take caution and ensure only required tables are generated (as specified in ``template.txt``), as table files can become quite 
-large, and will not be removed by pyDarwin. 
+large, and will not be removed by pyDarwin unless :ref:`remove_temp_dir <remove_temp_dir_options_desc>` is set to true. 
 
 File Structure
 ---------------
@@ -171,9 +189,10 @@ the project directory (project_dir) is the folder where template, token and opti
 
 #. output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results is intended.
 
-#. temp_dir - NONMEM models are run in subfolders of this folder Default value is working_dir/temp. May be deleted after search finished/stopped if remove_temp_dir is set to true.  
+#. temp_dir - NONMEM models are run in subfolders of this folder Default value is working_dir/temp. May be deleted after search finished/stopped if :ref:`remove_temp_dir <remove_temp_dir_options_desc>` is set to true.  
 
-#. working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files. Default value - %USER_HOME%/pydarwin/project_name where project name is defined in the :ref:`options file<Options>`
+#. working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files. 
+Default value - %USER_HOME%/pydarwin/project_name where project name is defined in the :ref:`options file<Options>`
  
 
 Model/folder naming
@@ -181,7 +200,8 @@ Model/folder naming
 
 
 A model stem is generated from the current generation/iteration and model number or the form NM_genration_model_num. For example, if this is iteration 2, model 3 the model stem would be 
-NM_2_3. For the 1 bit downhill, the model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill 
+NM_2_3 (or similar, pyDarwin will count the number of model to be generate and use, e.g., nm_02_03 if needed). For the 1 bit downhill, the 
+model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill 
 model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file etc. This results in unique names for all models in the search. Models 
 are also frequently duplicated. Duplicated files are not rerun, and so those will not appear in the file structure.
 

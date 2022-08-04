@@ -54,7 +54,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#penalties">Penalties</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#the-data-file">The data file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#starting-pydarwin-and-command-line-output">Starting pyDarwin and command line output</a></li>
 </ul>
@@ -226,11 +229,11 @@ E.g, if an token stem as two THETAs:</p>
 <p>Effect = THETA(EMAX) * CONC/(THETA(EC50) + CONC)
 for the text in the $PK block, then code to be put into the $THETA block will be:</p>
 <p>The resulting $THETA block for this initial feature will be:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;  (0,100) </span><span class="se">\\</span><span class="s2">t; THETA(EMAX) &quot;</span>
-<span class="s2">&quot;  (0,1000) </span><span class="se">\\</span><span class="s2">t; THETA(EC50) &quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;  (0,100) </span><span class="se">\t</span><span class="s2">; THETA(EMAX) &quot;</span>
+<span class="s2">&quot;  (0,1000) </span><span class="se">\t</span><span class="s2">; THETA(EC50) &quot;</span>
 </pre></div>
 </div>
-<p>Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn’t be any way to identify which initial estiamate is to be associated with which
+<p>Where \t i a tab. Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn’t be any way to identify which initial estiamate is to be associated with which
 THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file
 is created, this approach would lead to ambiguity. Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier.</p>
 <p>Other covariate effects are coded similarly.</p>
@@ -381,7 +384,7 @@ The tokens file for Example 1 is given below.</p>
 <p>Example 1 <a class="reference internal" href="Glossary.html#options-file"><span class="std std-ref">Options file</span></a>  <a class="reference download internal" download="" href="_downloads/e273de74c2184fe071b9c13f6a13acfb/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">options</span> <span class="pre">file</span></code></a>
 The options file will likely need to be editted, as the path to nmfe??.bat must be provided
 The options file for Example 1 is given below:</p>
-<p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
+<p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
 <p>Note that to run in the enviroment used for this example, the directories are set to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example1/working&quot;</span><span class="p">,</span>
 <span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example1/rundir&quot;</span><span class="p">,</span>
@@ -396,8 +399,8 @@ the default is:</p>
 <p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s2">&quot;{</span>
-<span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Mark Sale&quot;</span><span class="p">,</span>
-<span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;EXHAUSTIVE&quot;</span><span class="p">,</span>
+<span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
+<span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;EX&quot;</span><span class="p">,</span>
 <span class="s2">&quot;exhaustive_batch_size&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
 
 <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
@@ -422,6 +425,16 @@ the default is:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
+<section id="penalties">
+<h3>Penalties<a class="headerlink" href="#penalties" title="Permalink to this heading">¶</a></h3>
+<p>The base value for the “fitness” (for GA) or “reward/cost” for others is the -2LL value from the NONMEM output. Typically penalties for increased complexity are added to this. If one
+parameter is added, and the models are nested, a value of 3.84 points per parameter correponds to p&lt; 0.05. We’ll use 10 points for each estimated parameter. Typically a model that converges
+and has a successful covariance step is viewed as “better” than a model that doesn’t. Therefore to capture this, we’ll add 100 points for failing to converge, failing a covariance step
+and failing the correlation test. Note that if the covariance step is not requested, the failed covariance penalty is added as is the failed correlation test and the failed condition number test.
+similarly if the PRINT=E option is not included in the $COV record, the eigenvalues will not be printed and this will be regarded as a failed condition number test.
+The non_influential_tokens penalty is added if any tokens selected for this model do not influence the final control file, as may be the case for nested tokens. This number should be small, as
+it is only intended to break ties between otherwise identical models.</p>
+</section>
 </section>
 <section id="the-data-file">
 <h2>The data file<a class="headerlink" href="#the-data-file" title="Permalink to this heading">¶</a></h2>
@@ -455,7 +468,7 @@ the default is:</p>
 <span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">42</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 1 was found: c:\fda\pyDarwin\examples\user\Example1/dataExample1.csv</span>
 </pre></div>
 </div>
-<p>Importantly, the temp directory (temp_dir) is listed since</p>
+<p>Importantly, the temp directory (temp_dir) is listed and since</p>
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
 </pre></div>

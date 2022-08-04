@@ -184,8 +184,9 @@
 </tbody>
 </table>
 <p>This gives a search space of 3 x 2 x 2 x 3 x 2 x 3 x 2 x 5 x 3 x 2 = 12960 models. We’ll use the <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> algorithm for the search,
-with a population size of 40 models, for up to 7 iterations. We’ll run the downhill (1 and 2 bit search) each 5 iterations. The dowhill step will be
-done starting with 2 models. The models are selected as the best in each of the two best niches. To selected the best models in each of 2 niches, first
+with a population size of 40 models, for up to 7 iterations. We’ll run the downhill (1 and 2 bit local search) each 5 iterations. The dowhill step will be
+done starting with the 2 models that are in different niches, that is differ by at least the niche radius. The models are selected as the best in each of
+the two best niches. To selected the best models in each of 2 niches, first
 the best model in the entire population is identified. This will be the model for the first niche. Then all models within a <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">niche radius</span></a>
 of 2 are identified. The best in the 2nd niche then is the best model that is not in a niche. In this way we ensure that the downhill step is done starting
 with 2 models that are at least somewhat dissimilar (by at least a distance of 2). Commonly the <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">niche radius</span></a> would be larger than 2,
@@ -198,9 +199,10 @@ does not have non-influential tokens will be selected.</p>
 <h2>Notes on Gaussian Process performance<a class="headerlink" href="#notes-on-gaussian-process-performance" title="Permalink to this heading">¶</a></h2>
 <p>Gaussian Process is an approach in <a class="reference external" href="https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf">Bayesian Optimization</a>
 and <a class="reference external" href="https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py">here</a>  where the samples are drawn from
-a Gaussian Process. There are reasons to beleive that this this approach should be the most effecient (fewer reward evaluations to convergence). However, the sampling itself can be very
-computionally  expensive. Therefore the <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP option</span></a> is best suited when the number of reward calculation number of NONMEM models run) is relatively small, perhaps &lt; 1000,
-and the NONMEM run time is long (1 hour). Below is a table of the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask and tell</a> step times  (hh:mm:ss), by iteration. The sample size ws 80, with 4 chains on a 4 core computer:</p>
+a Gaussian Process. There are reasons to beleive that this this approach should be the most effecient (fewer reward evaluations to convergence) other than downhill search.
+However, the sampling itself can be very
+computionally expensive. Therefore the <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP option</span></a> is best suited when the number of reward calculation number of NONMEM models run) is relatively small, perhaps &lt; 1000,
+and the NONMEM run time is long (1 hour). Below is a table of the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask and tell</a> step times  (h:mm:ss), by iteration. The sample size ws 80, with 4 chains on a 4 core computer:</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 35%" />
@@ -268,7 +270,7 @@ and the NONMEM run time is long (1 hour). Below is a table of the <a class="refe
 </tr>
 </tbody>
 </table>
-<p>note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the data set size increases.
+<p>Note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the data set size increases.
 For problems with larger search spaces, and greater number of model evaluations, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">Genetic algorithm</span></a> or <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">Random Forest</span></a> may
 be more appropriate.</p>
 <p>Below is a table of recommenations for algorithm selection.</p>
@@ -473,8 +475,8 @@ The use of THETA(paremeter identifier), e.g.</p>
 </section>
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
-<p>The user should provide an appropriate path for <a class="reference internal" href="Glossary.html#nmfepath"><span class="std std-ref">“nmfePath”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
-<p>Note that to run in the enviroment used for this example, the directories are set to:</p>
+<p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
+<p>Note that to run in the enviroment used for this example, the directorises are set to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example2/working&quot;</span><span class="p">,</span>
 <span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example2rundir&quot;</span><span class="p">,</span>
 <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example2/output&quot;</span><span class="p">,</span>

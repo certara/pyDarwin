@@ -35,8 +35,9 @@ Example 2 is still a fairly simple search. The search space contains 12,960 mode
 +----------------------------+--------------------------+----------------------------+
 
 This gives a search space of 3 x 2 x 2 x 3 x 2 x 3 x 2 x 5 x 3 x 2 = 12960 models. We'll use the :ref:`Gaussian Process<GP_desc>` algorithm for the search, 
-with a population size of 40 models, for up to 7 iterations. We'll run the downhill (1 and 2 bit search) each 5 iterations. The dowhill step will be 
-done starting with 2 models. The models are selected as the best in each of the two best niches. To selected the best models in each of 2 niches, first 
+with a population size of 40 models, for up to 7 iterations. We'll run the downhill (1 and 2 bit local search) each 5 iterations. The dowhill step will be 
+done starting with the 2 models that are in different niches, that is differ by at least the niche radius. The models are selected as the best in each of 
+the two best niches. To selected the best models in each of 2 niches, first 
 the best model in the entire population is identified. This will be the model for the first niche. Then all models within a :ref:`niche radius<Niche Radius>` 
 of 2 are identified. The best in the 2nd niche then is the best model that is not in a niche. In this way we ensure that the downhill step is done starting 
 with 2 models that are at least somewhat dissimilar (by at least a distance of 2). Commonly the :ref:`niche radius<Niche Radius>` would be larger than 2, 
@@ -52,9 +53,10 @@ Notes on Gaussian Process performance
 
 Gaussian Process is an approach in `Bayesian Optimization <https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf>`_ 
 and `here <https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py>`_  where the samples are drawn from 
-a Gaussian Process. There are reasons to beleive that this this approach should be the most effecient (fewer reward evaluations to convergence). However, the sampling itself can be very 
-computionally  expensive. Therefore the :ref:`GP option <GP_desc>` is best suited when the number of reward calculation number of NONMEM models run) is relatively small, perhaps < 1000, 
-and the NONMEM run time is long (1 hour). Below is a table of the `ask and tell <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ step times  (hh:mm:ss), by iteration. The sample size ws 80, with 4 chains on a 4 core computer: 
+a Gaussian Process. There are reasons to beleive that this this approach should be the most effecient (fewer reward evaluations to convergence) other than downhill search. 
+However, the sampling itself can be very 
+computionally expensive. Therefore the :ref:`GP option <GP_desc>` is best suited when the number of reward calculation number of NONMEM models run) is relatively small, perhaps < 1000, 
+and the NONMEM run time is long (1 hour). Below is a table of the `ask and tell <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ step times  (h:mm:ss), by iteration. The sample size ws 80, with 4 chains on a 4 core computer: 
 
 +-----------+----------+----------+ 
 | iteration | ask      | tell     | 
@@ -87,8 +89,7 @@ and the NONMEM run time is long (1 hour). Below is a table of the `ask and tell 
 +-----------+----------+----------+
 
 
-
-note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the data set size increases.
+Note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the data set size increases.
 For problems with larger search spaces, and greater number of model evaluations, :ref:`Genetic algorithm<GA_desc>` or :ref:`Random Forest <RF_desc>` may 
 be more appropriate.
 
@@ -307,10 +308,10 @@ The Options file
 ~~~~~~~~~~~~~~~~
 
 
-The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
+The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
 
 
-Note that to run in the enviroment used for this example, the directories are set to:
+Note that to run in the enviroment used for this example, the directorises are set to:
 
 ::
 

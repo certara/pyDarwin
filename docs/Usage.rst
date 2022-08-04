@@ -170,21 +170,33 @@ The relevant template file for this might be:
 Note that tokens nearly always come in sets, as in nearly all cases, several substitions must be made to create correct syntax. 
 For a one compartment model the following substitutions would be made:
 
-{ADVAN[1]} -> ADVAN1
+::
 
-{ADVAN[2]} -> ;; 1 compartment, no definition needed for K12 or K21
+    {ADVAN[1]} -> ADVAN1
 
-{ADVAN[3]} -> ;; 1 compartment, no initial estimate needed for K12 or K21
+::
+
+    {ADVAN[2]} -> ;; 1 compartment, no definition needed for K12 or K21
+
+::
+
+    {ADVAN[3]} -> ;; 1 compartment, no initial estimate needed for K12 or K21
 
 and for 2 compartment:
 
-{ADVAN[1]} -> ADVAN3
+::
 
-{ADVAN[2]} -> K12 = THETA(ADVANA) ;; 2 compartment, need definition for K12 \n K21 = THETA(ADVANB) 
+    {ADVAN[1]} -> ADVAN3
 
-{ADVAN[3]} ->(0,0.5) ;; K12 THETA(ADVANA)  \n  (0,0.5) ;; K21 THETA(ADVANB)
+::
 
-These sets of tokens are called tokens sets (2 tokens sets in this example one for ADVAN1, one for ADVAN3). The group of token sets 
+    {ADVAN[2]} -> K12 = THETA(ADVANA) ;; 2 compartment, need definition for K12 \n K21 = THETA(ADVANB) 
+
+::
+
+    ADVAN[3]} ->(0,0.5) ;; K12 THETA(ADVANA)  \n  (0,0.5) ;; K21 THETA(ADVANB)
+
+Where \\n is the new line character. These sets of tokens are called tokens sets (2 tokens sets in this example one for ADVAN1, one for ADVAN3). The group of token sets 
 is called a token group. In this example "ADVAN" is the token key. Each token group must have a unique token key. For the first set of options the text "ADVAN1" 
 is refered to as the token text. Each token set consists of key-text pairs: 
 
@@ -275,6 +287,30 @@ In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3
 
 5. All other JSON (`JSON <https://www.json.org/json-en.html>`_ ) rules apply.
 
+**Special note on initial estimates**
+
+In order to parse the text in the initial estimates blocks (THETA, OMEGA and SIGMA) the user MUST include token stem text as a NONMEM/NMTRAN comment (i.e. after ";"). There is 
+no other way to identify which intial estimates are to be associated with which THETA. 
+E.g, if an token stem as two THETAs:
+
+::
+
+    Effect = THETA(EMAX) * CONC/(THETA(EC50) + CONC)
+
+for the text in the $PK block, then code to be put into the $THETA block will be:
+
+
+The resulting $THETA block for this initial feature MUST be similar to this:
+
+::
+
+ "  (0,100) \t; THETA(EMAXs) "
+ "  (0,1000) \t; THETA(EC50) "
+
+Where \\t is a tab. Without this THETA(EMAX) and THETA(EC50) as a comment, there would not be any way to identify which initial estiamate is to be associated with which 
+THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file 
+is created, this approach would lead to ambiguity. Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier.
+
 
 
 .. _options_file_target:
@@ -329,7 +365,7 @@ The columns in this output are::
 
 If there are messages from NONMEM execution, these will also be written to command line, as well as if excecution failed, and, if request, if R execution failed.
 
-If the XXXXXX is not set to true, the NONMEM control file, output file and other key files can be found in {temp_dir}\Iteration/generation\Model Number for debugging. 
+If the :ref:`"remove_temp_dir" <remove_temp_dir_options_desc>` is not set to true, the NONMEM control file, output file and other key files can be found in {temp_dir}\Iteration/generation\Model Number for debugging. 
 
 File output
 =========================
@@ -350,7 +386,7 @@ The messages.txt file will be found in the working dir. This file contents is th
 models.json
 --------------
 
-The models.json will contain the key output from all models that are run. This is not a very user friendly file, as a fairly complex json. The primary (maybe only) use 
+The models.json will contain the key output from all models that are run. This is not a very user friendly file, as it is fairly complex json. The primary (maybe only) use 
 for this file is if a search is interupted, it can be restarted, and the contents of this file read in, rather than rerunning all of the models. If the goal is to make simple diagnostics 
 of the search progress, the results.csv file is likely more useful.
 

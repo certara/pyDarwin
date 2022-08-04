@@ -3,13 +3,13 @@
 Example 3: PK Model, ODE model
 =============================== 
 
-Example 3 is quite different from the two previous examples. First, it is and ODE model, using ADVAN13. Second, different models in the search space required 
+Example 3 is quite different from the two previous examples. First, it is an ODE model, using ADVAN13. Second, different models in the search space required 
 different data sets. Therefore, there is a token in the $DATA record. Next, urine PK is included in the model. Finally, 
 linear vs Michaelis-Menten. The token groups/set are quite complex.
 
 
 While the search space is small (324 models), we'll search by :ref:`Exhaustive search<EX_desc>`. Because of the complexity of the model and the 
-ODE solution,  model run times are long. For faster search, the FOCE method is used. 
+ODE solution,  model run times are long. For faster search, the FO method is used. 
 
 The Template file
 ~~~~~~~~~~~~~~~~~
@@ -276,10 +276,9 @@ Example 3 tokens file :download:`json <../examples/user/Example3/tokens.json>`
 The Options file
 ~~~~~~~~~~~~~~~~
 
-The options file is fairly traditiona, :ref:`Exhaustive search<EX_desc>`.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long. 
+The options file is fairly traditional, :ref:`Exhaustive search<EX_desc>`.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long. 
 
-The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
-
+The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
 
 Note that to run in the enviroment used for this example, the directories are set to:
 

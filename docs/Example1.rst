@@ -171,10 +171,10 @@ The resulting $THETA block for this initial feature will be:
 
 ::
 
- "  (0,100) \\t; THETA(EMAX) "
- "  (0,1000) \\t; THETA(EC50) "
+ "  (0,100) \t; THETA(EMAX) "
+ "  (0,1000) \t; THETA(EC50) "
 
-Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn't be any way to identify which initial estiamate is to be associated with which 
+Where \\t i a tab. Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn't be any way to identify which initial estiamate is to be associated with which 
 THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file 
 is created, this approach would lead to ambiguity. Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier.
 
@@ -344,7 +344,8 @@ Example 1 :ref:`Options file <options file>`  :download:`json options file <../e
 The options file will likely need to be editted, as the path to nmfe??.bat must be provided
 The options file for Example 1 is given below:
 
-The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
+The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
+
 
 Note that to run in the enviroment used for this example, the directories are set to:
 
@@ -369,8 +370,8 @@ In either case, the folder names are given in the initial and final output to fa
 
     {
         "{
-    "author": "Mark Sale",
-    "algorithm": "EXHAUSTIVE",
+    "author": "Certara",
+    "algorithm": "EX",
     "exhaustive_batch_size": 100,
  
     "num_parallel": 4,
@@ -394,7 +395,15 @@ In either case, the folder names are given in the initial and final output to fa
     }
     }
 
-
+Penalties
+----------
+The base value for the "fitness" (for GA) or "reward/cost" for others is the -2LL value from the NONMEM output. Typically penalties for increased complexity are added to this. If one 
+parameter is added, and the models are nested, a value of 3.84 points per parameter correponds to p< 0.05. We'll use 10 points for each estimated parameter. Typically a model that converges 
+and has a successful covariance step is viewed as "better" than a model that doesn't. Therefore to capture this, we'll add 100 points for failing to converge, failing a covariance step 
+and failing the correlation test. Note that if the covariance step is not requested, the failed covariance penalty is added as is the failed correlation test and the failed condition number test. 
+similarly if the PRINT=E option is not included in the $COV record, the eigenvalues will not be printed and this will be regarded as a failed condition number test. 
+The non_influential_tokens penalty is added if any tokens selected for this model do not influence the final control file, as may be the case for nested tokens. This number should be small, as 
+it is only intended to break ties between otherwise identical models.
 
 The data file
 ~~~~~~~~~~~~~~~~
@@ -436,7 +445,7 @@ Initialization of the run should generate output similar to this:
     [10:50:42] Checking files in u:\pyDarwin\example1\rundir\0\01
     [10:50:42] Data set # 1 was found: c:\fda\pyDarwin\examples\user\Example1/dataExample1.csv
 
-Importantly, the temp directory (temp_dir) is listed since
+Importantly, the temp directory (temp_dir) is listed and since
     
     ::
 

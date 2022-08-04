@@ -14,7 +14,7 @@ missing the Cmax
 in the NONMEM control stream. Therefore, the penalty for missing Cmax is added after the NONMEM run is complete. Any R code can be provided by the user, and should return a vector of two values. The 
 first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to NONMEM output file to desribe the results of the R code execution.
 
-The penalty for missing the Cmax is essentially a `Posterior Predictive check (PPC) <https://pubmed.ncbi.nlm.nih.gov/11381569/>`_. The template file includes two problems, first the estimation, then a 
+The penalty for missing the Cmax is essentially a `Posterior Predictive Check (PPC) <https://pubmed.ncbi.nlm.nih.gov/11381569/>`_. The template file includes two problems, first the estimation, then a 
 Simulation problem, to generate a table of the PPC. 
 
 ::
@@ -49,14 +49,14 @@ User provided R code is the saved to a file:
 The R code executes from the run directory of that model, so, for example, a model run in c:\\pydarwin\\example4\\00\\04, the ORG.DAT and SIM.DAT files will be written to 
 that directory and the R code can read from the same directory.
 
-This R code returns a character vector of lenghth 2. The first is a string that can be read as numeric (penalty) and the 2nd is a string that is appended to the 
-NONMEM output file, as a comment to document the output of the R code. The content of the 2nd element of the vector is entirely up to th users, it has no 
+This R code returns a character vector of length 2. The first is a string that can be read as numeric (penalty) and the 2nd is a string that is appended to the 
+NONMEM output file, as a comment to document the output of the R code. The content of the 2nd element of the vector is entirely up to the user, it has no 
 impact on the pyDarwin process, it is just appended to the output file.
 
 The first element of the return value is added to the fitness/reward value and is then used in the selection of subsequent populations just as any other penalty. The 
 penalty value and be any real value - including negative, but typically would be positive. 
 
-The post processing code optoins are given in the options file:
+The post processing code options are given in the options file:
 
 ::
     
@@ -426,9 +426,9 @@ Example 4 tokens file :download:`json <../examples/user/Example4/tokens.json>`
 The Options file
 ~~~~~~~~~~~~~~~~
 
-The options file is fairly traditional, :ref:`Exhaustive search<EX_desc>`.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long. 
+The options file is fairly traditional, :ref:`Exhaustive search<EX_desc>`.  
 
-The user should provide an appropriate path for :ref:`"nmfePath"<nmfePath>`. NONMEM version 7.4 and 7.5 are supported. 
+The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
 
 Note that to run in the enviroment used for this example, the directories are set to:
 

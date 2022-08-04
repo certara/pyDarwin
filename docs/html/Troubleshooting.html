@@ -93,19 +93,28 @@ no other way to identify which intial estimates are to be associated with which 
 E.g, if an token stem as two THETAs:</p>
 <p>Effect = THETA(EMAX) * CONC/(THETA(EC50) + CONC)
 for the text in the $PK block, then code to be put into the $THETA block will be:</p>
-<p>The resulting $THETA block for this initial feature will be:</p>
+<p>The required $THETA block for initial estimates for this feature will be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;  (0,100) </span><span class="se">\\</span><span class="s2">t; THETA(EMAX) &quot;</span>
 <span class="s2">&quot;  (0,1000) </span><span class="se">\\</span><span class="s2">t; THETA(EC50) &quot;</span>
 </pre></div>
 </div>
 <p>Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn’t be any way to identify which initial estiamate is to be associated with which
 THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file
-is created, this approach would lead to ambiguity. Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier.</p>
+is created, this approach would lead to ambiguity or at least confusion about which initial estimate was associated with which THETA index.
+Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier as a comment.</p>
 <p>Other covariate effects are coded similarly.</p>
 <p>Failing to do so will result in pyDarwin not finding an appropriate initial estimate for that parameter and then being unable to calculate the appropriate index.</p>
 <p id="can-t-delete-temp-dir"><strong>can’t delete temp_dir</strong></p>
 <p>To insure valid results all folders that pyDarwin uses (output dir, temp dir and working dir) are removed prior to start. If that folder, or a file in the folder is open pyDarwin will be unable
 to remove it.</p>
+<p id="can-t-access-messages-txt"><strong>can’t access messages.txt</strong></p>
+<p>Exception has occurred: PermissionError (note: full exception trace is shown but execution is paused at: &lt;module&gt;)
+[WinError 32] The process cannot access the file because it is being used by another process: ‘c:\pydarwin\Example6\messages.txt’</p>
+<p>This error occurs when run_search is called from python in Visual Studio Code without the “if __name__ == ‘__main__’: ” <a class="reference external" href="https://stackoverflow.com/questions/419163/what-does-if-name-main-do">syntax</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;if __name__ == &#39;__main__&#39;: &quot;</span>
+</pre></div>
+</div>
+<p>isn’t used to call run_search it tries to reopen messages.txt and fails.</p>
 <p id="can-t-open-r"><strong>can’t open results.csv</strong> pyDarwin opens and closes the models.json, results.csv and messages.txt file with each model completed. This is done so that if the search
 is interupted it can be restarted with a little lost time as possible, and so the use can read and parse the messages.txt file to monitor progress.</p>
 </section>

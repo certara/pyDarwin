@@ -247,7 +247,7 @@ The template objects includes the control file template, and all the token group
 <p>A Binary Particle Swarm Optimization (binary PSO) algorithm.</p>
 <p>It takes a set of candidate solutions, and tries to find the best
 solution using a position-velocity update method. Unlike
-mod:<cite>pyswarms.single.gb</cite> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyswarms.single.lb</span></code>, this technique
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">pyswarms.single.gb</span></code> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyswarms.single.lb</span></code>, this technique
 is often applied to discrete binary problems such as job-shop scheduling,
 sequencing, and the like.</p>
 <p>The update rule for the velocity is still similar, as shown in the
@@ -369,16 +369,6 @@ string, integer string and minimal binary representation of the model
 </section>
 <section id="module-darwin.ModelCode">
 <span id="darwin-modelcode"></span><h3>darwin.ModelCode<a class="headerlink" href="#module-darwin.ModelCode" title="Permalink to this heading">¶</a></h3>
-<dl class="py function">
-<dt class="sig sig-object py" id="darwin.ModelCode._code_to_str">
-<span class="sig-prename descclassname"><span class="pre">darwin.ModelCode.</span></span><span class="sig-name descname"><span class="pre">_code_to_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.ModelCode._code_to_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="darwin.ModelCode._restore_code">
-<span class="sig-prename descclassname"><span class="pre">darwin.ModelCode.</span></span><span class="sig-name descname"><span class="pre">_restore_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stored</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.ModelCode._restore_code" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.ModelCode.</span></span><span class="sig-name descname"><span class="pre">ModelCode</span></span><a class="headerlink" href="#darwin.ModelCode.ModelCode" title="Permalink to this definition">¶</a></dt>
@@ -387,17 +377,20 @@ and to interconvert between them.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode.from_full_binary">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_full_binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gene_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCode.ModelCode.from_full_binary" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Create ModelCode object from “full binary”</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode.from_min_binary">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_min_binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gene_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCode.ModelCode.from_min_binary" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Create ModelCode object from “minimal binary”</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode.from_int">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gene_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCode.ModelCode.from_int" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Create ModelCode object from integers</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode.to_dict">
@@ -475,22 +468,6 @@ Need to look in output file for parameter at boundary and parameter non-positive
 <section id="module-darwin.ModelRun">
 <span id="darwin-modelrun"></span><h3>darwin.ModelRun<a class="headerlink" href="#module-darwin.ModelRun" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
-<dt class="sig sig-object py" id="darwin.ModelRun.ModelFileChecker">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.ModelRun.</span></span><span class="sig-name descname"><span class="pre">ModelFileChecker</span></span><a class="headerlink" href="#darwin.ModelRun.ModelFileChecker" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
-<dt class="sig sig-object py" id="darwin.ModelRun.ModelFileChecker.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelFileChecker.reset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="darwin.ModelRun.ModelFileChecker.check_files_present">
-<span class="sig-name descname"><span class="pre">check_files_present</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelFileChecker.check_files_present" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks if required files are present.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.ModelRun.</span></span><span class="sig-name descname"><span class="pre">ModelRun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adapter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelEngineAdapter.ModelEngineAdapter" title="darwin.ModelEngineAdapter.ModelEngineAdapter"><span class="pre">ModelEngineAdapter</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelRun" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
@@ -507,30 +484,21 @@ Defined as stem_prefix + generation + model_num.</p>
 </dd>
 <dt>executable_file_name: string</dt><dd><p>name of the executable, will be file_stem + “.exe”</p>
 </dd>
-<dt>run_dir: string</dt><dd><p>relative path from the home_dir to the directory in which NONMEM is run.</p>
-<ul class="simple">
-<li><p>For all but downhill search, the values (generation and model_num) will be integer</p></li>
-<li><p>For downhill the run_dir will be generation + D + step</p></li>
-<li><p>For local exhaustive search the run_dir will be generation + S + base_step + search_step, where base_step        is the final step in the downhill search</p></li>
-</ul>
-<p>run_dir names will be based on the file_stem, which will be unique for each model in the search</p>
+<dt>run_dir: string</dt><dd><p>path to the directory where the model is run;
+run_dir name is based on the file_stem, which must be unique for each model in the search.</p>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.model_result_class">
-<span class="sig-name descname"><span class="pre">model_result_class</span></span><a class="headerlink" href="#darwin.ModelRun.ModelRun.model_result_class" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#darwin.ModelResults.ModelResults" title="darwin.ModelResults.ModelResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelResults</span></code></a></p>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.is_duplicate">
 <span class="sig-name descname"><span class="pre">is_duplicate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ModelRun.ModelRun.is_duplicate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Whether the run is a duplicate of another run in the same Population.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.started">
 <span class="sig-name descname"><span class="pre">started</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ModelRun.ModelRun.started" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Whether the run has been started.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.to_dict">
@@ -551,7 +519,7 @@ Defined as stem_prefix + generation + model_num.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.run_model">
 <span class="sig-name descname"><span class="pre">run_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelRun.run_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs the model. Will terminate model if the timeout option (timeout_sec) is exceeded.
+<dd><p>Runs the model. Will terminate model if the timeout option (model_run_timeout) is exceeded.
 After model is run, the post run R code and post run Python code (if used) is run, and
 the calc_fitness function is called to calculate the fitness/reward.</p>
 </dd></dl>
@@ -559,24 +527,26 @@ the calc_fitness function is called to calculate the fitness/reward.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.cleanup">
 <span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelRun.cleanup" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Deletes all unneeded files after run.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.output_results">
 <span class="sig-name descname"><span class="pre">output_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelRun.output_results" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Prints some results to output (.lst) file.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.ModelRun.write_best_model_files">
 <span class="sig-prename descclassname"><span class="pre">darwin.ModelRun.</span></span><span class="sig-name descname"><span class="pre">write_best_model_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ModelRun.write_best_model_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>Copies the current model control file and output file to the home_directory.</p>
+<dd><p>Saves the current best model control and output in control_path and result_path respectively.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>control_path</strong> (<em>str</em>) – path to current best model control file</p></li>
-<li><p><strong>result_path</strong> (<em>str</em>) – path to current best model result file</p></li>
+<li><p><strong>control_path</strong> – path to current best model control file</p></li>
+<li><p><strong>result_path</strong> – path to current best model result file</p></li>
 </ul>
 </dd>
 </dl>
@@ -598,32 +568,57 @@ the calc_fitness function is called to calculate the fitness/reward.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.Population.Population">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.Population.</span></span><span class="sig-name descname"><span class="pre">Population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iteration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><p>Population of individuals (model runs).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.Population.Population.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iteration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an empty population.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Population name. Will be used as generation for every ModelRun added to this population. If it’s
+an integer, it’s formatted respectively to max_iteration (filled with leading zeroes if needed). Otherwise,
+it’s just converted to a string.</p></li>
+<li><p><strong>start_number</strong> – Starting model numer of this population.</p></li>
+<li><p><strong>max_number</strong> – Maximum model number of entire <strong>iteration</strong>. Used for formatting model number. Note that
+iteration may contain multiple populations (see exhaustive search).</p></li>
+<li><p><strong>max_iteration</strong> – Maximum iteration number. Used for formatting population name.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="darwin.Population.Population.from_codes">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_codes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_converter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iteration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population.from_codes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Create a new Population from a set of codes.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.Population.Population.add_model_run">
 <span class="sig-name descname"><span class="pre">add_model_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelCode.ModelCode" title="darwin.ModelCode.ModelCode"><span class="pre">ModelCode</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population.add_model_run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Create a new ModelRun and append it to runs.
+If a ModelRun with such code already exists in runs, the new one will be marked as a duplicate and won’t be run.
+If the code is found in the cache, ModelRun will be restored from there and won’t be run.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.Population.Population.get_best_run">
 <span class="sig-name descname"><span class="pre">get_best_run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.Population.Population.get_best_run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the best run (the least fitness of entire population).</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.Population.Population.get_best_runs">
 <span class="sig-name descname"><span class="pre">get_best_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.Population.Population.get_best_runs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get n best runs of entire population.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.Population.Population.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs the models. Always runs from integer representation, so for GA will need to convert to integer,
-for downhill, will need to convert to minimal binary, then to integer.</p>
-<p>No return value, just updates models.</p>
+<dd><p>Run the population - pass all runs to current run manager.
+No return value, just updates runs.</p>
 </dd></dl>
 
 </dd></dl>

@@ -110,11 +110,11 @@ All fields marked with * are required.
 
 .. _author_options_desc:
 
-* **author** - *string*: Name of user. Currently not used and for documentation purposes only. :comment:`Why user? User is the one who runs the project, it's not necessarily the author. It can be used with eponymous alias.`
+* **author** - *string*: Currently not used by pyDarwin for documentation purposes only. 
 
 .. _project_name_options_desc:
 
-* **project_name** - *string*: Name of the project.
+* **project_name** - *string*: Name of the project. Used to construct the default working directory, output directory and temp directory.
 
 .. _algorithim_options_desc:
 
@@ -173,7 +173,7 @@ All fields marked with * are required.
 
 .. _random_seed_options_desc:
 
-* **random_seed** - *int*: User defined seed for random number generator :review:`, not used for Exhaustive search`  (positive integer)
+* **random_seed** - *int*: User defined seed for random number generator, not used for Exhaustive search  (positive integer)
 
 .. _num_parallel_options_desc:
 
@@ -194,9 +194,9 @@ All fields marked with * are required.
 
 .. _exhaustive_batch_size_options_desc:
 
-* **exhaustive_batch_size** - *int*:  :review:`For a large exhaustive search, a complete list of all models may exceed the available memory.` :comment:`How large? You know there is a cache of model runs which is a dictionary that consumes a lot of memory, the bigger the search space the more memory it takes in the end. Wasn't a problem with 1.6M runs. We should be more specific with such claims.`
-  Using and exhaustive_search_batch_size will limit the number of models generated at any time.
-  There may be modest impact on performace as the batch size gets smaller. (positive integer)     
+* **exhaustive_batch_size** - *int*:  For a large exhaustive search, a complete list of all models may exceed the available memory. 
+    The list of models will be run in batchs of this size. A typical value is 1000 to 10000. Smaller batch sizes wil have a small effect on 
+    performance, as all models in a batch must complete before the next batch starts.
 
 .. _crash_value_options_desc:
 
@@ -248,12 +248,11 @@ All fields marked with * are required.
 
 .. _downhill_period_options_desc:
 
-* **downhill_period** - *numeric*: How often to run :review:`the downhill set` :comment:`Why 'set'? It is referred as 'search' in the Glossary.`, :review:`default is 2` :comment:`Not anymore, now it's -1 meaning 'no periodic downhill'`, meaning that 2 generations/iterations will be run, followed by the 
-  downhill step, :review:`then an additional 2 generations/iterations.` :comment:`Not necesseraly. There may be no more iterations left, or only 1.` (integer)
+* **downhill_period** - *numeric*: How often to run to run the downhill step` default is to -1 meaning 'no periodic downhill' (integer)
 
 .. _num_niches_options_desc:
 
-* **num_niches**\* - *string*: Only used for GA. A penalty is assigned for each model based on the number of similar models within a niche
+* **num_niches** - *int*: Only used for GA. A penalty is assigned for each model based on the number of similar models within a niche
   radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose
   is to insure maintaining a degree of diversity in the population (integer)
 
@@ -272,7 +271,7 @@ All fields marked with * are required.
 
 .. _nmfe_path_options_desc:
 
-* **nmfe_path** - *string*: Path to :review:`nmfe ??.bat`, :comment:`There is no bat in Linux. Just call it 'nmfe script'` the default command line for executing NONMEM (string)
+* **nmfe_path** - *string*:  the ommand line for executing NONMEM (string)
 
 .. _model_run_timeout_options_desc:
 
@@ -358,11 +357,11 @@ All fields marked with * are required.
 
 .. _output_dir_options_desc:
 
-* **output_dir** - *string*:
+* **output_dir** - *string*: Directory where pyDarwin output will be placed
 
 .. _temp_dir_options_desc:
 
-* **temp_dir** - *string*:
+* **temp_dir** - *string*: Root directory for NONMEM model runs.
 
 .. _generic_grid_adapter_options_desc:
 

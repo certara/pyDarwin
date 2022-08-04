@@ -21,7 +21,7 @@ Effect = THETA(EMAX) * CONC/(THETA(EC50) + CONC)
 for the text in the $PK block, then code to be put into the $THETA block will be:
 
 
-The resulting $THETA block for this initial feature will be:
+The required $THETA block for initial estimates for this feature will be:
 
 ::
 
@@ -44,8 +44,21 @@ Failing to do so will result in pyDarwin not finding an appropriate initial esti
 To insure valid results all folders that pyDarwin uses (output dir, temp dir and working dir) are removed prior to start. If that folder, or a file in the folder is open pyDarwin will be unable 
 to remove it.
 
+.. _can't access messages.txt:
 
 
+**can't access messages.txt**
+
+Exception has occurred: PermissionError (note: full exception trace is shown but execution is paused at: <module>)
+[WinError 32] The process cannot access the file because it is being used by another process: 'c:\\pydarwin\\Example6\\messages.txt'
+
+This error occurs when run_search is called from python in Visual Studio Code without the "if __name__ == '__main__': " `syntax <https://stackoverflow.com/questions/419163/what-does-if-name-main-do>`_. 
+
+::
+   
+   "if __name__ == '__main__': "
+
+isn't used to call run_search it tries to reopen messages.txt and fails.
 
 .. _can't open r:
 

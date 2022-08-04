@@ -146,7 +146,7 @@ generated (the "tell" step).
 Random Forest
 -------------------------
 
-`Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consist of spliting the data (the "goodness" of each model in this case) thus continuously dividing the 
+`Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consist of spliting the search space (based on the the "goodness" of each model in this case) thus continuously dividing the 
 search space into "good" and "bad" regions. As before, the initial divisions are random, but become increasingly well informated a real values for the fitness/reward of models is 
 included.
 

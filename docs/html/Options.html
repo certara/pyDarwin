@@ -180,10 +180,10 @@ String options must be in quotes. See <a class="reference external" href="https:
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
 <p>All fields marked with * are required.</p>
 <ul class="simple" id="author-options-desc">
-<li><p><strong>author</strong> - <em>string</em>: Name of user. Currently not used and for documentation purposes only. <span class="comment">Why user? User is the one who runs the project, it’s not necessarily the author. It can be used with eponymous alias.</span></p></li>
+<li><p><strong>author</strong> - <em>string</em>: Currently not used by pyDarwin for documentation purposes only.</p></li>
 </ul>
 <ul class="simple" id="project-name-options-desc">
-<li><p><strong>project_name</strong> - <em>string</em>: Name of the project.</p></li>
+<li><p><strong>project_name</strong> - <em>string</em>: Name of the project. Used to construct the default working directory, output directory and temp directory.</p></li>
 </ul>
 <ul class="simple" id="algorithim-options-desc">
 <li><p><strong>algorithim</strong>* - <em>string</em>: One of <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a>, <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a>, <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a></p></li>
@@ -249,7 +249,7 @@ penalty is to maintain diversity of models, to avoid premature convergence of th
 </ul>
 </div></blockquote>
 <ul class="simple" id="random-seed-options-desc">
-<li><p><strong>random_seed</strong> - <em>int</em>: User defined seed for random number generator <span class="review">, not used for Exhaustive search</span>  (positive integer)</p></li>
+<li><p><strong>random_seed</strong> - <em>int</em>: User defined seed for random number generator, not used for Exhaustive search  (positive integer)</p></li>
 </ul>
 <ul class="simple" id="num-parallel-options-desc">
 <li><p><strong>num_parallel</strong> - <em>int</em>: How many model to run in parallel  (positive integer)</p></li>
@@ -265,9 +265,12 @@ penalty is to maintain diversity of models, to avoid premature convergence of th
 performance of the “ask” step. (positive integer)</p></li>
 </ul>
 <ul class="simple" id="exhaustive-batch-size-options-desc">
-<li><p><strong>exhaustive_batch_size</strong> - <em>int</em>:  <span class="review">For a large exhaustive search, a complete list of all models may exceed the available memory.</span> <span class="comment">How large? You know there is a cache of model runs which is a dictionary that consumes a lot of memory, the bigger the search space the more memory it takes in the end. Wasn’t a problem with 1.6M runs. We should be more specific with such claims.</span>
-Using and exhaustive_search_batch_size will limit the number of models generated at any time.
-There may be modest impact on performace as the batch size gets smaller. (positive integer)</p></li>
+<li><dl class="simple">
+<dt><strong>exhaustive_batch_size</strong> - <em>int</em>:  For a large exhaustive search, a complete list of all models may exceed the available memory.</dt><dd><p>The list of models will be run in batchs of this size. A typical value is 1000 to 10000. Smaller batch sizes wil have a small effect on
+performance, as all models in a batch must complete before the next batch starts.</p>
+</dd>
+</dl>
+</li>
 </ul>
 <ul class="simple" id="crash-value-options-desc">
 <li><p><strong>crash_value</strong> - <em>int</em>:  Value of fitness or reward assigned when model output is not generated.
@@ -324,11 +327,10 @@ than the same model without the non influential token(s) (real)</p></li>
 </ul>
 </div></blockquote>
 <ul class="simple" id="downhill-period-options-desc">
-<li><p><strong>downhill_period</strong> - <em>numeric</em>: How often to run <span class="review">the downhill set</span> <span class="comment">Why ‘set’? It is referred as ‘search’ in the Glossary.</span>, <span class="review">default is 2</span> <span class="comment">Not anymore, now it’s -1 meaning ‘no periodic downhill’</span>, meaning that 2 generations/iterations will be run, followed by the
-downhill step, <span class="review">then an additional 2 generations/iterations.</span> <span class="comment">Not necesseraly. There may be no more iterations left, or only 1.</span> (integer)</p></li>
+<li><p><strong>downhill_period</strong> - <em>numeric</em>: How often to run to run the downhill step` default is to -1 meaning ‘no periodic downhill’ (integer)</p></li>
 </ul>
 <ul class="simple" id="num-niches-options-desc">
-<li><p><strong>num_niches</strong>* - <em>string</em>: Only used for GA. A penalty is assigned for each model based on the number of similar models within a niche
+<li><p><strong>num_niches</strong> - <em>int</em>: Only used for GA. A penalty is assigned for each model based on the number of similar models within a niche
 radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose
 is to insure maintaining a degree of diversity in the population (integer)</p></li>
 </ul>
@@ -343,7 +345,7 @@ The two bit local search substantially increase the robustness of the search. (t
 <li><p><strong>final_downhill_search</strong> - <em>boolean</em>: Whether to perform a local search (1 and 2 bit) at the end of the global search (true|false)</p></li>
 </ul>
 <ul class="simple" id="nmfe-path-options-desc">
-<li><p><strong>nmfe_path</strong> - <em>string</em>: Path to <span class="review">nmfe ??.bat</span>, <span class="comment">There is no bat in Linux. Just call it ‘nmfe script’</span> the default command line for executing NONMEM (string)</p></li>
+<li><p><strong>nmfe_path</strong> - <em>string</em>:  the ommand line for executing NONMEM (string)</p></li>
 </ul>
 <ul class="simple" id="model-run-timeout-options-desc">
 <li><p><strong>model_run_timeout</strong> - <em>int</em>: Time after which the NONMEM execution will be terminated, and the crash value assigned. (positive real)</p></li>
@@ -420,10 +422,10 @@ Required if <code class="docutils literal notranslate"><span class="pre">use_pyt
 <li><p><strong>data_dir</strong> - <em>string</em>:</p></li>
 </ul>
 <ul class="simple" id="output-dir-options-desc">
-<li><p><strong>output_dir</strong> - <em>string</em>:</p></li>
+<li><p><strong>output_dir</strong> - <em>string</em>: Directory where pyDarwin output will be placed</p></li>
 </ul>
 <ul class="simple" id="temp-dir-options-desc">
-<li><p><strong>temp_dir</strong> - <em>string</em>:</p></li>
+<li><p><strong>temp_dir</strong> - <em>string</em>: Root directory for NONMEM model runs.</p></li>
 </ul>
 <ul class="simple" id="generic-grid-adapter-options-desc">
 <li><p><strong>generic_grid_adapter</strong> - <em>JSON</em>:</p></li>

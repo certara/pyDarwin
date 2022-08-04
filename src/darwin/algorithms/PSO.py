@@ -5,7 +5,7 @@ A Binary Particle Swarm Optimization (binary PSO) algorithm.
 
 It takes a set of candidate solutions, and tries to find the best
 solution using a position-velocity update method. Unlike
-mod:`pyswarms.single.gb` and :mod:`pyswarms.single.lb`, this technique
+:mod:`pyswarms.single.gb` and :mod:`pyswarms.single.lb`, this technique
 is often applied to discrete binary problems such as job-shop scheduling,
 sequencing, and the like.
 

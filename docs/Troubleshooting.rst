@@ -30,7 +30,8 @@ The required $THETA block for initial estimates for this feature will be:
 
 Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn't be any way to identify which initial estiamate is to be associated with which 
 THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file 
-is created, this approach would lead to ambiguity. Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier.
+is created, this approach would lead to ambiguity or at least confusion about which initial estimate was associated with which THETA index. 
+Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier as a comment.
 
 Other covariate effects are coded similarly. 
 

@@ -81,7 +81,7 @@ darwin.ModelCode
    :members:
    :undoc-members:
    :private-members:
-   :exclude-members: _int_to_bin
+   :exclude-members: _int_to_bin, _code_to_str, _restore_code
 
 darwin.ModelResults
 --------------------------
@@ -96,6 +96,7 @@ darwin.ModelRun
 .. automodule:: darwin.ModelRun
    :members:
    :undoc-members:
+   :exclude-members: model_result_class
 
 darwin.Population
 ------------------------
@@ -103,6 +104,7 @@ darwin.Population
 .. automodule:: darwin.Population
    :members:
    :undoc-members:
+   :special-members: __init__
 
 Caching model runs
 ~~~~~~~~~~~~~~~~~~~~~~~

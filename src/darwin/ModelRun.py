@@ -22,8 +22,7 @@ from .ModelResults import ModelResults
 from .ModelEngineAdapter import ModelEngineAdapter, get_engine_adapter
 
 JSON_ATTRIBUTES = [
-    'model_num', 'generation',
-    'file_stem', 'run_dir', 'control_file_name', 'output_file_name',
+    'model_num', 'generation', 'file_stem',
     'run_dir', 'control_file_name', 'output_file_name', 'executable_file_name',
     'status', 'source'
 ]
@@ -33,7 +32,7 @@ def _dummy(run_dir: str):
     return 0, ""
 
 
-class ModelFileChecker:
+class _ModelFileChecker:
     _lock_file_check = threading.Lock()
 
     def __init__(self):
@@ -71,7 +70,7 @@ class ModelFileChecker:
         return self._files_ok
 
 
-file_checker = ModelFileChecker()
+file_checker = _ModelFileChecker()
 _python_post_process = _dummy
 
 
@@ -98,29 +97,21 @@ class ModelRun:
         name of the executable, will be file_stem + ".exe"
 
     run_dir: string
-        relative path from the home_dir to the directory in which NONMEM is run.
-
-        * For all but downhill search, the values (generation and model_num) will be integer
-
-        * For downhill the run_dir will be generation + D + step
-
-        * For local exhaustive search the run_dir will be generation + S + base_step + search_step, where base_step\
-        is the final step in the downhill search
-
-        run_dir names will be based on the file_stem, which will be unique for each model in the search
+        path to the directory where the model is run;
+        run_dir name is based on the file_stem, which must be unique for each model in the search.
     """
 
+    # nice try
     model_result_class = ModelResults
 
     def __init__(self, model: Model, model_num, generation, adapter: ModelEngineAdapter):
         """
-
-        :param model_num:  Model number, within the generation, Generation + model_num creates a unique "file_stem" that
-            is used to name the control file, the executable and the relative path from the home directory (home_dir)
-            to the run directory
-
+        :param model_num: Model number, within the generation, Generation + model_num creates a unique "file_stem" that
+            is used to name the control file, the executable and the run directory
         :param generation: The current generation/iteration. This value is used to construct both the control
-            and executable name (NM_generation_modelNum.exe) and the run directory (./generation/model_num)
+            and executable name and the run directory
+        :param adapter: an instance of ModelEngineAdapter, may be obtained
+            with get_engine_adapter(options.engine_adapter)
         """
 
         self.model = model
@@ -147,9 +138,15 @@ class ModelRun:
         self.reference_model_num = -1
 
     def is_duplicate(self) -> bool:
+        """
+        Whether the run is a duplicate of another run in the same Population.
+        """
         return self.reference_model_num > -1
 
     def started(self) -> bool:
+        """
+        Whether the run has been started.
+        """
         return self.status != 'Not Started'
 
     def to_dict(self):
@@ -277,7 +274,7 @@ class ModelRun:
 
     def run_model(self):
         """
-        Runs the model. Will terminate model if the timeout option (timeout_sec) is exceeded.
+        Runs the model. Will terminate model if the timeout option (model_run_timeout) is exceeded.
         After model is run, the post run R code and post run Python code (if used) is run, and
         the calc_fitness function is called to calculate the fitness/reward.
         """
@@ -334,6 +331,9 @@ class ModelRun:
             self.status = "Done"
 
     def cleanup(self):
+        """
+        Deletes all unneeded files after run.
+        """
         self._adapter.cleanup(self.run_dir, self.file_stem)
 
     def _decode_r_stdout(self, r_stdout):
@@ -432,7 +432,7 @@ class ModelRun:
 
     def _calc_fitness(self):
         """
-        Calculates the fitness, based on the model output, and the penalties (from the options file).
+        Calculates the fitness, based on the model output and the penalties.
         Need to look in output file for parameter at boundary and parameter non-positive.
         """
 
@@ -448,6 +448,10 @@ class ModelRun:
         return True
 
     def output_results(self):
+        """
+        Prints some results to output (.lst) file.
+        """
+
         with open(os.path.join(self.run_dir, self.output_file_name), "a") as output:
             res = self.result
             model = self.model
@@ -474,13 +478,10 @@ def _import_python_postprocessing(path: str):
 
 def write_best_model_files(control_path: str, result_path: str) -> bool:
     """
-    Copies the current model control file and output file to the home_directory.
+    Saves the current best model control and output in control_path and result_path respectively.
 
     :param control_path: path to current best model control file
-    :type control_path: str
-
     :param result_path: path to current best model result file
-    :type result_path: str
     """
 
     if not GlobalVars.BestRun:

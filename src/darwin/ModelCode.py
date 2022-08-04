@@ -22,9 +22,13 @@ class ModelCode:
 
     @classmethod
     def from_full_binary(cls, code: list, gene_max: list, length: list):
+        """
+        Create ModelCode object from “full binary”
+        """
+
         res = cls()
 
-        # it's usually deap Individual instance - converting to a regular list
+        # it may be an instance of deap.Individual - converting to a regular list
         res.FullBinCode = []
         res.FullBinCode.extend(code)
 
@@ -35,6 +39,10 @@ class ModelCode:
 
     @classmethod
     def from_min_binary(cls, code: list, gene_max: list, length: list):
+        """
+        Create ModelCode object from “minimal binary”
+        """
+
         res = cls()
 
         res.MinBinCode = code
@@ -45,6 +53,10 @@ class ModelCode:
 
     @classmethod
     def from_int(cls, code: list, gene_max: list, length: list):
+        """
+        Create ModelCode object from integers
+        """
+
         res = cls()
 
         # numpy.int32 is not JSON serializable - converting to python int

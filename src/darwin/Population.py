@@ -13,8 +13,22 @@ from .ModelRunManager import get_run_manager
 
 
 class Population:
+    """
+    Population of individuals (model runs).
+    """
 
     def __init__(self, template: Template, name, start_number=0, max_number=0, max_iteration=0):
+        """
+        Create an empty population.
+
+        :param name: Population name. Will be used as generation for every ModelRun added to this population. If it's
+            an integer, it's formatted respectively to max_iteration (filled with leading zeroes if needed). Otherwise,
+            it's just converted to a string.
+        :param start_number: Starting model numer of this population.
+        :param max_number: Maximum model number of entire **iteration**. Used for formatting model number. Note that
+            iteration may contain multiple populations (see exhaustive search).
+        :param max_iteration: Maximum iteration number. Used for formatting population name.
+        """
         try:
             iter_format = '{:0' + str(len(str(max_iteration))) + 'd}'
             name = iter_format.format(name)
@@ -32,6 +46,9 @@ class Population:
 
     @classmethod
     def from_codes(cls, template: Template, name, codes, code_converter, start_number=0, max_number=0, max_iteration=0):
+        """
+        Create a new Population from a set of codes.
+        """
         pop = cls(template, name, start_number, max_number or len(codes), max_iteration)
 
         maxes = template.gene_max
@@ -43,6 +60,11 @@ class Population:
         return pop
 
     def add_model_run(self, code: ModelCode):
+        """
+        Create a new ModelRun and append it to runs.
+        If a ModelRun with such code already exists in runs, the new one will be marked as a duplicate and won't be run.
+        If the code is found in the cache, ModelRun will be restored from there and won't be run.
+        """
         model = self.adapter.create_new_model(self.template, code)
 
         genotype = str(model.genotype())
@@ -72,6 +94,9 @@ class Population:
         self.runs.append(run)
 
     def get_best_run(self) -> ModelRun:
+        """
+        Get the best run (the least fitness of entire population).
+        """
         fitnesses = [r.result.fitness for r in self.runs]
 
         best = utils.get_n_best_index(1, fitnesses)[0]
@@ -79,6 +104,9 @@ class Population:
         return self.runs[best]
 
     def get_best_runs(self, n: int) -> list:
+        """
+        Get n best runs of entire population.
+        """
         fitnesses = [r.result.fitness for r in self.runs]
 
         best = utils.get_n_best_index(n, fitnesses)
@@ -89,10 +117,8 @@ class Population:
 
     def run(self):
         """
-        Runs the models. Always runs from integer representation, so for GA will need to convert to integer,
-        for downhill, will need to convert to minimal binary, then to integer.
-
-        No return value, just updates models.
+        Run the population - pass all runs to current run manager.
+        No return value, just updates runs.
         """
 
         if not self.runs:

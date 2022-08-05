@@ -248,11 +248,11 @@ All fields marked with * are required.
 
 .. _downhill_period_options_desc:
 
-* **downhill_period** - *numeric*: How often to run to run the downhill step` default is to -1 meaning 'no periodic downhill' (integer)
+* **downhill_period** - *int*: How often to run to run the downhill step default is to -1 meaning 'no periodic downhill' (integer)
 
 .. _num_niches_options_desc:
 
-* **num_niches** - *int*: Only used for GA. A penalty is assigned for each model based on the number of similar models within a niche
+* **num_niches** - *int*: Used for GA and downhill. A penalty is assigned for each model based on the number of similar models within a niche
   radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose
   is to insure maintaining a degree of diversity in the population (integer)
 

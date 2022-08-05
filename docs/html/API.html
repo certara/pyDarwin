@@ -202,7 +202,6 @@ All models will be run in generation/iteration number 0.</p>
 <dd><p>Run the Genetic Algorithm (GA) search, using the DEAP (<a class="reference external" href="https://github.com/deap/deap">https://github.com/deap/deap</a>) packages.
 All the required information is contained in the Template objects, plus the options module
 The template objects includes the control file template, and all the token groups.</p>
-<p>Called from Darwin.run_search, _run_template</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>model_template</strong> (<a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><em>Template</em></a>) – Template object for the search</p>
@@ -627,6 +626,13 @@ No return value, just updates runs.</p>
 </section>
 <section id="caching-model-runs">
 <h2>Caching model runs<a class="headerlink" href="#caching-model-runs" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line">It’s not uncommon to get duplicated models during search. In order to prevent unnecessary runs all unique models from current search are stored in Model Cache.</div>
+<div class="line">Every new model is checked against the cache. If a match is found, the new model is replaced with cached one, so the result is obtained instantly.</div>
+<div class="line">Currently only in-memory cache is available, so in case of large searches (millions of model runs) memory footprint may be substantial.</div>
+<div class="line">Normally the cache is dumped at the end of every iteration or when you <a class="reference internal" href="Usage.html#stop-search"><span class="std std-ref">stop the search</span></a>. This behaviour can be affected
+by <a class="reference internal" href="Options.html#saved-models-readonly-options-desc"><span class="std std-ref">saved_models_readonly</span></a> set to true.</div>
+</div>
 <section id="module-darwin.ModelCache">
 <span id="darwin-modelcache"></span><h3>darwin.ModelCache<a class="headerlink" href="#module-darwin.ModelCache" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">

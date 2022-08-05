@@ -98,14 +98,9 @@ def run_ga(model_template: Template) -> ModelRun:
     All the required information is contained in the Template objects, plus the options module
     The template objects includes the control file template, and all the token groups.
 
-    Called from Darwin.run_search, _run_template
-
     :param model_template: Template object for the search
-
     :type model_template: Template
-
     :return: The single best model from the search
-
     :rtype: Model
     """    
     downhill_period = options.downhill_period

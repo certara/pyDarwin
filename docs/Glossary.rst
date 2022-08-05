@@ -133,7 +133,7 @@ with to bit strings mapped to a value of 2. In the minimal binary, the mapping i
 and a bit string of [1,1] isn't permitted. This eliminates running the same model (from different bit strings). The minimal binary representation is used for the downhill and local 2 bit search.
 
 
-The minimal binary is on contrast to the :ref:`full binary <full binary>`.
+The minimal binary is in contrast to the :ref:`full binary <full binary>`.
 
 
 .. _Niche Penalty:

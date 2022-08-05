@@ -327,10 +327,10 @@ than the same model without the non influential token(s) (real)</p></li>
 </ul>
 </div></blockquote>
 <ul class="simple" id="downhill-period-options-desc">
-<li><p><strong>downhill_period</strong> - <em>numeric</em>: How often to run to run the downhill step` default is to -1 meaning ‘no periodic downhill’ (integer)</p></li>
+<li><p><strong>downhill_period</strong> - <em>int</em>: How often to run to run the downhill step default is to -1 meaning ‘no periodic downhill’ (integer)</p></li>
 </ul>
 <ul class="simple" id="num-niches-options-desc">
-<li><p><strong>num_niches</strong> - <em>int</em>: Only used for GA. A penalty is assigned for each model based on the number of similar models within a niche
+<li><p><strong>num_niches</strong> - <em>int</em>: Used for GA and downhill. A penalty is assigned for each model based on the number of similar models within a niche
 radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose
 is to insure maintaining a degree of diversity in the population (integer)</p></li>
 </ul>

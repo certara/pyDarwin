@@ -43,20 +43,29 @@ as a single argument:
     
     python -m darwin.run_search_in_folder <folder_path>
 
-*Note: Files must be named as* ``template.txt``, ``tokens.json``, *and* ``options.json`` *when using*
-:ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>`.
+.. note::
+    Files must be named as ``template.txt``, ``tokens.json``, and ``options.json`` when using :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>`.
 
+
+.. _stop_search:
 
 Stopping Execution
 =========================
 
-Once a search is started, ``pyDarwin`` will track the presence of various files in the ``working_dir``.
-Creating either of the two files listed below inside the user's ``working_dir``, will stop ``pyDarwin`` execution.
+:review:`A running search can be stopped using following command:`
 
-1. ``stop.darwin``: Execution will stop immediately
-2. ``soft_stop.darwin``: Execution will stop after current model runs are finished
+.. code:: python
+    
+    python -m darwin.stop_search [-f] <project dir>|<options file>
 
-*Note: models.json will contain all model runs finished before interruption*
+| :review:`You need to provide the path to the project folder or to the options file associated with the search you want to stop.`
+| :review:`Optional flag specifies whether the search must be stopped immediatelly. If not set the search will stop after current model runs are finished.`
+
+.. warning::
+   Don't force-stop GP during ask-stage <reference here>. Either wait for it to finish (``Done asking`` in the console output and/or :file:`messages.txt`) or stop w/o ``-f`` flag.
+
+.. note::
+   models.json will contain all model runs finished before interruption.
 
 
 Execution on Linux Grids
@@ -70,7 +79,8 @@ The following requirements should be met in order to execute ``pyDarwin`` on Lin
 * You should be familiar with your grid controller commands e.g., how to submit a job, query finished jobs, and delete jobs.
 * You should be familiar with regular expressions e.g., for usage in ``"submit_job_id_re"`` and ``"poll_job_id_re"`` fields in ``options.json``.
 
-*Note: If all grid nodes share the same file system you can simply deploy pyDarwin in your home directory (always use virtual environment!).*
+.. note::
+    If all grid nodes share the same file system you can simply deploy pyDarwin in your home directory (always use virtual environment!).
 
 
 
@@ -81,9 +91,10 @@ There are two ways to utilize grids for search in `pyDarwin`:
 
 In both cases you need to setup grid settings in your ``options.json``.
 
-Both ways you can stop the search using ``darwin.stop_search``. Just keep in mind that in second case it may be not very responsive (due to load/IO latency/grid deployment details), so be patient.
+Both ways you can :ref:`stop the search <stop_search>` using ``darwin.stop_search``. Just keep in mind that in second case it may be not very responsive (due to load/IO latency/grid deployment details), so be patient.
 
-*Note: Although it’s possible to submit a "local search with local model runs" to the grid, this is not suggested.*
+.. note::
+    Although it’s possible to submit a "local search with local model runs" to the grid, this is not suggested.
 
 
 .. _running_grid_search:
@@ -102,15 +113,16 @@ Or alternatively, run grid search in folder:
     
     python -m darwin.grid.run_search_in_folder <folder_path>
 
-*Note: You must ensure that* ``submit_search_command`` *has been setup correctly in options.json, in addition to other grid settings.
-See* :ref:`submit_search_command <submit_search_command_options_desc>`
+.. note::
+    You must ensure that ``submit_search_command`` has been setup correctly in options.json, in addition to other grid settings.
+    See :ref:`submit_search_command <submit_search_command_options_desc>`
 
+
+.. _startRequiredFiles:
 
 ********************
 Required Files
 ********************
-
-.. _startRequiredFiles:
  
  
 The same 3 files are required for any search, whether exhausitve, :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`,
@@ -121,7 +133,6 @@ file specifies the algorithm, the fitness function, any R or Python code to be e
 and misc other options related to execution. See :ref:`Options List<Options>`.
  
 .. _template_file_target:
-
 
 Template File
 =========================

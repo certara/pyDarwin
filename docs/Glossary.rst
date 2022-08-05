@@ -135,6 +135,16 @@ and a bit string of [1,1] isn't permitted. This eliminates running the same mode
 
 The minimal binary is on contrast to the :ref:`full binary <full binary>`.
 
+
+.. _Niche Penalty:
+
+**Niche Penalty:** The niche penalty is calculate by first calculating the “distance matrix”, the pair wise Mikowski distance from the present model to all other models. The 
+“crowding” quantity is then calculated a the sum of: (distance/niche_radius)**sharing_alpha for all other models in the generation for which the Mikowski distance is less than 
+the niche radius. Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche penalty is to maintain diversity of models, 
+to avoid premature convergence of the search, by penalizing when models are too similar to other models in the current generation. A typical value for the penalty is 10. 
+
+
+
 .. _Niche Radius:
 
 **Niche Radius:** The niche radius is used to define how similar pairs of models are. This is used to select models for the :ref:`Local search<Local Search>` is requested and to calcuate the sharing penalty for 

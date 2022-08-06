@@ -180,7 +180,7 @@ String options must be in quotes. See <a class="reference external" href="https:
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
 <p>All fields marked with * are required.</p>
 <ul class="simple" id="author-options-desc">
-<li><p><strong>author</strong> - <em>string</em>: Currently not used by pyDarwin for documentation purposes only.</p></li>
+<li><p><strong>author</strong> - <em>string</em>: Currently not used by pyDarwin, for documentation purposes only.</p></li>
 </ul>
 <ul class="simple" id="project-name-options-desc">
 <li><p><strong>project_name</strong> - <em>string</em>: Name of the project. Used to construct the default working directory, output directory and temp directory.</p></li>
@@ -208,7 +208,7 @@ String options must be in quotes. See <a class="reference external" href="https:
 </div></blockquote>
 <blockquote id="sharing-alpha-options-desc">
 <div><ul class="simple">
-<li><p><strong>sharing_alpha</strong> - <em>int</em>: Parameter of the niche penalty calculation</p></li>
+<li><p><strong>sharing_alpha</strong> - <em>real</em>: Parameter of the niche penalty calculation</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="selection-options-desc">
@@ -218,7 +218,7 @@ String options must be in quotes. See <a class="reference external" href="https:
 </div></blockquote>
 <blockquote id="selection-size-options-desc">
 <div><ul class="simple">
-<li><p><strong>selection_size</strong> - <em>int</em>: How many “parents” enter in the selection, 2 is highly recommended, very limited experience with other values</p></li>
+<li><p><strong>selection_size</strong> - <em>int</em>: How many “parents” enter in the selection, 2 is highly recommended, experience with other values is very limited</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="crossover-operator-options-desc">
@@ -233,26 +233,27 @@ String options must be in quotes. See <a class="reference external" href="https:
 </div></blockquote>
 <blockquote id="attribute-mutation-probability-options-desc">
 <div><ul class="simple">
-<li><p><strong>attribute_mutation_probability</strong> - <em>int</em>: Probability of any bit being mutated, (real 0.0-1.0)</p></li>
+<li><p><strong>attribute_mutation_probability</strong> - <em>real</em>: Probability of any bit being mutated, (real 0.0-1.0)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="niche-penalty-options-desc">
 <div><ul>
-<li><p><strong>niche_penalty</strong>* - <em>int</em>: Required if using GA. Require for calculation of the crowding penalty.
+<li><p><strong>niche_penalty</strong>* - <em>real</em>: Required if using GA. Require for calculation of the crowding penalty.
 The niche penalty is calculate by first calculating the “distance matrix”, the pair wise
 <a class="reference external" href="https://en.wikipedia.org/wiki/Minkowski_distance">Mikowski distance</a> from the present model to all
 other models. The “crowding” quantity is then calculated a the sum of: (distance/niche_radius)**sharing_alpha
 for all other models in the generation for which the Mikowski distance is less than the niche radius.</p>
 <p>Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche
-penalty is to maintain diversity of models, to avoid premature convergence of the search, by penalizing when models are too similar to other models in the current generation. A typical value for the penalty is 10. (positive real)</p>
+penalty is to maintain diversity of models, to avoid premature convergence of the search, by penalizing when models are too
+similar to other models in the current generation. A typical value for the penalty is 10. (positive real)</p>
 </li>
 </ul>
 </div></blockquote>
 <ul class="simple" id="random-seed-options-desc">
-<li><p><strong>random_seed</strong> - <em>int</em>: User defined seed for random number generator, not used for Exhaustive search  (positive integer)</p></li>
+<li><p><strong>random_seed</strong> - <em>int</em>: User defined seed for random number generator, not used for Exhaustive search (positive integer)</p></li>
 </ul>
 <ul class="simple" id="num-parallel-options-desc">
-<li><p><strong>num_parallel</strong> - <em>int</em>: How many model to run in parallel  (positive integer)</p></li>
+<li><p><strong>num_parallel</strong> - <em>int</em>: How many models to run in parallel (positive integer)</p></li>
 </ul>
 <ul class="simple" id="num-generations-options-desc">
 <li><p><strong>num_generations</strong>* - <em>int</em>: How many iterations or generations, not used for Exhaustive Search (positive integer)</p></li>
@@ -266,14 +267,14 @@ performance of the “ask” step. (positive integer)</p></li>
 </ul>
 <ul class="simple" id="exhaustive-batch-size-options-desc">
 <li><dl class="simple">
-<dt><strong>exhaustive_batch_size</strong> - <em>int</em>:  For a large exhaustive search, a complete list of all models may exceed the available memory.</dt><dd><p>The list of models will be run in batchs of this size. A typical value is 1000 to 10000. Smaller batch sizes wil have a small effect on
+<dt><strong>exhaustive_batch_size</strong> - <em>int</em>:  For a large exhaustive search, a complete list of all models may exceed the available memory.</dt><dd><p>The list of models will be run in batchs of this size. A typical value is 1000 to 10000. Smaller batch sizes will have a small effect on
 performance, as all models in a batch must complete before the next batch starts.</p>
 </dd>
 </dl>
 </li>
 </ul>
 <ul class="simple" id="crash-value-options-desc">
-<li><p><strong>crash_value</strong> - <em>int</em>:  Value of fitness or reward assigned when model output is not generated.
+<li><p><strong>crash_value</strong> - <em>real</em>:  Value of fitness or reward assigned when model output is not generated.
 Should be set larger than any anticipate completed model fitness (positive real)</p></li>
 </ul>
 <ul class="simple" id="penalty-options-desc">
@@ -281,49 +282,49 @@ Should be set larger than any anticipate completed model fitness (positive real)
 </ul>
 <blockquote id="theta-options-desc">
 <div><ul class="simple">
-<li><p><strong>theta</strong> - <em>int</em>: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
-1 df and p&lt; 0.05 (for nested models) a value of 2 for 1 df corresponds to the Akaike information criterion (real)</p></li>
+<li><p><strong>theta</strong> - <em>real</em>: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
+1 df and p&lt;0.05 (for nested models) a value of 2 for 1 df corresponds to the Akaike information criterion (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="omega-options-desc">
 <div><ul class="simple">
-<li><p><strong>omega</strong> - <em>int</em>: Penalty added to fitness/reward for each estimated OMEGA element (real)</p></li>
+<li><p><strong>omega</strong> - <em>real</em>: Penalty added to fitness/reward for each estimated OMEGA element (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="sigma-options-desc">
 <div><ul class="simple">
-<li><p><strong>sigma</strong> - <em>int</em>: Penalty added to fitness/reward for each estimated SIGMA element (real)</p></li>
+<li><p><strong>sigma</strong> - <em>real</em>: Penalty added to fitness/reward for each estimated SIGMA element (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="convergence-options-desc">
 <div><ul class="simple">
-<li><p><strong>convergence</strong> - <em>int</em>: Penalty added to fitness/reward for failing to converge (real)</p></li>
+<li><p><strong>convergence</strong> - <em>real</em>: Penalty added to fitness/reward for failing to converge (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="covariance-options-desc">
 <div><ul class="simple">
-<li><p><strong>covariance</strong> - <em>int</em>: Penalty added to fitness/reward for failing the covariance step (real number). If a successful covariance step
+<li><p><strong>covariance</strong> - <em>real</em>: Penalty added to fitness/reward for failing the covariance step (real number). If a successful covariance step
 is important, this can be set to a large value (e.g., 100), if successful covariance is not important, it can
 set to 0</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="correlation-options-desc">
 <div><ul class="simple">
-<li><p><strong>correlation</strong> - <em>int</em>: Penalty added to fitness/reward if any off diagonal element of the correlation matrix of estimate has absolute
-value &gt; 0.95 (real number). This penalty will be added if the covariance step fails (or is not) requested (real)</p></li>
+<li><p><strong>correlation</strong> - <em>real</em>: Penalty added to fitness/reward if any off diagonal element of the correlation matrix of estimate has absolute
+value &gt; 0.95 (real number). This penalty will be added if the covariance step fails or is not requested (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="condition-number-options-desc">
 <div><ul class="simple">
-<li><p><strong>condition_number</strong> - <em>int</em>: Penalty added to fitness/reward if the condition number is &gt; 1000
-This penalty will be added if the covariance step fails (or is not) requested (real)</p></li>
+<li><p><strong>condition_number</strong> - <em>real</em>: Penalty added to fitness/reward if the condition number is &gt; 1000
+This penalty will be added if the covariance step fails (or is not) requested, e.g. PRINT=E is not included in $COV (real)</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="non-influential-tokens-options-desc">
 <div><ul class="simple">
-<li><p><strong>non_influential_tokens</strong> - <em>int</em>: Penalty added to fitness/reward if any tokens do not influence the control file (relevant for nested tokens)
-Should be very small, as the purpose is only for the model with non-influential tokens to be minimially worse
-than the same model without the non influential token(s) (real)</p></li>
+<li><p><strong>non_influential_tokens</strong> - <em>real</em>: Penalty added to fitness/reward if any tokens do not influence the control file (relevant for nested tokens)
+Should be very small (e.g., 0.0001), as the purpose is only for the model with non-influential tokens to be minimially worse
+than the same model without the non influential token(s) to break a tie (real)</p></li>
 </ul>
 </div></blockquote>
 <ul class="simple" id="downhill-period-options-desc">
@@ -332,23 +333,24 @@ than the same model without the non influential token(s) (real)</p></li>
 <ul class="simple" id="num-niches-options-desc">
 <li><p><strong>num_niches</strong> - <em>int</em>: Used for GA and downhill. A penalty is assigned for each model based on the number of similar models within a niche
 radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose
-is to insure maintaining a degree of diversity in the population (integer)</p></li>
+is to insure maintaining a degree of diversity in the population (integer). num_niches is also used to select the number of models that are entered into the
+dowhill step for all algorithms, except Exhaustive Search.</p></li>
 </ul>
 <ul class="simple" id="niche-radius-options-desc">
-<li><p><strong>niche_radius</strong>* - <em>int</em>: The radius of the niches. See  <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">Niche Radius</span></a> (positive real)</p></li>
+<li><p><strong>niche_radius</strong> - <em>real</em>:  The radius of the niches. See  <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">Niche Radius</span></a> (positive real)</p></li>
 </ul>
 <ul class="simple" id="local-2-bit-search-options-desc">
 <li><p><strong>local_2_bit_search</strong> - <em>boolean</em>: Whether to perform the <a class="reference internal" href="Glossary.html#local-two-bit-search"><span class="std std-ref">two bit local search</span></a> .
-The two bit local search substantially increase the robustness of the search. (true|false)</p></li>
+The two bit local search substantially increase the robustness of the search. All downhill local seaches are done starting from <a class="reference internal" href="#num-niches-options-desc"><span class="std std-ref">num_niches models</span></a>. (true|false)</p></li>
 </ul>
 <ul class="simple" id="final-downhill-search-options-desc">
 <li><p><strong>final_downhill_search</strong> - <em>boolean</em>: Whether to perform a local search (1 and 2 bit) at the end of the global search (true|false)</p></li>
 </ul>
 <ul class="simple" id="nmfe-path-options-desc">
-<li><p><strong>nmfe_path</strong> - <em>string</em>:  the ommand line for executing NONMEM (string)</p></li>
+<li><p><strong>nmfe_path</strong> - <em>string</em>:  the command line for executing NONMEM (string)</p></li>
 </ul>
 <ul class="simple" id="model-run-timeout-options-desc">
-<li><p><strong>model_run_timeout</strong> - <em>int</em>: Time after which the NONMEM execution will be terminated, and the crash value assigned. (positive real)</p></li>
+<li><p><strong>model_run_timeout</strong> - <em>real</em>: Time after which the NONMEM execution will be terminated, and the crash value assigned. Default is 1200 seconds (positive real)</p></li>
 </ul>
 <ul class="simple" id="model-run-priority-class-options-desc">
 <li><p><strong>model_run_priority_class</strong> - <em>string</em>: Priority class, below_normal is recommended to maintain user interface responsiveness (normal|below_normal)</p></li>
@@ -356,52 +358,46 @@ The two bit local search substantially increase the robustness of the search. (t
 <ul class="simple" id="postprocess-options-desc">
 <li><p><strong>postprocess</strong> - <em>JSON</em>:</p></li>
 </ul>
-<blockquote id="use-r-options-desc">
-<div><ul class="simple">
+<ul class="simple" id="use-r-options-desc">
 <li><p><strong>use_r</strong> - <em>boolean</em>: Whether user supplied R code is to be run after NONMEM execution (true|false)</p></li>
 </ul>
-</div></blockquote>
-<blockquote id="rscript-path-options-desc">
-<div><ul class="simple">
-<li><p><strong>rscript_path</strong>* - <em>string</em>: Absolute path to Rscript.exe. Required if <code class="docutils literal notranslate"><span class="pre">use_r</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
+<ul class="simple" id="rscript-path-options-desc">
+<li><p><strong>rscript_path</strong> - <em>string</em>: Absolute path to Rscript.exe. Required if <code class="docutils literal notranslate"><span class="pre">use_r</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
 </ul>
-</div></blockquote>
-<blockquote id="post-run-r-code-options-desc">
-<div><ul class="simple">
-<li><p><strong>post_run_r_code</strong>* - <em>string</em>: Path to R file (.r extension) to be run after each NONMEM execution.
-Required if <code class="docutils literal notranslate"><span class="pre">use_r</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
+<ul class="simple" id="post-run-r-code-options-desc">
+<li><dl class="simple">
+<dt><strong>post_run_r_code</strong> - <em>string</em>: Path to R file (.r extension) to be run after each NONMEM execution.</dt><dd><p>Required if <code class="docutils literal notranslate"><span class="pre">use_r</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+</dd>
+</dl>
+</li>
 </ul>
-</div></blockquote>
-<blockquote id="r-timeout-options-desc">
-<div><ul class="simple">
-<li><p><strong>r_timeout</strong> - <em>int</em>: Time out (seconds) for R code execution (positive real)</p></li>
+<ul class="simple" id="r-timeout-options-desc">
+<li><p><strong>r_timeout</strong> - <em>real</em>: Time out (seconds) for R code execution (positive real)</p></li>
 </ul>
-</div></blockquote>
-<blockquote id="use-python-options-desc">
-<div><ul class="simple">
+<ul class="simple" id="use-python-options-desc">
 <li><p><strong>use_python</strong> - <em>boolean</em>: Whether user supplied Python code is to be run after NONMEM execution (true|false)</p></li>
 </ul>
-</div></blockquote>
-<blockquote id="post-run-python-code-options-desc">
-<div><ul class="simple">
-<li><p><strong>post_run_python_code</strong>* - <em>string</em>: Path to python code file (.py extension) to be run after each NONMEM execution.
-Required if <code class="docutils literal notranslate"><span class="pre">use_python</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
+<ul class="simple" id="post-run-python-code-options-desc">
+<li><p><strong>post_run_python_code</strong>* - <em>string</em>: Path to python code file (.py extension) to be run after each NONMEM execution. Required if <code class="docutils literal notranslate"><span class="pre">use_python</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
 </ul>
-</div></blockquote>
 <ul class="simple" id="use-saved-models-options-desc">
-<li><p><strong>use_saved_models</strong> - <em>boolean</em>:</p></li>
+<li><p><strong>use_saved_models</strong> - <em>boolean</em>: Whether to read the JSON file from a previous search and use those resuts, rather than rerunning the models. The models.json file will be found in the working directory. This file can be renamed/copied and then used for subsequent searches by setting use_saved_models to true and specifying the saved_models_file with that file name.</p></li>
 </ul>
 <ul class="simple" id="saved-models-file-options-desc">
-<li><p><strong>saved_models_file</strong> - <em>string</em>:</p></li>
+<li><dl class="simple">
+<dt><strong>saved_models_file</strong> - <em>string</em>: To restart an interupted search, copy the models.json file from the working directory and use that file name as the saved_models_file for subsequent searchs.</dt><dd><p>To use this file set <a class="reference internal" href="#use-saved-models-options-desc"><span class="std std-ref">use_saved_models</span></a> to ‘true’</p>
+</dd>
+</dl>
+</li>
 </ul>
 <ul class="simple" id="saved-models-readonly-options-desc">
-<li><p><strong>saved_models_readonly</strong> - <em>boolean</em>:</p></li>
+<li><p><strong>saved_models_readonly</strong> - <em>boolean</em>: Do not overwrite the saved_models_file</p></li>
 </ul>
 <ul class="simple" id="remove-run-dir-options-desc">
-<li><p><strong>remove_run_dir</strong> - <em>boolean</em>:</p></li>
+<li><p><strong>remove_run_dir</strong> - <em>boolean</em>: if set to true all</p></li>
 </ul>
 <ul class="simple" id="remove-temp-dir-options-desc">
-<li><p><strong>remove_temp_dir</strong> - <em>boolean</em>:</p></li>
+<li><p><strong>remove_temp_dir</strong> - <em>boolean</em>: If set to ‘true’, all NONMEM files (*.mod, *.lst, FDATA, $TABLE files) and the parent directory will be removed.</p></li>
 </ul>
 <ul class="simple" id="model-run-man-options-desc">
 <li><p><strong>model_run_man</strong> - <em>string</em>:</p></li>
@@ -416,13 +412,13 @@ Required if <code class="docutils literal notranslate"><span class="pre">use_pyt
 <li><p><strong>engine_adapter</strong> - <em>string</em>:</p></li>
 </ul>
 <ul class="simple" id="working-dir-options-desc">
-<li><p><strong>working_dir</strong> - <em>string</em>:</p></li>
+<li><p><strong>working_dir</strong> - <em>string</em>: Directory where some of the “working” files are kept, e.g., InterimControlFile.mod, InterimResultFile.lst,messages.txt, models.json</p></li>
 </ul>
 <ul class="simple" id="data-dir-options-desc">
-<li><p><strong>data_dir</strong> - <em>string</em>:</p></li>
+<li><p><strong>data_dir</strong> - <em>string</em>: Directory where the data file(s) are kept, internal to pyDarwin</p></li>
 </ul>
 <ul class="simple" id="output-dir-options-desc">
-<li><p><strong>output_dir</strong> - <em>string</em>: Directory where pyDarwin output will be placed</p></li>
+<li><p><strong>output_dir</strong> - <em>string</em>: Directory where pyDarwin output will be placed (results.csv, finalcontrolfile.mod finalcontrolfile.lst)</p></li>
 </ul>
 <ul class="simple" id="temp-dir-options-desc">
 <li><p><strong>temp_dir</strong> - <em>string</em>: Root directory for NONMEM model runs.</p></li>

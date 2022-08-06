@@ -110,7 +110,7 @@ All fields marked with * are required.
 
 .. _author_options_desc:
 
-* **author** - *string*: Currently not used by pyDarwin for documentation purposes only. 
+* **author** - *string*: Currently not used by pyDarwin, for documentation purposes only. 
 
 .. _project_name_options_desc:
 
@@ -138,7 +138,7 @@ All fields marked with * are required.
 
 .. _sharing_alpha_options_desc:
 
-    * **sharing_alpha** - *int*: Parameter of the niche penalty calculation
+    * **sharing_alpha** - *real*: Parameter of the niche penalty calculation
 
 .. _selection_options_desc:
 
@@ -146,7 +146,7 @@ All fields marked with * are required.
 
 .. _selection_size_options_desc:
 
-    * **selection_size** - *int*: How many "parents" enter in the selection, 2 is highly recommended, very limited experience with other values
+    * **selection_size** - *int*: How many "parents" enter in the selection, 2 is highly recommended, experience with other values is very limited
 
 .. _crossover_operator_options_desc:
 
@@ -158,26 +158,27 @@ All fields marked with * are required.
 
 .. _attribute_mutation_probability_options_desc:
 
-    * **attribute_mutation_probability** - *int*: Probability of any bit being mutated, (real 0.0-1.0)
+    * **attribute_mutation_probability** - *real*: Probability of any bit being mutated, (real 0.0-1.0)
 
 .. _niche_penalty_options_desc:
 
-    * **niche_penalty**\* - *int*: Required if using GA. Require for calculation of the crowding penalty. 
+    * **niche_penalty**\* - *real*: Required if using GA. Require for calculation of the crowding penalty. 
       The niche penalty is calculate by first calculating the "distance matrix", the pair wise 
       `Mikowski distance <https://en.wikipedia.org/wiki/Minkowski_distance>`_ from the present model to all
       other models. The "crowding" quantity is then calculated a the sum of: (distance/niche_radius)**sharing_alpha
       for all other models in the generation for which the Mikowski distance is less than the niche radius.
 
       Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche 
-      penalty is to maintain diversity of models, to avoid premature convergence of the search, by penalizing when models are too similar to other models in the current generation. A typical value for the penalty is 10. (positive real)
+      penalty is to maintain diversity of models, to avoid premature convergence of the search, by penalizing when models are too 
+      similar to other models in the current generation. A typical value for the penalty is 10. (positive real)
 
 .. _random_seed_options_desc:
 
-* **random_seed** - *int*: User defined seed for random number generator, not used for Exhaustive search  (positive integer)
+* **random_seed** - *int*: User defined seed for random number generator, not used for Exhaustive search (positive integer)
 
 .. _num_parallel_options_desc:
 
-* **num_parallel** - *int*: How many model to run in parallel  (positive integer)
+* **num_parallel** - *int*: How many models to run in parallel (positive integer)
 
 .. _num_generations_options_desc:
 
@@ -195,12 +196,12 @@ All fields marked with * are required.
 .. _exhaustive_batch_size_options_desc:
 
 * **exhaustive_batch_size** - *int*:  For a large exhaustive search, a complete list of all models may exceed the available memory. 
-    The list of models will be run in batchs of this size. A typical value is 1000 to 10000. Smaller batch sizes wil have a small effect on 
+    The list of models will be run in batchs of this size. A typical value is 1000 to 10000. Smaller batch sizes will have a small effect on 
     performance, as all models in a batch must complete before the next batch starts.
 
 .. _crash_value_options_desc:
 
-* **crash_value** - *int*:  Value of fitness or reward assigned when model output is not generated. 
+* **crash_value** - *real*:  Value of fitness or reward assigned when model output is not generated. 
   Should be set larger than any anticipate completed model fitness (positive real)
 
 .. _penalty_options_desc:
@@ -209,42 +210,42 @@ All fields marked with * are required.
 
 .. _theta_options_desc:
 
-    * **theta** - *int*: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
-      1 df and p< 0.05 (for nested models) a value of 2 for 1 df corresponds to the Akaike information criterion (real)
+    * **theta** - *real*: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
+      1 df and p<0.05 (for nested models) a value of 2 for 1 df corresponds to the Akaike information criterion (real)
 
 .. _omega_options_desc:
 
-    * **omega** - *int*: Penalty added to fitness/reward for each estimated OMEGA element (real)
+    * **omega** - *real*: Penalty added to fitness/reward for each estimated OMEGA element (real)
 
 .. _sigma_options_desc:
 
-    * **sigma** - *int*: Penalty added to fitness/reward for each estimated SIGMA element (real)
+    * **sigma** - *real*: Penalty added to fitness/reward for each estimated SIGMA element (real)
 
 .. _convergence_options_desc:
 
-    * **convergence** - *int*: Penalty added to fitness/reward for failing to converge (real)
+    * **convergence** - *real*: Penalty added to fitness/reward for failing to converge (real)
 
 .. _covariance_options_desc:
 
-    * **covariance** - *int*: Penalty added to fitness/reward for failing the covariance step (real number). If a successful covariance step 
+    * **covariance** - *real*: Penalty added to fitness/reward for failing the covariance step (real number). If a successful covariance step 
       is important, this can be set to a large value (e.g., 100), if successful covariance is not important, it can
       set to 0
 
 .. _correlation_options_desc:
 
-    * **correlation** - *int*: Penalty added to fitness/reward if any off diagonal element of the correlation matrix of estimate has absolute 
-      value > 0.95 (real number). This penalty will be added if the covariance step fails (or is not) requested (real)
+    * **correlation** - *real*: Penalty added to fitness/reward if any off diagonal element of the correlation matrix of estimate has absolute 
+      value > 0.95 (real number). This penalty will be added if the covariance step fails or is not requested (real)
 
 .. _condition_number_options_desc:
 
-    * **condition_number** - *int*: Penalty added to fitness/reward if the condition number is > 1000
-      This penalty will be added if the covariance step fails (or is not) requested (real)
+    * **condition_number** - *real*: Penalty added to fitness/reward if the condition number is > 1000
+      This penalty will be added if the covariance step fails (or is not) requested, e.g. PRINT=E is not included in $COV (real)
 
 .. _non_influential_tokens_options_desc:
 
-    * **non_influential_tokens** - *int*: Penalty added to fitness/reward if any tokens do not influence the control file (relevant for nested tokens)
-      Should be very small, as the purpose is only for the model with non-influential tokens to be minimially worse
-      than the same model without the non influential token(s) (real)
+    * **non_influential_tokens** - *real*: Penalty added to fitness/reward if any tokens do not influence the control file (relevant for nested tokens)
+      Should be very small (e.g., 0.0001), as the purpose is only for the model with non-influential tokens to be minimially worse
+      than the same model without the non influential token(s) to break a tie (real)
 
 .. _downhill_period_options_desc:
 
@@ -254,16 +255,17 @@ All fields marked with * are required.
 
 * **num_niches** - *int*: Used for GA and downhill. A penalty is assigned for each model based on the number of similar models within a niche
   radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose
-  is to insure maintaining a degree of diversity in the population (integer)
+  is to insure maintaining a degree of diversity in the population (integer). num_niches is also used to select the number of models that are entered into the 
+  dowhill step for all algorithms, except Exhaustive Search.
 
 .. _niche_radius_options_desc:
 
-* **niche_radius**\* - *int*: The radius of the niches. See  :ref:`Niche Radius<Niche Radius>` (positive real)
+* **niche_radius** - *real*:  The radius of the niches. See  :ref:`Niche Radius<Niche Radius>` (positive real)
 
 .. _local_2_bit_search_options_desc:
 
 * **local_2_bit_search** - *boolean*: Whether to perform the :ref:`two bit local search<Local Two bit Search>` . 
-  The two bit local search substantially increase the robustness of the search. (true|false) 
+  The two bit local search substantially increase the robustness of the search. All downhill local seaches are done starting from :ref:`num_niches models<num_niches_options_desc>`. (true|false) 
 
 .. _final_downhill_search_options_desc:
 
@@ -271,11 +273,11 @@ All fields marked with * are required.
 
 .. _nmfe_path_options_desc:
 
-* **nmfe_path** - *string*:  the ommand line for executing NONMEM (string)
+* **nmfe_path** - *string*:  the command line for executing NONMEM (string)
 
 .. _model_run_timeout_options_desc:
 
-* **model_run_timeout** - *int*: Time after which the NONMEM execution will be terminated, and the crash value assigned. (positive real)
+* **model_run_timeout** - *real*: Time after which the NONMEM execution will be terminated, and the crash value assigned. Default is 1200 seconds (positive real)
 
 .. _model_run_priority_class_options_desc:
 
@@ -287,49 +289,49 @@ All fields marked with * are required.
 
 .. _use_r_options_desc:
 
-    * **use_r** - *boolean*: Whether user supplied R code is to be run after NONMEM execution (true|false)
+* **use_r** - *boolean*: Whether user supplied R code is to be run after NONMEM execution (true|false)
 
 .. _rscript_path_options_desc:
 
-    * **rscript_path**\* - *string*: Absolute path to Rscript.exe. Required if ``use_r`` is set to ``true``.
+* **rscript_path** - *string*: Absolute path to Rscript.exe. Required if ``use_r`` is set to ``true``.
 
 .. _post_run_r_code_options_desc:
 
-    * **post_run_r_code**\* - *string*: Path to R file (.r extension) to be run after each NONMEM execution.
+* **post_run_r_code** - *string*: Path to R file (.r extension) to be run after each NONMEM execution.
       Required if ``use_r`` is set to ``true``.
 
 .. _r_timeout_options_desc:
 
-    * **r_timeout** - *int*: Time out (seconds) for R code execution (positive real)
+* **r_timeout** - *real*: Time out (seconds) for R code execution (positive real)
 
 .. _use_python_options_desc:
 
-    * **use_python** - *boolean*: Whether user supplied Python code is to be run after NONMEM execution (true|false)
+* **use_python** - *boolean*: Whether user supplied Python code is to be run after NONMEM execution (true|false)
 
 .. _post_run_python_code_options_desc:
 
-    * **post_run_python_code**\* - *string*: Path to python code file (.py extension) to be run after each NONMEM execution.
-      Required if ``use_python`` is set to ``true``.
+* **post_run_python_code**\* - *string*: Path to python code file (.py extension) to be run after each NONMEM execution. Required if ``use_python`` is set to ``true``.
 
 .. _use_saved_models_options_desc:
 
-* **use_saved_models** - *boolean*:
+* **use_saved_models** - *boolean*: Whether to read the JSON file from a previous search and use those resuts, rather than rerunning the models. The models.json file will be found in the working directory. This file can be renamed/copied and then used for subsequent searches by setting use_saved_models to true and specifying the saved_models_file with that file name.
 
 .. _saved_models_file_options_desc:
 
-* **saved_models_file** - *string*:
+* **saved_models_file** - *string*: To restart an interupted search, copy the models.json file from the working directory and use that file name as the saved_models_file for subsequent searchs. 
+    To use this file set :ref:`use_saved_models<use_saved_models_options_desc>` to 'true'
 
 .. _saved_models_readonly_options_desc:
 
-* **saved_models_readonly** - *boolean*:
+* **saved_models_readonly** - *boolean*: Do not overwrite the saved_models_file
 
 .. _remove_run_dir_options_desc:
 
-* **remove_run_dir** - *boolean*:
+* **remove_run_dir** - *boolean*: if set to true all
 
 .. _remove_temp_dir_options_desc:
 
-* **remove_temp_dir** - *boolean*:
+* **remove_temp_dir** - *boolean*: If set to 'true', all NONMEM files (\*.mod, \*.lst, FDATA, $TABLE files) and the parent directory will be removed. 
 
 .. _model_run_man_options_desc:
 
@@ -349,15 +351,15 @@ All fields marked with * are required.
 
 .. _working_dir_options_desc:
 
-* **working_dir** - *string*:
+* **working_dir** - *string*: Directory where some of the "working" files are kept, e.g., InterimControlFile.mod, InterimResultFile.lst,messages.txt, models.json
 
 .. _data_dir_options_desc:
 
-* **data_dir** - *string*:
+* **data_dir** - *string*: Directory where the data file(s) are kept, internal to pyDarwin
 
 .. _output_dir_options_desc:
 
-* **output_dir** - *string*: Directory where pyDarwin output will be placed
+* **output_dir** - *string*: Directory where pyDarwin output will be placed (results.csv, finalcontrolfile.mod finalcontrolfile.lst)
 
 .. _temp_dir_options_desc:
 

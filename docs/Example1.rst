@@ -136,7 +136,8 @@ The 2nd token for the initial estimate for THETA(V2~WT) wil be similar. The toke
 
     {V2~WT[2]}    
 
-Note the use of the escape syntax, "\\t" for a tab. Newlines will be coded simlarly as "\\n". NONMEM comments (text after ";") are permitted. However, the 
+Note the use of the escape syntax, "\\t" for a tab. Newlines will be coded simlarly as "\\n". Actual crlf's are not permitted in JSON, and \\n must be used. 
+NONMEM comments (text after ";") are permitted. However, the 
 user must be aware of the impact that comments in token text may have on any code that follows. This $THETA block has 3 fixed THETA initial estimates - THETA(1), 
 THETA(2) and THETA(3). These will appear in all control files in the search. These fixed initial estimates are then followed by searched initial estimates. Searched 
 initial estimates may or may not appear, depending on the model specification (:ref:`phenotype<phenotype>`). Searched initial estimates must be placed after all 
@@ -174,16 +175,18 @@ The resulting $THETA block for this initial feature will be:
  "  (0,100) \t; THETA(EMAX) "
  "  (0,1000) \t; THETA(EC50) "
 
-Where \\t i a tab. Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn't be any way to identify which initial estiamate is to be associated with which 
+Where \\t i a tab. Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn't be any way to identify which initial estimate is to be associated with which 
 THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file 
 is created, this approach would lead to ambiguity. Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier.
 
 Other covariate effects are coded similarly. 
 
 
-Between subject variability
------------------------------
+Variance terms
+-----------------
 
+Between subject variability is handled similarly, with the "{}" text. Typicaly the first tokens in the tokens sets will be in the $PK, $DES or $ERROR block and the  
+2nd in $OMEGA, with the *required* ETA(IndexText) after a NONMEM comment, as for THETA initial estimates. ERR and EPS are handled similarly.
 
 Example 1 template file :download:`template file <../examples/user/Example1/template.txt>`
 Example 1 searchs a 6 dimensional space. The dimensions corresponds to :ref:`token group <token group>`. 
@@ -264,8 +267,8 @@ The :ref:`tokens file <tokens_file_target>` provide the :ref:`token key-text pai
 are substitued into the template file. This is a `JSON <https://www.json.org/json-en.html>`_ file format. 
 Unfortunately, comments are not  permitted in JSON files and so this file without annotation. Requirements are that 
 each :ref:`token set <token set>` within a :ref:`token group <token group>` must have the same number of :ref:`tokens <token>` 
-and new lines must be coded using the escape syntax ("\\n"), not just a new line in the file (which will be ignored). One level of 
-nested tokens (tokens within tokens is permitted. This can be useful, when for example one might want to search for covariates 
+and new lines must be coded using the escape syntax ("\\n"), not just a new line in the file (which will be ignored in JSON). Any number of levels of 
+nested tokens (tokens within tokens) is permitted. This can be useful, when for example one might want to search for covariates 
 on an search parameter, as in searching for an effect of FED vs FASTED state on ALAG1, when ALAG1 is also searched (see
 :ref:`PK example 2 <Example2_nested_tokens>`). Additional levels of nested token are permitted, but the logic of correctly coding them quickly becomes daunting. 
 The tokens file for Example 1 is given below.
@@ -453,7 +456,7 @@ Importantly, the temp directory (temp_dir) is listed and since
 
 is set to false in the options file, all key NONMEM outputs are saved. This is where you should look for them after the
 inevitable errors.
-During the search, the current, interim best model files can be found in the Project working dir, along with the messages (same content as output 
+During the search, the current, interim best model files can be found in the working dir, along with the messages (same content as output 
 to command line) and a models.json file that can be used to restart searches that are interupted. 
 The final outputs will be found in the Project output dir. 
 At the end of the run, the output should look similar to this:

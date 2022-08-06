@@ -151,14 +151,15 @@ made in the tradotopma; downhill model selection method. Rather, the search is u
 model selection, is downhill. While efficient it can be demonstrated that this method is not robust <a class="footnote-reference brackets" href="#f1" id="id1">1</a> <a class="footnote-reference brackets" href="#f2" id="id2">2</a>. This lack of robustness is due to
 the violation of convexity assumption. That is, the downhill search, in either a continuous space (parameter estimation) or a discrete space (model selection)
 assumes that the optimal solution is continuously downhill from every other point in the search space. That is, there are no local minima, and you can start anywhere
-and you’ll end up in the same place - the global minimum, the results is not sensitive to the “initial estimates”. With this assumption, a covariate will or will not be
+and you’ll end up in the same place - the global minimum, the results are not sensitive to the “initial estimates”. With this assumption, a covariate will or will not be
 “downhill”, regardless of whether tested in a one compartment, two compartment; first order of zero order or any other base model, it’s all downhill, it doesn’t
 matter in what sequence you test hypotheses, the answer will be the same. Wade <a class="footnote-reference brackets" href="#f1" id="id3">1</a> showed that the results of tests of hypotheses do indeed depend on other
 features in the model and Chen <a class="footnote-reference brackets" href="#f2" id="id4">2</a> showed that different sequences of tests will commonly yield different final models.</p>
 <p>In contrast to the traditional downhill/local search, all algorithms implemented in pyDarwin are global search algorithms that are expected to have a greater
 degree of robustness to local minima than downhill search. Note however that all search algorithms (with the exception of exhaustive search) make assumptions about
 the search space. While none of the algorithms in pyDarwin assume convexity, none are completely robust,
-and search spaces can be deceptive <a class="footnote-reference brackets" href="#f3" id="id5">3</a> . For all algorithms, the basic process is the same, start at one or more random.</p>
+and search spaces can be deceptive <a class="footnote-reference brackets" href="#f3" id="id5">3</a>. For all algorithms, the basic process is the same, start at one or more random. Test those models, learn a little about
+the search space and decide which models to test next. The algorithms differ in how they decide which models to test next.</p>
 <p>While the global search algoritm provide subtantial protection from a local minimum in the model search, the global search algorithm are typically not very
 good at finding the one or two final change that results in the best model. This is illutrated in <a class="reference internal" href="#ga-desc"><span class="std std-ref">Genetic Algorithm</span></a> in that the final change likely
 must be made by mutations, a rare event, not by cross over. The solution to this problem in to combined the stength of a global search (robustness to local
@@ -258,7 +259,7 @@ large, and will not be removed by pyDarwin unless <a class="reference internal" 
 <p>Three user defined file locations can be set in the <a class="reference internal" href="Options.html#options"><span class="std std-ref">options file</span></a>. In addition to the folders that are user defined
 the project directory (project_dir) is the folder where template, token and options files are located. The user define folders are:</p>
 <ol class="arabic simple">
-<li><p>output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results is intended.</p></li>
+<li><p>output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results are intended.</p></li>
 <li><p>temp_dir - NONMEM models are run in subfolders of this folder Default value is working_dir/temp. May be deleted after search finished/stopped if <a class="reference internal" href="Options.html#remove-temp-dir-options-desc"><span class="std std-ref">remove_temp_dir</span></a> is set to true.</p></li>
 </ol>
 <p>#. working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files.
@@ -271,15 +272,16 @@ NM_2_3 (or similar, pyDarwin will count the number of model to be generate and u
 model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill
 model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file etc. This results in unique names for all models in the search. Models
 are also frequently duplicated. Duplicated files are not rerun, and so those will not appear in the file structure.</p>
-<p>Run folders are similarly named for the generation/iteration and model number. Below is a folder tree for <a class="reference internal" href="Example2.html#startpk2"><span class="std std-ref">Example 2</span></a></p>
+<p>Run folders are similarly named for the generation/iteration and model number. Below is a folder tree for <a class="reference internal" href="Example2.html#startpk2"><span class="std std-ref">Example 2</span></a> with the “temp_dir” option set to c:\example2\rundir and
+“remove_temp_dir” set to false.</p>
 <figure class="align-default">
 <img alt="_images/FileStructure.png" src="_images/FileStructure.png" />
 </figure>
 </section>
 <section id="saving-models">
 <h3>Saving models<a class="headerlink" href="#saving-models" title="Permalink to this heading">¶</a></h3>
-<p>Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficients. The name of the saved JSON file can be set by the user. A .csv
-file describing the course of the search is also save to results.csv. This file can be used to monitor the progress of the search.</p>
+<p>Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficients. The name of the saved JSON file can be set by
+the user. A .csv file describing the course of the search is also saved to results.csv. This file can be used to monitor the progress of the search.</p>
 </section>
 </section>
 </section>

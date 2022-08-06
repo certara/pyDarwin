@@ -116,9 +116,6 @@
              
   <section id="usage">
 <h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h1>
-<p><span class="comment">This is a comment</span></p>
-<p><span class="review">this is a review item</span></p>
-<p><span class="comment">Note that ..includ:: .special.rst must be included at the top of each rst where you are using comment/review</span></p>
 <p id="execution">Darwin may be executed locally, on Linux Grids, or as a combination of both e.g., execute NONMEM models on grids and run search locally.</p>
 <section id="execution-overview">
 <h2>Execution Overview<a class="headerlink" href="#execution-overview" title="Permalink to this heading">¶</a></h2>
@@ -148,14 +145,13 @@ as a single argument:</p>
 </section>
 <section id="stopping-execution">
 <span id="stop-search"></span><h3>Stopping Execution<a class="headerlink" href="#stopping-execution" title="Permalink to this heading">¶</a></h3>
-<p><span class="review">A running search can be stopped using following command:</span></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">stop_search</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="p">]</span> <span class="o">&lt;</span><span class="n">project</span> <span class="nb">dir</span><span class="o">&gt;|&lt;</span><span class="n">options</span> <span class="n">file</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-<div class="line-block">
-<div class="line"><span class="review">You need to provide the path to the project folder or to the options file associated with the search you want to stop.</span></div>
-<div class="line"><span class="review">Optional flag specifies whether the search must be stopped immediatelly. If not set the search will stop after current model runs are finished.</span></div>
-</div>
+<p>A running search can be stopped using following command:
+.. code:: python</p>
+<blockquote>
+<div><p>python -m darwin.stop_search [-f] &lt;project dir&gt;|&lt;options file&gt;</p>
+</div></blockquote>
+<p>You need to provide the path to the project folder or to the options file associated with the search you want to stop.
+Optional flag specifies whether the search must be stopped immediatelly. If not set the search will stop after current model runs are finished.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Don’t force-stop GP during ask-stage &lt;reference here&gt;. Either wait for it to finish (<code class="docutils literal notranslate"><span class="pre">Done</span> <span class="pre">asking</span></code> in the console output and/or <code class="file docutils literal notranslate"><span class="pre">messages.txt</span></code>) or stop w/o <code class="docutils literal notranslate"><span class="pre">-f</span></code> flag.</p>
@@ -325,7 +321,8 @@ will include the following JSON code:</p>
 <figure class="align-default">
 <img alt="_images/tokens.png" src="_images/tokens.png" />
 </figure>
-<p>Note the “nested token” - a token (“{K23~WT[1]}”) within a token, circled in red. One level of nested tokens is permited. pyDarwin will first substitute the full text
+<p>Note the “nested token” - a token (“{K23~WT[1]}”) within a token, circled in red. Any number of levels of nested tokens is permited (but the logic becomes very difficult with more than one)
+pyDarwin will first substitute the full text
 into the template, then scans the resulting text again. This nested token will then be found and the text from the {K23~WT[1]} token set will be substituted.</p>
 <p>Several notes:</p>
 <p>1. The <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a> is “ADVAN” and identifies the <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>. This stem must be unique in the tokens groups. The token stem also typically
@@ -382,7 +379,7 @@ algorithim specific, while others are only relevant for execution on Linux grids
 <li><p>Project output dir - folder where all the files that considered as results will be put, such as results.csv and Final* files.</p></li>
 <li><p>Where intermediate output will be written (e.g. u:/user/example2/outputresults.csv)</p></li>
 <li><p>Where models will be saved to (e.g., u:/user/example2/workingmodels.json)</p></li>
-<li><p>NMFE??.bat file</p></li>
+<li><p>NMFE??.bat (Windows) or nmfe?? (Linux) file</p></li>
 <li><p>Rscript.exe, if used</p></li>
 </ol>
 <p>When run from command line (<a class="reference external" href="https://code.visualstudio.com/">or from Visual Studio Code</a>) pyDarwin provides significant output about whether individual models

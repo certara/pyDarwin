@@ -59,7 +59,7 @@ As the discrete space of model search does not have derivatives, other search me
 model selection, is downhill. While efficient it can be demonstrated that this method is not robust [#f1]_ [#f2]_. This lack of robustness is due to 
 the violation of convexity assumption. That is, the downhill search, in either a continuous space (parameter estimation) or a discrete space (model selection) 
 assumes that the optimal solution is continuously downhill from every other point in the search space. That is, there are no local minima, and you can start anywhere 
-and you'll end up in the same place - the global minimum, the results is not sensitive to the "initial estimates". With this assumption, a covariate will or will not be 
+and you'll end up in the same place - the global minimum, the results are not sensitive to the "initial estimates". With this assumption, a covariate will or will not be 
 "downhill", regardless of whether tested in a one compartment, two compartment; first order of zero order or any other base model, it's all downhill, it doesn't 
 matter in what sequence you test hypotheses, the answer will be the same. Wade [#f1]_ showed that the results of tests of hypotheses do indeed depend on other 
 features in the model and Chen [#f2]_ showed that different sequences of tests will commonly yield different final models.
@@ -68,7 +68,8 @@ features in the model and Chen [#f2]_ showed that different sequences of tests w
 In contrast to the traditional downhill/local search, all algorithms implemented in pyDarwin are global search algorithms that are expected to have a greater 
 degree of robustness to local minima than downhill search. Note however that all search algorithms (with the exception of exhaustive search) make assumptions about 
 the search space. While none of the algorithms in pyDarwin assume convexity, none are completely robust, 
-and search spaces can be deceptive [#f3]_ . For all algorithms, the basic process is the same, start at one or more random. 
+and search spaces can be deceptive [#f3]_. For all algorithms, the basic process is the same, start at one or more random. Test those models, learn a little about 
+the search space and decide which models to test next. The algorithms differ in how they decide which models to test next. 
 
 While the global search algoritm provide subtantial protection from a local minimum in the model search, the global search algorithm are typically not very 
 good at finding the one or two final change that results in the best model. This is illutrated in :ref:`Genetic Algorithm<GA_desc>` in that the final change likely 
@@ -187,7 +188,7 @@ File Structure
 Three user defined file locations can be set in the :ref:`options file<Options>`. In addition to the folders that are user defined
 the project directory (project_dir) is the folder where template, token and options files are located. The user define folders are:
 
-#. output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results is intended.
+#. output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results are intended.
 
 #. temp_dir - NONMEM models are run in subfolders of this folder Default value is working_dir/temp. May be deleted after search finished/stopped if :ref:`remove_temp_dir <remove_temp_dir_options_desc>` is set to true.  
 
@@ -205,12 +206,13 @@ model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local searc
 model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file etc. This results in unique names for all models in the search. Models 
 are also frequently duplicated. Duplicated files are not rerun, and so those will not appear in the file structure.
 
-Run folders are similarly named for the generation/iteration and model number. Below is a folder tree for :ref:`Example 2<startpk2>`
+Run folders are similarly named for the generation/iteration and model number. Below is a folder tree for :ref:`Example 2<startpk2>` with the "temp_dir" option set to c:\\example2\\rundir and 
+"remove_temp_dir" set to false.
 
 .. figure:: FileStructure.png
 
 Saving models
 -------------
 
-Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficients. The name of the saved JSON file can be set by the user. A .csv 
-file describing the course of the search is also save to results.csv. This file can be used to monitor the progress of the search. 
+Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficients. The name of the saved JSON file can be set by 
+the user. A .csv file describing the course of the search is also saved to results.csv. This file can be used to monitor the progress of the search. 

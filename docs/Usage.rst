@@ -4,12 +4,6 @@
 Usage
 ##########
 
-:comment:`This is a comment`
-
-:review:`this is a review item`
-
-:comment:`Note that ..includ:: .special.rst must be included at the top of each rst where you are using comment/review`
-
 .. _Execution:
 
 Darwin may be executed locally, on Linux Grids, or as a combination of both e.g., execute NONMEM models on grids and run search locally. 
@@ -52,14 +46,13 @@ as a single argument:
 Stopping Execution
 =========================
 
-:review:`A running search can be stopped using following command:`
-
+A running search can be stopped using following command:
 .. code:: python
     
     python -m darwin.stop_search [-f] <project dir>|<options file>
 
-| :review:`You need to provide the path to the project folder or to the options file associated with the search you want to stop.`
-| :review:`Optional flag specifies whether the search must be stopped immediatelly. If not set the search will stop after current model runs are finished.`
+You need to provide the path to the project folder or to the options file associated with the search you want to stop.
+Optional flag specifies whether the search must be stopped immediatelly. If not set the search will stop after current model runs are finished.
 
 .. warning::
    Don't force-stop GP during ask-stage <reference here>. Either wait for it to finish (``Done asking`` in the console output and/or :file:`messages.txt`) or stop w/o ``-f`` flag.
@@ -279,7 +272,8 @@ A diagram of the token structure is given below
 
 .. figure:: tokens.png
 
-Note the "nested token" - a token ("{K23~WT[1]}") within a token, circled in red. One level of nested tokens is permited. pyDarwin will first substitute the full text 
+Note the "nested token" - a token ("{K23~WT[1]}") within a token, circled in red. Any number of levels of nested tokens is permited (but the logic becomes very difficult with more than one) 
+pyDarwin will first substitute the full text 
 into the template, then scans the resulting text again. This nested token will then be found and the text from the {K23~WT[1]} token set will be substituted. 
 
 
@@ -360,7 +354,7 @@ The start up output also lists the location of:
 #. Project output dir - folder where all the files that considered as results will be put, such as results.csv and Final* files. 
 #. Where intermediate output will be written (e.g. u:/user/example2/output\results.csv)
 #. Where models will be saved to (e.g., u:/user/example2/working\models.json)
-#. NMFE??.bat file
+#. NMFE??.bat (Windows) or nmfe?? (Linux) file
 #. Rscript.exe, if used
 
 

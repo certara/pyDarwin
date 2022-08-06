@@ -452,7 +452,7 @@ Importantly, the temp directory (temp_dir) is listed and since
     
     ::
 
-        "remove_run_dir": false,
+        "remove_temp_dir": false,
 
 is set to false in the options file, all key NONMEM outputs are saved. This is where you should look for them after the
 inevitable errors.

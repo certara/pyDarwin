@@ -85,3 +85,8 @@ a:visited {
     color: red;
     text-decoration: none;
 }
+
+.mono, .mono-ref {
+    font-family: monospace;
+}
+

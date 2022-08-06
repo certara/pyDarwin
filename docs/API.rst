@@ -106,13 +106,15 @@ darwin.Population
    :undoc-members:
    :special-members: __init__
 
+.. _api_model_cache:
+
 Caching model runs
 ~~~~~~~~~~~~~~~~~~~~~~~
 | It's not uncommon to get duplicated models during search. In order to prevent unnecessary runs all unique models from current search are stored in Model Cache.
 | Every new model is checked against the cache. If a match is found, the new model is replaced with cached one, so the result is obtained instantly.
 | Currently only in-memory cache is available, so in case of large searches (millions of model runs) memory footprint may be substantial.
 | Normally the cache is dumped at the end of every iteration or when you :ref:`stop the search <stop_search>`. This behaviour can be affected 
-   by :ref:`saved_models_readonly <saved_models_readonly_options_desc>` set to true.
+   by :ref:`saved_models_readonly <saved_models_readonly_options_desc>` set to true. You also can load the cache from :ref:`saved state <use_saved_models_options_desc>`.
 
 darwin.ModelCache
 ------------------------

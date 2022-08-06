@@ -12,6 +12,8 @@ Darwin may be executed locally, on Linux Grids, or as a combination of both e.g.
 Execution Overview
 ********************
 
+.. _local_execution:
+
 Running Search on local machine
 ================================
 
@@ -61,6 +63,8 @@ Optional flag specifies whether the search must be stopped immediatelly. If not 
    models.json will contain all model runs finished before interruption.
 
 
+.. _grid_execution:
+
 Execution on Linux Grids
 =========================
 
@@ -75,12 +79,10 @@ The following requirements should be met in order to execute ``pyDarwin`` on Lin
 .. note::
     If all grid nodes share the same file system you can simply deploy pyDarwin in your home directory (always use virtual environment!).
 
-
-
 There are two ways to utilize grids for search in `pyDarwin`:
 
-1. Run search locally, submit individual model runs to the grid (local search, grid model runs).
-2. Submit search to the grid, as well as all the model runs (grid search, grid model runs).
+1. Run search :ref:`locally <local_execution>`, submit individual model runs to the grid (local search, grid model runs).
+2. Submit search :ref:`to the grid <running_grid_search>`, as well as all the model runs (grid search, grid model runs).
 
 In both cases you need to setup grid settings in your ``options.json``.
 

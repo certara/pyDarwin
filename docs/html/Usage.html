@@ -120,7 +120,7 @@
 <section id="execution-overview">
 <h2>Execution Overview<a class="headerlink" href="#execution-overview" title="Permalink to this heading">¶</a></h2>
 <section id="running-search-on-local-machine">
-<h3>Running Search on local machine<a class="headerlink" href="#running-search-on-local-machine" title="Permalink to this heading">¶</a></h3>
+<span id="local-execution"></span><h3>Running Search on local machine<a class="headerlink" href="#running-search-on-local-machine" title="Permalink to this heading">¶</a></h3>
 <p>The <a class="reference internal" href="API.html#darwin-run-search"><span class="std std-ref">darwin.run_search</span></a> function executes the candidate search for the optimal population model.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">run_search</span> <span class="o">&lt;</span><span class="n">template_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">tokens_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">options_path</span><span class="o">&gt;</span>
 </pre></div>
@@ -162,7 +162,7 @@ Optional flag specifies whether the search must be stopped immediatelly. If not 
 </div>
 </section>
 <section id="execution-on-linux-grids">
-<h3>Execution on Linux Grids<a class="headerlink" href="#execution-on-linux-grids" title="Permalink to this heading">¶</a></h3>
+<span id="grid-execution"></span><h3>Execution on Linux Grids<a class="headerlink" href="#execution-on-linux-grids" title="Permalink to this heading">¶</a></h3>
 <p>The following requirements should be met in order to execute <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> on Linux Grids.</p>
 <ul class="simple">
 <li><p>You must have access to the grid system e.g., you are able to connect to the system via terminal session.</p></li>
@@ -177,8 +177,8 @@ Optional flag specifies whether the search must be stopped immediatelly. If not 
 </div>
 <p>There are two ways to utilize grids for search in <cite>pyDarwin</cite>:</p>
 <ol class="arabic simple">
-<li><p>Run search locally, submit individual model runs to the grid (local search, grid model runs).</p></li>
-<li><p>Submit search to the grid, as well as all the model runs (grid search, grid model runs).</p></li>
+<li><p>Run search <a class="reference internal" href="#local-execution"><span class="std std-ref">locally</span></a>, submit individual model runs to the grid (local search, grid model runs).</p></li>
+<li><p>Submit search <a class="reference internal" href="#running-grid-search"><span class="std std-ref">to the grid</span></a>, as well as all the model runs (grid search, grid model runs).</p></li>
 </ol>
 <p>In both cases you need to setup grid settings in your <code class="docutils literal notranslate"><span class="pre">options.json</span></code>.</p>
 <p>Both ways you can <a class="reference internal" href="#stop-search"><span class="std std-ref">stop the search</span></a> using <code class="docutils literal notranslate"><span class="pre">darwin.stop_search</span></code>. Just keep in mind that in second case it may be not very responsive (due to load/IO latency/grid deployment details), so be patient.</p>

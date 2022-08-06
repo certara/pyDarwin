@@ -192,7 +192,7 @@ of 2 are identified. The best in the 2nd niche then is the best model that is no
 with 2 models that are at least somewhat dissimilar (by at least a distance of 2). Commonly the <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">niche radius</span></a> would be larger than 2,
 but, given that there are only 10 bits in the entire genome, a 2 bit radius will span a significant part of the search space. All parsimony penalties (THETA, OMEGA,
 and SIGMA) will be 10 points, and we would really like a model that converges, has a successful covariance step, passes the correlation test and has a condition
-number &lt; 100, so all of these penalties will be 100. As there are nested tokens in this search, there is a reason to penalize models with non-influential
+number &lt; 1000, so all of these penalties will be 100. As there are nested tokens in this search, there is a reason to penalize models with non-influential
 tokens, the penalty for non-influential tokens will be set to 0.00001. This small penalty is only to insure that in a tournament selection the model that
 does not have non-influential tokens will be selected.</p>
 <section id="notes-on-gaussian-process-performance">

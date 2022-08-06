@@ -167,38 +167,13 @@ class NMEngineAdapter(ModelEngineAdapter):
                 except OSError:
                     log.error(f"Cannot remove folder {run_dir} in call to cleanup")
             else:
-                file_to_delete = [
-                    "PRSIZES.F90",
-                    "GFCOMPILE.BAT",
-                    "FSTREAM",
-                    "fsubs.90",
-                    "compile.lnk",
-                    "FDATA",
-                    "FCON",
-                    "FREPORT",
-                    "LINK.LNK",
-                    "FSIZES"
-                    "ifort.txt",
-                    "nmpathlist.txt",
-                    "nmprd4p.mod",
-                    "PRSIZES.f90",
-                    "INTER",
-                    file_stem + ".ext",
-                    file_stem + ".clt",
-                    file_stem + ".coi",
-                    file_stem + ".cor",
-                    file_stem + ".cov",
-                    file_stem + ".cpu",
-                    file_stem + ".grd",
-                    file_stem + ".phi",
-                    file_stem + ".shm",
-                    file_stem + ".smt",
-                    file_stem + ".shk",
-                    file_stem + ".rmt",
-                    file_stem + ".exe"
-                ]
+                file_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
-                file_to_delete += glob.glob('FILE*') + glob.glob('WK*.*') + glob.glob('*.lnk') + glob.glob("FSUB*.*")
+                del file_to_delete[f'{file_stem}.mod']
+                del file_to_delete[f'{file_stem}.lst']
+                del file_to_delete[f'{file_stem}.xml']
+                del file_to_delete['FMSG']
+                del file_to_delete['PRDERR']
 
                 for f in file_to_delete:
                     try:

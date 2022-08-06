@@ -196,7 +196,7 @@ number &lt; 100, so all of these penalties will be 100. As there are nested toke
 tokens, the penalty for non-influential tokens will be set to 0.00001. This small penalty is only to insure that in a tournament selection the model that
 does not have non-influential tokens will be selected.</p>
 <section id="notes-on-gaussian-process-performance">
-<h2>Notes on Gaussian Process performance<a class="headerlink" href="#notes-on-gaussian-process-performance" title="Permalink to this heading">¶</a></h2>
+<span id="gp-ask-tell"></span><h2>Notes on Gaussian Process performance<a class="headerlink" href="#notes-on-gaussian-process-performance" title="Permalink to this heading">¶</a></h2>
 <p>Gaussian Process is an approach in <a class="reference external" href="https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf">Bayesian Optimization</a>
 and <a class="reference external" href="https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py">here</a>  where the samples are drawn from
 a Gaussian Process. There are reasons to beleive that this this approach should be the most effecient (fewer reward evaluations to convergence) other than downhill search.

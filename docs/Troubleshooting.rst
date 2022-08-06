@@ -33,8 +33,6 @@ THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Give
 is created, this approach would lead to ambiguity or at least confusion about which initial estimate was associated with which THETA index. 
 Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier as a comment.
 
-Other covariate effects are coded similarly. 
-
 Failing to do so will result in pyDarwin not finding an appropriate initial estimate for that parameter and then being unable to calculate the appropriate index.
 
 .. _can't delete temp_dir:
@@ -64,7 +62,8 @@ isn't used to call run_search it tries to reopen messages.txt and fails.
 .. _can't open r:
 
 **can't open results.csv** pyDarwin opens and closes the models.json, results.csv and messages.txt file with each model completed. This is done so that if the search 
-is interupted it can be restarted with a little lost time as possible, and so the use can read and parse the messages.txt file to monitor progress.
+is interupted it can be restarted with as little lost computational time as possible, and so the user can read and parse the messages.txt file to monitor progress. A work arround is 
+to copy message.txt to another file name (messages1.txt) and read that file.
 
 
   

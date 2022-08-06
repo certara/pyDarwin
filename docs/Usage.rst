@@ -55,7 +55,7 @@ You need to provide the path to the project folder or to the options file associ
 Optional flag specifies whether the search must be stopped immediatelly. If not set the search will stop after current model runs are finished.
 
 .. warning::
-   Don't force-stop GP during ask-stage <reference here>. Either wait for it to finish (``Done asking`` in the console output and/or :file:`messages.txt`) or stop w/o ``-f`` flag.
+   Don't force-stop GP during the :ref:`ask stage<GP_ask_tell>`. Either wait for it to finish (``Done asking`` in the console output and/or :file:`messages.txt`) or stop w/o ``-f`` flag.
 
 .. note::
    models.json will contain all model runs finished before interruption.

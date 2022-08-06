@@ -13,7 +13,6 @@ Development Support
  This work was supported by FDA/NIH grant (U01FD007355) (Development of a model selection method for population pharmacokinetics analysis by deep-learning 
  based reinforcement learning (RFA-FD-21-027)). 
 
-   UB and Certara?
 
 
 `FDA Web Site`_
@@ -32,3 +31,6 @@ Development Support
 
 Help
 ~~~~~
+
+for user support, contact support@certara.com
+

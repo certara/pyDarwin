@@ -47,6 +47,7 @@ number < 100, so all of these penalties will be 100. As there are nested tokens 
 tokens, the penalty for non-influential tokens will be set to 0.00001. This small penalty is only to insure that in a tournament selection the model that 
 does not have non-influential tokens will be selected. 
 
+.. _GP_ask_tell:
 
 Notes on Gaussian Process performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

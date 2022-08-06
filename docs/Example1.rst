@@ -6,12 +6,12 @@ Example 1: PK Model, Trivial Exhaustive Search
 ==============================================
 
 This first model is quite simple, the search space consistes of 6 dimensions, each with 2 options. Thus, the total number of candiate models is 
-2^6 = 64 models. As the search space if very small, we'll search by exhaustive search. 
+2^6 = 64 models. As the search space is very small, we'll search by exhaustive search. 
 
 First step:
 
 As is the usual practise in POPPK model selection, the first step will be exploratory data analysis. This serves at least two purposes: To validate the data set 
-and to generate initial hypotheses. We will however, for the purpose of this tutorial, skip this step and assume that we have a "correct" data set and list of 
+and to generate initial hypotheses. We will however, for the purpose of this tutorial, skip this step and assume that we have a "correct" data set and a list of 
 hypotheses to be tested. The data set for this example is dataExample1.csv and can be found in the pydarwin/examples/user/Example1 folder.
 
 The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:
@@ -62,7 +62,7 @@ The next step for ML model selection is to get a simple model running. The contr
 This text will serve as the starting point for developing the template file. 
 Note that the for the template file the data file can either be specified as a full path (prefered) or staring with {data_dir}. When pyDarwin runs models, it does not copy the data file to the run directory. Rather, 
 typically the data file is in the home directory. PyDarwin determines the {data_dir} at run time, and so this short cut can be used. However, the most straighforward and least error prone solution 
-if to prvode the full pata.
+if to prvode the full path.
 
 .. _template file: 
 
@@ -71,7 +71,7 @@ The Template file
 The initial simple model can then be editted by adding tokens. This first example will include covariates, residual error and one structural feature. 
 Each token group is identified by a :ref:`token stem <token stem>`, e.g. "V2~WT" for the dimension of the 
 relationship between weight a volume of distribution. Each token group includes 
-2 or more :ref:`token set <token set>`, one for each option in the that dimension, These dimensions and the associated :ref:`token stem<token stem>` are:
+2 or more :ref:`token sets <token set>`, one for each option in the that dimension, These dimensions and the associated :ref:`token stem<token stem>` are:
 
 1. Effect of Weight on Volume ("V2~WT") - None or a power model.
 2. Effect of Sex (Gender) on Volume ("V2~GENDER") - None or a power model
@@ -175,7 +175,7 @@ The resulting $THETA block for this initial feature will be:
  "  (0,100) \t; THETA(EMAX) "
  "  (0,1000) \t; THETA(EC50) "
 
-Where \\t i a tab. Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn't be any way to identify which initial estimate is to be associated with which 
+Where \\t is a tab. Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn't be any way to identify which initial estimate is to be associated with which 
 THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file 
 is created, this approach would lead to ambiguity. Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier.
 
@@ -186,7 +186,7 @@ Variance terms
 -----------------
 
 Between subject variability is handled similarly, with the "{}" text. Typicaly the first tokens in the tokens sets will be in the $PK, $DES or $ERROR block and the  
-2nd in $OMEGA, with the *required* ETA(IndexText) after a NONMEM comment, as for THETA initial estimates. ERR and EPS are handled similarly.
+2nd in $OMEGA, with the *required* ETA(IndexText) after a NONMEM comment, as for THETA initial estimates. ERR and EPS are handled similarly, either syntas is permitted.
 
 Example 1 template file :download:`template file <../examples/user/Example1/template.txt>`
 Example 1 searchs a 6 dimensional space. The dimensions corresponds to :ref:`token group <token group>`. 
@@ -265,7 +265,7 @@ Example 1 tokens file :download:`json tokens file <../examples/user/Example1/tok
 
 The :ref:`tokens file <tokens_file_target>` provide the :ref:`token key-text pairs<token key-text pair>` that 
 are substitued into the template file. This is a `JSON <https://www.json.org/json-en.html>`_ file format. 
-Unfortunately, comments are not  permitted in JSON files and so this file without annotation. Requirements are that 
+Unfortunately, comments are not  permitted in JSON files and so this file is without any annotation. Requirements are that 
 each :ref:`token set <token set>` within a :ref:`token group <token group>` must have the same number of :ref:`tokens <token>` 
 and new lines must be coded using the escape syntax ("\\n"), not just a new line in the file (which will be ignored in JSON). Any number of levels of 
 nested tokens (tokens within tokens) is permitted. This can be useful, when for example one might want to search for covariates 
@@ -344,7 +344,7 @@ The Options file
 ~~~~~~~~~~~~~~~~
 
 Example 1 :ref:`Options file <options file>`  :download:`json options file <../examples/user/Example1/options.json>` 
-The options file will likely need to be editted, as the path to nmfe??.bat must be provided
+The options file will likely need to be editted, as the path to nmfe??.bat (Windows) or nmfe?? (Linux) must be provided
 The options file for Example 1 is given below:
 
 The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
@@ -400,11 +400,11 @@ In either case, the folder names are given in the initial and final output to fa
 
 Penalties
 ----------
-The base value for the "fitness" (for GA) or "reward/cost" for others is the -2LL value from the NONMEM output. Typically penalties for increased complexity are added to this. If one 
+The base value for the "fitness" (for GA) or "reward/cost" for other algorithms is the -2LL value from the NONMEM output. Typically penalties for increased complexity are added to this. If one 
 parameter is added, and the models are nested, a value of 3.84 points per parameter correponds to p< 0.05. We'll use 10 points for each estimated parameter. Typically a model that converges 
 and has a successful covariance step is viewed as "better" than a model that doesn't. Therefore to capture this, we'll add 100 points for failing to converge, failing a covariance step 
 and failing the correlation test. Note that if the covariance step is not requested, the failed covariance penalty is added as is the failed correlation test and the failed condition number test. 
-similarly if the PRINT=E option is not included in the $COV record, the eigenvalues will not be printed and this will be regarded as a failed condition number test. 
+Similarly if the PRINT=E option is not included in the $COV record, the eigenvalues will not be printed and this will be regarded as a failed condition number test. 
 The non_influential_tokens penalty is added if any tokens selected for this model do not influence the final control file, as may be the case for nested tokens. This number should be small, as 
 it is only intended to break ties between otherwise identical models.
 

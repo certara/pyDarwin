@@ -307,27 +307,40 @@ similar to other models in the current generation. A typical value for the penal
 </div></blockquote>
 <ul id="random-seed-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>random_seed</strong> - <em>positive int</em>: User defined seed for random number generator.</div>
+<div class="line"><strong>random_seed</strong> - <em>positive int</em>: A seed value for random number generator.</div>
 <div class="line">Not used for Exhaustive search.</div>
 </div>
 </li>
 </ul>
 <ul id="num-parallel-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>num_parallel</strong> - <em>positive int</em>: How many models to run in parallel.</div>
+<div class="line"><strong>num_parallel</strong> - <em>positive int</em>: How many models to handle in parallel, i.e. how many threads are created to handle model runs.</div>
+<div class="line">If the models are run locally, then it’s the maximum number of models running at the same time. Shouldn’t exceed number of cores (logical/virtual processors).</div>
+<div class="line">For grid runs it’s just how many models are sent to the queue and read from results at any given time, execution itself is performed by grid nodes, so actual throughput is managed by grid engine. In this case 4 threads is plenty enough.</div>
 <div class="line"><em>Default</em>: 4</div>
 </div>
 </li>
 </ul>
-<ul class="simple" id="num-generations-options-desc">
-<li><p><strong>num_generations</strong> <sup>required</sup> - <em>positive int</em>: How many iterations or generations, not used and not required for Exhaustive Search</p></li>
+<ul id="num-generations-options-desc">
+<li><div class="line-block">
+<div class="line"><strong>num_generations</strong> <sup>required</sup> - <em>positive int</em>: How many iterations or generations to run.</div>
+<div class="line">Not used and not required for Exhaustive search.</div>
+</div>
+</li>
 </ul>
-<ul class="simple" id="population-size-options-desc">
-<li><p><strong>population_size</strong> <sup>required</sup> - <em>positive int</em>: Size of population, not used and not required for Exhaustive search</p></li>
+<ul id="population-size-options-desc">
+<li><div class="line-block">
+<div class="line"><strong>population_size</strong> <sup>required</sup> - <em>positive int</em>: How many models are created in every generation.</div>
+<div class="line">Not used and not required for Exhaustive search.</div>
+</div>
+</li>
 </ul>
-<ul class="simple" id="num-opt-chains-options-desc">
-<li><p><strong>num_opt_chains</strong> <sup>required</sup> - <em>positive int</em>: For GP, RF and GBRT multiple chains can be used. Not required for other algorithms. Using multiple chains will improve the
-performance of <a class="reference internal" href="Example2.html#gp-ask-tell"><span class="std std-ref">the “ask” step</span></a>.</p></li>
+<ul id="num-opt-chains-options-desc">
+<li><div class="line-block">
+<div class="line"><strong>num_opt_chains</strong> <sup>required</sup> - <em>positive int</em>: Number of parallel processes to perform <a class="reference internal" href="Example2.html#gp-ask-tell"><span class="std std-ref">the “ask” step</span></a> (to increase performance).</div>
+<div class="line">Required only for GP, RF and GBRT.</div>
+</div>
+</li>
 </ul>
 <ul id="exhaustive-batch-size-options-desc">
 <li><div class="line-block">
@@ -571,7 +584,7 @@ The two bit local search substantially increase the robustness of the search. Al
 </ul>
 <ul id="remove-run-dir-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>remove_run_dir</strong> - <em>boolean</em>: If <code class="docutils literal notranslate"><span class="pre">true</span></code> will delete the entire model <a class="reference internal" href="API.html#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><code class="xref py py-data docutils literal notranslate"><span class="pre">run</span> <span class="pre">directory</span></code></a>, otherwise - only unnecesary files inside it.</div>
+<div class="line"><strong>remove_run_dir</strong> - <em>boolean</em>: If <code class="docutils literal notranslate"><span class="pre">true</span></code> will delete the entire model <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">run directory</span></a>, otherwise - only unnecesary files inside it.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
 </div>
 </li>
@@ -707,11 +720,16 @@ The two bit local search substantially increase the robustness of the search. Al
 </section>
 <section id="aliases">
 <h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this heading">¶</a></h2>
-<p>There are aliases. They are various, powerful and useful. Don’t be afraid using them.</p>
+<div class="line-block">
+<div class="line">An alias is essentially a substitute text for some keyword. Their main purpose if to unify and to simplify configuration of various projects through different environments.</div>
+<div class="line">We encourage you to get familiar with them and to use them instead of explicit values, e.g. <span class="review">paths to your projects and their internals</span>.</div>
+</div>
 <section id="common-aliases">
 <span id="id1"></span><h3>Common aliases<a class="headerlink" href="#common-aliases" title="Permalink to this heading">¶</a></h3>
-<p>These aliases are applicable to regular options. Not to any option, and not necesseraly all of them are applicable to certain options. But we need to address them as a group in the documentation to prevent enumerating them all for every option.</p>
-<p>They can even be used in <a class="reference internal" href="Usage.html#template-file-target"><span class="std std-ref">templates</span></a>.</p>
+<div class="line-block">
+<div class="line">These aliases are applicable to several different options, so it’s easier to refer to them as a group.</div>
+<div class="line">They also can be used in <a class="reference internal" href="Usage.html#template-file-target"><span class="std std-ref">templates</span></a>.</div>
+</div>
 <blockquote id="project-dir-alias">
 <div><ul>
 <li><div class="line-block">
@@ -798,59 +816,35 @@ The two bit local search substantially increase the robustness of the search. Al
 <h3>Grid job aliases<a class="headerlink" href="#grid-job-aliases" title="Permalink to this heading">¶</a></h3>
 <section id="job-submit-aliases">
 <span id="id2"></span><h4>Job submit aliases<a class="headerlink" href="#job-submit-aliases" title="Permalink to this heading">¶</a></h4>
-<p>These aliases only applicable to some of <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>.</p>
+<p>These aliases only applicable to <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>.</p>
 <blockquote id="results-dir-alias">
-<div><ul>
-<li><div class="line-block">
-<div class="line"><strong>{results_dir}</strong> - Alias for</div>
-<div class="line">May be used in:</div>
-</div>
-</li>
+<div><ul class="simple">
+<li><p><strong>{results_dir}</strong> - Alias for <code class="docutils literal notranslate"><span class="pre">{working_dir}/run_results</span></code>, where individual runs’ results are stored as ModelRun objects serialized to JSON files.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="job-name-alias">
-<div><ul>
-<li><div class="line-block">
-<div class="line"><strong>{job_name}</strong> - Alias for</div>
-<div class="line">May be used in:</div>
-</div>
-</li>
+<div><ul class="simple">
+<li><p><strong>{job_name}</strong> - Alias for default job name, which is <code class="docutils literal notranslate"><span class="pre">{project_name}-{run_name}</span></code>. <em>Default</em> here doesn’t mean it will be assigned to a job authomatically, it’s up to you whether to use it ot generate your own using other available aliases, e.g. <code class="docutils literal notranslate"><span class="pre">{project_name}-{generation}-{run_number}</span></code>.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="run-name-alias">
-<div><ul>
-<li><div class="line-block">
-<div class="line"><strong>{run_name}</strong> - Alias for</div>
-<div class="line">May be used in:</div>
-</div>
-</li>
-</ul>
-</div></blockquote>
-<blockquote id="run-number-alias">
-<div><ul>
-<li><div class="line-block">
-<div class="line"><strong>{run_number}</strong> - Alias for</div>
-<div class="line">May be used in:</div>
-</div>
-</li>
-</ul>
-</div></blockquote>
-<blockquote id="run-dir-alias">
-<div><ul>
-<li><div class="line-block">
-<div class="line"><strong>{run_dir}</strong> - Alias for</div>
-<div class="line">May be used in:</div>
-</div>
-</li>
+<div><ul class="simple">
+<li><p><strong>{run_name}</strong> - Alias for <a class="reference internal" href="API.html#model-run-stem"><span class="std std-ref">ModelRun.file_stem</span></a>.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="generation-alias">
-<div><ul>
-<li><div class="line-block">
-<div class="line"><strong>{generation}</strong> - Alias for</div>
-<div class="line">May be used in:</div>
-</div>
-</li>
+<div><ul class="simple">
+<li><p><strong>{generation}</strong> - Alias for <a class="reference internal" href="API.html#model-run-generation"><span class="std std-ref">ModelRun.generation</span></a>.</p></li>
+</ul>
+</div></blockquote>
+<blockquote id="run-number-alias">
+<div><ul class="simple">
+<li><p><strong>{run_number}</strong> - Alias for <a class="reference internal" href="API.html#model-run-num"><span class="std std-ref">ModelRun.model_num</span></a>.</p></li>
+</ul>
+</div></blockquote>
+<blockquote id="run-dir-alias">
+<div><ul class="simple">
+<li><p><strong>{run_dir}</strong> - Alias for <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">ModelRun.run_dir</span></a>.</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -859,7 +853,7 @@ The two bit local search substantially increase the robustness of the search. Al
 <blockquote id="job-ids-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{job_ids}</strong> - Alias for</div>
+<div class="line"><strong>{job_ids}</strong> - Alias for a space separated list of ids of all unfinished jobs that were submitted by <a class="reference internal" href="API.html#generic-grid-adapter"><span class="std std-ref">GenericGridAdapter</span></a> from current Population.</div>
 <div class="line">May be used in: <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
 </div>
 </li>

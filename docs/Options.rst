@@ -182,26 +182,30 @@ Description
 
 .. _random_seed_options_desc:
 
-* | **random_seed** - *positive int*: User defined seed for random number generator.
+* | **random_seed** - *positive int*: A seed value for random number generator.
   | Not used for Exhaustive search.
 
 .. _num_parallel_options_desc:
 
-* | **num_parallel** - *positive int*: How many models to run in parallel.
+* | **num_parallel** - *positive int*: How many models to handle in parallel, i.e. how many threads are created to handle model runs.
+  | If the models are run locally, then it's the maximum number of models running at the same time. Shouldn't exceed number of cores (logical/virtual processors).
+  | For grid runs it's just how many models are sent to the queue and read from results at any given time, execution itself is performed by grid nodes, so actual throughput is managed by grid engine. In this case 4 threads is plenty enough.
   | *Default*: 4
 
 .. _num_generations_options_desc:
 
-* **num_generations** :superscript:`required` - *positive int*: How many iterations or generations, not used and not required for Exhaustive Search
+* | **num_generations** :superscript:`required` - *positive int*: How many iterations or generations to run.
+  | Not used and not required for Exhaustive search.
 
 .. _population_size_options_desc:
 
-* **population_size** :superscript:`required` - *positive int*: Size of population, not used and not required for Exhaustive search
+* | **population_size** :superscript:`required` - *positive int*: How many models are created in every generation.
+  | Not used and not required for Exhaustive search.
 
 .. _num_opt_chains_options_desc:
 
-* **num_opt_chains** :superscript:`required` - *positive int*: For GP, RF and GBRT multiple chains can be used. Not required for other algorithms. Using multiple chains will improve the 
-  performance of :ref:`the "ask" step<GP_ask_tell>`.
+* | **num_opt_chains** :superscript:`required` - *positive int*: Number of parallel processes to perform :ref:`the "ask" step<GP_ask_tell>` (to increase performance).
+  | Required only for GP, RF and GBRT.
 
 .. _exhaustive_batch_size_options_desc:
 
@@ -370,7 +374,7 @@ Description
 
 .. _remove_run_dir_options_desc:
 
-* | **remove_run_dir** - *boolean*: If ``true`` will delete the entire model :data:`run directory <darwin.ModelRun.ModelRun>`, otherwise - only unnecesary files inside it.
+* | **remove_run_dir** - *boolean*: If ``true`` will delete the entire model :mono_ref:`run directory <model_run_dir>`, otherwise - only unnecesary files inside it.
   | *Default*: ``false``
 
 .. _remove_temp_dir_options_desc:
@@ -472,16 +476,17 @@ Description
 
 Aliases
 -------------
-There are aliases. They are various, powerful and useful. Don't be afraid using them.
+
+| An alias is essentially a substitute text for some keyword. Their main purpose if to unify and to simplify configuration of various projects through different environments.
+| We encourage you to get familiar with them and to use them instead of explicit values, e.g. :review:`paths to your projects and their internals`.
 
 .. _common_aliases:
 
 Common aliases
 ~~~~~~~~~~~~~~~~~~
 
-These aliases are applicable to regular options. Not to any option, and not necesseraly all of them are applicable to certain options. But we need to address them as a group in the documentation to prevent enumerating them all for every option.
-
-They can even be used in :ref:`templates <template_file_target>`.
+| These aliases are applicable to several different options, so it's easier to refer to them as a group.
+| They also can be used in :ref:`templates <template_file_target>`.
 
 .. _project_dir_alias:
 
@@ -537,44 +542,38 @@ Grid job aliases
 Job submit aliases
 """"""""""""""""""""
 
-These aliases only applicable to some of :mono_ref:`submit_command <submit_command_options_desc>`.
+These aliases only applicable to :mono_ref:`submit_command <submit_command_options_desc>`.
 
 .. _results_dir_alias:
 
-  * | **{results_dir}** - Alias for
-    | May be used in:
+  * **{results_dir}** - Alias for ``{working_dir}/run_results``, where individual runs' results are stored as ModelRun objects serialized to JSON files.
 
 .. _job_name_alias:
 
-  * | **{job_name}** - Alias for
-    | May be used in:
+  * **{job_name}** - Alias for default job name, which is ``{project_name}-{run_name}``. *Default* here doesn't mean it will be assigned to a job authomatically, it's up to you whether to use it ot generate your own using other available aliases, e.g. ``{project_name}-{generation}-{run_number}``.
 
 .. _run_name_alias:
 
-  * | **{run_name}** - Alias for
-    | May be used in:
-
-.. _run_number_alias:
-
-  * | **{run_number}** - Alias for
-    | May be used in:
-
-.. _run_dir_alias:
-
-  * | **{run_dir}** - Alias for
-    | May be used in:
+  * **{run_name}** - Alias for :mono_ref:`ModelRun.file_stem <model_run_stem>`.
 
 .. _generation_alias:
 
-  * | **{generation}** - Alias for
-    | May be used in:
+  * **{generation}** - Alias for :mono_ref:`ModelRun.generation <model_run_generation>`.
+
+.. _run_number_alias:
+
+  * **{run_number}** - Alias for :mono_ref:`ModelRun.model_num <model_run_num>`.
+
+.. _run_dir_alias:
+
+  * **{run_dir}** - Alias for :mono_ref:`ModelRun.run_dir <model_run_dir>`.
 
 Job delete/poll aliases
 """"""""""""""""""""""""
 
 .. _job_ids_alias:
 
-  * | **{job_ids}** - Alias for
+  * | **{job_ids}** - Alias for a space separated list of ids of all unfinished jobs that were submitted by :ref:`GenericGridAdapter <generic_grid_adapter>` from current Population.
     | May be used in: :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 

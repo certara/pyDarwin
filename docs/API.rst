@@ -181,6 +181,8 @@ darwin.grid.GridAdapter
    :members:
    :undoc-members:
 
+.. _generic_grid_adapter:
+
 darwin.grid.GenericGridAdapter
 -------------------------------------
 

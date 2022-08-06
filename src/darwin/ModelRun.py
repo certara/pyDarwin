@@ -76,15 +76,21 @@ _python_post_process = _dummy
 
 class ModelRun:
     """
+    .. _model_run_generation:
+
     generation : int
         The current generation/iteration.
 
         Generation + model_num creates a unique "file_stem"
 
+    .. _model_run_num:
+
     model_num: int
         Model number, within the generation.
 
         Generation + model_num creates a unique "file_stem"
+
+    .. _model_run_stem:
 
     file_stem: string
         Prefix string used to create unique names for control files, executable and run directory.
@@ -95,6 +101,8 @@ class ModelRun:
 
     executable_file_name: string
         name of the executable, will be file_stem + ".exe"
+
+    .. _model_run_dir:
 
     run_dir: string
         path to the directory where the model is run;

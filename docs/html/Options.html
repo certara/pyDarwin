@@ -323,7 +323,7 @@ similar to other models in the current generation. A typical value for the penal
 </ul>
 <ul id="num-generations-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>num_generations</strong> <sup>required</sup> - <em>positive int</em>: How many iterations or generations to run.</div>
+<div class="line"><strong>num_generations</strong> <sup>required</sup> - <em>positive int</em>: How many iterations or generations of the search algorithm to run.</div>
 <div class="line">Not used and not required for Exhaustive search.</div>
 </div>
 </li>
@@ -343,15 +343,16 @@ similar to other models in the current generation. A typical value for the penal
 </li>
 </ul>
 <ul id="exhaustive-batch-size-options-desc">
-<li><div class="line-block">
-<div class="line"><strong>exhaustive_batch_size</strong> - <em>positive int</em>: For a large exhaustive search, a complete list of all models may exceed the available memory.
-The list of models will be run in batchs of this size. <span class="review">A typical value is 1000 to 10000.</span>
-<span class="comment">It might be a problem for grid runs: I wouldn’t like to see thousands of queued jobs in our grid, especially if there are other searches run in parallel.</span>
-<span class="comment">I would say anything from 50 to 1000 is pretty typical depending on your circumstances: maybe you have a very unstable environment and would like to save cached models more often,</span>
-<span class="comment">not every 1000 runs; or again you run the models on a grid and you have parallel searches, so you don’t want to monopolize the queue.</span>
-<span class="comment">I’d say in general it depends on number of jobs you can run in parallel, like it should be at least 10 to 20 times bigger than that, but not too big to overwhelm or monopolize your grid queue. For local runs you may batch as many as you want if you don’t run any parallel searches and don’t care about loosing some cached models due to any incident.</span>
-<span class="comment">Also there is a default value, which is 100. And anything less than 50 is considered ineffective from CPU/grid utilization perspective, as, like it’s already been stated, all models in a batch must complete before the next batch starts.</span>
-Smaller batch sizes wil have a small effect on performance, as all models in a batch must complete before the next batch starts.</div>
+<li><p><strong>exhaustive_batch_size</strong> - <em>positive int</em>: Since there is no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so Exhaustive search is essentially split into pseudo-iterations. This setting is the size of those batches.
+Several things to take into consideration when choosing the size:</p>
+<ul class="simple">
+<li><p>a typical value would be 50 to 1000</p></li>
+<li><p>in general the size depends on number of jobs you can run in parallel and should be at least 10 to 20 times bigger than that</p></li>
+<li><p>anything less than 50 is considered ineffective from CPU/grid utilization perspective, as all models in a batch must complete before the next batch starts</p></li>
+<li><p>if you submit model runs to a grid, the size shouldn’t be too big in order to not overwhelm or monopolize your grid queue</p></li>
+<li><p>for local runs you may batch as many models as you want if don’t mind loosing some cached models in case of any accident (model cache is dumbed to a file at the end of every batch); unlike grid runs, any parallel searches won’t be affected by the size since the main influence in case of local runs is made by <a class="reference internal" href="#num-parallel-options-desc"><span class="std std-ref">num_parallel</span></a></p></li>
+</ul>
+<div class="line-block">
 <div class="line"><em>Default</em>: 100</div>
 </div>
 </li>
@@ -827,7 +828,7 @@ The two bit local search substantially increase the robustness of the search. Al
 <h3>Grid job aliases<a class="headerlink" href="#grid-job-aliases" title="Permalink to this heading">¶</a></h3>
 <section id="job-submit-aliases">
 <span id="id2"></span><h4>Job submit aliases<a class="headerlink" href="#job-submit-aliases" title="Permalink to this heading">¶</a></h4>
-<p>These aliases only applicable to <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>.</p>
+<p>These aliases are only applicable to <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>.</p>
 <blockquote id="results-dir-alias">
 <div><ul class="simple">
 <li><p><strong>{results_dir}</strong> - Alias for <code class="docutils literal notranslate"><span class="pre">{working_dir}/run_results</span></code>, where individual runs’ results are stored as ModelRun objects serialized to JSON files.</p></li>

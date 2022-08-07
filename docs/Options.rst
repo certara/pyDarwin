@@ -194,7 +194,7 @@ Description
 
 .. _num_generations_options_desc:
 
-* | **num_generations** :superscript:`required` - *positive int*: How many iterations or generations to run.
+* | **num_generations** :superscript:`required` - *positive int*: How many iterations or generations of the search algorithm to run.
   | Not used and not required for Exhaustive search.
 
 .. _population_size_options_desc:
@@ -209,14 +209,15 @@ Description
 
 .. _exhaustive_batch_size_options_desc:
 
-* | **exhaustive_batch_size** - *positive int*: For a large exhaustive search, a complete list of all models may exceed the available memory.
-    The list of models will be run in batchs of this size. :review:`A typical value is 1000 to 10000.`
-    :comment:`It might be a problem for grid runs: I wouldn't like to see thousands of queued jobs in our grid, especially if there are other searches run in parallel.`
-    :comment:`I would say anything from 50 to 1000 is pretty typical depending on your circumstances: maybe you have a very unstable environment and would like to save cached models more often,`
-    :comment:`not every 1000 runs; or again you run the models on a grid and you have parallel searches, so you don't want to monopolize the queue.`
-    :comment:`I'd say in general it depends on number of jobs you can run in parallel, like it should be at least 10 to 20 times bigger than that, but not too big to overwhelm or monopolize your grid queue. For local runs you may batch as many as you want if you don't run any parallel searches and don't care about loosing some cached models due to any incident.`
-    :comment:`Also there is a default value, which is 100. And anything less than 50 is considered ineffective from CPU/grid utilization perspective, as, like it's already been stated, all models in a batch must complete before the next batch starts.`
-    Smaller batch sizes wil have a small effect on performance, as all models in a batch must complete before the next batch starts.
+* **exhaustive_batch_size** - *positive int*: Since there is no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so Exhaustive search is essentially split into pseudo-iterations. This setting is the size of those batches.
+  Several things to take into consideration when choosing the size:
+
+  * a typical value would be 50 to 1000
+  * in general the size depends on number of jobs you can run in parallel and should be at least 10 to 20 times bigger than that
+  * anything less than 50 is considered ineffective from CPU/grid utilization perspective, as all models in a batch must complete before the next batch starts
+  * if you submit model runs to a grid, the size shouldn't be too big in order to not overwhelm or monopolize your grid queue
+  * for local runs you may batch as many models as you want if don't mind loosing some cached models in case of any accident (model cache is dumbed to a file at the end of every batch); unlike grid runs, any parallel searches won't be affected by the size since the main influence in case of local runs is made by :mono_ref:`num_parallel <num_parallel_options_desc>`
+
   | *Default*: 100
 
 .. _crash_value_options_desc:

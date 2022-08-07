@@ -491,47 +491,58 @@ Common aliases
 .. _project_dir_alias:
 
   * | **{project_dir}** - Project folder. Cannot be set directly. It's set to either folder argument of ``run_search_in_folder`` (function or module) or parent folder of options file passed to ``run_search`` (function or module).
-    | May be used in:
+    | Can be used in: :mono_ref:`data_dir <data_dir_options_desc>`, :mono_ref:`output_dir <output_dir_options_desc>`, :mono_ref:`temp_dir <temp_dir_options_desc>`,
+      :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
+      :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _project_name_alias:
 
   * | **{project_name}** - Alias for :mono_ref:`project_name<project_name_options_desc>` setting.
-    | May be used in:
+    | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
+      :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _project_stem_alias:
 
   * | **{project_stem}** - Filesystem-friendly representation of the project name in a way that it will be easy to manage as a folder name, i.e. all non-letters and non-digits are replaced with underscores, like ``Some reasonable(ish) name`` becomes ``Some_reasonable_ish__name``. Cannot be set directly.
-    | May be used in:
+    | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
+      :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _working_dir_alias:
 
   * | **{working_dir}** - Alias for :mono_ref:`working_dir<working_dir_options_desc>` setting.
-    | May be used in:
+    | Can be used in: :mono_ref:`data_dir <data_dir_options_desc>`, :mono_ref:`output_dir <output_dir_options_desc>`, :mono_ref:`temp_dir <temp_dir_options_desc>`,
+      :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
+      :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _data_dir_alias:
 
   * | **{data_dir}** - Alias for :mono_ref:`data_dir<data_dir_options_desc>` setting.
-    | May be used in:
+    | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
+      :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _output_dir_alias:
 
   * | **{output_dir}** - Alias for :mono_ref:`output_dir<output_dir_options_desc>` setting.
-    | May be used in:
+    | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
+      :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _temp_dir_alias:
 
   * | **{temp_dir}** - Alias for :mono_ref:`temp_dir<temp_dir_options_desc>` setting.
-    | May be used in:
+    | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
+      :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _algorithm_alias:
 
   * | **{algorithm}** - Alias for :mono_ref:`algorithm<algorithm_options_desc>` setting.
-    | May be used in:
+    | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
+      :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _author_alias:
 
   * | **{author}** - Alias for :mono_ref:`author<author_options_desc>` setting.
-    | May be used in:
+    | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
+      :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 
 Grid job aliases
@@ -542,7 +553,7 @@ Grid job aliases
 Job submit aliases
 """"""""""""""""""""
 
-These aliases only applicable to :mono_ref:`submit_command <submit_command_options_desc>`.
+These aliases are only applicable to :mono_ref:`submit_command <submit_command_options_desc>`.
 
 .. _results_dir_alias:
 
@@ -574,7 +585,7 @@ Job delete/poll aliases
 .. _job_ids_alias:
 
   * | **{job_ids}** - Alias for a space separated list of ids of all unfinished jobs that were submitted by :ref:`GenericGridAdapter <generic_grid_adapter>` from current Population.
-    | May be used in: :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
+    | Can be used in: :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 
 Environment variables

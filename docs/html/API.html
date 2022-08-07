@@ -469,13 +469,17 @@ Need to look in output file for parameter at boundary and parameter non-positive
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.ModelRun.</span></span><span class="sig-name descname"><span class="pre">ModelRun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adapter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelEngineAdapter.ModelEngineAdapter" title="darwin.ModelEngineAdapter.ModelEngineAdapter"><span class="pre">ModelEngineAdapter</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelRun" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
+<dd><dl id="model-run-generation">
 <dt>generation<span class="classifier">int</span></dt><dd><p>The current generation/iteration.</p>
 <p>Generation + model_num creates a unique “file_stem”</p>
 </dd>
+</dl>
+<dl id="model-run-num">
 <dt>model_num: int</dt><dd><p>Model number, within the generation.</p>
 <p>Generation + model_num creates a unique “file_stem”</p>
 </dd>
+</dl>
+<dl class="simple" id="model-run-stem">
 <dt>file_stem: string</dt><dd><p>Prefix string used to create unique names for control files, executable and run directory.
 Defined as stem_prefix + generation + model_num.</p>
 </dd>
@@ -483,6 +487,8 @@ Defined as stem_prefix + generation + model_num.</p>
 </dd>
 <dt>executable_file_name: string</dt><dd><p>name of the executable, will be file_stem + “.exe”</p>
 </dd>
+</dl>
+<dl class="simple" id="model-run-dir">
 <dt>run_dir: string</dt><dd><p>path to the directory where the model is run;
 run_dir name is based on the file_stem, which must be unique for each model in the search.</p>
 </dd>
@@ -625,13 +631,13 @@ No return value, just updates runs.</p>
 </section>
 </section>
 <section id="caching-model-runs">
-<h2>Caching model runs<a class="headerlink" href="#caching-model-runs" title="Permalink to this heading">¶</a></h2>
+<span id="api-model-cache"></span><h2>Caching model runs<a class="headerlink" href="#caching-model-runs" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
 <div class="line">It’s not uncommon to get duplicated models during search. In order to prevent unnecessary runs all unique models from current search are stored in Model Cache.</div>
 <div class="line">Every new model is checked against the cache. If a match is found, the new model is replaced with cached one, so the result is obtained instantly.</div>
 <div class="line">Currently only in-memory cache is available, so in case of large searches (millions of model runs) memory footprint may be substantial.</div>
 <div class="line">Normally the cache is dumped at the end of every iteration or when you <a class="reference internal" href="Usage.html#stop-search"><span class="std std-ref">stop the search</span></a>. This behaviour can be affected
-by <a class="reference internal" href="Options.html#saved-models-readonly-options-desc"><span class="std std-ref">saved_models_readonly</span></a> set to true.</div>
+by <a class="reference internal" href="Options.html#saved-models-readonly-options-desc"><span class="std std-ref">saved_models_readonly</span></a> set to true. You also can load the cache from <a class="reference internal" href="Options.html#use-saved-models-options-desc"><span class="std std-ref">saved state</span></a>.</div>
 </div>
 <section id="module-darwin.ModelCache">
 <span id="darwin-modelcache"></span><h3>darwin.ModelCache<a class="headerlink" href="#module-darwin.ModelCache" title="Permalink to this heading">¶</a></h3>
@@ -919,7 +925,7 @@ for downhill, will need to convert to minimal binary, then to integer.</p>
 
 </section>
 <section id="module-darwin.grid.GenericGridAdapter">
-<span id="darwin-grid-genericgridadapter"></span><h3>darwin.grid.GenericGridAdapter<a class="headerlink" href="#module-darwin.grid.GenericGridAdapter" title="Permalink to this heading">¶</a></h3>
+<span id="darwin-grid-genericgridadapter"></span><span id="generic-grid-adapter"></span><h3>darwin.grid.GenericGridAdapter<a class="headerlink" href="#module-darwin.grid.GenericGridAdapter" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.grid.GenericGridAdapter.GridJob">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.grid.GenericGridAdapter.</span></span><span class="sig-name descname"><span class="pre">GridJob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results_dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GenericGridAdapter.GridJob" title="Permalink to this definition">¶</a></dt>

@@ -1,2 +1,6 @@
 .. role:: comment
 .. role:: review
+.. |nbsp| unicode:: 0xA0 
+   :trim:
+.. role:: mono
+.. role:: mono_ref(ref)

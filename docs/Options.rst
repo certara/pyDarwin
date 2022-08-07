@@ -28,7 +28,7 @@ Example JSON
             :ref:`"crossover_operator" <crossover_operator_options_desc>`: "cxOnePoint",
             :ref:`"mutate" <mutate_options_desc>`: "flipBit",
             :ref:`"attribute_mutation_probability" <attribute_mutation_probability_options_desc>`: 0.1,
-            :ref:`"niche_penalty" <niche_penalty_options_desc>`: 10
+            :ref:`"niche_penalty" <niche_penalty_options_desc>`: 20
         },
 
         :ref:`"random_seed" <random_seed_options_desc>`: 11,
@@ -170,7 +170,7 @@ All fields marked with * are required.
 
       Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche 
       penalty is to maintain diversity of models, to avoid premature convergence of the search, by penalizing when models are too 
-      similar to other models in the current generation. A typical value for the penalty is 10. (positive real)
+      similar to other models in the current generation. A typical value for the penalty is 20. (positive real)
 
 .. _random_seed_options_desc:
 

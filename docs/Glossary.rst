@@ -141,7 +141,7 @@ The minimal binary is in contrast to the :ref:`full binary <full binary>`.
 **Niche Penalty:** The niche penalty is calculate by first calculating the “distance matrix”, the pair wise Mikowski distance from the present model to all other models. The 
 “crowding” quantity is then calculated a the sum of: (distance/niche_radius)**sharing_alpha for all other models in the generation for which the Mikowski distance is less than 
 the niche radius. Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche penalty is to maintain diversity of models, 
-to avoid premature convergence of the search, by penalizing when models are too similar to other models in the current generation. A typical value for the penalty is 10. 
+to avoid premature convergence of the search, by penalizing when models are too similar to other models in the current generation. A typical value for the penalty is 20 (the default). 
 
 
 

@@ -79,8 +79,8 @@ Example JSON
         :ref:`"remove_run_dir" <remove_run_dir_options_desc>`: false,
         :ref:`"remove_temp_dir" <remove_temp_dir_options_desc>`: true,
 
-        :ref:`"model_run_man" <model_run_man_options_desc>`: "darwin.GridRunManager",
         :ref:`"model_cache" <model_cache_options_desc>`: "darwin.MemoryModelCache",
+        :ref:`"model_run_man" <model_run_man_options_desc>`: "darwin.GridRunManager",
         :ref:`"grid_adapter" <grid_adapter_options_desc>`: "darwin.GenericGridAdapter",
         :ref:`"engine_adapter" <engine_adapter_options_desc>`: "nonmem",
 
@@ -170,15 +170,6 @@ Description
 
 .. _niche_penalty_options_desc:
 
-    * **niche_penalty**\* - *real*: Required if using GA. Require for calculation of the crowding penalty. 
-      The niche penalty is calculate by first calculating the "distance matrix", the pair wise 
-      `Mikowski distance <https://en.wikipedia.org/wiki/Minkowski_distance>`_ from the present model to all
-      other models. The "crowding" quantity is then calculated a the sum of: (distance/niche_radius)**sharing_alpha
-      for all other models in the generation for which the Mikowski distance is less than the niche radius.
-
-      Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche 
-      penalty is to maintain diversity of models, to avoid premature convergence of the search, by penalizing when models are too 
-      similar to other models in the current generation. A typical value for the penalty is 20. (positive real)
     * | **niche_penalty** - *positive real*: Used for calculation of the crowding penalty. 
         The niche penalty is calculate by first calculating the "distance matrix", the pair wise 
         `Mikowski distance <https://en.wikipedia.org/wiki/Minkowski_distance>`_ from the present model to all
@@ -186,7 +177,7 @@ Description
         for all other models in the generation for which the Mikowski distance is less than the niche radius.
       | Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche 
         penalty is to maintain diversity of models, to avoid premature convergence of the search, by penalizing when models are too 
-        similar to other models in the current generation. A typical value for the penalty is 20.
+        similar to other models in the current generation.
       | *Default*: 20
 
 .. _random_seed_options_desc:
@@ -218,7 +209,7 @@ Description
 
 .. _exhaustive_batch_size_options_desc:
 
-* **exhaustive_batch_size** - *positive int*: Since there is no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so Exhaustive search is essentially split into pseudo-iterations. This setting is the size of those batches.
+* **exhaustive_batch_size** - *positive int*: Since there is no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so essentially Exhaustive search is split into pseudo-iterations. This setting is the size of those batches.
   Several things to take into consideration when choosing the size:
 
   * a typical value would be 50 to 1000
@@ -392,21 +383,31 @@ Description
 * | **remove_temp_dir** - *boolean*: Whether to delete entire :mono_ref:`temp_dir <temp_dir_options_desc>` after the search is finished or stopped. Doesn't have any effect when search is :ref:`run on a grid <grid_execution>`.
   | *Default*: ``false``
 
-.. _model_run_man_options_desc:
-
-* **model_run_man** - *string*:
-
 .. _model_cache_options_desc:
 
-* **model_cache** - *string*:
+* | **model_cache** - *string*: ModelCache subclass to be used.
+  | Currently there are only :data:`darwin.MemoryModelCache <darwin.MemoryModelCache.MemoryModelCache>`
+    and :data:`darwin.AsyncMemoryModelCache <darwin.MemoryModelCache.AsyncMemoryModelCache>`.
+  | You can create your own and use it, for example a cache that stores model runs in a DB. The name is quite arbitrary and doesn't have any convention/constraints.
+  | *Default*: ``darwin.MemoryModelCache``
+
+.. _model_run_man_options_desc:
+
+* | **model_run_man** - *string*: ModelRunManager subclass to be used.
+  | Currently there are only :data:`darwin.LocalRunManager <darwin.LocalRunManager.LocalRunManager>` and :data:`darwin.GridRunManager <darwin.grid.GridRunManager.GridRunManager>`.
+  | *Default*: ``darwin.LocalRunManager``
 
 .. _grid_adapter_options_desc:
 
-* **grid_adapter** - *string*:
+* | **grid_adapter** - *string*: GridAdapter subclass to be used.
+  | Currently only :data:`darwin.GenericGridAdapter <darwin.grid.GenericGridAdapter.GenericGridAdapter>` is available.
+  | *Default*: ``darwin.GenericGridAdapter``
 
 .. _engine_adapter_options_desc:
 
-* **engine_adapter** - *string*:
+* | **engine_adapter** - *string*: ModelEngineAdapter subclass to be used.
+  | Currently only :data:`nonmem <darwin.nonmem.NMEngineAdapter.NMEngineAdapter>` is available.
+  | *Default*: ``nonmem``
 
 .. _working_dir_options_desc:
 

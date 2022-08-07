@@ -114,7 +114,7 @@ String options must be in quotes. See <a class="reference external" href="https:
         <a class="reference internal" href="#crossover-operator-options-desc"><span class="std std-ref">&quot;crossover_operator&quot;</span></a>: &quot;cxOnePoint&quot;,
         <a class="reference internal" href="#mutate-options-desc"><span class="std std-ref">&quot;mutate&quot;</span></a>: &quot;flipBit&quot;,
         <a class="reference internal" href="#attribute-mutation-probability-options-desc"><span class="std std-ref">&quot;attribute_mutation_probability&quot;</span></a>: 0.1,
-        <a class="reference internal" href="#niche-penalty-options-desc"><span class="std std-ref">&quot;niche_penalty&quot;</span></a>: 10
+        <a class="reference internal" href="#niche-penalty-options-desc"><span class="std std-ref">&quot;niche_penalty&quot;</span></a>: 20
     },
 
     <a class="reference internal" href="#random-seed-options-desc"><span class="std std-ref">&quot;random_seed&quot;</span></a>: 11,
@@ -165,8 +165,8 @@ String options must be in quotes. See <a class="reference external" href="https:
     <a class="reference internal" href="#remove-run-dir-options-desc"><span class="std std-ref">&quot;remove_run_dir&quot;</span></a>: false,
     <a class="reference internal" href="#remove-temp-dir-options-desc"><span class="std std-ref">&quot;remove_temp_dir&quot;</span></a>: true,
 
-    <a class="reference internal" href="#model-run-man-options-desc"><span class="std std-ref">&quot;model_run_man&quot;</span></a>: &quot;darwin.GridRunManager&quot;,
     <a class="reference internal" href="#model-cache-options-desc"><span class="std std-ref">&quot;model_cache&quot;</span></a>: &quot;darwin.MemoryModelCache&quot;,
+    <a class="reference internal" href="#model-run-man-options-desc"><span class="std std-ref">&quot;model_run_man&quot;</span></a>: &quot;darwin.GridRunManager&quot;,
     <a class="reference internal" href="#grid-adapter-options-desc"><span class="std std-ref">&quot;grid_adapter&quot;</span></a>: &quot;darwin.GenericGridAdapter&quot;,
     <a class="reference internal" href="#engine-adapter-options-desc"><span class="std std-ref">&quot;engine_adapter&quot;</span></a>: &quot;nonmem&quot;,
 
@@ -299,7 +299,7 @@ other models. The “crowding” quantity is then calculated a the sum of: (dist
 for all other models in the generation for which the Mikowski distance is less than the niche radius.</div>
 <div class="line">Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche
 penalty is to maintain diversity of models, to avoid premature convergence of the search, by penalizing when models are too
-similar to other models in the current generation. A typical value for the penalty is 10.</div>
+similar to other models in the current generation.</div>
 <div class="line"><em>Default</em>: 20</div>
 </div>
 </li>
@@ -343,7 +343,7 @@ similar to other models in the current generation. A typical value for the penal
 </li>
 </ul>
 <ul id="exhaustive-batch-size-options-desc">
-<li><p><strong>exhaustive_batch_size</strong> - <em>positive int</em>: Since there is no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so Exhaustive search is essentially split into pseudo-iterations. This setting is the size of those batches.
+<li><p><strong>exhaustive_batch_size</strong> - <em>positive int</em>: Since there is no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so essentially Exhaustive search is split into pseudo-iterations. This setting is the size of those batches.
 Several things to take into consideration when choosing the size:</p>
 <ul class="simple">
 <li><p>a typical value would be 50 to 1000</p></li>
@@ -597,17 +597,39 @@ The two bit local search substantially increase the robustness of the search. Al
 </div>
 </li>
 </ul>
-<ul class="simple" id="model-run-man-options-desc">
-<li><p><strong>model_run_man</strong> - <em>string</em>:</p></li>
+<ul id="model-cache-options-desc">
+<li><div class="line-block">
+<div class="line"><strong>model_cache</strong> - <em>string</em>: ModelCache subclass to be used.</div>
+<div class="line">Currently there are only <a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache" title="darwin.MemoryModelCache.MemoryModelCache"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.MemoryModelCache</span></code></a>
+and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMemoryModelCache" title="darwin.MemoryModelCache.AsyncMemoryModelCache"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.AsyncMemoryModelCache</span></code></a>.</div>
+<div class="line">You can create your own and use it, for example a cache that stores the model runs in a DB. The name is quite arbitrary and doesn’t have any convention/constraints.</div>
+<div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">darwin.MemoryModelCache</span></code></div>
+</div>
+</li>
 </ul>
-<ul class="simple" id="model-cache-options-desc">
-<li><p><strong>model_cache</strong> - <em>string</em>:</p></li>
+<ul id="model-run-man-options-desc">
+<li><div class="line-block">
+<div class="line"><strong>model_run_man</strong> - <em>string</em>: ModelRunManager subclass to be used.</div>
+<div class="line">Currently there are only <a class="reference internal" href="API.html#darwin.LocalRunManager.LocalRunManager" title="darwin.LocalRunManager.LocalRunManager"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.LocalRunManager</span></code></a> and <a class="reference internal" href="API.html#darwin.grid.GridRunManager.GridRunManager" title="darwin.grid.GridRunManager.GridRunManager"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.GridRunManager</span></code></a>.</div>
+<div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">darwin.LocalRunManager</span></code></div>
+</div>
+</li>
 </ul>
-<ul class="simple" id="grid-adapter-options-desc">
-<li><p><strong>grid_adapter</strong> - <em>string</em>:</p></li>
+<ul id="grid-adapter-options-desc">
+<li><div class="line-block">
+<div class="line"><strong>grid_adapter</strong> - <em>string</em>: GridAdapter subclass to be used.</div>
+<div class="line">Currently only <a class="reference internal" href="API.html#darwin.grid.GenericGridAdapter.GenericGridAdapter" title="darwin.grid.GenericGridAdapter.GenericGridAdapter"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.GenericGridAdapter</span></code></a> is available.</div>
+<div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">darwin.GenericGridAdapter</span></code></div>
+</div>
+</li>
 </ul>
-<ul class="simple" id="engine-adapter-options-desc">
-<li><p><strong>engine_adapter</strong> - <em>string</em>:</p></li>
+<ul id="engine-adapter-options-desc">
+<li><div class="line-block">
+<div class="line"><strong>engine_adapter</strong> - <em>string</em>: ModelEngineAdapter subclass to be used.</div>
+<div class="line">Currently only <a class="reference internal" href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter" title="darwin.nonmem.NMEngineAdapter.NMEngineAdapter"><code class="xref py py-data docutils literal notranslate"><span class="pre">nonmem</span></code></a> is available.</div>
+<div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">nonmem</span></code></div>
+</div>
+</li>
 </ul>
 <ul id="working-dir-options-desc">
 <li><div class="line-block">

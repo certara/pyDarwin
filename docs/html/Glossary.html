@@ -159,7 +159,7 @@ if the search space includes a dimension for 1,2, or 3 compartments, 2 bits will
 <p id="niche-penalty"><strong>Niche Penalty:</strong> The niche penalty is calculate by first calculating the “distance matrix”, the pair wise Mikowski distance from the present model to all other models. The
 “crowding” quantity is then calculated a the sum of: (distance/niche_radius)**sharing_alpha for all other models in the generation for which the Mikowski distance is less than
 the niche radius. Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche penalty is to maintain diversity of models,
-to avoid premature convergence of the search, by penalizing when models are too similar to other models in the current generation. A typical value for the penalty is 10.</p>
+to avoid premature convergence of the search, by penalizing when models are too similar to other models in the current generation. A typical value for the penalty is 20 (the default).</p>
 <p id="niche-radius"><strong>Niche Radius:</strong> The niche radius is used to define how similar pairs of models are. This is used to select models for the <a class="reference internal" href="#local-search"><span class="std std-ref">Local search</span></a> is requested and to calcuate the sharing penalty for
 <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">Genetic Algorithm</span></a>.</p>
 <p id="parameter-sorting"><strong>Parameter sorting:</strong> The template file-tokens files-phenotype is first merged. In this merged file the parameters in the searched text are indexed only with

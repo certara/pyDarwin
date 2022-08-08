@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example 1: PK Model, Trivial Exhaustive Search &mdash; pyDarwin 1 documentation</title>
@@ -70,7 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -99,10 +99,10 @@
              
   <section id="example-1-pk-model-trivial-exhaustive-search">
 <span id="startpk1"></span><h1>Example 1: PK Model, Trivial Exhaustive Search<a class="headerlink" href="#example-1-pk-model-trivial-exhaustive-search" title="Permalink to this heading">¶</a></h1>
-<p>This first model is quite simple, the search space consistes of 6 dimensions, each with 2 options. Thus, the total number of candiate models is
+<p>This first model is quite simple, the search space consists of 6 dimensions, each with 2 options. Thus, the total number of candidate models is
 2^6 = 64 models. As the search space is very small, we’ll search by exhaustive search.</p>
 <p>First step:</p>
-<p>As is the usual practise in POPPK model selection, the first step will be exploratory data analysis. This serves at least two purposes: To validate the data set
+<p>As is the usual practice in POP-PK model selection, the first step will be exploratory data analysis. This serves at least two purposes: To validate the data set
 and to generate initial hypotheses. We will however, for the purpose of this tutorial, skip this step and assume that we have a “correct” data set and a list of
 hypotheses to be tested. The data set for this example is dataExample1.csv and can be found in the pydarwin/examples/user/Example1 folder.</p>
 <p>The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:</p>
@@ -147,12 +147,12 @@ $COV UNCOND PRINT=E
 </pre></div>
 </div>
 <p>This text will serve as the starting point for developing the template file.
-Note that the for the template file the data file can either be specified as a full path (prefered) or staring with {data_dir}. When pyDarwin runs models, it does not copy the data file to the run directory. Rather,
-typically the data file is in the home directory. PyDarwin determines the {data_dir} at run time, and so this short cut can be used. However, the most straighforward and least error prone solution
-if to prvode the full path.</p>
+Note that the for the template file the data file can either be specified as a full path (preferred) or staring with {data_dir}. When pyDarwin runs models, it does not copy the data file to the run directory. Rather,
+typically the data file is in the home directory. PyDarwin determines the {data_dir} at run time, and so this short cut can be used. However, the most straightforward and least error prone solution
+is to provide the full path.</p>
 <section id="the-template-file">
 <span id="template-file"></span><h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
-<p>The initial simple model can then be editted by adding tokens. This first example will include covariates, residual error and one structural feature.
+<p>The initial simple model can then be edited by adding tokens. This first example will include covariates, residual error and one structural feature.
 Each token group is identified by a <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a>, e.g. “V2~WT” for the dimension of the
 relationship between weight a volume of distribution. Each token group includes
 2 or more <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token sets</span></a>, one for each option in the that dimension, These dimensions and the associated <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a> are:</p>
@@ -207,26 +207,26 @@ be defined:</p>
 {V2~WT[2]}
 </pre></div>
 </div>
-<p>Note the use of the escape syntax, “\t” for a tab. Newlines will be coded simlarly as “\n”. Actual crlf’s are not permitted in JSON, and \n must be used.
+<p>Note the use of the escape syntax, “\t” for a tab. Newlines will be coded similarly as “\n”. Actual crlf’s are not permitted in JSON, and \n must be used.
 NONMEM comments (text after “;”) are permitted. However, the
 user must be aware of the impact that comments in token text may have on any code that follows. This $THETA block has 3 fixed THETA initial estimates - THETA(1),
 THETA(2) and THETA(3). These will appear in all control files in the search. These fixed initial estimates are then followed by searched initial estimates. Searched
 initial estimates may or may not appear, depending on the model specification (<a class="reference internal" href="Glossary.html#phenotype"><span class="std std-ref">phenotype</span></a>). Searched initial estimates must be placed after all
 fixed initial estimates. Each initial estimate must be on a separate line and must be surrounded by parentheses. The standard combinations of (lower, initial,upper)
 are all supported.</p>
-<p>Tokens sets for each feature to be searched will be defined as these <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> (analagous to key-value pairs
+<p>Tokens sets for each feature to be searched will be defined as these <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> (analogous to key-value pairs
 in JSON, but only text values are permitted)</p>
 <p>Each of these dimensions has two options. Therefore the total number of candidate models
 in the search space is number of permutations - 2^6 = 64.</p>
 <p>In the <a class="reference download internal" download="" href="_downloads/a865b660d9d8eed9c8ef2e1087e94aa6/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">text</span></code></a> note the
 special text in curly braces({}). These are <a class="reference internal" href="Glossary.html#token"><span class="std std-ref">tokens</span></a>. Tokens come in sets, as typically
-multiple text substittion must be made to results in a syntactically correct NMTRAN control file. For
+multiple text substitution must be made to results in a syntactically correct NMTRAN control file. For
 example, if ALAG1 is to be used in the $PK block, a corresponding initial estimate for
 this parameter must be provided in the $THETA block. These tokens (collectively called a token set)
 are then replaced by the corresponding text value in the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pair</span></a>.</p>
 <p><strong>Note !!!</strong>
 In order to parse the text in the initial estimates blocks (THETA, OMEGA and SIGMA) the user MUST include token stem text as a comment (i.e. after “;”). There is
-no other way to identify which intial estimates are to be associated with which THETA.
+no other way to identify which initial estimates are to be associated with which THETA.
 E.g, if an token stem as two THETAs:</p>
 <p>Effect = THETA(EMAX) * CONC/(THETA(EC50) + CONC)
 for the text in the $PK block, then code to be put into the $THETA block will be:</p>
@@ -242,8 +242,8 @@ is created, this approach would lead to ambiguity. Each initial estimate must be
 </section>
 <section id="variance-terms">
 <h3>Variance terms<a class="headerlink" href="#variance-terms" title="Permalink to this heading">¶</a></h3>
-<p>Between subject variability is handled similarly, with the “{}” text. Typicaly the first tokens in the tokens sets will be in the $PK, $DES or $ERROR block and the
-2nd in $OMEGA, with the <em>required</em> ETA(IndexText) after a NONMEM comment, as for THETA initial estimates. ERR and EPS are handled similarly, either syntas is permitted.</p>
+<p>Between subject variability is handled similarly, with the “{}” text. Typically the first tokens in the tokens sets will be in the $PK, $DES or $ERROR block and the
+2nd in $OMEGA, with the <em>required</em> ETA(IndexText) after a NONMEM comment, as for THETA initial estimates. ERR and EPS are handled similarly, either syntax is permitted.</p>
 <p>Example 1 template file <a class="reference download internal" download="" href="_downloads/a865b660d9d8eed9c8ef2e1087e94aa6/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">file</span></code></a>
 Example 1 searchs a 6 dimensional space. The dimensions corresponds to <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>.</p>
 </section>
@@ -254,7 +254,7 @@ Example 1 searchs a 6 dimensional space. The dimensions corresponds to <a class=
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$DATA {data_dir}/data.csv
 </pre></div>
 </div>
-<p>Alternatively (and possibly prefered), the full path can be given.</p>
+<p>Alternatively (and possibly preferred), the full path can be given.</p>
 </section>
 <section id="final-template-file">
 <h3>Final template file<a class="headerlink" href="#final-template-file" title="Permalink to this heading">¶</a></h3>
@@ -313,7 +313,7 @@ $COV UNCOND PRINT=E
 <span id="tokens-file"></span><h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
 <p>Example 1 tokens file <a class="reference download internal" download="" href="_downloads/71f2b82ac50bb24fa6b106f24cc3b091/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">tokens</span> <span class="pre">file</span></code></a></p>
 <p>The <a class="reference internal" href="Usage.html#tokens-file-target"><span class="std std-ref">tokens file</span></a> provide the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> that
-are substitued into the template file. This is a <a class="reference external" href="https://www.json.org/json-en.html">JSON</a> file format.
+are substituted into the template file. This is a <a class="reference external" href="https://www.json.org/json-en.html">JSON</a> file format.
 Unfortunately, comments are not  permitted in JSON files and so this file is without any annotation. Requirements are that
 each <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a> within a <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a> must have the same number of <a class="reference internal" href="Glossary.html#token"><span class="std std-ref">tokens</span></a>
 and new lines must be coded using the escape syntax (”\n”), not just a new line in the file (which will be ignored in JSON). Any number of levels of
@@ -386,23 +386,23 @@ The tokens file for Example 1 is given below.</p>
 <section id="the-options-file">
 <span id="id1"></span><h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
 <p>Example 1 <a class="reference internal" href="Glossary.html#options-file"><span class="std std-ref">Options file</span></a>  <a class="reference download internal" download="" href="_downloads/e273de74c2184fe071b9c13f6a13acfb/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">options</span> <span class="pre">file</span></code></a>
-The options file will likely need to be editted, as the path to nmfe??.bat (Windows) or nmfe?? (Linux) must be provided
+The options file will likely need to be edited, as the path to nmfe??.bat (Windows) or nmfe?? (Linux) must be provided
 The options file for Example 1 is given below:</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
-<p>Note that to run in the enviroment used for this example, the directories are set to:</p>
+<p>Note that to run in the environment used for this example, the directories are set to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example1/working&quot;</span><span class="p">,</span>
 <span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example1/rundir&quot;</span><span class="p">,</span>
 <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example1/output&quot;</span><span class="p">,</span>
 </pre></div>
 </div>
-<p>It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set
+<p>It is recommended that the user set the directories to something appropriate for their environment. If directories are not set
 the default is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">user_dir</span><span class="p">}</span>\<span class="n">pydarwin</span>\<span class="p">{</span><span class="n">project_name</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.</p>
+<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debugging</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-    <span class="s2">&quot;{</span>
+    <span class="p">{</span>
 <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
 <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;EX&quot;</span><span class="p">,</span>
 <span class="s2">&quot;exhaustive_batch_size&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
@@ -432,7 +432,7 @@ the default is:</p>
 <section id="penalties">
 <h3>Penalties<a class="headerlink" href="#penalties" title="Permalink to this heading">¶</a></h3>
 <p>The base value for the “fitness” (for GA) or “reward/cost” for other algorithms is the -2LL value from the NONMEM output. Typically penalties for increased complexity are added to this. If one
-parameter is added, and the models are nested, a value of 3.84 points per parameter correponds to p&lt; 0.05. We’ll use 10 points for each estimated parameter. Typically a model that converges
+parameter is added, and the models are nested, a value of 3.84 points per parameter corresponds to p&lt; 0.05. We’ll use 10 points for each estimated parameter. Typically a model that converges
 and has a successful covariance step is viewed as “better” than a model that doesn’t. Therefore to capture this, we’ll add 100 points for failing to converge, failing a covariance step
 and failing the correlation test. Note that if the covariance step is not requested, the failed covariance penalty is added as is the failed correlation test and the failed condition number test.
 Similarly if the PRINT=E option is not included in the $COV record, the eigenvalues will not be printed and this will be regarded as a failed condition number test.
@@ -481,7 +481,7 @@ it is only intended to break ties between otherwise identical models.</p>
 <p>is set to false in the options file, all key NONMEM outputs are saved. This is where you should look for them after the
 inevitable errors.
 During the search, the current, interim best model files can be found in the working dir, along with the messages (same content as output
-to command line) and a models.json file that can be used to restart searches that are interupted.
+to command line) and a models.json file that can be used to restart searches that are interrupted.
 The final outputs will be found in the Project output dir.
 At the end of the run, the output should look similar to this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">11</span><span class="p">:</span><span class="mi">16</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Current</span> <span class="n">Best</span> <span class="n">fitness</span> <span class="o">=</span> <span class="mf">4818.765528670225</span>

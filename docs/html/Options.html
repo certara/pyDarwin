@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Options List &mdash; pyDarwin 1 documentation</title>
@@ -68,7 +68,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -97,9 +97,10 @@
              
   <section id="options-list">
 <span id="options"></span><h1>Options List<a class="headerlink" href="#options-list" title="Permalink to this heading">¶</a></h1>
-<p>Note that the options are saved to a JSON file. JSON supports string, numeric and Boolen (true|false).
+<p>Note that the options are saved to a JSON file. JSON supports string, numeric and boolean (true|false).
 String options must be in quotes. See <a class="reference external" href="https://www.json.org/">JSON</a> for details.</p>
-<p>Below is an example JSON file that demonstrates every possible option. It doesn’t mean that your options file has to or should contain all of them.</p>
+<p>Below is an example JSON file that demonstrates every possible option. Note, some settings are only
+applicable given algorithm selection and execution environment e.g., GA and grid options.</p>
 <pre class="literal-block">{
     <a class="reference internal" href="#author-options-desc"><span class="std std-ref">&quot;author&quot;</span></a>: &quot;Charles Robert Darwin&quot;,
     <a class="reference internal" href="#project-name-options-desc"><span class="std std-ref">&quot;project_name&quot;</span></a>: &quot;Delicious armadillos&quot;,
@@ -190,7 +191,7 @@ String options must be in quotes. See <a class="reference external" href="https:
 }</pre>
 <section id="description">
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
-<p>Here is the list of all avaiable options. Note that many of them have default values, so you don’t have to put them into your options file if the default suites you.</p>
+<p>Here is the list of all available options. Note that many of the options have default values and are not required to be specified directly in the options file.</p>
 <ul id="author-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>author</strong> - <em>string</em>: The author of the project.</div>
@@ -375,7 +376,7 @@ is made by <a class="reference internal" href="#num-parallel-options-desc"><span
 <blockquote id="theta-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>theta</strong> - <em>real</em>: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
+<div class="line"><strong>theta</strong> - <em>real</em>: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresponds to a hypothesis test with
 1 df and p &lt; 0.05 (for nested models) a value of 2 for 1 df corresponds to the Akaike information criterion</div>
 <div class="line"><em>Default</em>: 10</div>
 </div>
@@ -452,7 +453,7 @@ than the same model without the non influential token(s) to break a tie.</div>
 </div></blockquote>
 <ul id="downhill-period-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>downhill_period</strong> - <em>int</em>: How often to run to run the downhill step. If &lt; 1, no periodic downhill search will be perfromed.</div>
+<div class="line"><strong>downhill_period</strong> - <em>int</em>: How often to run to run the downhill step. If &lt; 1, no periodic downhill search will be performed.</div>
 <div class="line"><em>Default</em>: -1</div>
 </div>
 </li>
@@ -462,7 +463,7 @@ than the same model without the non influential token(s) to break a tie.</div>
 <div class="line"><strong>num_niches</strong> - <em>int</em>: Used for GA and downhill. A penalty is assigned for each model based on the number of similar models within a niche
 radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose
 is to insure maintaining a degree of diversity in the population (integer). num_niches is also used to select the number of models that are entered into the
-dowhill step for all algorithms, except Exhaustive Search.</div>
+downhill step for all algorithms, except Exhaustive Search.</div>
 <div class="line"><em>Default</em>: 2</div>
 </div>
 </li>
@@ -477,7 +478,7 @@ dowhill step for all algorithms, except Exhaustive Search.</div>
 <ul id="local-2-bit-search-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>local_2_bit_search</strong> - <em>boolean</em>: Whether to perform the <a class="reference internal" href="Glossary.html#local-two-bit-search"><span class="std std-ref">two bit local search</span></a>.
-The two bit local search substantially increase the robustness of the search. All downhill local seaches are done starting from <a class="reference internal" href="#num-niches-options-desc"><span class="std std-ref">num_niches models</span></a>.</div>
+The two bit local search substantially increase the robustness of the search. All downhill local searches are done starting from <a class="reference internal" href="#num-niches-options-desc"><span class="std std-ref">num_niches models</span></a>.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
 </div>
 </li>
@@ -598,7 +599,7 @@ The two bit local search substantially increase the robustness of the search. Al
 </ul>
 <ul id="remove-run-dir-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>remove_run_dir</strong> - <em>boolean</em>: If <code class="docutils literal notranslate"><span class="pre">true</span></code> will delete the entire model <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">run directory</span></a>, otherwise - only unnecesary files inside it.</div>
+<div class="line"><strong>remove_run_dir</strong> - <em>boolean</em>: If <code class="docutils literal notranslate"><span class="pre">true</span></code> will delete the entire model <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">run directory</span></a>, otherwise - only unnecessary files inside it.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
 </div>
 </li>
@@ -875,7 +876,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </div></blockquote>
 <blockquote id="job-name-alias">
 <div><ul class="simple">
-<li><p><strong>{job_name}</strong> - Alias for default job name, which is <code class="docutils literal notranslate"><span class="pre">{project_name}-{run_name}</span></code>. <em>Default</em> here doesn’t mean it will be assigned to a job authomatically, it’s up to you whether to use it ot generate your own using other available aliases, e.g. <code class="docutils literal notranslate"><span class="pre">{project_name}-{generation}-{run_number}</span></code>.</p></li>
+<li><p><strong>{job_name}</strong> - Alias for default job name, which is <code class="docutils literal notranslate"><span class="pre">{project_name}-{run_name}</span></code>. <em>Default</em> here doesn’t mean it will be assigned to a job automatically, it’s up to you whether to use it ot generate your own using other available aliases, e.g. <code class="docutils literal notranslate"><span class="pre">{project_name}-{generation}-{run_number}</span></code>.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="run-name-alias">

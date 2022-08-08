@@ -13,7 +13,7 @@ The template file can be downloaded :download:`here <../examples/user/Example6/t
 
 and the tokens file :download:`here <../examples/user/Example6/tokens.json>`
 
-As before, that to run in the enviroment used for this example, the directories are set to:
+As before, that to run in the environment used for this example, the directories are set to:
 
 ::
         
@@ -21,7 +21,7 @@ As before, that to run in the enviroment used for this example, the directories 
     "temp_dir": "u:/pyDarwin/example5/rundir",
     "output_dir": "u:/pyDarwin/example5/output",
 
-It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set 
+It is recommended that the user set the directories to something appropriate for their environment. If directories are not set 
 the default is:
 
 
@@ -29,7 +29,7 @@ the default is:
 
 	{user_dir}\pydarwin\{project_name}
 
-In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.
+In either case, the folder names are given in the initial and final output to facilitate finding the files and debugging.
 
 The options file is given here:
 
@@ -125,3 +125,4 @@ and the final output should look something like this:
     [15:14:36] Time to best model = 283.0 minutes
     [15:14:36] Best overall fitness = 8477.831400, iteration 5D05, model 12
     [15:14:36] Elapsed time = 538.9 minutes
+    

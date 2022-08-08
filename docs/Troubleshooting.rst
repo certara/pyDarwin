@@ -1,4 +1,4 @@
-Trouble shooting
+Troubleshooting
 -------------------
 
 .. _Non integer index to THETA/OMEGA/SIGMA:
@@ -13,7 +13,7 @@ The error from NONMEM (nmtran) will be something like
    TVV2=THETA(2) *EXP(GENDER*THETA(V~GENDER))
    
 In order to parse the text in the initial estimates blocks (THETA, OMEGA and SIGMA) the user MUST include token stem text as a comment (i.e. after ";") in the tokens file. There is 
-no other way to identify which intial estimates are to be associated with which THETA. 
+no other way to identify which initial estimates are to be associated with which THETA. 
 E.g, if an token stem as two THETAs:
 
 
@@ -28,7 +28,7 @@ The required $THETA block for initial estimates for this feature will be:
  "  (0,100) \\t; THETA(EMAX) "
  "  (0,1000) \\t; THETA(EC50) "
 
-Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn't be any way to identify which initial estiamate is to be associated with which 
+Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn't be any way to identify which initial estimate is to be associated with which 
 THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file 
 is created, this approach would lead to ambiguity or at least confusion about which initial estimate was associated with which THETA index. 
 Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier as a comment.
@@ -62,7 +62,7 @@ isn't used to call run_search it tries to reopen messages.txt and fails.
 .. _can't open r:
 
 **can't open results.csv** pyDarwin opens and closes the models.json, results.csv and messages.txt file with each model completed. This is done so that if the search 
-is interupted it can be restarted with as little lost computational time as possible, and so the user can read and parse the messages.txt file to monitor progress. A work arround is 
+is interrupted it can be restarted with as little lost computational time as possible, and so the user can read and parse the messages.txt file to monitor progress. A work around is 
 to copy message.txt to another file name (messages1.txt) and read that file.
 
 

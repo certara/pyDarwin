@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Glossary &mdash; pyDarwin 1 documentation</title>
@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Trouble shooting" href="Troubleshooting.html" />
+    <link rel="next" title="Troubleshooting" href="Troubleshooting.html" />
     <link rel="prev" title="API" href="API.html" /> 
 </head>
 
@@ -54,7 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -83,21 +83,21 @@
              
   <section id="glossary">
 <h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this heading">¶</a></h1>
-<p id="crash-value"><strong>Crash Value</strong>: Anyone with any experience with Population PK model has experience with crashes. there are many sources of error, includeing:</p>
+<p id="crash-value"><strong>Crash Value</strong>: Anyone with any experience with Population PK model has experience with crashes. there are many sources of error, including:</p>
 <ul class="simple">
 <li><p>syntax errors in the control file</p></li>
 <li><p>math errors (divide by zero, log(negative value))</p></li>
 <li><p>numerical error in execution</p></li>
 </ul>
 <p>Significant effort was made to capture theses errors an display them to the user on the command line and in the messages.txt file (in the working directory).
-For debuging purposes, these errors can be reproduced by going to the run directory (run_dir\generation\model_num) and rerunning the model from the command line.</p>
-<p>In addition, errors may occur in running post run R or python code. Finallly the NONMEM or R code may time out, producing no final results.
-In all of these cases, the fitness/reward value assigned in called the crash_value. The crash value is set in the options file, and should be substaintially higher
+For debugging purposes, these errors can be reproduced by going to the run directory (run_dir\generation\model_num) and rerunning the model from the command line.</p>
+<p>In addition, errors may occur in running post run R or python code. Finally the NONMEM or R code may time out, producing no final results.
+In all of these cases, the fitness/reward value assigned in called the crash_value. The crash value is set in the options file, and should be substantially higher
 than any anticipated fitness/reward from a model that ran to completion, regardless of the “goodness” of the model.</p>
 <p id="data-directory"><strong>Data Directory:</strong> Folder where datasets are located. Used if the template file specifies datasets as {data_dir}/datafileName, which is the preferred method.
 May be an absolute or a relative path, default value is {project_dir}. Keep in mind that NONMEM doesn’t allow dataset path to be longer than 80 characters and must be in quotes if
 it contains spaces.</p>
-<p id="deap"><strong>DEAP:</strong> Distributed Evolutionary Algorithms in Python <a class="reference external" href="https://github.com/DEAP/deap">DEAP github</a>. DEAP is a python package that includes a number of evolutionaty algorithms,
+<p id="deap"><strong>DEAP:</strong> Distributed Evolutionary Algorithms in Python <a class="reference external" href="https://github.com/DEAP/deap">DEAP github</a>. DEAP is a python package that includes a number of evolutionary algorithms,
 including Genetic Algorithm - the GA option in the <a class="reference internal" href="#options-file"><span class="std std-ref">options file</span></a>.</p>
 <p id="fitness"><strong>fitness:</strong> A number representing the overall “goodness” of the candidate. Called fitness in GA.
 In other algorithms is called “reward” or “cost”, or sometimes “loss function”. All algorithms in pyDarwin are designed to minimize this value.</p>
@@ -105,20 +105,20 @@ In other algorithms is called “reward” or “cost”, or sometimes “loss f
 <div class="line"><strong>full binary</strong>: The full binary is a representation of a specific model coded such that all possible values of the bit string are permitted. In general, this will result in
 redundancy of the matching of bit strings with the <a class="reference internal" href="#integer-representation"><span class="std std-ref">integer representation</span></a>. For example, if a given <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a> included 3
 <a class="reference internal" href="#token-set"><span class="std std-ref">token sets</span></a>, two bits would be required (one bit can only specify two options). Two bits have 4 possible values, while only 3 are needed. Therefore, some duplication
-of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Manageing this redundancy is handled internally by pyDarwin. the full binary is used only by <a class="reference internal" href="#ga"><span class="std std-ref">Genetic algorithm</span></a>.</div>
+of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Managing this redundancy is handled internally by pyDarwin. the full binary is used only by <a class="reference internal" href="#ga"><span class="std std-ref">Genetic algorithm</span></a>.</div>
 <div class="line">The minimal binary is in contrast to the <a class="reference internal" href="#full-binary"><span class="std std-ref">full binary</span></a>.</div>
 </div>
-<p id="ga"><strong>GA - Genetic Algorithm:</strong> An unsupervised search algorithm that mimicks the mathetmatics
+<p id="ga"><strong>GA - Genetic Algorithm:</strong> An unsupervised search algorithm that mimic’s the mathematics
 of ‘survival of the fittest’. A population of candidates is generated randomly, and the “fitness”
 of each candidate is evaluated. A subsequent population of candidate is then generated with the
 present generation as “parents”, with selection a function of fitness, with the more
 fit individual being more likely to be selected as parents. The parents are then paired off, undergo
 cross over and mutation and a new generation created. This process is continued until
-no futher improvement is seen. In pyDarwin, GA is implmented using the <a class="reference internal" href="#deap"><span class="std std-ref">DEAP</span></a> package. <a class="reference external" href="https://en.wikipedia.org/wiki/Genetic_algorithm">GA on Wikipedia</a></p>
+no further improvement is seen. In pyDarwin, GA is implemented using the <a class="reference internal" href="#deap"><span class="std std-ref">DEAP</span></a> package. <a class="reference external" href="https://en.wikipedia.org/wiki/Genetic_algorithm">GA on Wikipedia</a></p>
 <p id="gbrt"><strong>GBRT - Gradient Boosted Random Tree:</strong> Random Forest optimization <a class="reference external" href="https://en.wikipedia.org/wiki/Gradient_boosting">Gradient Boosting on Wikipedia</a>
 <a class="reference external" href="https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad">and</a>
 are similar to Random forests,
-but may increase the precision of the tree building by progresively building the tree, and calculating a gradient of the reward/fitness WRT each decision.</p>
+but may increase the precision of the tree building by progressively building the tree, and calculating a gradient of the reward/fitness WRT each decision.</p>
 <p id="gp"><strong>GP - Gaussian Process (Bayesian optimization)</strong>
 Gaussian Process is implemented in the scikit-optimize package and desribed <a class="reference external" href="https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html">here.</a>
 GP is well suited to the problem of model selection, as according to <a class="reference external" href="https://en.wikipedia.org/wiki/Bayesian_optimization">Wikipedia</a>
@@ -129,21 +129,21 @@ efficient of the ML algorithms, especially if used in combination with a local 1
 of integers, with each integer specifying which <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> is to be substituted into the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a>. For example, an integer string of [0,1,2] would substitute the
 0th token set in the the template for the first <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a>, the 1st token set for the 2nd token group and the 3rd token set for the 3rd tokens group. The integer representation
 is managed internally by pyDarwin and in the case of <a class="reference internal" href="#ga"><span class="std std-ref">Genetic algorithm</span></a> derived from the <a class="reference internal" href="#full-binary"><span class="std std-ref">full binary</span></a> representation.</p>
-<p id="local-one-bit-search"><strong>Local One bit Search:</strong> In 1 bit local search, first the <a class="reference internal" href="#minimal-binary"><span class="std std-ref">minimal binary representation</span></a> of the model(s) to be seached are generated.
+<p id="local-one-bit-search"><strong>Local One bit Search:</strong> In 1 bit local search, first the <a class="reference internal" href="#minimal-binary"><span class="std std-ref">minimal binary representation</span></a> of the model(s) to be searched are generated.
 Then each bit in that bit string is ‘flipped’. So, a search with 30 bits will generate 30 models in each iteration of the 1 bit search.
-This process is continued, searching on the best model from the previous step until improvment no longer occurs.</p>
+This process is continued, searching on the best model from the previous step until improvement no longer occurs.</p>
 <p id="local-two-bit-search"><strong>Local Two bit Search:</strong> The 2 bit local search is like the <a class="reference internal" href="#local-one-bit-search"><span class="std std-ref">1 bit local search</span></a> except that every 2 bit change of the <a class="reference internal" href="#minimal-binary"><span class="std std-ref">minimal binary representation</span></a>
 is generated in each step, and all 2 it change combinations are generated and run.
 This results in a much larger number of models to search, (N^2+n)/2. This process is again repeated until not further improvement occurs.</p>
 <p id="local-search"><strong>Local Search:</strong> It has found been <a class="reference external" href="https://www.page-meeting.org/default.asp?abstract=10053">demonstrated</a>  that all of the available algorithms are insufficiently robust at finding the
 final
-best model. To some degree the global search algorithms serve to essentialy find good initial estimates, in order to make finding the global minimum (and not a local minimum)
+best model. To some degree the global search algorithms serve to essentially find good initial estimates, in order to make finding the global minimum (and not a local minimum)
 more likely. To supplement the global search algorithms, 2 local search algorithms are used. These local search algorithms systematically change each bit in the <a class="reference internal" href="#minimal-binary"><span class="std std-ref">minimal binary representation</span></a>
 of the model and run that model. The user can specify whether this local search is done on some interval or generations/iterations and/or at the end of the global search.
 First a 1 bit local search <a class="reference internal" href="#local-one-bit-search"><span class="std std-ref">Local One bit Search</span></a> (also called downhill search) is done, then if requested a <a class="reference internal" href="#local-two-bit-search"><span class="std std-ref">Local Two bit Search</span></a> is done.</p>
 <p id="minimal-binary"><strong>Minimal Binary</strong></p>
 <p>The minimal binary is one of three representation of a model phenotype. The minimal binary is simply a binary that has some possible values removed to avoid duplications. For example,
-if the search space includes a dimension for 1,2, or 3 compartments, 2 bits will be needed to code this. With the required 2 bits, some redundandy is unavoidabe. So, the mapping might be:</p>
+if the search space includes a dimension for 1,2, or 3 compartments, 2 bits will be needed to code this. With the required 2 bits, some redundancy is unavoidable. So, the mapping might be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="mi">1</span>
 <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="mi">2</span>
 <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="mi">2</span>
@@ -178,11 +178,11 @@ merged template are:</p>
 <p>is <strong>NOT</strong> recommended (although it may work), as a searched parameter initial estimate ({ALAG[2]}) occurs before a fixed initial estimated ((0,1)  ; THETA(2) Volume)</p>
 <p>Each parameter initial estimate must be one a separate line
 Parameter estimate must be enclosed in parentheses, e.g, (0,1)</p>
-<p id="nested-tokens"><strong>Nested Tokens:</strong> pyDarwin permits nested tokens to be used in the <a class="reference internal" href="#tokens-file-s"><span class="std std-ref">tokens file</span></a>. This permits one token to contain another token, to an arbitary level. Note that
+<p id="nested-tokens"><strong>Nested Tokens:</strong> pyDarwin permits nested tokens to be used in the <a class="reference internal" href="#tokens-file-s"><span class="std std-ref">tokens file</span></a>. This permits one token to contain another token, to an arbitrary level. Note that
 using nested token does <strong>not</strong> reduce the search space size, it only reduces the number of token set the user need generate, and perhaps simplify the logic (although commonly the logic quickly
 becomes impenetrable). For example, assume that the search is to contain one compartment
 (ADVAN2) and two compartment (ADVAN4), and if ADVAN4 is selected, search whether K23 and K32 are functions of weight. K23 is not a parameter of a one compartment model. One option would be to simply write out
-all posssible models:</p>
+all possible models:</p>
 <p>1 compartment:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s2">&quot;ADVAN2 ;; advan2&quot;</span><span class="p">,</span>
         <span class="s2">&quot;;; PK 1 compartment &quot;</span><span class="p">,</span>
@@ -234,7 +234,7 @@ groups. While more than one level of nested tokens is permitted, the logic of co
 <p>The full example is given <a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">example 4</span></a></p>
 <p id="nmfe-path"><strong>nmfe_path:</strong>
 The path to nmfe??.bat (Windows) or just nmfe?? (Linux). Must be provided in the <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">nmfe_path</span></a>. Only NONMEM 7.4 and 7.5 are supported.</p>
-<p id="options-file"><strong>Options File:</strong> Specifies <a class="reference internal" href="Options.html#options"><span class="std std-ref">the options</span></a> for the search, inculding the algorith, the <a class="reference internal" href="#fitness"><span class="std std-ref">fitness/reward criteria</span></a>, the population size, the number
+<p id="options-file"><strong>Options File:</strong> Specifies <a class="reference internal" href="Options.html#options"><span class="std std-ref">the options</span></a> for the search, including the algorithm, the <a class="reference internal" href="#fitness"><span class="std std-ref">fitness/reward criteria</span></a>, the population size, the number
 of iterations/generations and whether the downhill search is to be executed.</p>
 <div class="line-block" id="output-directory">
 <div class="line"><strong>Output Directory:</strong> Folder where all the files that considered as results will be put, such as results.csv and Final .mod/.lst files. Default value is
@@ -246,8 +246,8 @@ of iterations/generations and whether the downhill search is to be executed.</p>
 Can be provided as an argument for <code class="docutils literal notranslate"><span class="pre">run_search_in_folder</span></code> or determined by path to <code class="file docutils literal notranslate"><span class="pre">options.json</span></code> (as parent folder). Cannot be set in options file.</p>
 <p id="pydarwin-home"><strong>pyDarwin home</strong> Default location for every project’s <a class="reference internal" href="#working-directory"><span class="std std-ref">{working_dir}</span></a>. Usually is set to <code class="docutils literal notranslate"><span class="pre">&lt;user</span> <span class="pre">home</span> <span class="pre">dir&gt;/pydarwin</span></code>. Can be relocated using <a class="reference internal" href="Options.html#pydarwin-home-env-var"><span class="std std-ref">PYDARWIN_HOME</span></a>.</p>
 <p id="reward"><strong>Reward:</strong> A number representing the overall “goodness” of the candidate, the sum of -2LL and the user defined penalties. Called fitness in GA.</p>
-<p id="rf"><strong>RF - Random Forest:</strong> <a class="reference external" href="https://en.wikipedia.org/wiki/Random_forests">Random Forest</a> consist of spliting the search space (based on the “goodness” of each model in this case) thus continuously dividing the
-search space into “good” and “bad” regions. As before, the initial divisions are random, but become increasingly well informated a real values for the fitness/reward of models is
+<p id="rf"><strong>RF - Random Forest:</strong> <a class="reference external" href="https://en.wikipedia.org/wiki/Random_forests">Random Forest</a> consist of splitting the search space (based on the “goodness” of each model in this case) thus continuously dividing the
+search space into “good” and “bad” regions. As before, the initial divisions are random, but become increasingly well informed as real values for the fitness/reward of models are
 included.</p>
 <p><a class="reference external" href="https://scikit-optimize.github.io/stable/">https://scikit-optimize.github.io/stable/</a></p>
 <p id="scikit-optimized"><strong>scikit-optimize:</strong> <a class="reference external" href="https://scikit-optimize.github.io/stable/">Optimization package</a>
@@ -263,7 +263,7 @@ A token group is a collection of <a class="reference internal" href="#token-set"
 into the template file.</p>
 <p id="token-set"><strong>Token set</strong>: one for each option in the that dimension</p>
 <p id="token-key-text-pair"><strong>Token key-text pair:</strong> A <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> contains two or more token key-text pairs. These
-pairs are very analagous to JSON key-value pairs, except that only text values are permitted. For each
+pairs are very analogous to JSON key-value pairs, except that only text values are permitted. For each
 token key-text pair, the text {<a class="reference internal" href="#token-stem"><span class="std std-ref">token stem</span></a> [n]} in the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a> is replaced
 by the corresponding values in the token key-text pair. Note that the token key is surrounded by curly braces in the template file.
 For example, if the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a> contains these two tokens:</p>
@@ -305,7 +305,7 @@ duplication of THETA text indices is permitted (e.g., if you want the same expon
 <span class="n">Q</span> <span class="o">=</span><span class="n">THETA</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">WT</span><span class="o">**</span><span class="n">THETA</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">;;</span> <span class="k">for</span> <span class="n">Q</span>
 </pre></div>
 </div>
-<p>duplicate text indices will yield duplicate integer indices. By the same logic, comments can be put into initial estimates by includind
+<p>duplicate text indices will yield duplicate integer indices. By the same logic, comments can be put into initial estimates by including
 THETA(CL~WT) after a “;” in the $THETA block, e.g.,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.75</span><span class="p">)</span> \<span class="n">t</span><span class="p">;</span> <span class="n">THETA</span><span class="p">(</span><span class="n">CL</span><span class="o">~</span><span class="n">WT</span><span class="p">)</span> <span class="n">exponent</span> <span class="n">on</span> <span class="n">clearances</span>
 </pre></div>
@@ -337,7 +337,7 @@ Also it’s a default location of output and temp folders. Can be set with <a cl
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="API.html" class="btn btn-neutral float-left" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Troubleshooting.html" class="btn btn-neutral float-right" title="Trouble shooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Troubleshooting.html" class="btn btn-neutral float-right" title="Troubleshooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

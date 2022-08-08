@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Troubleshooting &mdash; pyDarwin 1 documentation</title>
@@ -83,6 +83,19 @@
              
   <section id="troubleshooting">
 <h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">¶</a></h1>
+<p id="problem-deleteing-nonmem-files"><strong>del file_to_delete[‘PRDERR’]</strong></p>
+<p>It seems that Windows may sometimes have issues with long file/path names. This is mostly likely to occur with large Exhaustive searchs as the model number will
+become very large. The command line error message may look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">File</span> <span class="s2">&quot;c:</span><span class="se">\f</span><span class="s2">da\pyDarwin\src\darwin</span><span class="se">\n</span><span class="s2">onmem\NMEngineAdapter.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">176</span><span class="p">,</span> <span class="ow">in</span> <span class="n">cleanup</span>
+<span class="k">del</span> <span class="n">file_to_delete</span><span class="p">[</span><span class="s1">&#39;PRDERR&#39;</span><span class="p">]</span>
+<span class="ne">KeyError</span><span class="p">:</span> <span class="s1">&#39;PRDERR&#39;</span>
+</pre></div>
+</div>
+<p>The solution seems to be to set remove_run_dir to true:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>in the options file. the entire run directory will be removed (which likely is a good idea in any case for very large exhaustive searches), rather just a list of non-essential files.</p>
 <p id="non-integer-index-to-theta-omega-sigma"><strong>Non integer index to THETA/OMEGA/SIGMA</strong></p>
 <p>The error from NONMEM (nmtran) will be something like</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AN</span> <span class="n">ERROR</span> <span class="n">WAS</span> <span class="n">FOUND</span> <span class="n">ON</span> <span class="n">LINE</span> <span class="mi">11</span> <span class="n">AT</span> <span class="n">THE</span> <span class="n">APPROXIMATE</span> <span class="n">POSITION</span> <span class="n">NOTED</span><span class="p">:</span>

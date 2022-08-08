@@ -28,9 +28,9 @@ if __name__ == '__main__':
     #                    "..\\examples\\user\\Example4\\tokens.json",
     #                    "..\\examples\\user\\Example4\\options.json")
 
-    # final = run_search("..\\examples\\user\\Example5\\template.txt",
-    #                    "..\\examples\\user\\Example5\\tokens.json",
-    #                    "..\\examples\\user\\Example5\\options.json")
-    final = run_search("..\\examples\\user\\Example6\\template.txt",
-                        "..\\examples\\user\\Example6\\tokens.json",
-                        "..\\examples\\user\\Example6\\options.json")
+    final = run_search("..\\examples\\user\\Example5\\template.txt",
+                       "..\\examples\\user\\Example5\\tokens.json",
+                       "..\\examples\\user\\Example5\\options.json")
+    # final = run_search("..\\examples\\user\\Example6\\template.txt",
+    #                     "..\\examples\\user\\Example6\\tokens.json",
+    #                     "..\\examples\\user\\Example6\\options.json")

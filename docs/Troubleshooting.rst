@@ -1,5 +1,28 @@
 Troubleshooting
 -------------------
+.. _problem deleteing NONMEM files:
+
+**del file_to_delete['PRDERR']**
+
+It seems that Windows may sometimes have issues with long file/path names. This is mostly likely to occur with large Exhaustive searchs as the model number will 
+become very large. The command line error message may look like this:
+
+::
+
+   File "c:\fda\pyDarwin\src\darwin\nonmem\NMEngineAdapter.py", line 176, in cleanup
+   del file_to_delete['PRDERR']
+   KeyError: 'PRDERR'
+
+
+The solution seems to be to set remove_run_dir to true:
+
+::
+   
+    "remove_run_dir": true,
+
+
+in the options file. the entire run directory will be removed (which likely is a good idea in any case for very large exhaustive searches), rather just a list of non-essential files.
+
 
 .. _Non integer index to THETA/OMEGA/SIGMA:
 

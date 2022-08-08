@@ -8,7 +8,7 @@ Options List
 Note that the options are saved to a JSON file. JSON supports string, numeric and Boolen (true|false). 
 String options must be in quotes. See `JSON <https://www.json.org/>`_ for details.
 
-Example JSON
+Below is an example JSON file that demonstrates every possible option. It doesn't mean that your options file has to or should contain all of them.
 
 .. parsed-literal:: 
 
@@ -105,6 +105,8 @@ Example JSON
 Description
 -------------
 
+Here is the list of all avaiable options. Note that many of them have default values, so you don't have to put them into your options file if the default suites you.
+
 .. _author_options_desc:
 
 * | **author** - *string*: The author of the project.
@@ -117,11 +119,11 @@ Description
 
 .. _algorithm_options_desc:
 
-* **algorithim** :superscript:`required` - *string*: One of :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`, :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`
+* **algorithim** :sup:`required` - *string*: One of :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`, :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`.
 
 .. _GA_options_desc:
 
-* **GA** - *JSON*
+* **GA** - *JSON*: Options specific to GA. Ignored for all other algorithms.
 
 .. _elitist_num_options_desc:
 
@@ -194,17 +196,17 @@ Description
 
 .. _num_generations_options_desc:
 
-* | **num_generations** :superscript:`required` - *positive int*: How many iterations or generations of the search algorithm to run.
+* | **num_generations** :sup:`required` - *positive int*: How many iterations or generations of the search algorithm to run.
   | Not used and not required for Exhaustive search.
 
 .. _population_size_options_desc:
 
-* | **population_size** :superscript:`required` - *positive int*: How many models are created in every generation.
+* | **population_size** :sup:`required` - *positive int*: How many models are created in every generation.
   | Not used and not required for Exhaustive search.
 
 .. _num_opt_chains_options_desc:
 
-* | **num_opt_chains** :superscript:`required` - *positive int*: Number of parallel processes to perform :ref:`the "ask" step<GP_ask_tell>` (to increase performance).
+* | **num_opt_chains** :sup:`required` - *positive int*: Number of parallel processes to perform :ref:`the "ask" step<GP_ask_tell>` (to increase performance).
   | Required only for GP, RF and GBRT.
 
 .. _exhaustive_batch_size_options_desc:
@@ -216,7 +218,9 @@ Description
   * in general the size depends on number of jobs you can run in parallel and should be at least 10 to 20 times bigger than that
   * anything less than 50 is considered ineffective from CPU/grid utilization perspective, as all models in a batch must complete before the next batch starts
   * if you submit model runs to a grid, the size shouldn't be too big in order to not overwhelm or monopolize your grid queue
-  * for local runs you may batch as many models as you want if don't mind loosing some cached models in case of any accident (model cache is dumbed to a file at the end of every batch); unlike grid runs, any parallel searches won't be affected by the size since the main influence in case of local runs is made by :mono_ref:`num_parallel <num_parallel_options_desc>`
+  * for local runs you may batch as many models as you want if you don't mind loosing some cached models in case of any accident (model cache is dumped to a file at the
+    end of every batch); unlike grid runs, any parallel searches won't be affected by this setting since the main influence in case of local runs
+    is made by :mono_ref:`num_parallel <num_parallel_options_desc>`
 
   | *Default*: 100
 
@@ -306,7 +310,8 @@ Description
 
 .. _nmfe_path_options_desc:
 
-* **nmfe_path** - *string*:  The command line for executing NONMEM. Usually it's a full path to nmfe script.
+* | **nmfe_path** :sup:`required` - *string*:  The command line for executing NONMEM. Usually it's a full path to nmfe script.
+  | Required if there are actual NONMEM model runs performed. It's completely ignored until the first model run starts.
 
 .. _model_run_timeout_options_desc:
 
@@ -315,7 +320,7 @@ Description
 
 .. _model_run_priority_class_options_desc:
 
-* | **model_run_priority_class** :superscript:`Windows only` - ``"normal"`` | ``"below_normal"``: Priority class for child processes that build and run models as well as run R postprocess script. ``below_normal`` is recommended to maintain user interface responsiveness.
+* | **model_run_priority_class** :sup:`Windows only` - ``"normal"`` | ``"below_normal"``: Priority class for child processes that build and run models as well as run R postprocess script. ``below_normal`` is recommended to maintain user interface responsiveness.
   | *Default*: ``"below_normal"``
 
 .. _postprocess_options_desc:
@@ -329,11 +334,12 @@ Description
 
 .. _rscript_path_options_desc:
 
-    * **rscript_path** - *string*: Absolute path to Rscript.exe. Required if ``use_r`` is set to ``true``.
+    * | **rscript_path** :sup:`required` - *string*: Absolute path to Rscript.exe.
+      | Required if ``use_r`` is set to ``true``.
 
 .. _post_run_r_code_options_desc:
 
-    * | **post_run_r_code** - *string*: Path to R file (.r extension) to be run after each NONMEM execution.
+    * | **post_run_r_code** :sup:`required` - *string*: Path to R file (.r extension) to be run after each NONMEM execution.
       | Required if ``use_r`` is set to ``true``.
       | Available aliases are: :ref:`all common aliases<common_aliases>`.
 
@@ -349,7 +355,7 @@ Description
 
 .. _post_run_python_code_options_desc:
 
-    * | **post_run_python_code** :superscript:`required` - *string*: Path to python code file (.py extension) to be run after each NONMEM execution.
+    * | **post_run_python_code** :sup:`required` - *string*: Path to python code file (.py extension) to be run after each NONMEM execution.
       | Required if ``use_python`` is set to ``true``.
       | Available aliases are: :ref:`all common aliases<common_aliases>`.
 
@@ -438,38 +444,39 @@ Description
 
 .. _generic_grid_adapter_options_desc:
 
-* **generic_grid_adapter** - *JSON*:
+* | **generic_grid_adapter** - *JSON*: These settings are necessary only when you use ``darwin.GridRunManager`` as :mono_ref:`model_run_man <model_run_man_options_desc>`.
+  | For local runs this entire section is ignored.
 
 .. _python_path_options_desc:
 
-    * **python_path** :superscript:`required` - *string*: Path to your Python interpreter, preferably - to the instance of the interpreter located in :ref:`virtual environment<install_python_venv>` where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.
+    * **python_path** :sup:`required` - *string*: Path to your Python interpreter, preferably - to the instance of the interpreter located in :ref:`virtual environment<install_python_venv>` where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.
 
 .. _submit_command_options_desc:
 
-    * | **submit_command** :superscript:`required` - *string*: A command that submits individual runs to the grid queue. The actual command submitted to the queue is ``<python_path> -m darwin.run_model <input file> <output file> <options file>``, but you don't put it in the ``submit_command``.
+    * | **submit_command** :sup:`required` - *string*: A command that submits individual runs to the grid queue. The actual command submitted to the queue is ``<python_path> -m darwin.run_model <input file> <output file> <options file>``, but you don't put it in the ``submit_command``.
       | May look like this: ``qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}``
       | Available aliases are: :ref:`all common aliases<common_aliases>`, :ref:`job submit aliases<job_submit_aliases>`.
 
 .. _submit_search_command_options_desc:
 
-    * | **submit_search_command** :superscript:`required` - *string*: A command that submits search job to the grid queue. Similar to ``submit_command``, but for entire search.
+    * | **submit_search_command** :sup:`required` - *string*: A command that submits search job to the grid queue. Similar to ``submit_command``, but for entire search.
       | May look like this: ``qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'``
       | Required only for :ref:`grid search<running_grid_search>`.
       | Available aliases are: :ref:`all common aliases<common_aliases>`.
 
 .. _submit_job_id_re_options_desc:
 
-    * | **submit_job_id_re** :superscript:`required` - *string*: A regular expression to find a job id in ``submit_command`` output. Job id must be captured in first `capturing group <https://www.google.com/search?q=regular+expression+capturing+group>`_.
+    * | **submit_job_id_re** :sup:`required` - *string*: A regular expression to find a job id in ``submit_command`` output. Job id must be captured in first `capturing group <https://www.google.com/search?q=regular+expression+capturing+group>`_.
       | May look like this: ``Your job (\\w+) \\(\".+?\"\\) has been submitted``
 
 .. _poll_command_options_desc:
 
-    * | **poll_command** :superscript:`required` - *string*: A command that retrieves finished jobs from grid controller. If your controller/setup allows you to specify ids/patterns in polling commands, do it (see ``delete_command``). If it doesn’t, you have to poll ALL finished jobs: ``qstat -s z``
+    * | **poll_command** :sup:`required` - *string*: A command that retrieves finished jobs from grid controller. If your controller/setup allows you to specify ids/patterns in polling commands, do it (see ``delete_command``). If it doesn’t, you have to poll ALL finished jobs: ``qstat -s z``
       | Available aliases are: :ref:`all common aliases<common_aliases>`, :mono_ref:`{job_ids}<job_ids_alias>`.
 
 .. _poll_job_id_re_options_desc:
 
-    * **poll_job_id_re** :superscript:`required` - *string*: A regular expression to find a job id in every line of ``poll_command`` output. Similar to ``submit_job_id_re``.
+    * **poll_job_id_re** :sup:`required` - *string*: A regular expression to find a job id in every line of ``poll_command`` output. Similar to ``submit_job_id_re``.
 
 .. _poll_interval_options_desc:
 

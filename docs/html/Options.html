@@ -97,7 +97,7 @@
 <span id="options"></span><h1>Options List<a class="headerlink" href="#options-list" title="Permalink to this heading">¶</a></h1>
 <p>Note that the options are saved to a JSON file. JSON supports string, numeric and Boolen (true|false).
 String options must be in quotes. See <a class="reference external" href="https://www.json.org/">JSON</a> for details.</p>
-<p>Example JSON</p>
+<p>Below is an example JSON file that demonstrates every possible option. It doesn’t mean that your options file has to or should contain all of them.</p>
 <pre class="literal-block">{
     <a class="reference internal" href="#author-options-desc"><span class="std std-ref">&quot;author&quot;</span></a>: &quot;Charles Robert Darwin&quot;,
     <a class="reference internal" href="#project-name-options-desc"><span class="std std-ref">&quot;project_name&quot;</span></a>: &quot;Delicious armadillos&quot;,
@@ -188,6 +188,7 @@ String options must be in quotes. See <a class="reference external" href="https:
 }</pre>
 <section id="description">
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
+<p>Here is the list of all avaiable options. Note that many of them have default values, so you don’t have to put them into your options file if the default suites you.</p>
 <ul id="author-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>author</strong> - <em>string</em>: The author of the project.</div>
@@ -203,10 +204,10 @@ String options must be in quotes. See <a class="reference external" href="https:
 </li>
 </ul>
 <ul class="simple" id="algorithm-options-desc">
-<li><p><strong>algorithim</strong> <sup>required</sup> - <em>string</em>: One of <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a>, <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a>, <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a></p></li>
+<li><p><strong>algorithim</strong> <sup>required</sup> - <em>string</em>: One of <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a>, <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a>, <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>.</p></li>
 </ul>
 <ul class="simple" id="ga-options-desc">
-<li><p><strong>GA</strong> - <em>JSON</em></p></li>
+<li><p><strong>GA</strong> - <em>JSON</em>: Options specific to GA. Ignored for all other algorithms.</p></li>
 </ul>
 <blockquote id="elitist-num-options-desc">
 <div><ul>
@@ -350,7 +351,9 @@ Several things to take into consideration when choosing the size:</p>
 <li><p>in general the size depends on number of jobs you can run in parallel and should be at least 10 to 20 times bigger than that</p></li>
 <li><p>anything less than 50 is considered ineffective from CPU/grid utilization perspective, as all models in a batch must complete before the next batch starts</p></li>
 <li><p>if you submit model runs to a grid, the size shouldn’t be too big in order to not overwhelm or monopolize your grid queue</p></li>
-<li><p>for local runs you may batch as many models as you want if don’t mind loosing some cached models in case of any accident (model cache is dumbed to a file at the end of every batch); unlike grid runs, any parallel searches won’t be affected by the size since the main influence in case of local runs is made by <a class="reference internal" href="#num-parallel-options-desc"><span class="std std-ref">num_parallel</span></a></p></li>
+<li><p>for local runs you may batch as many models as you want if you don’t mind loosing some cached models in case of any accident (model cache is dumped to a file at the
+end of every batch); unlike grid runs, any parallel searches won’t be affected by this setting since the main influence in case of local runs
+is made by <a class="reference internal" href="#num-parallel-options-desc"><span class="std std-ref">num_parallel</span></a></p></li>
 </ul>
 <div class="line-block">
 <div class="line"><em>Default</em>: 100</div>
@@ -484,8 +487,12 @@ The two bit local search substantially increase the robustness of the search. Al
 </div>
 </li>
 </ul>
-<ul class="simple" id="nmfe-path-options-desc">
-<li><p><strong>nmfe_path</strong> - <em>string</em>:  The command line for executing NONMEM. Usually it’s a full path to nmfe script.</p></li>
+<ul id="nmfe-path-options-desc">
+<li><div class="line-block">
+<div class="line"><strong>nmfe_path</strong> <sup>required</sup> - <em>string</em>:  The command line for executing NONMEM. Usually it’s a full path to nmfe script.</div>
+<div class="line">Required if there are actual NONMEM model runs performed. It’s completely ignored until the first model run starts.</div>
+</div>
+</li>
 </ul>
 <ul id="model-run-timeout-options-desc">
 <li><div class="line-block">
@@ -514,14 +521,18 @@ The two bit local search substantially increase the robustness of the search. Al
 </ul>
 </div></blockquote>
 <blockquote id="rscript-path-options-desc">
-<div><ul class="simple">
-<li><p><strong>rscript_path</strong> - <em>string</em>: Absolute path to Rscript.exe. Required if <code class="docutils literal notranslate"><span class="pre">use_r</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></li>
+<div><ul>
+<li><div class="line-block">
+<div class="line"><strong>rscript_path</strong> <sup>required</sup> - <em>string</em>: Absolute path to Rscript.exe.</div>
+<div class="line">Required if <code class="docutils literal notranslate"><span class="pre">use_r</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</div>
+</div>
+</li>
 </ul>
 </div></blockquote>
 <blockquote id="post-run-r-code-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>post_run_r_code</strong> - <em>string</em>: Path to R file (.r extension) to be run after each NONMEM execution.</div>
+<div class="line"><strong>post_run_r_code</strong> <sup>required</sup> - <em>string</em>: Path to R file (.r extension) to be run after each NONMEM execution.</div>
 <div class="line">Required if <code class="docutils literal notranslate"><span class="pre">use_r</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</div>
 <div class="line">Available aliases are: <a class="reference internal" href="#common-aliases"><span class="std std-ref">all common aliases</span></a>.</div>
 </div>
@@ -602,7 +613,7 @@ The two bit local search substantially increase the robustness of the search. Al
 <div class="line"><strong>model_cache</strong> - <em>string</em>: ModelCache subclass to be used.</div>
 <div class="line">Currently there are only <a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache" title="darwin.MemoryModelCache.MemoryModelCache"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.MemoryModelCache</span></code></a>
 and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMemoryModelCache" title="darwin.MemoryModelCache.AsyncMemoryModelCache"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.AsyncMemoryModelCache</span></code></a>.</div>
-<div class="line">You can create your own and use it, for example a cache that stores the model runs in a DB. The name is quite arbitrary and doesn’t have any convention/constraints.</div>
+<div class="line">You can create your own and use it, for example a cache that stores model runs in a DB. The name is quite arbitrary and doesn’t have any convention/constraints.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">darwin.MemoryModelCache</span></code></div>
 </div>
 </li>
@@ -666,8 +677,12 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </div>
 </li>
 </ul>
-<ul class="simple" id="generic-grid-adapter-options-desc">
-<li><p><strong>generic_grid_adapter</strong> - <em>JSON</em>:</p></li>
+<ul id="generic-grid-adapter-options-desc">
+<li><div class="line-block">
+<div class="line"><strong>generic_grid_adapter</strong> - <em>JSON</em>: These settings are necessary only when you use <code class="docutils literal notranslate"><span class="pre">darwin.GridRunManager</span></code> as <a class="reference internal" href="#model-run-man-options-desc"><span class="std std-ref">model_run_man</span></a>.</div>
+<div class="line">For local runs this entire section is ignored.</div>
+</div>
+</li>
 </ul>
 <blockquote id="python-path-options-desc">
 <div><ul class="simple">

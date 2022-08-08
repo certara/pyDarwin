@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Overview &mdash; pyDarwin 1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -148,17 +149,17 @@ also at risk of finding local minima, and therefore are sensitive to the initial
 the search at a location in the search space near the final estimate, greatly reducing the chances ending up in a local minima. No such effort is
 made in the tradotopma; downhill model selection method. Rather, the search is usually start at a trivial model, which is likely far from the global minimum.</p>
 <p>As the discrete space of model search does not have derivatives, other search methods must be used. The simplest, and the one traditionally used in
-model selection, is downhill. While efficient it can be demonstrated that this method is not robust <a class="footnote-reference brackets" href="#f1" id="id1">1</a> <a class="footnote-reference brackets" href="#f2" id="id2">2</a>. This lack of robustness is due to
+model selection, is downhill. While efficient it can be demonstrated that this method is not robust <a class="footnote-reference brackets" href="#f1" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#f2" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. This lack of robustness is due to
 the violation of convexity assumption. That is, the downhill search, in either a continuous space (parameter estimation) or a discrete space (model selection)
 assumes that the optimal solution is continuously downhill from every other point in the search space. That is, there are no local minima, and you can start anywhere
 and you’ll end up in the same place - the global minimum, the results are not sensitive to the “initial estimates”. With this assumption, a covariate will or will not be
 “downhill”, regardless of whether tested in a one compartment, two compartment; first order of zero order or any other base model, it’s all downhill, it doesn’t
-matter in what sequence you test hypotheses, the answer will be the same. Wade <a class="footnote-reference brackets" href="#f1" id="id3">1</a> showed that the results of tests of hypotheses do indeed depend on other
-features in the model and Chen <a class="footnote-reference brackets" href="#f2" id="id4">2</a> showed that different sequences of tests will commonly yield different final models.</p>
+matter in what sequence you test hypotheses, the answer will be the same. Wade <a class="footnote-reference brackets" href="#f1" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> showed that the results of tests of hypotheses do indeed depend on other
+features in the model and Chen <a class="footnote-reference brackets" href="#f2" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> showed that different sequences of tests will commonly yield different final models.</p>
 <p>In contrast to the traditional downhill/local search, all algorithms implemented in pyDarwin are global search algorithms that are expected to have a greater
 degree of robustness to local minima than downhill search. Note however that all search algorithms (with the exception of exhaustive search) make assumptions about
 the search space. While none of the algorithms in pyDarwin assume convexity, none are completely robust,
-and search spaces can be deceptive <a class="footnote-reference brackets" href="#f3" id="id5">3</a>. For all algorithms, the basic process is the same, start at one or more random. Test those models, learn a little about
+and search spaces can be deceptive <a class="footnote-reference brackets" href="#f3" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. For all algorithms, the basic process is the same, start at one or more random. Test those models, learn a little about
 the search space and decide which models to test next. The algorithms differ in how they decide which models to test next.</p>
 <p>While the global search algoritm provide subtantial protection from a local minimum in the model search, the global search algorithm are typically not very
 good at finding the one or two final change that results in the best model. This is illutrated in <a class="reference internal" href="#ga-desc"><span class="std std-ref">Genetic Algorithm</span></a> in that the final change likely
@@ -230,17 +231,20 @@ included.</p>
 <p><a class="reference external" href="https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad">Gradient Boosted Random Tree</a>
 are similar to Random forests,
 but may increase the precision of the tree building by progresively building the tree, and calculating a gradient of the reward/fitness WRT each decision.</p>
-<dl class="footnote brackets">
-<dt class="label" id="f1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id3">2</a>)</span></dt>
-<dd><p>Wade JR, Beal SL, Sambol NC. 1994  Interaction between structural, statistical, and covariate models in population pharmacokinetic analysis. J Pharmacokinet Biopharm. 22(2):165-77</p>
-</dd>
-<dt class="label" id="f2"><span class="brackets">2</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id4">2</a>)</span></dt>
-<dd><p>PAGE 30 (2022) Abstr 10091 [<a class="reference external" href="https://www.page-meeting.org/?abstract=10091">https://www.page-meeting.org/?abstract=10091</a>]</p>
-</dd>
-<dt class="label" id="f3"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
-<dd><p>PAGE 30 (2022) Abstr 10053 [<a class="reference external" href="https://www.page-meeting.org/default.asp?abstract=10053">https://www.page-meeting.org/default.asp?abstract=10053</a>]</p>
-</dd>
-</dl>
+<aside class="footnote brackets" id="f1" role="note">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
+<p>Wade JR, Beal SL, Sambol NC. 1994  Interaction between structural, statistical, and covariate models in population pharmacokinetic analysis. J Pharmacokinet Biopharm. 22(2):165-77</p>
+</aside>
+<aside class="footnote brackets" id="f2" role="note">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
+<p>PAGE 30 (2022) Abstr 10091 [<a class="reference external" href="https://www.page-meeting.org/?abstract=10091">https://www.page-meeting.org/?abstract=10091</a>]</p>
+</aside>
+<aside class="footnote brackets" id="f3" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">3</a><span class="fn-bracket">]</span></span>
+<p>PAGE 30 (2022) Abstr 10053 [<a class="reference external" href="https://www.page-meeting.org/default.asp?abstract=10053">https://www.page-meeting.org/default.asp?abstract=10053</a>]</p>
+</aside>
 </section>
 </section>
 <section id="file-structure-and-naming">

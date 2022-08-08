@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API &mdash; pyDarwin 1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
@@ -181,13 +182,13 @@ function returns the final model object</p>
 <dd><p>Run full exhaustive search on the Template, all possible combination.
 All models will be run in generation/iteration number 0.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model_template</strong> (<a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><em>Template</em></a>) – Model Template</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Returns final/best model run</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun">ModelRun</a></p>
 </dd>
 </dl>
@@ -203,13 +204,13 @@ All models will be run in generation/iteration number 0.</p>
 All the required information is contained in the Template objects, plus the options module
 The template objects includes the control file template, and all the token groups.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model_template</strong> (<a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><em>Template</em></a>) – Template object for the search</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The single best model from the search</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model">Model</a></p>
 </dd>
 </dl>
@@ -228,13 +229,13 @@ The template objects includes the control file template, and all the token group
 <p>-“algorithm”:”RF”</p>
 <p>-“algorithm”:”GBRT”</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model_template</strong> (<a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><em>Template</em></a>) – Model template to be run</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>return best model from search</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model">Model</a></p>
 </dd>
 </dl>
@@ -274,13 +275,14 @@ update rule is now decided upon by the following case expression:</p>
 a stream of continuous values as seen in global-best or local-best PSO.</p>
 <p>This algorithm was adapted from the standard Binary PSO work of J. Kennedy and
 R.C. Eberhart in Particle Swarm Optimization <a class="reference internal" href="#smc1997" id="id1"><span>[SMC1997]</span></a>.</p>
-<dl class="citation">
-<dt class="label" id="smc1997"><span class="brackets"><a class="fn-backref" href="#id1">SMC1997</a></span></dt>
-<dd><p>J. Kennedy and R.C. Eberhart, “A discrete binary version of
+<div role="list" class="citation-list">
+<div class="citation" id="smc1997" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">SMC1997</a><span class="fn-bracket">]</span></span>
+<p>J. Kennedy and R.C. Eberhart, “A discrete binary version of
 particle swarm algorithm,” Proceedings of the IEEE International
 Conference on Systems, Man, and Cybernetics, 1997.</p>
-</dd>
-</dl>
+</div>
+</div>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.algorithms.PSO.run_pso">
 <span class="sig-prename descclassname"><span class="pre">darwin.algorithms.PSO.</span></span><span class="sig-name descname"><span class="pre">run_pso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.algorithms.PSO.run_pso" title="Permalink to this definition">¶</a></dt>
@@ -324,7 +326,7 @@ Other housekeeping functions are performed, such as defining the gene structure 
 of token groups for each token set), and parsing out the THETA/OMEGA/SIGMA blocks, and counting
 the number of fixed/non searched THETAs/OMEGAs/SIGMAs</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>template_file</strong> (<em>str</em>) – path to the plain ascii text template file</p></li>
 <li><p><strong>tokens_file</strong> – path to the json tokens file</p></li>
@@ -548,7 +550,7 @@ the calc_fitness function is called to calculate the fitness/reward.</p>
 <span class="sig-prename descclassname"><span class="pre">darwin.ModelRun.</span></span><span class="sig-name descname"><span class="pre">write_best_model_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ModelRun.write_best_model_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the current best model control and output in control_path and result_path respectively.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>control_path</strong> – path to current best model control file</p></li>
 <li><p><strong>result_path</strong> – path to current best model result file</p></li>
@@ -579,7 +581,7 @@ the calc_fitness function is called to calculate the fitness/reward.</p>
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iteration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an empty population.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> – Population name. Will be used as generation for every ModelRun added to this population. If it’s
 an integer, it’s formatted respectively to max_iteration (filled with leading zeroes if needed). Otherwise,
@@ -872,7 +874,7 @@ for downhill, will need to convert to minimal binary, then to integer.</p>
 <span class="sig-name descname"><span class="pre">_start_remote_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.grid.GridRunManager.GridRunManager._start_remote_run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Starts the model run remotely.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>run</strong> (<a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><em>ModelRun</em></a>) – Model run to start</p>
 </dd>
 </dl>
@@ -992,10 +994,10 @@ for downhill, will need to convert to minimal binary, then to integer.</p>
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_data_file_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.ModelEngineAdapter.ModelEngineAdapter.read_data_file_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parses the control file to read the data file name</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>data file path string</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list</p>
 </dd>
 </dl>
@@ -1129,10 +1131,10 @@ By default, key files (.lst, .xml, mod and any $TABLE files are retained).</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_data_file_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.read_data_file_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parses the control file to read the data file name</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>data file path string</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list</p>
 </dd>
 </dl>
@@ -1164,7 +1166,7 @@ By default, key files (.lst, .xml, mod and any $TABLE files are retained).</p>
 <dd><p>Parses current control file text, looking for THETA(*) and calculates the appropriate index for that THETA
 (starting with the last_fixed_theta - the largest value used for THETA() in the fixed code)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>control</strong> (<em>str</em>) – control file text</p></li>
 <li><p><strong>tokens</strong> (<em>dict</em>) – token groups</p></li>
@@ -1173,10 +1175,10 @@ By default, key files (.lst, .xml, mod and any $TABLE files are retained).</p>
 <li><p><strong>stem</strong> (<em>str</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>new control content</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -1204,16 +1206,16 @@ By default, key files (.lst, .xml, mod and any $TABLE files are retained).</p>
 if the source is BLOCK or DIAG. Not specified BLOCK or DIAG (and so is by default DIAG), will convert
 to BLOCK with the number of bands specified in the model code.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>control</strong> (<em>str</em>) – existing control file</p></li>
 <li><p><strong>bandwidth</strong> (<em>int</em>) – require band width</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>modified control file</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -1234,7 +1236,7 @@ Also determines whether a token set is “influential”, that is does the choic
 in the resulting control file. A small penalty, is specified in the options file, e.g.,
 “non_influential_tokens_penalty”: 0.00001,</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tokens</strong> (<em>dict</em>) – a dictionary of token sets</p></li>
 <li><p><strong>text</strong> (<em>string</em>) – current control file text</p></li>
@@ -1242,10 +1244,10 @@ in the resulting control file. A small penalty, is specified in the options file
 <li><p><strong>non_influential_tokens</strong> (<em>list</em>) – Boolean list of whether the token group appears in the control file</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>boolean - were any tokens substituted (and we need to loop over again), current control file text</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
@@ -1261,16 +1263,16 @@ in the resulting control file. A small penalty, is specified in the options file
 <span class="sig-prename descclassname"><span class="pre">darwin.utils.</span></span><span class="sig-name descname"><span class="pre">remove_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_mark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">';'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.utils.remove_comments" title="Permalink to this definition">¶</a></dt>
 <dd><p>remove any comments (“;”) from nonmem code</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>code</strong> (<em>str</em>) – input code</p></li>
 <li><p><strong>comment_mark</strong> – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>code with comments removed</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -1317,7 +1319,7 @@ in the resulting control file. A small penalty, is specified in the options file
 <span class="sig-prename descclassname"><span class="pre">darwin.utils.</span></span><span class="sig-name descname"><span class="pre">terminate_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.utils.terminate_process" title="Permalink to this definition">¶</a></dt>
 <dd><p>Kills the specified process and its subprocesses.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pid</strong> (<em>int</em>) – PID</p>
 </dd>
 </dl>

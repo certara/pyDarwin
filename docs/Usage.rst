@@ -49,12 +49,13 @@ Stopping Execution
 =========================
 
 A running search can be stopped using following command:
+
 .. code:: python
     
     python -m darwin.stop_search [-f] <project dir>|<options file>
 
-You need to provide the path to the project folder or to the options file associated with the search you want to stop.
-Optional flag specifies whether the search must be stopped immediatelly. If not set the search will stop after current model runs are finished.
+| You need to provide the path to the project folder or to the options file associated with the search you want to stop.
+| Optional flag specifies whether the search must be stopped immediatelly. If not set the search will stop after current model runs are finished.
 
 .. warning::
    Don't force-stop GP during the :ref:`ask stage<GP_ask_tell>`. Either wait for it to finish (``Done asking`` in the console output and/or :file:`messages.txt`) or stop w/o ``-f`` flag.

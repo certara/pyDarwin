@@ -609,6 +609,22 @@ Job delete/poll aliases
 Environment variables
 ------------------------
 
+There are a few environment variables you might want to set in order to improve your pyDarwin experience.
+
+.. tabs::
+
+   .. group-tab:: cmd.exe
+
+      .. code-block:: bat
+
+         set PYDARWIN_OPTIONS=C:\workspace\darwin\system_options.json
+
+   .. group-tab:: bash
+
+      .. code-block:: bash
+
+         export PYDARWIN_OPTIONS=~/darwin/system_options.json
+
 .. _pydarwin_home_env_var:
 
     * | **PYDARWIN_HOME** - Env var to override default pyDarwin home.

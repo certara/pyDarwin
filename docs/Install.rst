@@ -34,7 +34,7 @@ Minimum and recommended requirements:
 +--------------------------+----------------------------+----------------------------+
 | RAM                      | 16 GB RAM                  | 32 GB RAM                  |
 +--------------------------+----------------------------+----------------------------+
-| Internal Storage Device  | 1 GB 7200 RPM Magnetic HD  | 1 GB SSD                   |
+| Internal Storage Device  | 1 GB HHD                   | 100 GB SSD                 |
 +--------------------------+----------------------------+----------------------------+
 
 
@@ -49,8 +49,6 @@ Software Requirements
 - Python >= 3.10
 - NONMEM >= 7.4.3
 - R >= 4.0.0 (optional)
-
-*Note: Requirements are Python and NONMEM installation with nmfe.bat available. R installation is required if using* ``"postRunRcode"`` *in* :ref:`options.json<options file>` *with* ``"useR" : true``.
 
 Install pyDarwin
 -----------------------

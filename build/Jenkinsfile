@@ -188,10 +188,6 @@ pipeline {
                         python -m build
                         deactivate
                     """
-                    labelledShell label: "Creating zipped bundle structure", script: """
-                        cd ${WORKSPACE}/dist/
-                        cp ${PACKAGE_NAME}-Certara-${PACKAGE_VERSION}.tar.gz ${WORKSPACE}/artifacts/${PACKAGE_NAME}-Certara-${BUILD_VERSION}.tar.gz
-                    """
                 }
             }
         }
@@ -213,28 +209,9 @@ pipeline {
                         buildName: "${ARTIFACTORY_BUILD_NAME}",
                         buildNumber: "${BUILD_VERSION}"
                     )
-                    rtUpload(
-                        serverId: "${ARTIFACTORY_SERVER_ID}",
-                        spec: """{
-                            "files": [
-                                {
-                                    "pattern": "artifacts/${PACKAGE_NAME}-*.tar.gz",
-                                    "target": "${ARTIFACTORY_DEVELOP_SERVICE_REPOSITORY}/pyDarwin/"
-                                }
-                            ]
-                        }""",
-                        failNoOp: true,
-                        buildName: "${ARTIFACTORY_BUILD_NAME}",
-                        buildNumber: "${BUILD_VERSION}"
-                    )
-                    rtPublishBuildInfo(
-                        serverId: "${ARTIFACTORY_SERVER_ID}",
-                        buildName: "${ARTIFACTORY_BUILD_NAME}",
-                        buildNumber: "${BUILD_VERSION}"
-                    )
                     labelledShell label: 'twine upload', script: """
                         cd ${WORKSPACE}/
-                        twine upload -r public dist/*
+                        twine upload -r local dist/*
                     """
                 }
             }
@@ -245,10 +222,10 @@ pipeline {
             }
             steps {
                 container('certara-python') {
-                    labelledShell label: 'echo tag', script: """
-                        sh(returnStdout: true, script: "git tag --sort version:refname | tail -1").trim()
+                    labelledShell label: 'twine upload', script: """
+                        cd ${WORKSPACE}/
+                        twine upload -r public dist/*
                     """
-                    echo "Git $TAG_NAME"
                 }
             }
         }

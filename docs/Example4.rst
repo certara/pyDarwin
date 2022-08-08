@@ -12,7 +12,7 @@ This search again uses :ref:`nested tokens<Nested Tokens>`, as it searches wheth
 Another important feature of example 4 is the use of post run R code. In this case, it was of interest to capture the Cmax value. The is no straightforward way to include a penalty for 
 missing the Cmax 
 in the NONMEM control stream. Therefore, the penalty for missing Cmax is added after the NONMEM run is complete. Any R code can be provided by the user, and should return a vector of two values. The 
-first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to NONMEM output file to desribe the results of the R code execution.
+first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to NONMEM output file to describe the results of the R code execution.
 
 The penalty for missing the Cmax is essentially a `Posterior Predictive Check (PPC) <https://pubmed.ncbi.nlm.nih.gov/11381569/>`_. The template file includes two problems, first the estimation, then a 
 Simulation problem, to generate a table of the PPC. 
@@ -68,7 +68,7 @@ The post processing code options are given in the options file:
         "use_python": false
 
 
-include whether to use_r for post processing (true), the path to the R code, the path to rscript.exe and the timeout (r_timeout) after which the R sesssion will be terminated if not 
+include whether to use_r for post processing (true), the path to the R code, the path to rscript.exe and the timeout (r_timeout) after which the R session will be terminated if not 
 complete and the :ref:`crash_value<Crash Value>` added as the penalty.
 
 The search space contains 1.66 million possible models, and searches:
@@ -101,7 +101,7 @@ The search space contains 1.66 million possible models, and searches:
 
 Between occasion variability
 
-Multiple covaraiates (but probably still not as many as a real search)
+Multiple covariates (but probably still not as many as a real search)
 
 Different absorption models
 
@@ -112,8 +112,8 @@ Block OMEGA structures
 Different initial estimates (also likely not as many as a real search should include).
 
 As the search space is large, we'll plan a fairly large sample (Population size of 80 with 12 generations). While :ref:`Gaussian Process<GP_desc>` may be more efficient 
-in terms of number of models to convegence, once ~500 samples are defined, the `ask step <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ becomes long, negating any 
-in effeciency of the algorithm. 
+in terms of number of models to convergence, once ~500 samples are defined, the `ask step <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ becomes long, negating any 
+in efficiency of the algorithm. 
 Below is a table of the ask and tell step times  (hh:mm:ss), by iteration for GP. The sample size ws 80, with 4 chains on a 4 core computer: 
 
 +-----------+----------+----------+ 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example 4: PK Model, DMAG by GA with post-run R code &mdash; pyDarwin 1 documentation</title>
@@ -62,7 +62,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Trouble shooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -97,7 +97,7 @@ This search again uses <a class="reference internal" href="Glossary.html#nested-
 Another important feature of example 4 is the use of post run R code. In this case, it was of interest to capture the Cmax value. The is no straightforward way to include a penalty for
 missing the Cmax
 in the NONMEM control stream. Therefore, the penalty for missing Cmax is added after the NONMEM run is complete. Any R code can be provided by the user, and should return a vector of two values. The
-first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to NONMEM output file to desribe the results of the R code execution.</p>
+first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to NONMEM output file to describe the results of the R code execution.</p>
 <p>The penalty for missing the Cmax is essentially a <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/11381569/">Posterior Predictive Check (PPC)</a>. The template file includes two problems, first the estimation, then a
 Simulation problem, to generate a table of the PPC.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROB SIMULATION FOR CMAX
@@ -142,7 +142,7 @@ penalty value and be any real value - including negative, but typically would be
     <span class="s2">&quot;use_python&quot;</span><span class="p">:</span> <span class="n">false</span>
 </pre></div>
 </div>
-<p>include whether to use_r for post processing (true), the path to the R code, the path to rscript.exe and the timeout (r_timeout) after which the R sesssion will be terminated if not
+<p>include whether to use_r for post processing (true), the path to the R code, the path to rscript.exe and the timeout (r_timeout) after which the R session will be terminated if not
 complete and the <a class="reference internal" href="Glossary.html#crash-value"><span class="std std-ref">crash_value</span></a> added as the penalty.</p>
 <p>The search space contains 1.66 million possible models, and searches:</p>
 <table class="docutils align-default">
@@ -204,14 +204,14 @@ complete and the <a class="reference internal" href="Glossary.html#crash-value">
 </table>
 <p>1,2,3 compartments</p>
 <p>Between occasion variability</p>
-<p>Multiple covaraiates (but probably still not as many as a real search)</p>
+<p>Multiple covariates (but probably still not as many as a real search)</p>
 <p>Different absorption models</p>
 <p>Different residual error models</p>
 <p>Block OMEGA structures</p>
 <p>Different initial estimates (also likely not as many as a real search should include).</p>
 <p>As the search space is large, we’ll plan a fairly large sample (Population size of 80 with 12 generations). While <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> may be more efficient
-in terms of number of models to convegence, once ~500 samples are defined, the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask step</a> becomes long, negating any
-in effeciency of the algorithm.
+in terms of number of models to convergence, once ~500 samples are defined, the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask step</a> becomes long, negating any
+in efficiency of the algorithm.
 Below is a table of the ask and tell step times  (hh:mm:ss), by iteration for GP. The sample size ws 80, with 4 chains on a 4 core computer:</p>
 <table class="docutils align-default">
 <thead>

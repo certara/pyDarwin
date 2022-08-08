@@ -10,17 +10,17 @@ Glossary
  
 .. _Crash Value:
 
-**Crash Value**: Anyone with any experience with Population PK model has experience with crashes. there are many sources of error, includeing:
+**Crash Value**: Anyone with any experience with Population PK model has experience with crashes. there are many sources of error, including:
 
 - syntax errors in the control file
 - math errors (divide by zero, log(negative value))
 - numerical error in execution
 
 Significant effort was made to capture theses errors an display them to the user on the command line and in the messages.txt file (in the working directory).
-For debuging purposes, these errors can be reproduced by going to the run directory (run_dir\\generation\\model_num) and rerunning the model from the command line.
+For debugging purposes, these errors can be reproduced by going to the run directory (run_dir\\generation\\model_num) and rerunning the model from the command line.
 
-In addition, errors may occur in running post run R or python code. Finallly the NONMEM or R code may time out, producing no final results.
-In all of these cases, the fitness/reward value assigned in called the crash_value. The crash value is set in the options file, and should be substaintially higher 
+In addition, errors may occur in running post run R or python code. Finally the NONMEM or R code may time out, producing no final results.
+In all of these cases, the fitness/reward value assigned in called the crash_value. The crash value is set in the options file, and should be substantially higher 
 than any anticipated fitness/reward from a model that ran to completion, regardless of the "goodness" of the model.
 
 
@@ -33,7 +33,7 @@ it contains spaces.
 
 .. _DEAP: 
 
-**DEAP:** Distributed Evolutionary Algorithms in Python `DEAP github <https://github.com/DEAP/deap>`_. DEAP is a python package that includes a number of evolutionaty algorithms, 
+**DEAP:** Distributed Evolutionary Algorithms in Python `DEAP github <https://github.com/DEAP/deap>`_. DEAP is a python package that includes a number of evolutionary algorithms, 
 including Genetic Algorithm - the GA option in the :ref:`options file<options file>`.
 
  
@@ -47,18 +47,18 @@ In other algorithms is called "reward" or "cost", or sometimes "loss function". 
 | **full binary**: The full binary is a representation of a specific model coded such that all possible values of the bit string are permitted. In general, this will result in 
   redundancy of the matching of bit strings with the :ref:`integer representation<integer representation>`. For example, if a given :ref:`token group<token group>` included 3 
   :ref:`token sets<token set>`, two bits would be required (one bit can only specify two options). Two bits have 4 possible values, while only 3 are needed. Therefore, some duplication 
-  of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Manageing this redundancy is handled internally by pyDarwin. the full binary is used only by :ref:`Genetic algorithm<GA>`.
+  of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Managing this redundancy is handled internally by pyDarwin. the full binary is used only by :ref:`Genetic algorithm<GA>`.
 | The minimal binary is in contrast to the :ref:`full binary <full binary>`.
 
 .. _GA:
 
-**GA - Genetic Algorithm:** An unsupervised search algorithm that mimicks the mathetmatics 
+**GA - Genetic Algorithm:** An unsupervised search algorithm that mimic's the mathematics 
 of 'survival of the fittest'. A population of candidates is generated randomly, and the "fitness" 
 of each candidate is evaluated. A subsequent population of candidate is then generated with the 
 present generation as "parents", with selection a function of fitness, with the more 
 fit individual being more likely to be selected as parents. The parents are then paired off, undergo 
 cross over and mutation and a new generation created. This process is continued until 
-no futher improvement is seen. In pyDarwin, GA is implmented using the :ref:`DEAP <DEAP>` package. `GA on Wikipedia <https://en.wikipedia.org/wiki/Genetic_algorithm>`_
+no further improvement is seen. In pyDarwin, GA is implemented using the :ref:`DEAP <DEAP>` package. `GA on Wikipedia <https://en.wikipedia.org/wiki/Genetic_algorithm>`_
 
 
 .. _GBRT:
@@ -66,7 +66,7 @@ no futher improvement is seen. In pyDarwin, GA is implmented using the :ref:`DEA
 **GBRT - Gradient Boosted Random Tree:** Random Forest optimization `Gradient Boosting on Wikipedia <https://en.wikipedia.org/wiki/Gradient_boosting>`_
 `and <https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad>`_ 
 are similar to Random forests, 
-but may increase the precision of the tree building by progresively building the tree, and calculating a gradient of the reward/fitness WRT each decision. 
+but may increase the precision of the tree building by progressively building the tree, and calculating a gradient of the reward/fitness WRT each decision. 
 
 .. _GP:
 
@@ -88,9 +88,9 @@ is managed internally by pyDarwin and in the case of :ref:`Genetic algorithm<GA>
 
 .. _Local One bit Search: 
 
-**Local One bit Search:** In 1 bit local search, first the :ref:`minimal binary representation<minimal binary>` of the model(s) to be seached are generated. 
+**Local One bit Search:** In 1 bit local search, first the :ref:`minimal binary representation<minimal binary>` of the model(s) to be searched are generated. 
 Then each bit in that bit string is 'flipped'. So, a search with 30 bits will generate 30 models in each iteration of the 1 bit search. 
-This process is continued, searching on the best model from the previous step until improvment no longer occurs.
+This process is continued, searching on the best model from the previous step until improvement no longer occurs.
 
 .. _Local Two bit Search: 
 
@@ -102,7 +102,7 @@ This results in a much larger number of models to search, (N^2+n)/2. This proces
 
 **Local Search:** It has found been `demonstrated <https://www.page-meeting.org/default.asp?abstract=10053>`_  that all of the available algorithms are insufficiently robust at finding the 
 final 
-best model. To some degree the global search algorithms serve to essentialy find good initial estimates, in order to make finding the global minimum (and not a local minimum) 
+best model. To some degree the global search algorithms serve to essentially find good initial estimates, in order to make finding the global minimum (and not a local minimum) 
 more likely. To supplement the global search algorithms, 2 local search algorithms are used. These local search algorithms systematically change each bit in the :ref:`minimal binary representation <minimal binary>` 
 of the model and run that model. The user can specify whether this local search is done on some interval or generations/iterations and/or at the end of the global search. 
 First a 1 bit local search :ref:`Local One bit Search<Local One bit Search>` (also called downhill search) is done, then if requested a :ref:`Local Two bit Search<Local Two bit Search>` is done.
@@ -114,7 +114,7 @@ First a 1 bit local search :ref:`Local One bit Search<Local One bit Search>` (al
 **Minimal Binary**
 
 The minimal binary is one of three representation of a model phenotype. The minimal binary is simply a binary that has some possible values removed to avoid duplications. For example, 
-if the search space includes a dimension for 1,2, or 3 compartments, 2 bits will be needed to code this. With the required 2 bits, some redundandy is unavoidabe. So, the mapping might be::
+if the search space includes a dimension for 1,2, or 3 compartments, 2 bits will be needed to code this. With the required 2 bits, some redundancy is unavoidable. So, the mapping might be::
 
    [0,0] -> 1
    [0,1] -> 2
@@ -169,11 +169,11 @@ Parameter estimate must be enclosed in parentheses, e.g, (0,1)
 
 .. _Nested Tokens:
 
-**Nested Tokens:** pyDarwin permits nested tokens to be used in the :ref:`tokens file<tokens file_s>`. This permits one token to contain another token, to an arbitary level. Note that 
+**Nested Tokens:** pyDarwin permits nested tokens to be used in the :ref:`tokens file<tokens file_s>`. This permits one token to contain another token, to an arbitrary level. Note that 
 using nested token does **not** reduce the search space size, it only reduces the number of token set the user need generate, and perhaps simplify the logic (although commonly the logic quickly 
 becomes impenetrable). For example, assume that the search is to contain one compartment 
 (ADVAN2) and two compartment (ADVAN4), and if ADVAN4 is selected, search whether K23 and K32 are functions of weight. K23 is not a parameter of a one compartment model. One option would be to simply write out 
-all posssible models:
+all possible models:
 
 1 compartment::
 
@@ -239,7 +239,7 @@ The path to nmfe??.bat (Windows) or just nmfe?? (Linux). Must be provided in the
 
 .. _Options file:
 
-**Options File:** Specifies :ref:`the options <Options>` for the search, inculding the algorith, the :ref:`fitness/reward criteria <fitness>`, the population size, the number 
+**Options File:** Specifies :ref:`the options <Options>` for the search, including the algorithm, the :ref:`fitness/reward criteria <fitness>`, the population size, the number 
 of iterations/generations and whether the downhill search is to be executed.
 
 
@@ -271,8 +271,8 @@ Can be provided as an argument for ``run_search_in_folder`` or determined by pat
 
 .. _RF:
 
-**RF - Random Forest:** `Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consist of spliting the search space (based on the "goodness" of each model in this case) thus continuously dividing the 
-search space into "good" and "bad" regions. As before, the initial divisions are random, but become increasingly well informated a real values for the fitness/reward of models is 
+**RF - Random Forest:** `Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consist of splitting the search space (based on the "goodness" of each model in this case) thus continuously dividing the 
+search space into "good" and "bad" regions. As before, the initial divisions are random, but become increasingly well informed as real values for the fitness/reward of models are 
 included.
 
 https://scikit-optimize.github.io/stable/
@@ -314,7 +314,7 @@ into the template file.
 .. _token key-text pair:
 
 **Token key-text pair:** A :ref:`token set <token set>` contains two or more token key-text pairs. These 
-pairs are very analagous to JSON key-value pairs, except that only text values are permitted. For each 
+pairs are very analogous to JSON key-value pairs, except that only text values are permitted. For each 
 token key-text pair, the text {:ref:`token stem <token stem>` [n]} in the :ref:`template <template>` is replaced 
 by the corresponding values in the token key-text pair. Note that the token key is surrounded by curly braces in the template file. 
 For example, if the :ref:`template <template>` contains these two tokens::
@@ -357,7 +357,7 @@ would result in::
    and
    Q =THETA(2)*WT**THETA(2) ;; for Q
 
-duplicate text indices will yield duplicate integer indices. By the same logic, comments can be put into initial estimates by includind 
+duplicate text indices will yield duplicate integer indices. By the same logic, comments can be put into initial estimates by including 
 THETA(CL~WT) after a ";" in the $THETA block, e.g., :: 
 
    (0,0.75) \t; THETA(CL~WT) exponent on clearances 

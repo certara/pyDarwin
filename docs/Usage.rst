@@ -27,7 +27,7 @@ To execute, call the ``darwin.run_search`` function and provide the paths to the
 
 1. :ref:`Template file <template_file_target>` (e.g., template.txt) - basic shell for NONMEM control files
 2. :ref:`Tokens file <tokens_file_target>` (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension
-3. :ref:`Options file <options_file_target>` (e.g., options.json) - json file describing algorithim, run options, and post-run penalty code configurations.
+3. :ref:`Options file <options_file_target>` (e.g., options.json) - json file describing algorithm, run options, and post-run penalty code configurations.
 
 See :ref:`required files <startRequiredFiles>` for additional details.
 
@@ -55,7 +55,7 @@ A running search can be stopped using following command:
     python -m darwin.stop_search [-f] <project dir>|<options file>
 
 | You need to provide the path to the project folder or to the options file associated with the search you want to stop.
-| Optional flag specifies whether the search must be stopped immediatelly. If not set the search will stop after current model runs are finished.
+| Optional flag specifies whether the search must be stopped immediately. If not set the search will stop after current model runs are finished.
 
 .. warning::
    Don't force-stop GP during the :ref:`ask stage<GP_ask_tell>`. Either wait for it to finish (``Done asking`` in the console output and/or :file:`messages.txt`) or stop w/o ``-f`` flag.
@@ -140,8 +140,8 @@ completely flexible and entire blocks may be missing from the template file (to 
 :ref:`tokens file<tokens_file_target>`)
 
 The difference between a standard NONMEM control file and the template file is that the user will define code 
-segments in the template file that will be replaced by other text. These code segments are refered to as "token keys". 
-Tokens keys come in sets, and in most cases, several token keys will need to be replaced together to generate syntacatically 
+segments in the template file that will be replaced by other text. These code segments are referred to as "token keys". 
+Tokens keys come in sets, and in most cases, several token keys will need to be replaced together to generate syntactically 
 correct code. The syntax for a token key in the template file is:
 
 ::
@@ -174,7 +174,7 @@ The relevant template file for this might be:
     (0,1) ; Clearance - fixed THETA - always appears
     {ADVAN[3]}
 
-Note that tokens nearly always come in sets, as in nearly all cases, several substitions must be made to create correct syntax. 
+Note that tokens nearly always come in sets, as in nearly all cases, several substitutions must be made to create correct syntax. 
 For a one compartment model the following substitutions would be made:
 
 ::
@@ -205,14 +205,14 @@ and for 2 compartment:
 
 Where \\n is the new line character. These sets of tokens are called tokens sets (2 tokens sets in this example one for ADVAN1, one for ADVAN3). The group of token sets 
 is called a token group. In this example "ADVAN" is the token key. Each token group must have a unique token key. For the first set of options the text "ADVAN1" 
-is refered to as the token text. Each token set consists of key-text pairs: 
+is referred to as the token text. Each token set consists of key-text pairs: 
 
 token keys (described above) and 
 
 token text
 
 The token, (consisting of "{" + token stem +[N] + "}" where N is an integer specifying which token text in the token set is to be substituted) in the template file is 
-replaced by the token text, specified in the tokens file. Which set of token key-text pairs is substitituted is determined by the search algorithm, and provides in 
+replaced by the token text, specified in the tokens file. Which set of token key-text pairs is substituted is determined by the search algorithm, and provides in 
 the :ref:`phenotype.<Phenotype>`
 
 
@@ -221,9 +221,9 @@ For this reason, all fixed initial estimates in the $THETA block MUST occur befo
 algorithm can parse the resulting file and correctly calculate the appropriate THETA (and ETA and EPS) indices. Further, the text string index of in the token (e.g., ADVANA and ADVANB) 
 *must* be unique in the token groups. The most convenient way to ensure that the text string index is unique in the Token groups is to use the token stem as the 
 THETA index (e.g., THETA(ADVAN) is the token stem is ADVAN). Additional characters (e.g., ADVANA, ADVANB) can be added if multiple THETA text indices are needed. 
-Note that the permited syntax for residual error is EPS() or ERR(). 
+Note that the permitted syntax for residual error is EPS() or ERR(). 
 
-Special notes on strucutre of $THETA/$OMEGA/$SIGMA:
+Special notes on structure of $THETA/$OMEGA/$SIGMA:
 
 Parameter initial estimate blocks require special treatment. A template file will typically include 2 types of initial estimates:
 
@@ -233,7 +233,7 @@ Parameter initial estimate blocks require special treatment. A template file wil
 2. Searched initial estimates - Initial estimates that are specified in tokens that may or may not be in any given control file. e.g.,: {ALAG[2]} where the text for the ALAG[2] token key is "(0,1) ;; THETA(ALAG) Absorption lag time"
    
 
-There are 3 restriction for the parseing of the initial estimates blocks:
+There are 3 restriction for the parsing of the initial estimates blocks:
 
 1. Fixed initial estimates **MUST** be placed before Searched Initial estimates.
 
@@ -275,7 +275,7 @@ A diagram of the token structure is given below
 
 .. figure:: tokens.png
 
-Note the "nested token" - a token ("{K23~WT[1]}") within a token, circled in red. Any number of levels of nested tokens is permited (but the logic becomes very difficult with more than one) 
+Note the "nested token" - a token ("{K23~WT[1]}") within a token, circled in red. Any number of levels of nested tokens is permitted (but the logic becomes very difficult with more than one) 
 pyDarwin will first substitute the full text 
 into the template, then scans the resulting text again. This nested token will then be found and the text from the {K23~WT[1]} token set will be substituted. 
 
@@ -298,7 +298,7 @@ In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3
 **Special note on initial estimates**
 
 In order to parse the text in the initial estimates blocks (THETA, OMEGA and SIGMA) the user MUST include token stem text as a NONMEM/NMTRAN comment (i.e. after ";"). There is 
-no other way to identify which intial estimates are to be associated with which THETA. 
+no other way to identify which initial estimates are to be associated with which THETA. 
 E.g, if an token stem as two THETAs:
 
 ::
@@ -315,7 +315,7 @@ The resulting $THETA block for this initial feature MUST be similar to this:
  "  (0,100) \t; THETA(EMAXs) "
  "  (0,1000) \t; THETA(EC50) "
 
-Where \\t is a tab. Without this THETA(EMAX) and THETA(EC50) as a comment, there would not be any way to identify which initial estiamate is to be associated with which 
+Where \\t is a tab. Without this THETA(EMAX) and THETA(EC50) as a comment, there would not be any way to identify which initial estimate is to be associated with which 
 THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file 
 is created, this approach would lead to ambiguity. Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier.
 
@@ -327,7 +327,7 @@ Options File
 =========================
 
 A JSON file with key-value pairs specifying various options for executing pyDarwin. While some fields are mandatory, some are
-algorithim specific, while others are only relevant for execution on Linux grids.
+algorithm specific, while others are only relevant for execution on Linux grids.
 
 See :ref:`Options List<Options>` for details.
 
@@ -345,7 +345,7 @@ When pyDarwin first starts, it starts by confirming that key files are available
 #. The tokens file
 #. The options file
 #. nmfe??.bat - executes NONMEM
-#. The data file(s) for the first control that is intiated
+#. The data file(s) for the first control that is initiated
 #. If post run R code is requested, Rscript.exe
 
 
@@ -371,7 +371,7 @@ The columns in this output are::
     
     [Time of completion] Iteration = Iteration/generation, Model     Model Number,       Final Staus,    fitness = fitness/reward,    message =  Messages from NMTRAN
 
-If there are messages from NONMEM execution, these will also be written to command line, as well as if excecution failed, and, if request, if R execution failed.
+If there are messages from NONMEM execution, these will also be written to command line, as well as if execution failed, and, if request, if R execution failed.
 
 If the :ref:`"remove_temp_dir" <remove_temp_dir_options_desc>` is not set to true, the NONMEM control file, output file and other key files can be found in {temp_dir}\Iteration/generation\Model Number for debugging. 
 
@@ -395,7 +395,7 @@ models.json
 --------------
 
 The models.json will contain the key output from all models that are run. This is not a very user friendly file, as it is fairly complex json. The primary (maybe only) use 
-for this file is if a search is interupted, it can be restarted, and the contents of this file read in, rather than rerunning all of the models. If the goal is to make simple diagnostics 
+for this file is if a search is interrupted, it can be restarted, and the contents of this file read in, rather than rerunning all of the models. If the goal is to make simple diagnostics 
 of the search progress, the results.csv file is likely more useful.
 
 
@@ -413,14 +413,14 @@ NONMEM control, executable and output file naming
 
 Saving NONMEM outputs
 -----------------------
-NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an isssue for disc space. 
+NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an issue for disc space. 
 By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space. 
 In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
 Care should be take to not generate unneeded table files, as these can become quite large, and will not be removed by pyDarwin. 
 
 File Structure
 ----------------
-Three user define file locations can be set in the :ref:`options file<Options>`. In addition to the fodlers that are user defined
+Three user define file locations can be set in the :ref:`options file<Options>`. In addition to the folders that are user defined
 the project directory (project_dir) is the folder where template, token and options files are located. The user define folders are:
 
 #. output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results is intended.
@@ -434,7 +434,7 @@ Model/folder naming
 --------------------
 
 
-A model stem is generated from the current generation/iteration and model number or the form NM_genration_model_num. For example, if this is iteration 2, model 3 the model stem would be 
+A model stem is generated from the current generation/iteration and model number or the form NM_generation_model_num. For example, if this is iteration 2, model 3 the model stem would be 
 NM_2_3. For the 1 bit downhill, the model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill 
 model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file etc. This results in unique names for all models in the search. Models 
 are also frequently duplicated. Duplicated files are not rerun, and so those will not appear in the file structure.
@@ -446,5 +446,5 @@ Run folders are similarly named for the generation/iteration and model number. B
 Saving models
 ---------------
 
-Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficients. The name of the saved JSON file can be set by the user. A .csv 
+Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficient. The name of the saved JSON file can be set by the user. A .csv 
 file describing the course of the search is also save to results.csv. This file can be used to monitor the progress of the search. 

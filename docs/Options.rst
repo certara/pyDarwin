@@ -5,10 +5,11 @@
 Options List
 ============
 
-Note that the options are saved to a JSON file. JSON supports string, numeric and Boolen (true|false). 
+Note that the options are saved to a JSON file. JSON supports string, numeric and boolean (true|false). 
 String options must be in quotes. See `JSON <https://www.json.org/>`_ for details.
 
-Below is an example JSON file that demonstrates every possible option. It doesn't mean that your options file has to or should contain all of them.
+Below is an example JSON file that demonstrates every possible option. Note, some settings are only 
+applicable given algorithm selection and execution environment e.g., GA and grid options.
 
 .. parsed-literal:: 
 
@@ -105,7 +106,7 @@ Below is an example JSON file that demonstrates every possible option. It doesn'
 Description
 -------------
 
-Here is the list of all avaiable options. Note that many of them have default values, so you don't have to put them into your options file if the default suites you.
+Here is the list of all available options. Note that many of the options have default values and are not required to be specified directly in the options file.
 
 .. _author_options_desc:
 
@@ -235,7 +236,7 @@ Here is the list of all avaiable options. Note that many of them have default va
 
 .. _theta_options_desc:
 
-    * | **theta** - *real*: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresonds to a hypothesis test with
+    * | **theta** - *real*: Penalty added to fitness/reward for each estimated THETA. A value of 3.84 corresponds to a hypothesis test with
         1 df and p < 0.05 (for nested models) a value of 2 for 1 df corresponds to the Akaike information criterion
       | *Default*: 10
 
@@ -281,7 +282,7 @@ Here is the list of all avaiable options. Note that many of them have default va
 
 .. _downhill_period_options_desc:
 
-* | **downhill_period** - *int*: How often to run to run the downhill step. If < 1, no periodic downhill search will be perfromed.
+* | **downhill_period** - *int*: How often to run to run the downhill step. If < 1, no periodic downhill search will be performed.
   | *Default*: -1
 
 .. _num_niches_options_desc:
@@ -289,7 +290,7 @@ Here is the list of all avaiable options. Note that many of them have default va
 * | **num_niches** - *int*: Used for GA and downhill. A penalty is assigned for each model based on the number of similar models within a niche
     radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose
     is to insure maintaining a degree of diversity in the population (integer). num_niches is also used to select the number of models that are entered into the 
-    dowhill step for all algorithms, except Exhaustive Search.
+    downhill step for all algorithms, except Exhaustive Search.
   | *Default*: 2
 
 .. _niche_radius_options_desc:
@@ -300,7 +301,7 @@ Here is the list of all avaiable options. Note that many of them have default va
 .. _local_2_bit_search_options_desc:
 
 * | **local_2_bit_search** - *boolean*: Whether to perform the :ref:`two bit local search<Local Two bit Search>`.
-    The two bit local search substantially increase the robustness of the search. All downhill local seaches are done starting from :ref:`num_niches models<num_niches_options_desc>`.
+    The two bit local search substantially increase the robustness of the search. All downhill local searches are done starting from :ref:`num_niches models<num_niches_options_desc>`.
   | *Default*: ``false``
 
 .. _final_downhill_search_options_desc:
@@ -381,7 +382,7 @@ Here is the list of all avaiable options. Note that many of them have default va
 
 .. _remove_run_dir_options_desc:
 
-* | **remove_run_dir** - *boolean*: If ``true`` will delete the entire model :mono_ref:`run directory <model_run_dir>`, otherwise - only unnecesary files inside it.
+* | **remove_run_dir** - *boolean*: If ``true`` will delete the entire model :mono_ref:`run directory <model_run_dir>`, otherwise - only unnecessary files inside it.
   | *Default*: ``false``
 
 .. _remove_temp_dir_options_desc:
@@ -579,7 +580,7 @@ These aliases are only applicable to :mono_ref:`submit_command <submit_command_o
 
 .. _job_name_alias:
 
-  * **{job_name}** - Alias for default job name, which is ``{project_name}-{run_name}``. *Default* here doesn't mean it will be assigned to a job authomatically, it's up to you whether to use it ot generate your own using other available aliases, e.g. ``{project_name}-{generation}-{run_number}``.
+  * **{job_name}** - Alias for default job name, which is ``{project_name}-{run_name}``. *Default* here doesn't mean it will be assigned to a job automatically, it's up to you whether to use it ot generate your own using other available aliases, e.g. ``{project_name}-{generation}-{run_number}``.
 
 .. _run_name_alias:
 

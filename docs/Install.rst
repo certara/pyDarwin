@@ -1,7 +1,3 @@
-.. pyDarwin documentation master file, created by
-   sphinx-quickstart on Thu Jun  9 08:53:00 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
 *************
 Installation
@@ -74,16 +70,16 @@ command line type:
 
 Both the development version and released version of pyDarwin are available to install via ``pip`` from Certara's managed PyPi repository. 
 
-Development 
-^^^^^^^^^^^^^^
+.. tabs::
 
-.. code:: python
+      .. group-tab:: Released
 
-   pip install pyDarwin-Certara --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-develop-local/simple --extra-index-url https://pypi.python.org/simple/
+         .. code-block:: python
 
-Released 
-^^^^^^^^^^^^^^
+            pip install pyDarwin-Certara --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-develop-local/simple --extra-index-url https://pypi.python.org/simple/
 
-.. code:: python
+      .. group-tab:: Development
 
-   pip install pyDarwin-Certara --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-develop-local/simple --extra-index-url https://pypi.python.org/simple/
+         .. code-block:: python
+
+            pip install pyDarwin-Certara --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-develop-local/simple --extra-index-url https://pypi.python.org/simple/

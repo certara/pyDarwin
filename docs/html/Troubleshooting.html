@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trouble shooting &mdash; pyDarwin 1 documentation</title>
+  <title>Troubleshooting &mdash; pyDarwin 1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -54,7 +54,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Trouble shooting</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
@@ -72,7 +72,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Trouble shooting</li>
+      <li>Troubleshooting</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -81,8 +81,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="trouble-shooting">
-<h1>Trouble shooting<a class="headerlink" href="#trouble-shooting" title="Permalink to this heading">¶</a></h1>
+  <section id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">¶</a></h1>
 <p id="non-integer-index-to-theta-omega-sigma"><strong>Non integer index to THETA/OMEGA/SIGMA</strong></p>
 <p>The error from NONMEM (nmtran) will be something like</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AN</span> <span class="n">ERROR</span> <span class="n">WAS</span> <span class="n">FOUND</span> <span class="n">ON</span> <span class="n">LINE</span> <span class="mi">11</span> <span class="n">AT</span> <span class="n">THE</span> <span class="n">APPROXIMATE</span> <span class="n">POSITION</span> <span class="n">NOTED</span><span class="p">:</span>
@@ -90,7 +90,7 @@
 </pre></div>
 </div>
 <p>In order to parse the text in the initial estimates blocks (THETA, OMEGA and SIGMA) the user MUST include token stem text as a comment (i.e. after “;”) in the tokens file. There is
-no other way to identify which intial estimates are to be associated with which THETA.
+no other way to identify which initial estimates are to be associated with which THETA.
 E.g, if an token stem as two THETAs:</p>
 <p>Effect = THETA(EMAX) * CONC/(THETA(EC50) + CONC)
 for the text in the $PK block, then code to be put into the $THETA block will be:</p>
@@ -99,7 +99,7 @@ for the text in the $PK block, then code to be put into the $THETA block will be
 <span class="s2">&quot;  (0,1000) </span><span class="se">\\</span><span class="s2">t; THETA(EC50) &quot;</span>
 </pre></div>
 </div>
-<p>Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn’t be any way to identify which initial estiamate is to be associated with which
+<p>Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn’t be any way to identify which initial estimate is to be associated with which
 THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file
 is created, this approach would lead to ambiguity or at least confusion about which initial estimate was associated with which THETA index.
 Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier as a comment.</p>
@@ -116,7 +116,7 @@ to remove it.</p>
 </div>
 <p>isn’t used to call run_search it tries to reopen messages.txt and fails.</p>
 <p id="can-t-open-r"><strong>can’t open results.csv</strong> pyDarwin opens and closes the models.json, results.csv and messages.txt file with each model completed. This is done so that if the search
-is interupted it can be restarted with as little lost computational time as possible, and so the user can read and parse the messages.txt file to monitor progress. A work arround is
+is interrupted it can be restarted with as little lost computational time as possible, and so the user can read and parse the messages.txt file to monitor progress. A work around is
 to copy message.txt to another file name (messages1.txt) and read that file.</p>
 </section>
 

@@ -35,7 +35,7 @@ Example 2 is still a fairly simple search. The search space contains 12,960 mode
 +----------------------------+--------------------------+----------------------------+
 
 This gives a search space of 3 x 2 x 2 x 3 x 2 x 3 x 2 x 5 x 3 x 2 = 12960 models. We'll use the :ref:`Gaussian Process<GP_desc>` algorithm for the search, 
-with a population size of 40 models, for up to 7 iterations. We'll run the downhill (1 and 2 bit local search) each 5 iterations. The dowhill step will be 
+with a population size of 40 models, for up to 7 iterations. We'll run the downhill (1 and 2 bit local search) each 5 iterations. The downhill step will be 
 done starting with the 2 models that are in different niches, that is differ by at least the niche radius. The models are selected as the best in each of 
 the two best niches. To selected the best models in each of 2 niches, first 
 the best model in the entire population is identified. This will be the model for the first niche. Then all models within a :ref:`niche radius<Niche Radius>` 
@@ -54,9 +54,9 @@ Notes on Gaussian Process performance
 
 Gaussian Process is an approach in `Bayesian Optimization <https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf>`_ 
 and `here <https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py>`_  where the samples are drawn from 
-a Gaussian Process. There are reasons to beleive that this this approach should be the most effecient (fewer reward evaluations to convergence) other than downhill search. 
+a Gaussian Process. There are reasons to beleive that this this approach should be the most efficient (fewer reward evaluations to convergence) other than downhill search. 
 However, the sampling itself can be very 
-computionally expensive. Therefore the :ref:`GP option <GP_desc>` is best suited when the number of reward calculation number of NONMEM models run) is relatively small, perhaps < 1000, 
+computationally expensive. Therefore the :ref:`GP option <GP_desc>` is best suited when the number of reward calculation number of NONMEM models run) is relatively small, perhaps < 1000, 
 and the NONMEM run time is long (1 hour). Below is a table of the `ask and tell <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ step times  (h:mm:ss), by iteration. The sample size ws 80, with 4 chains on a 4 core computer: 
 
 +-----------+----------+----------+ 
@@ -94,10 +94,10 @@ Note the essentially linear increase in the ask step time (time to generate samp
 For problems with larger search spaces, and greater number of model evaluations, :ref:`Genetic algorithm<GA_desc>` or :ref:`Random Forest <RF_desc>` may 
 be more appropriate.
 
-Below is a table of recommenations for algorithm selection.
+Below is a table of recommendations for algorithm selection.
 
  - Fast execution, large search space (> 100,000 models, expected sample > 1000 models)– :ref:`GA<GA_desc>` or :ref:`RF<RF_desc>`
- - Small seach space (<100,000, expected # of samples < 1000) - :ref:`Gaussian Process<GP_desc>`.
+ - Small search space (<100,000, expected # of samples < 1000) - :ref:`Gaussian Process<GP_desc>`.
  - Very small search space (< 500 models), many cores (> 20) – :ref:`exhaustive search <EX_desc>`.
 
 The Template file 
@@ -293,7 +293,7 @@ Notes:
    }
 
 **NOTE AGAIN!!**
-The use of THETA(paremeter identifier), e.g.
+The use of THETA(parameter identifier), e.g.
 
 
 ::
@@ -312,7 +312,7 @@ The Options file
 The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
 
 
-Note that to run in the enviroment used for this example, the directorises are set to:
+Note that to run in the environment used for this example, the directories are set to:
 
 ::
 
@@ -321,14 +321,14 @@ Note that to run in the enviroment used for this example, the directorises are s
     "temp_dir": "u:/pyDarwin/example2rundir",
     "output_dir": "u:/pyDarwin/example2/output",
 
-It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set 
+It is recommended that the user set the directories to something appropriate for their environment. If directories are not set 
 the default is:
 
 ::
 
 	{user_dir}\pydarwin\{project_name}
 
-In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.
+In either case, the folder names are given in the initial and final output to facilitate finding the files and debugging.
 
 ::
 

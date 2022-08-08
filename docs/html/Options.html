@@ -57,7 +57,11 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-variables">Environment variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pydarwin-home">PYDARWIN_HOME</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pydarwin-options">PYDARWIN_OPTIONS</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
@@ -917,32 +921,34 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <section id="environment-variables">
 <h2>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">¶</a></h2>
 <p>There are a few environment variables you might want to set in order to improve your pyDarwin experience.</p>
+<section id="pydarwin-home">
+<span id="pydarwin-home-env-var"></span><h3>PYDARWIN_HOME<a class="headerlink" href="#pydarwin-home" title="Permalink to this heading">¶</a></h3>
+<p>This environment variable allows you to change <a class="reference internal" href="Glossary.html#pydarwin-home"><span class="std std-ref">pyDarwin home</span></a> to an arbitrary <strong>existing</strong> directory.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-Y21kLmV4ZQ==" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tab" tabindex="0">cmd.exe</button><button aria-controls="panel-0-YmFzaA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-YmFzaA==" name="YmFzaA==" role="tab" tabindex="-1">bash</button></div><div aria-labelledby="tab-0-Y21kLmV4ZQ==" class="sphinx-tabs-panel group-tab" id="panel-0-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="nv">PYDARWIN_OPTIONS</span><span class="p">=</span>C:\workspace\darwin\system_options.json
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-Y21kLmV4ZQ==" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tab" tabindex="0">cmd.exe</button><button aria-controls="panel-0-YmFzaA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-YmFzaA==" name="YmFzaA==" role="tab" tabindex="-1">bash</button></div><div aria-labelledby="tab-0-Y21kLmV4ZQ==" class="sphinx-tabs-panel group-tab" id="panel-0-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="nv">PYDARWIN_HOME</span><span class="p">=</span>C:\workspace\pydarwin
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-0-YmFzaA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-YmFzaA==" name="YmFzaA==" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYDARWIN_OPTIONS</span><span class="o">=</span>~/darwin/system_options.json
+</div><div aria-labelledby="tab-0-YmFzaA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-YmFzaA==" name="YmFzaA==" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYDARWIN_HOME</span><span class="o">=</span>/mnt/parallel-universe/my-evil-twin/pydarwin
 </pre></div>
 </div>
 </div></div>
-<blockquote id="pydarwin-home-env-var">
-<div><ul>
-<li><div class="line-block">
-<div class="line"><strong>PYDARWIN_HOME</strong> - Env var to override default pyDarwin home.</div>
-<div class="line">More on that later</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It’s not advised to put pyDarwin home inside temp folder for a variety of different reasons.</p>
 </div>
-</li>
-</ul>
-</div></blockquote>
-<blockquote id="pydarwin-options-env-var">
-<div><ul>
-<li><div class="line-block">
-<div class="line"><strong>PYDARWIN_OPTIONS</strong> - Env var to override some of the settings.</div>
-<div class="line">More on that later</div>
+</section>
+<section id="pydarwin-options">
+<span id="pydarwin-options-env-var"></span><h3>PYDARWIN_OPTIONS<a class="headerlink" href="#pydarwin-options" title="Permalink to this heading">¶</a></h3>
+<p>Env var to override some of the settings.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-Y21kLmV4ZQ==" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-1-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tab" tabindex="0">cmd.exe</button><button aria-controls="panel-1-YmFzaA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-YmFzaA==" name="YmFzaA==" role="tab" tabindex="-1">bash</button></div><div aria-labelledby="tab-1-Y21kLmV4ZQ==" class="sphinx-tabs-panel group-tab" id="panel-1-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="nv">PYDARWIN_OPTIONS</span><span class="p">=</span>C:\workspace\darwin\system_options.json
+</pre></div>
 </div>
-</li>
-</ul>
-</div></blockquote>
+</div><div aria-labelledby="tab-1-YmFzaA==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-1-YmFzaA==" name="YmFzaA==" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYDARWIN_OPTIONS</span><span class="o">=</span>~/darwin/system_options.json
+</pre></div>
+</div>
+</div></div>
+</section>
 </section>
 </section>
 

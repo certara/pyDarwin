@@ -612,6 +612,37 @@ Environment variables
 
 There are a few environment variables you might want to set in order to improve your pyDarwin experience.
 
+.. _pydarwin_home_env_var:
+
+PYDARWIN_HOME
+~~~~~~~~~~~~~~~~~~
+
+This environment variable allows you to change :ref:`pyDarwin home<pydarwin_home>` to an arbitrary **existing** directory.
+
+.. tabs::
+
+   .. group-tab:: cmd.exe
+
+      .. code-block:: bat
+
+         set PYDARWIN_HOME=C:\workspace\pydarwin
+
+   .. group-tab:: bash
+
+      .. code-block:: bash
+
+         export PYDARWIN_HOME=/mnt/parallel-universe/my-evil-twin/pydarwin
+
+.. note::
+   It's not advised to put pyDarwin home inside temp folder for a variety of different reasons.
+
+.. _pydarwin_options_env_var:
+
+PYDARWIN_OPTIONS
+~~~~~~~~~~~~~~~~~~
+
+Env var to override some of the settings.
+
 .. tabs::
 
    .. group-tab:: cmd.exe
@@ -625,13 +656,3 @@ There are a few environment variables you might want to set in order to improve 
       .. code-block:: bash
 
          export PYDARWIN_OPTIONS=~/darwin/system_options.json
-
-.. _pydarwin_home_env_var:
-
-    * | **PYDARWIN_HOME** - Env var to override default pyDarwin home.
-      | More on that later
-
-.. _pydarwin_options_env_var:
-
-    * | **PYDARWIN_OPTIONS** - Env var to override some of the settings.
-      | More on that later

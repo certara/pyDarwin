@@ -76,7 +76,7 @@ GP is well suited to the problem of model selection, as according to `Wikipedia 
 it is well suited to black box function with expensive reward calculation. Indeed, experience to date suggests that GP, along with :ref:`GA <GA>` are the most robust and 
 efficient of the ML algorithms, especially if used in combination with a local 1 and 2 bit exhaustive search. 
 
-**Home** See :ref:`pyDarwin home <pydarwin_home>`.
+**Home:** See :ref:`pyDarwin home <pydarwin_home>`.
  
 .. _Integer representation:
 
@@ -88,16 +88,13 @@ is managed internally by pyDarwin and in the case of :ref:`Genetic algorithm<GA>
 
 .. _Local One bit Search: 
 
-**Local One bit Search:** 
-
-In 1 bit local search, first the :ref:`minimal binary representation<minimal binary>` of the model(s) to be seached are generated. Then each bit in that bit string is 'flipped'. So, a search 
-with 30 bits will generate 30 models in each iteration of the 1 bit search. This process is continued, searching on the best model from the previous step until improvment no longer occurs.
+**Local One bit Search:** In 1 bit local search, first the :ref:`minimal binary representation<minimal binary>` of the model(s) to be seached are generated. 
+Then each bit in that bit string is 'flipped'. So, a search with 30 bits will generate 30 models in each iteration of the 1 bit search. 
+This process is continued, searching on the best model from the previous step until improvment no longer occurs.
 
 .. _Local Two bit Search: 
 
-**Local Two bit Search:** 
-
-The 2 bit local search is like the :ref:`1 bit local search<Local One bit Search>` except that every 2 bit change of the :ref:`minimal binary representation<minimal binary>` 
+**Local Two bit Search:** The 2 bit local search is like the :ref:`1 bit local search<Local One bit Search>` except that every 2 bit change of the :ref:`minimal binary representation<minimal binary>` 
 is generated in each step, and all 2 it change combinations are generated and run. 
 This results in a much larger number of models to search, (N^2+n)/2. This process is again repeated until not further improvement occurs.
 
@@ -238,19 +235,19 @@ The full example is given :ref:`example 4<startpk4>`
 .. _nmfe_path:
 
 **nmfe_path:**
-The path to nmfe??.bat (Windows) or just nmfe?? (linux) must be provided in the :ref:`Options file<Options file>`. NMFE?? from NONMEM 7.4 an 7.5 are supported.
+The path to nmfe??.bat (Windows) or just nmfe?? (Linux). Must be provided in the :mono_ref:`nmfe_path<nmfe_path_options_desc>`. Only NONMEM 7.4 and 7.5 are supported.
 
 .. _Options file:
 
-**Options File:** Specified the options for the search, inculding the algorith, the :ref:`fitness/reward criteria <fitness>`, the population size, the number 
+**Options File:** Specifies :ref:`the options <Options>` for the search, inculding the algorith, the :ref:`fitness/reward criteria <fitness>`, the population size, the number 
 of iterations/generations and whether the downhill search is to be executed.
-
 
 
 .. _Output Directory:
 
-**output_dir:** Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is :ref:`{working directory<working directory>`/output. 
-A reasonable value {project_dir} may be used if you want to version control the project and the results.
+| **Output Directory:** Folder where all the files that considered as results will be put, such as results.csv and Final .mod/.lst files. Default value is
+  ':mono_ref:`{working directory}<working directory>`/output'.
+| A reasonable value ``{project_dir}/output`` may be used if you want to version control the project and the results.
 
 .. _Phenotype:
 
@@ -261,7 +258,7 @@ A reasonable value {project_dir} may be used if you want to version control the 
 
 
 **Project Directory** - folder where the template, token and options files are located (and maybe datasets, see :ref:`Data Directory <Data Directory>`).
-Can be provided as an argument for run_search_in_folder or determined by path to options.json (as parent folder). Cannot be set in options file.
+Can be provided as an argument for ``run_search_in_folder`` or determined by path to :file:`options.json` (as parent folder). Cannot be set in options file.
 
 .. _pydarwin_home:
 

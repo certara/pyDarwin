@@ -123,16 +123,15 @@ Gaussian Process is implemented in the scikit-optimize package and desribed <a c
 GP is well suited to the problem of model selection, as according to <a class="reference external" href="https://en.wikipedia.org/wiki/Bayesian_optimization">Wikipedia</a>
 it is well suited to black box function with expensive reward calculation. Indeed, experience to date suggests that GP, along with <a class="reference internal" href="#ga"><span class="std std-ref">GA</span></a> are the most robust and
 efficient of the ML algorithms, especially if used in combination with a local 1 and 2 bit exhaustive search.</p>
-<p><strong>Home</strong> See <a class="reference internal" href="#pydarwin-home"><span class="std std-ref">pyDarwin home</span></a>.</p>
+<p><strong>Home:</strong> See <a class="reference internal" href="#pydarwin-home"><span class="std std-ref">pyDarwin home</span></a>.</p>
 <p id="integer-representation"><strong>Integer representation:</strong> The integer representation of a given model is what is actually used to construct the control file. Specifically, the integer representation is a string
 of integers, with each integer specifying which <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> is to be substituted into the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a>. For example, an integer string of [0,1,2] would substitute the
 0th token set in the the template for the first <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a>, the 1st token set for the 2nd token group and the 3rd token set for the 3rd tokens group. The integer representation
 is managed internally by pyDarwin and in the case of <a class="reference internal" href="#ga"><span class="std std-ref">Genetic algorithm</span></a> derived from the <a class="reference internal" href="#full-binary"><span class="std std-ref">full binary</span></a> representation.</p>
-<p id="local-one-bit-search"><strong>Local One bit Search:</strong></p>
-<p>In 1 bit local search, first the <a class="reference internal" href="#minimal-binary"><span class="std std-ref">minimal binary representation</span></a> of the model(s) to be seached are generated. Then each bit in that bit string is ‘flipped’. So, a search
-with 30 bits will generate 30 models in each iteration of the 1 bit search. This process is continued, searching on the best model from the previous step until improvment no longer occurs.</p>
-<p id="local-two-bit-search"><strong>Local Two bit Search:</strong></p>
-<p>The 2 bit local search is like the <a class="reference internal" href="#local-one-bit-search"><span class="std std-ref">1 bit local search</span></a> except that every 2 bit change of the <a class="reference internal" href="#minimal-binary"><span class="std std-ref">minimal binary representation</span></a>
+<p id="local-one-bit-search"><strong>Local One bit Search:</strong> In 1 bit local search, first the <a class="reference internal" href="#minimal-binary"><span class="std std-ref">minimal binary representation</span></a> of the model(s) to be seached are generated.
+Then each bit in that bit string is ‘flipped’. So, a search with 30 bits will generate 30 models in each iteration of the 1 bit search.
+This process is continued, searching on the best model from the previous step until improvment no longer occurs.</p>
+<p id="local-two-bit-search"><strong>Local Two bit Search:</strong> The 2 bit local search is like the <a class="reference internal" href="#local-one-bit-search"><span class="std std-ref">1 bit local search</span></a> except that every 2 bit change of the <a class="reference internal" href="#minimal-binary"><span class="std std-ref">minimal binary representation</span></a>
 is generated in each step, and all 2 it change combinations are generated and run.
 This results in a much larger number of models to search, (N^2+n)/2. This process is again repeated until not further improvement occurs.</p>
 <p id="local-search"><strong>Local Search:</strong> It has found been <a class="reference external" href="https://www.page-meeting.org/default.asp?abstract=10053">demonstrated</a>  that all of the available algorithms are insufficiently robust at finding the
@@ -233,14 +232,17 @@ all posssible models:</p>
 groups. While more than one level of nested tokens is permitted, the logic of constructing them quickly becomes very complicated.</p>
 <p>The full example is given <a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">example 4</span></a></p>
 <p id="nmfe-path"><strong>nmfe_path:</strong>
-The path to nmfe??.bat (Windows) or just nmfe?? (linux) must be provided in the <a class="reference internal" href="#options-file"><span class="std std-ref">Options file</span></a>. NMFE?? from NONMEM 7.4 an 7.5 are supported.</p>
-<p id="options-file"><strong>Options File:</strong> Specified the options for the search, inculding the algorith, the <a class="reference internal" href="#fitness"><span class="std std-ref">fitness/reward criteria</span></a>, the population size, the number
+The path to nmfe??.bat (Windows) or just nmfe?? (Linux). Must be provided in the <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">nmfe_path</span></a>. Only NONMEM 7.4 and 7.5 are supported.</p>
+<p id="options-file"><strong>Options File:</strong> Specifies <a class="reference internal" href="Options.html#options"><span class="std std-ref">the options</span></a> for the search, inculding the algorith, the <a class="reference internal" href="#fitness"><span class="std std-ref">fitness/reward criteria</span></a>, the population size, the number
 of iterations/generations and whether the downhill search is to be executed.</p>
-<p id="output-directory"><strong>output_dir:</strong> Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is <a class="reference internal" href="#working-directory"><span class="std std-ref">{working directory</span></a>/output.
-A reasonable value {project_dir} may be used if you want to version control the project and the results.</p>
+<div class="line-block" id="output-directory">
+<div class="line"><strong>Output Directory:</strong> Folder where all the files that considered as results will be put, such as results.csv and Final .mod/.lst files. Default value is
+‘<a class="reference internal" href="#working-directory"><span class="std std-ref">{working directory}</span></a>/output’.</div>
+<div class="line">A reasonable value <code class="docutils literal notranslate"><span class="pre">{project_dir}/output</span></code> may be used if you want to version control the project and the results.</div>
+</div>
 <p id="phenotype"><strong>Phenotype:</strong> The integer string representation for any model.</p>
 <p id="project-directory"><strong>Project Directory</strong> - folder where the template, token and options files are located (and maybe datasets, see <a class="reference internal" href="#data-directory"><span class="std std-ref">Data Directory</span></a>).
-Can be provided as an argument for run_search_in_folder or determined by path to options.json (as parent folder). Cannot be set in options file.</p>
+Can be provided as an argument for <code class="docutils literal notranslate"><span class="pre">run_search_in_folder</span></code> or determined by path to <code class="file docutils literal notranslate"><span class="pre">options.json</span></code> (as parent folder). Cannot be set in options file.</p>
 <p id="pydarwin-home"><strong>pyDarwin home</strong> Default location for every project’s <a class="reference internal" href="#working-directory"><span class="std std-ref">{working_dir}</span></a>. Usually is set to <code class="docutils literal notranslate"><span class="pre">&lt;user</span> <span class="pre">home</span> <span class="pre">dir&gt;/pydarwin</span></code>. Can be relocated using <a class="reference internal" href="Options.html#pydarwin-home-env-var"><span class="std std-ref">PYDARWIN_HOME</span></a>.</p>
 <p id="reward"><strong>Reward:</strong> A number representing the overall “goodness” of the candidate, the sum of -2LL and the user defined penalties. Called fitness in GA.</p>
 <p id="rf"><strong>RF - Random Forest:</strong> <a class="reference external" href="https://en.wikipedia.org/wiki/Random_forests">Random Forest</a> consist of spliting the search space (based on the “goodness” of each model in this case) thus continuously dividing the

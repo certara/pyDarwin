@@ -418,7 +418,7 @@ Here is the list of all avaiable options. Note that many of them have default va
 .. _working_dir_options_desc:
 
 * | **working_dir** - *string*: The project's working directory, where all the necessary files and folders are created. Also it's a default location of output and temp folders.
-  | By default is set to ``<pyDarwin home>/{project_stem}``, where <pyDarwin home> is <user home dir>/pydarwin. <pyDarwin home> can be relocated using :ref:`PYDARWIN_HOME<pydarwin_home_env_var>`.
+  | By default is set to ':mono_ref:`\<pyDarwin home\><pydarwin_home>`/:mono_ref:`{project_stem} <project_stem_alias>`'.
   | Aliased as :mono_ref:`{working_dir}<working_dir_alias>`.
 
 .. _data_dir_options_desc:

@@ -184,7 +184,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 
     <a class="reference internal" href="#generic-grid-adapter-options-desc"><span class="std std-ref">&quot;generic_grid_adapter&quot;</span></a>: {
         <a class="reference internal" href="#python-path-options-desc"><span class="std std-ref">&quot;python_path&quot;</span></a>: &quot;~/darwin/venv/bin/python&quot;,
-        <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">&quot;submit_search_command&quot;</span></a>: &quot;qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'&quot;,
+        <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">&quot;submit_search_command&quot;</span></a>: &quot;qsub -b y -cwd -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'&quot;,
         <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">&quot;submit_command&quot;</span></a>: &quot;qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}&quot;,
         <a class="reference internal" href="#submit-job-id-re-options-desc"><span class="std std-ref">&quot;submit_job_id_re&quot;</span></a>: &quot;Your job (\w+) \(&quot;.+?&quot;\) has been submitted&quot;,
         <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">&quot;poll_command&quot;</span></a>: &quot;qstat -s z&quot;,
@@ -710,7 +710,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <div><ul>
 <li><div class="line-block">
 <div class="line"><strong>submit_search_command</strong> <sup>required</sup> - <em>string</em>: A command that submits search job to the grid queue. Similar to <code class="docutils literal notranslate"><span class="pre">submit_command</span></code>, but for entire search.</div>
-<div class="line">May look like this: <code class="docutils literal notranslate"><span class="pre">qsub</span> <span class="pre">-b</span> <span class="pre">y</span> <span class="pre">-o</span> <span class="pre">{project_stem}_out.txt</span> <span class="pre">-e</span> <span class="pre">{project_stem}_err.txt</span> <span class="pre">-N</span> <span class="pre">'{project_name}'</span></code></div>
+<div class="line">May look like this: <code class="docutils literal notranslate"><span class="pre">qsub</span> <span class="pre">-b</span> <span class="pre">y</span> <span class="pre">-cwd</span> <span class="pre">-o</span> <span class="pre">{project_stem}_out.txt</span> <span class="pre">-e</span> <span class="pre">{project_stem}_err.txt</span> <span class="pre">-N</span> <span class="pre">'{project_name}'</span></code></div>
 <div class="line">Required only for <a class="reference internal" href="Usage.html#running-grid-search"><span class="std std-ref">grid search</span></a>.</div>
 <div class="line">Available aliases are: <a class="reference internal" href="#common-aliases"><span class="std std-ref">all common aliases</span></a>.</div>
 </div>

@@ -92,7 +92,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 
         :ref:`"generic_grid_adapter" <generic_grid_adapter_options_desc>`: {
             :ref:`"python_path" <python_path_options_desc>`: "~/darwin/venv/bin/python",
-            :ref:`"submit_search_command" <submit_search_command_options_desc>`: "qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'",
+            :ref:`"submit_search_command" <submit_search_command_options_desc>`: "qsub -b y -cwd -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'",
             :ref:`"submit_command" <submit_command_options_desc>`: "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
             :ref:`"submit_job_id_re" <submit_job_id_re_options_desc>`: "Your job (\\w+) \\(\".+?\"\\) has been submitted",
             :ref:`"poll_command" <poll_command_options_desc>`: "qstat -s z",
@@ -461,7 +461,7 @@ Here is the list of all available options. Note that many of the options have de
 .. _submit_search_command_options_desc:
 
     * | **submit_search_command** :sup:`required` - *string*: A command that submits search job to the grid queue. Similar to ``submit_command``, but for entire search.
-      | May look like this: ``qsub -b y -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_name}'``
+      | May look like this: ``qsub -b y -cwd -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_name}'``
       | Required only for :ref:`grid search<running_grid_search>`.
       | Available aliases are: :ref:`all common aliases<common_aliases>`.
 

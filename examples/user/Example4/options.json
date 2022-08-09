@@ -18,7 +18,7 @@
     "random_seed": 11,
     "population_size": 80,
     "num_parallel": 4,
-    "num_generations": 8,
+    "num_generations": 7,
 
     "downhill_period": 5,
     "num_niches": 2,

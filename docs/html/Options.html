@@ -717,6 +717,10 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </li>
 </ul>
 </div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>No directories are created at the point of submitting the search job. So even if it’s possible to use <code class="docutils literal notranslate"><span class="pre">{working_dir}</span></code>, <code class="docutils literal notranslate"><span class="pre">{out_dir}</span></code>, and <code class="docutils literal notranslate"><span class="pre">{temp_dir}</span></code> in <code class="docutils literal notranslate"><span class="pre">submit_search_command</span></code>, it’s not recommended because in general they don’t exist yet. They may though (if you set those settings to existing folders or run the search locally before submitting it to the grid), that’s why those aliases are not prohibited.</p>
+</div>
 <blockquote id="submit-job-id-re-options-desc">
 <div><ul>
 <li><div class="line-block">

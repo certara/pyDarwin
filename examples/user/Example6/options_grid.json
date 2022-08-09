@@ -28,7 +28,7 @@
     "remove_run_dir": true,
 
     "generic_grid_adapter": {
-            "submit_search_command": "qsub -b y -o {working_dir}/out.txt -e {working_dir}/err.txt -N '{project_name}'",
+            "submit_search_command": "qsub -b y -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_name}'",
             "python_path": "/home/ppolozov/darwin/venv/bin/python",
             "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
             "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",

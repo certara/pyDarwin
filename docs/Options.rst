@@ -461,7 +461,7 @@ Here is the list of all available options. Note that many of the options have de
 .. _submit_search_command_options_desc:
 
     * | **submit_search_command** :sup:`required` - *string*: A command that submits search job to the grid queue. Similar to ``submit_command``, but for entire search.
-      | May look like this: ``qsub -b y -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'``
+      | May look like this: ``qsub -b y -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_name}'``
       | Required only for :ref:`grid search<running_grid_search>`.
       | Available aliases are: :ref:`all common aliases<common_aliases>`.
 
@@ -634,7 +634,7 @@ This environment variable allows you to change :ref:`pyDarwin home<pydarwin_home
          export PYDARWIN_HOME=/mnt/parallel-universe/my-evil-twin/pydarwin
 
 .. note::
-   It's not advised to put pyDarwin home inside temp folder for a variety of different reasons.
+   It's not advised to put pyDarwin home inside temp folder for a variety of reasons.
 
 .. _pydarwin_options_env_var:
 

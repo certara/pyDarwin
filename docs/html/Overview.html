@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Overview &mdash; pyDarwin 1 documentation</title>
@@ -52,13 +52,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#gradient-boosted-random-tree">Gradient Boosted Random Tree</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#file-structure-and-naming">File Structure and Naming</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#saving-nonmem-output">Saving NONMEM output</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#file-structure">File Structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#model-folder-naming">Model/folder naming</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#saving-models">Saving models</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
@@ -100,8 +93,9 @@
              
   <section id="overview">
 <span id="starttheory"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h1>
+<p>pyDarwin implements a number of machine learning algorithms for model selection.</p>
 <dl class="simple">
-<dt>pyDarwin implements a number of machine learning algorithms for model selection. Machine learning algorithms are broadly divided into two categories:</dt><dd><ul class="simple">
+<dt>Machine learning algorithms are broadly divided into two categories:</dt><dd><ul class="simple">
 <li><p>Supervised learning</p></li>
 <li><p>Unsupervised learning</p></li>
 </ul>
@@ -241,6 +235,7 @@ included.</p>
 <span id="gbrt-desc"></span><h3>Gradient Boosted Random Tree<a class="headerlink" href="#gradient-boosted-random-tree" title="Permalink to this heading">¶</a></h3>
 <p><a class="reference external" href="https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad">Gradient Boosted Random Tree</a>
 is similar to Random Forest, but may increase the precision of the tree building by progressively building the tree, and calculating a gradient of the reward/fitness with respect to each decision.</p>
+<aside class="footnote-list brackets">
 <aside class="footnote brackets" id="f1" role="note">
 <span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
 <span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
@@ -255,46 +250,7 @@ is similar to Random Forest, but may increase the precision of the tree building
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">3</a><span class="fn-bracket">]</span></span>
 <p>PAGE 30 (2022) Abstr 10053 [<a class="reference external" href="https://www.page-meeting.org/default.asp?abstract=10053">https://www.page-meeting.org/default.asp?abstract=10053</a>]</p>
 </aside>
-</section>
-</section>
-<section id="file-structure-and-naming">
-<h2>File Structure and Naming<a class="headerlink" href="#file-structure-and-naming" title="Permalink to this heading">¶</a></h2>
-<p>NONMEM control, executable, and output file naming</p>
-<section id="saving-nonmem-output">
-<h3>Saving NONMEM output<a class="headerlink" href="#saving-nonmem-output" title="Permalink to this heading">¶</a></h3>
-<p>NONMEM generates a great deal of file output. For a search of up to 10,000 models, this can become an issue for disc space.
-By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space.
-In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
-Users should take caution and ensure only required tables are generated (as specified in <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>), as table files can become quite
-large, and will not be removed by pyDarwin unless <a class="reference internal" href="Options.html#remove-temp-dir-options-desc"><span class="std std-ref">remove_temp_dir</span></a> is set to true.</p>
-</section>
-<section id="file-structure">
-<h3>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading">¶</a></h3>
-<p>Three user-defined file locations can be set in the <a class="reference internal" href="Options.html#options"><span class="std std-ref">options file</span></a>.</p>
-<ol class="arabic simple">
-<li><p>output_dir - Folder where the results files will be stored, such as results.csv and Final* files.</p></li>
-<li><p>temp_dir - NONMEM models are run in subfolders of this folder.</p></li>
-<li><p>working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files.</p></li>
-</ol>
-<p>See <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a> for additional details.</p>
-</section>
-<section id="model-folder-naming">
-<h3>Model/folder naming<a class="headerlink" href="#model-folder-naming" title="Permalink to this heading">¶</a></h3>
-<p>A model stem is generated from the current generation/iteration and model number of the form NM_generation_model_num. For example, if this is iteration 2, model 3, the model stem would be
-NM_2_3 (or similar, pyDarwin will count the number of models to be generated and used, e.g., nm_02_03 if needed). For the 1 bit downhill, the
-model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill
-model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file, etc. This results in unique names for all models in the search. Models
-are also frequently duplicated. Duplicated files are not rerun, and so those will not appear in the file structure.</p>
-<p>Run folders are similarly named for the generation/iteration and model number. Below is a folder tree for <a class="reference internal" href="Example2.html#startpk2"><span class="std std-ref">Example 2</span></a> with the “temp_dir” option set to c:\example2\rundir and
-“remove_temp_dir” set to false.</p>
-<figure class="align-default">
-<img alt="_images/FileStructure.png" src="_images/FileStructure.png" />
-</figure>
-</section>
-<section id="saving-models">
-<h3>Saving models<a class="headerlink" href="#saving-models" title="Permalink to this heading">¶</a></h3>
-<p>Model results are, by default, saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficiently. The name of the saved JSON file can be set by
-the user. A .csv file describing the course of the search is also saved to results.csv. This file can be used to monitor the progress of the search.</p>
+</aside>
 </section>
 </section>
 </section>

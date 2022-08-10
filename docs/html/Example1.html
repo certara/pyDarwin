@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example 1: PK Model, Trivial Exhaustive Search &mdash; pyDarwin 1 documentation</title>
@@ -100,11 +100,10 @@
   <section id="example-1-pk-model-trivial-exhaustive-search">
 <span id="startpk1"></span><h1>Example 1: PK Model, Trivial Exhaustive Search<a class="headerlink" href="#example-1-pk-model-trivial-exhaustive-search" title="Permalink to this heading">¶</a></h1>
 <p>This first model is quite simple, the search space consists of 6 dimensions, each with 2 options. Thus, the total number of candidate models is
-2^6 = 64 models. As the search space is very small, we’ll search by exhaustive search.</p>
-<p>First step:</p>
-<p>As is the usual practice in POP-PK model selection, the first step will be exploratory data analysis. This serves at least two purposes: To validate the data set
-and to generate initial hypotheses. We will however, for the purpose of this tutorial, skip this step and assume that we have a “correct” data set and a list of
-hypotheses to be tested. The data set for this example is dataExample1.csv and can be found in the pydarwin/examples/user/Example1 folder.</p>
+2^6 = 64 models. As the search space is very small, we’ll perform an exhaustive search. See <a class="reference internal" href="Overview.html#the-algorithms"><span class="std std-ref">details</span></a> on algorithm selection.</p>
+<p>As is the usual practice in POP-PK model selection, the first step will be exploratory data analysis. This serves at least two purposes: to validate the dataset
+and to generate initial hypotheses. For the purpose of this tutorial, we will skip this step and assume that we have a “correct” dataset and a list of
+hypotheses to be tested. The dataset for this example is <code class="docutils literal notranslate"><span class="pre">dataExample1.csv</span></code>. See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">examples</span></a> for more details.</p>
 <p>The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP

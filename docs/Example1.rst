@@ -6,13 +6,11 @@ Example 1: PK Model, Trivial Exhaustive Search
 ==============================================
 
 This first model is quite simple, the search space consists of 6 dimensions, each with 2 options. Thus, the total number of candidate models is 
-2^6 = 64 models. As the search space is very small, we'll search by exhaustive search. 
+2^6 = 64 models. As the search space is very small, we'll perform an exhaustive search. See :ref:`details <The Algorithms>` on algorithm selection.
 
-First step:
-
-As is the usual practice in POP-PK model selection, the first step will be exploratory data analysis. This serves at least two purposes: To validate the data set 
-and to generate initial hypotheses. We will however, for the purpose of this tutorial, skip this step and assume that we have a "correct" data set and a list of 
-hypotheses to be tested. The data set for this example is dataExample1.csv and can be found in the pydarwin/examples/user/Example1 folder.
+As is the usual practice in POP-PK model selection, the first step will be exploratory data analysis. This serves at least two purposes: to validate the dataset 
+and to generate initial hypotheses. For the purpose of this tutorial, we will skip this step and assume that we have a "correct" dataset and a list of 
+hypotheses to be tested. The dataset for this example is ``dataExample1.csv``. See :ref:`examples <examples_target>` for more details.
 
 The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:
 

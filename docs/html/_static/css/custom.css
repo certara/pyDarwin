@@ -90,3 +90,7 @@ a:visited {
     font-family: monospace;
 }
 
+.rst-content dl dt {
+    font-weight: 200;
+    margin-bottom: 12px;
+}

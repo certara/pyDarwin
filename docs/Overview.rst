@@ -1,12 +1,14 @@
-
 .. _startTheory:
 
+###########
 Overview
-=========
+###########
 
-pyDarwin implements a number of machine learning algorithms for model selection. Machine learning algorithms are broadly divided into two categories:
- - Supervised learning
- - Unsupervised learning
+pyDarwin implements a number of machine learning algorithms for model selection. 
+
+Machine learning algorithms are broadly divided into two categories:
+    - Supervised learning
+    - Unsupervised learning
 
 For supervised learning, the algorithm "learns" to associate certain patterns (e.g., a collection of bitmap pictures) with a set of labeled examples. 
 For example, if one has 10,000 pictures of cats and dogs (a training set), with each image labeled as "cat" or "dog", an artificial neural network (ANN) 
@@ -92,8 +94,9 @@ These file are described in :ref:`required files. <startRequiredFiles>`
 
 .. _The Algorithms:
 
+************
 Algorithms
-~~~~~~~~~~~~~
+************
 
 Note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the dataset size increases.
 For problems with larger search spaces, and greater number of model evaluations, :ref:`Genetic algorithm<GA_desc>` or :ref:`Random Forest <RF_desc>` may 
@@ -108,14 +111,15 @@ Below is a list of recommendations for algorithm selection.
 .. _EX_desc:
 
 Exhaustive Search
-------------------
+====================
+
 The exhaustive search algorithm is simple to understand. The search space is initially represented as a string of integers - one for each dimension. To facilitate the search, 
 this integer string is coded into a "minimal binary".
  
 .. _GA_desc:
 
 Genetic Algorithm
--------------------------
+====================
 
 Genetic Algorithm (GA) is a reproduction of the mathematics of evolution/survival of the fittest. A more detailed discussion `on GA can be found here <https://en.wikipedia.org/wiki/Genetic_algorithm>`_, and 
 a very readable (but somewhat dated) reference is Genetic Algorithms in Search, Optimization and Machine Learning 13th ed. Edition by David Goldberg. Details of the options (not all of which are available in pyDarwin) 
@@ -147,7 +151,7 @@ Once the sets of parents are selected, they undergo crossover and mutation and a
 .. _GP_desc:
 
 Gaussian Process
--------------------------
+====================
 
 Gaussian Process is one of the two options used in `Bayesian Optimization <https://en.wikipedia.org/wiki/Bayesian_optimization#>`_. The Gaussian Process specifies the form of the prior and posterior distribution. 
 Initially the distribution is random, as is the case for all the global search algorithms. Once some models have been run, the distribution can be updated (the "tell" step) and new, more imformative samples can be 
@@ -156,7 +160,7 @@ generated (the "tell" step).
 .. _RF_desc:
 
 Random Forest
--------------------------
+====================
 
 `Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consists of splitting the search space (based on the "goodness" of each model in this case) thus continuously dividing the 
 search space into "good" and "bad" regions. As before, the initial divisions are random, but become increasingly well informed as real values for the fitness/reward of models are 
@@ -165,7 +169,7 @@ included.
 .. _GBRT_desc:
 
 Gradient Boosted Random Tree
-------------------------------
+================================
 
 `Gradient Boosted Random Tree <https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad>`_ 
 is similar to Random Forest, but may increase the precision of the tree building by progressively building the tree, and calculating a gradient of the reward/fitness with respect to each decision. 
@@ -175,53 +179,4 @@ is similar to Random Forest, but may increase the precision of the tree building
  
 .. [#f2] PAGE 30 (2022) Abstr 10091 [https://www.page-meeting.org/?abstract=10091]
 
-
 .. [#f3] PAGE 30 (2022) Abstr 10053 [https://www.page-meeting.org/default.asp?abstract=10053]
-
-
-
-File Structure and Naming
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-NONMEM control, executable, and output file naming
-
-Saving NONMEM output
----------------------
-NONMEM generates a great deal of file output. For a search of up to 10,000 models, this can become an issue for disc space. 
-By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space. 
-In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
-Users should take caution and ensure only required tables are generated (as specified in ``template.txt``), as table files can become quite 
-large, and will not be removed by pyDarwin unless :ref:`remove_temp_dir <remove_temp_dir_options_desc>` is set to true. 
-
-File Structure
----------------
-Three user-defined file locations can be set in the :ref:`options file<Options>`.
-
-#. output_dir - Folder where the results files will be stored, such as results.csv and Final* files.
-
-#. temp_dir - NONMEM models are run in subfolders of this folder.
-
-#. working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files. 
-
-See :ref:`Options List<Options>` for additional details.
- 
-
-Model/folder naming
---------------------
-
-A model stem is generated from the current generation/iteration and model number of the form NM_generation_model_num. For example, if this is iteration 2, model 3, the model stem would be 
-NM_2_3 (or similar, pyDarwin will count the number of models to be generated and used, e.g., nm_02_03 if needed). For the 1 bit downhill, the 
-model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill 
-model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file, etc. This results in unique names for all models in the search. Models 
-are also frequently duplicated. Duplicated files are not rerun, and so those will not appear in the file structure.
-
-Run folders are similarly named for the generation/iteration and model number. Below is a folder tree for :ref:`Example 2<startpk2>` with the "temp_dir" option set to c:\\example2\\rundir and 
-"remove_temp_dir" set to false.
-
-.. figure:: FileStructure.png
-
-Saving models
--------------
-
-Model results are, by default, saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficiently. The name of the saved JSON file can be set by 
-the user. A .csv file describing the course of the search is also saved to results.csv. This file can be used to monitor the progress of the search. 

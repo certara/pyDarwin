@@ -328,6 +328,33 @@ algorithm-specific, while others are only relevant for execution on Linux grids.
 See :ref:`Options List<Options>` for details.
 
 
+.. _examples_target:
+
+********************
+Examples
+********************
+
+We have published 6 examples of the above files, which provide a good starting place to explore different algorithms and 
+post-processing features in ``pyDarwin``. Example files can be found inside the `GitHub Repository <https://github.com/certara/pyDarwin/tree/master/examples/user>`_ 
+at ``pyDarwin/examples/user/`` or you can download the files directly `here <https://github.com/certara/pyDarwin/tree/master/examples/user>`_ .
+
+Applicable files for each example are organized into folders by example name e.g., ``Example1``, ``Example2`` etc. The `linux` and `windows`
+subfolders contain reference files used during Quality Engineering Testing, and can be ignored.
+
+After downloading `example files <https://github.com/certara/pyDarwin/tree/master/examples/user>`_, you may simply pass the path to one of the example
+folders to the :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function e.g.,
+
+.. code:: python
+    
+    python -m darwin.run_search_in_folder C:/Workspace/Example1
+
+
+.. note::
+   Ensure that the ``"nmfe_path"`` field  in ``/Example1/options.json `` points to valid location in your file system.
+   This change should be made across all ``options.json`` files in example folders, including other example-specific
+   changes such as ``"rscript_path"`` used in ``/Example4/options.json``.
+   
+
 ********************
 pyDarwin Outputs
 ********************

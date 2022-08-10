@@ -102,7 +102,7 @@
              
   <section id="options-list">
 <span id="options"></span><h1>Options List<a class="headerlink" href="#options-list" title="Permalink to this heading">¶</a></h1>
-<p>Note that the options are saved to a JSON file. JSON supports string, numeric and boolean (true|false).
+<p>Note that the options are saved to a JSON file. JSON supports string, numeric, and boolean (true|false).
 String options must be in quotes. See <a class="reference external" href="https://www.json.org/">JSON</a> for details.</p>
 <p>Below is an example JSON file that demonstrates every possible option. Note, some settings are only
 applicable given algorithm selection and execution environment e.g., GA and grid options.</p>
@@ -208,7 +208,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 </ul>
 <ul id="project-name-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>project_name</strong> - <em>string</em>: Name of the project. By default is set to the name of the parent folder of the options file.</div>
+<div class="line"><strong>project_name</strong> - <em>string</em>: Name of the project. By default, it is set to the name of the parent folder of the options file.</div>
 <div class="line">Aliased as <a class="reference internal" href="#project-name-alias"><span class="std std-ref">{project_name}</span></a>. See also <a class="reference internal" href="#project-stem-alias"><span class="std std-ref">{project_stem}</span></a>.</div>
 </div>
 </li>
@@ -222,7 +222,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 <blockquote id="elitist-num-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>elitist_num</strong> - <em>positive int</em>: How many of the best models from any generation to carry over unchanged to the next generation. Functions like <a class="reference external" href="https://deap.readthedocs.io/en/master/api/tools.html#hall-of-fame/">Hall of Fame</a>  in DEAP.</div>
+<div class="line"><strong>elitist_num</strong> - <em>positive int</em>: Number of best models from any generation to carry over, unchanged, to the next generation. Functions like <a class="reference external" href="https://deap.readthedocs.io/en/master/api/tools.html#hall-of-fame/">Hall of Fame</a>  in DEAP.</div>
 <div class="line"><em>Default</em>: 4</div>
 </div>
 </li>
@@ -231,7 +231,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 <blockquote id="crossover-rate-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>crossover_rate</strong> - <em>real</em>: What fraction of the mating pairs will undergo cross over (real 0.0-1.0).</div>
+<div class="line"><strong>crossover_rate</strong> - <em>real</em>: Fraction of mating pairs that will undergo crossover (real 0.0-1.0).</div>
 <div class="line"><em>Default</em>: 0.95</div>
 </div>
 </li>
@@ -267,7 +267,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 <blockquote id="selection-size-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>selection_size</strong> - <em>positive int</em>: How many “parents” enter in the selection. 2 is highly recommended, experience with other values is very limited.</div>
+<div class="line"><strong>selection_size</strong> - <em>positive int</em>: Number of “parents” to enter in the selection. 2 is highly recommended, experience with other values is very limited.</div>
 <div class="line"><em>Default</em>: 2</div>
 </div>
 </li>
@@ -276,7 +276,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 <blockquote id="crossover-operator-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>crossover_operator</strong> - <em>string</em>: The algorithm for cross over. Only “cxOnePoint” (single point cross over) is available.</div>
+<div class="line"><strong>crossover_operator</strong> - <em>string</em>: The algorithm for crossover. Only “cxOnePoint” (single point crossover) is available.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">&quot;cxOnePoint&quot;</span></code></div>
 </div>
 </li>
@@ -304,12 +304,12 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 <div><ul>
 <li><div class="line-block">
 <div class="line"><strong>niche_penalty</strong> - <em>positive real</em>: Used for calculation of the crowding penalty.
-The niche penalty is calculate by first calculating the “distance matrix”, the pair wise
+The niche penalty is calculated by first finding the “distance matrix”, the pair-wise
 <a class="reference external" href="https://en.wikipedia.org/wiki/Minkowski_distance">Mikowski distance</a> from the present model to all
-other models. The “crowding” quantity is then calculated a the sum of: (distance/niche_radius)**sharing_alpha
+other models. The “crowding” quantity is then calculated as the sum of: (distance/niche_radius)**sharing_alpha
 for all other models in the generation for which the Mikowski distance is less than the niche radius.</div>
 <div class="line">Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche
-penalty is to maintain diversity of models, to avoid premature convergence of the search, by penalizing when models are too
+penalty is to maintain diversity of models, to avoid premature convergence of the search by penalizing when models are too
 similar to other models in the current generation.</div>
 <div class="line"><em>Default</em>: 20</div>
 </div>
@@ -325,24 +325,25 @@ similar to other models in the current generation.</div>
 </ul>
 <ul id="num-parallel-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>num_parallel</strong> - <em>positive int</em>: How many models to handle in parallel, i.e. how many threads are created to handle model runs.</div>
-<div class="line">If the models are run locally, then it’s the maximum number of models running at the same time. Shouldn’t exceed number of cores (logical/virtual processors).</div>
-<div class="line">For grid runs it’s just how many models are sent to the queue and read from results at any given time, execution itself is performed by grid nodes, so actual throughput is managed by grid engine. In this case 4 threads is plenty enough.</div>
+<div class="line"><strong>num_parallel</strong> - <em>positive int</em>: Number of models to execute in parallel, i.e., how many threads to create to handle model runs.</div>
+<div class="line">If the models are run locally, then it’s the maximum number of models running at the same time and should not exceed number of cores (logical/virtual processors).</div>
+<div class="line">For grid runs, it’s the number of models to send to the queue and read from results at any given time, execution itself is performed by grid nodes,
+so actual throughput is managed by the grid engine. In this case, 4 threads are enough.</div>
 <div class="line"><em>Default</em>: 4</div>
 </div>
 </li>
 </ul>
 <ul id="num-generations-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>num_generations</strong> <sup>required</sup> - <em>positive int</em>: How many iterations or generations of the search algorithm to run.</div>
-<div class="line">Not used and not required for Exhaustive search.</div>
+<div class="line"><strong>num_generations</strong> <sup>required</sup> - <em>positive int</em>: Number of iterations or generations of the search algorithm to run.</div>
+<div class="line">Not used/required for Exhaustive search.</div>
 </div>
 </li>
 </ul>
 <ul id="population-size-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>population_size</strong> <sup>required</sup> - <em>positive int</em>: How many models are created in every generation.</div>
-<div class="line">Not used and not required for Exhaustive search.</div>
+<div class="line"><strong>population_size</strong> <sup>required</sup> - <em>positive int</em>: Number of models to create in every generation.</div>
+<div class="line">Not used/required for Exhaustive search.</div>
 </div>
 </li>
 </ul>
@@ -354,15 +355,15 @@ similar to other models in the current generation.</div>
 </li>
 </ul>
 <ul id="exhaustive-batch-size-options-desc">
-<li><p><strong>exhaustive_batch_size</strong> - <em>positive int</em>: Since there is no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so essentially Exhaustive search is split into pseudo-iterations. This setting is the size of those batches.
+<li><p><strong>exhaustive_batch_size</strong> - <em>positive int</em>: Since there are no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so, essentially, Exhaustive search is split into pseudo-iterations. This setting is the size of those batches.
 Several things to take into consideration when choosing the size:</p>
 <ul class="simple">
-<li><p>a typical value would be 50 to 1000</p></li>
-<li><p>in general the size depends on number of jobs you can run in parallel and should be at least 10 to 20 times bigger than that</p></li>
+<li><p>typical value is 50 to 1000</p></li>
+<li><p>in general, the size should be at least 10 to 20 times bigger than the number of models you can run in parallel</p></li>
 <li><p>anything less than 50 is considered ineffective from CPU/grid utilization perspective, as all models in a batch must complete before the next batch starts</p></li>
-<li><p>if you submit model runs to a grid, the size shouldn’t be too big in order to not overwhelm or monopolize your grid queue</p></li>
-<li><p>for local runs you may batch as many models as you want if you don’t mind loosing some cached models in case of any accident (model cache is dumped to a file at the
-end of every batch); unlike grid runs, any parallel searches won’t be affected by this setting since the main influence in case of local runs
+<li><p>if you submit model runs to a grid, the size shouldn’t be too big to avoid overwhelming or monopolizing your grid queue</p></li>
+<li><p>for local runs, you may batch as many models as you want if you don’t mind losing some cached models in case of any accident (model cache is dumped to a file at the
+end of every batch); unlike grid runs, any parallel searches won’t be affected by this setting since the main influence in the case of local runs
 is made by <a class="reference internal" href="#num-parallel-options-desc"><span class="std std-ref">num_parallel</span></a></p></li>
 </ul>
 <div class="line-block">
@@ -372,7 +373,7 @@ is made by <a class="reference internal" href="#num-parallel-options-desc"><span
 </ul>
 <ul id="crash-value-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>crash_value</strong> - <em>positive real</em>:  Value of fitness or reward assigned when model output is not generated. Should be set larger than any anticipate completed model fitness.</div>
+<div class="line"><strong>crash_value</strong> - <em>positive real</em>:  Value of fitness or reward assigned when model output is not generated. Should be set larger than any anticipated completed model fitness.</div>
 <div class="line"><em>Default</em>: 99999999</div>
 </div>
 </li>
@@ -421,7 +422,7 @@ is made by <a class="reference internal" href="#num-parallel-options-desc"><span
 <div><ul>
 <li><div class="line-block">
 <div class="line"><strong>covariance</strong> - <em>real</em>: Penalty added to fitness/reward for failing the covariance step (real number). If a successful covariance step
-is important, this can be set to a large value (e.g., 100), otherwise to 0.</div>
+is important, this can be set to a large value (e.g., 100), otherwise, set to 0.</div>
 <div class="line"><em>Default</em>: 100</div>
 </div>
 </li>
@@ -430,7 +431,7 @@ is important, this can be set to a large value (e.g., 100), otherwise to 0.</div
 <blockquote id="correlation-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>correlation</strong> - <em>real</em>: Penalty added to fitness/reward if any off diagonal element of the correlation matrix of estimate has absolute
+<div class="line"><strong>correlation</strong> - <em>real</em>: Penalty added to fitness/reward if any off-diagonal element of the correlation matrix of estimate has absolute
 value &gt; 0.95 (real number). This penalty will be added if the covariance step fails or is not requested.</div>
 <div class="line"><em>Default</em>: 100</div>
 </div>
@@ -441,7 +442,7 @@ value &gt; 0.95 (real number). This penalty will be added if the covariance step
 <div><ul>
 <li><div class="line-block">
 <div class="line"><strong>condition_number</strong> - <em>real</em>: Penalty added to fitness/reward if the condition number is &gt; 1000.
-This penalty will be added if the covariance step fails or is not requested, e.g. PRINT=E is not included in $COV.</div>
+This penalty will be added if the covariance step fails or is not requested, e.g., PRINT=E is not included in $COV.</div>
 <div class="line"><em>Default</em>: 100</div>
 </div>
 </li>
@@ -452,7 +453,7 @@ This penalty will be added if the covariance step fails or is not requested, e.g
 <li><div class="line-block">
 <div class="line"><strong>non_influential_tokens</strong> - <em>real</em>: Penalty added to fitness/reward if any tokens do not influence the control file (relevant for nested tokens).
 Should be very small (e.g., 0.0001), as the purpose is only for the model with non-influential tokens to be slightly worse
-than the same model without the non influential token(s) to break a tie.</div>
+than the same model without the non-influential token(s) to break a tie.</div>
 <div class="line"><em>Default</em>: 0.00001</div>
 </div>
 </li>
@@ -460,7 +461,7 @@ than the same model without the non influential token(s) to break a tie.</div>
 </div></blockquote>
 <ul id="downhill-period-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>downhill_period</strong> - <em>int</em>: How often to run to run the downhill step. If &lt; 1, no periodic downhill search will be performed.</div>
+<div class="line"><strong>downhill_period</strong> - <em>int</em>: How often to run the downhill step. If &lt; 1, no periodic downhill search will be performed.</div>
 <div class="line"><em>Default</em>: -1</div>
 </div>
 </li>
@@ -485,7 +486,7 @@ downhill step for all algorithms, except Exhaustive Search.</div>
 <ul id="local-2-bit-search-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>local_2_bit_search</strong> - <em>boolean</em>: Whether to perform the <a class="reference internal" href="Glossary.html#local-two-bit-search"><span class="std std-ref">two bit local search</span></a>.
-The two bit local search substantially increase the robustness of the search. All downhill local searches are done starting from <a class="reference internal" href="#num-niches-options-desc"><span class="std std-ref">num_niches models</span></a>.</div>
+The two bit local search substantially increases the robustness of the search. All downhill local searches are done starting from <a class="reference internal" href="#num-niches-options-desc"><span class="std std-ref">num_niches models</span></a>.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
 </div>
 </li>
@@ -499,7 +500,7 @@ The two bit local search substantially increase the robustness of the search. Al
 </ul>
 <ul id="nmfe-path-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>nmfe_path</strong> <sup>required</sup> - <em>string</em>:  The command line for executing NONMEM. Usually it’s a full path to nmfe script.</div>
+<div class="line"><strong>nmfe_path</strong> <sup>required</sup> - <em>string</em>:  The command line for executing NONMEM. Usually, it’s a full path to nmfe script.</div>
 <div class="line">Required if there are actual NONMEM model runs performed. It’s completely ignored until the first model run starts.</div>
 </div>
 </li>
@@ -524,7 +525,7 @@ The two bit local search substantially increase the robustness of the search. Al
 <blockquote id="use-r-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>use_r</strong> - <em>boolean</em>: Whether user supplied R code is to be run after NONMEM execution.</div>
+<div class="line"><strong>use_r</strong> - <em>boolean</em>: Whether user-supplied R code is to be run after NONMEM execution.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
 </div>
 </li>
@@ -552,7 +553,7 @@ The two bit local search substantially increase the robustness of the search. Al
 <blockquote id="r-timeout-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>r_timeout</strong> - <em>positive real</em>: Time out (seconds) for R code execution.</div>
+<div class="line"><strong>r_timeout</strong> - <em>positive real</em>: Timeout (seconds) for R code execution.</div>
 <div class="line"><em>Default</em>: 90</div>
 </div>
 </li>
@@ -561,7 +562,7 @@ The two bit local search substantially increase the robustness of the search. Al
 <blockquote id="use-python-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>use_python</strong> - <em>boolean</em>: Whether user supplied Python code is to be run after NONMEM execution.</div>
+<div class="line"><strong>use_python</strong> - <em>boolean</em>: Whether user-supplied Python code is to be run after NONMEM execution.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
 </div>
 </li>
@@ -587,8 +588,8 @@ The two bit local search substantially increase the robustness of the search. Al
 <ul id="saved-models-file-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>saved_models_file</strong> - <em>string</em>: The file from which to restore Model Cache.</div>
-<div class="line">Doesn’t have any effect if <code class="docutils literal notranslate"><span class="pre">use_saved_models</span></code> isn’t set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</div>
-<div class="line">By default the cache is saved in <code class="docutils literal notranslate"><span class="pre">{working_dir}/models.json</span></code> and cleared every time the search is started. In order to use saved runs rename <code class="docutils literal notranslate"><span class="pre">models.json</span></code> or copy it to a different location.</div>
+<div class="line">Will only have an effect if <code class="docutils literal notranslate"><span class="pre">use_saved_models</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</div>
+<div class="line">By default, the cache is saved in <code class="docutils literal notranslate"><span class="pre">{working_dir}/models.json</span></code> and cleared every time the search is started. To use saved runs, rename <code class="docutils literal notranslate"><span class="pre">models.json</span></code> or copy it to a different location.</div>
 <div class="line">Available aliases are: <a class="reference internal" href="#common-aliases"><span class="std std-ref">all common aliases</span></a>.</div>
 </div>
 </li>
@@ -606,7 +607,7 @@ The two bit local search substantially increase the robustness of the search. Al
 </ul>
 <ul id="remove-run-dir-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>remove_run_dir</strong> - <em>boolean</em>: If <code class="docutils literal notranslate"><span class="pre">true</span></code> will delete the entire model <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">run directory</span></a>, otherwise - only unnecessary files inside it.</div>
+<div class="line"><strong>remove_run_dir</strong> - <em>boolean</em>: If <code class="docutils literal notranslate"><span class="pre">true</span></code>, will delete the entire model <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">run directory</span></a>, otherwise - only unnecessary files inside it.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
 </div>
 </li>
@@ -630,7 +631,7 @@ The two bit local search substantially increase the robustness of the search. Al
 <div class="line"><strong>model_cache</strong> - <em>string</em>: ModelCache subclass to be used.</div>
 <div class="line">Currently there are only <a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache" title="darwin.MemoryModelCache.MemoryModelCache"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.MemoryModelCache</span></code></a>
 and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMemoryModelCache" title="darwin.MemoryModelCache.AsyncMemoryModelCache"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.AsyncMemoryModelCache</span></code></a>.</div>
-<div class="line">You can create your own and use it, for example a cache that stores model runs in a DB. The name is quite arbitrary and doesn’t have any convention/constraints.</div>
+<div class="line">You can create your own and use it (e.g., a cache that stores model runs in a DB. The name is quite arbitrary and doesn’t have any convention/constraints).</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">darwin.MemoryModelCache</span></code></div>
 </div>
 </li>
@@ -661,7 +662,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </ul>
 <ul id="working-dir-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>working_dir</strong> - <em>string</em>: The project’s working directory, where all the necessary files and folders are created. Also it’s a default location of output and temp folders.</div>
+<div class="line"><strong>working_dir</strong> - <em>string</em>: The project’s working directory, where all the necessary files and folders are created. Also, it’s a default location of output and temp folders.</div>
 <div class="line">By default is set to ‘<a class="reference internal" href="Glossary.html#pydarwin-home"><span class="std std-ref">&lt;pyDarwin home&gt;</span></a>/<a class="reference internal" href="#project-stem-alias"><span class="std std-ref">{project_stem}</span></a>’.</div>
 <div class="line">Aliased as <a class="reference internal" href="#working-dir-alias"><span class="std std-ref">{working_dir}</span></a>.</div>
 </div>
@@ -687,7 +688,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </ul>
 <ul id="temp-dir-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>temp_dir</strong> - <em>string</em>: Parent directory for all model runs’ run directories, i.e. where all folders for every iteration is located.</div>
+<div class="line"><strong>temp_dir</strong> - <em>string</em>: Parent directory for all model runs’ run directories, i.e., where all folders for every iteration is located.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">{working_dir}/temp</span></code></div>
 <div class="line">Aliased as <a class="reference internal" href="#temp-dir-alias"><span class="std std-ref">{temp_dir}</span></a>.</div>
 <div class="line">Available aliases are: <a class="reference internal" href="#project-dir-alias"><span class="std std-ref">{project_dir}</span></a>, <a class="reference internal" href="#working-dir-alias"><span class="std std-ref">{working_dir}</span></a>.</div>
@@ -703,14 +704,14 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </ul>
 <blockquote id="python-path-options-desc">
 <div><ul class="simple">
-<li><p><strong>python_path</strong> <sup>required</sup> - <em>string</em>: Path to your Python interpreter, preferably - to the instance of the interpreter located in <a class="reference internal" href="Install.html#install-python-venv"><span class="std std-ref">virtual environment</span></a> where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.</p></li>
+<li><p><strong>python_path</strong> <sup>required</sup> - <em>string</em>: Path to your Python interpreter, preferably to the instance of the interpreter located in <a class="reference internal" href="Install.html#install-python-venv"><span class="std std-ref">virtual environment</span></a> where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="submit-command-options-desc">
 <div><ul>
 <li><div class="line-block">
 <div class="line"><strong>submit_command</strong> <sup>required</sup> - <em>string</em>: A command that submits individual runs to the grid queue. The actual command submitted to the queue is <code class="docutils literal notranslate"><span class="pre">&lt;python_path&gt;</span> <span class="pre">-m</span> <span class="pre">darwin.run_model</span> <span class="pre">&lt;input</span> <span class="pre">file&gt;</span> <span class="pre">&lt;output</span> <span class="pre">file&gt;</span> <span class="pre">&lt;options</span> <span class="pre">file&gt;</span></code>, but you don’t put it in the <code class="docutils literal notranslate"><span class="pre">submit_command</span></code>.</div>
-<div class="line">May look like this: <code class="docutils literal notranslate"><span class="pre">qsub</span> <span class="pre">-b</span> <span class="pre">y</span> <span class="pre">-o</span> <span class="pre">{results_dir}/{run_name}.out</span> <span class="pre">-e</span> <span class="pre">{results_dir}/{run_name}.err</span> <span class="pre">-N</span> <span class="pre">{job_name}</span></code></div>
+<div class="line">Example: <code class="docutils literal notranslate"><span class="pre">qsub</span> <span class="pre">-b</span> <span class="pre">y</span> <span class="pre">-o</span> <span class="pre">{results_dir}/{run_name}.out</span> <span class="pre">-e</span> <span class="pre">{results_dir}/{run_name}.err</span> <span class="pre">-N</span> <span class="pre">{job_name}</span></code></div>
 <div class="line">Available aliases are: <a class="reference internal" href="#common-aliases"><span class="std std-ref">all common aliases</span></a>, <a class="reference internal" href="#job-submit-aliases"><span class="std std-ref">job submit aliases</span></a>.</div>
 </div>
 </li>
@@ -720,7 +721,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <div><ul>
 <li><div class="line-block">
 <div class="line"><strong>submit_search_command</strong> <sup>required</sup> - <em>string</em>: A command that submits search job to the grid queue. Similar to <code class="docutils literal notranslate"><span class="pre">submit_command</span></code>, but for entire search.</div>
-<div class="line">May look like this: <code class="docutils literal notranslate"><span class="pre">qsub</span> <span class="pre">-b</span> <span class="pre">y</span> <span class="pre">-cwd</span> <span class="pre">-o</span> <span class="pre">{project_stem}_out.txt</span> <span class="pre">-e</span> <span class="pre">{project_stem}_err.txt</span> <span class="pre">-N</span> <span class="pre">'{project_name}'</span></code></div>
+<div class="line">Example: <code class="docutils literal notranslate"><span class="pre">qsub</span> <span class="pre">-b</span> <span class="pre">y</span> <span class="pre">-cwd</span> <span class="pre">-o</span> <span class="pre">{project_stem}_out.txt</span> <span class="pre">-e</span> <span class="pre">{project_stem}_err.txt</span> <span class="pre">-N</span> <span class="pre">'{project_name}'</span></code></div>
 <div class="line">Required only for <a class="reference internal" href="Usage.html#running-grid-search"><span class="std std-ref">grid search</span></a>.</div>
 <div class="line">Available aliases are: <a class="reference internal" href="#common-aliases"><span class="std std-ref">all common aliases</span></a>.</div>
 </div>
@@ -729,7 +730,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </div></blockquote>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>No directories are created at the point of submitting the search job. So even if it’s possible to use <code class="docutils literal notranslate"><span class="pre">{working_dir}</span></code>, <code class="docutils literal notranslate"><span class="pre">{out_dir}</span></code>, and <code class="docutils literal notranslate"><span class="pre">{temp_dir}</span></code> in <code class="docutils literal notranslate"><span class="pre">submit_search_command</span></code>, it’s not recommended because in general they don’t exist yet. They may though (if you set those settings to existing folders or run the search locally before submitting it to the grid), that’s why those aliases are not prohibited.</p>
+<p>No directories are created at the point of submitting the search job. So even if it’s possible to use <code class="docutils literal notranslate"><span class="pre">{working_dir}</span></code>, <code class="docutils literal notranslate"><span class="pre">{out_dir}</span></code>, and <code class="docutils literal notranslate"><span class="pre">{temp_dir}</span></code> in <code class="docutils literal notranslate"><span class="pre">submit_search_command</span></code>, it’s not recommended. There may be cases where the directories do exist (if you set those settings to existing folders or run the search locally before submitting it to the grid), which is why these aliases are not prohibited.</p>
 </div>
 <blockquote id="submit-job-id-re-options-desc">
 <div><ul>
@@ -743,7 +744,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="poll-command-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>poll_command</strong> <sup>required</sup> - <em>string</em>: A command that retrieves finished jobs from grid controller. If your controller/setup allows you to specify ids/patterns in polling commands, do it (see <code class="docutils literal notranslate"><span class="pre">delete_command</span></code>). If it doesn’t, you have to poll ALL finished jobs: <code class="docutils literal notranslate"><span class="pre">qstat</span> <span class="pre">-s</span> <span class="pre">z</span></code></div>
+<div class="line"><strong>poll_command</strong> <sup>required</sup> - <em>string</em>: A command that retrieves finished jobs from grid controller. If your controller/setup allows you to specify ids/patterns in polling commands, do it (see <code class="docutils literal notranslate"><span class="pre">delete_command</span></code>). If it doesn’t, you must poll ALL finished jobs: <code class="docutils literal notranslate"><span class="pre">qstat</span> <span class="pre">-s</span> <span class="pre">z</span></code></div>
 <div class="line">Available aliases are: <a class="reference internal" href="#common-aliases"><span class="std std-ref">all common aliases</span></a>, <a class="reference internal" href="#job-ids-alias"><span class="std std-ref">{job_ids}</span></a>.</div>
 </div>
 </li>
@@ -773,15 +774,17 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Be careful when using a mask: if your mask matches search job name it may kill your search prematurely, e.g. during saving the cache.</p>
+<p>Be careful when using a mask: if your mask matches the search job name, it may kill your search prematurely, e.g., during saving the cache.</p>
 </div>
 </div></blockquote>
 </section>
 <section id="aliases">
 <h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
-<div class="line">An alias is essentially a substitute text for some keyword. Their main purpose if to unify and to simplify configuration of various projects through different environments.</div>
-<div class="line">We encourage you to get familiar with them and to use them instead of explicit values, e.g. <span class="review">paths to your projects and their internals</span>.</div>
+<div class="line">An alias is essentially a substitute text for some keyword. Their main purpose is to unify and to simplify configuration of various projects through different environments.</div>
+</div>
+<div class="line-block">
+<div class="line">We encourage you to become familiar with them and to use them instead of explicit values, e.g., paths to your projects and their internals.</div>
 </div>
 <section id="common-aliases">
 <span id="id1"></span><h3>Common aliases<a class="headerlink" href="#common-aliases" title="Permalink to this heading">¶</a></h3>
@@ -792,7 +795,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="project-dir-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{project_dir}</strong> - Project folder. Cannot be set directly. It’s set to either folder argument of <code class="docutils literal notranslate"><span class="pre">run_search_in_folder</span></code> (function or module) or parent folder of options file passed to <code class="docutils literal notranslate"><span class="pre">run_search</span></code> (function or module).</div>
+<div class="line"><strong>{project_dir}</strong> - Project folder. Cannot be set directly. It’s set to either the folder argument of <code class="docutils literal notranslate"><span class="pre">run_search_in_folder</span></code> (function or module) or the parent folder of options file passed to <code class="docutils literal notranslate"><span class="pre">run_search</span></code> (function or module).</div>
 <div class="line">Can be used in: <a class="reference internal" href="#data-dir-options-desc"><span class="std std-ref">data_dir</span></a>, <a class="reference internal" href="#output-dir-options-desc"><span class="std std-ref">output_dir</span></a>, <a class="reference internal" href="#temp-dir-options-desc"><span class="std std-ref">temp_dir</span></a>,
 <a class="reference internal" href="#saved-models-file-options-desc"><span class="std std-ref">saved_models_file</span></a>, <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a>,
 <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>, <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
@@ -803,7 +806,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="project-name-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{project_name}</strong> - Alias for <a class="reference internal" href="#project-name-options-desc"><span class="std std-ref">project_name</span></a> setting.</div>
+<div class="line"><strong>{project_name}</strong> - Alias for the <a class="reference internal" href="#project-name-options-desc"><span class="std std-ref">project_name</span></a> setting.</div>
 <div class="line">Can be used in: <a class="reference internal" href="#saved-models-file-options-desc"><span class="std std-ref">saved_models_file</span></a>, <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a>,
 <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>, <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
 </div>
@@ -813,7 +816,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="project-stem-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{project_stem}</strong> - Filesystem-friendly representation of the project name in a way that it will be easy to manage as a folder name, i.e. all non-letters and non-digits are replaced with underscores, like <code class="docutils literal notranslate"><span class="pre">Some</span> <span class="pre">reasonable(ish)</span> <span class="pre">name</span></code> becomes <code class="docutils literal notranslate"><span class="pre">Some_reasonable_ish__name</span></code>. Cannot be set directly.</div>
+<div class="line"><strong>{project_stem}</strong> - A file system friendly representation of the project name in a way that it will be easy to manage as a folder name where all non-letters and non-digits are replaced with underscores, i.e.,  <code class="docutils literal notranslate"><span class="pre">Some</span> <span class="pre">reasonable(ish)</span> <span class="pre">name</span></code> becomes <code class="docutils literal notranslate"><span class="pre">Some_reasonable_ish__name</span></code>. This cannot be set directly.</div>
 <div class="line">Can be used in: <a class="reference internal" href="#saved-models-file-options-desc"><span class="std std-ref">saved_models_file</span></a>, <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a>,
 <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>, <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
 </div>
@@ -823,7 +826,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="working-dir-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{working_dir}</strong> - Alias for <a class="reference internal" href="#working-dir-options-desc"><span class="std std-ref">working_dir</span></a> setting.</div>
+<div class="line"><strong>{working_dir}</strong> - Alias for the <a class="reference internal" href="#working-dir-options-desc"><span class="std std-ref">working_dir</span></a> setting.</div>
 <div class="line">Can be used in: <a class="reference internal" href="#data-dir-options-desc"><span class="std std-ref">data_dir</span></a>, <a class="reference internal" href="#output-dir-options-desc"><span class="std std-ref">output_dir</span></a>, <a class="reference internal" href="#temp-dir-options-desc"><span class="std std-ref">temp_dir</span></a>,
 <a class="reference internal" href="#saved-models-file-options-desc"><span class="std std-ref">saved_models_file</span></a>, <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a>,
 <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>, <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
@@ -834,7 +837,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="data-dir-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{data_dir}</strong> - Alias for <a class="reference internal" href="#data-dir-options-desc"><span class="std std-ref">data_dir</span></a> setting.</div>
+<div class="line"><strong>{data_dir}</strong> - Alias for the <a class="reference internal" href="#data-dir-options-desc"><span class="std std-ref">data_dir</span></a> setting.</div>
 <div class="line">Can be used in: <a class="reference internal" href="#saved-models-file-options-desc"><span class="std std-ref">saved_models_file</span></a>, <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a>,
 <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>, <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
 </div>
@@ -844,7 +847,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="output-dir-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{output_dir}</strong> - Alias for <a class="reference internal" href="#output-dir-options-desc"><span class="std std-ref">output_dir</span></a> setting.</div>
+<div class="line"><strong>{output_dir}</strong> - Alias for the <a class="reference internal" href="#output-dir-options-desc"><span class="std std-ref">output_dir</span></a> setting.</div>
 <div class="line">Can be used in: <a class="reference internal" href="#saved-models-file-options-desc"><span class="std std-ref">saved_models_file</span></a>, <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a>,
 <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>, <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
 </div>
@@ -854,7 +857,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="temp-dir-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{temp_dir}</strong> - Alias for <a class="reference internal" href="#temp-dir-options-desc"><span class="std std-ref">temp_dir</span></a> setting.</div>
+<div class="line"><strong>{temp_dir}</strong> - Alias for the <a class="reference internal" href="#temp-dir-options-desc"><span class="std std-ref">temp_dir</span></a> setting.</div>
 <div class="line">Can be used in: <a class="reference internal" href="#saved-models-file-options-desc"><span class="std std-ref">saved_models_file</span></a>, <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a>,
 <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>, <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
 </div>
@@ -864,7 +867,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="algorithm-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{algorithm}</strong> - Alias for <a class="reference internal" href="#algorithm-options-desc"><span class="std std-ref">algorithm</span></a> setting.</div>
+<div class="line"><strong>{algorithm}</strong> - Alias for the <a class="reference internal" href="#algorithm-options-desc"><span class="std std-ref">algorithm</span></a> setting.</div>
 <div class="line">Can be used in: <a class="reference internal" href="#saved-models-file-options-desc"><span class="std std-ref">saved_models_file</span></a>, <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a>,
 <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>, <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
 </div>
@@ -874,7 +877,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="author-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{author}</strong> - Alias for <a class="reference internal" href="#author-options-desc"><span class="std std-ref">author</span></a> setting.</div>
+<div class="line"><strong>{author}</strong> - Alias for the <a class="reference internal" href="#author-options-desc"><span class="std std-ref">author</span></a> setting.</div>
 <div class="line">Can be used in: <a class="reference internal" href="#saved-models-file-options-desc"><span class="std std-ref">saved_models_file</span></a>, <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a>,
 <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>, <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
 </div>
@@ -889,32 +892,32 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <p>These aliases are only applicable to <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>.</p>
 <blockquote id="results-dir-alias">
 <div><ul class="simple">
-<li><p><strong>{results_dir}</strong> - Alias for <code class="docutils literal notranslate"><span class="pre">{working_dir}/run_results</span></code>, where individual runs’ results are stored as ModelRun objects serialized to JSON files.</p></li>
+<li><p><strong>{results_dir}</strong> - Alias for the <code class="docutils literal notranslate"><span class="pre">{working_dir}/run_results</span></code>, where the results of individual runs are stored as ModelRun objects serialized to JSON files.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="job-name-alias">
 <div><ul class="simple">
-<li><p><strong>{job_name}</strong> - Alias for default job name, which is <code class="docutils literal notranslate"><span class="pre">{project_name}-{run_name}</span></code>. <em>Default</em> here doesn’t mean it will be assigned to a job automatically, it’s up to you whether to use it ot generate your own using other available aliases, e.g. <code class="docutils literal notranslate"><span class="pre">{project_name}-{generation}-{run_number}</span></code>.</p></li>
+<li><p><strong>{job_name}</strong> - Alias for the default job name, which is <code class="docutils literal notranslate"><span class="pre">{project_name}-{run_name}</span></code>. <em>Default</em> here doesn’t mean it will be assigned to a job automatically, it’s up to the user to decide whether to use it or generate your own using other available aliases, e.g., <code class="docutils literal notranslate"><span class="pre">{project_name}-{generation}-{run_number}</span></code>.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="run-name-alias">
 <div><ul class="simple">
-<li><p><strong>{run_name}</strong> - Alias for <a class="reference internal" href="API.html#model-run-stem"><span class="std std-ref">ModelRun.file_stem</span></a>.</p></li>
+<li><p><strong>{run_name}</strong> - Alias for the <a class="reference internal" href="API.html#model-run-stem"><span class="std std-ref">ModelRun.file_stem</span></a>.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="generation-alias">
 <div><ul class="simple">
-<li><p><strong>{generation}</strong> - Alias for <a class="reference internal" href="API.html#model-run-generation"><span class="std std-ref">ModelRun.generation</span></a>.</p></li>
+<li><p><strong>{generation}</strong> - Alias for the <a class="reference internal" href="API.html#model-run-generation"><span class="std std-ref">ModelRun.generation</span></a>.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="run-number-alias">
 <div><ul class="simple">
-<li><p><strong>{run_number}</strong> - Alias for <a class="reference internal" href="API.html#model-run-num"><span class="std std-ref">ModelRun.model_num</span></a>.</p></li>
+<li><p><strong>{run_number}</strong> - Alias for the <a class="reference internal" href="API.html#model-run-num"><span class="std std-ref">ModelRun.model_num</span></a>.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="run-dir-alias">
 <div><ul class="simple">
-<li><p><strong>{run_dir}</strong> - Alias for <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">ModelRun.run_dir</span></a>.</p></li>
+<li><p><strong>{run_dir}</strong> - Alias for the <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">ModelRun.run_dir</span></a>.</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -923,7 +926,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="job-ids-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{job_ids}</strong> - Alias for a space separated list of ids of all unfinished jobs that were submitted by <a class="reference internal" href="API.html#generic-grid-adapter"><span class="std std-ref">GenericGridAdapter</span></a> from current Population.</div>
+<div class="line"><strong>{job_ids}</strong> - Alias for a whitespace delimited list of ids of all unfinished jobs that were submitted by <a class="reference internal" href="API.html#generic-grid-adapter"><span class="std std-ref">GenericGridAdapter</span></a> from the current Population.</div>
 <div class="line">Can be used in: <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
 </div>
 </li>
@@ -934,7 +937,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </section>
 <section id="environment-variables">
 <h2>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">¶</a></h2>
-<p>There are a couple of environment variables you might want to set in order to improve your pyDarwin experience.</p>
+<p>There are a few environment variables that you may want to set in order to facilitate <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> ease of use.</p>
 <section id="pydarwin-home">
 <span id="pydarwin-home-env-var"></span><h3>PYDARWIN_HOME<a class="headerlink" href="#pydarwin-home" title="Permalink to this heading">¶</a></h3>
 <p>This environment variable allows you to change <a class="reference internal" href="Glossary.html#pydarwin-home"><span class="std std-ref">pyDarwin home</span></a> to an arbitrary <strong>existing</strong> directory.</p>
@@ -966,11 +969,9 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </section>
 <section id="settings-override">
 <span id="id3"></span><h2>Settings override<a class="headerlink" href="#settings-override" title="Permalink to this heading">¶</a></h2>
-<div class="line-block">
-<div class="line">At some point you may start running your projects in different environments. It would be quite annoying to edit <code class="docutils literal notranslate"><span class="pre">nmfe_path</span></code> and <code class="docutils literal notranslate"><span class="pre">rscript_path</span></code> every time you copy the project between Windows and Linux forth and back. And 40 core CPUs are not widely available yet.</div>
-<div class="line">To avoid this you can create a separate options file for every environment (even every user if you wish) and put all environment-specific settings there. Then you just set PYDARWIN_OPTIONS to the path of that file, and every setting from that file will override corresponding settings in any options.json of any project you run in that environment.</div>
-<div class="line">Overriding can be switched off by <a class="reference internal" href="#use-system-options-options-desc"><span class="std std-ref">use_system_options</span></a> set to <code class="docutils literal notranslate"><span class="pre">false</span></code>.</div>
-</div>
+<p>At some point you may start running your projects in different environments. It may become quite annoying to edit <code class="docutils literal notranslate"><span class="pre">nmfe_path</span></code> and <code class="docutils literal notranslate"><span class="pre">rscript_path</span></code> every time you copy the project back and forth between Windows and Linux.</p>
+<p>To avoid this you can create a separate options file for every environment (even every user if you wish) and place all the environment-specific settings inside this file. Then, you can just set PYDARWIN_OPTIONS to the path of that file, and every setting from that file will override corresponding settings in any options.json of any project you run in that environment.
+Overriding can be switched off by <a class="reference internal" href="#use-system-options-options-desc"><span class="std std-ref">use_system_options</span></a> set to <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You set <code class="docutils literal notranslate"><span class="pre">use_system_options</span></code> in the project’s <code class="file docutils literal notranslate"><span class="pre">options.json</span></code>, not in the common one.</p>
@@ -983,7 +984,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <li><p><code class="docutils literal notranslate"><span class="pre">author</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">random_seed</span></code></p></li>
 </ul>
-<p>Basically any setting can be overridden, just be cautious not to override algorithm or penalties. Unless you know it’s exactly what you want.</p>
+<p>Basically, any setting can be overridden. However, be cautious to not override the algorithm or penalties (unless this is intended).</p>
 <p>When you override nested settings, you don’t have to specify every single value in the section, only those you want to be changed.</p>
 <p>For example:</p>
 <div class="sphinx-tabs docutils container">
@@ -1050,10 +1051,10 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </pre></div>
 </div>
 </div></div>
-<p>Basically, pyDarwin loads options.json, then system_options.json, then merges those two together so values from system_options overwrite the original ones. After that all default values are applied, and you get your settings ready.</p>
+<p>In terms of options priority, <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> loads options.json, then system_options.json, then merges those two together so values from system_options overwrite the original ones. After that, all default values are applied, and resulting options values are used.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When running models on a grid, individual models are run on different nodes (in different evironments), so you either override settings on every node or don’t override it at all.</p>
+<p>When running models on a grid, individual models are run on different nodes (in different environments). You must ensure that you either override settings on every node, or, don’t override it at all.</p>
 </div>
 </section>
 </section>

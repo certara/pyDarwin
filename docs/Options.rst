@@ -219,7 +219,7 @@ Here is the list of all available options. Note that many of the options have de
   Several things to take into consideration when choosing the size:
 
   * typical value is 50 to 1000
-  * in general, the size should be at least 10 to 20 times bigger than the number of jobs you can run in parallel
+  * in general, the size should be at least 10 to 20 times bigger than the number of models you can run in parallel
   * anything less than 50 is considered ineffective from CPU/grid utilization perspective, as all models in a batch must complete before the next batch starts
   * if you submit model runs to a grid, the size shouldn't be too big to avoid overwhelming or monopolizing your grid queue
   * for local runs, you may batch as many models as you want if you don't mind losing some cached models in case of any accident (model cache is dumped to a file at the
@@ -372,7 +372,7 @@ Here is the list of all available options. Note that many of the options have de
 
 * | **saved_models_file** - *string*: The file from which to restore Model Cache.
   | Will only have an effect if ``use_saved_models`` is set to ``true``.
-  | By default, the cache is saved in ``{working_dir}/models.json`` and cleared every time the search is started. To to use saved runs, rename ``models.json`` or copy it to a different location.
+  | By default, the cache is saved in ``{working_dir}/models.json`` and cleared every time the search is started. To use saved runs, rename ``models.json`` or copy it to a different location.
   | Available aliases are: :ref:`all common aliases<common_aliases>`.
 
 .. warning::

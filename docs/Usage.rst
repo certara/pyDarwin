@@ -78,7 +78,7 @@ The following requirements should be met in order to execute ``pyDarwin`` on Lin
 * You should be familiar with regular expressions e.g., for usage in ``"submit_job_id_re"`` and ``"poll_job_id_re"`` fields in ``options.json``.
 
 .. note::
-    If all grid nodes share the same file system you can simply deploy pyDarwin in your home directory (always use virtual environment!).
+    If all grid nodes share the same file system, you can simply deploy pyDarwin in your home directory (always use virtual environment!).
 
 There are two ways to utilize grids for search in `pyDarwin`:
 
@@ -121,12 +121,12 @@ Required Files
 ********************
  
  
-The same 3 files are required for any search, whether exhausitve, :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`,
+The same 3 files are required for any search, whether exhaustive, :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`,
 :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` or :ref:`GBRT<GBRT_desc>`. Which algorithm is used is defined in the 
-:ref:`options file<options_file_target>`. The template  file serves as a framework, and looks similar to a 
+:ref:`options file<options_file_target>`. The template file serves as a framework and looks similar to a 
 NONMEM/NMTRAN control file. The tokens file specifies the range of "features" to be searched, and the options 
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution,
-and misc other options related to execution. See :ref:`Options List<Options>`.
+and other options related to execution. See :ref:`Options List<Options>`.
  
 .. _template_file_target:
 
@@ -134,8 +134,8 @@ Template File
 =========================
 
 The template file is a plain ASCII text file. This file is the framework for the construction of the NONMEM 
-control files. Typically, the structure will be quite similar to a NONMEM control file, with all of the usual 
-blocks, e.g. $PROB, $INPUT, $DATA, $SUBS, $PK, $ERROR, $THETA, $OMEGA, $SIGMA, $EST. However, this format is 
+control files. Typically, the structure will be quite similar to a NONMEM control file, with the usual 
+blocks, e.g., $PROB, $INPUT, $DATA, $SUBS, $PK, $ERROR, $THETA, $OMEGA, $SIGMA, $EST. However, this format is 
 completely flexible and entire blocks may be missing from the template file (to be provided from the 
 :ref:`tokens file<tokens_file_target>`)
 
@@ -205,14 +205,10 @@ and for 2 compartment:
 
 Where \\n is the new line character. These sets of tokens are called tokens sets (2 tokens sets in this example one for ADVAN1, one for ADVAN3). The group of token sets 
 is called a token group. In this example "ADVAN" is the token key. Each token group must have a unique token key. For the first set of options the text "ADVAN1" 
-is referred to as the token text. Each token set consists of key-text pairs: 
-
-token keys (described above) and 
-
-token text
+is referred to as the token text. Each token set consists of key-text pairs: token keys (described above) and token text.
 
 The token, (consisting of "{" + token stem +[N] + "}" where N is an integer specifying which token text in the token set is to be substituted) in the template file is 
-replaced by the token text, specified in the tokens file. Which set of token key-text pairs is substituted is determined by the search algorithm, and provides in 
+replaced by the token text, specified in the tokens file. Which set of token key-text pairs is substituted is determined by the search algorithm and provided in 
 the :ref:`phenotype.<Phenotype>`
 
 
@@ -230,10 +226,10 @@ Parameter initial estimate blocks require special treatment. A template file wil
 
 1. Fixed initial estimates - Initial estimates that are not searched, but will be copied from the template into **ALL** control files. These are the typical $THETA estimates, e.g.: (0,1)  ; THETA(1) Clearance.
 
-2. Searched initial estimates - Initial estimates that are specified in tokens that may or may not be in any given control file. e.g.,: {ALAG[2]} where the text for the ALAG[2] token key is "(0,1) ;; THETA(ALAG) Absorption lag time"
+2. Searched initial estimates - Initial estimates that are specified in tokens that may or may not be in any given control file. e.g., {ALAG[2]} where the text for the ALAG[2] token key is "(0,1) ;; THETA(ALAG) Absorption lag time"
    
 
-There are 3 restriction for the parsing of the initial estimates blocks:
+There are 3 restrictions for the parsing of the initial estimates blocks:
 
 1. Fixed initial estimates **MUST** be placed before Searched Initial estimates.
 
@@ -247,10 +243,10 @@ There are 3 restriction for the parsing of the initial estimates blocks:
 Tokens File
 =========================
 
-The tokens file provide a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the :ref:`token group <token group>`. Token groups are 
+The tokens file provides a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the :ref:`token group <token group>`. Token groups are 
 defined by a unique :ref:`token stem<token stem>`. The token stem also typically serves as the key in the :ref:`token key-text pairs.<token key-text pair>` The token stem is 
 a text string that corresponds to the token key that appears in the :ref:`template file<template>`. 
-The 2nd level in the tokens dictionary are the :ref:`token sets<token set>`. In the template file the tokens are indexed (e.g., ADVAN[1]), as typically multiple token keys 
+The 2nd level in the tokens dictionary is the :ref:`token sets<token set>`. In the template file the tokens are indexed (e.g., ADVAN[1]), as typically multiple token keys 
 will be to be replace by text to create correct syntax. For example, if the search if for 1 compartment (ADVAN1) vs 2 compartment (ADVAN3), for ADVAN3, definitions of K23 
 and K32 must be provided in the $PK block, and (typically) initial estimates must be provided in the $THETA block. Thus, a set of 3 replacements must be made, one in $SUBS, 
 one in $PK and one in $THETA. So, the token set for selection of number of compartments will, for 1 compartment (first option) or 2 compartments (second option), 
@@ -289,7 +285,7 @@ In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3
 
 2. New lines in JSON files are ignored. To code a new line, enter the newline escape character "\\n". Similarly, a tab is coded as "\\t".
 
-3. Comments are not permitted in JSON files. However comments for the generated NMTRAN control file maybe included with the usual syntax ";".
+3. Comments are not permitted in JSON files. However, comments for the generated NMTRAN control file maybe included with the usual syntax ";".
 
 4. There is no dependency on the sequence of token sets in the file, any order is acceptable, they need not be in the same order as they appear in the :ref:`template file.<template_file_target>`
 
@@ -297,9 +293,9 @@ In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3
 
 **Special note on initial estimates**
 
-In order to parse the text in the initial estimates blocks (THETA, OMEGA and SIGMA) the user MUST include token stem text as a NONMEM/NMTRAN comment (i.e. after ";"). There is 
+In order to parse the text in the initial estimates blocks (THETA, OMEGA, and SIGMA) the user MUST include token stem text as a NONMEM/NMTRAN comment (i.e., after ";"). There is 
 no other way to identify which initial estimates are to be associated with which THETA. 
-E.g, if an token stem as two THETAs:
+For example, if a token stem has two THETAs:
 
 ::
 
@@ -327,7 +323,7 @@ Options File
 =========================
 
 A JSON file with key-value pairs specifying various options for executing pyDarwin. While some fields are mandatory, some are
-algorithm specific, while others are only relevant for execution on Linux grids.
+algorithm-specific, while others are only relevant for execution on Linux grids.
 
 See :ref:`Options List<Options>` for details.
 
@@ -349,13 +345,13 @@ When pyDarwin first starts, it starts by confirming that key files are available
 #. If post run R code is requested, Rscript.exe
 
 
-The start up output also lists the location of:
+The startup output also lists the location of:
  
 #. Data dir - folder where datasets are located. It is recommended that this be an absolute path
 #. Project working dir - folder where template, token and options files are located, this is not set by the user
 #. Project temp dir - root folder where model file will be found, if the option is not set to remove them
 #. Project output dir - folder where all the files that considered as results will be put, such as results.csv and Final* files. 
-#. Where intermediate output will be written (e.g. u:/user/example2/output\results.csv)
+#. Where intermediate output will be written (e.g., u:/user/example2/output\results.csv)
 #. Where models will be saved to (e.g., u:/user/example2/working\models.json)
 #. NMFE??.bat (Windows) or nmfe?? (Linux) file
 #. Rscript.exe, if used
@@ -369,7 +365,7 @@ have executed successfully. A typical line of output might be::
 
 The columns in this output are::
     
-    [Time of completion] Iteration = Iteration/generation, Model     Model Number,       Final Staus,    fitness = fitness/reward,    message =  Messages from NMTRAN
+    [Time of completion] Iteration = Iteration/generation, Model     Model Number,       Final Status,    fitness = fitness/reward,    message =  Messages from NMTRAN
 
 If there are messages from NONMEM execution, these will also be written to command line, as well as if execution failed, and, if request, if R execution failed.
 
@@ -381,21 +377,21 @@ File output
 The file output from pyDarwin is generated real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly, 
 messages (what appears on the command line output) is written continuously to the messages.txt file.
 
-**NOTE**. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the "locks" them, e.g. Excel. If, for example 
-the results.csv file is opened in Excel, the next time pyDarwin trys to open it to write the next model output, an exception will occur. The work around is to copy the file to 
+**NOTE**. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the "locks" them, e.g., Excel. If, for example 
+the results.csv file is opened in Excel, the next time pyDarwin tries to open it to write the next model output, an exception will occur. The work around is to copy the file to 
 another file (e.g., cp results.csv results1.csv), then open the copied file.
 
 Messages.txt
 --------------
 
-The messages.txt file will be found in the working dir. This file contents is the same as that output to the command line
+The messages.txt file will be found in the working dir. This file's content is the same as that output to the command line
 
 
 models.json
 --------------
 
 The models.json will contain the key output from all models that are run. This is not a very user friendly file, as it is fairly complex json. The primary (maybe only) use 
-for this file is if a search is interrupted, it can be restarted, and the contents of this file read in, rather than rerunning all of the models. If the goal is to make simple diagnostics 
+for this file is if a search is interrupted, it can be restarted, and the contents of this file read in, rather than rerunning all the models. If the goal is to make simple diagnostics 
 of the search progress, the results.csv file is likely more useful.
 
 
@@ -403,7 +399,7 @@ results.csv
 --------------
 
 The results.csv file contains key information about all models that are run in a more user-friendly format. This file can be used to make plots to monitor progress of the search 
-or to identify models that had unexpected results (Crashes)
+or to identify models that had unexpected results (crashes)
 
 
 File Structure and Naming
@@ -413,14 +409,16 @@ NONMEM control, executable and output file naming
 
 Saving NONMEM outputs
 -----------------------
+
 NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an issue for disc space. 
 By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space. 
 In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
-Care should be take to not generate unneeded table files, as these can become quite large, and will not be removed by pyDarwin. 
+Care should be taken to not generate unneeded table files, as these can become quite large, and will not be removed by pyDarwin. 
 
 File Structure
 ----------------
-Three user define file locations can be set in the :ref:`options file<Options>`. In addition to the folders that are user defined
+
+Three user-defined file locations can be set in the :ref:`options file<Options>`. In addition to the folders that are user defined
 the project directory (project_dir) is the folder where template, token and options files are located. The user define folders are:
 
 #. output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results is intended.
@@ -432,7 +430,6 @@ the project directory (project_dir) is the folder where template, token and opti
 
 Model/folder naming
 --------------------
-
 
 A model stem is generated from the current generation/iteration and model number or the form NM_generation_model_num. For example, if this is iteration 2, model 3 the model stem would be 
 NM_2_3. For the 1 bit downhill, the model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill 

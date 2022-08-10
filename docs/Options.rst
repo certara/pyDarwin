@@ -5,7 +5,7 @@
 Options List
 ============
 
-Note that the options are saved to a JSON file. JSON supports string, numeric and boolean (true|false). 
+Note that the options are saved to a JSON file. JSON supports string, numeric, and boolean (true|false). 
 String options must be in quotes. See `JSON <https://www.json.org/>`_ for details.
 
 Below is an example JSON file that demonstrates every possible option. Note, some settings are only 
@@ -117,7 +117,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _project_name_options_desc:
 
-* | **project_name** - *string*: Name of the project. By default is set to the name of the parent folder of the options file.
+* | **project_name** - *string*: Name of the project. By default, it is set to the name of the parent folder of the options file.
   | Aliased as :mono_ref:`{project_name}<project_name_alias>`. See also :mono_ref:`{project_stem}<project_stem_alias>`.
 
 .. _algorithm_options_desc:
@@ -130,12 +130,12 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _elitist_num_options_desc:
 
-    * | **elitist_num** - *positive int*: How many of the best models from any generation to carry over unchanged to the next generation. Functions like `Hall of Fame <https://deap.readthedocs.io/en/master/api/tools.html#hall-of-fame/>`_  in DEAP. 
+    * | **elitist_num** - *positive int*: Number of best models from any generation to carry over, unchanged, to the next generation. Functions like `Hall of Fame <https://deap.readthedocs.io/en/master/api/tools.html#hall-of-fame/>`_  in DEAP. 
       | *Default*: 4
 
 .. _crossover_rate_options_desc:
 
-    * | **crossover_rate** - *real*: What fraction of the mating pairs will undergo cross over (real 0.0-1.0).
+    * | **crossover_rate** - *real*: Fraction of mating pairs that will undergo crossover (real 0.0-1.0).
       | *Default*: 0.95
 
 .. _mutation_rate_options_desc:
@@ -155,12 +155,12 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _selection_size_options_desc:
 
-    * | **selection_size** - *positive int*: How many "parents" enter in the selection. 2 is highly recommended, experience with other values is very limited.
+    * | **selection_size** - *positive int*: Number of "parents" to enter in the selection. 2 is highly recommended, experience with other values is very limited.
       | *Default*: 2
 
 .. _crossover_operator_options_desc:
 
-    * | **crossover_operator** - *string*: The algorithm for cross over. Only "cxOnePoint" (single point cross over) is available.
+    * | **crossover_operator** - *string*: The algorithm for crossover. Only "cxOnePoint" (single point crossover) is available.
       | *Default*: ``"cxOnePoint"``
 
 .. _mutate_options_desc:
@@ -176,12 +176,12 @@ Here is the list of all available options. Note that many of the options have de
 .. _niche_penalty_options_desc:
 
     * | **niche_penalty** - *positive real*: Used for calculation of the crowding penalty. 
-        The niche penalty is calculate by first calculating the "distance matrix", the pair wise 
+        The niche penalty is calculated by first finding the "distance matrix", the pair-wise 
         `Mikowski distance <https://en.wikipedia.org/wiki/Minkowski_distance>`_ from the present model to all
-        other models. The "crowding" quantity is then calculated a the sum of: (distance/niche_radius)**sharing_alpha
+        other models. The "crowding" quantity is then calculated as the sum of: (distance/niche_radius)**sharing_alpha
         for all other models in the generation for which the Mikowski distance is less than the niche radius.
       | Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche 
-        penalty is to maintain diversity of models, to avoid premature convergence of the search, by penalizing when models are too 
+        penalty is to maintain diversity of models, to avoid premature convergence of the search by penalizing when models are too 
         similar to other models in the current generation.
       | *Default*: 20
 
@@ -192,20 +192,21 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _num_parallel_options_desc:
 
-* | **num_parallel** - *positive int*: How many models to handle in parallel, i.e. how many threads are created to handle model runs.
-  | If the models are run locally, then it's the maximum number of models running at the same time. Shouldn't exceed number of cores (logical/virtual processors).
-  | For grid runs it's just how many models are sent to the queue and read from results at any given time, execution itself is performed by grid nodes, so actual throughput is managed by grid engine. In this case 4 threads is plenty enough.
+* | **num_parallel** - *positive int*: Number of models to execute in parallel, i.e., how many threads to create to handle model runs.
+  | If the models are run locally, then it's the maximum number of models running at the same time and should not exceed number of cores (logical/virtual processors).
+  | For grid runs, it's the number of models to send to the queue and read from results at any given time, execution itself is performed by grid nodes, 
+    so actual throughput is managed by the grid engine. In this case, 4 threads are enough.
   | *Default*: 4
 
 .. _num_generations_options_desc:
 
-* | **num_generations** :sup:`required` - *positive int*: How many iterations or generations of the search algorithm to run.
-  | Not used and not required for Exhaustive search.
+* | **num_generations** :sup:`required` - *positive int*: Number of iterations or generations of the search algorithm to run.
+  | Not used/required for Exhaustive search.
 
 .. _population_size_options_desc:
 
-* | **population_size** :sup:`required` - *positive int*: How many models are created in every generation.
-  | Not used and not required for Exhaustive search.
+* | **population_size** :sup:`required` - *positive int*: Number of models to create in every generation.
+  | Not used/required for Exhaustive search.
 
 .. _num_opt_chains_options_desc:
 
@@ -214,22 +215,22 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _exhaustive_batch_size_options_desc:
 
-* **exhaustive_batch_size** - *positive int*: Since there is no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so essentially Exhaustive search is split into pseudo-iterations. This setting is the size of those batches.
+* **exhaustive_batch_size** - *positive int*: Since there are no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so, essentially, Exhaustive search is split into pseudo-iterations. This setting is the size of those batches.
   Several things to take into consideration when choosing the size:
 
-  * a typical value would be 50 to 1000
-  * in general the size depends on number of jobs you can run in parallel and should be at least 10 to 20 times bigger than that
+  * typical value is 50 to 1000
+  * in general, the size should be at least 10 to 20 times bigger than the number of jobs you can run in parallel
   * anything less than 50 is considered ineffective from CPU/grid utilization perspective, as all models in a batch must complete before the next batch starts
-  * if you submit model runs to a grid, the size shouldn't be too big in order to not overwhelm or monopolize your grid queue
-  * for local runs you may batch as many models as you want if you don't mind loosing some cached models in case of any accident (model cache is dumped to a file at the
-    end of every batch); unlike grid runs, any parallel searches won't be affected by this setting since the main influence in case of local runs
+  * if you submit model runs to a grid, the size shouldn't be too big to avoid overwhelming or monopolizing your grid queue
+  * for local runs, you may batch as many models as you want if you don't mind losing some cached models in case of any accident (model cache is dumped to a file at the
+    end of every batch); unlike grid runs, any parallel searches won't be affected by this setting since the main influence in the case of local runs
     is made by :mono_ref:`num_parallel <num_parallel_options_desc>`
 
   | *Default*: 100
 
 .. _crash_value_options_desc:
 
-* | **crash_value** - *positive real*:  Value of fitness or reward assigned when model output is not generated. Should be set larger than any anticipate completed model fitness.
+* | **crash_value** - *positive real*:  Value of fitness or reward assigned when model output is not generated. Should be set larger than any anticipated completed model fitness.
   | *Default*: 99999999
 
 .. _penalty_options_desc:
@@ -260,31 +261,31 @@ Here is the list of all available options. Note that many of the options have de
 .. _covariance_options_desc:
 
     * | **covariance** - *real*: Penalty added to fitness/reward for failing the covariance step (real number). If a successful covariance step 
-        is important, this can be set to a large value (e.g., 100), otherwise to 0.
+        is important, this can be set to a large value (e.g., 100), otherwise, set to 0.
       | *Default*: 100
 
 .. _correlation_options_desc:
 
-    * | **correlation** - *real*: Penalty added to fitness/reward if any off diagonal element of the correlation matrix of estimate has absolute 
+    * | **correlation** - *real*: Penalty added to fitness/reward if any off-diagonal element of the correlation matrix of estimate has absolute 
         value > 0.95 (real number). This penalty will be added if the covariance step fails or is not requested.
       | *Default*: 100
 
 .. _condition_number_options_desc:
 
     * | **condition_number** - *real*: Penalty added to fitness/reward if the condition number is > 1000.
-        This penalty will be added if the covariance step fails or is not requested, e.g. PRINT=E is not included in $COV.
+        This penalty will be added if the covariance step fails or is not requested, e.g., PRINT=E is not included in $COV.
       | *Default*: 100
 
 .. _non_influential_tokens_options_desc:
 
     * | **non_influential_tokens** - *real*: Penalty added to fitness/reward if any tokens do not influence the control file (relevant for nested tokens).
         Should be very small (e.g., 0.0001), as the purpose is only for the model with non-influential tokens to be slightly worse
-        than the same model without the non influential token(s) to break a tie.
+        than the same model without the non-influential token(s) to break a tie.
       | *Default*: 0.00001
 
 .. _downhill_period_options_desc:
 
-* | **downhill_period** - *int*: How often to run to run the downhill step. If < 1, no periodic downhill search will be performed.
+* | **downhill_period** - *int*: How often to run the downhill step. If < 1, no periodic downhill search will be performed.
   | *Default*: -1
 
 .. _num_niches_options_desc:
@@ -303,7 +304,7 @@ Here is the list of all available options. Note that many of the options have de
 .. _local_2_bit_search_options_desc:
 
 * | **local_2_bit_search** - *boolean*: Whether to perform the :ref:`two bit local search<Local Two bit Search>`.
-    The two bit local search substantially increase the robustness of the search. All downhill local searches are done starting from :ref:`num_niches models<num_niches_options_desc>`.
+    The two bit local search substantially increases the robustness of the search. All downhill local searches are done starting from :ref:`num_niches models<num_niches_options_desc>`.
   | *Default*: ``false``
 
 .. _final_downhill_search_options_desc:
@@ -313,7 +314,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _nmfe_path_options_desc:
 
-* | **nmfe_path** :sup:`required` - *string*:  The command line for executing NONMEM. Usually it's a full path to nmfe script.
+* | **nmfe_path** :sup:`required` - *string*:  The command line for executing NONMEM. Usually, it's a full path to nmfe script.
   | Required if there are actual NONMEM model runs performed. It's completely ignored until the first model run starts.
 
 .. _model_run_timeout_options_desc:
@@ -332,7 +333,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _use_r_options_desc:
 
-    * | **use_r** - *boolean*: Whether user supplied R code is to be run after NONMEM execution.
+    * | **use_r** - *boolean*: Whether user-supplied R code is to be run after NONMEM execution.
       | *Default*: ``false``
 
 .. _rscript_path_options_desc:
@@ -348,12 +349,12 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _r_timeout_options_desc:
 
-    * | **r_timeout** - *positive real*: Time out (seconds) for R code execution.
+    * | **r_timeout** - *positive real*: Timeout (seconds) for R code execution.
       | *Default*: 90
 
 .. _use_python_options_desc:
 
-    * | **use_python** - *boolean*: Whether user supplied Python code is to be run after NONMEM execution.
+    * | **use_python** - *boolean*: Whether user-supplied Python code is to be run after NONMEM execution.
       | *Default*: ``false``
 
 .. _post_run_python_code_options_desc:
@@ -370,8 +371,8 @@ Here is the list of all available options. Note that many of the options have de
 .. _saved_models_file_options_desc:
 
 * | **saved_models_file** - *string*: The file from which to restore Model Cache.
-  | Doesn't have any effect if ``use_saved_models`` isn't set to ``true``.
-  | By default the cache is saved in ``{working_dir}/models.json`` and cleared every time the search is started. In order to use saved runs rename ``models.json`` or copy it to a different location.
+  | Will only have an effect if ``use_saved_models`` is set to ``true``.
+  | By default, the cache is saved in ``{working_dir}/models.json`` and cleared every time the search is started. To to use saved runs, rename ``models.json`` or copy it to a different location.
   | Available aliases are: :ref:`all common aliases<common_aliases>`.
 
 .. warning::
@@ -384,7 +385,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _remove_run_dir_options_desc:
 
-* | **remove_run_dir** - *boolean*: If ``true`` will delete the entire model :mono_ref:`run directory <model_run_dir>`, otherwise - only unnecessary files inside it.
+* | **remove_run_dir** - *boolean*: If ``true``, will delete the entire model :mono_ref:`run directory <model_run_dir>`, otherwise - only unnecessary files inside it.
   | *Default*: ``false``
 
 .. _remove_temp_dir_options_desc:
@@ -402,7 +403,7 @@ Here is the list of all available options. Note that many of the options have de
 * | **model_cache** - *string*: ModelCache subclass to be used.
   | Currently there are only :data:`darwin.MemoryModelCache <darwin.MemoryModelCache.MemoryModelCache>`
     and :data:`darwin.AsyncMemoryModelCache <darwin.MemoryModelCache.AsyncMemoryModelCache>`.
-  | You can create your own and use it, for example a cache that stores model runs in a DB. The name is quite arbitrary and doesn't have any convention/constraints.
+  | You can create your own and use it (e.g., a cache that stores model runs in a DB. The name is quite arbitrary and doesn't have any convention/constraints).
   | *Default*: ``darwin.MemoryModelCache``
 
 .. _model_run_man_options_desc:
@@ -425,7 +426,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _working_dir_options_desc:
 
-* | **working_dir** - *string*: The project's working directory, where all the necessary files and folders are created. Also it's a default location of output and temp folders.
+* | **working_dir** - *string*: The project's working directory, where all the necessary files and folders are created. Also, it's a default location of output and temp folders.
   | By default is set to ':mono_ref:`\<pyDarwin home\><pydarwin_home>`/:mono_ref:`{project_stem} <project_stem_alias>`'.
   | Aliased as :mono_ref:`{working_dir}<working_dir_alias>`.
 
@@ -445,7 +446,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _temp_dir_options_desc:
 
-* | **temp_dir** - *string*: Parent directory for all model runs' run directories, i.e. where all folders for every iteration is located.
+* | **temp_dir** - *string*: Parent directory for all model runs' run directories, i.e., where all folders for every iteration is located.
   | *Default*: ``{working_dir}/temp``
   | Aliased as :mono_ref:`{temp_dir}<temp_dir_alias>`.
   | Available aliases are: :mono_ref:`{project_dir}<project_dir_alias>`, :mono_ref:`{working_dir}<working_dir_alias>`.
@@ -457,23 +458,23 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _python_path_options_desc:
 
-    * **python_path** :sup:`required` - *string*: Path to your Python interpreter, preferably - to the instance of the interpreter located in :ref:`virtual environment<install_python_venv>` where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.
+    * **python_path** :sup:`required` - *string*: Path to your Python interpreter, preferably to the instance of the interpreter located in :ref:`virtual environment<install_python_venv>` where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.
 
 .. _submit_command_options_desc:
 
     * | **submit_command** :sup:`required` - *string*: A command that submits individual runs to the grid queue. The actual command submitted to the queue is ``<python_path> -m darwin.run_model <input file> <output file> <options file>``, but you don't put it in the ``submit_command``.
-      | May look like this: ``qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}``
+      | Example: ``qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}``
       | Available aliases are: :ref:`all common aliases<common_aliases>`, :ref:`job submit aliases<job_submit_aliases>`.
 
 .. _submit_search_command_options_desc:
 
     * | **submit_search_command** :sup:`required` - *string*: A command that submits search job to the grid queue. Similar to ``submit_command``, but for entire search.
-      | May look like this: ``qsub -b y -cwd -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_name}'``
+      | Example: ``qsub -b y -cwd -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_name}'``
       | Required only for :ref:`grid search<running_grid_search>`.
       | Available aliases are: :ref:`all common aliases<common_aliases>`.
 
 .. note::
-   No directories are created at the point of submitting the search job. So even if it's possible to use ``{working_dir}``, ``{out_dir}``, and ``{temp_dir}`` in ``submit_search_command``, it's not recommended because in general they don't exist yet. They may though (if you set those settings to existing folders or run the search locally before submitting it to the grid), that's why those aliases are not prohibited.
+   No directories are created at the point of submitting the search job. So even if it's possible to use ``{working_dir}``, ``{out_dir}``, and ``{temp_dir}`` in ``submit_search_command``, it's not recommended. There may be cases where the directories do exist (if you set those settings to existing folders or run the search locally before submitting it to the grid), which is why these aliases are not prohibited.
 
 .. _submit_job_id_re_options_desc:
 
@@ -482,7 +483,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _poll_command_options_desc:
 
-    * | **poll_command** :sup:`required` - *string*: A command that retrieves finished jobs from grid controller. If your controller/setup allows you to specify ids/patterns in polling commands, do it (see ``delete_command``). If it doesn’t, you have to poll ALL finished jobs: ``qstat -s z``
+    * | **poll_command** :sup:`required` - *string*: A command that retrieves finished jobs from grid controller. If your controller/setup allows you to specify ids/patterns in polling commands, do it (see ``delete_command``). If it doesn’t, you must poll ALL finished jobs: ``qstat -s z``
       | Available aliases are: :ref:`all common aliases<common_aliases>`, :mono_ref:`{job_ids}<job_ids_alias>`.
 
 .. _poll_job_id_re_options_desc:
@@ -500,14 +501,15 @@ Here is the list of all available options. Note that many of the options have de
       | Available aliases are: :ref:`all common aliases<common_aliases>`, :mono_ref:`{job_ids}<job_ids_alias>`.
 
     .. warning::
-       Be careful when using a mask: if your mask matches search job name it may kill your search prematurely, e.g. during saving the cache.
+       Be careful when using a mask: if your mask matches the search job name, it may kill your search prematurely, e.g., during saving the cache.
 
 
 Aliases
 -------------
 
-| An alias is essentially a substitute text for some keyword. Their main purpose if to unify and to simplify configuration of various projects through different environments.
-| We encourage you to get familiar with them and to use them instead of explicit values, e.g. :review:`paths to your projects and their internals`.
+| An alias is essentially a substitute text for some keyword. Their main purpose is to unify and to simplify configuration of various projects through different environments.
+
+| We encourage you to become familiar with them and to use them instead of explicit values, e.g., paths to your projects and their internals.
 
 .. _common_aliases:
 
@@ -519,57 +521,57 @@ Common aliases
 
 .. _project_dir_alias:
 
-  * | **{project_dir}** - Project folder. Cannot be set directly. It's set to either folder argument of ``run_search_in_folder`` (function or module) or parent folder of options file passed to ``run_search`` (function or module).
+  * | **{project_dir}** - Project folder. Cannot be set directly. It's set to either the folder argument of ``run_search_in_folder`` (function or module) or the parent folder of options file passed to ``run_search`` (function or module).
     | Can be used in: :mono_ref:`data_dir <data_dir_options_desc>`, :mono_ref:`output_dir <output_dir_options_desc>`, :mono_ref:`temp_dir <temp_dir_options_desc>`,
       :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
       :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _project_name_alias:
 
-  * | **{project_name}** - Alias for :mono_ref:`project_name<project_name_options_desc>` setting.
+  * | **{project_name}** - Alias for the :mono_ref:`project_name<project_name_options_desc>` setting.
     | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
       :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _project_stem_alias:
 
-  * | **{project_stem}** - Filesystem-friendly representation of the project name in a way that it will be easy to manage as a folder name, i.e. all non-letters and non-digits are replaced with underscores, like ``Some reasonable(ish) name`` becomes ``Some_reasonable_ish__name``. Cannot be set directly.
+  * | **{project_stem}** - A file system friendly representation of the project name in a way that it will be easy to manage as a folder name where all non-letters and non-digits are replaced with underscores, i.e.,  ``Some reasonable(ish) name`` becomes ``Some_reasonable_ish__name``. This cannot be set directly.
     | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
       :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _working_dir_alias:
 
-  * | **{working_dir}** - Alias for :mono_ref:`working_dir<working_dir_options_desc>` setting.
+  * | **{working_dir}** - Alias for the :mono_ref:`working_dir<working_dir_options_desc>` setting.
     | Can be used in: :mono_ref:`data_dir <data_dir_options_desc>`, :mono_ref:`output_dir <output_dir_options_desc>`, :mono_ref:`temp_dir <temp_dir_options_desc>`,
       :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
       :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _data_dir_alias:
 
-  * | **{data_dir}** - Alias for :mono_ref:`data_dir<data_dir_options_desc>` setting.
+  * | **{data_dir}** - Alias for the :mono_ref:`data_dir<data_dir_options_desc>` setting.
     | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
       :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _output_dir_alias:
 
-  * | **{output_dir}** - Alias for :mono_ref:`output_dir<output_dir_options_desc>` setting.
+  * | **{output_dir}** - Alias for the :mono_ref:`output_dir<output_dir_options_desc>` setting.
     | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
       :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _temp_dir_alias:
 
-  * | **{temp_dir}** - Alias for :mono_ref:`temp_dir<temp_dir_options_desc>` setting.
+  * | **{temp_dir}** - Alias for the :mono_ref:`temp_dir<temp_dir_options_desc>` setting.
     | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
       :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _algorithm_alias:
 
-  * | **{algorithm}** - Alias for :mono_ref:`algorithm<algorithm_options_desc>` setting.
+  * | **{algorithm}** - Alias for the :mono_ref:`algorithm<algorithm_options_desc>` setting.
     | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
       :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 .. _author_alias:
 
-  * | **{author}** - Alias for :mono_ref:`author<author_options_desc>` setting.
+  * | **{author}** - Alias for the :mono_ref:`author<author_options_desc>` setting.
     | Can be used in: :mono_ref:`saved_models_file <saved_models_file_options_desc>`, :mono_ref:`submit_search_command <submit_search_command_options_desc>`,
       :mono_ref:`submit_command <submit_command_options_desc>`, :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
@@ -586,41 +588,41 @@ These aliases are only applicable to :mono_ref:`submit_command <submit_command_o
 
 .. _results_dir_alias:
 
-  * **{results_dir}** - Alias for ``{working_dir}/run_results``, where individual runs' results are stored as ModelRun objects serialized to JSON files.
+  * **{results_dir}** - Alias for the ``{working_dir}/run_results``, where the results of individual runs are stored as ModelRun objects serialized to JSON files.
 
 .. _job_name_alias:
 
-  * **{job_name}** - Alias for default job name, which is ``{project_name}-{run_name}``. *Default* here doesn't mean it will be assigned to a job automatically, it's up to you whether to use it ot generate your own using other available aliases, e.g. ``{project_name}-{generation}-{run_number}``.
+  * **{job_name}** - Alias for the default job name, which is ``{project_name}-{run_name}``. *Default* here doesn't mean it will be assigned to a job automatically, it's up to the user to decide whether to use it or generate your own using other available aliases, e.g., ``{project_name}-{generation}-{run_number}``.
 
 .. _run_name_alias:
 
-  * **{run_name}** - Alias for :mono_ref:`ModelRun.file_stem <model_run_stem>`.
+  * **{run_name}** - Alias for the :mono_ref:`ModelRun.file_stem <model_run_stem>`.
 
 .. _generation_alias:
 
-  * **{generation}** - Alias for :mono_ref:`ModelRun.generation <model_run_generation>`.
+  * **{generation}** - Alias for the :mono_ref:`ModelRun.generation <model_run_generation>`.
 
 .. _run_number_alias:
 
-  * **{run_number}** - Alias for :mono_ref:`ModelRun.model_num <model_run_num>`.
+  * **{run_number}** - Alias for the :mono_ref:`ModelRun.model_num <model_run_num>`.
 
 .. _run_dir_alias:
 
-  * **{run_dir}** - Alias for :mono_ref:`ModelRun.run_dir <model_run_dir>`.
+  * **{run_dir}** - Alias for the :mono_ref:`ModelRun.run_dir <model_run_dir>`.
 
 Job delete/poll aliases
 """"""""""""""""""""""""
 
 .. _job_ids_alias:
 
-  * | **{job_ids}** - Alias for a space separated list of ids of all unfinished jobs that were submitted by :ref:`GenericGridAdapter <generic_grid_adapter>` from current Population.
+  * | **{job_ids}** - Alias for a whitespace delimited list of ids of all unfinished jobs that were submitted by :ref:`GenericGridAdapter <generic_grid_adapter>` from the current Population.
     | Can be used in: :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 
 Environment variables
 ------------------------
 
-There are a couple of environment variables you might want to set in order to improve your pyDarwin experience.
+There are a few environment variables that you may want to set in order to facilitate ``pyDarwin`` ease of use.
 
 .. _pydarwin_home_env_var:
 
@@ -673,9 +675,10 @@ This environment variable allows you to :ref:`override settings <settings_overri
 Settings override
 ------------------------
 
-| At some point you may start running your projects in different environments. It would be quite annoying to edit ``nmfe_path`` and ``rscript_path`` every time you copy the project between Windows and Linux forth and back. And 40 |nbsp| core |nbsp| CPUs are not widely available yet.
-| To avoid this you can create a separate options file for every environment (even every user if you wish) and put all environment-specific settings there. Then you just set PYDARWIN_OPTIONS to the path of that file, and every setting from that file will override corresponding settings in any options.json of any project you run in that environment.
-| Overriding can be switched off by :mono_ref:`use_system_options <use_system_options_options_desc>` set to ``false``.
+At some point you may start running your projects in different environments. It may become quite annoying to edit ``nmfe_path`` and ``rscript_path`` every time you copy the project back and forth between Windows and Linux.
+
+To avoid this you can create a separate options file for every environment (even every user if you wish) and place all the environment-specific settings inside this file. Then, you can just set PYDARWIN_OPTIONS to the path of that file, and every setting from that file will override corresponding settings in any options.json of any project you run in that environment.
+Overriding can be switched off by :mono_ref:`use_system_options <use_system_options_options_desc>` set to ``false``.
 
 .. note::
    You set ``use_system_options`` in the project's :file:`options.json`, not in the common one.
@@ -688,7 +691,7 @@ Good candidates to put into common options file are:
 * ``author``
 * ``random_seed``
 
-Basically any setting can be overridden, just be cautious not to override algorithm or penalties. Unless you know it's exactly what you want.
+Basically, any setting can be overridden. However, be cautious to not override the algorithm or penalties (unless this is intended).
 
 When you override nested settings, you don't have to specify every single value in the section, only those you want to be changed.
 
@@ -767,7 +770,7 @@ For example:
             }
         }
 
-Basically, pyDarwin loads options.json, then system_options.json, then merges those two together so values from system_options overwrite the original ones. After that all default values are applied, and you get your settings ready.
+In terms of options priority, ``pyDarwin`` loads options.json, then system_options.json, then merges those two together so values from system_options overwrite the original ones. After that, all default values are applied, and resulting options values are used.
 
 .. note::
-   When running models on a grid, individual models are run on different nodes (in different evironments), so you either override settings on every node or don't override it at all.
+   When running models on a grid, individual models are run on different nodes (in different environments). You must ensure that you either override settings on every node, or, don't override it at all.

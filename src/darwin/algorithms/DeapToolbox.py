@@ -109,12 +109,12 @@ class DeapToolbox:
         return offspring
 
 
-def _sharing(distance: float, niche_radius: int, sharing_alpha: float) -> float:
+def _sharing(distance: float, niche_radius: float, sharing_alpha: float) -> float:
     """
     :param distance: Hamming distance (https://en.wikipedia.org/wiki/Hamming_distance) between models
     :type distance: float
     :param niche_radius: how close to models have to be be be considered in the same niche?
-    :type niche_radius:  int
+    :type niche_radius:  float
     :param sharing_alpha: weighting factor for niche penalty, exponential. 1 is linear
     :type sharing_alpha: float
     :return: the sharing penalty, as a fraction of the niche radius,

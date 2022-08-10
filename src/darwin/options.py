@@ -187,10 +187,10 @@ class Options:
             self.local_2_bit_search = opts.get('local_2_bit_search', False)
 
             if self.downhill_period > 0 or self.final_downhill_search:
-                self.num_niches = _get_mandatory_option(opts, 'num_niches', 'downhill search')
-                self.niche_radius = _get_mandatory_option(opts, 'niche_radius', 'downhill search')
+                self.num_niches = opts.get('num_niches', 2)
+                self.niche_radius = float(opts.get('niche_radius', 2.0))
             elif self.algorithm == 'GA':
-                self.niche_radius = _get_mandatory_option(opts, 'niche_radius', self.algorithm)
+                self.niche_radius = float(opts.get('niche_radius', 2.0))
 
         self.model_run_priority = _get_priority_class(opts)
         self.model_run_timeout = int(opts.get('model_run_timeout', 1200))

@@ -1106,9 +1106,8 @@ Ignore last value if self_search_omega_bands.</p>
 <dt class="sig sig-object py" id="darwin.nonmem.NMEngineAdapter.NMEngineAdapter.cleanup">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_stem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.cleanup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes all unneeded files after run.
-Note that an option “remove_run_dir” in the options file to remove the entire run_dir.
-By default, key files (.lst, .xml, mod and any $TABLE files are retained).</p>
-<p>Note however that any files that starts ‘FILE’ or ‘WK’ will be removed even if remove_run_dir is set to false.</p>
+By default, key files (.lst, .xml, .mod) are retained.
+If remove_run_dir is set to true then entire run_dir is deleted.</p>
 </dd></dl>
 
 <dl class="py method">

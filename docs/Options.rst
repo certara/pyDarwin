@@ -80,6 +80,8 @@ applicable given algorithm selection and execution environment e.g., GA and grid
         :ref:`"remove_run_dir" <remove_run_dir_options_desc>`: false,
         :ref:`"remove_temp_dir" <remove_temp_dir_options_desc>`: true,
 
+        :ref:`"use_system_options" <use_system_options_options_desc>`: true,
+
         :ref:`"model_cache" <model_cache_options_desc>`: "darwin.MemoryModelCache",
         :ref:`"model_run_man" <model_run_man_options_desc>`: "darwin.GridRunManager",
         :ref:`"grid_adapter" <grid_adapter_options_desc>`: "darwin.GenericGridAdapter",
@@ -390,6 +392,11 @@ Here is the list of all available options. Note that many of the options have de
 * | **remove_temp_dir** - *boolean*: Whether to delete entire :mono_ref:`temp_dir <temp_dir_options_desc>` after the search is finished or stopped. Doesn't have any effect when search is :ref:`run on a grid <grid_execution>`.
   | *Default*: ``false``
 
+.. _use_system_options_options_desc:
+
+* | **use_system_options** - *boolean*: Whether to :ref:`override options <settings_override>` with environment-specific values.
+  | *Default*: ``true``
+
 .. _model_cache_options_desc:
 
 * | **model_cache** - *string*: ModelCache subclass to be used.
@@ -613,7 +620,7 @@ Job delete/poll aliases
 Environment variables
 ------------------------
 
-There are a few environment variables you might want to set in order to improve your pyDarwin experience.
+There are a couple of environment variables you might want to set in order to improve your pyDarwin experience.
 
 .. _pydarwin_home_env_var:
 
@@ -644,18 +651,123 @@ This environment variable allows you to change :ref:`pyDarwin home<pydarwin_home
 PYDARWIN_OPTIONS
 ~~~~~~~~~~~~~~~~~~
 
-Env var to override some of the settings.
+This environment variable allows you to :ref:`override settings <settings_override>`.
 
 .. tabs::
 
-   .. group-tab:: cmd.exe
+  .. group-tab:: cmd.exe
 
-      .. code-block:: bat
+    .. code-block:: bat
 
-         set PYDARWIN_OPTIONS=C:\workspace\darwin\system_options.json
+       set PYDARWIN_OPTIONS=C:\workspace\darwin\system_options.json
 
-   .. group-tab:: bash
+  .. group-tab:: bash
 
-      .. code-block:: bash
+    .. code-block:: bash
 
-         export PYDARWIN_OPTIONS=~/darwin/system_options.json
+       export PYDARWIN_OPTIONS=~/darwin/system_options.json
+
+
+.. _settings_override:
+
+Settings override
+------------------------
+
+| At some point you may start running your projects in different environments. It would be quite annoying to edit ``nmfe_path`` and ``rscript_path`` every time you copy the project between Windows and Linux forth and back. And 40 |nbsp| core |nbsp| CPUs are not widely available yet.
+| To avoid this you can create a separate options file for every environment (even every user if you wish) and put all environment-specific settings there. Then you just set PYDARWIN_OPTIONS to the path of that file, and every setting from that file will override corresponding settings in any options.json of any project you run in that environment.
+| Overriding can be switched off by :mono_ref:`use_system_options <use_system_options_options_desc>` set to ``false``.
+
+.. note::
+   You set ``use_system_options`` in the project's :file:`options.json`, not in the common one.
+
+Good candidates to put into common options file are:
+
+* ``nmfe_path``
+* ``rscript_path``
+* ``num_parallel``
+* ``author``
+* ``random_seed``
+
+Basically any setting can be overridden, just be cautious not to override algorithm or penalties. Unless you know it's exactly what you want.
+
+When you override nested settings, you don't have to specify every single value in the section, only those you want to be changed.
+
+For example:
+
+.. tabs::
+
+  .. group-tab:: options.json
+
+    ..  code-block:: json
+
+        {
+            "author": "Mark Sale",
+            "project_name": "Example 11",
+
+            "algorithm": "GA",
+
+            "random_seed": 11,
+            "num_parallel": 40,
+            "num_generations": 14,
+            "population_size": 140,
+
+            "remove_run_dir": true,
+
+            "nmfe_path": "C:/nm744/util/nmfe74.bat",
+
+            "postprocess": {
+                "use_r": true,
+                "post_run_r_code": "{project_dir}/Cmaxppc.r",
+                "rscript_path": "C:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe"
+            }
+        }
+
+  .. group-tab:: system_options.json
+
+    ..  code-block:: json
+
+        {
+            "author": "Certara",
+
+            "random_seed": 11,
+            "num_parallel": 4,
+
+            "remove_run_dir": false,
+
+            "nmfe_path": "C:/nm74g64/util/nmfe74.bat",
+
+            "postprocess": {
+                "rscript_path": "C:/Program Files/R/R-4.0.2/bin/Rscript.exe"
+            }
+        }
+
+  .. group-tab:: resulting content
+
+    ..  code-block:: json
+
+        {
+            "author": "Certara",
+            "project_name": "Example 11",
+
+            "algorithm": "GA",
+
+            "random_seed": 11,
+            "num_parallel": 4,
+            "num_generations": 14,
+            "population_size": 140,
+
+            "remove_run_dir": false,
+
+            "nmfe_path": "C:/nm74g64/util/nmfe74.bat",
+
+            "postprocess": {
+                "use_r": true,
+                "post_run_r_code": "{project_dir}/Cmaxppc.r",
+                "rscript_path": "C:/Program Files/R/R-4.0.2/bin/Rscript.exe"
+            }
+        }
+
+Basically, pyDarwin loads options.json, then system_options.json, then merges those two together so values from system_options overwrite the original ones. After that all default values are applied, and you get your settings ready.
+
+.. note::
+   When running models on a grid, individual models are run on different nodes (in different evironments), so you either override settings on every node or don't override it at all.

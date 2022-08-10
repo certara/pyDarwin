@@ -175,7 +175,7 @@ as a single argument:</p>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If all grid nodes share the same file system you can simply deploy pyDarwin in your home directory (always use virtual environment!).</p>
+<p>If all grid nodes share the same file system, you can simply deploy pyDarwin in your home directory (always use virtual environment!).</p>
 </div>
 <p>There are two ways to utilize grids for search in <cite>pyDarwin</cite>:</p>
 <ol class="arabic simple">
@@ -207,17 +207,17 @@ See <a class="reference internal" href="Options.html#submit-search-command-optio
 </section>
 <section id="required-files">
 <span id="startrequiredfiles"></span><h2>Required Files<a class="headerlink" href="#required-files" title="Permalink to this heading">¶</a></h2>
-<p>The same 3 files are required for any search, whether exhausitve, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a>,
+<p>The same 3 files are required for any search, whether exhaustive, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a>,
 <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a> or <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>. Which algorithm is used is defined in the
-<a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>. The template  file serves as a framework, and looks similar to a
+<a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>. The template file serves as a framework and looks similar to a
 NONMEM/NMTRAN control file. The tokens file specifies the range of “features” to be searched, and the options
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution,
-and misc other options related to execution. See <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a>.</p>
+and other options related to execution. See <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a>.</p>
 <section id="template-file">
 <span id="template-file-target"></span><h3>Template File<a class="headerlink" href="#template-file" title="Permalink to this heading">¶</a></h3>
 <p>The template file is a plain ASCII text file. This file is the framework for the construction of the NONMEM
-control files. Typically, the structure will be quite similar to a NONMEM control file, with all of the usual
-blocks, e.g. $PROB, $INPUT, $DATA, $SUBS, $PK, $ERROR, $THETA, $OMEGA, $SIGMA, $EST. However, this format is
+control files. Typically, the structure will be quite similar to a NONMEM control file, with the usual
+blocks, e.g., $PROB, $INPUT, $DATA, $SUBS, $PK, $ERROR, $THETA, $OMEGA, $SIGMA, $EST. However, this format is
 completely flexible and entire blocks may be missing from the template file (to be provided from the
 <a class="reference internal" href="#tokens-file-target"><span class="std std-ref">tokens file</span></a>)</p>
 <p>The difference between a standard NONMEM control file and the template file is that the user will define code
@@ -272,11 +272,9 @@ For a one compartment model the following substitutions would be made:</p>
 </div>
 <p>Where \n is the new line character. These sets of tokens are called tokens sets (2 tokens sets in this example one for ADVAN1, one for ADVAN3). The group of token sets
 is called a token group. In this example “ADVAN” is the token key. Each token group must have a unique token key. For the first set of options the text “ADVAN1”
-is referred to as the token text. Each token set consists of key-text pairs:</p>
-<p>token keys (described above) and</p>
-<p>token text</p>
+is referred to as the token text. Each token set consists of key-text pairs: token keys (described above) and token text.</p>
 <p>The token, (consisting of “{” + token stem +[N] + “}” where N is an integer specifying which token text in the token set is to be substituted) in the template file is
-replaced by the token text, specified in the tokens file. Which set of token key-text pairs is substituted is determined by the search algorithm, and provides in
+replaced by the token text, specified in the tokens file. Which set of token key-text pairs is substituted is determined by the search algorithm and provided in
 the <a class="reference internal" href="Glossary.html#phenotype"><span class="std std-ref">phenotype.</span></a></p>
 <p>Note that the THETA (and ETA and EPS) indices cannot be determined until the final control file is defined, as THETAs may be included in one and not another token set.
 For this reason, all fixed initial estimates in the $THETA block MUST occur before the THETA values that are not fixed. This is so the
@@ -288,9 +286,9 @@ Note that the permitted syntax for residual error is EPS() or ERR().</p>
 <p>Parameter initial estimate blocks require special treatment. A template file will typically include 2 types of initial estimates:</p>
 <ol class="arabic simple">
 <li><p>Fixed initial estimates - Initial estimates that are not searched, but will be copied from the template into <strong>ALL</strong> control files. These are the typical $THETA estimates, e.g.: (0,1)  ; THETA(1) Clearance.</p></li>
-<li><p>Searched initial estimates - Initial estimates that are specified in tokens that may or may not be in any given control file. e.g.,: {ALAG[2]} where the text for the ALAG[2] token key is “(0,1) ;; THETA(ALAG) Absorption lag time”</p></li>
+<li><p>Searched initial estimates - Initial estimates that are specified in tokens that may or may not be in any given control file. e.g., {ALAG[2]} where the text for the ALAG[2] token key is “(0,1) ;; THETA(ALAG) Absorption lag time”</p></li>
 </ol>
-<p>There are 3 restriction for the parsing of the initial estimates blocks:</p>
+<p>There are 3 restrictions for the parsing of the initial estimates blocks:</p>
 <ol class="arabic simple">
 <li><p>Fixed initial estimates <strong>MUST</strong> be placed before Searched Initial estimates.</p></li>
 <li><p>Each parameter initial estimate must be one a separate line</p></li>
@@ -299,10 +297,10 @@ Note that the permitted syntax for residual error is EPS() or ERR().</p>
 </section>
 <section id="tokens-file">
 <span id="tokens-file-target"></span><h3>Tokens File<a class="headerlink" href="#tokens-file" title="Permalink to this heading">¶</a></h3>
-<p>The tokens file provide a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>. Token groups are
+<p>The tokens file provides a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>. Token groups are
 defined by a unique <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a>. The token stem also typically serves as the key in the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs.</span></a> The token stem is
 a text string that corresponds to the token key that appears in the <a class="reference internal" href="Glossary.html#template"><span class="std std-ref">template file</span></a>.
-The 2nd level in the tokens dictionary are the <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token sets</span></a>. In the template file the tokens are indexed (e.g., ADVAN[1]), as typically multiple token keys
+The 2nd level in the tokens dictionary is the <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token sets</span></a>. In the template file the tokens are indexed (e.g., ADVAN[1]), as typically multiple token keys
 will be to be replace by text to create correct syntax. For example, if the search if for 1 compartment (ADVAN1) vs 2 compartment (ADVAN3), for ADVAN3, definitions of K23
 and K32 must be provided in the $PK block, and (typically) initial estimates must be provided in the $THETA block. Thus, a set of 3 replacements must be made, one in $SUBS,
 one in $PK and one in $THETA. So, the token set for selection of number of compartments will, for 1 compartment (first option) or 2 compartments (second option),
@@ -332,14 +330,14 @@ serves as the token key in the <a class="reference internal" href="Glossary.html
 In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]} and {ADVAN[3]}. Note the curly braces, these are required in the template, but not the tokens file. The indices correspond to the indices of the <a class="reference internal" href="Glossary.html#token"><span class="std std-ref">tokens</span></a> in the token set. In this case there are 3 <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-value pairs</span></a> in each token set. There may be additional unused tokens (as may be the case with <a class="reference internal" href="Glossary.html#nested-tokens"><span class="std std-ref">nest tokens</span></a>, but each token in the template file must have a corresponding token key-value pair in the tokens file. 2 token sets in this token group, one coding for ADVAN1 and one coding for ADVAN3.</p>
 <ol class="arabic simple" start="2">
 <li><p>New lines in JSON files are ignored. To code a new line, enter the newline escape character “\n”. Similarly, a tab is coded as “\t”.</p></li>
-<li><p>Comments are not permitted in JSON files. However comments for the generated NMTRAN control file maybe included with the usual syntax “;”.</p></li>
+<li><p>Comments are not permitted in JSON files. However, comments for the generated NMTRAN control file maybe included with the usual syntax “;”.</p></li>
 <li><p>There is no dependency on the sequence of token sets in the file, any order is acceptable, they need not be in the same order as they appear in the <a class="reference internal" href="#template-file-target"><span class="std std-ref">template file.</span></a></p></li>
 <li><p>All other JSON (<a class="reference external" href="https://www.json.org/json-en.html">JSON</a> ) rules apply.</p></li>
 </ol>
 <p><strong>Special note on initial estimates</strong></p>
-<p>In order to parse the text in the initial estimates blocks (THETA, OMEGA and SIGMA) the user MUST include token stem text as a NONMEM/NMTRAN comment (i.e. after “;”). There is
+<p>In order to parse the text in the initial estimates blocks (THETA, OMEGA, and SIGMA) the user MUST include token stem text as a NONMEM/NMTRAN comment (i.e., after “;”). There is
 no other way to identify which initial estimates are to be associated with which THETA.
-E.g, if an token stem as two THETAs:</p>
+For example, if a token stem has two THETAs:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Effect</span> <span class="o">=</span> <span class="n">THETA</span><span class="p">(</span><span class="n">EMAX</span><span class="p">)</span> <span class="o">*</span> <span class="n">CONC</span><span class="o">/</span><span class="p">(</span><span class="n">THETA</span><span class="p">(</span><span class="n">EC50</span><span class="p">)</span> <span class="o">+</span> <span class="n">CONC</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -356,7 +354,7 @@ is created, this approach would lead to ambiguity. Each initial estimate must be
 <section id="options-file">
 <span id="options-file-target"></span><h3>Options File<a class="headerlink" href="#options-file" title="Permalink to this heading">¶</a></h3>
 <p>A JSON file with key-value pairs specifying various options for executing pyDarwin. While some fields are mandatory, some are
-algorithm specific, while others are only relevant for execution on Linux grids.</p>
+algorithm-specific, while others are only relevant for execution on Linux grids.</p>
 <p>See <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a> for details.</p>
 </section>
 </section>
@@ -373,13 +371,13 @@ algorithm specific, while others are only relevant for execution on Linux grids.
 <li><p>The data file(s) for the first control that is initiated</p></li>
 <li><p>If post run R code is requested, Rscript.exe</p></li>
 </ol>
-<p>The start up output also lists the location of:</p>
+<p>The startup output also lists the location of:</p>
 <ol class="arabic simple">
 <li><p>Data dir - folder where datasets are located. It is recommended that this be an absolute path</p></li>
 <li><p>Project working dir - folder where template, token and options files are located, this is not set by the user</p></li>
 <li><p>Project temp dir - root folder where model file will be found, if the option is not set to remove them</p></li>
 <li><p>Project output dir - folder where all the files that considered as results will be put, such as results.csv and Final* files.</p></li>
-<li><p>Where intermediate output will be written (e.g. u:/user/example2/outputresults.csv)</p></li>
+<li><p>Where intermediate output will be written (e.g., u:/user/example2/outputresults.csv)</p></li>
 <li><p>Where models will be saved to (e.g., u:/user/example2/workingmodels.json)</p></li>
 <li><p>NMFE??.bat (Windows) or nmfe?? (Linux) file</p></li>
 <li><p>Rscript.exe, if used</p></li>
@@ -390,7 +388,7 @@ have executed successfully. A typical line of output might be:</p>
 </pre></div>
 </div>
 <p>The columns in this output are:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Time</span> <span class="n">of</span> <span class="n">completion</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="n">Iteration</span><span class="o">/</span><span class="n">generation</span><span class="p">,</span> <span class="n">Model</span>     <span class="n">Model</span> <span class="n">Number</span><span class="p">,</span>       <span class="n">Final</span> <span class="n">Staus</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="o">/</span><span class="n">reward</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span>  <span class="n">Messages</span> <span class="kn">from</span> <span class="nn">NMTRAN</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Time</span> <span class="n">of</span> <span class="n">completion</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="n">Iteration</span><span class="o">/</span><span class="n">generation</span><span class="p">,</span> <span class="n">Model</span>     <span class="n">Model</span> <span class="n">Number</span><span class="p">,</span>       <span class="n">Final</span> <span class="n">Status</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="o">/</span><span class="n">reward</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span>  <span class="n">Messages</span> <span class="kn">from</span> <span class="nn">NMTRAN</span>
 </pre></div>
 </div>
 <p>If there are messages from NONMEM execution, these will also be written to command line, as well as if execution failed, and, if request, if R execution failed.</p>
@@ -400,23 +398,23 @@ have executed successfully. A typical line of output might be:</p>
 <h3>File output<a class="headerlink" href="#file-output" title="Permalink to this heading">¶</a></h3>
 <p>The file output from pyDarwin is generated real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly,
 messages (what appears on the command line output) is written continuously to the messages.txt file.</p>
-<p><strong>NOTE</strong>. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the “locks” them, e.g. Excel. If, for example
-the results.csv file is opened in Excel, the next time pyDarwin trys to open it to write the next model output, an exception will occur. The work around is to copy the file to
+<p><strong>NOTE</strong>. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the “locks” them, e.g., Excel. If, for example
+the results.csv file is opened in Excel, the next time pyDarwin tries to open it to write the next model output, an exception will occur. The work around is to copy the file to
 another file (e.g., cp results.csv results1.csv), then open the copied file.</p>
 <section id="messages-txt">
 <h4>Messages.txt<a class="headerlink" href="#messages-txt" title="Permalink to this heading">¶</a></h4>
-<p>The messages.txt file will be found in the working dir. This file contents is the same as that output to the command line</p>
+<p>The messages.txt file will be found in the working dir. This file’s content is the same as that output to the command line</p>
 </section>
 <section id="models-json">
 <h4>models.json<a class="headerlink" href="#models-json" title="Permalink to this heading">¶</a></h4>
 <p>The models.json will contain the key output from all models that are run. This is not a very user friendly file, as it is fairly complex json. The primary (maybe only) use
-for this file is if a search is interrupted, it can be restarted, and the contents of this file read in, rather than rerunning all of the models. If the goal is to make simple diagnostics
+for this file is if a search is interrupted, it can be restarted, and the contents of this file read in, rather than rerunning all the models. If the goal is to make simple diagnostics
 of the search progress, the results.csv file is likely more useful.</p>
 </section>
 <section id="results-csv">
 <h4>results.csv<a class="headerlink" href="#results-csv" title="Permalink to this heading">¶</a></h4>
 <p>The results.csv file contains key information about all models that are run in a more user-friendly format. This file can be used to make plots to monitor progress of the search
-or to identify models that had unexpected results (Crashes)</p>
+or to identify models that had unexpected results (crashes)</p>
 </section>
 </section>
 <section id="file-structure-and-naming">
@@ -427,11 +425,11 @@ or to identify models that had unexpected results (Crashes)</p>
 <p>NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an issue for disc space.
 By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space.
 In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
-Care should be take to not generate unneeded table files, as these can become quite large, and will not be removed by pyDarwin.</p>
+Care should be taken to not generate unneeded table files, as these can become quite large, and will not be removed by pyDarwin.</p>
 </section>
 <section id="file-structure">
 <h4>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this heading">¶</a></h4>
-<p>Three user define file locations can be set in the <a class="reference internal" href="Options.html#options"><span class="std std-ref">options file</span></a>. In addition to the folders that are user defined
+<p>Three user-defined file locations can be set in the <a class="reference internal" href="Options.html#options"><span class="std std-ref">options file</span></a>. In addition to the folders that are user defined
 the project directory (project_dir) is the folder where template, token and options files are located. The user define folders are:</p>
 <ol class="arabic simple">
 <li><p>output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results is intended.</p></li>

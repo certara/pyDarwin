@@ -2,5 +2,7 @@
 .. role:: review
 .. |nbsp| unicode:: 0xA0 
    :trim:
+.. |nbdash| unicode:: 8209 
+   :trim:
 .. role:: mono
 .. role:: mono_ref(ref)

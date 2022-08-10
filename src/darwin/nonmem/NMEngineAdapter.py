@@ -154,10 +154,8 @@ class NMEngineAdapter(ModelEngineAdapter):
     def cleanup(run_dir: str, file_stem: str):
         """
         Deletes all unneeded files after run.
-        Note that an option "remove_run_dir" in the options file to remove the entire run_dir.
-        By default, key files (.lst, .xml, mod and any $TABLE files are retained).
-
-        Note however that any files that starts 'FILE' or 'WK' will be removed even if remove_run_dir is set to false.
+        By default, key files (.lst, .xml, .mod) are retained.
+        If remove_run_dir is set to true then entire run_dir is deleted.
         """
 
         try:

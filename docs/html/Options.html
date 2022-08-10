@@ -62,6 +62,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#pydarwin-options">PYDARWIN_OPTIONS</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#settings-override">Settings override</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
@@ -171,6 +172,8 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 
     <a class="reference internal" href="#remove-run-dir-options-desc"><span class="std std-ref">&quot;remove_run_dir&quot;</span></a>: false,
     <a class="reference internal" href="#remove-temp-dir-options-desc"><span class="std std-ref">&quot;remove_temp_dir&quot;</span></a>: true,
+
+    <a class="reference internal" href="#use-system-options-options-desc"><span class="std std-ref">&quot;use_system_options&quot;</span></a>: true,
 
     <a class="reference internal" href="#model-cache-options-desc"><span class="std std-ref">&quot;model_cache&quot;</span></a>: &quot;darwin.MemoryModelCache&quot;,
     <a class="reference internal" href="#model-run-man-options-desc"><span class="std std-ref">&quot;model_run_man&quot;</span></a>: &quot;darwin.GridRunManager&quot;,
@@ -615,6 +618,13 @@ The two bit local search substantially increase the robustness of the search. Al
 </div>
 </li>
 </ul>
+<ul id="use-system-options-options-desc">
+<li><div class="line-block">
+<div class="line"><strong>use_system_options</strong> - <em>boolean</em>: Whether to <a class="reference internal" href="#settings-override"><span class="std std-ref">override options</span></a> with environment-specific values.</div>
+<div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">true</span></code></div>
+</div>
+</li>
+</ul>
 <ul id="model-cache-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>model_cache</strong> - <em>string</em>: ModelCache subclass to be used.</div>
@@ -924,7 +934,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </section>
 <section id="environment-variables">
 <h2>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">¶</a></h2>
-<p>There are a few environment variables you might want to set in order to improve your pyDarwin experience.</p>
+<p>There are a couple of environment variables you might want to set in order to improve your pyDarwin experience.</p>
 <section id="pydarwin-home">
 <span id="pydarwin-home-env-var"></span><h3>PYDARWIN_HOME<a class="headerlink" href="#pydarwin-home" title="Permalink to this heading">¶</a></h3>
 <p>This environment variable allows you to change <a class="reference internal" href="Glossary.html#pydarwin-home"><span class="std std-ref">pyDarwin home</span></a> to an arbitrary <strong>existing</strong> directory.</p>
@@ -943,7 +953,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </section>
 <section id="pydarwin-options">
 <span id="pydarwin-options-env-var"></span><h3>PYDARWIN_OPTIONS<a class="headerlink" href="#pydarwin-options" title="Permalink to this heading">¶</a></h3>
-<p>Env var to override some of the settings.</p>
+<p>This environment variable allows you to <a class="reference internal" href="#settings-override"><span class="std std-ref">override settings</span></a>.</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-Y21kLmV4ZQ==" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-1-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tab" tabindex="0">cmd.exe</button><button aria-controls="panel-1-YmFzaA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-YmFzaA==" name="YmFzaA==" role="tab" tabindex="-1">bash</button></div><div aria-labelledby="tab-1-Y21kLmV4ZQ==" class="sphinx-tabs-panel group-tab" id="panel-1-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="nv">PYDARWIN_OPTIONS</span><span class="p">=</span>C:\workspace\darwin\system_options.json
 </pre></div>
@@ -953,6 +963,98 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </div>
 </div></div>
 </section>
+</section>
+<section id="settings-override">
+<span id="id3"></span><h2>Settings override<a class="headerlink" href="#settings-override" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line">At some point you may start running your projects in different environments. It would be quite annoying to edit <code class="docutils literal notranslate"><span class="pre">nmfe_path</span></code> and <code class="docutils literal notranslate"><span class="pre">rscript_path</span></code> every time you copy the project between Windows and Linux forth and back. And 40 core CPUs are not widely available yet.</div>
+<div class="line">To avoid this you can create a separate options file for every environment (even every user if you wish) and put all environment-specific settings there. Then you just set PYDARWIN_OPTIONS to the path of that file, and every setting from that file will override corresponding settings in any options.json of any project you run in that environment.</div>
+<div class="line">Overriding can be switched off by <a class="reference internal" href="#use-system-options-options-desc"><span class="std std-ref">use_system_options</span></a> set to <code class="docutils literal notranslate"><span class="pre">false</span></code>.</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You set <code class="docutils literal notranslate"><span class="pre">use_system_options</span></code> in the project’s <code class="file docutils literal notranslate"><span class="pre">options.json</span></code>, not in the common one.</p>
+</div>
+<p>Good candidates to put into common options file are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nmfe_path</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rscript_path</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_parallel</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">author</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">random_seed</span></code></p></li>
+</ul>
+<p>Basically any setting can be overridden, just be cautious not to override algorithm or penalties. Unless you know it’s exactly what you want.</p>
+<p>When you override nested settings, you don’t have to specify every single value in the section, only those you want to be changed.</p>
+<p>For example:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-b3B0aW9ucy5qc29u" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-2-b3B0aW9ucy5qc29u" name="b3B0aW9ucy5qc29u" role="tab" tabindex="0">options.json</button><button aria-controls="panel-2-c3lzdGVtX29wdGlvbnMuanNvbg==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-2-c3lzdGVtX29wdGlvbnMuanNvbg==" name="c3lzdGVtX29wdGlvbnMuanNvbg==" role="tab" tabindex="-1">system_options.json</button><button aria-controls="panel-2-cmVzdWx0aW5nIGNvbnRlbnQ=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-2-cmVzdWx0aW5nIGNvbnRlbnQ=" name="cmVzdWx0aW5nIGNvbnRlbnQ=" role="tab" tabindex="-1">resulting content</button></div><div aria-labelledby="tab-2-b3B0aW9ucy5qc29u" class="sphinx-tabs-panel group-tab" id="panel-2-b3B0aW9ucy5qc29u" name="b3B0aW9ucy5qc29u" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mark Sale&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;project_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Example 11&quot;</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;algorithm&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GA&quot;</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;random_seed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;num_parallel&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;num_generations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;population_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">140</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;remove_run_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;nmfe_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/nm744/util/nmfe74.bat&quot;</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;postprocess&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;use_r&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;post_run_r_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{project_dir}/Cmaxppc.r&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;rscript_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:\\Program Files\\R\\R-4.1.3\\bin\\Rscript.exe&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-c3lzdGVtX29wdGlvbnMuanNvbg==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-2-c3lzdGVtX29wdGlvbnMuanNvbg==" name="c3lzdGVtX29wdGlvbnMuanNvbg==" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Certara&quot;</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;random_seed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;num_parallel&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;remove_run_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;nmfe_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/nm74g64/util/nmfe74.bat&quot;</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;postprocess&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;rscript_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/Program Files/R/R-4.0.2/bin/Rscript.exe&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-cmVzdWx0aW5nIGNvbnRlbnQ=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-2-cmVzdWx0aW5nIGNvbnRlbnQ=" name="cmVzdWx0aW5nIGNvbnRlbnQ=" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Certara&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;project_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Example 11&quot;</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;algorithm&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GA&quot;</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;random_seed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;num_parallel&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;num_generations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;population_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">140</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;remove_run_dir&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;nmfe_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/nm74g64/util/nmfe74.bat&quot;</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">    </span><span class="nt">&quot;postprocess&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;use_r&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;post_run_r_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{project_dir}/Cmaxppc.r&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;rscript_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/Program Files/R/R-4.0.2/bin/Rscript.exe&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div></div>
+<p>Basically, pyDarwin loads options.json, then system_options.json, then merges those two together so values from system_options overwrite the original ones. After that all default values are applied, and you get your settings ready.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When running models on a grid, individual models are run on different nodes (in different evironments), so you either override settings on every node or don’t override it at all.</p>
+</div>
 </section>
 </section>
 

@@ -1,19 +1,16 @@
 
-
-
 .. _startpk6:
 
+###########################################################
 Example 6: PK Model, DMAG by RF with post-run Python code
-=========================================================
+###########################################################
 
-Example 6 is again the same data and search as Example 4 and 5, but using :ref:`Random Forest<RF_desc>` for search, and python code for 
+Example 6 is again the same data and search as Example 4 and 5, but using the :ref:`Random Forest<RF_desc>` search algorithm and python code for 
 post run PPC penalty calculation.
    
-The template file can be downloaded :download:`here <../examples/user/Example6/template.txt>`
+The template file can be downloaded :download:`here <../examples/user/Example6/template.txt>` and the tokens file :download:`here <../examples/user/Example6/tokens.json>`.
 
-and the tokens file :download:`here <../examples/user/Example6/tokens.json>`
-
-As before, that to run in the environment used for this example, the directories are set to:
+As before, to run in the environment used for this example, the directories are set to:
 
 ::
         
@@ -21,7 +18,7 @@ As before, that to run in the environment used for this example, the directories
     "temp_dir": "u:/pyDarwin/example5/rundir",
     "output_dir": "u:/pyDarwin/example5/output",
 
-It is recommended that the user set the directories to something appropriate for their environment. If directories are not set 
+It is recommended that the user set the directories to something appropriate for their environment. If directories are not set, 
 the default is:
 
 
@@ -31,7 +28,7 @@ the default is:
 
 In either case, the folder names are given in the initial and final output to facilitate finding the files and debugging.
 
-The options file is given here:
+The options file looks like:
 
 ::
 
@@ -76,15 +73,18 @@ The options file is given here:
     }
 
 
-and can be downloaded :download:`here <../examples/user/Example6/options.json>`
+and can be downloaded :download:`here <../examples/user/Example6/options.json>`.
  
 
-Starting the search and console output:
+******************************************
+Execute Search
+******************************************
 
+Usage details for starting a search in ``pyDarwin`` can be found :ref:`here<Execution>`.
 
-:ref:`Starting the search is covered here<Execution>`
+See :ref:`examples<examples_target>` for additional details about accessing example files.
 
-The initialization output should look similar to this:
+Initialization output should look like:
 
 ::
 
@@ -109,7 +109,7 @@ The initialization output should look similar to this:
 
 
 
-and the final output should look something like this:
+and the final output should look like:
 
 ::
 

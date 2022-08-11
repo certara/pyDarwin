@@ -1,10 +1,10 @@
 .. _startpk2:
 
-
+################################################################
 Example 2: PK Model 2, Simulation model by GP with Python code
-================================================================
+################################################################
 
-Example 2 is still a fairly simple search. The search space contains 12,960 models, 10 dimensions. The dimensions are:
+Example 2 is also a simple search. The search space contains 12,960 models, 10 dimensions. The dimensions are:
 
 +----------------------------+--------------------------+----------------------------+
 | Description                | Token Stem               | Values                     |
@@ -36,74 +36,26 @@ Example 2 is still a fairly simple search. The search space contains 12,960 mode
 
 This gives a search space of 3 x 2 x 2 x 3 x 2 x 3 x 2 x 5 x 3 x 2 = 12960 models. We'll use the :ref:`Gaussian Process<GP_desc>` algorithm for the search, 
 with a population size of 40 models, for up to 7 iterations. We'll run the downhill (1 and 2 bit local search) each 5 iterations. The downhill step will be 
-done starting with the 2 models that are in different niches, that is differ by at least the niche radius. The models are selected as the best in each of 
-the two best niches. To selected the best models in each of 2 niches, first 
-the best model in the entire population is identified. This will be the model for the first niche. Then all models within a :ref:`niche radius<Niche Radius>` 
-of 2 are identified. The best in the 2nd niche then is the best model that is not in a niche. In this way we ensure that the downhill step is done starting 
-with 2 models that are at least somewhat dissimilar (by at least a distance of 2). Commonly the :ref:`niche radius<Niche Radius>` would be larger than 2, 
-but, given that there are only 10 bits in the entire genome, a 2 bit radius will span a significant part of the search space. All parsimony penalties (THETA, OMEGA, 
-and SIGMA) will be 10 points, and we would really like a model that converges, has a successful covariance step, passes the correlation test and has a condition 
+done starting with the 2 models that are in different niches i.e., differ by at least the niche radius. The models are selected as the best in each of 
+the two best niches. 
+
+To select the best models in each of 2 niches, first the best model in the entire population is identified. This will be the model for the first niche. 
+Then all models within a :ref:`niche radius<Niche Radius>` of 2 are identified. The best in the 2nd niche then is the best model that is not in a niche. 
+In this way we ensure that the downhill step is done starting with 2 models that are at least somewhat dissimilar (by at least a distance of 2). 
+
+Commonly the :ref:`niche radius<Niche Radius>` would be larger than 2, but, given that there are only 10 bits in the entire genome, a 2 bit radius will span a significant part of the search space. All parsimony penalties (THETA, OMEGA, 
+and SIGMA) will be 10 points, and we would really like a model that converges, has a successful covariance step, passes the correlation test, and has a condition 
 number < 1000, so all of these penalties will be 100. As there are nested tokens in this search, there is a reason to penalize models with non-influential 
-tokens, the penalty for non-influential tokens will be set to 0.00001. This small penalty is only to insure that in a tournament selection the model that 
+tokens, the penalty for non-influential tokens will be set to 0.00001. This small penalty is only to insure that in a tournament selection, the model that 
 does not have non-influential tokens will be selected. 
 
 .. _GP_ask_tell:
 
-Notes on Gaussian Process performance
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Gaussian Process is an approach in `Bayesian Optimization <https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf>`_ 
-and `here <https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py>`_  where the samples are drawn from 
-a Gaussian Process. There are reasons to beleive that this this approach should be the most efficient (fewer reward evaluations to convergence) other than downhill search. 
-However, the sampling itself can be very 
-computationally expensive. Therefore the :ref:`GP option <GP_desc>` is best suited when the number of reward calculation number of NONMEM models run) is relatively small, perhaps < 1000, 
-and the NONMEM run time is long (1 hour). Below is a table of the `ask and tell <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ step times  (h:mm:ss), by iteration. The sample size ws 80, with 4 chains on a 4 core computer: 
-
-+-----------+----------+----------+ 
-| iteration | ask      | tell     | 
-+===========+==========+==========+ 
-| 1         |          | 0:00:15  |
-+-----------+----------+----------+ 
-| 2         | 0:01:18  | 0:00:35  |
-+-----------+----------+----------+ 
-| 3         | 0:03:12  | 0:01:03  |
-+-----------+----------+----------+ 
-| 4         | 0:05:56  | 0:01:55  |
-+-----------+----------+----------+ 
-| 5         | 0:09:33  | 0:03:55  |
-+-----------+----------+----------+ 
-| 6         | 0:16:22  | 0:04:47  |
-+-----------+----------+----------+ 
-| 7         | 0:25:25  | 0:08:30  |
-+-----------+----------+----------+ 
-| 8         | 0:33:43  | 0:09:30  |
-+-----------+----------+----------+ 
-| 9         | 0:50:11  | 0:10:26  |
-+-----------+----------+----------+ 
-| 10        | 0:55:32  | 0:13:52  |
-+-----------+----------+----------+ 
-| 11        | 1:09:00  | 0:17:14  |
-+-----------+----------+----------+ 
-| 12        | 1:22:18  | 0:21:14  |
-+-----------+----------+----------+ 
-| 13        | 1:40:25  |          |
-+-----------+----------+----------+
-
-
-Note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the data set size increases.
-For problems with larger search spaces, and greater number of model evaluations, :ref:`Genetic algorithm<GA_desc>` or :ref:`Random Forest <RF_desc>` may 
-be more appropriate.
-
-Below is a table of recommendations for algorithm selection.
-
- - Fast execution, large search space (> 100,000 models, expected sample > 1000 models)– :ref:`GA<GA_desc>` or :ref:`RF<RF_desc>`
- - Small search space (<100,000, expected # of samples < 1000) - :ref:`Gaussian Process<GP_desc>`.
- - Very small search space (< 500 models), many cores (> 20) – :ref:`exhaustive search <EX_desc>`.
-
+*****************
 The Template file 
-~~~~~~~~~~~~~~~~~
+*****************
 
-The template file for example 2 is given below
+The template file for example 2 is given below:
 
 ::
 
@@ -157,18 +109,20 @@ The template file for example 2 is given below
    $EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 
    $COV UNCOND PRINT=E
 
-Example 2 template file :download:`text <../examples/user/Example2/template.txt>`
+Example 2 template file: :download:`text <../examples/user/Example2/template.txt>`
 
+*****************
 The Tokens file
-~~~~~~~~~~~~~~~~
+*****************
+
 Notes:
 
 .. _Example2_nested_tokens:
 
 
-#. The example includes nested tokens. The K23~WT token group is nested within the ADVAN token group and the ETAD1LAG token group is nested with the D1LAG group
+#. The example includes nested tokens. The K23~WT token group is nested within the ADVAN token group and the ETAD1LAG token group is nested within the D1LAG group.
 
-#. Nested tokens can result in non-influential tokens. E.g., if ADVAN2 is selected, the selection of K23~WT tokens will have no effect on the constructed control file
+#. Nested tokens can result in non-influential tokens. For example,if ADVAN2 is selected, the selection of K23~WT tokens will have no effect on the constructed control file.
 
 
 ::
@@ -292,8 +246,8 @@ Notes:
       ]
    }
 
-**NOTE AGAIN!!**
-The use of THETA(parameter identifier), e.g.
+
+Note again, the use of THETA(parameter identifier), e.g.,
 
 
 ::
@@ -301,18 +255,19 @@ The use of THETA(parameter identifier), e.g.
    (-4,.7,4) \t; THETA(CL~WT)
 
 
-for **ALL** initial estimate token text (THETA, OMEGA and SIGMA).
+for **ALL** initial estimate token text (THETA, OMEGA, and SIGMA).
 
-Example 2 tokens file :download:`json <../examples/user/Example2/tokens.json>`
+Example 2 tokens file: :download:`json <../examples/user/Example2/tokens.json>`
 
+*****************
 The Options file
-~~~~~~~~~~~~~~~~
+*****************
 
 
 The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
 
 
-Note that to run in the environment used for this example, the directories are set to:
+Note that, to run in the environment used for this example, the directories are set to:
 
 ::
 
@@ -321,7 +276,7 @@ Note that to run in the environment used for this example, the directories are s
     "temp_dir": "u:/pyDarwin/example2rundir",
     "output_dir": "u:/pyDarwin/example2/output",
 
-It is recommended that the user set the directories to something appropriate for their environment. If directories are not set 
+It is recommended that the user set the directories to something appropriate for their environment. If directories are not set, 
 the default is:
 
 ::
@@ -370,6 +325,61 @@ In either case, the folder names are given in the initial and final output to fa
 Once again, note that remove_run_dir is set to false, so NONMEM model and output files will be preserved in the temp_dir.
 
 
-Example 2 options file :download:`json <../examples/user/Example2/options.json>`
+Example 2 options file: :download:`json <../examples/user/Example2/options.json>`
 
-Starting the search from command line is covered :ref:`here.<Execution>`
+
+******************
+Execute Search
+******************
+
+Usage details for starting a search in ``pyDarwin`` can be found :ref:`here<Execution>`.
+
+See :ref:`examples<examples_target>` for additional details about accessing example files.
+
+Notes on Gaussian Process performance
+=======================================
+
+Gaussian Process is an approach in `Bayesian Optimization <https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf>`_  
+(`scikit-optimize <https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py>`_) where the samples are drawn from 
+a Gaussian Process. There are reasons to believe that this approach should be the most efficient (fewer reward evaluations to convergence), other than downhill search. 
+However, the sampling itself can be very 
+computationally expensive. Therefore, the :ref:`GP option <GP_desc>` is best suited when the number of reward calculations number of NONMEM models run) is relatively small, perhaps < 1000, 
+and the NONMEM run time is long (1 hour). Below is a table of the `ask and tell <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ step times  (h:mm:ss), by iteration. 
+The sample size was 80, with 4 chains on a 4 core computer: 
+
++-----------+----------+----------+ 
+| iteration | ask      | tell     | 
++===========+==========+==========+ 
+| 1         |          | 0:00:15  |
++-----------+----------+----------+ 
+| 2         | 0:01:18  | 0:00:35  |
++-----------+----------+----------+ 
+| 3         | 0:03:12  | 0:01:03  |
++-----------+----------+----------+ 
+| 4         | 0:05:56  | 0:01:55  |
++-----------+----------+----------+ 
+| 5         | 0:09:33  | 0:03:55  |
++-----------+----------+----------+ 
+| 6         | 0:16:22  | 0:04:47  |
++-----------+----------+----------+ 
+| 7         | 0:25:25  | 0:08:30  |
++-----------+----------+----------+ 
+| 8         | 0:33:43  | 0:09:30  |
++-----------+----------+----------+ 
+| 9         | 0:50:11  | 0:10:26  |
++-----------+----------+----------+ 
+| 10        | 0:55:32  | 0:13:52  |
++-----------+----------+----------+ 
+| 11        | 1:09:00  | 0:17:14  |
++-----------+----------+----------+ 
+| 12        | 1:22:18  | 0:21:14  |
++-----------+----------+----------+ 
+| 13        | 1:40:25  |          |
++-----------+----------+----------+
+
+
+Note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the dataset size increases.
+For problems with larger search spaces, and greater number of model evaluations, :ref:`Genetic algorithm<GA_desc>` or :ref:`Random Forest <RF_desc>` may 
+be more appropriate.
+
+See :ref:`algorithm recommendations<The Algorithms>`.

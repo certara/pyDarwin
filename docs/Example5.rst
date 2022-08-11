@@ -1,25 +1,23 @@
 
-
+##################################
 Example 5: PK Model, DMAG by GP
-==============================================
+##################################
   
 
 .. _startpk5:
 
 Example 5 is very similar to :ref:`Example 4<startpk4>`. The important difference is the use of :ref:`Gaussian Process<GP_desc>` rather than 
-:ref:`Genetic Algoritm<GA_desc>`. As noted in :ref:`Example 4<startpk4>` the `ask step <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ 
+:ref:`Genetic Algorithm<GA_desc>`. As noted in :ref:`Example 4<startpk4>`, the `ask step <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ 
 for large cumulative sample sizes (> 500) will become very long. In this example, the population/sample size is reduced to 20 from 80. This improves the 
 execution time for the ask step, but note that the best model isn't found until the 2nd round of 2 bit local search, 
 whereas in :ref:`Example 4<startpk4>` it was found after the first round of 2 bit local search. 
 
 The template and tokens files are the same as for :ref:`Example 4<startpk4>`. The options file reflects the use of :ref:`Gaussian Process<GP_desc>` 
-and the required option; num_opt_chains. Other changes are the population size of 20
+and the required option: num_opt_chains. The other change is the population size of 20.
 
-The template file can be downloaded :download:`here <../examples/user/Example5/template.txt>`
+The template file can be downloaded :download:`here <../examples/user/Example5/template.txt>` and the tokens file :download:`here <../examples/user/Example5/tokens.json>`.
 
-and the tokens file :download:`here <../examples/user/Example5/tokens.json>`
-
-As before, that to run in the environment used for this example, the directories are set to:
+As before, to run in the environment used for this example, the directories are set to:
 
 ::
 
@@ -28,7 +26,7 @@ As before, that to run in the environment used for this example, the directories
     "temp_dir": "u:/pyDarwin/example5/rundir",
     "output_dir": "u:/pyDarwin/example5/output",
 
-It is recommended that the user set the directories to something appropriate for their environment. If directories are not set 
+It is recommended that the user set the directories to something appropriate for their environment. If directories are not set, 
 the default is:
 
 ::
@@ -75,9 +73,12 @@ In either case, the folder names are given in the initial and final output to fa
     "model_run_timeout": 1200
     }
 
+The options file can be downloaded :download:`here <../examples/user/Example6/options.json>`.
 
+******************************************
+Execute Search
+******************************************
 
-Starting the search:
-------------------------
+Usage details for starting a search in ``pyDarwin`` can be found :ref:`here<Execution>`.
 
-:ref:`Starting the search is covered here<Execution>`
+See :ref:`examples<examples_target>` for additional details about accessing example files.

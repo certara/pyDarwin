@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example 3: PK Model, ODE model &mdash; pyDarwin 1 documentation</title>
@@ -51,10 +51,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example 3: PK Model, ODE model</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#starting-the-search-and-console-output">Starting the search and console output:</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#execute-search">Execute Search</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
@@ -93,8 +91,8 @@
 <h1>Example 3: PK Model, ODE model<a class="headerlink" href="#example-3-pk-model-ode-model" title="Permalink to this heading">¶</a></h1>
 <p>Example 3 is quite different from the two previous examples. First, it is an ODE model, using ADVAN13. Second, different models in the search space required
 different data sets. Therefore, there is a token in the $DATA record. Next, urine PK is included in the model. Finally,
-linear vs Michaelis-Menten. The token groups/set are quite complex.</p>
-<p>While the search space is small (324 models), we’ll search by <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>. Because of the complexity of the model and the
+this example involves Michaelis-Menten, whereas the previous examples were linear. The token groups/set are quite complex.</p>
+<p>While the search space is small (324 models), we’ll perform an <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>. Because of the complexity of the model and the
 ODE solution,  model run times are long. For faster search, the FO method is used.</p>
 <section id="the-template-file">
 <h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
@@ -193,7 +191,7 @@ $EST METHOD = 0 NOABORT MAX = 9999 SIGL = 6 NSIG = 2 PRINT = 5
 $COV UNCOND PRINT = E
 </pre></div>
 </div>
-<p>Example 3 template file <a class="reference download internal" download="" href="_downloads/3159e6868c64b78bfa23e32077ce0e54/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
+<p>Example 3 template file: <a class="reference download internal" download="" href="_downloads/3159e6868c64b78bfa23e32077ce0e54/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
 </section>
 <section id="the-tokens-file">
 <h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
@@ -336,30 +334,29 @@ $COV UNCOND PRINT = E
    <span class="p">}</span>
 </pre></div>
 </div>
-<p><strong>NOTE AGAIN!!</strong>
-The use of THETA(paremeter identifier), e.g.</p>
+<p>Note again, the use of THETA(paremeter identifier), e.g.,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mf">.7</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> \<span class="n">t</span><span class="p">;</span> <span class="n">THETA</span><span class="p">(</span><span class="n">CL</span><span class="o">~</span><span class="n">WT</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>for <strong>ALL</strong> initial estimate token text (THETA, OMEGA and SIGMA).</p>
-<p>Example 3 tokens file <a class="reference download internal" download="" href="_downloads/ef386a3730d54e5133bc5329f57772b4/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+<p>for <strong>ALL</strong> initial estimate token text (THETA, OMEGA, and SIGMA).</p>
+<p>Example 3 tokens file: <a class="reference download internal" download="" href="_downloads/ef386a3730d54e5133bc5329f57772b4/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
-<p>The options file is fairly traditional, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long.</p>
+<p>The options file is traditional, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long.</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
-<p>Note that to run in the enviroment used for this example, the directories are set to:</p>
+<p>Note that, to run in the environment used for this example, the directories are set to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/working&quot;</span><span class="p">,</span>
 <span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/rundir&quot;</span><span class="p">,</span>
 <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/output&quot;</span><span class="p">,</span>
 </pre></div>
 </div>
-<p>It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set
+<p>It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set,
 the default is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">user_dir</span><span class="p">}</span>\<span class="n">pydarwin</span>\<span class="p">{</span><span class="n">project_name</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.</p>
+<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debugging.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
  <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
 
@@ -391,11 +388,13 @@ the default is:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Example 3 options file <a class="reference download internal" download="" href="_downloads/75e31ad5e6bbed5f9f06b2da5aff040c/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
-<section id="starting-the-search-and-console-output">
-<h3>Starting the search and console output:<a class="headerlink" href="#starting-the-search-and-console-output" title="Permalink to this heading">¶</a></h3>
-<p><a class="reference internal" href="Usage.html#execution"><span class="std std-ref">Starting the search is covered here</span></a></p>
-<p>Initialization output should look similar to this:</p>
+<p>Example 3 options file: <a class="reference download internal" download="" href="_downloads/75e31ad5e6bbed5f9f06b2da5aff040c/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+</section>
+<section id="execute-search">
+<h2>Execute Search<a class="headerlink" href="#execute-search" title="Permalink to this heading">¶</a></h2>
+<p>Usage details for starting a search in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> can be found <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here</span></a>.</p>
+<p>See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">examples</span></a> for additional details about accessing example files.</p>
+<p>Initialization output should look like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Options</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example3</span>\<span class="n">options</span><span class="o">.</span><span class="n">json</span>
 <span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">working</span> <span class="n">folder</span><span class="o">...</span>
 <span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">output</span> <span class="n">folder</span><span class="o">...</span>
@@ -420,7 +419,6 @@ the default is:</p>
 <span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 1 was found: c:\fda\pyDarwin\examples\user\Example3/OralBolus_PlasmaUrine_ResetCpt2.csv</span>
 </pre></div>
 </div>
-</section>
 </section>
 </section>
 

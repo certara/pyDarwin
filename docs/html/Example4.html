@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example 4: PK Model, DMAG by GA with post-run R code &mdash; pyDarwin 1 documentation</title>
@@ -52,10 +52,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example 4: PK Model, DMAG by GA with post-run R code</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#starting-the-search-and-console-output">Starting the search and console output:</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#execute-search">Execute Search</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
@@ -94,12 +92,12 @@
 <p id="startpk4">Example 4 is the first realistic model search example, with real data (courtesy of <a class="reference external" href="https:/pharmacy.buffalo.edu/content/pharmacy/faculty-staff/faculty-profile.html?ubit=robertbi">Dr. Rob Bies</a> and the
 <a class="reference external" href="https://www.nimh.nih.gov/funding/clinical-research/practical/catie#:~:text=The%20NIMH%2Dfunded%20Clinical%20Antipsychotic,medications%20used%20to%20treat%20schizophrenia">CATIE study</a> ).
 This search again uses <a class="reference internal" href="Glossary.html#nested-tokens"><span class="std std-ref">nested tokens</span></a>, as it searches whether K32 is a function of Weight, and 1 vs 2 vs 3 compartments.
-Another important feature of example 4 is the use of post run R code. In this case, it was of interest to capture the Cmax value. The is no straightforward way to include a penalty for
+Another important feature of example 4 is the use of post run R code. In this case, it was of interest to capture the Cmax value. There is no straightforward way to include a penalty for
 missing the Cmax
-in the NONMEM control stream. Therefore, the penalty for missing Cmax is added after the NONMEM run is complete. Any R code can be provided by the user, and should return a vector of two values. The
+in the NONMEM control stream. Therefore, the penalty for missing Cmax is added after the NONMEM run is complete. Any R code can be provided by the user and should return a vector of two values. The
 first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to NONMEM output file to describe the results of the R code execution.</p>
-<p>The penalty for missing the Cmax is essentially a <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/11381569/">Posterior Predictive Check (PPC)</a>. The template file includes two problems, first the estimation, then a
-Simulation problem, to generate a table of the PPC.</p>
+<p>The penalty for missing the Cmax is essentially a <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/11381569/">Posterior Predictive Check (PPC)</a>. The template file includes two tasks
+that are used to generate a table of the PPC: an estimation, followed by a simulation.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROB SIMULATION FOR CMAX
 
 $INPUT       ID TIME AMT {D1LAG[1]} DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
@@ -109,7 +107,7 @@ $SIMULATION (1) ONLYSIM
 $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
 </pre></div>
 </div>
-<p>User provided R code is the saved to a file:</p>
+<p>User provided R code is then saved to a file (<code class="docutils literal notranslate"><span class="pre">.R</span></code>):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>library(dplyr)
 orgdata &lt;-  read.table(&quot;ORG.DAT&quot;,skip=1,header=TRUE)
 orgdata &lt;- orgdata[orgdata$EVID==0&amp;orgdata$TIME&lt;=24,] # only first 24 hours
@@ -126,13 +124,13 @@ text &lt;- paste0(&quot;Observed day 1 Cmax geomean = &quot;, round(obs_geomean,
 c(penalty,text)
 </pre></div>
 </div>
-<p>The R code executes from the run directory of that model, so, for example, a model run in c:\pydarwin\example4\00\04, the ORG.DAT and SIM.DAT files will be written to
-that directory and the R code can read from the same directory.</p>
+<p>The R code executes from the run directory of that model, so, for example, if a model runs in <code class="docutils literal notranslate"><span class="pre">c:\\pydarwin\\example4\\00\\04</span></code>, the <code class="docutils literal notranslate"><span class="pre">ORG.DAT</span></code> and <code class="docutils literal notranslate"><span class="pre">SIM.DAT</span></code>
+files will be written to that directory and the R code will be read from the same directory.</p>
 <p>This R code returns a character vector of length 2. The first is a string that can be read as numeric (penalty) and the 2nd is a string that is appended to the
 NONMEM output file, as a comment to document the output of the R code. The content of the 2nd element of the vector is entirely up to the user, it has no
 impact on the pyDarwin process, it is just appended to the output file.</p>
-<p>The first element of the return value is added to the fitness/reward value and is then used in the selection of subsequent populations just as any other penalty. The
-penalty value and be any real value - including negative, but typically would be positive.</p>
+<p>The first element of the returned value is added to the fitness/reward value and is then used in the selection of subsequent populations, just as any other penalty. The
+penalty value can be any real value - including negative, but typically would be positive.</p>
 <p>The post processing code options are given in the options file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;postprocess&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">&quot;use_r&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
@@ -142,140 +140,8 @@ penalty value and be any real value - including negative, but typically would be
     <span class="s2">&quot;use_python&quot;</span><span class="p">:</span> <span class="n">false</span>
 </pre></div>
 </div>
-<p>include whether to use_r for post processing (true), the path to the R code, the path to rscript.exe and the timeout (r_timeout) after which the R session will be terminated if not
+<p>Be sure to include whether to <code class="docutils literal notranslate"><span class="pre">&quot;use_r&quot;:</span> <span class="pre">true</span></code> for post processing (true), the path to the R code, the path to Rscript.exe, and the timeout (<code class="docutils literal notranslate"><span class="pre">&quot;r_timeout&quot;</span></code>), after which the R session will be terminated if not
 complete and the <a class="reference internal" href="Glossary.html#crash-value"><span class="std std-ref">crash_value</span></a> added as the penalty.</p>
-<p>The search space contains 1.66 million possible models, and searches:</p>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Description</p></th>
-<th class="head"><p>Token Stem</p></th>
-<th class="head"><p>Values</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Number of compartments</p></td>
-<td><p>ADVAN</p></td>
-<td><p>1|2|3</p></td>
-</tr>
-<tr class="row-odd"><td><p>Is K23 related to weight?</p></td>
-<td><p>K23~WT</p></td>
-<td><p>Yes|No</p></td>
-</tr>
-<tr class="row-even"><td><p>Is there ETA on Ka?</p></td>
-<td><p>KAETA</p></td>
-<td><p>Yes|No</p></td>
-</tr>
-<tr class="row-odd"><td><p>Is V2 related to weight?</p></td>
-<td><p>V2~WT</p></td>
-<td><p>None|Power|exponential</p></td>
-</tr>
-<tr class="row-even"><td><p>Is V2 related to Gender?</p></td>
-<td><p>V2~GENDER</p></td>
-<td><p>Yes|No</p></td>
-</tr>
-<tr class="row-odd"><td><p>Is CL related to weight?</p></td>
-<td><p>CL~WT</p></td>
-<td><p>None|Power|exponential</p></td>
-</tr>
-<tr class="row-even"><td><p>Is CL related to Age?</p></td>
-<td><p>CL~AGE</p></td>
-<td><p>Yes|No</p></td>
-</tr>
-<tr class="row-odd"><td><div class="line-block">
-<div class="line">Is there ETA on D1 and/or</div>
-<div class="line">and/or ALAG1 (nested</div>
-<div class="line">the D1LAG token group)</div>
-</div>
-</td>
-<td><div class="line-block">
-<div class="line">ETAD1LAG</div>
-<div class="line"><br /></div>
-<div class="line"><br /></div>
-</div>
-</td>
-<td><div class="line-block">
-<div class="line">None or ETA on D1 or ETA</div>
-<div class="line">ETA on ALAGa or ETA on</div>
-<div class="line">both or on both (BLOCK)</div>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-<p>1,2,3 compartments</p>
-<p>Between occasion variability</p>
-<p>Multiple covariates (but probably still not as many as a real search)</p>
-<p>Different absorption models</p>
-<p>Different residual error models</p>
-<p>Block OMEGA structures</p>
-<p>Different initial estimates (also likely not as many as a real search should include).</p>
-<p>As the search space is large, we’ll plan a fairly large sample (Population size of 80 with 12 generations). While <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> may be more efficient
-in terms of number of models to convergence, once ~500 samples are defined, the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask step</a> becomes long, negating any
-in efficiency of the algorithm.
-Below is a table of the ask and tell step times  (hh:mm:ss), by iteration for GP. The sample size ws 80, with 4 chains on a 4 core computer:</p>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>iteration</p></th>
-<th class="head"><p>ask</p></th>
-<th class="head"><p>tell</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>1</p></td>
-<td></td>
-<td><p>0:00:15</p></td>
-</tr>
-<tr class="row-odd"><td><p>2</p></td>
-<td><p>0:01:18</p></td>
-<td><p>0:00:35</p></td>
-</tr>
-<tr class="row-even"><td><p>3</p></td>
-<td><p>0:03:12</p></td>
-<td><p>0:01:03</p></td>
-</tr>
-<tr class="row-odd"><td><p>4</p></td>
-<td><p>0:05:56</p></td>
-<td><p>0:01:55</p></td>
-</tr>
-<tr class="row-even"><td><p>5</p></td>
-<td><p>0:09:33</p></td>
-<td><p>0:03:55</p></td>
-</tr>
-<tr class="row-odd"><td><p>6</p></td>
-<td><p>0:16:22</p></td>
-<td><p>0:04:47</p></td>
-</tr>
-<tr class="row-even"><td><p>7</p></td>
-<td><p>0:25:25</p></td>
-<td><p>0:08:30</p></td>
-</tr>
-<tr class="row-odd"><td><p>8</p></td>
-<td><p>0:33:43</p></td>
-<td><p>0:09:30</p></td>
-</tr>
-<tr class="row-even"><td><p>9</p></td>
-<td><p>0:50:11</p></td>
-<td><p>0:10:26</p></td>
-</tr>
-<tr class="row-odd"><td><p>10</p></td>
-<td><p>0:55:32</p></td>
-<td><p>0:13:52</p></td>
-</tr>
-<tr class="row-even"><td><p>11</p></td>
-<td><p>1:09:00</p></td>
-<td><p>0:17:14</p></td>
-</tr>
-<tr class="row-odd"><td><p>12</p></td>
-<td><p>1:22:18</p></td>
-<td><p>0:21:14</p></td>
-</tr>
-<tr class="row-even"><td><p>13</p></td>
-<td><p>1:40:25</p></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>In contrast, GA execution time for the next generation sample is short (a few seconds) and independent of the cumulative sample size.</p>
 <section id="the-template-file">
 <h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
@@ -346,11 +212,11 @@ $SIMULATION (1) ONLYSIM
 $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
 </pre></div>
 </div>
-<p>Example 4 template file <a class="reference download internal" download="" href="_downloads/939d2c00e4f1216895837aaab1abc1bd/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
+<p>Example 4 template file: <a class="reference download internal" download="" href="_downloads/939d2c00e4f1216895837aaab1abc1bd/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
 </section>
 <section id="the-tokens-file">
 <h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
-<p>Nothing new in the tokens file, we see again the nested tokens.</p>
+<p>Nothing new in the tokens file, we see again an example of nested tokens:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s2">&quot;ADVAN&quot;</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">[</span><span class="s2">&quot;ADVAN2 ;; advan2&quot;</span><span class="p">,</span>
@@ -530,30 +396,29 @@ $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><strong>NOTE AGAIN!!</strong>
-The use of THETA(paremeter identifier), e.g.</p>
+<p>Note again, the use of THETA(paremeter identifier), e.g.,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.02</span><span class="p">)</span>  \<span class="n">t</span> <span class="p">;</span> <span class="n">THETA</span><span class="p">(</span><span class="n">ADVANA</span><span class="p">)</span> <span class="n">K23</span>
 </pre></div>
 </div>
-<p>for <strong>ALL</strong> initial estimate token text (THETA, OMEGA and SIGMA).</p>
-<p>Example 4 tokens file <a class="reference download internal" download="" href="_downloads/83f6fbe41dca3bf36bb9a259487f1f4f/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+<p>for <strong>ALL</strong> initial estimate token text (THETA, OMEGA, and SIGMA).</p>
+<p>Example 4 tokens file: <a class="reference download internal" download="" href="_downloads/83f6fbe41dca3bf36bb9a259487f1f4f/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
-<p>The options file is fairly traditional, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>.</p>
+<p>The algorithim selection in the options file is <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a>.</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
-<p>Note that to run in the enviroment used for this example, the directories are set to:</p>
+<p>Note that, to run in the environment used for this example, the directories are set to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example4/working&quot;</span><span class="p">,</span>
 <span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example4/rundir&quot;</span><span class="p">,</span>
 <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example4/output&quot;</span><span class="p">,</span>
 </pre></div>
 </div>
-<p>It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set
+<p>It is recommended that the user set the directories to something appropriate for their environment. If directories are not set,
 the default is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">user_dir</span><span class="p">}</span>\<span class="n">pydarwin</span>\<span class="p">{</span><span class="n">project_name</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.</p>
+<p>In either case, the folder names are given in the initial and final output to facilitate finding the files and debugging.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
  <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
  <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;GA&quot;</span><span class="p">,</span>
@@ -610,41 +475,175 @@ the default is:</p>
  <span class="p">}</span>
 </pre></div>
 </div>
-<p>Example 4 options file <a class="reference download internal" download="" href="_downloads/dd612bb6e9e2d1663b19ca7c9a4d48fb/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
-<section id="starting-the-search-and-console-output">
-<h3>Starting the search and console output:<a class="headerlink" href="#starting-the-search-and-console-output" title="Permalink to this heading">¶</a></h3>
-<p><a class="reference internal" href="Usage.html#execution"><span class="std std-ref">Starting the search is covered here</span></a></p>
-<p>Initialization output should look similar to this:</p>
-<dl class="simple">
-<dt>::</dt><dd><dl class="simple">
-<dt>[05:46:53] Options file found at ..examplesuserExample4options.json</dt><dd><p>[05:46:53] Preparing project working folder…
-[05:46:53] Preparing project output folder…
-[05:46:53] Preparing project temp folder…
-[05:47:21] Model run priority is below_normal
-[05:47:21] Using darwin.MemoryModelCache
-[05:47:21] Project dir: c:fdapyDarwinexamplesuserExample4
-[05:47:21] Data dir: c:fdapyDarwinexamplesuserExample4
-[05:47:21] Project working dir: u:/pyDarwin/example4/working
-[05:47:21] Project temp dir: u:/pyDarwin/example4/rundir
-[05:47:21] Project output dir: u:/pyDarwin/example4/output
-[05:47:21] Writing intermediate output to u:/pyDarwin/example4/outputresults.csv
-[05:47:21] Models will be saved in u:/pyDarwin/example4/workingmodels.json
-[05:47:21] Template file found at ..examplesuserExample4template.txt
-[05:47:21] Tokens file found at ..examplesuserExample4tokens.json
-[05:47:21] Search start time = Mon Aug  1 05:47:21 2022
-[05:47:21] – Starting Generation 0 –
-[05:47:21] NMFE found: c:/nm744/util/nmfe74.bat
-[05:47:21] RScript found at c:Program FilesRR-4.1.3binRscript.exe
-[05:47:21] Post Run R code found at c:fdapyDarwinexamplesuserExample4Cmaxppc.r
-[05:47:21] Not using Post Run Python code
-[05:47:21] Checking files in u:pyDarwinexample4rundir0001
-[05:47:21] Data set # 1 was found: c:fdapyDarwinexamplesuserExample4/dmag_with_period.csv
-[05:47:21] Data set # 2 was found: c:fdapyDarwinexamplesuserExample4/dmag_with_period.csv</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p>After a few seconds, the NONMEM execution should begind, with output simlar to this:</p>
+<p>Example 4 options file: <a class="reference download internal" download="" href="_downloads/dd612bb6e9e2d1663b19ca7c9a4d48fb/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+</section>
+<section id="execute-search">
+<h2>Execute Search<a class="headerlink" href="#execute-search" title="Permalink to this heading">¶</a></h2>
+<p>Usage details for starting a search in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> can be found <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here</span></a>.</p>
+<p>See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">examples</span></a> for additional details about accessing example files.</p>
+<p>The search space contains 1.66 million possible models, and searches for the following:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Description</p></th>
+<th class="head"><p>Token Stem</p></th>
+<th class="head"><p>Values</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Number of compartments</p></td>
+<td><p>ADVAN</p></td>
+<td><p>1|2|3</p></td>
+</tr>
+<tr class="row-odd"><td><p>Is K23 related to weight?</p></td>
+<td><p>K23~WT</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-even"><td><p>Is there ETA on Ka?</p></td>
+<td><p>KAETA</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Is V2 related to weight?</p></td>
+<td><p>V2~WT</p></td>
+<td><p>None|Power|exponential</p></td>
+</tr>
+<tr class="row-even"><td><p>Is V2 related to Gender?</p></td>
+<td><p>V2~GENDER</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Is CL related to weight?</p></td>
+<td><p>CL~WT</p></td>
+<td><p>None|Power|exponential</p></td>
+</tr>
+<tr class="row-even"><td><p>Is CL related to Age?</p></td>
+<td><p>CL~AGE</p></td>
+<td><p>Yes|No</p></td>
+</tr>
+<tr class="row-odd"><td><div class="line-block">
+<div class="line">Is there ETA on D1 and/or</div>
+<div class="line">and/or ALAG1 (nested</div>
+<div class="line">the D1LAG token group)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">ETAD1LAG</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">None or ETA on D1 or ETA</div>
+<div class="line">ETA on ALAGa or ETA on</div>
+<div class="line">both or on both (BLOCK)</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>In practice, we will be searching for:</p>
+<ol class="arabic simple">
+<li><p>1,2,3 compartments</p></li>
+<li><p>Between occasion variability</p></li>
+<li><p>Multiple covariates (but probably still not as many as a real search)</p></li>
+<li><p>Different absorption models</p></li>
+<li><p>Different residual error models</p></li>
+<li><p>Block OMEGA structures</p></li>
+<li><p>Different initial estimates (also likely not as many as a real search should include).</p></li>
+</ol>
+<p>As the search space is large, we’ll plan a large sample (population size of 80, with 12 generations). While <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> may be more efficient
+in terms of number of models to convergence, once ~500 samples are defined, the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask step</a> becomes long,
+negating any efficiency of the algorithm.</p>
+<p>Below is a table of the ask and tell step times  (hh:mm:ss), by iteration for GP. The sample size ws 80, with 4 chains on a 4 core computer:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>iteration</p></th>
+<th class="head"><p>ask</p></th>
+<th class="head"><p>tell</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td></td>
+<td><p>0:00:15</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>0:01:18</p></td>
+<td><p>0:00:35</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>0:03:12</p></td>
+<td><p>0:01:03</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>0:05:56</p></td>
+<td><p>0:01:55</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>0:09:33</p></td>
+<td><p>0:03:55</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>0:16:22</p></td>
+<td><p>0:04:47</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>0:25:25</p></td>
+<td><p>0:08:30</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>0:33:43</p></td>
+<td><p>0:09:30</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>0:50:11</p></td>
+<td><p>0:10:26</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>0:55:32</p></td>
+<td><p>0:13:52</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p>1:09:00</p></td>
+<td><p>0:17:14</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p>1:22:18</p></td>
+<td><p>0:21:14</p></td>
+</tr>
+<tr class="row-even"><td><p>13</p></td>
+<td><p>1:40:25</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>In contrast, GA execution time for the next generation sample is short (a few seconds) and independent of the cumulative sample size.</p>
+<p>Initialization output should look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">46</span><span class="p">:</span><span class="mi">53</span><span class="p">]</span> <span class="n">Options</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example4</span>\<span class="n">options</span><span class="o">.</span><span class="n">json</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">46</span><span class="p">:</span><span class="mi">53</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">working</span> <span class="n">folder</span><span class="o">...</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">46</span><span class="p">:</span><span class="mi">53</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">output</span> <span class="n">folder</span><span class="o">...</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">46</span><span class="p">:</span><span class="mi">53</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">temp</span> <span class="n">folder</span><span class="o">...</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Model</span> <span class="n">run</span> <span class="n">priority</span> <span class="ow">is</span> <span class="n">below_normal</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Using</span> <span class="n">darwin</span><span class="o">.</span><span class="n">MemoryModelCache</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Project</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span>\<span class="n">fda</span>\<span class="n">pyDarwin</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example4</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span>\<span class="n">fda</span>\<span class="n">pyDarwin</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example4</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Project</span> <span class="n">working</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example4</span><span class="o">/</span><span class="n">working</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Project</span> <span class="n">temp</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example4</span><span class="o">/</span><span class="n">rundir</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Project</span> <span class="n">output</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example4</span><span class="o">/</span><span class="n">output</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Writing</span> <span class="n">intermediate</span> <span class="n">output</span> <span class="n">to</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example4</span><span class="o">/</span><span class="n">output</span>\<span class="n">results</span><span class="o">.</span><span class="n">csv</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Models</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example4</span><span class="o">/</span><span class="n">working</span>\<span class="n">models</span><span class="o">.</span><span class="n">json</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Template</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example4</span>\<span class="n">template</span><span class="o">.</span><span class="n">txt</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Tokens</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example4</span>\<span class="n">tokens</span><span class="o">.</span><span class="n">json</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Search</span> <span class="n">start</span> <span class="n">time</span> <span class="o">=</span> <span class="n">Mon</span> <span class="n">Aug</span>  <span class="mi">1</span> <span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span> <span class="mi">2022</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="o">--</span> <span class="n">Starting</span> <span class="n">Generation</span> <span class="mi">0</span> <span class="o">--</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">NMFE</span> <span class="n">found</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span><span class="o">/</span><span class="n">nm744</span><span class="o">/</span><span class="n">util</span><span class="o">/</span><span class="n">nmfe74</span><span class="o">.</span><span class="n">bat</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">RScript</span> <span class="n">found</span> <span class="n">at</span> <span class="n">c</span><span class="p">:</span>\<span class="n">Program</span> <span class="n">Files</span>\<span class="n">R</span>\<span class="n">R</span><span class="o">-</span><span class="mf">4.1.3</span>\<span class="nb">bin</span>\<span class="n">Rscript</span><span class="o">.</span><span class="n">exe</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Post</span> <span class="n">Run</span> <span class="n">R</span> <span class="n">code</span> <span class="n">found</span> <span class="n">at</span> <span class="n">c</span><span class="p">:</span>\<span class="n">fda</span>\<span class="n">pyDarwin</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example4</span>\<span class="n">Cmaxppc</span><span class="o">.</span><span class="n">r</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Not</span> <span class="n">using</span> <span class="n">Post</span> <span class="n">Run</span> <span class="n">Python</span> <span class="n">code</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Checking</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span>\<span class="n">pyDarwin</span>\<span class="n">example4</span>\<span class="n">rundir</span>\<span class="mi">00</span>\<span class="mi">01</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 1 was found: c:\fda\pyDarwin\examples\user\Example4/dmag_with_period.csv</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 2 was found: c:\fda\pyDarwin\examples\user\Example4/dmag_with_period.csv</span>
+</pre></div>
+</div>
+<p>After a few seconds, the NONMEM execution should begin, with output like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mi">52</span><span class="p">]</span> <span class="n">Generation</span> <span class="o">=</span> <span class="mi">00</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">2</span><span class="p">,</span> <span class="n">Post</span> <span class="n">process</span> <span class="n">R</span> <span class="n">failed</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mi">99999999</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">K32</span><span class="p">,</span> <span class="n">OR</span> <span class="n">K42</span> <span class="n">IS</span> <span class="n">TOO</span> <span class="n">CLOSE</span> <span class="n">TO</span> <span class="n">AN</span> <span class="n">EIGENVALUE</span>
 <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Generation</span> <span class="o">=</span> <span class="mi">00</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">3</span><span class="p">,</span> <span class="n">Post</span> <span class="n">process</span> <span class="n">R</span> <span class="n">failed</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mi">99999999</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">NON</span><span class="o">-</span><span class="n">FIXED</span> <span class="n">OMEGA</span> <span class="n">NON</span><span class="o">-</span><span class="n">FIXED</span> <span class="n">PARAMETER</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">K32</span><span class="p">,</span> <span class="n">OR</span> <span class="n">K42</span> <span class="n">IS</span> <span class="n">TOO</span> <span class="n">CLOSE</span> <span class="n">TO</span> <span class="n">AN</span> <span class="n">EIGENVALUE</span> <span class="n">OCCURS</span> <span class="n">DURING</span> <span class="n">SEARCH</span> <span class="n">FOR</span> <span class="n">ETA</span> <span class="n">AT</span> <span class="n">INITIAL</span> <span class="n">VALUE</span><span class="p">,</span> <span class="n">ETA</span><span class="o">=</span><span class="mi">0</span>
 <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mi">56</span><span class="p">]</span> <span class="n">Generation</span> <span class="o">=</span> <span class="mi">00</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">1</span><span class="p">,</span> <span class="n">Post</span> <span class="n">process</span> <span class="n">R</span> <span class="n">failed</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mi">99999999</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">K32</span><span class="p">,</span> <span class="n">OR</span> <span class="n">K42</span> <span class="n">IS</span> <span class="n">TOO</span> <span class="n">CLOSE</span> <span class="n">TO</span> <span class="n">AN</span> <span class="n">EIGENVALUE</span>
@@ -652,11 +651,11 @@ the default is:</p>
 </pre></div>
 </div>
 <p>Note that (as in the case of human generated NONMEM code) the first 4 models crash, and the <a class="reference internal" href="Glossary.html#crash-value"><span class="std std-ref">crash value</span></a> (99999999) is assigned
-to the fitness. There also may be a message that “NON-FIXED OMEGA NON-FIXED PARAMETER”. This is a consequence of the nested tokens. With nested token
+to the fitness. There also may be a message: “NON-FIXED OMEGA NON-FIXED PARAMETER”. This is a consequence of the nested tokens. With nested tokens,
 there commonly will be tokens that are not used, e.g., covariates relationships for K23 when a cone compartment model (ADVAN1) is selected. A small
-penalty should be added (the non influential token penalty) in this case, simply to prefer this model over the same model without the non influential
+penalty should be added (the non-influential token penalty) in this case, simply to prefer this model over the same model without the non-influential
 token(s).</p>
-<p>The final output from the search should look similar to this:</p>
+<p>The final output from the search should look like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Done</span> <span class="k">with</span> <span class="n">final</span> <span class="n">downhill</span> <span class="n">step</span><span class="o">.</span> <span class="n">best</span> <span class="n">fitness</span> <span class="o">=</span> <span class="mf">8504.69692879228</span>
 <span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Final</span> <span class="n">output</span> <span class="kn">from</span> <span class="nn">best</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span><span class="o">/</span><span class="n">pyDarwin</span><span class="o">/</span><span class="n">example4</span><span class="o">/</span><span class="n">output</span>\<span class="n">FinalResultFile</span><span class="o">.</span><span class="n">lst</span>
 <span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">unique</span> <span class="n">models</span> <span class="n">to</span> <span class="n">best</span> <span class="n">model</span> <span class="o">=</span> <span class="mi">897</span>
@@ -665,7 +664,6 @@ token(s).</p>
 <span class="p">[</span><span class="mi">23</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="n">Elapsed</span> <span class="n">time</span> <span class="o">=</span> <span class="mf">1015.4</span> <span class="n">minutes</span>
 </pre></div>
 </div>
-</section>
 </section>
 </section>
 

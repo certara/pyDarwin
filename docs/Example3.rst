@@ -1,18 +1,19 @@
 
-
+################################
 Example 3: PK Model, ODE model
-=============================== 
+################################
 
 Example 3 is quite different from the two previous examples. First, it is an ODE model, using ADVAN13. Second, different models in the search space required 
 different data sets. Therefore, there is a token in the $DATA record. Next, urine PK is included in the model. Finally, 
-linear vs Michaelis-Menten. The token groups/set are quite complex.
+this example involves Michaelis-Menten, whereas the previous examples were linear. The token groups/set are quite complex.
 
 
-While the search space is small (324 models), we'll search by :ref:`Exhaustive search<EX_desc>`. Because of the complexity of the model and the 
+While the search space is small (324 models), we'll perform an :ref:`Exhaustive search<EX_desc>`. Because of the complexity of the model and the 
 ODE solution,  model run times are long. For faster search, the FO method is used. 
 
+******************
 The Template file
-~~~~~~~~~~~~~~~~~
+******************
 
 ::
 
@@ -110,10 +111,11 @@ The Template file
 
    $COV UNCOND PRINT = E
 
-Example 3 template file :download:`text <../examples/user/Example3/template.txt>`
+Example 3 template file: :download:`text <../examples/user/Example3/template.txt>`
 
+****************
 The Tokens file
-~~~~~~~~~~~~~~~~
+****************
 
 The tokens file is quite complex:
 
@@ -259,8 +261,7 @@ The tokens file is quite complex:
 
 
 
-**NOTE AGAIN!!**
-The use of THETA(paremeter identifier), e.g.
+Note again, the use of THETA(paremeter identifier), e.g.,
 
 
 ::
@@ -268,19 +269,20 @@ The use of THETA(paremeter identifier), e.g.
    (-4,.7,4) \t; THETA(CL~WT)
 
 
-for **ALL** initial estimate token text (THETA, OMEGA and SIGMA).
+for **ALL** initial estimate token text (THETA, OMEGA, and SIGMA).
 
 
-Example 3 tokens file :download:`json <../examples/user/Example3/tokens.json>`
+Example 3 tokens file: :download:`json <../examples/user/Example3/tokens.json>`
 
+*****************
 The Options file
-~~~~~~~~~~~~~~~~
+*****************
 
-The options file is fairly traditional, :ref:`Exhaustive search<EX_desc>`.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long. 
+The options file is traditional, :ref:`Exhaustive search<EX_desc>`.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long. 
 
 The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
 
-Note that to run in the enviroment used for this example, the directories are set to:
+Note that, to run in the environment used for this example, the directories are set to:
 
 ::
 
@@ -289,14 +291,14 @@ Note that to run in the enviroment used for this example, the directories are se
     "temp_dir": "u:/pyDarwin/example3/rundir",
     "output_dir": "u:/pyDarwin/example3/output",
 
-It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set 
+It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set, 
 the default is:
 
 ::
 
 	{user_dir}\pydarwin\{project_name}
 
-In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.
+In either case, the folder names are given in the initial and final output to facilitate finding the files and debugging.
 
 ::
 
@@ -330,15 +332,18 @@ In either case, the folder names are given in the initial and final output to fa
     "model_run_timeout": 9600
    }
 
-Example 3 options file :download:`json <../examples/user/Example3/options.json>`
-
-Starting the search and console output:
---------------------------------------------
-
-:ref:`Starting the search is covered here<Execution>`
+Example 3 options file: :download:`json <../examples/user/Example3/options.json>`
 
 
-Initialization output should look similar to this:
+******************************************
+Execute Search
+******************************************
+
+Usage details for starting a search in ``pyDarwin`` can be found :ref:`here<Execution>`.
+
+See :ref:`examples<examples_target>` for additional details about accessing example files.
+
+Initialization output should look like:
 
 ::
 

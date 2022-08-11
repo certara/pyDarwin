@@ -1,21 +1,20 @@
 
-
+#####################################################
 Example 4: PK Model, DMAG by GA with post-run R code
-====================================================
+#####################################################
   
-
 .. _startpk4:
 
 Example 4 is the first realistic model search example, with real data (courtesy of `Dr. Rob Bies <https:/pharmacy.buffalo.edu/content/pharmacy/faculty-staff/faculty-profile.html?ubit=robertbi>`_ and the 
 `CATIE study <https://www.nimh.nih.gov/funding/clinical-research/practical/catie#:~:text=The%20NIMH%2Dfunded%20Clinical%20Antipsychotic,medications%20used%20to%20treat%20schizophrenia>`_ ).
 This search again uses :ref:`nested tokens<Nested Tokens>`, as it searches whether K32 is a function of Weight, and 1 vs 2 vs 3 compartments. 
-Another important feature of example 4 is the use of post run R code. In this case, it was of interest to capture the Cmax value. The is no straightforward way to include a penalty for 
+Another important feature of example 4 is the use of post run R code. In this case, it was of interest to capture the Cmax value. There is no straightforward way to include a penalty for 
 missing the Cmax 
-in the NONMEM control stream. Therefore, the penalty for missing Cmax is added after the NONMEM run is complete. Any R code can be provided by the user, and should return a vector of two values. The 
+in the NONMEM control stream. Therefore, the penalty for missing Cmax is added after the NONMEM run is complete. Any R code can be provided by the user and should return a vector of two values. The 
 first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to NONMEM output file to describe the results of the R code execution.
 
-The penalty for missing the Cmax is essentially a `Posterior Predictive Check (PPC) <https://pubmed.ncbi.nlm.nih.gov/11381569/>`_. The template file includes two problems, first the estimation, then a 
-Simulation problem, to generate a table of the PPC. 
+The penalty for missing the Cmax is essentially a `Posterior Predictive Check (PPC) <https://pubmed.ncbi.nlm.nih.gov/11381569/>`_. The template file includes two tasks
+that are used to generate a table of the PPC: an estimation, followed by a simulation.
 
 ::
         
@@ -27,7 +26,7 @@ Simulation problem, to generate a table of the PPC.
     $SIMULATION (1) ONLYSIM  
     $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
 
-User provided R code is the saved to a file:
+User provided R code is then saved to a file (``.R``):
 
 ::
 
@@ -46,15 +45,15 @@ User provided R code is the saved to a file:
     text <- paste0("Observed day 1 Cmax geomean = ", round(obs_geomean,1), " simulated day 1 Cmax geo mean = ", round(sim_geomean,1))
     c(penalty,text)
 
-The R code executes from the run directory of that model, so, for example, a model run in c:\\pydarwin\\example4\\00\\04, the ORG.DAT and SIM.DAT files will be written to 
-that directory and the R code can read from the same directory.
+The R code executes from the run directory of that model, so, for example, if a model runs in ``c:\\pydarwin\\example4\\00\\04``, the ``ORG.DAT`` and ``SIM.DAT``
+files will be written to that directory and the R code will be read from the same directory.
 
 This R code returns a character vector of length 2. The first is a string that can be read as numeric (penalty) and the 2nd is a string that is appended to the 
 NONMEM output file, as a comment to document the output of the R code. The content of the 2nd element of the vector is entirely up to the user, it has no 
 impact on the pyDarwin process, it is just appended to the output file.
 
-The first element of the return value is added to the fitness/reward value and is then used in the selection of subsequent populations just as any other penalty. The 
-penalty value and be any real value - including negative, but typically would be positive. 
+The first element of the returned value is added to the fitness/reward value and is then used in the selection of subsequent populations, just as any other penalty. The 
+penalty value can be any real value - including negative, but typically would be positive. 
 
 The post processing code options are given in the options file:
 
@@ -68,89 +67,13 @@ The post processing code options are given in the options file:
         "use_python": false
 
 
-include whether to use_r for post processing (true), the path to the R code, the path to rscript.exe and the timeout (r_timeout) after which the R session will be terminated if not 
+Be sure to include whether to ``"use_r": true`` for post processing (true), the path to the R code, the path to Rscript.exe, and the timeout (``"r_timeout"``), after which the R session will be terminated if not 
 complete and the :ref:`crash_value<Crash Value>` added as the penalty.
 
-The search space contains 1.66 million possible models, and searches:
 
-
-+----------------------------+--------------------------+----------------------------+
-| Description                | Token Stem               | Values                     |
-+============================+==========================+============================+
-| Number of compartments     | ADVAN                    | 1|2|3                      |
-+----------------------------+--------------------------+----------------------------+
-| Is K23 related to weight?  | K23~WT                   | Yes|No                     |
-+----------------------------+--------------------------+----------------------------+
-| Is there ETA on Ka?        | KAETA                    | Yes|No                     |
-+----------------------------+--------------------------+----------------------------+
-| Is V2 related to weight?   | V2~WT                    | None|Power|exponential     |
-+----------------------------+--------------------------+----------------------------+
-| Is V2 related to Gender?   | V2~GENDER                | Yes|No                     |
-+----------------------------+--------------------------+----------------------------+
-| Is CL related to weight?   | CL~WT                    | None|Power|exponential     |
-+----------------------------+--------------------------+----------------------------+
-| Is CL related to Age?      | CL~AGE                   | Yes|No                     |
-+----------------------------+--------------------------+----------------------------+
-| | Is there ETA on D1 and/or| | ETAD1LAG               | | None or ETA on D1 or ETA |
-| | and/or ALAG1 (nested     | |                        | | ETA on ALAGa or ETA on   | 
-| | the D1LAG token group)   | |                        | | both or on both (BLOCK)  |
-+----------------------------+--------------------------+----------------------------+
-
-
-1,2,3 compartments
-
-Between occasion variability
-
-Multiple covariates (but probably still not as many as a real search)
-
-Different absorption models
-
-Different residual error models
-
-Block OMEGA structures
-
-Different initial estimates (also likely not as many as a real search should include).
-
-As the search space is large, we'll plan a fairly large sample (Population size of 80 with 12 generations). While :ref:`Gaussian Process<GP_desc>` may be more efficient 
-in terms of number of models to convergence, once ~500 samples are defined, the `ask step <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ becomes long, negating any 
-in efficiency of the algorithm. 
-Below is a table of the ask and tell step times  (hh:mm:ss), by iteration for GP. The sample size ws 80, with 4 chains on a 4 core computer: 
-
-+-----------+----------+----------+ 
-| iteration | ask      | tell     | 
-+===========+==========+==========+ 
-| 1         |          | 0:00:15  |
-+-----------+----------+----------+ 
-| 2         | 0:01:18  | 0:00:35  |
-+-----------+----------+----------+ 
-| 3         | 0:03:12  | 0:01:03  |
-+-----------+----------+----------+ 
-| 4         | 0:05:56  | 0:01:55  |
-+-----------+----------+----------+ 
-| 5         | 0:09:33  | 0:03:55  |
-+-----------+----------+----------+ 
-| 6         | 0:16:22  | 0:04:47  |
-+-----------+----------+----------+ 
-| 7         | 0:25:25  | 0:08:30  |
-+-----------+----------+----------+ 
-| 8         | 0:33:43  | 0:09:30  |
-+-----------+----------+----------+ 
-| 9         | 0:50:11  | 0:10:26  |
-+-----------+----------+----------+ 
-| 10        | 0:55:32  | 0:13:52  |
-+-----------+----------+----------+ 
-| 11        | 1:09:00  | 0:17:14  |
-+-----------+----------+----------+ 
-| 12        | 1:22:18  | 0:21:14  |
-+-----------+----------+----------+ 
-| 13        | 1:40:25  |          |
-+-----------+----------+----------+
-
-In contrast, GA execution time for the next generation sample is short (a few seconds) and independent of the cumulative sample size. 
-
-
+******************
 The Template file
-~~~~~~~~~~~~~~~~~
+******************
 
 ::
 
@@ -222,12 +145,13 @@ The Template file
     $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
   
 
-Example 4 template file :download:`text <../examples/user/Example4/template.txt>`
+Example 4 template file: :download:`text <../examples/user/Example4/template.txt>`
 
+****************
 The Tokens file
-~~~~~~~~~~~~~~~~
+****************
 
-Nothing new in the tokens file, we see again the nested tokens.
+Nothing new in the tokens file, we see again an example of nested tokens:
 
 ::
 
@@ -409,8 +333,7 @@ Nothing new in the tokens file, we see again the nested tokens.
 	]
     }
 
-**NOTE AGAIN!!**
-The use of THETA(paremeter identifier), e.g.
+Note again, the use of THETA(paremeter identifier), e.g.,
 
 
 ::
@@ -418,19 +341,20 @@ The use of THETA(paremeter identifier), e.g.
    (0.001,0.02)  \t ; THETA(ADVANA) K23
 
 
-for **ALL** initial estimate token text (THETA, OMEGA and SIGMA).
+for **ALL** initial estimate token text (THETA, OMEGA, and SIGMA).
 
 
-Example 4 tokens file :download:`json <../examples/user/Example4/tokens.json>`
+Example 4 tokens file: :download:`json <../examples/user/Example4/tokens.json>`
 
+*****************
 The Options file
-~~~~~~~~~~~~~~~~
+*****************
 
-The options file is fairly traditional, :ref:`Exhaustive search<EX_desc>`.  
+The algorithim selection in the options file is :ref:`GA<GA_desc>`.  
 
 The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
 
-Note that to run in the enviroment used for this example, the directories are set to:
+Note that, to run in the environment used for this example, the directories are set to:
 
 ::
 
@@ -439,14 +363,14 @@ Note that to run in the enviroment used for this example, the directories are se
     "temp_dir": "u:/pyDarwin/example4/rundir",
     "output_dir": "u:/pyDarwin/example4/output",
 
-It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set 
+It is recommended that the user set the directories to something appropriate for their environment. If directories are not set, 
 the default is:
 
 ::
 
 	{user_dir}\pydarwin\{project_name}
 
-In either case, the folder names are given in the initial and final output to facilitate finding the files and debuggins.
+In either case, the folder names are given in the initial and final output to facilitate finding the files and debugging.
 
 ::
 
@@ -506,17 +430,92 @@ In either case, the folder names are given in the initial and final output to fa
     }
 
 
-Example 4 options file :download:`json <../examples/user/Example4/options.json>`
+Example 4 options file: :download:`json <../examples/user/Example4/options.json>`
 
+******************************************
+Execute Search
+******************************************
 
-Starting the search and console output:
---------------------------------------------
+Usage details for starting a search in ``pyDarwin`` can be found :ref:`here<Execution>`.
 
-:ref:`Starting the search is covered here<Execution>`
+See :ref:`examples<examples_target>` for additional details about accessing example files.
 
-Initialization output should look similar to this:
+The search space contains 1.66 million possible models, and searches for the following:
+
++----------------------------+--------------------------+----------------------------+
+| Description                | Token Stem               | Values                     |
++============================+==========================+============================+
+| Number of compartments     | ADVAN                    | 1|2|3                      |
++----------------------------+--------------------------+----------------------------+
+| Is K23 related to weight?  | K23~WT                   | Yes|No                     |
++----------------------------+--------------------------+----------------------------+
+| Is there ETA on Ka?        | KAETA                    | Yes|No                     |
++----------------------------+--------------------------+----------------------------+
+| Is V2 related to weight?   | V2~WT                    | None|Power|exponential     |
++----------------------------+--------------------------+----------------------------+
+| Is V2 related to Gender?   | V2~GENDER                | Yes|No                     |
++----------------------------+--------------------------+----------------------------+
+| Is CL related to weight?   | CL~WT                    | None|Power|exponential     |
++----------------------------+--------------------------+----------------------------+
+| Is CL related to Age?      | CL~AGE                   | Yes|No                     |
++----------------------------+--------------------------+----------------------------+
+| | Is there ETA on D1 and/or| | ETAD1LAG               | | None or ETA on D1 or ETA |
+| | and/or ALAG1 (nested     | |                        | | ETA on ALAGa or ETA on   | 
+| | the D1LAG token group)   | |                        | | both or on both (BLOCK)  |
++----------------------------+--------------------------+----------------------------+
+
+In practice, we will be searching for:
+
+#. 1,2,3 compartments
+#. Between occasion variability
+#. Multiple covariates (but probably still not as many as a real search)
+#. Different absorption models
+#. Different residual error models
+#. Block OMEGA structures
+#. Different initial estimates (also likely not as many as a real search should include).
+
+As the search space is large, we'll plan a large sample (population size of 80, with 12 generations). While :ref:`Gaussian Process<GP_desc>` may be more efficient 
+in terms of number of models to convergence, once ~500 samples are defined, the `ask step <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ becomes long, 
+negating any efficiency of the algorithm. 
+
+Below is a table of the ask and tell step times  (hh:mm:ss), by iteration for GP. The sample size ws 80, with 4 chains on a 4 core computer: 
+
++-----------+----------+----------+ 
+| iteration | ask      | tell     | 
++===========+==========+==========+ 
+| 1         |          | 0:00:15  |
++-----------+----------+----------+ 
+| 2         | 0:01:18  | 0:00:35  |
++-----------+----------+----------+ 
+| 3         | 0:03:12  | 0:01:03  |
++-----------+----------+----------+ 
+| 4         | 0:05:56  | 0:01:55  |
++-----------+----------+----------+ 
+| 5         | 0:09:33  | 0:03:55  |
++-----------+----------+----------+ 
+| 6         | 0:16:22  | 0:04:47  |
++-----------+----------+----------+ 
+| 7         | 0:25:25  | 0:08:30  |
++-----------+----------+----------+ 
+| 8         | 0:33:43  | 0:09:30  |
++-----------+----------+----------+ 
+| 9         | 0:50:11  | 0:10:26  |
++-----------+----------+----------+ 
+| 10        | 0:55:32  | 0:13:52  |
++-----------+----------+----------+ 
+| 11        | 1:09:00  | 0:17:14  |
++-----------+----------+----------+ 
+| 12        | 1:22:18  | 0:21:14  |
++-----------+----------+----------+ 
+| 13        | 1:40:25  |          |
++-----------+----------+----------+
+
+In contrast, GA execution time for the next generation sample is short (a few seconds) and independent of the cumulative sample size. 
+
+Initialization output should look like:
 
 ::
+	
     [05:46:53] Options file found at ..\examples\user\Example4\options.json
 	[05:46:53] Preparing project working folder...
 	[05:46:53] Preparing project output folder...
@@ -543,7 +542,7 @@ Initialization output should look similar to this:
 	[05:47:21] Data set # 2 was found: c:\fda\pyDarwin\examples\user\Example4/dmag_with_period.csv
 
 
-After a few seconds, the NONMEM execution should begind, with output simlar to this:
+After a few seconds, the NONMEM execution should begin, with output like:
 
 ::
 
@@ -554,12 +553,12 @@ After a few seconds, the NONMEM execution should begind, with output simlar to t
 
 
 Note that (as in the case of human generated NONMEM code) the first 4 models crash, and the :ref:`crash value<Crash Value>` (99999999) is assigned 
-to the fitness. There also may be a message that "NON-FIXED OMEGA NON-FIXED PARAMETER". This is a consequence of the nested tokens. With nested token 
+to the fitness. There also may be a message: "NON-FIXED OMEGA NON-FIXED PARAMETER". This is a consequence of the nested tokens. With nested tokens, 
 there commonly will be tokens that are not used, e.g., covariates relationships for K23 when a cone compartment model (ADVAN1) is selected. A small 
-penalty should be added (the non influential token penalty) in this case, simply to prefer this model over the same model without the non influential 
+penalty should be added (the non-influential token penalty) in this case, simply to prefer this model over the same model without the non-influential 
 token(s). 
 
-The final output from the search should look similar to this:
+The final output from the search should look like:
 
 ::
 

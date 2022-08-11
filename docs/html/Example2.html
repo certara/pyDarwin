@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example 2: PK Model 2, Simulation model by GP with Python code &mdash; pyDarwin 1 documentation</title>
@@ -48,10 +48,13 @@
 <li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example 2: PK Model 2, Simulation model by GP with Python code</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#notes-on-gaussian-process-performance">Notes on Gaussian Process performance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#execute-search">Execute Search</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#notes-on-gaussian-process-performance">Notes on Gaussian Process performance</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
@@ -89,7 +92,7 @@
              
   <section id="example-2-pk-model-2-simulation-model-by-gp-with-python-code">
 <span id="startpk2"></span><h1>Example 2: PK Model 2, Simulation model by GP with Python code<a class="headerlink" href="#example-2-pk-model-2-simulation-model-by-gp-with-python-code" title="Permalink to this heading">¶</a></h1>
-<p>Example 2 is still a fairly simple search. The search space contains 12,960 models, 10 dimensions. The dimensions are:</p>
+<p>Example 2 is also a simple search. The search space contains 12,960 models, 10 dimensions. The dimensions are:</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Description</p></th>
@@ -181,101 +184,19 @@
 </table>
 <p>This gives a search space of 3 x 2 x 2 x 3 x 2 x 3 x 2 x 5 x 3 x 2 = 12960 models. We’ll use the <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> algorithm for the search,
 with a population size of 40 models, for up to 7 iterations. We’ll run the downhill (1 and 2 bit local search) each 5 iterations. The downhill step will be
-done starting with the 2 models that are in different niches, that is differ by at least the niche radius. The models are selected as the best in each of
-the two best niches. To selected the best models in each of 2 niches, first
-the best model in the entire population is identified. This will be the model for the first niche. Then all models within a <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">niche radius</span></a>
-of 2 are identified. The best in the 2nd niche then is the best model that is not in a niche. In this way we ensure that the downhill step is done starting
-with 2 models that are at least somewhat dissimilar (by at least a distance of 2). Commonly the <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">niche radius</span></a> would be larger than 2,
-but, given that there are only 10 bits in the entire genome, a 2 bit radius will span a significant part of the search space. All parsimony penalties (THETA, OMEGA,
-and SIGMA) will be 10 points, and we would really like a model that converges, has a successful covariance step, passes the correlation test and has a condition
+done starting with the 2 models that are in different niches i.e., differ by at least the niche radius. The models are selected as the best in each of
+the two best niches.</p>
+<p>To select the best models in each of 2 niches, first the best model in the entire population is identified. This will be the model for the first niche.
+Then all models within a <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">niche radius</span></a> of 2 are identified. The best in the 2nd niche then is the best model that is not in a niche.
+In this way we ensure that the downhill step is done starting with 2 models that are at least somewhat dissimilar (by at least a distance of 2).</p>
+<p>Commonly the <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">niche radius</span></a> would be larger than 2, but, given that there are only 10 bits in the entire genome, a 2 bit radius will span a significant part of the search space. All parsimony penalties (THETA, OMEGA,
+and SIGMA) will be 10 points, and we would really like a model that converges, has a successful covariance step, passes the correlation test, and has a condition
 number &lt; 1000, so all of these penalties will be 100. As there are nested tokens in this search, there is a reason to penalize models with non-influential
-tokens, the penalty for non-influential tokens will be set to 0.00001. This small penalty is only to insure that in a tournament selection the model that
+tokens, the penalty for non-influential tokens will be set to 0.00001. This small penalty is only to insure that in a tournament selection, the model that
 does not have non-influential tokens will be selected.</p>
-<section id="notes-on-gaussian-process-performance">
-<span id="gp-ask-tell"></span><h2>Notes on Gaussian Process performance<a class="headerlink" href="#notes-on-gaussian-process-performance" title="Permalink to this heading">¶</a></h2>
-<p>Gaussian Process is an approach in <a class="reference external" href="https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf">Bayesian Optimization</a>
-and <a class="reference external" href="https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py">here</a>  where the samples are drawn from
-a Gaussian Process. There are reasons to beleive that this this approach should be the most efficient (fewer reward evaluations to convergence) other than downhill search.
-However, the sampling itself can be very
-computationally expensive. Therefore the <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP option</span></a> is best suited when the number of reward calculation number of NONMEM models run) is relatively small, perhaps &lt; 1000,
-and the NONMEM run time is long (1 hour). Below is a table of the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask and tell</a> step times  (h:mm:ss), by iteration. The sample size ws 80, with 4 chains on a 4 core computer:</p>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>iteration</p></th>
-<th class="head"><p>ask</p></th>
-<th class="head"><p>tell</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>1</p></td>
-<td></td>
-<td><p>0:00:15</p></td>
-</tr>
-<tr class="row-odd"><td><p>2</p></td>
-<td><p>0:01:18</p></td>
-<td><p>0:00:35</p></td>
-</tr>
-<tr class="row-even"><td><p>3</p></td>
-<td><p>0:03:12</p></td>
-<td><p>0:01:03</p></td>
-</tr>
-<tr class="row-odd"><td><p>4</p></td>
-<td><p>0:05:56</p></td>
-<td><p>0:01:55</p></td>
-</tr>
-<tr class="row-even"><td><p>5</p></td>
-<td><p>0:09:33</p></td>
-<td><p>0:03:55</p></td>
-</tr>
-<tr class="row-odd"><td><p>6</p></td>
-<td><p>0:16:22</p></td>
-<td><p>0:04:47</p></td>
-</tr>
-<tr class="row-even"><td><p>7</p></td>
-<td><p>0:25:25</p></td>
-<td><p>0:08:30</p></td>
-</tr>
-<tr class="row-odd"><td><p>8</p></td>
-<td><p>0:33:43</p></td>
-<td><p>0:09:30</p></td>
-</tr>
-<tr class="row-even"><td><p>9</p></td>
-<td><p>0:50:11</p></td>
-<td><p>0:10:26</p></td>
-</tr>
-<tr class="row-odd"><td><p>10</p></td>
-<td><p>0:55:32</p></td>
-<td><p>0:13:52</p></td>
-</tr>
-<tr class="row-even"><td><p>11</p></td>
-<td><p>1:09:00</p></td>
-<td><p>0:17:14</p></td>
-</tr>
-<tr class="row-odd"><td><p>12</p></td>
-<td><p>1:22:18</p></td>
-<td><p>0:21:14</p></td>
-</tr>
-<tr class="row-even"><td><p>13</p></td>
-<td><p>1:40:25</p></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>Note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the data set size increases.
-For problems with larger search spaces, and greater number of model evaluations, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">Genetic algorithm</span></a> or <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">Random Forest</span></a> may
-be more appropriate.</p>
-<p>Below is a table of recommendations for algorithm selection.</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Fast execution, large search space (&gt; 100,000 models, expected sample &gt; 1000 models)– <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a> or <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a></p></li>
-<li><p>Small search space (&lt;100,000, expected # of samples &lt; 1000) - <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a>.</p></li>
-<li><p>Very small search space (&lt; 500 models), many cores (&gt; 20) – <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">exhaustive search</span></a>.</p></li>
-</ul>
-</div></blockquote>
-</section>
 <section id="the-template-file">
-<h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
-<p>The template file for example 2 is given below</p>
+<span id="gp-ask-tell"></span><h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
+<p>The template file for example 2 is given below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE {D1LAG[1]}
 $DATA      {data_dir}/datalarge.csv IGNORE=@
@@ -327,14 +248,14 @@ $EST METHOD=COND INTER MAX = 9999 MSFO=MSF1
 $COV UNCOND PRINT=E
 </pre></div>
 </div>
-<p>Example 2 template file <a class="reference download internal" download="" href="_downloads/c25509ade5d7364c88a1f0ca276a42ca/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
+<p>Example 2 template file: <a class="reference download internal" download="" href="_downloads/c25509ade5d7364c88a1f0ca276a42ca/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
 </section>
 <section id="the-tokens-file">
 <h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
 <p>Notes:</p>
 <ol class="arabic simple" id="example2-nested-tokens">
-<li><p>The example includes nested tokens. The K23~WT token group is nested within the ADVAN token group and the ETAD1LAG token group is nested with the D1LAG group</p></li>
-<li><p>Nested tokens can result in non-influential tokens. E.g., if ADVAN2 is selected, the selection of K23~WT tokens will have no effect on the constructed control file</p></li>
+<li><p>The example includes nested tokens. The K23~WT token group is nested within the ADVAN token group and the ETAD1LAG token group is nested within the D1LAG group.</p></li>
+<li><p>Nested tokens can result in non-influential tokens. For example,if ADVAN2 is selected, the selection of K23~WT tokens will have no effect on the constructed control file.</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
    <span class="s2">&quot;ADVAN&quot;</span><span class="p">:</span> <span class="p">[</span>
@@ -456,24 +377,23 @@ $COV UNCOND PRINT=E
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><strong>NOTE AGAIN!!</strong>
-The use of THETA(parameter identifier), e.g.</p>
+<p>Note again, the use of THETA(parameter identifier), e.g.,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mf">.7</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> \<span class="n">t</span><span class="p">;</span> <span class="n">THETA</span><span class="p">(</span><span class="n">CL</span><span class="o">~</span><span class="n">WT</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>for <strong>ALL</strong> initial estimate token text (THETA, OMEGA and SIGMA).</p>
-<p>Example 2 tokens file <a class="reference download internal" download="" href="_downloads/01b97a58723c3fc8ea6cc3d653b01a85/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+<p>for <strong>ALL</strong> initial estimate token text (THETA, OMEGA, and SIGMA).</p>
+<p>Example 2 tokens file: <a class="reference download internal" download="" href="_downloads/01b97a58723c3fc8ea6cc3d653b01a85/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
-<p>Note that to run in the environment used for this example, the directories are set to:</p>
+<p>Note that, to run in the environment used for this example, the directories are set to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example2/working&quot;</span><span class="p">,</span>
 <span class="s2">&quot;temp_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example2rundir&quot;</span><span class="p">,</span>
 <span class="s2">&quot;output_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example2/output&quot;</span><span class="p">,</span>
 </pre></div>
 </div>
-<p>It is recommended that the user set the directories to something appropriate for their environment. If directories are not set
+<p>It is recommended that the user set the directories to something appropriate for their environment. If directories are not set,
 the default is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">user_dir</span><span class="p">}</span>\<span class="n">pydarwin</span>\<span class="p">{</span><span class="n">project_name</span><span class="p">}</span>
 </pre></div>
@@ -516,8 +436,88 @@ the default is:</p>
 </pre></div>
 </div>
 <p>Once again, note that remove_run_dir is set to false, so NONMEM model and output files will be preserved in the temp_dir.</p>
-<p>Example 2 options file <a class="reference download internal" download="" href="_downloads/58fecf53d8ecd9a84f5f6d862a0bb03a/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
-<p>Starting the search from command line is covered <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here.</span></a></p>
+<p>Example 2 options file: <a class="reference download internal" download="" href="_downloads/58fecf53d8ecd9a84f5f6d862a0bb03a/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
+</section>
+<section id="execute-search">
+<h2>Execute Search<a class="headerlink" href="#execute-search" title="Permalink to this heading">¶</a></h2>
+<p>Usage details for starting a search in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> can be found <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here</span></a>.</p>
+<p>See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">examples</span></a> for additional details about accessing example files.</p>
+<section id="notes-on-gaussian-process-performance">
+<h3>Notes on Gaussian Process performance<a class="headerlink" href="#notes-on-gaussian-process-performance" title="Permalink to this heading">¶</a></h3>
+<p>Gaussian Process is an approach in <a class="reference external" href="https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf">Bayesian Optimization</a>
+(<a class="reference external" href="https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py">scikit-optimize</a>) where the samples are drawn from
+a Gaussian Process. There are reasons to believe that this approach should be the most efficient (fewer reward evaluations to convergence), other than downhill search.
+However, the sampling itself can be very
+computationally expensive. Therefore, the <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP option</span></a> is best suited when the number of reward calculations number of NONMEM models run) is relatively small, perhaps &lt; 1000,
+and the NONMEM run time is long (1 hour). Below is a table of the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask and tell</a> step times  (h:mm:ss), by iteration.
+The sample size was 80, with 4 chains on a 4 core computer:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>iteration</p></th>
+<th class="head"><p>ask</p></th>
+<th class="head"><p>tell</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td></td>
+<td><p>0:00:15</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>0:01:18</p></td>
+<td><p>0:00:35</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>0:03:12</p></td>
+<td><p>0:01:03</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>0:05:56</p></td>
+<td><p>0:01:55</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>0:09:33</p></td>
+<td><p>0:03:55</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>0:16:22</p></td>
+<td><p>0:04:47</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>0:25:25</p></td>
+<td><p>0:08:30</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>0:33:43</p></td>
+<td><p>0:09:30</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>0:50:11</p></td>
+<td><p>0:10:26</p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td><p>0:55:32</p></td>
+<td><p>0:13:52</p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td><p>1:09:00</p></td>
+<td><p>0:17:14</p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td><p>1:22:18</p></td>
+<td><p>0:21:14</p></td>
+</tr>
+<tr class="row-even"><td><p>13</p></td>
+<td><p>1:40:25</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the dataset size increases.
+For problems with larger search spaces, and greater number of model evaluations, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">Genetic algorithm</span></a> or <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">Random Forest</span></a> may
+be more appropriate.</p>
+<p>See <a class="reference internal" href="Overview.html#the-algorithms"><span class="std std-ref">algorithm recommendations</span></a>.</p>
+</section>
 </section>
 </section>
 

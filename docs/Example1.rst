@@ -2,8 +2,9 @@
 
 .. _startpk1:
 
+##################################################
 Example 1: PK Model, Trivial Exhaustive Search
-==============================================
+##################################################
 
 This first model is quite simple, the search space consists of 6 dimensions, each with 2 options. Thus, the total number of candidate models is 
 2^6 = 64 models. As the search space is very small, we'll perform an exhaustive search. See :ref:`details <The Algorithms>` on algorithm selection.
@@ -12,7 +13,7 @@ As is the usual practice in POP-PK model selection, the first step will be explo
 and to generate initial hypotheses. For the purpose of this tutorial, we will skip this step and assume that we have a "correct" dataset and a list of 
 hypotheses to be tested. The dataset for this example is ``dataExample1.csv``. See :ref:`examples <examples_target>` for more details.
 
-The next step for ML model selection is to get a simple model running. The control file for this simple model is given below:
+The next step for machine learning model selection is to get a simple model running. The control file for this simple model is given below:
 
 ::
 
@@ -58,33 +59,35 @@ The next step for ML model selection is to get a simple model running. The contr
 
 
 This text will serve as the starting point for developing the template file. 
-Note that the for the template file the data file can either be specified as a full path (preferred) or staring with {data_dir}. When pyDarwin runs models, it does not copy the data file to the run directory. Rather, 
-typically the data file is in the home directory. PyDarwin determines the {data_dir} at run time, and so this short cut can be used. However, the most straightforward and least error prone solution 
-is to provide the full path.
+Note that for the template file, the data file can either be specified as a full path (preferred) or starting with ``{data_dir}``.
 
 .. _template file: 
 
+********************
 The Template file
-~~~~~~~~~~~~~~~~~
-The initial simple model can then be edited by adding tokens. This first example will include covariates, residual error and one structural feature. 
-Each token group is identified by a :ref:`token stem <token stem>`, e.g. "V2~WT" for the dimension of the 
-relationship between weight a volume of distribution. Each token group includes 
-2 or more :ref:`token sets <token set>`, one for each option in the that dimension, These dimensions and the associated :ref:`token stem<token stem>` are:
+********************
+
+The initial simple model can then be edited by adding tokens. This first example will include covariates, residual error, and one structural feature. 
+Each token group is identified by a :ref:`token stem <token stem>`, e.g., "V2~WT" for the dimension of the 
+relationship between weight NS a volume of distribution. Each token group includes 
+2 or more :ref:`token sets <token set>`, one for each option in the dimension.
+
+These dimensions and the associated :ref:`token stem<token stem>` are:
 
 1. Effect of Weight on Volume ("V2~WT") - None or a power model.
 2. Effect of Sex (Gender) on Volume ("V2~GENDER") - None or a power model
 3. Effect of Weight on Clearance ("CL~WT") - None or a power model
-4. Presence of between subject variability (BSV) on Ka ("KAETA")- None or exponential model
+4. Presence of between subject variability (BSV) on Ka ("KAETA") - None or exponential model
 5. Presence of an absorption lag time - ALAG1 ("ALAG") - Present or not
 6. Residual error model ("RESERR") - additive or combined additive and proportional
 
 Covariate effects
-------------------
+====================
 
-For the effect of Weight on Volume, we've chosen the :ref:`token stem<token stem>` of "V2~WT". Two tokens will be required for this :ref:`token set<token set>`. The first will be 
-adding the relationship to the definition of TVV2 in the $PK block and the 2nd will be providing an initial estimate in the $THETA block for the estimated 
+For the effect of Weight on Volume, we've chosen the :ref:`token stem<token stem>` of "V2~WT". Two tokens will be required for this :ref:`token set<token set>`. The first will
+add the relationship to the definition of TVV2 in the $PK block and the 2nd will provide an initial estimate in the $THETA block for the estimated 
 THETA. Note that the index for THETA for this feature cannot be defined until the model is constructed. Only then can the number and sequence of the added THETAs be 
-determined. In the token set THETAs will be indexed with text, e.g., THETA(V2~WT). As there will be two tokens in the token set, the first have and index of 1
+determined. In the token set, THETAs will be indexed with text, e.g., THETA(V2~WT). As there will be two tokens in the token set, the first will have an index of 1
 and the 2nd an index of 2:
 
 ::
@@ -94,7 +97,7 @@ and the 2nd an index of 2:
      {V2~WT[2]} 
     
 
-note the curly braces, these are required for tokens in the template file. The record in the $PK will have the token appended to it, resulting this text:
+Note the curly braces, these are required for tokens in the template file. The record in the $PK will have the token appended to it, resulting in this text:
 
 ::
 
@@ -106,21 +109,21 @@ be defined:
 1. ""
 2. "\*CWTKG**THETA(V2~WT)"
 
-The first will have no text in that record, resulting in
+The first will have no text in that record, resulting in:
 
 ::
 
     TVV2=THETA(2)
 
 
-and the 2nd text being substituted will result in
+and the 2nd text being substituted will result in:
 
 ::
 
     TVV2=THETA(2)*CWTKG**THETA(V2~WT)
 
 
-The 2nd token for the initial estimate for THETA(V2~WT) wil be similar. The token text options will be:
+The 2nd token for the initial estimate for THETA(V2~WT) will be similar. The token text options will be:
 
 1. ""
 2. "  (-4,0.8,4) \\t; THETA(V2~WT) POWER volume ~WT "
@@ -134,37 +137,33 @@ The 2nd token for the initial estimate for THETA(V2~WT) wil be similar. The toke
 
     {V2~WT[2]}    
 
-Note the use of the escape syntax, "\\t" for a tab. Newlines will be coded similarly as "\\n". Actual crlf's are not permitted in JSON, and \\n must be used. 
-NONMEM comments (text after ";") are permitted. However, the 
-user must be aware of the impact that comments in token text may have on any code that follows. This $THETA block has 3 fixed THETA initial estimates - THETA(1), 
-THETA(2) and THETA(3). These will appear in all control files in the search. These fixed initial estimates are then followed by searched initial estimates. Searched 
+Note the use of the escape syntax, "\\t" for a tab. Newlines will be coded similarly as "\\n" (actual CLRFs are not permitted in JSON, and \\n must be used). 
+NONMEM comments (text after ";") are permitted. However, the user must be aware of the impact that comments in token text may have on any code that follows. This $THETA block has 3 fixed THETA initial estimates - THETA(1), 
+THETA(2), and THETA(3). These will appear in all control files in the search. These fixed initial estimates are then followed by searched initial estimates. Searched 
 initial estimates may or may not appear, depending on the model specification (:ref:`phenotype<phenotype>`). Searched initial estimates must be placed after all 
-fixed initial estimates. Each initial estimate must be on a separate line and must be surrounded by parentheses. The standard combinations of (lower, initial,upper) 
+fixed initial estimates. Each initial estimate must be on a separate line and must be surrounded by parentheses. The standard combinations of (lower, initial, upper) 
 are all supported. 
 
 Tokens sets for each feature to be searched will be defined as these :ref:`token key-text pairs<token key-text pair>` (analogous to key-value pairs 
-in JSON, but only text values are permitted)
+in JSON, but only text values are permitted).
 
-Each of these dimensions has two options. Therefore the total number of candidate models 
-in the search space is number of permutations - 2^6 = 64. 
+Each of these dimensions has two options. Therefore, the total number of candidate models 
+in the search space is the number of permutations - 2^6 = 64. 
 
-In the :download:`template text <../examples/user/Example1/template.txt>` note the 
+In the :download:`template text <../examples/user/Example1/template.txt>`, note the 
 special text in curly braces({}). These are :ref:`tokens<token>`. Tokens come in sets, as typically 
-multiple text substitution must be made to results in a syntactically correct NMTRAN control file. For 
+multiple text substitutions must be made to result in a syntactically correct NMTRAN control file. For 
 example, if ALAG1 is to be used in the $PK block, a corresponding initial estimate for 
 this parameter must be provided in the $THETA block. These tokens (collectively called a token set) 
 are then replaced by the corresponding text value in the :ref:`token key-text pair <token key-text pair>`. 
 
 
 **Note !!!**
-In order to parse the text in the initial estimates blocks (THETA, OMEGA and SIGMA) the user MUST include token stem text as a comment (i.e. after ";"). There is 
+In order to parse the text in the initial estimates blocks (THETA, OMEGA, and SIGMA), the user MUST include token stem text as a comment (i.e., after ";"). There is 
 no other way to identify which initial estimates are to be associated with which THETA. 
-E.g, if an token stem as two THETAs:
-
+For example, if a token stem as two THETAs and the test in the $PK block is:
 
 Effect = THETA(EMAX) * CONC/(THETA(EC50) + CONC)
-for the text in the $PK block, then code to be put into the $THETA block will be:
-
 
 The resulting $THETA block for this initial feature will be:
 
@@ -181,18 +180,18 @@ Other covariate effects are coded similarly.
 
 
 Variance terms
------------------
+====================
 
-Between subject variability is handled similarly, with the "{}" text. Typically the first tokens in the tokens sets will be in the $PK, $DES or $ERROR block and the  
-2nd in $OMEGA, with the *required* ETA(IndexText) after a NONMEM comment, as for THETA initial estimates. ERR and EPS are handled similarly, either syntax is permitted.
+Between subject variability is handled similarly, with the "{}" text. Typically, the first tokens in the tokens sets will be in the $PK, $DES or, $ERROR block and the  
+2nd in $OMEGA, with the *required* ETA(IndexText) after a NONMEM comment (the same as for THETA initial estimates). ERR and EPS are handled similarly, either syntax is permitted.
 
-Example 1 template file :download:`template file <../examples/user/Example1/template.txt>`
-Example 1 searchs a 6 dimensional space. The dimensions corresponds to :ref:`token group <token group>`. 
+Example 1 template file: :download:`template file <../examples/user/Example1/template.txt>`
+Example 1 searches a 6 dimensional space. The dimensions correspond to :ref:`token group <token group>`. 
 
 Data file path
---------------
-Typically, the NMTRAN data file will be located in the :ref:`working directory<working directory>`. As the models are run in a directory two levels down 
-(home directory/generation/model) the path to the data set can be given as 
+====================
+Typically, the NMTRAN data file will be in the :ref:`working directory<working directory>`. As the models are run in a directory two levels down 
+(home directory/generation/model). The path to the data set can be given as:
 
 ::
 
@@ -202,8 +201,8 @@ Alternatively (and possibly preferred), the full path can be given.
 
 
 Final template file
---------------------
-As the search space is small (and the run time is fast), we'll search by exhaustive search.
+====================
+As the search space is small (and the run time is fast), we'll perform an exhaustive search.
 The final template file for Example 1 is given below.
 
 ::
@@ -256,19 +255,20 @@ The final template file for Example 1 is given below.
     
 .. _tokens File:
 
+******************
 The Tokens file
-~~~~~~~~~~~~~~~~
+******************
 
-Example 1 tokens file :download:`json tokens file <../examples/user/Example1/tokens.json>`
+Example 1 tokens file: :download:`json tokens file <../examples/user/Example1/tokens.json>`
 
 The :ref:`tokens file <tokens_file_target>` provide the :ref:`token key-text pairs<token key-text pair>` that 
-are substituted into the template file. This is a `JSON <https://www.json.org/json-en.html>`_ file format. 
+are substituted into the template file. This is file uses a `JSON <https://www.json.org/json-en.html>`_ file format. 
 Unfortunately, comments are not  permitted in JSON files and so this file is without any annotation. Requirements are that 
 each :ref:`token set <token set>` within a :ref:`token group <token group>` must have the same number of :ref:`tokens <token>` 
 and new lines must be coded using the escape syntax ("\\n"), not just a new line in the file (which will be ignored in JSON). Any number of levels of 
-nested tokens (tokens within tokens) is permitted. This can be useful, when for example one might want to search for covariates 
-on an search parameter, as in searching for an effect of FED vs FASTED state on ALAG1, when ALAG1 is also searched (see
-:ref:`PK example 2 <Example2_nested_tokens>`). Additional levels of nested token are permitted, but the logic of correctly coding them quickly becomes daunting. 
+nested tokens (tokens within tokens) is permitted. This can be useful, when one might want to search for covariates 
+on a search parameter, as in searching for an effect of FED vs FASTED state on ALAG1, when ALAG1 is also searched (see
+:ref:`PK example 2 <Example2_nested_tokens>`). Additional levels of nested tokens are permitted, but the logic of correctly coding them can become quickly daunting. 
 The tokens file for Example 1 is given below.
 
 ::
@@ -338,17 +338,17 @@ Note again, the **required** parameter identifier as a comment in all initial es
 
 .. _The Options File:
 
+*****************
 The Options file
-~~~~~~~~~~~~~~~~
+*****************
 
 Example 1 :ref:`Options file <options file>`  :download:`json options file <../examples/user/Example1/options.json>` 
 The options file will likely need to be edited, as the path to nmfe??.bat (Windows) or nmfe?? (Linux) must be provided
-The options file for Example 1 is given below:
 
 The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
 
 
-Note that to run in the environment used for this example, the directories are set to:
+Note that, to run in the environment used for this example, the directories are set to:
 
 ::
 
@@ -357,14 +357,14 @@ Note that to run in the environment used for this example, the directories are s
     "temp_dir": "u:/pyDarwin/example1/rundir",
     "output_dir": "u:/pyDarwin/example1/output",
 
-It is recommended that the user set the directories to something appropriate for their environment. If directories are not set 
+It is recommended that the user set the directories to something appropriate for their environment. If directories are not set, 
 the default is:
 
 ::
 
 	{user_dir}\pydarwin\{project_name}
 
-In either case, the folder names are given in the initial and final output to facilitate finding the files and debugging
+In either case, the folder names are given in the initial and final output to facilitate finding the files and debugging.
 
 
 ::
@@ -397,27 +397,29 @@ In either case, the folder names are given in the initial and final output to fa
     }
 
 Penalties
-----------
-The base value for the "fitness" (for GA) or "reward/cost" for other algorithms is the -2LL value from the NONMEM output. Typically penalties for increased complexity are added to this. If one 
-parameter is added, and the models are nested, a value of 3.84 points per parameter corresponds to p< 0.05. We'll use 10 points for each estimated parameter. Typically a model that converges 
-and has a successful covariance step is viewed as "better" than a model that doesn't. Therefore to capture this, we'll add 100 points for failing to converge, failing a covariance step 
-and failing the correlation test. Note that if the covariance step is not requested, the failed covariance penalty is added as is the failed correlation test and the failed condition number test. 
-Similarly if the PRINT=E option is not included in the $COV record, the eigenvalues will not be printed and this will be regarded as a failed condition number test. 
+====================
+
+The base value for the "fitness" (for GA) or "reward/cost" for other algorithms is the -2LL value from the NONMEM output. Typically, penalties for increased complexity are added to this. If one 
+parameter is added, and the models are nested, a value of 3.84 points per parameter corresponds to p< 0.05. We'll use 10 points for each estimated parameter. Generally, a model that converges 
+and has a successful covariance step is viewed as "better" than a model that doesn't. Therefore, to capture this, we'll add 100 points for failing to converge, failing a covariance step, 
+and failing the correlation test. Note that if the covariance step is not requested, the failed covariance penalty is added, as is the failed correlation test and the failed condition number test. 
+Similarly, if the PRINT=E option is not included in the $COV record, the eigenvalues will not be printed and this will be regarded as a failed condition number test. 
 The non_influential_tokens penalty is added if any tokens selected for this model do not influence the final control file, as may be the case for nested tokens. This number should be small, as 
 it is only intended to break ties between otherwise identical models.
 
 The data file
-~~~~~~~~~~~~~~~~
+====================
 
-Example 1 Data file :download:`dataExample1.csv <../examples/user/Example1/dataExample1.csv>`
+Example 1 data file: :download:`dataExample1.csv <../examples/user/Example1/dataExample1.csv>`
   
 
+******************
+Execute Search
+******************
 
-Starting pyDarwin and console output
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Usage details for starting a search in ``pyDarwin`` can be found :ref:`here<Execution>`.
 
-:ref:`Starting the search is covered here<Execution>`
-
+See :ref:`examples<examples_target>` for additional details about accessing example files.
 
 Initialization of the run should generate output similar to this:
 
@@ -446,18 +448,18 @@ Initialization of the run should generate output similar to this:
     [10:50:42] Checking files in u:\pyDarwin\example1\rundir\0\01
     [10:50:42] Data set # 1 was found: c:\fda\pyDarwin\examples\user\Example1/dataExample1.csv
 
-Importantly, the temp directory (temp_dir) is listed and since
+It is important to notice that - the temp directory (temp_dir) is listed and since:
     
     ::
 
         "remove_temp_dir": false,
 
-is set to false in the options file, all key NONMEM outputs are saved. This is where you should look for them after the
+is set to false in the options file, all key NONMEM outputs are saved. This temp directory is where you should look for the output after the
 inevitable errors.
 During the search, the current, interim best model files can be found in the working dir, along with the messages (same content as output 
 to console) and a models.json file that can be used to restart searches that are interrupted. 
 The final outputs will be found in the Project output dir. 
-At the end of the run, the output should look similar to this:
+At the end of the run, the output should look like:
 
 ::
         
@@ -468,4 +470,4 @@ At the end of the run, the output should look similar to this:
     [11:16:28] Best overall fitness = 4818.765529, iteration 0, model 47
     [11:16:28] Elapsed time = 12.8 minutes
 
-and the final best model files and a list of all runs (results.csv) can be found in the output folder. 
+The final best model files and a list of all runs (results.csv) can be found in the output folder. 

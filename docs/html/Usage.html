@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Usage &mdash; pyDarwin 1 documentation</title>
@@ -371,8 +371,8 @@ folders to the <a class="reference internal" href="API.html#darwin-run-search-in
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Ensure that the <code class="docutils literal notranslate"><span class="pre">&quot;nmfe_path&quot;</span></code> field  in <code class="docutils literal notranslate"><span class="pre">/Example1/options.json</span> <span class="pre">``</span> <span class="pre">points</span> <span class="pre">to</span> <span class="pre">valid</span> <span class="pre">location</span> <span class="pre">in</span> <span class="pre">your</span> <span class="pre">file</span> <span class="pre">system.</span>
-<span class="pre">This</span> <span class="pre">change</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">made</span> <span class="pre">across</span> <span class="pre">all</span> <span class="pre">``options.json</span></code> files in example folders, including other example-specific
+<p>Ensure that the <code class="docutils literal notranslate"><span class="pre">&quot;nmfe_path&quot;</span></code> field  in <code class="docutils literal notranslate"><span class="pre">/Example1/options.json</span></code> points to valid location in your file system.
+This change should be made across all <code class="docutils literal notranslate"><span class="pre">options.json</span></code> files in example folders, including other example-specific
 changes such as <code class="docutils literal notranslate"><span class="pre">&quot;rscript_path&quot;</span></code> used in <code class="docutils literal notranslate"><span class="pre">/Example4/options.json</span></code>.</p>
 </div>
 </section>
@@ -380,7 +380,7 @@ changes such as <code class="docutils literal notranslate"><span class="pre">&qu
 <h2>pyDarwin Outputs<a class="headerlink" href="#pydarwin-outputs" title="Permalink to this heading">¶</a></h2>
 <section id="console-output">
 <h3>Console output<a class="headerlink" href="#console-output" title="Permalink to this heading">¶</a></h3>
-<p>When pyDarwin first starts, it starts by confirming that key files are available. These files include:</p>
+<p>After the search command is submitted, <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> first verifies that the following files and executables are available:</p>
 <ol class="arabic simple">
 <li><p>The template file</p></li>
 <li><p>The tokens file</p></li>
@@ -400,8 +400,8 @@ changes such as <code class="docutils literal notranslate"><span class="pre">&qu
 <li><p>NMFE??.bat (Windows) or nmfe?? (Linux) file</p></li>
 <li><p>Rscript.exe, if used</p></li>
 </ol>
-<p>When run from command line (<a class="reference external" href="https://code.visualstudio.com/">or from Visual Studio Code</a>) pyDarwin provides significant output about whether individual models
-have executed successfully. A typical line of output might be:</p>
+<p><code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> provides verbose output about whether individual models have executed successfully.</p>
+<p>A typical line of output might be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">1</span><span class="p">,</span>       <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mf">123.34</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span>  <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
 </pre></div>
 </div>
@@ -409,16 +409,19 @@ have executed successfully. A typical line of output might be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Time</span> <span class="n">of</span> <span class="n">completion</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="n">Iteration</span><span class="o">/</span><span class="n">generation</span><span class="p">,</span> <span class="n">Model</span>     <span class="n">Model</span> <span class="n">Number</span><span class="p">,</span>       <span class="n">Final</span> <span class="n">Status</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="o">/</span><span class="n">reward</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span>  <span class="n">Messages</span> <span class="kn">from</span> <span class="nn">NMTRAN</span>
 </pre></div>
 </div>
-<p>If there are messages from NONMEM execution, these will also be written to console, as well as if execution failed, and, if request, if R execution failed.</p>
+<p>If there are messages from NONMEM execution, these will also be written to the console, as well as if execution failed, and, if request, if R execution failed.</p>
 <p>If the <a class="reference internal" href="Options.html#remove-temp-dir-options-desc"><span class="std std-ref">“remove_temp_dir”</span></a> is not set to true, the NONMEM control file, output file and other key files can be found in {temp_dir}Iteration/generationModel Number for debugging.</p>
 </section>
 <section id="file-output">
 <h3>File output<a class="headerlink" href="#file-output" title="Permalink to this heading">¶</a></h3>
 <p>The file output from pyDarwin is generated real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly,
-messages (what appears on the console) is written continuously to the messages.txt file.</p>
+messages (what appears on the console output) are written continuously to the messages.txt file.</p>
+<p><strong>NOTE</strong>. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the “locks” them, e.g., Excel. If, for example
+the results.csv file is opened in Excel, the next time pyDarwin tries to open it to write the next model output, an exception will occur. The work around is to copy the file to
+another file (e.g., <code class="docutils literal notranslate"><span class="pre">cp</span> <span class="pre">results.csv</span> <span class="pre">results1.csv</span></code>), then open the copied file.</p>
 <section id="messages-txt">
 <h4>Messages.txt<a class="headerlink" href="#messages-txt" title="Permalink to this heading">¶</a></h4>
-<p>The messages.txt file will be found in the working dir. This file’s content is the same as that output to the console.</p>
+<p>The messages.txt file will be found in the working directory. This file’s content is the same as the console output.</p>
 </section>
 <section id="models-json">
 <h4>models.json<a class="headerlink" href="#models-json" title="Permalink to this heading">¶</a></h4>

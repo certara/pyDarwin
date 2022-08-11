@@ -43,13 +43,6 @@ OPT
    :members:
    :undoc-members:
 
-PSO
-----------------------------
-
-.. automodule:: darwin.algorithms.PSO
-   :members: run_pso
-   :undoc-members:
-
 downhill
 --------------------------------------
 

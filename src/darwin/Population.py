@@ -95,7 +95,7 @@ class Population:
 
     def get_best_run(self) -> ModelRun:
         """
-        Get the best run (the least fitness of entire population).
+        Get the best run (the run with the least fitness among entire population).
         """
         fitnesses = [r.result.fitness for r in self.runs]
 

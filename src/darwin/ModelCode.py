@@ -89,7 +89,6 @@ class ModelCode:
         """
         Converts a "full binary" (e.g., from GA to integer (used to select token sets))
         arguments are:
-        bin_pop - population of binaries
         gene_max - integer list,maximum value- number of tokens sets in that token group
         length - integer list, how long each gene is
         return integer array of which token goes into this model

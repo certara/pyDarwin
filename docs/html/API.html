@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API &mdash; pyDarwin 1 documentation</title>
@@ -18,7 +18,6 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -63,7 +62,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.exhaustive">exhaustive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.GA">GA</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.OPT">OPT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.PSO">PSO</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.run_downhill">downhill</a></li>
 </ul>
 </li>
@@ -108,8 +106,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#runnable-modules">Runnable modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">darwin.run_search</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id3">darwin.run_search_in_folder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">darwin.run_search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">darwin.run_search_in_folder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#darwin-stop-search">darwin.stop_search</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#darwin-run-model">darwin.run_model</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#darwin-grid-run-search">darwin.grid.run_search</a></li>
@@ -242,60 +240,6 @@ The template objects includes the control file template, and all the token group
 </dd></dl>
 
 </section>
-<section id="module-darwin.algorithms.PSO">
-<span id="pso"></span><h3>PSO<a class="headerlink" href="#module-darwin.algorithms.PSO" title="Permalink to this heading">¶</a></h3>
-<p>A Binary Particle Swarm Optimization (binary PSO) algorithm.</p>
-<p>It takes a set of candidate solutions, and tries to find the best
-solution using a position-velocity update method. Unlike
-<code class="xref py py-mod docutils literal notranslate"><span class="pre">pyswarms.single.gb</span></code> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyswarms.single.lb</span></code>, this technique
-is often applied to discrete binary problems such as job-shop scheduling,
-sequencing, and the like.</p>
-<p>The update rule for the velocity is still similar, as shown in the
-proceeding equation:</p>
-<div class="math notranslate nohighlight">
-\[v_{ij}(t + 1) = w * v_{ij}(t) + c_{1}r_{1j}(t)[y_{ij}(t) − x_{ij}(t)] + c_{2}r_{2j}(t)[\hat{y}_{j}(t) − x_{ij}(t)]\]</div>
-<p>For the velocity update rule, a particle compares its current position
-with respect to its neighbours. The nearest neighbours are being
-determined by a kD-tree given a distance metric, similar to local-best
-PSO. The neighbours are computed for every iteration. However, this whole
-behavior can be modified into a global-best PSO by changing the nearest
-neighbours equal to the number of particles in the swarm. In this case,
-all particles see each other, and thus a global best particle can be established.</p>
-<p>In addition, one notable change for binary PSO is that the position
-update rule is now decided upon by the following case expression:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}X_{ij}(t+1) = \left\{\begin{array}{lr}
-     0, &amp; \text{if } \text{rand() } \geq S(v_{ij}(t+1))\\
-     1, &amp; \text{if } \text{rand() } &lt; S(v_{ij}(t+1))
-     \end{array}\right\}\end{split}\]</div>
-<p>Where the function <span class="math notranslate nohighlight">\(S(x)\)</span> is the sigmoid function defined as:</p>
-<div class="math notranslate nohighlight">
-\[S(x) = \dfrac{1}{1 + e^{-x}}\]</div>
-<p>This enables the algorithm to output binary positions rather than
-a stream of continuous values as seen in global-best or local-best PSO.</p>
-<p>This algorithm was adapted from the standard Binary PSO work of J. Kennedy and
-R.C. Eberhart in Particle Swarm Optimization <a class="reference internal" href="#smc1997" id="id1"><span>[SMC1997]</span></a>.</p>
-<div role="list" class="citation-list">
-<div class="citation" id="smc1997" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">SMC1997</a><span class="fn-bracket">]</span></span>
-<p>J. Kennedy and R.C. Eberhart, “A discrete binary version of
-particle swarm algorithm,” Proceedings of the IEEE International
-Conference on Systems, Man, and Cybernetics, 1997.</p>
-</div>
-</div>
-<dl class="py function">
-<dt class="sig sig-object py" id="darwin.algorithms.PSO.run_pso">
-<span class="sig-prename descclassname"><span class="pre">darwin.algorithms.PSO.</span></span><span class="sig-name descname"><span class="pre">run_pso</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.algorithms.PSO.run_pso" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs Particle Swarm Optimization (PSO), based on PySwarm (<a class="reference external" href="https://github.com/ljvmiranda921/pyswarms">https://github.com/ljvmiranda921/pyswarms</a>)
-Called from Darwin.run_search, _run_template
-NOT YET STABLE
-:param model_template: Model Template
-:type model_template: Template
-:return: Final/Best Model
-:rtype: Model</p>
-</dd></dl>
-
-</section>
 <section id="module-darwin.algorithms.run_downhill">
 <span id="downhill"></span><h3>downhill<a class="headerlink" href="#module-darwin.algorithms.run_downhill" title="Permalink to this heading">¶</a></h3>
 <dl class="py function">
@@ -408,7 +352,6 @@ and to interconvert between them.</p>
 <span class="sig-name descname"><span class="pre">_convert_full_bin_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gene_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCode.ModelCode._convert_full_bin_int" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a “full binary” (e.g., from GA to integer (used to select token sets))
 arguments are:
-bin_pop - population of binaries
 gene_max - integer list,maximum value- number of tokens sets in that token group
 length - integer list, how long each gene is
 return integer array of which token goes into this model</p>
@@ -612,7 +555,7 @@ If the code is found in the cache, ModelRun will be restored from there and won�
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.Population.Population.get_best_run">
 <span class="sig-name descname"><span class="pre">get_best_run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.Population.Population.get_best_run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the best run (the least fitness of entire population).</p>
+<dd><p>Get the best run (the run with the least fitness among entire population).</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1543,11 +1486,11 @@ in the resulting control file. A small penalty, is specified in the options file
 </section>
 <section id="runnable-modules">
 <h2>Runnable modules<a class="headerlink" href="#runnable-modules" title="Permalink to this heading">¶</a></h2>
-<section id="id2">
-<h3>darwin.run_search<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<section id="id1">
+<h3>darwin.run_search<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
 </section>
-<section id="id3">
-<h3>darwin.run_search_in_folder<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<section id="id2">
+<h3>darwin.run_search_in_folder<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 </section>
 <section id="darwin-stop-search">
 <h3>darwin.stop_search<a class="headerlink" href="#darwin-stop-search" title="Permalink to this heading">¶</a></h3>

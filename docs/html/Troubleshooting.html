@@ -84,38 +84,43 @@
   <section id="troubleshooting">
 <h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">¶</a></h1>
 <p id="non-integer-index-to-theta-omega-sigma"><strong>Non integer index to THETA/OMEGA/SIGMA</strong></p>
-<p>The error from NONMEM (nmtran) will be something like</p>
+<p>The error from NONMEM (nmtran) will look something like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AN</span> <span class="n">ERROR</span> <span class="n">WAS</span> <span class="n">FOUND</span> <span class="n">ON</span> <span class="n">LINE</span> <span class="mi">11</span> <span class="n">AT</span> <span class="n">THE</span> <span class="n">APPROXIMATE</span> <span class="n">POSITION</span> <span class="n">NOTED</span><span class="p">:</span>
 <span class="n">TVV2</span><span class="o">=</span><span class="n">THETA</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span><span class="n">EXP</span><span class="p">(</span><span class="n">GENDER</span><span class="o">*</span><span class="n">THETA</span><span class="p">(</span><span class="n">V</span><span class="o">~</span><span class="n">GENDER</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>In order to parse the text in the initial estimates blocks (THETA, OMEGA and SIGMA) the user MUST include token stem text as a comment (i.e. after “;”) in the tokens file. There is
-no other way to identify which initial estimates are to be associated with which THETA.
-E.g, if an token stem as two THETAs:</p>
-<p>Effect = THETA(EMAX) * CONC/(THETA(EC50) + CONC)
-for the text in the $PK block, then code to be put into the $THETA block will be:</p>
-<p>The required $THETA block for initial estimates for this feature will be:</p>
+<p>To parse the text in the initial estimates blocks (THETA, OMEGA, and SIGMA), the user MUST include token stem text as a comment (i.e., after “;”) in the tokens file. There is
+no other way to identify which initial estimates are to be associated with which THETA.</p>
+<p>For example, if a token stem as two THETAs and the text in the $PK block is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Effect</span> <span class="o">=</span> <span class="n">THETA</span><span class="p">(</span><span class="n">EMAX</span><span class="p">)</span> <span class="o">*</span> <span class="n">CONC</span><span class="o">/</span><span class="p">(</span><span class="n">THETA</span><span class="p">(</span><span class="n">EC50</span><span class="p">)</span> <span class="o">+</span> <span class="n">CONC</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>the required $THETA block for initial estimates for this feature will be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;  (0,100) </span><span class="se">\\</span><span class="s2">t; THETA(EMAX) &quot;</span>
 <span class="s2">&quot;  (0,1000) </span><span class="se">\\</span><span class="s2">t; THETA(EC50) &quot;</span>
 </pre></div>
 </div>
-<p>Without this THETA(EMAX) and THETA(EC50) as a comment, there wouldn’t be any way to identify which initial estimate is to be associated with which
+<p>Without the THETA(EMAX) and THETA(EC50) as comments, there would be no way to identify which initial estimate is to be associated with which
 THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Given that the actual indices for THETA cannot be determined until the control file
-is created, this approach would lead to ambiguity or at least confusion about which initial estimate was associated with which THETA index.
+is created, this approach would lead to ambiguity, or at least confusion, about which initial estimate was associated with which THETA index.
 Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier as a comment.</p>
-<p>Failing to do so will result in pyDarwin not finding an appropriate initial estimate for that parameter and then being unable to calculate the appropriate index.</p>
+<p>Failing to do so will result in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> not finding an appropriate initial estimate for that parameter and then being unable to calculate the appropriate index.</p>
 <p id="can-t-delete-temp-dir"><strong>can’t delete temp_dir</strong></p>
-<p>To insure valid results all folders that pyDarwin uses (output dir, temp dir and working dir) are removed prior to start. If that folder, or a file in the folder is open pyDarwin will be unable
-to remove it.</p>
+<p>To ensure valid results, all folders that <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> uses (output dir, temp dir, and working dir) are removed prior to start. If one of those folders,
+or a file in a folder is open, <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> will be unable to remove it.</p>
 <p id="can-t-access-messages-txt"><strong>can’t access messages.txt</strong></p>
-<p>Exception has occurred: PermissionError (note: full exception trace is shown but execution is paused at: &lt;module&gt;)
-[WinError 32] The process cannot access the file because it is being used by another process: ‘c:\pydarwin\Example6\messages.txt’</p>
-<p>This error occurs when run_search is called from python in Visual Studio Code without the “if __name__ == ‘__main__’: ” <a class="reference external" href="https://stackoverflow.com/questions/419163/what-does-if-name-main-do">syntax</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">Exception</span> <span class="n">has</span> <span class="n">occurred</span><span class="p">:</span> <span class="ne">PermissionError</span> <span class="p">(</span><span class="n">note</span><span class="p">:</span> <span class="n">full</span> <span class="n">exception</span> <span class="n">trace</span> <span class="ow">is</span> <span class="n">shown</span> <span class="n">but</span> <span class="n">execution</span> <span class="ow">is</span> <span class="n">paused</span> <span class="n">at</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="p">[</span><span class="n">WinError</span> <span class="mi">32</span><span class="p">]</span> <span class="n">The</span> <span class="n">process</span> <span class="n">cannot</span> <span class="n">access</span> <span class="n">the</span> <span class="n">file</span> <span class="n">because</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">being</span> <span class="n">used</span> <span class="n">by</span> <span class="n">another</span> <span class="n">process</span><span class="p">:</span> <span class="s1">&#39;c:</span><span class="se">\\</span><span class="s1">pydarwin</span><span class="se">\\</span><span class="s1">Example6</span><span class="se">\\</span><span class="s1">messages.txt&#39;</span>
+</pre></div>
+</div>
+<p>This error occurs when <code class="docutils literal notranslate"><span class="pre">run_search</span></code> is called from python in Visual Studio Code without the “if __name__ == ‘__main__’: ” <a class="reference external" href="https://stackoverflow.com/questions/419163/what-does-if-name-main-do">syntax</a>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;if __name__ == &#39;__main__&#39;: &quot;</span>
 </pre></div>
 </div>
-<p>isn’t used to call run_search it tries to reopen messages.txt and fails.</p>
-<p id="can-t-open-r"><strong>can’t open results.csv</strong> pyDarwin opens and closes the <code class="file docutils literal notranslate"><span class="pre">results.csv</span></code> file with each model completed. If it is opened in an application the “locks” it, e.g., Excel, an exception will occur. The work around is to copy the file to another file (e.g., cp results.csv results1.csv), then open the copied file.</p>
+<p>isn’t used to call <code class="docutils literal notranslate"><span class="pre">run_search</span></code>, it tries to reopen messages.txt and fails.</p>
+<p id="can-t-open-r"><strong>can’t open results.csv</strong> pyDarwin opens and closes the <code class="file docutils literal notranslate"><span class="pre">results.csv</span></code> file with each model completed.
+If it is opened in an application the “locks” it, e.g., Excel, an exception will occur. The work around is to
+copy the file to another file (e.g., cp results.csv results1.csv), then open the copied file.</p>
 </section>
 
 

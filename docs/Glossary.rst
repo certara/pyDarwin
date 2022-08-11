@@ -1,16 +1,13 @@
-.. pyDarwin documentation master file, created by
-   sphinx-quickstart on Thu Jun  9 08:53:00 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
 .. include:: .special.rst
 
+########
 Glossary
-====================================
+########
  
 .. _Crash Value:
 
-**Crash Value**: Anyone with any experience with Population PK model has experience with crashes. there are many sources of error, including:
+**Crash Value**: Anyone with experience in Population PK modeling has experience with crashes. There are many possible sources for a crash, including:
 
 - syntax errors in the control file
 - math errors (divide by zero, log(negative value))
@@ -48,42 +45,41 @@ In other algorithms is called "reward" or "cost", or sometimes "loss function". 
   redundancy of the matching of bit strings with the :ref:`integer representation<integer representation>`. For example, if a given :ref:`token group<token group>` included 3 
   :ref:`token sets<token set>`, two bits would be required (one bit can only specify two options). Two bits have 4 possible values, while only 3 are needed. Therefore, some duplication 
   of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Managing this redundancy is handled internally by pyDarwin. the full binary is used only by :ref:`Genetic algorithm<GA>`.
-| The minimal binary is in contrast to the :ref:`full binary <full binary>`.
+| The minimal binary contrasts with the :ref:`full binary <full binary>`.
 
 .. _GA:
 
-**GA - Genetic Algorithm:** An unsupervised search algorithm that mimic's the mathematics 
+**GA - Genetic Algorithm:** An unsupervised search algorithm that mimics the mathematics 
 of 'survival of the fittest'. A population of candidates is generated randomly, and the "fitness" 
-of each candidate is evaluated. A subsequent population of candidate is then generated with the 
-present generation as "parents", with selection a function of fitness, with the more 
-fit individual being more likely to be selected as parents. The parents are then paired off, undergo 
-cross over and mutation and a new generation created. This process is continued until 
+of each candidate is evaluated. A subsequent population of candidates is then generated using the 
+present generation as "parents", with selection a function of fitness (i.e., the more 
+fit individual being more likely to be selected as parents). The parents are then paired off, undergo 
+crossover and mutation and a new generation created. This process is continued until 
 no further improvement is seen. In pyDarwin, GA is implemented using the :ref:`DEAP <DEAP>` package. `GA on Wikipedia <https://en.wikipedia.org/wiki/Genetic_algorithm>`_
 
 
 .. _GBRT:
 
-**GBRT - Gradient Boosted Random Tree:** Random Forest optimization `Gradient Boosting on Wikipedia <https://en.wikipedia.org/wiki/Gradient_boosting>`_
-`and <https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad>`_ 
-are similar to Random forests, 
-but may increase the precision of the tree building by progressively building the tree, and calculating a gradient of the reward/fitness WRT each decision. 
+**GBRT - Gradient Boosted Random Tree:** `Similar to Random Forests <https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad>`_ ,
+Gradient Boosted Random Trees use `Gradient Boosting <https://en.wikipedia.org/wiki/Gradient_boosting>`_ for optimization and 
+may increase the precision of the tree building by progressively building the tree, and calculating a gradient of the reward/fitness with respect to each decision. 
 
 .. _GP:
 
 **GP - Gaussian Process (Bayesian optimization)**
-Gaussian Process is implemented in the scikit-optimize package and desribed `here. <https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html>`_  
-GP is well suited to the problem of model selection, as according to `Wikipedia <https://en.wikipedia.org/wiki/Bayesian_optimization>`_
-it is well suited to black box function with expensive reward calculation. Indeed, experience to date suggests that GP, along with :ref:`GA <GA>` are the most robust and 
+Gaussian Process is implemented in the scikit-optimize package and described `here. <https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html>`_  
+GP is well-suited to the problem of model selection, as (according to `Wikipedia <https://en.wikipedia.org/wiki/Bayesian_optimization>`_)
+it is well-suited to black box function with expensive reward calculations. Indeed, experience to date suggests that GP, along with :ref:`GA <GA>`, are the most robust and 
 efficient of the ML algorithms, especially if used in combination with a local 1 and 2 bit exhaustive search. 
 
 **Home:** See :ref:`pyDarwin home <pydarwin_home>`.
  
 .. _Integer representation:
 
-**Integer representation:** The integer representation of a given model is what is actually used to construct the control file. Specifically, the integer representation is a string 
+**Integer representation:** The integer representation of a given model is what is used to construct the control file. Specifically, the integer representation is a string 
 of integers, with each integer specifying which :ref:`token set<token set>` is to be substituted into the :ref:`template<template>`. For example, an integer string of [0,1,2] would substitute the 
-0th token set in the the template for the first :ref:`token group<token group>`, the 1st token set for the 2nd token group and the 3rd token set for the 3rd tokens group. The integer representation 
-is managed internally by pyDarwin and in the case of :ref:`Genetic algorithm<GA>` derived from the :ref:`full binary<full binary>` representation.  
+0th token set in the the template for the first :ref:`token group<token group>`, the 1st token set for the 2nd token group and the 3rd token set for the 3rd token group. The integer representation 
+is managed internally by ``pyDarwin``, and in the case of :ref:`Genetic algorithm<GA>`, derived from the :ref:`full binary<full binary>` representation.  
 
 
 .. _Local One bit Search: 
@@ -95,33 +91,28 @@ This process is continued, searching on the best model from the previous step un
 .. _Local Two bit Search: 
 
 **Local Two bit Search:** The 2 bit local search is like the :ref:`1 bit local search<Local One bit Search>` except that every 2 bit change of the :ref:`minimal binary representation<minimal binary>` 
-is generated in each step, and all 2 it change combinations are generated and run. 
-This results in a much larger number of models to search, (N^2+n)/2. This process is again repeated until not further improvement occurs.
+is generated in each step, and all 2 bit change combinations are generated and run. 
+This results in a much larger number of models to search, (N^2+n)/2. This process is again repeated until no further improvement occurs.
 
 .. _Local Search: 
 
-**Local Search:** It has found been `demonstrated <https://www.page-meeting.org/default.asp?abstract=10053>`_  that all of the available algorithms are insufficiently robust at finding the 
-final 
-best model. To some degree the global search algorithms serve to essentially find good initial estimates, in order to make finding the global minimum (and not a local minimum) 
+**Local Search:** It has been `demonstrated <https://www.page-meeting.org/default.asp?abstract=10053>`_  that all of the available algorithms are insufficiently robust at finding the 
+final best model. To some degree, the global search algorithms serve to essentially find good initial estimates, to make finding the global minimum (and not a local minimum) 
 more likely. To supplement the global search algorithms, 2 local search algorithms are used. These local search algorithms systematically change each bit in the :ref:`minimal binary representation <minimal binary>` 
 of the model and run that model. The user can specify whether this local search is done on some interval or generations/iterations and/or at the end of the global search. 
-First a 1 bit local search :ref:`Local One bit Search<Local One bit Search>` (also called downhill search) is done, then if requested a :ref:`Local Two bit Search<Local Two bit Search>` is done.
-
-
+First a 1 bit local search :ref:`Local One bit Search<Local One bit Search>` (also called downhill search) is done, then, if requested, a :ref:`Local Two bit Search<Local Two bit Search>` is done.
 
 .. _minimal binary:
 
-**Minimal Binary**
-
-The minimal binary is one of three representation of a model phenotype. The minimal binary is simply a binary that has some possible values removed to avoid duplications. For example, 
-if the search space includes a dimension for 1,2, or 3 compartments, 2 bits will be needed to code this. With the required 2 bits, some redundancy is unavoidable. So, the mapping might be::
+**Minimal Binary**: The minimal binary is one of three representations of a model phenotype. The minimal binary is simply a binary that has some possible values removed to avoid duplications. For example, 
+if the search space includes a dimension for 1, 2, or 3 compartments, 2 bits will be needed to code this. With the required 2 bits, some redundancy is unavoidable. So, the mapping might be::
 
    [0,0] -> 1
    [0,1] -> 2
    [1,0] -> 2
    [1,1] -> 3
 
-with to bit strings mapped to a value of 2. In the minimal binary, the mapping is just::
+with 2 bit strings mapped to a value of 2. In the minimal binary, the mapping is simply::
 
   [0,0] -> 1
   [0,1] -> 2
@@ -130,31 +121,30 @@ with to bit strings mapped to a value of 2. In the minimal binary, the mapping i
 and a bit string of [1,1] isn't permitted. This eliminates running the same model (from different bit strings). The minimal binary representation is used for the downhill and local 2 bit search.
 
 
-The minimal binary is in contrast to the :ref:`full binary <full binary>`.
-
+The minimal binary contrasts with the :ref:`full binary <full binary>`.
 
 .. _Niche Penalty:
 
-**Niche Penalty:** The niche penalty is calculate by first calculating the “distance matrix”, the pair wise Mikowski distance from the present model to all other models. The 
-“crowding” quantity is then calculated a the sum of: (distance/niche_radius)**sharing_alpha for all other models in the generation for which the Mikowski distance is less than 
+**Niche Penalty:** The niche penalty is computed by first calculating the “distance matrix”, the pair-wise Mikowski distance from the present model to all other models. The 
+“crowding” quantity is then calculated as the sum of: (distance/niche_radius)**sharing_alpha for all other models in the generation for which the Mikowski distance is less than 
 the niche radius. Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche penalty is to maintain diversity of models, 
 to avoid premature convergence of the search, by penalizing when models are too similar to other models in the current generation. A typical value for the penalty is 20 (the default). 
 
 
-
 .. _Niche Radius:
 
-**Niche Radius:** The niche radius is used to define how similar pairs of models are. This is used to select models for the :ref:`Local search<Local Search>` is requested and to calcuate the sharing penalty for 
+**Niche Radius:** The niche radius is used to define how similar pairs of models are. This is used to select models for the :ref:`Local search<Local Search>`, as requested, and to calculate the sharing penalty for 
 :ref:`Genetic Algorithm<GA_desc>`.
 
 .. _Parameter sorting:
 
-**Parameter sorting:** The template file-tokens files-phenotype is first merged. In this merged file the parameters in the searched text are indexed only with 
-text, e.g., THETA(ALAG). This is necessary as the integer indices assigned to each parameter cannot be determined until the control file is merged. Once this is done the 
+**Parameter sorting:** The tokens are first merged into the template file. In this merged file, the parameters in the searched text are indexed only with 
+text, e.g., THETA(ALAG). This is necessary as the integer indices assigned to each parameter cannot be determined until the control file is merged. Once this is done, the 
 number and sequence of searched THETA/OMEGA/SIGMA values in the control file can be determined and the correct parameter indices assigned. Essential rules for parsing the 
 merged template are:
 
-Fixed parameter initial estimates should be placed before the searched parameter initial estimates. E.g.::
+Fixed parameter initial estimates should be placed before the searched parameter initial estimates. For example,
+the following is not recommended (although it may work).
 
    $THETA
    (0,1)  ; THETA(1) Clearance
@@ -162,15 +152,14 @@ Fixed parameter initial estimates should be placed before the searched parameter
    (0,1)  ; THETA(2) Volume
    
 
-is **NOT** recommended (although it may work), as a searched parameter initial estimate ({ALAG[2]}) occurs before a fixed initial estimated ((0,1)  ; THETA(2) Volume)
+A searched parameter initial estimate ({ALAG[2]}) occurs before a fixed initial estimated ((0,1)  ; THETA(2) Volume)
 
-Each parameter initial estimate must be one a separate line
-Parameter estimate must be enclosed in parentheses, e.g, (0,1)
+Each parameter initial estimate must be on a separate line. Parameter estimates must be enclosed in parentheses, e.g, (0,1)
 
 .. _Nested Tokens:
 
-**Nested Tokens:** pyDarwin permits nested tokens to be used in the :ref:`tokens file<tokens file_s>`. This permits one token to contain another token, to an arbitrary level. Note that 
-using nested token does **not** reduce the search space size, it only reduces the number of token set the user need generate, and perhaps simplify the logic (although commonly the logic quickly 
+**Nested Tokens:** ``pyDarwin`` permits nested tokens to be used in the :ref:`tokens file<tokens file_s>`. This permits one token to contain another token, to an arbitrary level. Note that 
+using nested token`s` does **not** reduce the search space size, it only reduces the number of token sets the user needs generate, and simplifies the logic (although, commonly, the logic quickly 
 becomes impenetrable). For example, assume that the search is to contain one compartment 
 (ADVAN2) and two compartment (ADVAN4), and if ADVAN4 is selected, search whether K23 and K32 are functions of weight. K23 is not a parameter of a one compartment model. One option would be to simply write out 
 all possible models:
@@ -199,9 +188,9 @@ all possible models:
   ],
 
 
-2 bits would required to specify this (3 options). 
+2 bits would be required to specify these 3 options. 
 
-An alternative is to have one token group for number of compartments:
+An alternative is to have one token group for a number of compartments:
 
 1 compartment vs 2 compartment, and have the K32~WT nested within the ADVAN4::
 
@@ -230,7 +219,7 @@ This also requires 2 bits, one for the ADVAN token group, one for the K23~WT tok
 groups. While more than one level of nested tokens is permitted, the logic of constructing them quickly becomes very complicated.   
 
 
-The full example is given :ref:`example 4<startpk4>`
+The full example is given in :ref:`example 4<startpk4>`
 
 .. _nmfe_path:
 
@@ -245,7 +234,7 @@ of iterations/generations and whether the downhill search is to be executed.
 
 .. _Output Directory:
 
-| **Output Directory:** Folder where all the files that considered as results will be put, such as results.csv and Final .mod/.lst files. Default value is
+| **Output Directory:** Folder in which all the results files, such as ``results.csv`` and Final ``.mod`` and ``.lst`` files are saved. Default value is
   ':mono_ref:`{working directory}<working directory>`/output'.
 | A reasonable value ``{project_dir}/output`` may be used if you want to version control the project and the results.
 
@@ -257,8 +246,8 @@ of iterations/generations and whether the downhill search is to be executed.
 .. _Project Directory:
 
 
-**Project Directory** - folder where the template, token and options files are located (and maybe datasets, see :ref:`Data Directory <Data Directory>`).
-Can be provided as an argument for ``run_search_in_folder`` or determined by path to :file:`options.json` (as parent folder). Cannot be set in options file.
+**Project Directory** - Folder where the template, token, and options files are located (and maybe datasets, see :ref:`Data Directory <Data Directory>`).
+Can be provided as an argument for ``run_search_in_folder`` or determined by path to :file:`options.json` (as parent folder). This cannot be set in options file.
 
 .. _pydarwin_home:
 
@@ -266,31 +255,29 @@ Can be provided as an argument for ``run_search_in_folder`` or determined by pat
 
 .. _reward:
 
-**Reward:** A number representing the overall "goodness" of the candidate, the sum of -2LL and the user defined penalties. Called fitness in GA. 
+**Reward:** A number representing the overall "goodness" of the candidate, the sum of -2LL and the user-defined penalties. Called "fitness" in GA. 
 
 
 .. _RF:
 
-**RF - Random Forest:** `Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consist of splitting the search space (based on the "goodness" of each model in this case) thus continuously dividing the 
-search space into "good" and "bad" regions. As before, the initial divisions are random, but become increasingly well informed as real values for the fitness/reward of models are 
+**RF - Random Forest:** `Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consists of splitting the search space (based on the "goodness" of each model, in this case), thus continuously dividing the 
+search space into "good" and "bad" regions. As before, the initial divisions are random, but become increasingly well-informed as real values for the fitness/reward of models are 
 included.
-
-https://scikit-optimize.github.io/stable/
 
 .. _scikit-optimized: 
 
 **scikit-optimize:** `Optimization package <https://scikit-optimize.github.io/stable/>`_
-The python package that includes :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` and :ref:`GBRT<GBRT_desc>`.
+The python package that includes :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, and :ref:`GBRT<GBRT_desc>`.
 
 .. _temp_dir:
 
-**temp_dir:** Folder where all iterations/runs are performed, i.e. where all NONMEM files are written.
-Default value is ':mono_ref:`{working_dir}<working directory>`/temp'. May be deleted after search finished/stopped if :mono_ref:`remove_temp_dir <remove_temp_dir_options_desc>` is set to true.
+**temp_dir:** Folder where all iterations/runs are performed, i.e., where all NONMEM files are written.
+Default value is ':mono_ref:`{working_dir}<working directory>`/temp'. May be deleted after search finished/stopped, if :mono_ref:`remove_temp_dir <remove_temp_dir_options_desc>` is set to true.
 
 .. _template:
 
 **Template:** A text string, saved in the :ref:`template file<template_file_target>` that forms the basis for the models to be run. The template file is similar to a NONMEM control file, but with :ref:`tokens<token>`
-that are replaced by text string specified in the :ref:`tokens file<tokens_file_target>`.
+that are replaced by text strings specified in the :ref:`tokens file<tokens_file_target>`.
 
 .. _token:
 
@@ -299,7 +286,7 @@ that are replaced by text string specified in the :ref:`tokens file<tokens_file_
 
 .. _tokens file_s:
 
-**Tokens file:** see :ref:`tokens file <tokens file>`.
+**Tokens file:** See :ref:`tokens file <tokens file>`.
 
 .. _token group:
 
@@ -309,7 +296,7 @@ into the template file.
 
 .. _token set:
 
-**Token set**: one for each option in the that dimension
+**Token set**: One for each option in the dimension.
 
 .. _token key-text pair:
 
@@ -327,37 +314,49 @@ and::
 
    {ALAG[2]}
 
-in the $THETA block the :ref:`token stem <token stem>` would be ALAG. Again, note that in the template file the "token stem[n]" is enclosed in curly braces. 
+in the $THETA block, the :ref:`token stem <token stem>` would be ALAG. Again, note that in the template file the "token stem[n]" is enclosed in curly braces. 
 N is the index of the token within the token set. While indices to token can be duplicated and indices can be skipped, it is recommended 
-that they start at 1 be numbered sequentially through the template file. The ALAG :ref:`token group <token group>` 
+that they start at 1 and be numbered sequentially through the template file. The ALAG :ref:`token group <token group>` 
 would be required in the tokens files. Exactly one :ref:`token set <token set>` would 
 be selected (by the search algorithm) for substitution into the template file. If the first 
-token set is selected, and this token set contains these token key-text pairs::
+token set is selected, and this token set contains the following token key-text pairs::
 
    ALAG[1] -> "ALAG1=THETA(ALAG)"
 
    ALAG[2] -> "(0,1) ;; initial estimate for ALAG1"
 
-The text "ALAG[1]" in the template file would be replaced by "ALAG1=THETA(ALAG)" and 
-the "ALAG[2]" text in the template would be replace by "(0,1) ;; initial estimate for ALAG1". This would then 
+the text "ALAG[1]" in the template file would be replaced by "ALAG1=THETA(ALAG)" and 
+the "ALAG[2]" text in the template would be replace by "(0,1) ;; initial estimate for ALAG1". This would 
 result in syntactically correct NMTRAN code (except that the index to THETA is still a text string). The appropriate 
-index for THETA can be determined only after all the features/token sets are selected. This is handled by pyDarwin. Similar 
-logic (ETAs index by text strings, which are replace by integers) for ETAs and EPSs. It is most convenient to use the :ref:`token stem<token stem>` to 
-index the parameters, e.g., for the CL~WT tokens set, one might used THETA(CL~WT). If more than one THETA is used in a token set, one can 
-simply add an integer (e.g., THETA(CL~WT1) and THETA(CL~WT2)), but the THETA text indices must be unique, so as to generate unique integer values. Any 
-duplication of THETA text indices is permitted (e.g., if you want the same exponent for CL and Q) but will result in duplication of the integer indices, e.g., :: 
+index for THETA can be determined only after all the features/token sets are selected. This is handled by ``pyDarwin``. Similar 
+logic (ETAs index by text strings, which are replaced by integers) applies for ETAs and EPSs. It is most convenient to use the :ref:`token stem<token stem>` to 
+index the parameters, e.g., for the CL~WT tokens set, one might use THETA(CL~WT). If more than one THETA is used in a token set, one can 
+simply add an integer (e.g., THETA(CL~WT1) and THETA(CL~WT2)), but the THETA text indices must be unique, to generate unique integer values. Any 
+duplication of THETA text indices is permitted (e.g., if you want the same exponent for CL and Q) but will result in duplication of the integer indices, e.g.,
 
+:: 
+   
    {*WTKG**THETA(CL~WT)} ;; for clearance
-   and
+
+and
+
+::
+   
    {*WTKG**THETA(CL~WT)} ;; for Q
 
-would result in::
+would result in
+
+::
 
    CL=THETA(1)*WT**THETA(2) ;; for clearance
-   and
+
+and
+
+:: 
+
    Q =THETA(2)*WT**THETA(2) ;; for Q
 
-duplicate text indices will yield duplicate integer indices. By the same logic, comments can be put into initial estimates by including 
+Duplicate text indices will yield duplicate integer indices. By the same logic, comments can be put into initial estimates by including 
 THETA(CL~WT) after a ";" in the $THETA block, e.g., :: 
 
    (0,0.75) \t; THETA(CL~WT) exponent on clearances 
@@ -381,11 +380,11 @@ In the json code file for tokens:
 .. _Tournament selection:
 
 **Tournament Selection**
-An algorithm used in :ref:`GA<GA_desc>` where two or more "parents" and the one with the highest fitness (lowest penalized -2ll) wins and enters into the next 
+An algorithm used in :ref:`GA<GA_desc>` when there are two or more "parents". The one with the highest fitness (lowest penalized -2LL) wins and enters into the next 
 generation.
 
 .. _working directory:
 
-| **Working directory** Folder where all project's intermediate files are created, such as models.json (model run cache), messages.txt (log file), Interim model files and stop files.
-  Also it's a default location of output and temp folders. Can be set with :mono_ref:`working_dir <working_dir_options_desc>` option.
-| By default is set to ':mono_ref:`\<pyDarwin home\><pydarwin_home>`/:mono_ref:`{project_stem} <project_stem_alias>`'.
+**Working directory** Folder where all project's intermediate files are created, such as models.json (model run cache), messages.txt (log file), interim model files, and stop files.
+It is also a default location of output and temp folders. Can be set with :mono_ref:`working_dir <working_dir_options_desc>` option.
+By default, it is set to ':mono_ref:`\<pyDarwin home\><pydarwin_home>`/:mono_ref:`{project_stem} <project_stem_alias>`'.

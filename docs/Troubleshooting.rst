@@ -61,9 +61,8 @@ isn't used to call run_search it tries to reopen messages.txt and fails.
 
 .. _can't open r:
 
-**can't open results.csv** pyDarwin opens and closes the models.json, results.csv and messages.txt file with each model completed. This is done so that if the search 
-is interrupted it can be restarted with as little lost computational time as possible, and so the user can read and parse the messages.txt file to monitor progress. A work around is 
-to copy message.txt to another file name (messages1.txt) and read that file.
+**can't open results.csv** pyDarwin opens and closes the :file:`results.csv` file with each model completed. If it is opened in an application the "locks" it, e.g., Excel, an exception will occur. The work around is to copy the file to another file (e.g., cp results.csv results1.csv), then open the copied file.
+
 
 
   

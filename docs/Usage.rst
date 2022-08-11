@@ -404,10 +404,6 @@ File output
 The file output from pyDarwin is generated real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly, 
 messages (what appears on the console) is written continuously to the messages.txt file.
 
-**NOTE**. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the "locks" them, e.g., Excel. If, for example 
-the results.csv file is opened in Excel, the next time pyDarwin tries to open it to write the next model output, an exception will occur. The work around is to copy the file to 
-another file (e.g., cp results.csv results1.csv), then open the copied file.
-
 Messages.txt
 --------------
 
@@ -440,19 +436,6 @@ Saving NONMEM outputs
 NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an issue for disc space. 
 By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space. 
 In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).
-Care should be taken to not generate unneeded table files, as these can become quite large, and will not be removed by pyDarwin. 
-
-File Structure
-----------------
-
-Three user-defined file locations can be set in the :ref:`options file<Options>`. In addition to the folders that are user defined
-the project directory (project_dir) is the folder where template, token and options files are located. The user define folders are:
-
-#. output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results is intended.
-
-#. temp_dir - NONMEM models are run in subfolders of this folder Default value is working_dir/temp. May be deleted after search finished/stopped if remove_temp_dir is set to true.  
-
-#. working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files. Default value - %USER_HOME%/pydarwin/project_name where project name is defined in the :ref:`options file<Options>`.
  
 
 Model/folder naming
@@ -466,9 +449,3 @@ are also frequently duplicated. Duplicated files are not rerun, and so those wil
 Run folders are similarly named for the generation/iteration and model number. Below is a folder tree for :ref:`Example 2<startpk2>`
 
 .. figure:: FileStructure.png
-
-Saving models
----------------
-
-Model results are by default saved in a JSON file so that searches can be restarted or rerun with different algorithms more efficient. The name of the saved JSON file can be set by the user. A .csv 
-file describing the course of the search is also save to results.csv. This file can be used to monitor the progress of the search. 

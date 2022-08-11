@@ -96,7 +96,7 @@ a:visited {
 
 @media screen and (max-width: 950px){
     .wy-body-for-nav{background:#fcfcfc}
-    .wy-nav-top{display:block; background-color:#e9e7e7; color: #415364}
+    .wy-nav-top{display:block; position: fixed; background-color:#e9e7e7; color: #415364; width:-webkit-fill-available}
     .wy-nav-side{left:-300px}
     .wy-nav-side.shift{width:85%;left:0}
     .wy-side-scroll{width:auto}

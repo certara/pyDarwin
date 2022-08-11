@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Usage &mdash; pyDarwin 1 documentation</title>
@@ -411,19 +411,19 @@ have executed successfully. A typical line of output might be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Time</span> <span class="n">of</span> <span class="n">completion</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="n">Iteration</span><span class="o">/</span><span class="n">generation</span><span class="p">,</span> <span class="n">Model</span>     <span class="n">Model</span> <span class="n">Number</span><span class="p">,</span>       <span class="n">Final</span> <span class="n">Status</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="o">/</span><span class="n">reward</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span>  <span class="n">Messages</span> <span class="kn">from</span> <span class="nn">NMTRAN</span>
 </pre></div>
 </div>
-<p>If there are messages from NONMEM execution, these will also be written to command line, as well as if execution failed, and, if request, if R execution failed.</p>
+<p>If there are messages from NONMEM execution, these will also be written to console, as well as if execution failed, and, if request, if R execution failed.</p>
 <p>If the <a class="reference internal" href="Options.html#remove-temp-dir-options-desc"><span class="std std-ref">“remove_temp_dir”</span></a> is not set to true, the NONMEM control file, output file and other key files can be found in {temp_dir}Iteration/generationModel Number for debugging.</p>
 </section>
 <section id="file-output">
 <h3>File output<a class="headerlink" href="#file-output" title="Permalink to this heading">¶</a></h3>
 <p>The file output from pyDarwin is generated real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly,
-messages (what appears on the command line output) is written continuously to the messages.txt file.</p>
+messages (what appears on the console) is written continuously to the messages.txt file.</p>
 <p><strong>NOTE</strong>. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the “locks” them, e.g., Excel. If, for example
 the results.csv file is opened in Excel, the next time pyDarwin tries to open it to write the next model output, an exception will occur. The work around is to copy the file to
 another file (e.g., cp results.csv results1.csv), then open the copied file.</p>
 <section id="messages-txt">
 <h4>Messages.txt<a class="headerlink" href="#messages-txt" title="Permalink to this heading">¶</a></h4>
-<p>The messages.txt file will be found in the working dir. This file’s content is the same as that output to the command line</p>
+<p>The messages.txt file will be found in the working dir. This file’s content is the same as that output to the console.</p>
 </section>
 <section id="models-json">
 <h4>models.json<a class="headerlink" href="#models-json" title="Permalink to this heading">¶</a></h4>
@@ -434,7 +434,7 @@ of the search progress, the results.csv file is likely more useful.</p>
 <section id="results-csv">
 <h4>results.csv<a class="headerlink" href="#results-csv" title="Permalink to this heading">¶</a></h4>
 <p>The results.csv file contains key information about all models that are run in a more user-friendly format. This file can be used to make plots to monitor progress of the search
-or to identify models that had unexpected results (crashes)</p>
+or to identify models that had unexpected results (crashes).</p>
 </section>
 </section>
 <section id="file-structure-and-naming">
@@ -454,7 +454,7 @@ the project directory (project_dir) is the folder where template, token and opti
 <ol class="arabic simple">
 <li><p>output_dir - Folder where all the files that considered as results will be put, such as results.csv and Final* files. Default value is working_dir/output. May make sense to be set to project_dir if version control of the project and the results is intended.</p></li>
 <li><p>temp_dir - NONMEM models are run in subfolders of this folder Default value is working_dir/temp. May be deleted after search finished/stopped if remove_temp_dir is set to true.</p></li>
-<li><p>working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files. Default value - %USER_HOME%/pydarwin/project_name where project name is defined in the <a class="reference internal" href="Options.html#options"><span class="std std-ref">options file</span></a></p></li>
+<li><p>working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files. Default value - %USER_HOME%/pydarwin/project_name where project name is defined in the <a class="reference internal" href="Options.html#options"><span class="std std-ref">options file</span></a>.</p></li>
 </ol>
 </section>
 <section id="model-folder-naming">

@@ -394,7 +394,7 @@ The columns in this output are::
     
     [Time of completion] Iteration = Iteration/generation, Model     Model Number,       Final Status,    fitness = fitness/reward,    message =  Messages from NMTRAN
 
-If there are messages from NONMEM execution, these will also be written to command line, as well as if execution failed, and, if request, if R execution failed.
+If there are messages from NONMEM execution, these will also be written to console, as well as if execution failed, and, if request, if R execution failed.
 
 If the :ref:`"remove_temp_dir" <remove_temp_dir_options_desc>` is not set to true, the NONMEM control file, output file and other key files can be found in {temp_dir}\Iteration/generation\Model Number for debugging. 
 
@@ -402,7 +402,7 @@ File output
 =========================
 
 The file output from pyDarwin is generated real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly, 
-messages (what appears on the command line output) is written continuously to the messages.txt file.
+messages (what appears on the console) is written continuously to the messages.txt file.
 
 **NOTE**. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the "locks" them, e.g., Excel. If, for example 
 the results.csv file is opened in Excel, the next time pyDarwin tries to open it to write the next model output, an exception will occur. The work around is to copy the file to 
@@ -411,7 +411,7 @@ another file (e.g., cp results.csv results1.csv), then open the copied file.
 Messages.txt
 --------------
 
-The messages.txt file will be found in the working dir. This file's content is the same as that output to the command line
+The messages.txt file will be found in the working dir. This file's content is the same as that output to the console.
 
 
 models.json
@@ -426,7 +426,7 @@ results.csv
 --------------
 
 The results.csv file contains key information about all models that are run in a more user-friendly format. This file can be used to make plots to monitor progress of the search 
-or to identify models that had unexpected results (crashes)
+or to identify models that had unexpected results (crashes).
 
 
 File Structure and Naming
@@ -452,7 +452,7 @@ the project directory (project_dir) is the folder where template, token and opti
 
 #. temp_dir - NONMEM models are run in subfolders of this folder Default value is working_dir/temp. May be deleted after search finished/stopped if remove_temp_dir is set to true.  
 
-#. working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files. Default value - %USER_HOME%/pydarwin/project_name where project name is defined in the :ref:`options file<Options>`
+#. working_dir - Folder where all intermediate files will be created, such as models.json (model run cache), messages.txt (log file), Interim* files and stop files. Default value - %USER_HOME%/pydarwin/project_name where project name is defined in the :ref:`options file<Options>`.
  
 
 Model/folder naming

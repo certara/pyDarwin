@@ -473,8 +473,8 @@ Here is the list of all available options. Note that many of the options have de
       | Required only for :ref:`grid search<running_grid_search>`.
       | Available aliases are: :ref:`all common aliases<common_aliases>`.
 
-.. note::
-   No directories are created at the point of submitting the search job. So even if it's possible to use ``{working_dir}``, ``{out_dir}``, and ``{temp_dir}`` in ``submit_search_command``, it's not recommended. There may be cases where the directories do exist (if you set those settings to existing folders or run the search locally before submitting it to the grid), which is why these aliases are not prohibited.
+    .. note::
+       No directories are created at the point of submitting the search job. So even if it's possible to use ``{working_dir}``, ``{out_dir}``, and ``{temp_dir}`` in ``submit_search_command``, it's not recommended. There may be cases where the directories do exist (if you set those settings to existing folders or run the search locally before submitting it to the grid), which is why these aliases are not prohibited.
 
 .. _submit_job_id_re_options_desc:
 

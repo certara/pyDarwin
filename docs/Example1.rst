@@ -413,7 +413,7 @@ Example 1 Data file :download:`dataExample1.csv <../examples/user/Example1/dataE
   
 
 
-Starting pyDarwin and command line output
+Starting pyDarwin and console output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :ref:`Starting the search is covered here<Execution>`
@@ -455,7 +455,7 @@ Importantly, the temp directory (temp_dir) is listed and since
 is set to false in the options file, all key NONMEM outputs are saved. This is where you should look for them after the
 inevitable errors.
 During the search, the current, interim best model files can be found in the working dir, along with the messages (same content as output 
-to command line) and a models.json file that can be used to restart searches that are interrupted. 
+to console) and a models.json file that can be used to restart searches that are interrupted. 
 The final outputs will be found in the Project output dir. 
 At the end of the run, the output should look similar to this:
 

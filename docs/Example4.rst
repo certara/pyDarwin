@@ -509,7 +509,7 @@ In either case, the folder names are given in the initial and final output to fa
 Example 4 options file :download:`json <../examples/user/Example4/options.json>`
 
 
-Starting the search and command line output:
+Starting the search and console output:
 --------------------------------------------
 
 :ref:`Starting the search is covered here<Execution>`

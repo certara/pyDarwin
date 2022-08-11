@@ -16,8 +16,8 @@ Glossary
 - math errors (divide by zero, log(negative value))
 - numerical error in execution
 
-Significant effort was made to capture theses errors an display them to the user on the command line and in the messages.txt file (in the working directory).
-For debugging purposes, these errors can be reproduced by going to the run directory (run_dir\\generation\\model_num) and rerunning the model from the command line.
+Significant effort was made to capture theses errors an display them to the user the console and in the messages.txt file (in the working directory).
+For debugging purposes, these errors can be reproduced by going to the run directory (:file:`run_dir/generation/model_num`) and rerunning the model from the command line.
 
 In addition, errors may occur in running post run R or python code. Finally the NONMEM or R code may time out, producing no final results.
 In all of these cases, the fitness/reward value assigned in called the crash_value. The crash value is set in the options file, and should be substantially higher 

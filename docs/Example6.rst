@@ -79,7 +79,7 @@ The options file is given here:
 and can be downloaded :download:`here <../examples/user/Example6/options.json>`
  
 
-Starting the search and command line output:
+Starting the search and console output:
 
 
 :ref:`Starting the search is covered here<Execution>`

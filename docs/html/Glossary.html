@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Glossary &mdash; pyDarwin 1 documentation</title>
@@ -89,8 +89,8 @@
 <li><p>math errors (divide by zero, log(negative value))</p></li>
 <li><p>numerical error in execution</p></li>
 </ul>
-<p>Significant effort was made to capture theses errors an display them to the user on the command line and in the messages.txt file (in the working directory).
-For debugging purposes, these errors can be reproduced by going to the run directory (run_dir\generation\model_num) and rerunning the model from the command line.</p>
+<p>Significant effort was made to capture theses errors an display them to the user the console and in the messages.txt file (in the working directory).
+For debugging purposes, these errors can be reproduced by going to the run directory (<code class="file docutils literal notranslate"><span class="pre">run_dir/generation/model_num</span></code>) and rerunning the model from the command line.</p>
 <p>In addition, errors may occur in running post run R or python code. Finally the NONMEM or R code may time out, producing no final results.
 In all of these cases, the fitness/reward value assigned in called the crash_value. The crash value is set in the options file, and should be substantially higher
 than any anticipated fitness/reward from a model that ran to completion, regardless of the “goodness” of the model.</p>

@@ -2,5 +2,5 @@
 # the repo. Unless a later match takes precedence,
 # @certara/pirana-approvers will be requested for
 # review when someone opens a pull request.
-* @certara/pirana-approvers
-build/* @certara/pmx-devops
+*       @certara/pirana-approvers
+build/  @certara/pmx-devops

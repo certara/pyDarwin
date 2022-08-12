@@ -225,6 +225,7 @@ pipeline {
                     labelledShell label: 'twine upload', script: """
                         cd ${WORKSPACE}/
                         twine upload -r public dist/*
+                        Approved promotion by ${SUBMITTER_APPROVER}
                     """
                 }
             }

@@ -13,13 +13,13 @@ class Model:
     """
     The full model, used for GA, GP, RF, GBRF and exhaustive search.
 
-    Model instantiation takes a template as an argument, along with the model code, model number and generation
-    function include constructing the control file, executing the control file, calculating the fitness/reward.
+    Model instantiation takes a template as an argument, along with the model code, model number,
+    and generation. Functions include constructing the control file, executing the control file,
+    calculating the fitness/reward.
 
     model_code : a ModelCode object
-        contains the bit string/integer string representation of the model. Includes the Fullbinary
-        string, integer string and minimal binary representation of the model
-        (for GA, GP/RF/GBRT and downhill respectively)
+        Contains the bit string/integer string representation of the model. Includes the full binary string,
+        integer string, and minimal binary representation of the model (for GA, GP/RF/GBRT and downhill, respectively).
 
     """
 

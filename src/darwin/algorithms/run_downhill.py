@@ -66,13 +66,10 @@ def _get_niches(runs: list) -> list:
 
 def run_downhill(template: Template, pop: Population, return_all: bool = False) -> list:
     """
-    Run the downhill step, with full (2 bit) search if requested,
-    arguments a population of full models
-    return value is list of length num_niches full models after search 
-    if return_all is true, will also return a list of ALL models
-    to be used in GP only, to update the distribution, not helpful in other algorithms
-    arguments are the current population of models
-    and whether to return all models
+    Run the downhill step, with full (2 bit) search if requested.
+    Finds N <= :mono_ref:`num_niches <num_niches_options_desc>` niches in pop and replaces N worst models in pop
+    with best models from the niches.
+    If *return_all* is true, will return a list of ALL models.
     """
     this_step = 0
 

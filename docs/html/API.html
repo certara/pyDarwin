@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API &mdash; pyDarwin 1.0.0 documentation</title>
@@ -153,11 +153,11 @@
 <span class="target" id="module-darwin.run_search"><span id="darwin-run-search"></span></span><dl class="py function">
 <dt class="sig sig-object py" id="darwin.run_search.run_search">
 <span class="sig-prename descclassname"><span class="pre">darwin.run_search.</span></span><span class="sig-name descname"><span class="pre">run_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.run_search.run_search" title="Permalink to this definition">¶</a></dt>
-<dd><p>The run_search function run algorithm selected in options_file, based on template_file and tokens_file
-At the end, write best control and output file to project_dir (specified in options_file)
+<dd><p>The run_search function runs the algorithm selected in options_file, based on template_file and tokens_file.
+At the end, writes best control and output file to project_dir (specified in options_file).
 options_file path name should, in general, be absolute, other file names can be absolute path
-or path relative to the project_dir
-function returns the final model object</p>
+or path relative to the project_dir.
+Returns the final model object.</p>
 </dd></dl>
 
 </section>
@@ -177,8 +177,8 @@ function returns the final model object</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.algorithms.exhaustive.run_exhaustive">
 <span class="sig-prename descclassname"><span class="pre">darwin.algorithms.exhaustive.</span></span><span class="sig-name descname"><span class="pre">run_exhaustive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.algorithms.exhaustive.run_exhaustive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run full exhaustive search on the Template, all possible combination.
-All models will be run in generation/iteration number 0.</p>
+<dd><p>Run full exhaustive search on the Template, all possible combinations.
+All models will be run in iteration number 0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model_template</strong> (<a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><em>Template</em></a>) – Model Template</p>
@@ -199,8 +199,7 @@ All models will be run in generation/iteration number 0.</p>
 <dt class="sig sig-object py" id="darwin.algorithms.GA.run_ga">
 <span class="sig-prename descclassname"><span class="pre">darwin.algorithms.GA.</span></span><span class="sig-name descname"><span class="pre">run_ga</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.algorithms.GA.run_ga" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the Genetic Algorithm (GA) search, using the DEAP (<a class="reference external" href="https://github.com/deap/deap">https://github.com/deap/deap</a>) packages.
-All the required information is contained in the Template objects, plus the options module
-The template objects includes the control file template, and all the token groups.</p>
+The template object includes the control file template and all the token groups.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model_template</strong> (<a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><em>Template</em></a>) – Template object for the search</p>
@@ -220,18 +219,13 @@ The template objects includes the control file template, and all the token group
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.algorithms.OPT.run_skopt">
 <span class="sig-prename descclassname"><span class="pre">darwin.algorithms.OPT.</span></span><span class="sig-name descname"><span class="pre">run_skopt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.algorithms.OPT.run_skopt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run one of the scikit optimize (<a class="reference external" href="https://scikit-optimize.github.io/stable/">https://scikit-optimize.github.io/stable/</a>) algorithms, specified in the options file</p>
-<p>Called from Darwin.run_search, _run_template.</p>
-<p>Which algorithm is used is defined in the options files, with the code for the algorithms being:</p>
-<p>-“algorithm”:”GP”</p>
-<p>-“algorithm”:”RF”</p>
-<p>-“algorithm”:”GBRT”</p>
+<dd><p>Run one of the scikit optimize algorithms (GP, RF, GBRT). See <a class="reference external" href="https://scikit-optimize.github.io/stable/">https://scikit-optimize.github.io/stable/</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>model_template</strong> (<a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><em>Template</em></a>) – Model template to be run</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>return best model from search</p>
+<dd class="field-even"><p>The best model from search</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model">Model</a></p>
@@ -245,13 +239,10 @@ The template objects includes the control file template, and all the token group
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.algorithms.run_downhill.run_downhill">
 <span class="sig-prename descclassname"><span class="pre">darwin.algorithms.run_downhill.</span></span><span class="sig-name descname"><span class="pre">run_downhill</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Population.Population" title="darwin.Population.Population"><span class="pre">Population</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.algorithms.run_downhill.run_downhill" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run the downhill step, with full (2 bit) search if requested,
-arguments a population of full models
-return value is list of length num_niches full models after search 
-if return_all is true, will also return a list of ALL models
-to be used in GP only, to update the distribution, not helpful in other algorithms
-arguments are the current population of models
-and whether to return all models</p>
+<dd><p>Run the downhill step, with full (2 bit) search if requested.
+Finds N &lt;= <a class="reference internal" href="Options.html#num-niches-options-desc"><span class="std std-ref">num_niches</span></a> niches in pop and replaces N worst models in pop
+with best models from the niches.
+If <em>return_all</em> is true, will return a list of ALL models.</p>
 </dd></dl>
 
 </section>
@@ -264,16 +255,16 @@ and whether to return all models</p>
 <dt class="sig sig-object py" id="darwin.Template.Template">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.Template.</span></span><span class="sig-name descname"><span class="pre">Template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Template.Template" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Template object contains information common to all the model objects, including the template code
-(from the template file) and the tokens set. It DOES NOT include and model specific information,
+(from the template file) and the tokens set. It DOES NOT include any model specific information,
 such as the phenotype, the control file text, or any of the output results from NONMEM.
-Other housekeeping functions are performed, such as defining the gene structure (by counting the number
-of token groups for each token set), and parsing out the THETA/OMEGA/SIGMA blocks, and counting
-the number of fixed/non searched THETAs/OMEGAs/SIGMAs</p>
+Other housekeeping functions are performed, such as defining the gene structure (by counting the number of
+of token groups for each token set), parsing out the THETA/OMEGA/SIGMA blocks, and counting
+the number of fixed/non-searched THETAs/OMEGAs/SIGMAs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>template_file</strong> (<em>str</em>) – path to the plain ascii text template file</p></li>
-<li><p><strong>tokens_file</strong> – path to the json tokens file</p></li>
+<li><p><strong>template_file</strong> (<em>str</em>) – Path to the plain ascii text template file</p></li>
+<li><p><strong>tokens_file</strong> – Path to the json tokens file</p></li>
 </ul>
 </dd>
 </dl>
@@ -286,12 +277,12 @@ the number of fixed/non searched THETAs/OMEGAs/SIGMAs</p>
 <dt class="sig sig-object py" id="darwin.Model.Model">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.Model.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelCode.ModelCode" title="darwin.ModelCode.ModelCode"><span class="pre">ModelCode</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Model.Model" title="Permalink to this definition">¶</a></dt>
 <dd><p>The full model, used for GA, GP, RF, GBRF and exhaustive search.</p>
-<p>Model instantiation takes a template as an argument, along with the model code, model number and generation
-function include constructing the control file, executing the control file, calculating the fitness/reward.</p>
+<p>Model instantiation takes a template as an argument, along with the model code, model number,
+and generation. Functions include constructing the control file, executing the control file,
+calculating the fitness/reward.</p>
 <dl class="simple">
-<dt>model_code<span class="classifier">a ModelCode object</span></dt><dd><p>contains the bit string/integer string representation of the model. Includes the Fullbinary
-string, integer string and minimal binary representation of the model
-(for GA, GP/RF/GBRT and downhill respectively)</p>
+<dt>model_code<span class="classifier">a ModelCode object</span></dt><dd><p>Contains the bit string/integer string representation of the model. Includes the full binary string,
+integer string, and minimal binary representation of the model (for GA, GP/RF/GBRT and downhill, respectively).</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -317,7 +308,7 @@ string, integer string and minimal binary representation of the model
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.ModelCode.</span></span><span class="sig-name descname"><span class="pre">ModelCode</span></span><a class="headerlink" href="#darwin.ModelCode.ModelCode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class for model code, just to keep straight whether this is full binary, minimal binary or integer
+<dd><p>Class for model code, just to keep straight whether this is full binary, minimal binary, or integer
 and to interconvert between them.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode.from_full_binary">
@@ -350,35 +341,47 @@ and to interconvert between them.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode._convert_full_bin_int">
 <span class="sig-name descname"><span class="pre">_convert_full_bin_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gene_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCode.ModelCode._convert_full_bin_int" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a “full binary” (e.g., from GA to integer (used to select token sets))
-arguments are:
-gene_max - integer list,maximum value- number of tokens sets in that token group
-length - integer list, how long each gene is
-return integer array of which token goes into this model</p>
+<dd><p>Converts a “full binary” (e.g., from GA to integer (used to select token sets))</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gene_max</strong> – integer list, maximum number of token sets in that token group</p></li>
+<li><p><strong>length</strong> – integer list, how long each gene is</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns an integer array of which token goes into this model.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode._convert_int_full_bin">
 <span class="sig-name descname"><span class="pre">_convert_int_full_bin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gene_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCode.ModelCode._convert_int_full_bin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts an integer array to “full binary”
-(e.g., from integer (used to select token sets) back to GA compatible code, opposite of convert_full_bin_int)
-arguments are:
-returns array of binaries compatible with GA</p>
+back to GA compatible code, opposite of convert_full_bin_int).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gene_max</strong> – integer list, maximum number of token sets in that token group;</p></li>
+<li><p><strong>length</strong> – integer list, how long each gene is.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Returns array of binaries compatible with GA.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode._convert_min_bin_int">
 <span class="sig-name descname"><span class="pre">_convert_min_bin_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gene_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCode.ModelCode._convert_min_bin_int" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a “minimal binary”
-(e.g., used for downhill, just the integer value converted to binary - doesn’t fill in the entire n bit array)
-returns integer array of which token goes into this model</p>
+<dd><p>Converts a “minimal binary” (e.g., used for downhill, just the integer value converted to binary - doesn’t fill
+in the entire n bit array).
+Returns integer array of which token goes into this model.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCode.ModelCode._convert_int_min_bin">
 <span class="sig-name descname"><span class="pre">_convert_int_min_bin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCode.ModelCode._convert_int_min_bin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts an integer array to “minimal binary”
-(e.g., used for downhill, just the integer value converted to binary - doesn’t fill in the entire n bit array)</p>
+<dd><p>Converts an integer array to “minimal binary” (e.g., used for downhill, just the integer value converted
+to binary - doesn’t fill in the entire n bit array).</p>
 </dd></dl>
 
 </dd></dl>
@@ -402,8 +405,7 @@ returns integer array of which token goes into this model</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelResults.ModelResults.calc_fitness">
 <span class="sig-name descname"><span class="pre">calc_fitness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Model.Model" title="darwin.Model.Model"><span class="pre">Model</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelResults.ModelResults.calc_fitness" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the fitness, based on the model output, and the penalties (from the options file).
-Need to look in output file for parameter at boundary and parameter non-positive.</p>
+<dd><p>Calculates the fitness, based on the model output, and the penalties (from the options file).</p>
 </dd></dl>
 
 </dd></dl>
@@ -420,21 +422,21 @@ Need to look in output file for parameter at boundary and parameter non-positive
 </dd>
 </dl>
 <dl id="model-run-num">
-<dt>model_num: int</dt><dd><p>Model number, within the generation.</p>
+<dt>model_num: int</dt><dd><p>Model number within the generation.</p>
 <p>Generation + model_num creates a unique “file_stem”</p>
 </dd>
 </dl>
 <dl class="simple" id="model-run-stem">
-<dt>file_stem: string</dt><dd><p>Prefix string used to create unique names for control files, executable and run directory.
+<dt>file_stem: string</dt><dd><p>Prefix string used to create unique names for control files, executable, and run directory.
 Defined as stem_prefix + generation + model_num.</p>
 </dd>
-<dt>control_file_name: string</dt><dd><p>name of the control file, will be  file_stem + “.mod”</p>
+<dt>control_file_name: string</dt><dd><p>Name of the control file, will be  file_stem + “.mod”</p>
 </dd>
-<dt>executable_file_name: string</dt><dd><p>name of the executable, will be file_stem + “.exe”</p>
+<dt>executable_file_name: string</dt><dd><p>Name of the executable, will be file_stem + “.exe”</p>
 </dd>
 </dl>
 <dl class="simple" id="model-run-dir">
-<dt>run_dir: string</dt><dd><p>path to the directory where the model is run;
+<dt>run_dir: string</dt><dd><p>Path to the directory where the model is run;
 run_dir name is based on the file_stem, which must be unique for each model in the search.</p>
 </dd>
 </dl>
@@ -470,7 +472,7 @@ run_dir name is based on the file_stem, which must be unique for each model in t
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.run_model">
 <span class="sig-name descname"><span class="pre">run_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelRun.run_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs the model. Will terminate model if the timeout option (model_run_timeout) is exceeded.
-After model is run, the post run R code and post run Python code (if used) is run, and
+After model is run, the post run R code and post run Python code (if used) are run, and
 the calc_fitness function is called to calculate the fitness/reward.</p>
 </dd></dl>
 
@@ -491,12 +493,12 @@ the calc_fitness function is called to calculate the fitness/reward.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.ModelRun.write_best_model_files">
 <span class="sig-prename descclassname"><span class="pre">darwin.ModelRun.</span></span><span class="sig-name descname"><span class="pre">write_best_model_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ModelRun.write_best_model_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>Saves the current best model control and output in control_path and result_path respectively.</p>
+<dd><p>Saves the current best model control and output in control_path and result_path, respectively.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>control_path</strong> – path to current best model control file</p></li>
-<li><p><strong>result_path</strong> – path to current best model result file</p></li>
+<li><p><strong>control_path</strong> – Path to current best model control file</p></li>
+<li><p><strong>result_path</strong> – Path to current best model result file</p></li>
 </ul>
 </dd>
 </dl>
@@ -526,10 +528,10 @@ the calc_fitness function is called to calculate the fitness/reward.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – Population name. Will be used as generation for every ModelRun added to this population. If it’s
-an integer, it’s formatted respectively to max_iteration (filled with leading zeroes if needed). Otherwise,
-it’s just converted to a string.</p></li>
-<li><p><strong>start_number</strong> – Starting model numer of this population.</p></li>
+<li><p><strong>name</strong> – Population name. Will be used as generation for every ModelRun added to this population.
+If an integer is specified, the name is formatted respectively to max_iteration (filled with leading
+zeroes, if needed). Otherwise, it’s just converted to a string.</p></li>
+<li><p><strong>start_number</strong> – Starting model number of this population.</p></li>
 <li><p><strong>max_number</strong> – Maximum model number of entire <strong>iteration</strong>. Used for formatting model number. Note that
 iteration may contain multiple populations (see exhaustive search).</p></li>
 <li><p><strong>max_iteration</strong> – Maximum iteration number. Used for formatting population name.</p></li>
@@ -547,9 +549,9 @@ iteration may contain multiple populations (see exhaustive search).</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.Population.Population.add_model_run">
 <span class="sig-name descname"><span class="pre">add_model_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelCode.ModelCode" title="darwin.ModelCode.ModelCode"><span class="pre">ModelCode</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population.add_model_run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new ModelRun and append it to runs.
-If a ModelRun with such code already exists in runs, the new one will be marked as a duplicate and won’t be run.
-If the code is found in the cache, ModelRun will be restored from there and won’t be run.</p>
+<dd><p>Create a new ModelRun and append it to <em>self.runs</em>.
+If a ModelRun with such code already exists in <em>self.runs</em>, the new one will be marked as a duplicate and
+will not be run. If the code is found in the cache, ModelRun will be restored from there and will not be run.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -568,7 +570,7 @@ If the code is found in the cache, ModelRun will be restored from there and won�
 <dt class="sig sig-object py" id="darwin.Population.Population.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the population - pass all runs to current run manager.
-No return value, just updates runs.</p>
+There is no return value, the runs are just updated.</p>
 </dd></dl>
 
 </dd></dl>
@@ -578,11 +580,11 @@ No return value, just updates runs.</p>
 <section id="caching-model-runs">
 <span id="api-model-cache"></span><h2>Caching model runs<a class="headerlink" href="#caching-model-runs" title="Permalink to this heading">¶</a></h2>
 <div class="line-block">
-<div class="line">It’s not uncommon to get duplicated models during search. In order to prevent unnecessary runs all unique models from current search are stored in Model Cache.</div>
+<div class="line">Duplicate models are commonly encountered during search. To prevent unnecessary runs, all unique models from current search are stored in Model Cache.</div>
 <div class="line">Every new model is checked against the cache. If a match is found, the new model is replaced with cached one, so the result is obtained instantly.</div>
-<div class="line">Currently only in-memory cache is available, so in case of large searches (millions of model runs) memory footprint may be substantial.</div>
+<div class="line">Currently, only in-memory cache is available, so with large searches (millions of model runs), the memory footprint may be substantial.</div>
 <div class="line">Normally the cache is dumped at the end of every iteration or when you <a class="reference internal" href="Usage.html#stop-search"><span class="std std-ref">stop the search</span></a>. This behaviour can be affected
-by <a class="reference internal" href="Options.html#saved-models-readonly-options-desc"><span class="std std-ref">saved_models_readonly</span></a> set to true. You also can load the cache from <a class="reference internal" href="Options.html#use-saved-models-options-desc"><span class="std std-ref">saved state</span></a>.</div>
+by <a class="reference internal" href="Options.html#saved-models-readonly-options-desc"><span class="std std-ref">saved_models_readonly</span></a> being set to true. You also can load the cache from a <a class="reference internal" href="Options.html#use-saved-models-options-desc"><span class="std std-ref">saved state</span></a>.</div>
 </div>
 <section id="module-darwin.ModelCache">
 <span id="darwin-modelcache"></span><h3>darwin.ModelCache<a class="headerlink" href="#module-darwin.ModelCache" title="Permalink to this heading">¶</a></h3>
@@ -708,8 +710,8 @@ by <a class="reference internal" href="Options.html#saved-models-readonly-option
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelRunManager.ModelRunManager.run_all">
 <span class="sig-name descname"><span class="pre">run_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRunManager.ModelRunManager.run_all" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs the models. Always runs from integer representation, so for GA will need to convert to integer,
-for downhill, will need to convert to minimal binary, then to integer.</p>
+<dd><p>Runs the models. Always runs from integer representation. For GA will need to convert to integer.
+For downhill, will need to convert to minimal binary, then to integer.</p>
 </dd></dl>
 
 </dd></dl>
@@ -935,13 +937,10 @@ for downhill, will need to convert to minimal binary, then to integer.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelEngineAdapter.ModelEngineAdapter.read_data_file_name">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_data_file_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.ModelEngineAdapter.ModelEngineAdapter.read_data_file_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parses the control file to read the data file name</p>
+<dd><p>Parses the control file to read the data file name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>data file path string</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
+<dd class="field-odd"><p>Data file path string</p>
 </dd>
 </dl>
 </dd></dl>
@@ -954,8 +953,7 @@ for downhill, will need to convert to minimal binary, then to integer.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelEngineAdapter.ModelEngineAdapter.cleanup">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_stem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelEngineAdapter.ModelEngineAdapter.cleanup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deletes all unneeded files after run.
-Note that an option “remove_run_dir” in the options file to remove the entire run_dir.</p>
+<dd><p>Deletes all unneeded files after run completes.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -968,7 +966,7 @@ Note that an option “remove_run_dir” in the options file to remove the entir
 <dt class="sig sig-object py" id="darwin.ModelEngineAdapter.ModelEngineAdapter.make_control">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelCode.ModelCode" title="darwin.ModelCode.ModelCode"><span class="pre">ModelCode</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelEngineAdapter.ModelEngineAdapter.make_control" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs control file from intcode.
-Ignore last value if self_search_omega_bands.</p>
+Ignore last value if self_search_omega_bands is specified.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -994,7 +992,7 @@ Ignore last value if self_search_omega_bands.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelEngineAdapter.ModelEngineAdapter.init_template">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelEngineAdapter.ModelEngineAdapter.init_template" title="Permalink to this definition">¶</a></dt>
-<dd><p>perform any adapter-specific initialization, e.g. initialize theta/omega/sigma blocks</p>
+<dd><p>Perform any adapter-specific initialization, e.g., initialize THETA/OMEGA/SIGMA blocks.</p>
 </dd></dl>
 
 </dd></dl>
@@ -1024,7 +1022,7 @@ Ignore last value if self_search_omega_bands.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.nonmem.NMEngineAdapter.NMEngineAdapter.init_template">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.init_template" title="Permalink to this definition">¶</a></dt>
-<dd><p>perform any adapter-specific initialization, e.g. initialize theta/omega/sigma blocks</p>
+<dd><p>Perform any adapter-specific initialization, e.g., initialize THETA/OMEGA/SIGMA blocks.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1048,9 +1046,12 @@ Ignore last value if self_search_omega_bands.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.nonmem.NMEngineAdapter.NMEngineAdapter.cleanup">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_stem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.cleanup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deletes all unneeded files after run.
-By default, key files (.lst, .xml, .mod) are retained.
-If remove_run_dir is set to true then entire run_dir is deleted.</p>
+<dd><div class="line-block">
+<div class="line">Deletes all unneeded files after run.</div>
+<div class="line">By default, key files (.lst, .xml, .mod) are retained.
+If <a class="reference internal" href="Options.html#remove-run-dir-options-desc"><span class="std std-ref">remove_run_dir</span></a> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code> then
+entire <a class="reference internal" href="#model-run-dir"><span class="std std-ref">run_dir</span></a> is deleted.</div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1071,13 +1072,10 @@ If remove_run_dir is set to true then entire run_dir is deleted.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.nonmem.NMEngineAdapter.NMEngineAdapter.read_data_file_name">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_data_file_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.nonmem.NMEngineAdapter.NMEngineAdapter.read_data_file_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parses the control file to read the data file name</p>
+<dd><p>Parses the control file to read the data file name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>data file path string</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
+<dd class="field-odd"><p>Data file path string</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1105,20 +1103,20 @@ If remove_run_dir is set to true then entire run_dir is deleted.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.nonmem.utils.match_vars">
 <span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">match_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phenotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.nonmem.utils.match_vars" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parses current control file text, looking for THETA(*) and calculates the appropriate index for that THETA
-(starting with the last_fixed_theta - the largest value used for THETA() in the fixed code)</p>
+<dd><p>Finds every occurrence of the variable (defined by <em>stem</em>, ‘ETA’, ‘THETA’, etc.) in the <em>control</em>, assigns it
+appropriate index according to <em>var_block</em>, and replaces original variable entries with those with indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>control</strong> (<em>str</em>) – control file text</p></li>
-<li><p><strong>tokens</strong> (<em>dict</em>) – token groups</p></li>
-<li><p><strong>var_block</strong> (<em>str</em>) – variable block</p></li>
-<li><p><strong>phenotype</strong> (<em>dict</em>) – phenotype for model</p></li>
-<li><p><strong>stem</strong> (<em>str</em>) – </p></li>
+<li><p><strong>control</strong> (<em>str</em>) – Control file text</p></li>
+<li><p><strong>tokens</strong> (<em>dict</em>) – Token groups</p></li>
+<li><p><strong>var_block</strong> (<em>str</em>) – Variable definition block</p></li>
+<li><p><strong>phenotype</strong> (<em>dict</em>) – Phenotype for model</p></li>
+<li><p><strong>stem</strong> (<em>str</em>) – Variable stem</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>new control content</p>
+<dd class="field-even"><p>Modified control content</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
@@ -1129,38 +1127,27 @@ If remove_run_dir is set to true then entire run_dir is deleted.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.nonmem.utils._get_var_regex">
 <span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_var_regex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.utils._get_var_regex" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get compiled regex for the variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>var_type</strong> – Variable stem (‘ETA’, ‘THETA’, etc.)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Compiled regex</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.nonmem.utils._get_var_names">
-<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_var_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.utils._get_var_names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_var_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#darwin.nonmem.utils._get_var_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all <em>var_type</em> variable names in the <em>row</em>.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.nonmem.utils._get_var_matches">
-<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_var_matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expanded_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_phenotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.utils._get_var_matches" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="darwin.nonmem.utils.set_omega_bands">
-<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">set_omega_bands</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bandwidth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.nonmem.utils.set_omega_bands" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes ALL existing omega blocks from control, then inserts a series of $OMEGAs. These will be unchanged
-if the source is BLOCK or DIAG. Not specified BLOCK or DIAG (and so is by default DIAG), will convert
-to BLOCK with the number of bands specified in the model code.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>control</strong> (<em>str</em>) – existing control file</p></li>
-<li><p><strong>bandwidth</strong> (<em>int</em>) – require band width</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>modified control file</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
+<span class="sig-prename descclassname"><span class="pre">darwin.nonmem.utils.</span></span><span class="sig-name descname"><span class="pre">_get_var_matches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expanded_block</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_phenotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#darwin.nonmem.utils._get_var_matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get indices for all <em>var_type</em> variable entries in <em>expanded_block</em>.</p>
 </dd></dl>
 
 </section>
@@ -1172,22 +1159,22 @@ to BLOCK with the number of bands specified in the model code.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.utils.replace_tokens">
 <span class="sig-prename descclassname"><span class="pre">darwin.utils.</span></span><span class="sig-name descname"><span class="pre">replace_tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phenotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">non_influential_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.utils.replace_tokens" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loops over tokens in a single token set, replace any token stem in the control file with the assigned token. 
+<dd><p>Loops over tokens in a single token set, replaces any token stem in the control file with the assigned token.
 Called once for each token group, until no more token stems are found. 
-Also determines whether a token set is “influential”, that is does the choice of token set results in a change 
-in the resulting control file. A small penalty, is specified in the options file, e.g.,
-“non_influential_tokens_penalty”: 0.00001,</p>
+Also determines whether a token set is “influential” (i.e., the choice of token set results in a change
+in the resulting control file).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>tokens</strong> (<em>dict</em>) – a dictionary of token sets</p></li>
-<li><p><strong>text</strong> (<em>string</em>) – current control file text</p></li>
-<li><p><strong>phenotype</strong> (<em>dict</em>) – integer array specifying which token set in the token group to substitute into the text</p></li>
+<li><p><strong>tokens</strong> (<em>dict</em>) – A dictionary of token sets</p></li>
+<li><p><strong>text</strong> (<em>string</em>) – Current control file text</p></li>
+<li><p><strong>phenotype</strong> (<em>dict</em>) – Integer array specifying which token set in the token group to substitute into the text</p></li>
 <li><p><strong>non_influential_tokens</strong> (<em>list</em>) – Boolean list of whether the token group appears in the control file</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>boolean - were any tokens substituted (and we need to loop over again), current control file text</p>
+<dd class="field-even"><p>Boolean (were any tokens substituted, in which case we need to loop over again)
+and current control file text</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple</p>
@@ -1203,16 +1190,16 @@ in the resulting control file. A small penalty, is specified in the options file
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.utils.remove_comments">
 <span class="sig-prename descclassname"><span class="pre">darwin.utils.</span></span><span class="sig-name descname"><span class="pre">remove_comments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_mark</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">';'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#darwin.utils.remove_comments" title="Permalink to this definition">¶</a></dt>
-<dd><p>remove any comments (“;”) from nonmem code</p>
+<dd><p>Remove any comments from the <em>code</em></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>code</strong> (<em>str</em>) – input code</p></li>
-<li><p><strong>comment_mark</strong> – </p></li>
+<li><p><strong>code</strong> (<em>str</em>) – Input code</p></li>
+<li><p><strong>comment_mark</strong> – Mark of the beginning of a comment in the line</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>code with comments removed</p>
+<dd class="field-even"><p>Code with comments removed</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>

@@ -41,8 +41,8 @@ class ModelRunManager(ABC):
 
     def run_all(self, runs: list):
         """
-        Runs the models. Always runs from integer representation, so for GA will need to convert to integer,
-        for downhill, will need to convert to minimal binary, then to integer.
+        Runs the models. Always runs from integer representation. For GA will need to convert to integer.
+        For downhill, will need to convert to minimal binary, then to integer.
         """
 
         runs = self._preprocess_runs(runs)

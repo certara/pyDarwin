@@ -78,24 +78,11 @@ def _ask_models(opts: list, n_points: int) -> list:
 # run parallel? https://scikit-optimize.github.io/stable/auto_examples/parallel-optimization.html
 def run_skopt(model_template: Template) -> ModelRun:
     """
-    Run one of the scikit optimize (https://scikit-optimize.github.io/stable/) algorithms, specified in the options file 
-    
-    Called from Darwin.run_search, _run_template.
-    
-    Which algorithm is used is defined in the options files, with the code for the algorithms being:
-
-    -"algorithm":"GP"
-
-    -"algorithm":"RF"
-
-    -"algorithm":"GBRT"
+    Run one of the scikit optimize algorithms (GP, RF, GBRT). See https://scikit-optimize.github.io/stable/.
 
     :param model_template: Model template to be run
-
     :type model_template: Template
-
-    :return: return best model from search
-
+    :return: The best model from search
     :rtype: Model
     """
     downhill_period = options.downhill_period

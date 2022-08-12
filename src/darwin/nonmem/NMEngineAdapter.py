@@ -153,9 +153,10 @@ class NMEngineAdapter(ModelEngineAdapter):
     @staticmethod
     def cleanup(run_dir: str, file_stem: str):
         """
-        Deletes all unneeded files after run.
-        By default, key files (.lst, .xml, .mod) are retained.
-        If remove_run_dir is set to true then entire run_dir is deleted.
+        | Deletes all unneeded files after run.
+        | By default, key files (.lst, .xml, .mod) are retained.
+          If :mono_ref:`remove_run_dir <remove_run_dir_options_desc>` is set to ``true`` then
+          entire :mono_ref:`run_dir <model_run_dir>` is deleted.
         """
 
         try:
@@ -200,13 +201,6 @@ class NMEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def read_data_file_name(control_file_name: str) -> list:
-        """
-        Parses the control file to read the data file name
-
-        :return: data file path string
-        :rtype: list
-        """
-
         datalines = []
 
         with open(control_file_name, "r") as f:

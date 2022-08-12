@@ -10,25 +10,25 @@ _var_regex = {}
 
 def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, stem: str) -> str:
     """
-    Parses current control file text, looking for THETA(*) and calculates the appropriate index for that THETA
-    (starting with the last_fixed_theta - the largest value used for THETA() in the fixed code)
+    Finds every occurrence of the variable (defined by *stem*, 'ETA', 'THETA', etc.) in the *control*, assigns it
+    appropriate index according to *var_block*, and replaces original variable entries with those with indices.
 
-    :param control: control file text
+    :param control: Control file text
     :type control: str
 
-    :param tokens: token groups
+    :param tokens: Token groups
     :type tokens: dict
 
-    :param var_block: variable block
+    :param var_block: Variable definition block
     :type var_block: str
 
-    :param phenotype: phenotype for model
+    :param phenotype: Phenotype for model
     :type phenotype: dict
 
-    :param stem:
+    :param stem: Variable stem
     :type stem: str
 
-    :return: new control content
+    :return: Modified control content
     :rtype: str
     """
     # EXAMPLED_THETA_BLOCK IS THE FINAL $THETA BLOCK FOR THIS MODEL, WITH THE TOKEN TEXT SUBSTITUTED IN
@@ -44,7 +44,6 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, ste
 
     # add last fixed var value to all
     for k, v in var_indices.items():
-        # add last fixed parm value to all
         # and put into control file
         control = control.replace(stem + "(" + k + ")", stem + "(" + str(v) + ")")
 
@@ -52,6 +51,12 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, ste
 
 
 def _get_var_regex(var_type: str):
+    """
+    Get compiled regex for the variable.
+
+    :param var_type: Variable stem ('ETA', 'THETA', etc.)
+    :return: Compiled regex
+    """
     regex = _var_regex.get(var_type)
 
     if not regex:
@@ -67,7 +72,11 @@ def _get_var_regex(var_type: str):
     return regex
 
 
-def _get_var_names(row: str, var_type: str):
+def _get_var_names(row: str, var_type: str) -> list:
+    """
+    Find all *var_type* variable names in the *row*.
+    """
+
     regex = _get_var_regex(var_type)
 
     res = [m for t in [x.groups() for x in regex.finditer(row)] for m in t if m is not None]
@@ -75,7 +84,11 @@ def _get_var_names(row: str, var_type: str):
     return res
 
 
-def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, var_type: str):
+def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, var_type: str) -> dict:
+    """
+    Get indices for all *var_type* variable entries in *expanded_block*.
+    """
+
     var_matches = {}
     var_index = 1
 

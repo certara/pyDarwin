@@ -21,10 +21,10 @@ class Population:
         """
         Create an empty population.
 
-        :param name: Population name. Will be used as generation for every ModelRun added to this population. If it's
-            an integer, it's formatted respectively to max_iteration (filled with leading zeroes if needed). Otherwise,
-            it's just converted to a string.
-        :param start_number: Starting model numer of this population.
+        :param name: Population name. Will be used as generation for every ModelRun added to this population.
+            If an integer is specified, the name is formatted respectively to max_iteration (filled with leading
+            zeroes, if needed). Otherwise, it’s just converted to a string.
+        :param start_number: Starting model number of this population.
         :param max_number: Maximum model number of entire **iteration**. Used for formatting model number. Note that
             iteration may contain multiple populations (see exhaustive search).
         :param max_iteration: Maximum iteration number. Used for formatting population name.
@@ -61,9 +61,9 @@ class Population:
 
     def add_model_run(self, code: ModelCode):
         """
-        Create a new ModelRun and append it to runs.
-        If a ModelRun with such code already exists in runs, the new one will be marked as a duplicate and won't be run.
-        If the code is found in the cache, ModelRun will be restored from there and won't be run.
+        Create a new ModelRun and append it to *self.runs*.
+        If a ModelRun with such code already exists in *self.runs*, the new one will be marked as a duplicate and
+        will not be run. If the code is found in the cache, ModelRun will be restored from there and will not be run.
         """
         model = self.adapter.create_new_model(self.template, code)
 
@@ -118,7 +118,7 @@ class Population:
     def run(self):
         """
         Run the population - pass all runs to current run manager.
-        No return value, just updates runs.
+        There is no return value, the runs are just updated.
         """
 
         if not self.runs:

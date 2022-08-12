@@ -14,8 +14,8 @@ from darwin.Population import Population
 
 def run_exhaustive(model_template: Template) -> ModelRun:
     """
-    Run full exhaustive search on the Template, all possible combination.
-    All models will be run in generation/iteration number 0.
+    Run full exhaustive search on the Template, all possible combinations.
+    All models will be run in iteration number 0.
 
     :param model_template: Model Template
     :type model_template: Template

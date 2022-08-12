@@ -11,15 +11,15 @@ from darwin.options import options
 class Template:
     """
     The Template object contains information common to all the model objects, including the template code
-    (from the template file) and the tokens set. It DOES NOT include and model specific information,
+    (from the template file) and the tokens set. It DOES NOT include any model specific information,
     such as the phenotype, the control file text, or any of the output results from NONMEM.
-    Other housekeeping functions are performed, such as defining the gene structure (by counting the number
-    of token groups for each token set), and parsing out the THETA/OMEGA/SIGMA blocks, and counting
-    the number of fixed/non searched THETAs/OMEGAs/SIGMAs
+    Other housekeeping functions are performed, such as defining the gene structure (by counting the number of
+    of token groups for each token set), parsing out the THETA/OMEGA/SIGMA blocks, and counting
+    the number of fixed/non-searched THETAs/OMEGAs/SIGMAs.
 
-    :param template_file: path to the plain ascii text template file
+    :param template_file: Path to the plain ascii text template file
     :type template_file: str
-    :param tokens_file: path to the json tokens file
+    :param tokens_file: Path to the json tokens file
     """
 
     def __init__(self, template_file: str, tokens_file: str):

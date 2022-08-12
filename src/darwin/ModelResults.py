@@ -40,7 +40,6 @@ class ModelResults:
     def calc_fitness(self, model: Model):
         """
         Calculates the fitness, based on the model output, and the penalties (from the options file).
-        Need to look in output file for parameter at boundary and parameter non-positive.
         """
 
         penalties = options.penalty

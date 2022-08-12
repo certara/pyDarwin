@@ -12,30 +12,21 @@ from darwin.Log import log
 
 def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list):
     """ 
-    Loops over tokens in a single token set, replace any token stem in the control file with the assigned token. 
+    Loops over tokens in a single token set, replaces any token stem in the control file with the assigned token.
     Called once for each token group, until no more token stems are found. 
-    Also determines whether a token set is "influential", that is does the choice of token set results in a change 
-    in the resulting control file. A small penalty, is specified in the options file, e.g.,
-    "non_influential_tokens_penalty": 0.00001,
+    Also determines whether a token set is "influential" (i.e., the choice of token set results in a change
+    in the resulting control file).
 
-    :param tokens: a dictionary of token sets
-
+    :param tokens: A dictionary of token sets
     :type tokens: dict
-
-    :param text: current control file text
-
+    :param text: Current control file text
     :type text: string
-
-    :param phenotype: integer array specifying which token set in the token group to substitute into the text
-
+    :param phenotype: Integer array specifying which token set in the token group to substitute into the text
     :type phenotype: dict
-
     :param non_influential_tokens: Boolean list of whether the token group appears in the control file
-
     :type non_influential_tokens: list
-
-    :return: boolean - were any tokens substituted (and we need to loop over again), current control file text
-
+    :return: Boolean (were any tokens substituted, in which case we need to loop over again)
+             and current control file text
     :rtype: tuple
     
     """
@@ -96,12 +87,12 @@ def get_token_parts(token):
 
 
 def remove_comments(code: str, comment_mark=';') -> str:
-    """ remove any comments (";") from nonmem code
+    """ Remove any comments from the *code*
 
-    :param code: input code
+    :param code: Input code
     :type code: str
-    :param comment_mark:
-    :return: code with comments removed
+    :param comment_mark: Mark of the beginning of a comment in the line
+    :return: Code with comments removed
     :rtype: str
     """
 

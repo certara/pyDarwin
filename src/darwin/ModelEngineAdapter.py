@@ -28,10 +28,9 @@ class ModelEngineAdapter(ABC):
     @abstractmethod
     def read_data_file_name(control_file_name: str) -> list:
         """
-        Parses the control file to read the data file name
+        Parses the control file to read the data file name.
 
-        :return: data file path string
-        :rtype: list
+        :return: Data file path string
         """
 
         pass
@@ -45,8 +44,7 @@ class ModelEngineAdapter(ABC):
     @abstractmethod
     def cleanup(run_dir: str, file_stem: str):
         """
-        Deletes all unneeded files after run.
-        Note that an option "remove_run_dir" in the options file to remove the entire run_dir.
+        Deletes all unneeded files after run completes.
         """
 
         pass
@@ -65,7 +63,7 @@ class ModelEngineAdapter(ABC):
     def make_control(template: Template, model_code: ModelCode):
         """
         Constructs control file from intcode.
-        Ignore last value if self_search_omega_bands.
+        Ignore last value if self_search_omega_bands is specified.
         """
 
         pass
@@ -102,7 +100,7 @@ class ModelEngineAdapter(ABC):
     @abstractmethod
     def init_template(template: Template):
         """
-        perform any adapter-specific initialization, e.g. initialize theta/omega/sigma blocks
+        Perform any adapter-specific initialization, e.g., initialize THETA/OMEGA/SIGMA blocks.
         """
 
         pass

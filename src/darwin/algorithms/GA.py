@@ -95,8 +95,7 @@ class _GARunner:
 def run_ga(model_template: Template) -> ModelRun:
     """
     Run the Genetic Algorithm (GA) search, using the DEAP (https://github.com/deap/deap) packages.
-    All the required information is contained in the Template objects, plus the options module
-    The template objects includes the control file template, and all the token groups.
+    The template object includes the control file template and all the token groups.
 
     :param model_template: Template object for the search
     :type model_template: Template

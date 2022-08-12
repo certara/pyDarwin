@@ -86,26 +86,26 @@ class ModelRun:
     .. _model_run_num:
 
     model_num: int
-        Model number, within the generation.
+        Model number within the generation.
 
         Generation + model_num creates a unique "file_stem"
 
     .. _model_run_stem:
 
     file_stem: string
-        Prefix string used to create unique names for control files, executable and run directory.
+        Prefix string used to create unique names for control files, executable, and run directory.
         Defined as stem_prefix + generation + model_num.
 
     control_file_name: string
-        name of the control file, will be  file_stem + ".mod"
+        Name of the control file, will be  file_stem + ".mod"
 
     executable_file_name: string
-        name of the executable, will be file_stem + ".exe"
+        Name of the executable, will be file_stem + ".exe"
 
     .. _model_run_dir:
 
     run_dir: string
-        path to the directory where the model is run;
+        Path to the directory where the model is run;
         run_dir name is based on the file_stem, which must be unique for each model in the search.
     """
 
@@ -283,7 +283,7 @@ class ModelRun:
     def run_model(self):
         """
         Runs the model. Will terminate model if the timeout option (model_run_timeout) is exceeded.
-        After model is run, the post run R code and post run Python code (if used) is run, and
+        After model is run, the post run R code and post run Python code (if used) are run, and
         the calc_fitness function is called to calculate the fitness/reward.
         """
         if not keep_going():
@@ -486,10 +486,10 @@ def _import_python_postprocessing(path: str):
 
 def write_best_model_files(control_path: str, result_path: str) -> bool:
     """
-    Saves the current best model control and output in control_path and result_path respectively.
+    Saves the current best model control and output in control_path and result_path, respectively.
 
-    :param control_path: path to current best model control file
-    :param result_path: path to current best model result file
+    :param control_path: Path to current best model control file
+    :param result_path: Path to current best model result file
     """
 
     if not GlobalVars.BestRun:

@@ -615,7 +615,7 @@ Job delete/poll aliases
 
 .. _job_ids_alias:
 
-  * | **{job_ids}** - Alias for a whitespace delimited list of ids of all unfinished jobs that were submitted by :ref:`GenericGridAdapter <generic_grid_adapter>` from the current Population.
+  * | **{job_ids}** - Alias for a whitespace delimited list of ids of all unfinished jobs that were submitted from the current Population.
     | Can be used in: :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 

@@ -639,7 +639,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <ul id="model-run-man-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>model_run_man</strong> - <em>string</em>: ModelRunManager subclass to be used.</div>
-<div class="line">Currently there are only <a class="reference internal" href="API.html#darwin.LocalRunManager.LocalRunManager" title="darwin.LocalRunManager.LocalRunManager"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.LocalRunManager</span></code></a> and <a class="reference internal" href="API.html#darwin.grid.GridRunManager.GridRunManager" title="darwin.grid.GridRunManager.GridRunManager"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.GridRunManager</span></code></a>.</div>
+<div class="line">Currently there are only <code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.LocalRunManager</span></code> and <code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.GridRunManager</span></code>.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">darwin.LocalRunManager</span></code></div>
 </div>
 </li>
@@ -647,7 +647,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <ul id="grid-adapter-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>grid_adapter</strong> - <em>string</em>: GridAdapter subclass to be used.</div>
-<div class="line">Currently only <a class="reference internal" href="API.html#darwin.grid.GenericGridAdapter.GenericGridAdapter" title="darwin.grid.GenericGridAdapter.GenericGridAdapter"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.GenericGridAdapter</span></code></a> is available.</div>
+<div class="line">Currently only <code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.GenericGridAdapter</span></code> is available.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">darwin.GenericGridAdapter</span></code></div>
 </div>
 </li>
@@ -655,7 +655,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <ul id="engine-adapter-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>engine_adapter</strong> - <em>string</em>: ModelEngineAdapter subclass to be used.</div>
-<div class="line">Currently only <a class="reference internal" href="API.html#darwin.nonmem.NMEngineAdapter.NMEngineAdapter" title="darwin.nonmem.NMEngineAdapter.NMEngineAdapter"><code class="xref py py-data docutils literal notranslate"><span class="pre">nonmem</span></code></a> is available.</div>
+<div class="line">Currently only <code class="xref py py-data docutils literal notranslate"><span class="pre">nonmem</span></code> is available.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">nonmem</span></code></div>
 </div>
 </li>
@@ -926,7 +926,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="job-ids-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{job_ids}</strong> - Alias for a whitespace delimited list of ids of all unfinished jobs that were submitted by <a class="reference internal" href="API.html#generic-grid-adapter"><span class="std std-ref">GenericGridAdapter</span></a> from the current Population.</div>
+<div class="line"><strong>{job_ids}</strong> - Alias for a whitespace delimited list of ids of all unfinished jobs that were submitted from the current Population.</div>
 <div class="line">Can be used in: <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
 </div>
 </li>

@@ -460,8 +460,8 @@ The search space contains 1.66 million possible models, and searches for the fol
 | Is CL related to Age?      | CL~AGE                   | Yes|No                     |
 +----------------------------+--------------------------+----------------------------+
 | | Is there ETA on D1       | | ETAD1LAG               | | None or ETA on D1 or     |
-| | and/or ALAG1 (nested in  | |                        | | ETA on ALAGa or ETA on   | 
-| | the D1LAG token group)   | |                        | | both (BLOCK)             |
+| | and/or ALAG1 (nested in  | |                        | | ETA on ALAGa or          | 
+| | the D1LAG token group)   | |                        | | ETA on both (BLOCK)      |
 +----------------------------+--------------------------+----------------------------+
 
 In practice, we will be searching for:

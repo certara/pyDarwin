@@ -405,10 +405,6 @@ File output
 The file output from pyDarwin is generated real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly, 
 messages (what appears on the console output) are written continuously to the messages.txt file.
 
-**NOTE**. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the "locks" them, e.g., Excel. If, for example 
-the results.csv file is opened in Excel, the next time pyDarwin tries to open it to write the next model output, an exception will occur. The work around is to copy the file to 
-another file (e.g., ``cp results.csv results1.csv``), then open the copied file.
-
 Messages.txt
 --------------
 

@@ -416,9 +416,6 @@ changes such as <code class="docutils literal notranslate"><span class="pre">&qu
 <h3>File output<a class="headerlink" href="#file-output" title="Permalink to this heading">¶</a></h3>
 <p>The file output from pyDarwin is generated real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly,
 messages (what appears on the console output) are written continuously to the messages.txt file.</p>
-<p><strong>NOTE</strong>. As these files are continuous opened, written to and closed, an exception will occur if they are opened in an application the “locks” them, e.g., Excel. If, for example
-the results.csv file is opened in Excel, the next time pyDarwin tries to open it to write the next model output, an exception will occur. The work around is to copy the file to
-another file (e.g., <code class="docutils literal notranslate"><span class="pre">cp</span> <span class="pre">results.csv</span> <span class="pre">results1.csv</span></code>), then open the copied file.</p>
 <section id="messages-txt">
 <h4>Messages.txt<a class="headerlink" href="#messages-txt" title="Permalink to this heading">¶</a></h4>
 <p>The messages.txt file will be found in the working directory. This file’s content is the same as the console output.</p>

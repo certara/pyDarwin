@@ -74,7 +74,7 @@ Both the development version and released version of ``pyDarwin`` are available 
 
          .. code-block:: python
 
-            pip install pyDarwin-Certara --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-develop-local/simple --extra-index-url https://pypi.python.org/simple/
+             pip install pyDarwin-Certara --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-release-public/simple --extra-index-url https://pypi.python.org/simple/
 
       .. group-tab:: Development
 

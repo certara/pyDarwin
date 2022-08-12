@@ -33,6 +33,10 @@ This will create a virtual environment in the folder `.venv`
 
 Next, use `pip` to install the `pyDarwin` package from the Certara managed `PyPi` repo:
 
+### Released Version
+
+`pip install pyDarwin-Certara --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-release-public/simple --extra-index-url https://pypi.python.org/simple/`
+
 ### Development Version
 
 `pip install pyDarwin-Certara --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-develop-local/simple --extra-index-url https://pypi.python.org/simple/`

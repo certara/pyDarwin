@@ -26,6 +26,10 @@ class _ModelRunEncoder(json.JSONEncoder):
 
 
 class MemoryModelCache(ModelCache):
+    """
+    Simple Model Cache that stores model runs in a dictionary. Default option for ``pyDarwin``.
+    """
+
     def __init__(self):
         self._lock_all_runs = threading.Lock()
         self.all_runs = OrderedDict()
@@ -55,6 +59,10 @@ class MemoryModelCache(ModelCache):
         return deepcopy(self.all_runs.get(genotype))
 
     def load(self):
+        """
+        Load the cache from :mono_ref:`saved_models_file <saved_models_file_options_desc>`.
+        """
+
         if options.use_saved_models and options.saved_models_file:
             models_list = Path(options.saved_models_file)
 
@@ -99,6 +107,11 @@ class MemoryModelCache(ModelCache):
         log.message(f"Models will be saved in {self.file}")
 
     def dump(self):
+        """
+        | Save cached runs to file.
+        | Does nothing if :mono_ref:`saved_models_readonly <saved_models_readonly_options_desc>`
+          is set to ``true``.
+        """
         self._dump_impl()
 
     def _dump_impl(self):
@@ -113,6 +126,11 @@ class MemoryModelCache(ModelCache):
 
 
 class AsyncMemoryModelCache(MemoryModelCache):
+    """
+    | Non-blocking MemoryModelCache.
+    | Dumps model runs in a separate thread so *dump* call doesn't block the search execution.
+    """
+
     def __init__(self):
         super(AsyncMemoryModelCache, self).__init__()
 
@@ -125,6 +143,9 @@ class AsyncMemoryModelCache(MemoryModelCache):
         self._dumper.start()
 
     def finalize(self):
+        """
+        Finish the working thread and dump any unsaved model runs.
+        """
         self._keep_going = False
 
         with self._ready:
@@ -155,11 +176,19 @@ class AsyncMemoryModelCache(MemoryModelCache):
             self._dump_impl()
 
     def dump(self):
+        """
+        Signal the working thread that a dump was requested.
+        """
         with self._ready:
             self._something_put = True
             self._ready.notify()
 
 
 def register():
+    """
+    :data:`Register <darwin.ModelCache.register_model_cache>`
+    :data:`MemoryModelCache <darwin.MemoryModelCache.MemoryModelCache>`
+    and :data:`AsyncMemoryModelCache <darwin.MemoryModelCache.AsyncMemoryModelCache>`.
+    """
     register_model_cache('darwin.MemoryModelCache', MemoryModelCache)
     register_model_cache('darwin.AsyncMemoryModelCache', AsyncMemoryModelCache)

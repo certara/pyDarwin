@@ -500,52 +500,62 @@ by <a class="reference internal" href="Options.html#saved-models-readonly-option
 <dl class="py class">
 <dt class="sig sig-object py" id="darwin.ModelCache.ModelCache">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.ModelCache.</span></span><span class="sig-name descname"><span class="pre">ModelCache</span></span><a class="headerlink" href="#darwin.ModelCache.ModelCache" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><p>Abstract Model Cache. Describes the interface that must be implemented by every Model Cache.</p>
+<dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCache.ModelCache.store_model_run">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">store_model_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.ModelCache.store_model_run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Store a run.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCache.ModelCache.find_model_run">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_model_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.ModelCache.ModelCache.find_model_run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Find a run by genotype.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCache.ModelCache.load">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.ModelCache.load" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Load the cache from a saved state.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCache.ModelCache.dump">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.ModelCache.dump" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Dump the cache to a saved state.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCache.ModelCache.finalize">
 <span class="sig-name descname"><span class="pre">finalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.ModelCache.finalize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Finalize all ongoing activities.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.ModelCache.set_model_cache">
 <span class="sig-prename descclassname"><span class="pre">darwin.ModelCache.</span></span><span class="sig-name descname"><span class="pre">set_model_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.set_model_cache" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set current Model Cache instance. Supposed to be called once at the startup.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.ModelCache.get_model_cache">
 <span class="sig-prename descclassname"><span class="pre">darwin.ModelCache.</span></span><span class="sig-name descname"><span class="pre">get_model_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.get_model_cache" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get current Model Cache instance.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.ModelCache.register_model_cache">
 <span class="sig-prename descclassname"><span class="pre">darwin.ModelCache.</span></span><span class="sig-name descname"><span class="pre">register_model_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mc_class</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.register_model_cache" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Register Model Cache class. <em>cache_name</em> is arbitrary, must be unique among all registered caches.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.ModelCache.create_model_cache">
 <span class="sig-prename descclassname"><span class="pre">darwin.ModelCache.</span></span><span class="sig-name descname"><span class="pre">create_model_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_name</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelCache.ModelCache" title="darwin.ModelCache.ModelCache"><span class="pre">ModelCache</span></a></span></span><a class="headerlink" href="#darwin.ModelCache.create_model_cache" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Create Model Cache instance. The cache class must be registered under <em>cache_name</em>.</p>
+</dd></dl>
 
 </section>
 <section id="module-darwin.MemoryModelCache">
@@ -554,25 +564,34 @@ by <a class="reference internal" href="Options.html#saved-models-readonly-option
 <dt class="sig sig-object py" id="darwin.MemoryModelCache.MemoryModelCache">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.MemoryModelCache.</span></span><span class="sig-name descname"><span class="pre">MemoryModelCache</span></span><a class="headerlink" href="#darwin.MemoryModelCache.MemoryModelCache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#darwin.ModelCache.ModelCache" title="darwin.ModelCache.ModelCache"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelCache</span></code></a></p>
+<p>Simple Model Cache that stores model runs in a dictionary. Default option for <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.MemoryModelCache.MemoryModelCache.store_model_run">
 <span class="sig-name descname"><span class="pre">store_model_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.MemoryModelCache.MemoryModelCache.store_model_run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Store a run.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.MemoryModelCache.MemoryModelCache.find_model_run">
 <span class="sig-name descname"><span class="pre">find_model_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genotype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></span><a class="headerlink" href="#darwin.MemoryModelCache.MemoryModelCache.find_model_run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Find a run by genotype.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.MemoryModelCache.MemoryModelCache.load">
 <span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.MemoryModelCache.MemoryModelCache.load" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Load the cache from <a class="reference internal" href="Options.html#saved-models-file-options-desc"><span class="std std-ref">saved_models_file</span></a>.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.MemoryModelCache.MemoryModelCache.dump">
 <span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.MemoryModelCache.MemoryModelCache.dump" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><div class="line-block">
+<div class="line">Save cached runs to file.</div>
+<div class="line">Does nothing if <a class="reference internal" href="Options.html#saved-models-readonly-options-desc"><span class="std std-ref">saved_models_readonly</span></a>
+is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</div>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -580,22 +599,31 @@ by <a class="reference internal" href="Options.html#saved-models-readonly-option
 <dt class="sig sig-object py" id="darwin.MemoryModelCache.AsyncMemoryModelCache">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">darwin.MemoryModelCache.</span></span><span class="sig-name descname"><span class="pre">AsyncMemoryModelCache</span></span><a class="headerlink" href="#darwin.MemoryModelCache.AsyncMemoryModelCache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#darwin.MemoryModelCache.MemoryModelCache" title="darwin.MemoryModelCache.MemoryModelCache"><code class="xref py py-class docutils literal notranslate"><span class="pre">MemoryModelCache</span></code></a></p>
+<div class="line-block">
+<div class="line">Non-blocking MemoryModelCache.</div>
+<div class="line">Dumps model runs in a separate thread so <em>dump</em> call doesn’t block the search execution.</div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.MemoryModelCache.AsyncMemoryModelCache.finalize">
 <span class="sig-name descname"><span class="pre">finalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.MemoryModelCache.AsyncMemoryModelCache.finalize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Finish the working thread and dump any unsaved model runs.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.MemoryModelCache.AsyncMemoryModelCache.dump">
 <span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.MemoryModelCache.AsyncMemoryModelCache.dump" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Signal the working thread that a dump was requested.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="darwin.MemoryModelCache.register">
 <span class="sig-prename descclassname"><span class="pre">darwin.MemoryModelCache.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.MemoryModelCache.register" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><a class="reference internal" href="#darwin.ModelCache.register_model_cache" title="darwin.ModelCache.register_model_cache"><code class="xref py py-data docutils literal notranslate"><span class="pre">Register</span></code></a>
+<a class="reference internal" href="#darwin.MemoryModelCache.MemoryModelCache" title="darwin.MemoryModelCache.MemoryModelCache"><code class="xref py py-data docutils literal notranslate"><span class="pre">MemoryModelCache</span></code></a>
+and <a class="reference internal" href="#darwin.MemoryModelCache.AsyncMemoryModelCache" title="darwin.MemoryModelCache.AsyncMemoryModelCache"><code class="xref py py-data docutils literal notranslate"><span class="pre">AsyncMemoryModelCache</span></code></a>.</p>
+</dd></dl>
 
 </section>
 </section>

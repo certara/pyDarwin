@@ -194,7 +194,7 @@ Here is the list of all available options. Note that many of the options have de
 
 * | **num_parallel** - *positive int*: Number of models to execute in parallel, i.e., how many threads to create to handle model runs.
   | If the models are run locally, then it's the maximum number of models running at the same time and should not exceed number of cores (logical/virtual processors).
-  | For grid runs, it's the number of models to send to the queue and read from results at any given time, execution itself is performed by grid nodes, 
+  | For grid runs, it's the number of models to send to the queue and read from results at any given time. Execution itself is performed by grid nodes, 
     so actual throughput is managed by the grid engine. In this case, 4 threads are enough.
   | *Default*: 4
 

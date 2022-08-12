@@ -23,8 +23,8 @@ Example 2 is also a simple search. The search space contains 12,960 models, 10 d
 +----------------------------+--------------------------+----------------------------+
 | Is CL related to Age?      | CL~AGE                   | Yes|No                     |
 +----------------------------+--------------------------+----------------------------+
-| | Is there ETA on D1 and/or| | ETAD1LAG               | | None or ETA on D1 or ETA |
-| | and/or ALAG1 (nested     | |                        | | ETA on ALAGa or ETA on   | 
+| | Is there ETA on D1       | | ETAD1LAG               | | None or ETA on D1        |
+| | and/or ALAG1 (nested in  | |                        | | ETA on ALAGa or ETA on   | 
 | | the D1LAG token group)   | |                        | | both or on both (BLOCK)  |
 +----------------------------+--------------------------+----------------------------+
 | | Is the zero order        | | D1LAG                  | | D1 or ALAG or Both       |
@@ -35,8 +35,8 @@ Example 2 is also a simple search. The search space contains 12,960 models, 10 d
 +----------------------------+--------------------------+----------------------------+
 
 This gives a search space of 3 x 2 x 2 x 3 x 2 x 3 x 2 x 5 x 3 x 2 = 12960 models. We'll use the :ref:`Gaussian Process<GP_desc>` algorithm for the search, 
-with a population size of 40 models, for up to 7 iterations. We'll run the downhill (1 and 2 bit local search) each 5 iterations. The downhill step will be 
-done starting with the 2 models that are in different niches i.e., differ by at least the niche radius. The models are selected as the best in each of 
+with a population size of 40 models, for up to 7 iterations. We'll run the downhill (1 and 2 bit local search, each with 5 iterations). The downhill step will be 
+done starting with the 2 models that are in different niches, i.e., differ by at least the niche radius. The models are selected as the best in each of 
 the two best niches. 
 
 To select the best models in each of 2 niches, first the best model in the entire population is identified. This will be the model for the first niche. 
@@ -122,7 +122,7 @@ Notes:
 
 #. The example includes nested tokens. The K23~WT token group is nested within the ADVAN token group and the ETAD1LAG token group is nested within the D1LAG group.
 
-#. Nested tokens can result in non-influential tokens. For example,if ADVAN2 is selected, the selection of K23~WT tokens will have no effect on the constructed control file.
+#. Nested tokens can result in non-influential tokens. For example, if ADVAN2 is selected, the selection of K23~WT tokens will have no effect on the constructed control file.
 
 
 ::
@@ -343,7 +343,7 @@ Gaussian Process is an approach in `Bayesian Optimization <https://proceedings.n
 (`scikit-optimize <https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py>`_) where the samples are drawn from 
 a Gaussian Process. There are reasons to believe that this approach should be the most efficient (fewer reward evaluations to convergence), other than downhill search. 
 However, the sampling itself can be very 
-computationally expensive. Therefore, the :ref:`GP option <GP_desc>` is best suited when the number of reward calculations number of NONMEM models run) is relatively small, perhaps < 1000, 
+computationally expensive. Therefore, the :ref:`GP option <GP_desc>` is best suited when the number of reward calculations (number of NONMEM models run) is relatively small, perhaps < 1000, 
 and the NONMEM run time is long (1 hour). Below is a table of the `ask and tell <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ step times  (h:mm:ss), by iteration. 
 The sample size was 80, with 4 chains on a 4 core computer: 
 
@@ -379,7 +379,7 @@ The sample size was 80, with 4 chains on a 4 core computer:
 
 
 Note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the dataset size increases.
-For problems with larger search spaces, and greater number of model evaluations, :ref:`Genetic algorithm<GA_desc>` or :ref:`Random Forest <RF_desc>` may 
+For problems with larger search spaces and greater number of model evaluations, :ref:`Genetic algorithm<GA_desc>` or :ref:`Random Forest <RF_desc>` may 
 be more appropriate.
 
 See :ref:`algorithm recommendations<The Algorithms>`.

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Options List &mdash; pyDarwin 1.0.0 documentation</title>
@@ -327,7 +327,7 @@ similar to other models in the current generation.</div>
 <li><div class="line-block">
 <div class="line"><strong>num_parallel</strong> - <em>positive int</em>: Number of models to execute in parallel, i.e., how many threads to create to handle model runs.</div>
 <div class="line">If the models are run locally, then it’s the maximum number of models running at the same time and should not exceed number of cores (logical/virtual processors).</div>
-<div class="line">For grid runs, it’s the number of models to send to the queue and read from results at any given time, execution itself is performed by grid nodes,
+<div class="line">For grid runs, it’s the number of models to send to the queue and read from results at any given time. Execution itself is performed by grid nodes,
 so actual throughput is managed by the grid engine. In this case, 4 threads are enough.</div>
 <div class="line"><em>Default</em>: 4</div>
 </div>

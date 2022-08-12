@@ -121,7 +121,7 @@ Required Files
 ********************
  
  
-The same 3 files are required for any search, whether exhaustive, :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`,
+The same 3 files are required for any search, whether :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`,
 :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` or :ref:`GBRT<GBRT_desc>`. Which algorithm is used is defined in the 
 :ref:`options file<options_file_target>`. The template file serves as a framework and looks similar to a 
 NONMEM/NMTRAN control file. The tokens file specifies the range of "features" to be searched, and the options 
@@ -226,7 +226,7 @@ Parameter initial estimate blocks require special treatment. A template file wil
 
 1. Fixed initial estimates - Initial estimates that are not searched, but will be copied from the template into **ALL** control files. These are the typical $THETA estimates, e.g.: (0,1)  ; THETA(1) Clearance.
 
-2. Searched initial estimates - Initial estimates that are specified in tokens that may or may not be in any given control file. e.g., {ALAG[2]} where the text for the ALAG[2] token key is "(0,1) ;; THETA(ALAG) Absorption lag time"
+2. Searched initial estimates - Initial estimates that are specified in tokens that may or may not be in any given control file, e.g., {ALAG[2]} where the text for the ALAG[2] token key is "(0,1) ;; THETA(ALAG) Absorption lag time"
    
 
 There are 3 restrictions for the parsing of the initial estimates blocks:
@@ -429,7 +429,7 @@ or to identify models that had unexpected results (crashes).
 File Structure and Naming
 ==========================
 
-NONMEM control, executable and output file naming
+NONMEM control, executable, and output file naming:
 
 Saving NONMEM outputs
 -----------------------
@@ -442,9 +442,9 @@ In addition, the data file(s) are not copied to the run directory, but all model
 Model/folder naming
 --------------------
 
-A model stem is generated from the current generation/iteration and model number or the form NM_generation_model_num. For example, if this is iteration 2, model 3 the model stem would be 
+A model stem is generated from the current generation/iteration and model number of the form NM_generation_model_num. For example, if this is iteration 2, model 3, the model stem would be 
 NM_2_3. For the 1 bit downhill, the model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill 
-model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file etc. This results in unique names for all models in the search. Models 
+model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file, etc. This results in unique names for all models in the search. Models 
 are also frequently duplicated. Duplicated files are not rerun, and so those will not appear in the file structure.
 
 Run folders are similarly named for the generation/iteration and model number. Below is a folder tree for :ref:`Example 2<startpk2>`

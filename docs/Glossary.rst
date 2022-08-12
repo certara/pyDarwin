@@ -13,11 +13,11 @@ Glossary
 - math errors (divide by zero, log(negative value))
 - numerical error in execution
 
-Significant effort was made to capture theses errors an display them to the user the console and in the messages.txt file (in the working directory).
+Significant effort was made to capture these errors and display them to the user the console and in the messages.txt file (in the working directory).
 For debugging purposes, these errors can be reproduced by going to the run directory (:file:`run_dir/generation/model_num`) and rerunning the model from the command line.
 
-In addition, errors may occur in running post run R or python code. Finally the NONMEM or R code may time out, producing no final results.
-In all of these cases, the fitness/reward value assigned in called the crash_value. The crash value is set in the options file, and should be substantially higher 
+In addition, errors may occur in running post run R or python code. Finally, the NONMEM or R code may time out, producing no final results.
+In all of these cases, the fitness/reward value assigned is called the crash_value. The crash value is set in the options file and should be substantially higher 
 than any anticipated fitness/reward from a model that ran to completion, regardless of the "goodness" of the model.
 
 
@@ -30,21 +30,21 @@ it contains spaces.
 
 .. _DEAP: 
 
-**DEAP:** Distributed Evolutionary Algorithms in Python `DEAP github <https://github.com/DEAP/deap>`_. DEAP is a python package that includes a number of evolutionary algorithms, 
-including Genetic Algorithm - the GA option in the :ref:`options file<options file>`.
+**DEAP:** Distributed Evolutionary Algorithms in Python `DEAP github <https://github.com/DEAP/deap>`_. DEAP is a python package that includes several evolutionary algorithms, 
+including the Genetic Algorithm - the GA option in the :ref:`options file<options file>`.
 
  
 .. _fitness:
 
 **fitness:** A number representing the overall "goodness" of the candidate. Called fitness in GA. 
-In other algorithms is called "reward" or "cost", or sometimes "loss function". All algorithms in pyDarwin are designed to minimize this value.
+In other algorithms, it is called "reward" or "cost", or sometimes "loss function". All algorithms in pyDarwin are designed to minimize this value.
 
 .. _full binary:
 
 | **full binary**: The full binary is a representation of a specific model coded such that all possible values of the bit string are permitted. In general, this will result in 
   redundancy of the matching of bit strings with the :ref:`integer representation<integer representation>`. For example, if a given :ref:`token group<token group>` included 3 
   :ref:`token sets<token set>`, two bits would be required (one bit can only specify two options). Two bits have 4 possible values, while only 3 are needed. Therefore, some duplication 
-  of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Managing this redundancy is handled internally by pyDarwin. the full binary is used only by :ref:`Genetic algorithm<GA>`.
+  of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Managing this redundancy is handled internally by pyDarwin. The full binary is used only by :ref:`Genetic algorithm<GA>`.
 | The minimal binary contrasts with the :ref:`full binary <full binary>`.
 
 .. _GA:
@@ -78,7 +78,7 @@ efficient of the ML algorithms, especially if used in combination with a local 1
 
 **Integer representation:** The integer representation of a given model is what is used to construct the control file. Specifically, the integer representation is a string 
 of integers, with each integer specifying which :ref:`token set<token set>` is to be substituted into the :ref:`template<template>`. For example, an integer string of [0,1,2] would substitute the 
-0th token set in the the template for the first :ref:`token group<token group>`, the 1st token set for the 2nd token group and the 3rd token set for the 3rd token group. The integer representation 
+0th token set in the template for the first :ref:`token group<token group>`, the 1st token set for the 2nd token group and the 3rd token set for the 3rd token group. The integer representation 
 is managed internally by ``pyDarwin``, and in the case of :ref:`Genetic algorithm<GA>`, derived from the :ref:`full binary<full binary>` representation.  
 
 
@@ -152,14 +152,14 @@ the following is not recommended (although it may work).
    (0,1)  ; THETA(2) Volume
    
 
-A searched parameter initial estimate ({ALAG[2]}) occurs before a fixed initial estimated ((0,1)  ; THETA(2) Volume)
+A searched parameter initial estimate ({ALAG[2]}) occurs before a fixed initial estimated ((0,1)  ; THETA(2) Volume).
 
-Each parameter initial estimate must be on a separate line. Parameter estimates must be enclosed in parentheses, e.g, (0,1)
+Each parameter initial estimate must be on a separate line. Parameter estimates must be enclosed in parentheses, e.g, (0,1).
 
 .. _Nested Tokens:
 
 **Nested Tokens:** ``pyDarwin`` permits nested tokens to be used in the :ref:`tokens file<tokens file_s>`. This permits one token to contain another token, to an arbitrary level. Note that 
-using nested token`s` does **not** reduce the search space size, it only reduces the number of token sets the user needs generate, and simplifies the logic (although, commonly, the logic quickly 
+using nested tokens does **not** reduce the search space size, it only reduces the number of token sets the user needs to generate, and simplifies the logic (although, commonly, the logic quickly 
 becomes impenetrable). For example, assume that the search is to contain one compartment 
 (ADVAN2) and two compartment (ADVAN4), and if ADVAN4 is selected, search whether K23 and K32 are functions of weight. K23 is not a parameter of a one compartment model. One option would be to simply write out 
 all possible models:
@@ -219,7 +219,7 @@ This also requires 2 bits, one for the ADVAN token group, one for the K23~WT tok
 groups. While more than one level of nested tokens is permitted, the logic of constructing them quickly becomes very complicated.   
 
 
-The full example is given in :ref:`example 4<startpk4>`
+The full example is given in :ref:`example 4<startpk4>`.
 
 .. _nmfe_path:
 
@@ -326,7 +326,7 @@ token set is selected, and this token set contains the following token key-text 
    ALAG[2] -> "(0,1) ;; initial estimate for ALAG1"
 
 the text "ALAG[1]" in the template file would be replaced by "ALAG1=THETA(ALAG)" and 
-the "ALAG[2]" text in the template would be replace by "(0,1) ;; initial estimate for ALAG1". This would 
+the "ALAG[2]" text in the template would be replaced by "(0,1) ;; initial estimate for ALAG1". This would 
 result in syntactically correct NMTRAN code (except that the index to THETA is still a text string). The appropriate 
 index for THETA can be determined only after all the features/token sets are selected. This is handled by ``pyDarwin``. Similar 
 logic (ETAs index by text strings, which are replaced by integers) applies for ETAs and EPSs. It is most convenient to use the :ref:`token stem<token stem>` to 
@@ -365,7 +365,7 @@ will result in ::
 
    (0,0.75)    ;THETA(2) exponent on clearances 
 
-as the THETA(CL~WT) is similarly replaced by THETA(2)
+as the THETA(CL~WT) is similarly replaced by THETA(2).
 
 
 .. _token stem:

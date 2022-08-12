@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Usage &mdash; pyDarwin 1.0.0 documentation</title>
@@ -206,7 +206,7 @@ See <a class="reference internal" href="Options.html#submit-search-command-optio
 </section>
 <section id="required-files">
 <span id="startrequiredfiles"></span><h2>Required Files<a class="headerlink" href="#required-files" title="Permalink to this heading">¶</a></h2>
-<p>The same 3 files are required for any search, whether exhaustive, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a>,
+<p>The same 3 files are required for any search, whether <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a>,
 <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a> or <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>. Which algorithm is used is defined in the
 <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>. The template file serves as a framework and looks similar to a
 NONMEM/NMTRAN control file. The tokens file specifies the range of “features” to be searched, and the options
@@ -285,7 +285,7 @@ Note that the permitted syntax for residual error is EPS() or ERR().</p>
 <p>Parameter initial estimate blocks require special treatment. A template file will typically include 2 types of initial estimates:</p>
 <ol class="arabic simple">
 <li><p>Fixed initial estimates - Initial estimates that are not searched, but will be copied from the template into <strong>ALL</strong> control files. These are the typical $THETA estimates, e.g.: (0,1)  ; THETA(1) Clearance.</p></li>
-<li><p>Searched initial estimates - Initial estimates that are specified in tokens that may or may not be in any given control file. e.g., {ALAG[2]} where the text for the ALAG[2] token key is “(0,1) ;; THETA(ALAG) Absorption lag time”</p></li>
+<li><p>Searched initial estimates - Initial estimates that are specified in tokens that may or may not be in any given control file, e.g., {ALAG[2]} where the text for the ALAG[2] token key is “(0,1) ;; THETA(ALAG) Absorption lag time”</p></li>
 </ol>
 <p>There are 3 restrictions for the parsing of the initial estimates blocks:</p>
 <ol class="arabic simple">
@@ -434,7 +434,7 @@ or to identify models that had unexpected results (crashes).</p>
 </section>
 <section id="file-structure-and-naming">
 <h3>File Structure and Naming<a class="headerlink" href="#file-structure-and-naming" title="Permalink to this heading">¶</a></h3>
-<p>NONMEM control, executable and output file naming</p>
+<p>NONMEM control, executable, and output file naming:</p>
 <section id="saving-nonmem-outputs">
 <h4>Saving NONMEM outputs<a class="headerlink" href="#saving-nonmem-outputs" title="Permalink to this heading">¶</a></h4>
 <p>NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an issue for disc space.
@@ -443,9 +443,9 @@ In addition, the data file(s) are not copied to the run directory, but all model
 </section>
 <section id="model-folder-naming">
 <h4>Model/folder naming<a class="headerlink" href="#model-folder-naming" title="Permalink to this heading">¶</a></h4>
-<p>A model stem is generated from the current generation/iteration and model number or the form NM_generation_model_num. For example, if this is iteration 2, model 3 the model stem would be
+<p>A model stem is generated from the current generation/iteration and model number of the form NM_generation_model_num. For example, if this is iteration 2, model 3, the model stem would be
 NM_2_3. For the 1 bit downhill, the model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill
-model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file etc. This results in unique names for all models in the search. Models
+model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file, etc. This results in unique names for all models in the search. Models
 are also frequently duplicated. Duplicated files are not rerun, and so those will not appear in the file structure.</p>
 <p>Run folders are similarly named for the generation/iteration and model number. Below is a folder tree for <a class="reference internal" href="Example2.html#startpk2"><span class="std std-ref">Example 2</span></a></p>
 <figure class="align-default">

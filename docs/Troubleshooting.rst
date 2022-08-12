@@ -17,7 +17,7 @@ The error from NONMEM (nmtran) will look something like:
 To parse the text in the initial estimates blocks (THETA, OMEGA, and SIGMA), the user MUST include token stem text as a comment (i.e., after ";") in the tokens file. There is 
 no other way to identify which initial estimates are to be associated with which THETA. 
 
-For example, if a token stem as two THETAs and the text in the $PK block is:
+For example, if a token stem has two THETAs and the text in the $PK block is:
 
 ::
    
@@ -65,9 +65,11 @@ isn't used to call ``run_search``, it tries to reopen messages.txt and fails.
 
 .. _can't open r:
 
-**can't open results.csv** pyDarwin opens and closes the :file:`results.csv` file with each model completed. 
-If it is opened in an application the "locks" it, e.g., Excel, an exception will occur. The work around is to 
-copy the file to another file (e.g., cp results.csv results1.csv), then open the copied file.
+**can't open results.csv** 
+
+pyDarwin opens and closes the :file:`results.csv` file with each model completed. 
+If it is opened in an application that "locks" it, e.g., Excel, an exception will occur. The workaround is to 
+copy the file to another file (e.g., ``cp results.csv results1.csv``), then open the copied file.
 
 
 

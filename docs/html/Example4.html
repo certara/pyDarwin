@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example 4: PK Model, DMAG by GA with post-run R code &mdash; pyDarwin 1.0.0 documentation</title>
@@ -95,7 +95,7 @@ This search again uses <a class="reference internal" href="Glossary.html#nested-
 Another important feature of example 4 is the use of post run R code. In this case, it was of interest to capture the Cmax value. There is no straightforward way to include a penalty for
 missing the Cmax
 in the NONMEM control stream. Therefore, the penalty for missing Cmax is added after the NONMEM run is complete. Any R code can be provided by the user and should return a vector of two values. The
-first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to NONMEM output file to describe the results of the R code execution.</p>
+first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to the NONMEM output file to describe the results of the R code execution.</p>
 <p>The penalty for missing the Cmax is essentially a <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/11381569/">Posterior Predictive Check (PPC)</a>. The template file includes two tasks
 that are used to generate a table of the PPC: an estimation, followed by a simulation.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROB SIMULATION FOR CMAX
@@ -124,7 +124,7 @@ text &lt;- paste0(&quot;Observed day 1 Cmax geomean = &quot;, round(obs_geomean,
 c(penalty,text)
 </pre></div>
 </div>
-<p>The R code executes from the run directory of that model, so, for example, if a model runs in <code class="docutils literal notranslate"><span class="pre">c:\\pydarwin\\example4\\00\\04</span></code>, the <code class="docutils literal notranslate"><span class="pre">ORG.DAT</span></code> and <code class="docutils literal notranslate"><span class="pre">SIM.DAT</span></code>
+<p>The R code executes from the run directory of that model. For example, if a model runs in <code class="docutils literal notranslate"><span class="pre">c:\\pydarwin\\example4\\00\\04</span></code>, the <code class="docutils literal notranslate"><span class="pre">ORG.DAT</span></code> and <code class="docutils literal notranslate"><span class="pre">SIM.DAT</span></code>
 files will be written to that directory and the R code will be read from the same directory.</p>
 <p>This R code returns a character vector of length 2. The first is a string that can be read as numeric (penalty) and the 2nd is a string that is appended to the
 NONMEM output file, as a comment to document the output of the R code. The content of the 2nd element of the vector is entirely up to the user, it has no
@@ -140,7 +140,7 @@ penalty value can be any real value - including negative, but typically would be
     <span class="s2">&quot;use_python&quot;</span><span class="p">:</span> <span class="n">false</span>
 </pre></div>
 </div>
-<p>Be sure to include whether to <code class="docutils literal notranslate"><span class="pre">&quot;use_r&quot;:</span> <span class="pre">true</span></code> for post processing (true), the path to the R code, the path to Rscript.exe, and the timeout (<code class="docutils literal notranslate"><span class="pre">&quot;r_timeout&quot;</span></code>), after which the R session will be terminated if not
+<p>Be sure to set <code class="docutils literal notranslate"><span class="pre">&quot;use_r&quot;:</span> <span class="pre">true</span></code> to use R for post processing. Additionally, include the path to the R code (<code class="docutils literal notranslate"><span class="pre">&quot;post_run_r_code&quot;</span></code>), the path to Rscript.exe (<code class="docutils literal notranslate"><span class="pre">&quot;r_script_path&quot;</span></code>), and the timeout (<code class="docutils literal notranslate"><span class="pre">&quot;r_timeout&quot;</span></code>), after which the R session will be terminated if not
 complete and the <a class="reference internal" href="Glossary.html#crash-value"><span class="std std-ref">crash_value</span></a> added as the penalty.</p>
 <section id="the-template-file">
 <h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
@@ -519,8 +519,8 @@ the default is:</p>
 <td><p>Yes|No</p></td>
 </tr>
 <tr class="row-odd"><td><div class="line-block">
-<div class="line">Is there ETA on D1 and/or</div>
-<div class="line">and/or ALAG1 (nested</div>
+<div class="line">Is there ETA on D1</div>
+<div class="line">and/or ALAG1 (nested in</div>
 <div class="line">the D1LAG token group)</div>
 </div>
 </td>
@@ -531,9 +531,9 @@ the default is:</p>
 </div>
 </td>
 <td><div class="line-block">
-<div class="line">None or ETA on D1 or ETA</div>
+<div class="line">None or ETA on D1 or</div>
 <div class="line">ETA on ALAGa or ETA on</div>
-<div class="line">both or on both (BLOCK)</div>
+<div class="line">both (BLOCK)</div>
 </div>
 </td>
 </tr>
@@ -552,7 +552,7 @@ the default is:</p>
 <p>As the search space is large, we’ll plan a large sample (population size of 80, with 12 generations). While <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> may be more efficient
 in terms of number of models to convergence, once ~500 samples are defined, the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask step</a> becomes long,
 negating any efficiency of the algorithm.</p>
-<p>Below is a table of the ask and tell step times  (hh:mm:ss), by iteration for GP. The sample size ws 80, with 4 chains on a 4 core computer:</p>
+<p>Below is a table of the ask and tell step times  (hh:mm:ss), by iteration for GP. The sample size was 80, with 4 chains on a 4 core computer:</p>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>iteration</p></th>

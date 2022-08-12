@@ -291,7 +291,7 @@ Note that, to run in the environment used for this example, the directories are 
     "temp_dir": "u:/pyDarwin/example3/rundir",
     "output_dir": "u:/pyDarwin/example3/output",
 
-It is recommended that the user set the directories to something appropriate for their enviroment. If directories are not set, 
+It is recommended that the user set the directories to something appropriate for their environment. If directories are not set, 
 the default is:
 
 ::

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Glossary &mdash; pyDarwin 1.0.0 documentation</title>
@@ -89,23 +89,23 @@
 <li><p>math errors (divide by zero, log(negative value))</p></li>
 <li><p>numerical error in execution</p></li>
 </ul>
-<p>Significant effort was made to capture theses errors an display them to the user the console and in the messages.txt file (in the working directory).
+<p>Significant effort was made to capture these errors and display them to the user the console and in the messages.txt file (in the working directory).
 For debugging purposes, these errors can be reproduced by going to the run directory (<code class="file docutils literal notranslate"><span class="pre">run_dir/generation/model_num</span></code>) and rerunning the model from the command line.</p>
-<p>In addition, errors may occur in running post run R or python code. Finally the NONMEM or R code may time out, producing no final results.
-In all of these cases, the fitness/reward value assigned in called the crash_value. The crash value is set in the options file, and should be substantially higher
+<p>In addition, errors may occur in running post run R or python code. Finally, the NONMEM or R code may time out, producing no final results.
+In all of these cases, the fitness/reward value assigned is called the crash_value. The crash value is set in the options file and should be substantially higher
 than any anticipated fitness/reward from a model that ran to completion, regardless of the “goodness” of the model.</p>
 <p id="data-directory"><strong>Data Directory:</strong> Folder where datasets are located. Used if the template file specifies datasets as {data_dir}/datafileName, which is the preferred method.
 May be an absolute or a relative path, default value is {project_dir}. Keep in mind that NONMEM doesn’t allow dataset path to be longer than 80 characters and must be in quotes if
 it contains spaces.</p>
-<p id="deap"><strong>DEAP:</strong> Distributed Evolutionary Algorithms in Python <a class="reference external" href="https://github.com/DEAP/deap">DEAP github</a>. DEAP is a python package that includes a number of evolutionary algorithms,
-including Genetic Algorithm - the GA option in the <a class="reference internal" href="#options-file"><span class="std std-ref">options file</span></a>.</p>
+<p id="deap"><strong>DEAP:</strong> Distributed Evolutionary Algorithms in Python <a class="reference external" href="https://github.com/DEAP/deap">DEAP github</a>. DEAP is a python package that includes several evolutionary algorithms,
+including the Genetic Algorithm - the GA option in the <a class="reference internal" href="#options-file"><span class="std std-ref">options file</span></a>.</p>
 <p id="fitness"><strong>fitness:</strong> A number representing the overall “goodness” of the candidate. Called fitness in GA.
-In other algorithms is called “reward” or “cost”, or sometimes “loss function”. All algorithms in pyDarwin are designed to minimize this value.</p>
+In other algorithms, it is called “reward” or “cost”, or sometimes “loss function”. All algorithms in pyDarwin are designed to minimize this value.</p>
 <div class="line-block" id="full-binary">
 <div class="line"><strong>full binary</strong>: The full binary is a representation of a specific model coded such that all possible values of the bit string are permitted. In general, this will result in
 redundancy of the matching of bit strings with the <a class="reference internal" href="#integer-representation"><span class="std std-ref">integer representation</span></a>. For example, if a given <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a> included 3
 <a class="reference internal" href="#token-set"><span class="std std-ref">token sets</span></a>, two bits would be required (one bit can only specify two options). Two bits have 4 possible values, while only 3 are needed. Therefore, some duplication
-of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Managing this redundancy is handled internally by pyDarwin. the full binary is used only by <a class="reference internal" href="#ga"><span class="std std-ref">Genetic algorithm</span></a>.</div>
+of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Managing this redundancy is handled internally by pyDarwin. The full binary is used only by <a class="reference internal" href="#ga"><span class="std std-ref">Genetic algorithm</span></a>.</div>
 <div class="line">The minimal binary contrasts with the <a class="reference internal" href="#full-binary"><span class="std std-ref">full binary</span></a>.</div>
 </div>
 <p id="ga"><strong>GA - Genetic Algorithm:</strong> An unsupervised search algorithm that mimics the mathematics
@@ -126,7 +126,7 @@ efficient of the ML algorithms, especially if used in combination with a local 1
 <p><strong>Home:</strong> See <a class="reference internal" href="#pydarwin-home"><span class="std std-ref">pyDarwin home</span></a>.</p>
 <p id="integer-representation"><strong>Integer representation:</strong> The integer representation of a given model is what is used to construct the control file. Specifically, the integer representation is a string
 of integers, with each integer specifying which <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> is to be substituted into the <a class="reference internal" href="#template"><span class="std std-ref">template</span></a>. For example, an integer string of [0,1,2] would substitute the
-0th token set in the the template for the first <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a>, the 1st token set for the 2nd token group and the 3rd token set for the 3rd token group. The integer representation
+0th token set in the template for the first <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a>, the 1st token set for the 2nd token group and the 3rd token set for the 3rd token group. The integer representation
 is managed internally by <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code>, and in the case of <a class="reference internal" href="#ga"><span class="std std-ref">Genetic algorithm</span></a>, derived from the <a class="reference internal" href="#full-binary"><span class="std std-ref">full binary</span></a> representation.</p>
 <p id="local-one-bit-search"><strong>Local One bit Search:</strong> In 1 bit local search, first the <a class="reference internal" href="#minimal-binary"><span class="std std-ref">minimal binary representation</span></a> of the model(s) to be searched are generated.
 Then each bit in that bit string is ‘flipped’. So, a search with 30 bits will generate 30 models in each iteration of the 1 bit search.
@@ -173,10 +173,10 @@ the following is not recommended (although it may work).</p>
 {ALAG[2]}
 (0,1)  ; THETA(2) Volume</p>
 </div></blockquote>
-<p>A searched parameter initial estimate ({ALAG[2]}) occurs before a fixed initial estimated ((0,1)  ; THETA(2) Volume)</p>
-<p>Each parameter initial estimate must be on a separate line. Parameter estimates must be enclosed in parentheses, e.g, (0,1)</p>
+<p>A searched parameter initial estimate ({ALAG[2]}) occurs before a fixed initial estimated ((0,1)  ; THETA(2) Volume).</p>
+<p>Each parameter initial estimate must be on a separate line. Parameter estimates must be enclosed in parentheses, e.g, (0,1).</p>
 <p id="nested-tokens"><strong>Nested Tokens:</strong> <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> permits nested tokens to be used in the <a class="reference internal" href="#tokens-file-s"><span class="std std-ref">tokens file</span></a>. This permits one token to contain another token, to an arbitrary level. Note that
-using nested token`s` does <strong>not</strong> reduce the search space size, it only reduces the number of token sets the user needs generate, and simplifies the logic (although, commonly, the logic quickly
+using nested tokens does <strong>not</strong> reduce the search space size, it only reduces the number of token sets the user needs to generate, and simplifies the logic (although, commonly, the logic quickly
 becomes impenetrable). For example, assume that the search is to contain one compartment
 (ADVAN2) and two compartment (ADVAN4), and if ADVAN4 is selected, search whether K23 and K32 are functions of weight. K23 is not a parameter of a one compartment model. One option would be to simply write out
 all possible models:</p>
@@ -228,7 +228,7 @@ all possible models:</p>
 </div>
 <p>This also requires 2 bits, one for the ADVAN token group, one for the K23~WT token group. Using nested tokens can reduce the number of tokens sets in a token group, at the expense of more token
 groups. While more than one level of nested tokens is permitted, the logic of constructing them quickly becomes very complicated.</p>
-<p>The full example is given in <a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">example 4</span></a></p>
+<p>The full example is given in <a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">example 4</span></a>.</p>
 <p id="nmfe-path"><strong>nmfe_path:</strong>
 The path to nmfe??.bat (Windows) or just nmfe?? (Linux). Must be provided in the <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">nmfe_path</span></a>. Only NONMEM 7.4 and 7.5 are supported.</p>
 <p id="options-file"><strong>Options File:</strong> Specifies <a class="reference internal" href="Options.html#options"><span class="std std-ref">the options</span></a> for the search, including the algorithm, the <a class="reference internal" href="#fitness"><span class="std std-ref">fitness/reward criteria</span></a>, the population size, the number
@@ -283,7 +283,7 @@ token set is selected, and this token set contains the following token key-text 
 </pre></div>
 </div>
 <p>the text “ALAG[1]” in the template file would be replaced by “ALAG1=THETA(ALAG)” and
-the “ALAG[2]” text in the template would be replace by “(0,1) ;; initial estimate for ALAG1”. This would
+the “ALAG[2]” text in the template would be replaced by “(0,1) ;; initial estimate for ALAG1”. This would
 result in syntactically correct NMTRAN code (except that the index to THETA is still a text string). The appropriate
 index for THETA can be determined only after all the features/token sets are selected. This is handled by <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code>. Similar
 logic (ETAs index by text strings, which are replaced by integers) applies for ETAs and EPSs. It is most convenient to use the <a class="reference internal" href="#token-stem"><span class="std std-ref">token stem</span></a> to
@@ -314,7 +314,7 @@ THETA(CL~WT) after a “;” in the $THETA block, e.g.,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.75</span><span class="p">)</span>    <span class="p">;</span><span class="n">THETA</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="n">exponent</span> <span class="n">on</span> <span class="n">clearances</span>
 </pre></div>
 </div>
-<p>as the THETA(CL~WT) is similarly replaced by THETA(2)</p>
+<p>as the THETA(CL~WT) is similarly replaced by THETA(2).</p>
 <p id="token-stem"><strong>Token stem:</strong>
 The token stem is a unique identifier for the <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a>. This text string is used to link the tokens in the template file to the
 <a class="reference internal" href="#token-set"><span class="std std-ref">token sets</span></a>.

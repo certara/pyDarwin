@@ -11,7 +11,7 @@ This search again uses :ref:`nested tokens<Nested Tokens>`, as it searches wheth
 Another important feature of example 4 is the use of post run R code. In this case, it was of interest to capture the Cmax value. There is no straightforward way to include a penalty for 
 missing the Cmax 
 in the NONMEM control stream. Therefore, the penalty for missing Cmax is added after the NONMEM run is complete. Any R code can be provided by the user and should return a vector of two values. The 
-first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to NONMEM output file to describe the results of the R code execution.
+first is a real values penalty to be added to the fitness/reward. The 2nd is text that will be appended to the NONMEM output file to describe the results of the R code execution.
 
 The penalty for missing the Cmax is essentially a `Posterior Predictive Check (PPC) <https://pubmed.ncbi.nlm.nih.gov/11381569/>`_. The template file includes two tasks
 that are used to generate a table of the PPC: an estimation, followed by a simulation.
@@ -45,7 +45,7 @@ User provided R code is then saved to a file (``.R``):
     text <- paste0("Observed day 1 Cmax geomean = ", round(obs_geomean,1), " simulated day 1 Cmax geo mean = ", round(sim_geomean,1))
     c(penalty,text)
 
-The R code executes from the run directory of that model, so, for example, if a model runs in ``c:\\pydarwin\\example4\\00\\04``, the ``ORG.DAT`` and ``SIM.DAT``
+The R code executes from the run directory of that model. For example, if a model runs in ``c:\\pydarwin\\example4\\00\\04``, the ``ORG.DAT`` and ``SIM.DAT``
 files will be written to that directory and the R code will be read from the same directory.
 
 This R code returns a character vector of length 2. The first is a string that can be read as numeric (penalty) and the 2nd is a string that is appended to the 
@@ -67,7 +67,7 @@ The post processing code options are given in the options file:
         "use_python": false
 
 
-Be sure to include whether to ``"use_r": true`` for post processing (true), the path to the R code, the path to Rscript.exe, and the timeout (``"r_timeout"``), after which the R session will be terminated if not 
+Be sure to set ``"use_r": true`` to use R for post processing. Additionally, include the path to the R code (``"post_run_r_code"``), the path to Rscript.exe (``"r_script_path"``), and the timeout (``"r_timeout"``), after which the R session will be terminated if not 
 complete and the :ref:`crash_value<Crash Value>` added as the penalty.
 
 
@@ -459,9 +459,9 @@ The search space contains 1.66 million possible models, and searches for the fol
 +----------------------------+--------------------------+----------------------------+
 | Is CL related to Age?      | CL~AGE                   | Yes|No                     |
 +----------------------------+--------------------------+----------------------------+
-| | Is there ETA on D1 and/or| | ETAD1LAG               | | None or ETA on D1 or ETA |
-| | and/or ALAG1 (nested     | |                        | | ETA on ALAGa or ETA on   | 
-| | the D1LAG token group)   | |                        | | both or on both (BLOCK)  |
+| | Is there ETA on D1       | | ETAD1LAG               | | None or ETA on D1 or     |
+| | and/or ALAG1 (nested in  | |                        | | ETA on ALAGa or ETA on   | 
+| | the D1LAG token group)   | |                        | | both (BLOCK)             |
 +----------------------------+--------------------------+----------------------------+
 
 In practice, we will be searching for:
@@ -478,7 +478,7 @@ As the search space is large, we'll plan a large sample (population size of 80, 
 in terms of number of models to convergence, once ~500 samples are defined, the `ask step <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ becomes long, 
 negating any efficiency of the algorithm. 
 
-Below is a table of the ask and tell step times  (hh:mm:ss), by iteration for GP. The sample size ws 80, with 4 chains on a 4 core computer: 
+Below is a table of the ask and tell step times  (hh:mm:ss), by iteration for GP. The sample size was 80, with 4 chains on a 4 core computer: 
 
 +-----------+----------+----------+ 
 | iteration | ask      | tell     | 

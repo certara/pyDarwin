@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Troubleshooting &mdash; pyDarwin 1.0.0 documentation</title>
@@ -91,7 +91,7 @@
 </div>
 <p>To parse the text in the initial estimates blocks (THETA, OMEGA, and SIGMA), the user MUST include token stem text as a comment (i.e., after “;”) in the tokens file. There is
 no other way to identify which initial estimates are to be associated with which THETA.</p>
-<p>For example, if a token stem as two THETAs and the text in the $PK block is:</p>
+<p>For example, if a token stem has two THETAs and the text in the $PK block is:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Effect</span> <span class="o">=</span> <span class="n">THETA</span><span class="p">(</span><span class="n">EMAX</span><span class="p">)</span> <span class="o">*</span> <span class="n">CONC</span><span class="o">/</span><span class="p">(</span><span class="n">THETA</span><span class="p">(</span><span class="n">EC50</span><span class="p">)</span> <span class="o">+</span> <span class="n">CONC</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -118,9 +118,10 @@ or a file in a folder is open, <code class="docutils literal notranslate"><span 
 </pre></div>
 </div>
 <p>isn’t used to call <code class="docutils literal notranslate"><span class="pre">run_search</span></code>, it tries to reopen messages.txt and fails.</p>
-<p id="can-t-open-r"><strong>can’t open results.csv</strong> pyDarwin opens and closes the <code class="file docutils literal notranslate"><span class="pre">results.csv</span></code> file with each model completed.
-If it is opened in an application the “locks” it, e.g., Excel, an exception will occur. The work around is to
-copy the file to another file (e.g., cp results.csv results1.csv), then open the copied file.</p>
+<p id="can-t-open-r"><strong>can’t open results.csv</strong></p>
+<p>pyDarwin opens and closes the <code class="file docutils literal notranslate"><span class="pre">results.csv</span></code> file with each model completed.
+If it is opened in an application that “locks” it, e.g., Excel, an exception will occur. The workaround is to
+copy the file to another file (e.g., <code class="docutils literal notranslate"><span class="pre">cp</span> <span class="pre">results.csv</span> <span class="pre">results1.csv</span></code>), then open the copied file.</p>
 </section>
 
 

@@ -43,20 +43,20 @@ algorithm options along with the more traditional Genetic Algorithm (:ref:`GA<GA
 Traditional pop pk/pd model selection uses the "downhill method", starting, usually at a trivial model, then adding
 "features" (compartments, lag times, nonlinear elimination, covariate effects), and accepting the new model if it is better ("downhill"), based on some user-defined, and somewhat informal criteria. 
 Typically, this user-defined criteria will include a lower -2LL plus usually penalty for added parameters plus some other criteria that the user may feel is important. The downhill method is easily the 
-most efficient methods (fewest evaluations of the reward/fitness to reach the convergence) but is highly prone to local minima. However, downhill does play a role in a very efficient 
+most efficient method (fewest evaluations of the reward/fitness to reach the convergence) but is highly prone to local minima. However, downhill does play a role in a very efficient 
 local search, in combination with a global search algorithm (e.g., :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` , :ref:`GBRT<GBRT_desc>`). 
 
 Central to understanding the model selection process (with manual or machine learning), is the concept of the search space. The search space is an n-dimensional 
 space where each dimension represents a set of mutually exclusive options. That is, there likely will be a dimension for "number of compartments", with possible 
 values of 1, 2, or 3. Exactly one of these is required (ignoring the possibility of `Bayesian model averaging <https://onlinelibrary.wiley.com/doi/abs/10.1111/insr.12243>`_). 
-Another dimension might be the absorption model, with values of first order, zero order, first order with absorption lag time etc). Similarly candidate  
-relationship between weight and volume might be: no relationship, linear, or power model. In addition to structural and statistical "features", other features 
+Another dimension might be the absorption model, with values of first order, zero order, first order with absorption lag time, etc.). Similarly, candidate  
+relationships between weight and volume might be: no relationship, linear, or power model. In addition to structural and statistical "features", other features 
 of the model, such as initial estimates for parameters, can be searched on. Note that each of these dimensions are discrete, and strictly 
-categorical (not ordered categorical i.e., first order isn't "more than" zero order). With this exception, the model search space is analogous to the 
+categorical (not ordered categorical, i.e., first order isn't "more than" zero order). With this exception, the model search space is analogous to the 
 parameter search space used in nonlinear regression. An important difference is that the continuous space in nonlinear 
 regression has derivatives, and quasi-Newton methods can be used to do a "downhill search" in that space. Please note that quasi-Newton methods are 
 also at risk of finding local minima, and therefore are sensitive to the initial estimates. In the case of parameter estimation (nonlinear regression), efforts are made to start 
-the search at a location in the search space near the final estimate, greatly reducing the chances ending up in a local minimum. No such effort is 
+the search at a location in the search space near the final estimate, greatly reducing the chance of ending up in a local minimum. No such effort is 
 made in the traditional downhill model selection method. Rather, the search is usually started at a trivial model, which is likely far from the global minimum. 
 
 As the discrete space of model search does not have derivatives, other search methods must be used. The simplest, and the one traditionally used in 
@@ -64,7 +64,7 @@ model selection, is downhill. While efficient,  it can be demonstrated that this
 the violation of convexity assumption. That is, the downhill search, in either a continuous space (parameter estimation) or a discrete space (model selection) 
 assumes that the optimal solution is continuously downhill from every other point in the search space. That is, there are no local minima, you can start anywhere 
 and you'll end up in the same place - the global minimum (the results are not sensitive to the "initial estimates"). With this assumption, a covariate will be 
-"downhill", regardless of whether tested in a one compartment, two compartment; first order of zero order or any other base model, it's all downhill, it doesn't 
+"downhill", regardless of whether tested in a one compartment, two compartment; first order or zero order or any other base model, it's all downhill, it doesn't 
 matter in what sequence you test hypotheses, the answer will be the same. Wade [#f1]_ showed that the results of tests of hypotheses do indeed depend on other 
 features in the model and Chen [#f2]_ showed that different sequences of tests will commonly yield different final models.
 
@@ -75,7 +75,7 @@ and search spaces can be deceptive [#f3]_. For all algorithms, the basic process
 the search space to decide which models to test next. The algorithms differ in how they decide which models will be subsequently tested.
 
 While the global search algorithm provides substantial protection from a local minimum in the model search, the global search algorithm is typically not very 
-good at finding the one or two final changes that results in the best model. This is illustrated in :ref:`Genetic Algorithm<GA_desc>` in that the final change likely 
+good at finding the one or two final changes that result in the best model. This is illustrated in :ref:`Genetic Algorithm<GA_desc>` in that the final change likely 
 must be made by mutations, a rare event, not by crossover. The solution to this problem is to combine the strength of a global search (robustness to local 
 minima) with the efficiency of local downhill, or even local exhaustive search. Thus, the global search gets close to the final best solution (much like providing good 
 initial estimates to NONMEM), and the local search finds the best solution in that local volume of the search space. 
@@ -98,7 +98,6 @@ These file are described in :ref:`required files. <startRequiredFiles>`
 Algorithms
 ************
 
-Note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the dataset size increases.
 For problems with larger search spaces, and greater number of model evaluations, :ref:`Genetic algorithm<GA_desc>` or :ref:`Random Forest <RF_desc>` may 
 be more appropriate.
 
@@ -154,7 +153,7 @@ Gaussian Process
 ====================
 
 Gaussian Process is one of the two options used in `Bayesian Optimization <https://en.wikipedia.org/wiki/Bayesian_optimization#>`_. The Gaussian Process specifies the form of the prior and posterior distribution. 
-Initially the distribution is random, as is the case for all the global search algorithms. Once some models have been run, the distribution can be updated (the "tell" step) and new, more imformative samples can be 
+Initially the distribution is random, as is the case for all the global search algorithms. Once some models have been run, the distribution can be updated (the "tell" step) and new, more informative samples can be 
 generated (the "tell" step).
 
 .. _RF_desc:
@@ -162,7 +161,7 @@ generated (the "tell" step).
 Random Forest
 ====================
 
-`Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consists of splitting the search space (based on the "goodness" of each model in this case) thus continuously dividing the 
+`Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consists of splitting the search space (based on the "goodness" of each model in this case), thus continuously dividing the 
 search space into "good" and "bad" regions. As before, the initial divisions are random, but become increasingly well informed as real values for the fitness/reward of models are 
 included.
 
@@ -172,7 +171,7 @@ Gradient Boosted Random Tree
 ================================
 
 `Gradient Boosted Random Tree <https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad>`_ 
-is similar to Random Forest, but may increase the precision of the tree building by progressively building the tree, and calculating a gradient of the reward/fitness with respect to each decision. 
+is similar to Random Forest, but may increase the precision of the tree building by progressively building the tree and calculating a gradient of the reward/fitness with respect to each decision. 
 
   
 .. [#f1] Wade JR, Beal SL, Sambol NC. 1994  Interaction between structural, statistical, and covariate models in population pharmacokinetic analysis. J Pharmacokinet Biopharm. 22(2):165-77 

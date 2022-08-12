@@ -69,7 +69,7 @@ The Template file
 
 The initial simple model can then be edited by adding tokens. This first example will include covariates, residual error, and one structural feature. 
 Each token group is identified by a :ref:`token stem <token stem>`, e.g., "V2~WT" for the dimension of the 
-relationship between weight NS a volume of distribution. Each token group includes 
+relationship between weight and a volume of distribution. Each token group includes 
 2 or more :ref:`token sets <token set>`, one for each option in the dimension.
 
 These dimensions and the associated :ref:`token stem<token stem>` are:
@@ -137,7 +137,7 @@ The 2nd token for the initial estimate for THETA(V2~WT) will be similar. The tok
 
     {V2~WT[2]}    
 
-Note the use of the escape syntax, "\\t" for a tab. Newlines will be coded similarly as "\\n" (actual CLRFs are not permitted in JSON, and \\n must be used). 
+Note the use of the escape syntax, "\\t" for a tab. Newlines will be coded similarly as "\\n" (actual CRLFs are not permitted in JSON, and \\n must be used). 
 NONMEM comments (text after ";") are permitted. However, the user must be aware of the impact that comments in token text may have on any code that follows. This $THETA block has 3 fixed THETA initial estimates - THETA(1), 
 THETA(2), and THETA(3). These will appear in all control files in the search. These fixed initial estimates are then followed by searched initial estimates. Searched 
 initial estimates may or may not appear, depending on the model specification (:ref:`phenotype<phenotype>`). Searched initial estimates must be placed after all 
@@ -148,10 +148,10 @@ Tokens sets for each feature to be searched will be defined as these :ref:`token
 in JSON, but only text values are permitted).
 
 Each of these dimensions has two options. Therefore, the total number of candidate models 
-in the search space is the number of permutations - 2^6 = 64. 
+in the search space is the number of permutations: 2^6 = 64. 
 
 In the :download:`template text <../examples/user/Example1/template.txt>`, note the 
-special text in curly braces({}). These are :ref:`tokens<token>`. Tokens come in sets, as typically 
+special text in curly brace ({}). These are :ref:`tokens<token>`. Tokens come in sets, as typically 
 multiple text substitutions must be made to result in a syntactically correct NMTRAN control file. For 
 example, if ALAG1 is to be used in the $PK block, a corresponding initial estimate for 
 this parameter must be provided in the $THETA block. These tokens (collectively called a token set) 
@@ -161,7 +161,7 @@ are then replaced by the corresponding text value in the :ref:`token key-text pa
 **Note !!!**
 In order to parse the text in the initial estimates blocks (THETA, OMEGA, and SIGMA), the user MUST include token stem text as a comment (i.e., after ";"). There is 
 no other way to identify which initial estimates are to be associated with which THETA. 
-For example, if a token stem as two THETAs and the test in the $PK block is:
+For example, if a token stem has two THETAs and the text in the $PK block is:
 
 Effect = THETA(EMAX) * CONC/(THETA(EC50) + CONC)
 
@@ -182,7 +182,7 @@ Other covariate effects are coded similarly.
 Variance terms
 ====================
 
-Between subject variability is handled similarly, with the "{}" text. Typically, the first tokens in the tokens sets will be in the $PK, $DES or, $ERROR block and the  
+Between subject variability is handled similarly, with the "{}" text. Typically, the first tokens in the tokens sets will be in the $PK, $DES, or $ERROR block and the  
 2nd in $OMEGA, with the *required* ETA(IndexText) after a NONMEM comment (the same as for THETA initial estimates). ERR and EPS are handled similarly, either syntax is permitted.
 
 Example 1 template file: :download:`template file <../examples/user/Example1/template.txt>`
@@ -261,8 +261,8 @@ The Tokens file
 
 Example 1 tokens file: :download:`json tokens file <../examples/user/Example1/tokens.json>`
 
-The :ref:`tokens file <tokens_file_target>` provide the :ref:`token key-text pairs<token key-text pair>` that 
-are substituted into the template file. This is file uses a `JSON <https://www.json.org/json-en.html>`_ file format. 
+The :ref:`tokens file <tokens_file_target>` provides the :ref:`token key-text pairs<token key-text pair>` that 
+are substituted into the template file. This file uses a `JSON <https://www.json.org/json-en.html>`_ file format. 
 Unfortunately, comments are not  permitted in JSON files and so this file is without any annotation. Requirements are that 
 each :ref:`token set <token set>` within a :ref:`token group <token group>` must have the same number of :ref:`tokens <token>` 
 and new lines must be coded using the escape syntax ("\\n"), not just a new line in the file (which will be ignored in JSON). Any number of levels of 
@@ -330,7 +330,7 @@ Note again, the **required** parameter identifier as a comment in all initial es
 
 ::
 
-  "  (-4,0.1,4) \t; THETA(V2~GENDER) POWER volume ~SEX "
+  "  (-4,0.8,4) \t; THETA(V2~WT) POWER volume ~WT "
   "  (-4,0.1,4) \t; THETA(V2~GENDER) POWER volume ~SEX "
   "  0.1\t\t; ETA(KAETA) ETA ON KA"
   "  0.3 \t; EPS(RESERRA) proportional error\n  0.3 \t; EPS(RESERRB) additive error"
@@ -448,7 +448,7 @@ Initialization of the run should generate output similar to this:
     [10:50:42] Checking files in u:\pyDarwin\example1\rundir\0\01
     [10:50:42] Data set # 1 was found: c:\fda\pyDarwin\examples\user\Example1/dataExample1.csv
 
-It is important to notice that - the temp directory (temp_dir) is listed and since:
+It is important to notice that the temp directory (temp_dir) is listed and since:
     
     ::
 

@@ -319,7 +319,7 @@ similar to other models in the current generation.</div>
 <ul id="random-seed-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>random_seed</strong> - <em>positive int</em>: A seed value for random number generator.</div>
-<div class="line">Not used for Exhaustive search.</div>
+<div class="line">Not used for <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>.</div>
 </div>
 </li>
 </ul>
@@ -336,14 +336,14 @@ so actual throughput is managed by the grid engine. In this case, 4 threads are 
 <ul id="num-generations-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>num_generations</strong> <sup>required</sup> - <em>positive int</em>: Number of iterations or generations of the search algorithm to run.</div>
-<div class="line">Not used/required for Exhaustive search.</div>
+<div class="line">Not used/required for <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>.</div>
 </div>
 </li>
 </ul>
 <ul id="population-size-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>population_size</strong> <sup>required</sup> - <em>positive int</em>: Number of models to create in every generation.</div>
-<div class="line">Not used/required for Exhaustive search.</div>
+<div class="line">Not used/required for <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>.</div>
 </div>
 </li>
 </ul>
@@ -355,7 +355,7 @@ so actual throughput is managed by the grid engine. In this case, 4 threads are 
 </li>
 </ul>
 <ul id="exhaustive-batch-size-options-desc">
-<li><p><strong>exhaustive_batch_size</strong> - <em>positive int</em>: Since there are no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so, essentially, Exhaustive search is split into pseudo-iterations. This setting is the size of those batches.
+<li><p><strong>exhaustive_batch_size</strong> - <em>positive int</em>: Since there are no iterations in <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so, essentially, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a> is split into pseudo-iterations. This setting is the size of those batches.
 Several things to take into consideration when choosing the size:</p>
 <ul class="simple">
 <li><p>typical value is 50 to 1000</p></li>
@@ -471,14 +471,14 @@ than the same model without the non-influential token(s) to break a tie.</div>
 <div class="line"><strong>num_niches</strong> - <em>int</em>: Used for GA and downhill. A penalty is assigned for each model based on the number of similar models within a niche
 radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose
 is to insure maintaining a degree of diversity in the population (integer). num_niches is also used to select the number of models that are entered into the
-downhill step for all algorithms, except Exhaustive Search.</div>
+downhill step for all algorithms, except <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>.</div>
 <div class="line"><em>Default</em>: 2</div>
 </div>
 </li>
 </ul>
 <ul id="niche-radius-options-desc">
 <li><div class="line-block">
-<div class="line"><strong>niche_radius</strong> - <em>positive real</em>:  The radius of the niches. See <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">Niche Radius</span></a>.</div>
+<div class="line"><strong>niche_radius</strong> - <em>positive real</em>:  The radius of the niches. See <a class="reference internal" href="Glossary.html#niche-radius"><span class="std std-ref">“Niche Radius”</span></a>.</div>
 <div class="line"><em>Default</em>: 2</div>
 </div>
 </li>
@@ -631,7 +631,7 @@ The two bit local search substantially increases the robustness of the search. A
 <div class="line"><strong>model_cache</strong> - <em>string</em>: ModelCache subclass to be used.</div>
 <div class="line">Currently there are only <a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache" title="darwin.MemoryModelCache.MemoryModelCache"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.MemoryModelCache</span></code></a>
 and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMemoryModelCache" title="darwin.MemoryModelCache.AsyncMemoryModelCache"><code class="xref py py-data docutils literal notranslate"><span class="pre">darwin.AsyncMemoryModelCache</span></code></a>.</div>
-<div class="line">You can create your own and use it (e.g., a cache that stores model runs in a DB. The name is quite arbitrary and doesn’t have any convention/constraints).</div>
+<div class="line">You can create your own and use it (e.g., a cache that stores model runs in a database. The name is quite arbitrary and doesn’t have any convention/constraints).</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">darwin.MemoryModelCache</span></code></div>
 </div>
 </li>
@@ -663,7 +663,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <ul id="working-dir-options-desc">
 <li><div class="line-block">
 <div class="line"><strong>working_dir</strong> - <em>string</em>: The project’s working directory, where all the necessary files and folders are created. Also, it’s a default location of output and temp folders.</div>
-<div class="line">By default is set to ‘<a class="reference internal" href="Glossary.html#pydarwin-home"><span class="std std-ref">&lt;pyDarwin home&gt;</span></a>/<a class="reference internal" href="#project-stem-alias"><span class="std std-ref">{project_stem}</span></a>’.</div>
+<div class="line">By default, it is set to ‘<a class="reference internal" href="Glossary.html#pydarwin-home"><span class="std std-ref">&lt;pyDarwin home&gt;</span></a>/<a class="reference internal" href="#project-stem-alias"><span class="std std-ref">{project_stem}</span></a>’.</div>
 <div class="line">Aliased as <a class="reference internal" href="#working-dir-alias"><span class="std std-ref">{working_dir}</span></a>.</div>
 </div>
 </li>
@@ -735,7 +735,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="submit-job-id-re-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>submit_job_id_re</strong> <sup>required</sup> - <em>string</em>: A regular expression to find a job id in <code class="docutils literal notranslate"><span class="pre">submit_command</span></code> output. Job id must be captured in first <a class="reference external" href="https://www.google.com/search?q=regular+expression+capturing+group">capturing group</a>.</div>
+<div class="line"><strong>submit_job_id_re</strong> <sup>required</sup> - <em>string</em>: A regular expression to find a job id in <code class="docutils literal notranslate"><span class="pre">submit_command</span></code> output. Job id must be first in <a class="reference external" href="https://www.google.com/search?q=regular+expression+capturing+group">capturing group</a>.</div>
 <div class="line">May look like this: <code class="docutils literal notranslate"><span class="pre">Your</span> <span class="pre">job</span> <span class="pre">(\\w+)</span> <span class="pre">\\(\&quot;.+?\&quot;\\)</span> <span class="pre">has</span> <span class="pre">been</span> <span class="pre">submitted</span></code></div>
 </div>
 </li>
@@ -897,7 +897,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </div></blockquote>
 <blockquote id="job-name-alias">
 <div><ul class="simple">
-<li><p><strong>{job_name}</strong> - Alias for the default job name, which is <code class="docutils literal notranslate"><span class="pre">{project_name}-{run_name}</span></code>. <em>Default</em> here doesn’t mean it will be assigned to a job automatically, it’s up to the user to decide whether to use it or generate your own using other available aliases, e.g., <code class="docutils literal notranslate"><span class="pre">{project_name}-{generation}-{run_number}</span></code>.</p></li>
+<li><p><strong>{job_name}</strong> - Alias for the default job name, which is <code class="docutils literal notranslate"><span class="pre">{project_name}-{run_name}</span></code>. <em>Default</em> here doesn’t mean it will be assigned to a job automatically, it’s up to the user to decide whether to use it or generate their own using other available aliases, e.g., <code class="docutils literal notranslate"><span class="pre">{project_name}-{generation}-{run_number}</span></code>.</p></li>
 </ul>
 </div></blockquote>
 <blockquote id="run-name-alias">
@@ -926,7 +926,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="job-ids-alias">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>{job_ids}</strong> - Alias for a whitespace delimited list of ids of all unfinished jobs that were submitted from the current Population.</div>
+<div class="line"><strong>{job_ids}</strong> - Alias for a whitespace delimited list of ids of all unfinished jobs that were submitted from the current population.</div>
 <div class="line">Can be used in: <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">poll_command</span></a>, <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">delete_command</span></a>.</div>
 </div>
 </li>
@@ -970,11 +970,11 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <section id="settings-override">
 <span id="id3"></span><h2>Settings override<a class="headerlink" href="#settings-override" title="Permalink to this heading">¶</a></h2>
 <p>At some point you may start running your projects in different environments. It may become quite annoying to edit <code class="docutils literal notranslate"><span class="pre">nmfe_path</span></code> and <code class="docutils literal notranslate"><span class="pre">rscript_path</span></code> every time you copy the project back and forth between Windows and Linux.</p>
-<p>To avoid this you can create a separate options file for every environment (even every user if you wish) and place all the environment-specific settings inside this file. Then, you can just set PYDARWIN_OPTIONS to the path of that file, and every setting from that file will override corresponding settings in any options.json of any project you run in that environment.
+<p>To avoid this, you can create a separate options file for every environment (even every user if you wish) and place all the environment-specific settings inside this file. Then, you can just set PYDARWIN_OPTIONS to the path of that file, and every setting from that file will override corresponding settings in any options.json of any project you run in that environment.
 Overriding can be switched off by <a class="reference internal" href="#use-system-options-options-desc"><span class="std std-ref">use_system_options</span></a> set to <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You set <code class="docutils literal notranslate"><span class="pre">use_system_options</span></code> in the project’s <code class="file docutils literal notranslate"><span class="pre">options.json</span></code>, not in the common one.</p>
+<p>Set <code class="docutils literal notranslate"><span class="pre">use_system_options</span></code> in the project’s <code class="file docutils literal notranslate"><span class="pre">options.json</span></code>, not in the common one.</p>
 </div>
 <p>Good candidates to put into common options file are:</p>
 <ul class="simple">
@@ -1054,7 +1054,7 @@ Overriding can be switched off by <a class="reference internal" href="#use-syste
 <p>In terms of options priority, <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> loads options.json, then system_options.json, then merges those two together so values from system_options overwrite the original ones. After that, all default values are applied, and resulting options values are used.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When running models on a grid, individual models are run on different nodes (in different environments). You must ensure that you either override settings on every node, or, don’t override it at all.</p>
+<p>When running models on a grid, individual models are run on different nodes (in different environments). You must ensure that you either override settings on every node, or don’t override it at all.</p>
 </div>
 </section>
 </section>

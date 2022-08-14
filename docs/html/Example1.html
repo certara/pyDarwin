@@ -101,9 +101,9 @@
 <span id="startpk1"></span><h1>Example 1: PK Model, Trivial Exhaustive Search<a class="headerlink" href="#example-1-pk-model-trivial-exhaustive-search" title="Permalink to this heading">¶</a></h1>
 <p>This first model is quite simple, the search space consists of 6 dimensions, each with 2 options. Thus, the total number of candidate models is
 2^6 = 64 models. As the search space is very small, we’ll perform an exhaustive search. See <a class="reference internal" href="Overview.html#the-algorithms"><span class="std std-ref">details</span></a> on algorithm selection.</p>
-<p>As is the usual practice in POP-PK model selection, the first step will be exploratory data analysis. This serves at least two purposes: to validate the dataset
+<p>As is the usual practice in pop-PK model selection, the first step will be exploratory data analysis. This serves at least two purposes: to validate the dataset
 and to generate initial hypotheses. For the purpose of this tutorial, we will skip this step and assume that we have a “correct” dataset and a list of
-hypotheses to be tested. The dataset for this example is <code class="docutils literal notranslate"><span class="pre">dataExample1.csv</span></code>. See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">examples</span></a> for more details.</p>
+hypotheses to be tested. The dataset for this example is <code class="docutils literal notranslate"><span class="pre">dataExample1.csv</span></code>. See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">“Examples”</span></a> for more details.</p>
 <p>The next step for machine learning model selection is to get a simple model running. The control file for this simple model is given below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
@@ -211,7 +211,7 @@ THETA(2), and THETA(3). These will appear in all control files in the search. Th
 initial estimates may or may not appear, depending on the model specification (<a class="reference internal" href="Glossary.html#phenotype"><span class="std std-ref">phenotype</span></a>). Searched initial estimates must be placed after all
 fixed initial estimates. Each initial estimate must be on a separate line and must be surrounded by parentheses. The standard combinations of (lower, initial, upper)
 are all supported.</p>
-<p>Tokens sets for each feature to be searched will be defined as these <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> (analogous to key-value pairs
+<p>Token sets for each feature to be searched will be defined as these <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> (analogous to key-value pairs
 in JSON, but only text values are permitted).</p>
 <p>Each of these dimensions has two options. Therefore, the total number of candidate models
 in the search space is the number of permutations: 2^6 = 64.</p>
@@ -238,7 +238,7 @@ is created, this approach would lead to ambiguity. Each initial estimate must be
 </section>
 <section id="variance-terms">
 <h3>Variance terms<a class="headerlink" href="#variance-terms" title="Permalink to this heading">¶</a></h3>
-<p>Between subject variability is handled similarly, with the “{}” text. Typically, the first tokens in the tokens sets will be in the $PK, $DES, or $ERROR block and the
+<p>Between subject variability is handled similarly, with the “{}” text. Typically, the first tokens in the token sets will be in the $PK, $DES, or $ERROR block and the
 2nd in $OMEGA, with the <em>required</em> ETA(IndexText) after a NONMEM comment (the same as for THETA initial estimates). ERR and EPS are handled similarly, either syntax is permitted.</p>
 <p>Example 1 template file: <a class="reference download internal" download="" href="_downloads/a865b660d9d8eed9c8ef2e1087e94aa6/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">file</span></code></a>
 Example 1 searches a 6 dimensional space. The dimensions correspond to <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>.</p>
@@ -246,7 +246,7 @@ Example 1 searches a 6 dimensional space. The dimensions correspond to <a class=
 <section id="data-file-path">
 <h3>Data file path<a class="headerlink" href="#data-file-path" title="Permalink to this heading">¶</a></h3>
 <p>Typically, the NMTRAN data file will be in the <a class="reference internal" href="Glossary.html#working-directory"><span class="std std-ref">working directory</span></a>. As the models are run in a directory two levels down
-(home directory/generation/model). The path to the data set can be given as:</p>
+(home directory/generation/model). The path to the dataset can be given as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$DATA {data_dir}/data.csv
 </pre></div>
 </div>
@@ -442,7 +442,7 @@ it is only intended to break ties between otherwise identical models.</p>
 <section id="execute-search">
 <h2>Execute Search<a class="headerlink" href="#execute-search" title="Permalink to this heading">¶</a></h2>
 <p>Usage details for starting a search in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> can be found <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here</span></a>.</p>
-<p>See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">examples</span></a> for additional details about accessing example files.</p>
+<p>See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">“Examples”</span></a> for additional details about accessing example files.</p>
 <p>Initialization of the run should generate output similar to this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">33</span><span class="p">]</span> <span class="n">Options</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example1</span>\<span class="n">options</span><span class="o">.</span><span class="n">json</span>
 <span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mi">33</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">working</span> <span class="n">folder</span><span class="o">...</span>

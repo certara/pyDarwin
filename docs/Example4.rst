@@ -333,7 +333,7 @@ Nothing new in the tokens file, we see again an example of nested tokens:
 	]
     }
 
-Note again, the use of THETA(paremeter identifier), e.g.,
+Note again, the use of THETA(parameter identifier), e.g.,
 
 
 ::
@@ -350,7 +350,7 @@ Example 4 tokens file: :download:`json <../examples/user/Example4/tokens.json>`
 The Options file
 *****************
 
-The algorithim selection in the options file is :ref:`GA<GA_desc>`.  
+The algorithm selection in the options file is :ref:`GA<GA_desc>`.  
 
 The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
 
@@ -438,7 +438,7 @@ Execute Search
 
 Usage details for starting a search in ``pyDarwin`` can be found :ref:`here<Execution>`.
 
-See :ref:`examples<examples_target>` for additional details about accessing example files.
+See :ref:`"Examples"<examples_target>` for additional details about accessing example files.
 
 The search space contains 1.66 million possible models, and searches for the following:
 

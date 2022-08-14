@@ -20,7 +20,7 @@ There is an input (X) and an output (Y) and the algorithm identified patterns th
 looking for the best independent variables to include in a linear regression model is an unsupervised learning problem, there is no training set of examples 
 with the "correct" list of independent variables to include. 
 
-The traditional model selection/building process for pop pk models is similarly unsupervised. There is no "labeled" training dataset, no collection of datasets 
+The traditional model selection/building process for pop PK models is similarly unsupervised. There is no "labeled" training dataset, no collection of datasets 
 that are known to be 1 compartment, with Volume~WT. Rather, each dataset facilitates a new learning process and the algorithm must discover relationships across different datasets. 
 In the case of model selection, the inputs (Xs) are the "features" of the model search (not the model, but the model search) 
 (number of compartments, covariates, random effects, etc.) and the output is some measure of model goodness. 
@@ -30,8 +30,8 @@ user-written ``R`` or ``Python`` code that can be executed after each run (:ref:
 a penalty for under or over prediction of Cmax (basically a penalty for `posterior predictive check <https://link.springer.com/article/10.1023/A:1011555016423>`_). 
 
 Supervised learning includes algorithms such as regression, artificial neural networks (ANN), decision trees/random forest, and k-nearest neighbor. 
-Recently, hybrid supervised/unsupervised learning algorithms have been introduced and have proven to be very powerful. The best known of these is deep q network/reinforcement 
-learning(DQN/RL). DQN/RL is a deep neural network (a slightly more complex ANN). However, unlike traditional supervised ANN, there is no training set. 
+Recently, hybrid supervised/unsupervised learning algorithms have been introduced and have proven to be very powerful. The best known of these is Deep Q Network/Reinforcement 
+Learning (DQN/RL). DQN/RL is a deep neural network (a slightly more complex ANN). However, unlike traditional supervised ANN, there is no training set. 
 Rather, the method starts with a randomly selected set of weights for nodes in the ANN. Then, based on this random selection, ANN predicts the best model. 
 
 At the start, this model will be far from the "true" optimal model. Starting with a single model, however, provides a very small "training set", and the ANN is now trained on this model. 
@@ -40,9 +40,9 @@ then train the representation) has been adapted to other traditionally supervise
 Random Forest (RF) and gradient boosted random trees (GBRT). These three hybrid algorithms (:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` , :ref:`GBRT<GBRT_desc>`) have been included in ``pyDarwin``'s
 algorithm options along with the more traditional Genetic Algorithm (:ref:`GA<GA_desc>`) and exhaustive search (:ref:`EX<EX_desc>`). 
 
-Traditional pop pk/pd model selection uses the "downhill method", starting, usually at a trivial model, then adding
+Traditional PK/PD model selection uses the "downhill method", starting usually at a trivial model, then adding
 "features" (compartments, lag times, nonlinear elimination, covariate effects), and accepting the new model if it is better ("downhill"), based on some user-defined, and somewhat informal criteria. 
-Typically, this user-defined criteria will include a lower -2LL plus usually penalty for added parameters plus some other criteria that the user may feel is important. The downhill method is easily the 
+Typically, this user-defined criteria will include a lower -2LL plus usually a penalty for added parameters plus some other criteria that the user may feel is important. The downhill method is easily the 
 most efficient method (fewest evaluations of the reward/fitness to reach the convergence) but is highly prone to local minima. However, downhill does play a role in a very efficient 
 local search, in combination with a global search algorithm (e.g., :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` , :ref:`GBRT<GBRT_desc>`). 
 
@@ -64,8 +64,8 @@ model selection, is downhill. While efficient,  it can be demonstrated that this
 the violation of convexity assumption. That is, the downhill search, in either a continuous space (parameter estimation) or a discrete space (model selection) 
 assumes that the optimal solution is continuously downhill from every other point in the search space. That is, there are no local minima, you can start anywhere 
 and you'll end up in the same place - the global minimum (the results are not sensitive to the "initial estimates"). With this assumption, a covariate will be 
-"downhill", regardless of whether tested in a one compartment, two compartment; first order or zero order or any other base model, it's all downhill, it doesn't 
-matter in what sequence you test hypotheses, the answer will be the same. Wade [#f1]_ showed that the results of tests of hypotheses do indeed depend on other 
+"downhill", regardless of whether tested in a one compartment, two compartment; first order or zero order or any other base model. It doesn't 
+matter in what sequence you test hypotheses; it's all downhill and the answer will be the same. Wade [#f1]_ showed that the results of tests of hypotheses do indeed depend on other 
 features in the model and Chen [#f2]_ showed that different sequences of tests will commonly yield different final models.
 
 In contrast to the traditional downhill/local search, all algorithms implemented in pyDarwin are global search algorithms that are expected to have a greater 
@@ -90,7 +90,7 @@ The overall process is shown in Figure 1 below:
  .. figure:: MLSelection.png
 
 The same 3 files are required for any search, whether :ref:`EX<EX_desc>` , :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` or :ref:`GBRT<GBRT_desc>`. 
-These file are described in :ref:`required files. <startRequiredFiles>`
+These files are described in :ref:`"Required Files". <startRequiredFiles>`
 
 .. _The Algorithms:
 
@@ -105,7 +105,7 @@ Below is a list of recommendations for algorithm selection.
 
  - Fast execution, large search space (> 100,000 models, expected sample > 1000 models) – :ref:`GA<GA_desc>` or :ref:`RF<RF_desc>`
  - Small search space (<100,000, expected # of samples < 1000) - :ref:`Gaussian Process<GP_desc>`.
- - Very small search space (< 500 models), many cores (> 20) – :ref:`exhaustive search <EX_desc>`.
+ - Very small search space (< 500 models), many cores (> 20) – :ref:`Exhaustive Search <EX_desc>`.
 
 .. _EX_desc:
 
@@ -122,7 +122,7 @@ Genetic Algorithm
 
 Genetic Algorithm (GA) is a reproduction of the mathematics of evolution/survival of the fittest. A more detailed discussion `on GA can be found here <https://en.wikipedia.org/wiki/Genetic_algorithm>`_, and 
 a very readable (but somewhat dated) reference is Genetic Algorithms in Search, Optimization and Machine Learning 13th ed. Edition by David Goldberg. Details of the options (not all of which are available in pyDarwin) 
-can be found at `here <https://deap.readthedocs.io/en/master/>`_.
+can be found `here <https://deap.readthedocs.io/en/master/>`_.
 Briefly, GA presents the search space as a bit string, with each "gene" being a binary number that is decoded into the integer value for that option. For example, for a dimension of Additive vs Additive + proportional 
 residual error, the integer codes would be:
 
@@ -142,10 +142,10 @@ and the bit string representation might be:
 * 2 - [0,1] and [1,0]
 * 3 - [1,1]
 
-The bit strings for each gene are concatenated into a "chromosome". The search starts with a population of random bit strings. These bit strings are decoded, and NONMEM control files constructed from the :ref:`template file<template>` 
+The bit strings for each gene are concatenated into a "chromosome". The search starts with a population of random bit strings. These bit strings are decoded, and NONMEM control files are constructed from the :ref:`template file<template>` 
 by substituting the selected text from the :ref:`token set<token set>`. The resulting NONMEM control file is run and the :ref:`fitness <fitness>` is calculated. 
 The next generations is created by randomly selecting sets of parent candidates from the population. These parent candidates are then selected based on :ref:`Tournament selection <Tournament selection>`. 
-Once the sets of parents are selected, they undergo crossover and mutation and a new generation is created. This process is repeated until no further improvement is seen.
+Once the sets of parents are selected, they undergo crossover and mutation, and a new generation is created. This process is repeated until no further improvement is seen.
 
 .. _GP_desc:
 
@@ -162,7 +162,7 @@ Random Forest
 ====================
 
 `Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consists of splitting the search space (based on the "goodness" of each model in this case), thus continuously dividing the 
-search space into "good" and "bad" regions. As before, the initial divisions are random, but become increasingly well informed as real values for the fitness/reward of models are 
+search space into "good" and "bad" regions. As before, the initial divisions are random, but become increasingly well-informed as real values for the fitness/reward of models are 
 included.
 
 .. _GBRT_desc:

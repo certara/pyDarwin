@@ -9,9 +9,9 @@ Example 1: PK Model, Trivial Exhaustive Search
 This first model is quite simple, the search space consists of 6 dimensions, each with 2 options. Thus, the total number of candidate models is 
 2^6 = 64 models. As the search space is very small, we'll perform an exhaustive search. See :ref:`details <The Algorithms>` on algorithm selection.
 
-As is the usual practice in POP-PK model selection, the first step will be exploratory data analysis. This serves at least two purposes: to validate the dataset 
+As is the usual practice in pop-PK model selection, the first step will be exploratory data analysis. This serves at least two purposes: to validate the dataset 
 and to generate initial hypotheses. For the purpose of this tutorial, we will skip this step and assume that we have a "correct" dataset and a list of 
-hypotheses to be tested. The dataset for this example is ``dataExample1.csv``. See :ref:`examples <examples_target>` for more details.
+hypotheses to be tested. The dataset for this example is ``dataExample1.csv``. See :ref:`"Examples" <examples_target>` for more details.
 
 The next step for machine learning model selection is to get a simple model running. The control file for this simple model is given below:
 
@@ -144,7 +144,7 @@ initial estimates may or may not appear, depending on the model specification (:
 fixed initial estimates. Each initial estimate must be on a separate line and must be surrounded by parentheses. The standard combinations of (lower, initial, upper) 
 are all supported. 
 
-Tokens sets for each feature to be searched will be defined as these :ref:`token key-text pairs<token key-text pair>` (analogous to key-value pairs 
+Token sets for each feature to be searched will be defined as these :ref:`token key-text pairs<token key-text pair>` (analogous to key-value pairs 
 in JSON, but only text values are permitted).
 
 Each of these dimensions has two options. Therefore, the total number of candidate models 
@@ -182,7 +182,7 @@ Other covariate effects are coded similarly.
 Variance terms
 ====================
 
-Between subject variability is handled similarly, with the "{}" text. Typically, the first tokens in the tokens sets will be in the $PK, $DES, or $ERROR block and the  
+Between subject variability is handled similarly, with the "{}" text. Typically, the first tokens in the token sets will be in the $PK, $DES, or $ERROR block and the  
 2nd in $OMEGA, with the *required* ETA(IndexText) after a NONMEM comment (the same as for THETA initial estimates). ERR and EPS are handled similarly, either syntax is permitted.
 
 Example 1 template file: :download:`template file <../examples/user/Example1/template.txt>`
@@ -191,7 +191,7 @@ Example 1 searches a 6 dimensional space. The dimensions correspond to :ref:`tok
 Data file path
 ====================
 Typically, the NMTRAN data file will be in the :ref:`working directory<working directory>`. As the models are run in a directory two levels down 
-(home directory/generation/model). The path to the data set can be given as:
+(home directory/generation/model). The path to the dataset can be given as:
 
 ::
 
@@ -419,7 +419,7 @@ Execute Search
 
 Usage details for starting a search in ``pyDarwin`` can be found :ref:`here<Execution>`.
 
-See :ref:`examples<examples_target>` for additional details about accessing example files.
+See :ref:`"Examples"<examples_target>` for additional details about accessing example files.
 
 Initialization of the run should generate output similar to this:
 

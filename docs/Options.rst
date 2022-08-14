@@ -188,7 +188,7 @@ Here is the list of all available options. Note that many of the options have de
 .. _random_seed_options_desc:
 
 * | **random_seed** - *positive int*: A seed value for random number generator.
-  | Not used for Exhaustive search.
+  | Not used for :ref:`EX<EX_desc>`.
 
 .. _num_parallel_options_desc:
 
@@ -201,12 +201,12 @@ Here is the list of all available options. Note that many of the options have de
 .. _num_generations_options_desc:
 
 * | **num_generations** :sup:`required` - *positive int*: Number of iterations or generations of the search algorithm to run.
-  | Not used/required for Exhaustive search.
+  | Not used/required for :ref:`EX<EX_desc>`.
 
 .. _population_size_options_desc:
 
 * | **population_size** :sup:`required` - *positive int*: Number of models to create in every generation.
-  | Not used/required for Exhaustive search.
+  | Not used/required for :ref:`EX<EX_desc>`.
 
 .. _num_opt_chains_options_desc:
 
@@ -215,7 +215,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _exhaustive_batch_size_options_desc:
 
-* **exhaustive_batch_size** - *positive int*: Since there are no iterations in Exhaustive search, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so, essentially, Exhaustive search is split into pseudo-iterations. This setting is the size of those batches.
+* **exhaustive_batch_size** - *positive int*: Since there are no iterations in :ref:`EX<EX_desc>`, and the amount of all models in the search space might be enormous (millions?), the models are run in batches of more manageable size, so, essentially, :ref:`EX<EX_desc>` is split into pseudo-iterations. This setting is the size of those batches.
   Several things to take into consideration when choosing the size:
 
   * typical value is 50 to 1000
@@ -293,12 +293,12 @@ Here is the list of all available options. Note that many of the options have de
 * | **num_niches** - *int*: Used for GA and downhill. A penalty is assigned for each model based on the number of similar models within a niche
     radius. This penalty is applied only to the selection process (not to the fitness of the model). The purpose
     is to insure maintaining a degree of diversity in the population (integer). num_niches is also used to select the number of models that are entered into the 
-    downhill step for all algorithms, except Exhaustive Search.
+    downhill step for all algorithms, except :ref:`EX<EX_desc>`.
   | *Default*: 2
 
 .. _niche_radius_options_desc:
 
-* | **niche_radius** - *positive real*:  The radius of the niches. See :ref:`Niche Radius<Niche Radius>`.
+* | **niche_radius** - *positive real*:  The radius of the niches. See :ref:`"Niche Radius"<Niche Radius>`.
   | *Default*: 2
 
 .. _local_2_bit_search_options_desc:
@@ -403,7 +403,7 @@ Here is the list of all available options. Note that many of the options have de
 * | **model_cache** - *string*: ModelCache subclass to be used.
   | Currently there are only :data:`darwin.MemoryModelCache <darwin.MemoryModelCache.MemoryModelCache>`
     and :data:`darwin.AsyncMemoryModelCache <darwin.MemoryModelCache.AsyncMemoryModelCache>`.
-  | You can create your own and use it (e.g., a cache that stores model runs in a DB. The name is quite arbitrary and doesn't have any convention/constraints).
+  | You can create your own and use it (e.g., a cache that stores model runs in a database. The name is quite arbitrary and doesn't have any convention/constraints).
   | *Default*: ``darwin.MemoryModelCache``
 
 .. _model_run_man_options_desc:
@@ -427,7 +427,7 @@ Here is the list of all available options. Note that many of the options have de
 .. _working_dir_options_desc:
 
 * | **working_dir** - *string*: The project's working directory, where all the necessary files and folders are created. Also, it's a default location of output and temp folders.
-  | By default is set to ':mono_ref:`\<pyDarwin home\><pydarwin_home>`/:mono_ref:`{project_stem} <project_stem_alias>`'.
+  | By default, it is set to ':mono_ref:`\<pyDarwin home\><pydarwin_home>`/:mono_ref:`{project_stem} <project_stem_alias>`'.
   | Aliased as :mono_ref:`{working_dir}<working_dir_alias>`.
 
 .. _data_dir_options_desc:
@@ -478,7 +478,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _submit_job_id_re_options_desc:
 
-    * | **submit_job_id_re** :sup:`required` - *string*: A regular expression to find a job id in ``submit_command`` output. Job id must be captured in first `capturing group <https://www.google.com/search?q=regular+expression+capturing+group>`_.
+    * | **submit_job_id_re** :sup:`required` - *string*: A regular expression to find a job id in ``submit_command`` output. Job id must be first in `capturing group <https://www.google.com/search?q=regular+expression+capturing+group>`_.
       | May look like this: ``Your job (\\w+) \\(\".+?\"\\) has been submitted``
 
 .. _poll_command_options_desc:
@@ -592,7 +592,7 @@ These aliases are only applicable to :mono_ref:`submit_command <submit_command_o
 
 .. _job_name_alias:
 
-  * **{job_name}** - Alias for the default job name, which is ``{project_name}-{run_name}``. *Default* here doesn't mean it will be assigned to a job automatically, it's up to the user to decide whether to use it or generate your own using other available aliases, e.g., ``{project_name}-{generation}-{run_number}``.
+  * **{job_name}** - Alias for the default job name, which is ``{project_name}-{run_name}``. *Default* here doesn't mean it will be assigned to a job automatically, it's up to the user to decide whether to use it or generate their own using other available aliases, e.g., ``{project_name}-{generation}-{run_number}``.
 
 .. _run_name_alias:
 
@@ -615,7 +615,7 @@ Job delete/poll aliases
 
 .. _job_ids_alias:
 
-  * | **{job_ids}** - Alias for a whitespace delimited list of ids of all unfinished jobs that were submitted from the current Population.
+  * | **{job_ids}** - Alias for a whitespace delimited list of ids of all unfinished jobs that were submitted from the current population.
     | Can be used in: :mono_ref:`poll_command <poll_command_options_desc>`, :mono_ref:`delete_command <delete_command_options_desc>`.
 
 
@@ -677,11 +677,11 @@ Settings override
 
 At some point you may start running your projects in different environments. It may become quite annoying to edit ``nmfe_path`` and ``rscript_path`` every time you copy the project back and forth between Windows and Linux.
 
-To avoid this you can create a separate options file for every environment (even every user if you wish) and place all the environment-specific settings inside this file. Then, you can just set PYDARWIN_OPTIONS to the path of that file, and every setting from that file will override corresponding settings in any options.json of any project you run in that environment.
+To avoid this, you can create a separate options file for every environment (even every user if you wish) and place all the environment-specific settings inside this file. Then, you can just set PYDARWIN_OPTIONS to the path of that file, and every setting from that file will override corresponding settings in any options.json of any project you run in that environment.
 Overriding can be switched off by :mono_ref:`use_system_options <use_system_options_options_desc>` set to ``false``.
 
 .. note::
-   You set ``use_system_options`` in the project's :file:`options.json`, not in the common one.
+   Set ``use_system_options`` in the project's :file:`options.json`, not in the common one.
 
 Good candidates to put into common options file are:
 
@@ -773,4 +773,4 @@ For example:
 In terms of options priority, ``pyDarwin`` loads options.json, then system_options.json, then merges those two together so values from system_options overwrite the original ones. After that, all default values are applied, and resulting options values are used.
 
 .. note::
-   When running models on a grid, individual models are run on different nodes (in different environments). You must ensure that you either override settings on every node, or, don't override it at all.
+   When running models on a grid, individual models are run on different nodes (in different environments). You must ensure that you either override settings on every node, or don't override it at all.

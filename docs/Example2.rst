@@ -334,7 +334,7 @@ Execute Search
 
 Usage details for starting a search in ``pyDarwin`` can be found :ref:`here<Execution>`.
 
-See :ref:`examples<examples_target>` for additional details about accessing example files.
+See :ref:`"Examples"<examples_target>` for additional details about accessing example files.
 
 Notes on Gaussian Process performance
 =======================================

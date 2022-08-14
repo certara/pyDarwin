@@ -8,7 +8,7 @@ different data sets. Therefore, there is a token in the $DATA record. Next, urin
 this example involves Michaelis-Menten, whereas the previous examples were linear. The token groups/set are quite complex.
 
 
-While the search space is small (324 models), we'll perform an :ref:`Exhaustive search<EX_desc>`. Because of the complexity of the model and the 
+While the search space is small (324 models), we'll perform an :ref:`exhaustive search<EX_desc>`. Because of the complexity of the model and the 
 ODE solution,  model run times are long. For faster search, the FO method is used. 
 
 ******************
@@ -261,7 +261,7 @@ The tokens file is quite complex:
 
 
 
-Note again, the use of THETA(paremeter identifier), e.g.,
+Note again, the use of THETA(parameter identifier), e.g.,
 
 
 ::
@@ -278,7 +278,7 @@ Example 3 tokens file: :download:`json <../examples/user/Example3/tokens.json>`
 The Options file
 *****************
 
-The options file is traditional, :ref:`Exhaustive search<EX_desc>`.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long. 
+The options file is traditional, :ref:`exhaustive search<EX_desc>`.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long. 
 
 The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
 
@@ -341,7 +341,7 @@ Execute Search
 
 Usage details for starting a search in ``pyDarwin`` can be found :ref:`here<Execution>`.
 
-See :ref:`examples<examples_target>` for additional details about accessing example files.
+See :ref:`"Examples"<examples_target>` for additional details about accessing example files.
 
 Initialization output should look like:
 

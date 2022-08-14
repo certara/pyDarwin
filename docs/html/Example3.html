@@ -92,7 +92,7 @@
 <p>Example 3 is quite different from the two previous examples. First, it is an ODE model, using ADVAN13. Second, different models in the search space required
 different data sets. Therefore, there is a token in the $DATA record. Next, urine PK is included in the model. Finally,
 this example involves Michaelis-Menten, whereas the previous examples were linear. The token groups/set are quite complex.</p>
-<p>While the search space is small (324 models), we’ll perform an <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>. Because of the complexity of the model and the
+<p>While the search space is small (324 models), we’ll perform an <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">exhaustive search</span></a>. Because of the complexity of the model and the
 ODE solution,  model run times are long. For faster search, the FO method is used.</p>
 <section id="the-template-file">
 <h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
@@ -334,7 +334,7 @@ $COV UNCOND PRINT = E
    <span class="p">}</span>
 </pre></div>
 </div>
-<p>Note again, the use of THETA(paremeter identifier), e.g.,</p>
+<p>Note again, the use of THETA(parameter identifier), e.g.,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mf">.7</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> \<span class="n">t</span><span class="p">;</span> <span class="n">THETA</span><span class="p">(</span><span class="n">CL</span><span class="o">~</span><span class="n">WT</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -343,7 +343,7 @@ $COV UNCOND PRINT = E
 </section>
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
-<p>The options file is traditional, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">Exhaustive search</span></a>.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long.</p>
+<p>The options file is traditional, <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">exhaustive search</span></a>.  Note that the NONMEM timeout is long (9600 seconds), as the run time for the ODE solution is long.</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
 <p>Note that, to run in the environment used for this example, the directories are set to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example3/working&quot;</span><span class="p">,</span>
@@ -393,7 +393,7 @@ the default is:</p>
 <section id="execute-search">
 <h2>Execute Search<a class="headerlink" href="#execute-search" title="Permalink to this heading">¶</a></h2>
 <p>Usage details for starting a search in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> can be found <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here</span></a>.</p>
-<p>See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">examples</span></a> for additional details about accessing example files.</p>
+<p>See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">“Examples”</span></a> for additional details about accessing example files.</p>
 <p>Initialization output should look like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Options</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="o">..</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example3</span>\<span class="n">options</span><span class="o">.</span><span class="n">json</span>
 <span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">54</span><span class="p">]</span> <span class="n">Preparing</span> <span class="n">project</span> <span class="n">working</span> <span class="n">folder</span><span class="o">...</span>

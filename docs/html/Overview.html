@@ -109,7 +109,7 @@ can find patterns in the 0s and 1s that are associated with “catness” or “
 There is an input (X) and an output (Y) and the algorithm identified patterns that match the inputs to the output (intercept and slope(s)). However,
 looking for the best independent variables to include in a linear regression model is an unsupervised learning problem, there is no training set of examples
 with the “correct” list of independent variables to include.</p>
-<p>The traditional model selection/building process for pop pk models is similarly unsupervised. There is no “labeled” training dataset, no collection of datasets
+<p>The traditional model selection/building process for pop PK models is similarly unsupervised. There is no “labeled” training dataset, no collection of datasets
 that are known to be 1 compartment, with Volume~WT. Rather, each dataset facilitates a new learning process and the algorithm must discover relationships across different datasets.
 In the case of model selection, the inputs (Xs) are the “features” of the model search (not the model, but the model search)
 (number of compartments, covariates, random effects, etc.) and the output is some measure of model goodness.</p>
@@ -117,17 +117,17 @@ In the case of model selection, the inputs (Xs) are the “features” of the mo
 user-written <code class="docutils literal notranslate"><span class="pre">R</span></code> or <code class="docutils literal notranslate"><span class="pre">Python</span></code> code that can be executed after each run (<a class="reference internal" href="Options.html#use-r-options-desc"><span class="std std-ref">“use_r”</span></a> or <a class="reference internal" href="Options.html#use-python-options-desc"><span class="std std-ref">“use_python”</span></a>). This post run code is useful, for example, if the  user wants to add
 a penalty for under or over prediction of Cmax (basically a penalty for <a class="reference external" href="https://link.springer.com/article/10.1023/A:1011555016423">posterior predictive check</a>).</p>
 <p>Supervised learning includes algorithms such as regression, artificial neural networks (ANN), decision trees/random forest, and k-nearest neighbor.
-Recently, hybrid supervised/unsupervised learning algorithms have been introduced and have proven to be very powerful. The best known of these is deep q network/reinforcement
-learning(DQN/RL). DQN/RL is a deep neural network (a slightly more complex ANN). However, unlike traditional supervised ANN, there is no training set.
+Recently, hybrid supervised/unsupervised learning algorithms have been introduced and have proven to be very powerful. The best known of these is Deep Q Network/Reinforcement
+Learning (DQN/RL). DQN/RL is a deep neural network (a slightly more complex ANN). However, unlike traditional supervised ANN, there is no training set.
 Rather, the method starts with a randomly selected set of weights for nodes in the ANN. Then, based on this random selection, ANN predicts the best model.</p>
 <p>At the start, this model will be far from the “true” optimal model. Starting with a single model, however, provides a very small “training set”, and the ANN is now trained on this model.
 This process is repeated until the current best predicted model no longer improves. This approach (start with a random representation of the search space, run a few models,
 then train the representation) has been adapted to other traditionally supervised methods including Bayesian optimization (Gaussian process - GP),
 Random Forest (RF) and gradient boosted random trees (GBRT). These three hybrid algorithms (<a class="reference internal" href="#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="#rf-desc"><span class="std std-ref">RF</span></a> , <a class="reference internal" href="#gbrt-desc"><span class="std std-ref">GBRT</span></a>) have been included in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code>’s
 algorithm options along with the more traditional Genetic Algorithm (<a class="reference internal" href="#ga-desc"><span class="std std-ref">GA</span></a>) and exhaustive search (<a class="reference internal" href="#ex-desc"><span class="std std-ref">EX</span></a>).</p>
-<p>Traditional pop pk/pd model selection uses the “downhill method”, starting, usually at a trivial model, then adding
+<p>Traditional PK/PD model selection uses the “downhill method”, starting usually at a trivial model, then adding
 “features” (compartments, lag times, nonlinear elimination, covariate effects), and accepting the new model if it is better (“downhill”), based on some user-defined, and somewhat informal criteria.
-Typically, this user-defined criteria will include a lower -2LL plus usually penalty for added parameters plus some other criteria that the user may feel is important. The downhill method is easily the
+Typically, this user-defined criteria will include a lower -2LL plus usually a penalty for added parameters plus some other criteria that the user may feel is important. The downhill method is easily the
 most efficient method (fewest evaluations of the reward/fitness to reach the convergence) but is highly prone to local minima. However, downhill does play a role in a very efficient
 local search, in combination with a global search algorithm (e.g., <a class="reference internal" href="#ga-desc"><span class="std std-ref">GA</span></a> , <a class="reference internal" href="#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="#rf-desc"><span class="std std-ref">RF</span></a> , <a class="reference internal" href="#gbrt-desc"><span class="std std-ref">GBRT</span></a>).</p>
 <p>Central to understanding the model selection process (with manual or machine learning), is the concept of the search space. The search space is an n-dimensional
@@ -147,8 +147,8 @@ model selection, is downhill. While efficient,  it can be demonstrated that this
 the violation of convexity assumption. That is, the downhill search, in either a continuous space (parameter estimation) or a discrete space (model selection)
 assumes that the optimal solution is continuously downhill from every other point in the search space. That is, there are no local minima, you can start anywhere
 and you’ll end up in the same place - the global minimum (the results are not sensitive to the “initial estimates”). With this assumption, a covariate will be
-“downhill”, regardless of whether tested in a one compartment, two compartment; first order or zero order or any other base model, it’s all downhill, it doesn’t
-matter in what sequence you test hypotheses, the answer will be the same. Wade <a class="footnote-reference brackets" href="#f1" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> showed that the results of tests of hypotheses do indeed depend on other
+“downhill”, regardless of whether tested in a one compartment, two compartment; first order or zero order or any other base model. It doesn’t
+matter in what sequence you test hypotheses; it’s all downhill and the answer will be the same. Wade <a class="footnote-reference brackets" href="#f1" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> showed that the results of tests of hypotheses do indeed depend on other
 features in the model and Chen <a class="footnote-reference brackets" href="#f2" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> showed that different sequences of tests will commonly yield different final models.</p>
 <p>In contrast to the traditional downhill/local search, all algorithms implemented in pyDarwin are global search algorithms that are expected to have a greater
 degree of robustness to local minima than downhill search. Note, however, that all search algorithms (except exhaustive search) make assumptions about
@@ -171,7 +171,7 @@ which is used for the local exhaustive step.</p>
 </figure>
 </div></blockquote>
 <p>The same 3 files are required for any search, whether <a class="reference internal" href="#ex-desc"><span class="std std-ref">EX</span></a> , <a class="reference internal" href="#ga-desc"><span class="std std-ref">GA</span></a> , <a class="reference internal" href="#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="#rf-desc"><span class="std std-ref">RF</span></a> or <a class="reference internal" href="#gbrt-desc"><span class="std std-ref">GBRT</span></a>.
-These file are described in <a class="reference internal" href="Usage.html#startrequiredfiles"><span class="std std-ref">required files.</span></a></p>
+These files are described in <a class="reference internal" href="Usage.html#startrequiredfiles"><span class="std std-ref">“Required Files”.</span></a></p>
 <section id="algorithms">
 <span id="the-algorithms"></span><h2>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this heading">¶</a></h2>
 <p>For problems with larger search spaces, and greater number of model evaluations, <a class="reference internal" href="#ga-desc"><span class="std std-ref">Genetic algorithm</span></a> or <a class="reference internal" href="#rf-desc"><span class="std std-ref">Random Forest</span></a> may
@@ -181,7 +181,7 @@ be more appropriate.</p>
 <div><ul class="simple">
 <li><p>Fast execution, large search space (&gt; 100,000 models, expected sample &gt; 1000 models) – <a class="reference internal" href="#ga-desc"><span class="std std-ref">GA</span></a> or <a class="reference internal" href="#rf-desc"><span class="std std-ref">RF</span></a></p></li>
 <li><p>Small search space (&lt;100,000, expected # of samples &lt; 1000) - <a class="reference internal" href="#gp-desc"><span class="std std-ref">Gaussian Process</span></a>.</p></li>
-<li><p>Very small search space (&lt; 500 models), many cores (&gt; 20) – <a class="reference internal" href="#ex-desc"><span class="std std-ref">exhaustive search</span></a>.</p></li>
+<li><p>Very small search space (&lt; 500 models), many cores (&gt; 20) – <a class="reference internal" href="#ex-desc"><span class="std std-ref">Exhaustive Search</span></a>.</p></li>
 </ul>
 </div></blockquote>
 <section id="exhaustive-search">
@@ -193,7 +193,7 @@ this integer string is coded into a “minimal binary”.</p>
 <span id="ga-desc"></span><h3>Genetic Algorithm<a class="headerlink" href="#genetic-algorithm" title="Permalink to this heading">¶</a></h3>
 <p>Genetic Algorithm (GA) is a reproduction of the mathematics of evolution/survival of the fittest. A more detailed discussion <a class="reference external" href="https://en.wikipedia.org/wiki/Genetic_algorithm">on GA can be found here</a>, and
 a very readable (but somewhat dated) reference is Genetic Algorithms in Search, Optimization and Machine Learning 13th ed. Edition by David Goldberg. Details of the options (not all of which are available in pyDarwin)
-can be found at <a class="reference external" href="https://deap.readthedocs.io/en/master/">here</a>.
+can be found <a class="reference external" href="https://deap.readthedocs.io/en/master/">here</a>.
 Briefly, GA presents the search space as a bit string, with each “gene” being a binary number that is decoded into the integer value for that option. For example, for a dimension of Additive vs Additive + proportional
 residual error, the integer codes would be:</p>
 <ol class="arabic simple">
@@ -213,10 +213,10 @@ string representation might be:</p>
 <li><p>2 - [0,1] and [1,0]</p></li>
 <li><p>3 - [1,1]</p></li>
 </ul>
-<p>The bit strings for each gene are concatenated into a “chromosome”. The search starts with a population of random bit strings. These bit strings are decoded, and NONMEM control files constructed from the <a class="reference internal" href="Glossary.html#template"><span class="std std-ref">template file</span></a>
+<p>The bit strings for each gene are concatenated into a “chromosome”. The search starts with a population of random bit strings. These bit strings are decoded, and NONMEM control files are constructed from the <a class="reference internal" href="Glossary.html#template"><span class="std std-ref">template file</span></a>
 by substituting the selected text from the <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a>. The resulting NONMEM control file is run and the <a class="reference internal" href="Glossary.html#fitness"><span class="std std-ref">fitness</span></a> is calculated.
 The next generations is created by randomly selecting sets of parent candidates from the population. These parent candidates are then selected based on <a class="reference internal" href="Glossary.html#tournament-selection"><span class="std std-ref">Tournament selection</span></a>.
-Once the sets of parents are selected, they undergo crossover and mutation and a new generation is created. This process is repeated until no further improvement is seen.</p>
+Once the sets of parents are selected, they undergo crossover and mutation, and a new generation is created. This process is repeated until no further improvement is seen.</p>
 </section>
 <section id="gaussian-process">
 <span id="gp-desc"></span><h3>Gaussian Process<a class="headerlink" href="#gaussian-process" title="Permalink to this heading">¶</a></h3>
@@ -227,7 +227,7 @@ generated (the “tell” step).</p>
 <section id="random-forest">
 <span id="rf-desc"></span><h3>Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this heading">¶</a></h3>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Random_forests">Random Forest</a> consists of splitting the search space (based on the “goodness” of each model in this case), thus continuously dividing the
-search space into “good” and “bad” regions. As before, the initial divisions are random, but become increasingly well informed as real values for the fitness/reward of models are
+search space into “good” and “bad” regions. As before, the initial divisions are random, but become increasingly well-informed as real values for the fitness/reward of models are
 included.</p>
 </section>
 <section id="gradient-boosted-random-tree">

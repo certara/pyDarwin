@@ -735,7 +735,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <blockquote id="submit-job-id-re-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>submit_job_id_re</strong> <sup>required</sup> - <em>string</em>: A regular expression to find a job id in <code class="docutils literal notranslate"><span class="pre">submit_command</span></code> output. Job id must be first in <a class="reference external" href="https://www.google.com/search?q=regular+expression+capturing+group">capturing group</a>.</div>
+<div class="line"><strong>submit_job_id_re</strong> <sup>required</sup> - <em>string</em>: A regular expression to find a job id in <code class="docutils literal notranslate"><span class="pre">submit_command</span></code> output. Job id must be captured with first <a class="reference external" href="https://www.google.com/search?q=regular+expression+capturing+group">capturing group</a>.</div>
 <div class="line">May look like this: <code class="docutils literal notranslate"><span class="pre">Your</span> <span class="pre">job</span> <span class="pre">(\\w+)</span> <span class="pre">\\(\&quot;.+?\&quot;\\)</span> <span class="pre">has</span> <span class="pre">been</span> <span class="pre">submitted</span></code></div>
 </div>
 </li>

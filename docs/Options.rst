@@ -478,7 +478,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _submit_job_id_re_options_desc:
 
-    * | **submit_job_id_re** :sup:`required` - *string*: A regular expression to find a job id in ``submit_command`` output. Job id must be first in `capturing group <https://www.google.com/search?q=regular+expression+capturing+group>`_.
+    * | **submit_job_id_re** :sup:`required` - *string*: A regular expression to find a job id in ``submit_command`` output. Job id must be captured with first `capturing group <https://www.google.com/search?q=regular+expression+capturing+group>`_.
       | May look like this: ``Your job (\\w+) \\(\".+?\"\\) has been submitted``
 
 .. _poll_command_options_desc:

@@ -223,7 +223,7 @@ If <em>return_all</em> is true, will return a list of ALL models.</p>
 (from the template file) and the tokens set. It DOES NOT include any model specific information,
 such as the phenotype, the control file text, or any of the output results from NONMEM.
 Other housekeeping functions are performed, such as defining the gene structure (by counting the number of
-of token groups for each token set), parsing out the THETA/OMEGA/SIGMA blocks, and counting
+token groups for each token set), parsing out the THETA/OMEGA/SIGMA blocks, and counting
 the number of fixed/non-searched THETAs/OMEGAs/SIGMAs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -352,7 +352,7 @@ run_dir name is based on the file_stem, which must be unique for each model in t
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.is_duplicate">
 <span class="sig-name descname"><span class="pre">is_duplicate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#darwin.ModelRun.ModelRun.is_duplicate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Whether the run is a duplicate of another run in the same Population.</p>
+<dd><p>Whether the run is a duplicate of another run in the same population.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -394,7 +394,7 @@ the calc_fitness function is called to calculate the fitness/reward.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelRun.ModelRun.output_results">
 <span class="sig-name descname"><span class="pre">output_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelRun.ModelRun.output_results" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prints some results to output (.lst) file.</p>
+<dd><p>Prints results to output (.lst) file.</p>
 </dd></dl>
 
 </dd></dl>
@@ -452,7 +452,7 @@ iteration may contain multiple populations (see exhaustive search).</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="darwin.Population.Population.from_codes">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_codes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.Template.Template" title="darwin.Template.Template"><span class="pre">Template</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_converter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iteration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Population.Population.from_codes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new Population from a set of codes.</p>
+<dd><p>Create a new population from a set of codes.</p>
 </dd></dl>
 
 <dl class="py method">

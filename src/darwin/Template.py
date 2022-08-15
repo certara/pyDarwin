@@ -14,7 +14,7 @@ class Template:
     (from the template file) and the tokens set. It DOES NOT include any model specific information,
     such as the phenotype, the control file text, or any of the output results from NONMEM.
     Other housekeeping functions are performed, such as defining the gene structure (by counting the number of
-    of token groups for each token set), parsing out the THETA/OMEGA/SIGMA blocks, and counting
+    token groups for each token set), parsing out the THETA/OMEGA/SIGMA blocks, and counting
     the number of fixed/non-searched THETAs/OMEGAs/SIGMAs.
 
     :param template_file: Path to the plain ascii text template file

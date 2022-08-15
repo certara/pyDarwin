@@ -147,7 +147,7 @@ class ModelRun:
 
     def is_duplicate(self) -> bool:
         """
-        Whether the run is a duplicate of another run in the same Population.
+        Whether the run is a duplicate of another run in the same population.
         """
         return self.reference_model_num > -1
 
@@ -457,7 +457,7 @@ class ModelRun:
 
     def output_results(self):
         """
-        Prints some results to output (.lst) file.
+        Prints results to output (.lst) file.
         """
 
         with open(os.path.join(self.run_dir, self.output_file_name), "a") as output:

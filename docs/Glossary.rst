@@ -154,7 +154,7 @@ the following is not recommended (although it may work).
 
 A searched parameter initial estimate ({ALAG[2]}) occurs before a fixed initial estimated ((0,1)  ; THETA(2) Volume).
 
-Each parameter initial estimate must be on a separate line. Parameter estimates must be enclosed in parentheses, e.g, (0,1).
+Each parameter initial estimate must be on a separate line. Parameter estimates must be enclosed in parentheses, e.g., (0,1).
 
 .. _Nested Tokens:
 
@@ -215,7 +215,7 @@ and another token set (nested within the ADVAN token set) for K23 and K32~WT::
 		]
 	],
 
-This also requires 2 bits, one for the ADVAN token group, one for the K23~WT token group. Using nested tokens can reduce the number of tokens sets in a token group, at the expense of more token
+This also requires 2 bits, one for the ADVAN token group, one for the K23~WT token group. Using nested tokens can reduce the number of token sets in a token group, at the expense of more token
 groups. While more than one level of nested tokens is permitted, the logic of constructing them quickly becomes very complicated.   
 
 
@@ -286,7 +286,7 @@ that are replaced by text strings specified in the :ref:`tokens file<tokens_file
 
 .. _tokens file_s:
 
-**Tokens file:** See :ref:`tokens file <tokens file>`.
+**Tokens file:** See :ref:`"Tokens file" <tokens_file_target>`.
 
 .. _token group:
 

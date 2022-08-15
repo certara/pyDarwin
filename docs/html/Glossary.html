@@ -174,7 +174,7 @@ the following is not recommended (although it may work).</p>
 (0,1)  ; THETA(2) Volume</p>
 </div></blockquote>
 <p>A searched parameter initial estimate ({ALAG[2]}) occurs before a fixed initial estimated ((0,1)  ; THETA(2) Volume).</p>
-<p>Each parameter initial estimate must be on a separate line. Parameter estimates must be enclosed in parentheses, e.g, (0,1).</p>
+<p>Each parameter initial estimate must be on a separate line. Parameter estimates must be enclosed in parentheses, e.g., (0,1).</p>
 <p id="nested-tokens"><strong>Nested Tokens:</strong> <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> permits nested tokens to be used in the <a class="reference internal" href="#tokens-file-s"><span class="std std-ref">tokens file</span></a>. This permits one token to contain another token, to an arbitrary level. Note that
 using nested tokens does <strong>not</strong> reduce the search space size, it only reduces the number of token sets the user needs to generate, and simplifies the logic (although, commonly, the logic quickly
 becomes impenetrable). For example, assume that the search is to contain one compartment
@@ -226,7 +226,7 @@ all possible models:</p>
      <span class="p">],</span>
 </pre></div>
 </div>
-<p>This also requires 2 bits, one for the ADVAN token group, one for the K23~WT token group. Using nested tokens can reduce the number of tokens sets in a token group, at the expense of more token
+<p>This also requires 2 bits, one for the ADVAN token group, one for the K23~WT token group. Using nested tokens can reduce the number of token sets in a token group, at the expense of more token
 groups. While more than one level of nested tokens is permitted, the logic of constructing them quickly becomes very complicated.</p>
 <p>The full example is given in <a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">example 4</span></a>.</p>
 <p id="nmfe-path"><strong>nmfe_path:</strong>
@@ -253,7 +253,7 @@ Default value is ‘<a class="reference internal" href="#working-directory"><spa
 <p id="template"><strong>Template:</strong> A text string, saved in the <a class="reference internal" href="Usage.html#template-file-target"><span class="std std-ref">template file</span></a> that forms the basis for the models to be run. The template file is similar to a NONMEM control file, but with <a class="reference internal" href="#token"><span class="std std-ref">tokens</span></a>
 that are replaced by text strings specified in the <a class="reference internal" href="Usage.html#tokens-file-target"><span class="std std-ref">tokens file</span></a>.</p>
 <p id="token"><strong>Token:</strong> A token is a text string that appears in the <a class="reference internal" href="Usage.html#template-file-target"><span class="std std-ref">Template</span></a>.  The format of the string is {<a class="reference internal" href="#token-stem"><span class="std std-ref">token stem</span></a> [index]}, where <em>token stem</em> identifies the <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a> and index identifies which <a class="reference internal" href="#token-key-text-pair"><span class="std std-ref">token key-text pair</span></a> within the <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> is to be substituted.</p>
-<p id="tokens-file-s"><strong>Tokens file:</strong> See <a class="reference internal" href="Example1.html#tokens-file"><span class="std std-ref">tokens file</span></a>.</p>
+<p id="tokens-file-s"><strong>Tokens file:</strong> See <a class="reference internal" href="Usage.html#tokens-file-target"><span class="std std-ref">“Tokens file”</span></a>.</p>
 <p id="token-group"><strong>Token group:</strong>
 A token group is a collection of <a class="reference internal" href="#token-set"><span class="std std-ref">token sets</span></a> that defines a single dimension in the search space. For any model, exactly one of the tokens sets will be selected to be substituted
 into the template file.</p>

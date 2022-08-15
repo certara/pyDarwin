@@ -47,7 +47,7 @@ class Population:
     @classmethod
     def from_codes(cls, template: Template, name, codes, code_converter, start_number=0, max_number=0, max_iteration=0):
         """
-        Create a new Population from a set of codes.
+        Create a new population from a set of codes.
         """
         pop = cls(template, name, start_number, max_number or len(codes), max_iteration)
 

@@ -5,6 +5,8 @@ Example 4: PK Model, DMAG by GA with post-run R code
   
 .. _startpk4:
 
+*Note: Data used in Example 4 will be publicly available soon.*
+
 Example 4 is the first realistic model search example, with real data (courtesy of `Dr. Rob Bies <https:/pharmacy.buffalo.edu/content/pharmacy/faculty-staff/faculty-profile.html?ubit=robertbi>`_ and the 
 `CATIE study <https://www.nimh.nih.gov/funding/clinical-research/practical/catie#:~:text=The%20NIMH%2Dfunded%20Clinical%20Antipsychotic,medications%20used%20to%20treat%20schizophrenia>`_ ).
 This search again uses :ref:`nested tokens<Nested Tokens>`, as it searches whether K32 is a function of Weight, and 1 vs 2 vs 3 compartments. 

@@ -122,11 +122,11 @@ Required Files
  
  
 The same 3 files are required for any search, whether :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`,
-:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` or :ref:`GBRT<GBRT_desc>`. Which algorithm is used is defined in the 
+:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, or :ref:`GBRT<GBRT_desc>`. Which algorithm is used is defined in the 
 :ref:`options file<options_file_target>`. The template file serves as a framework and looks similar to a 
 NONMEM/NMTRAN control file. The tokens file specifies the range of "features" to be searched, and the options 
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution,
-and other options related to execution. See :ref:`Options List<Options>`.
+and other options related to execution. See :ref:`"Options List"<Options>`.
  
 .. _template_file_target:
 
@@ -138,6 +138,10 @@ control files. Typically, the structure will be quite similar to a NONMEM contro
 blocks, e.g., $PROB, $INPUT, $DATA, $SUBS, $PK, $ERROR, $THETA, $OMEGA, $SIGMA, $EST. However, this format is 
 completely flexible and entire blocks may be missing from the template file (to be provided from the 
 :ref:`tokens file<tokens_file_target>`).
+
+.. note::
+   NONMEM does not allow the data set path ($DATA) to be longer than 80 characters and the path must be in quotes 
+   if it contains spaces (see :ref:`Data Directory<Data Directory>`).
 
 The difference between a standard NONMEM control file and the template file is that the user will define code 
 segments in the template file that will be replaced by other text. These code segments are referred to as "token keys". 
@@ -344,7 +348,7 @@ Applicable files for each example are organized into folders by example name (e.
 subfolders contain reference files used during Quality Engineering Testing and can be ignored.
 
 After downloading `example files <https://github.com/certara/pyDarwin/tree/master/examples/user>`_, you may simply pass the path to one of the example
-folders to the :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function e.g.:
+folders to the :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function, e.g.:
 
 .. code:: python
     

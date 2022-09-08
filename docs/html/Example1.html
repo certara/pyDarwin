@@ -327,13 +327,12 @@ The tokens file for Example 1 is given below.</p>
             <span class="s2">&quot;  (-4,0.8,4) </span><span class="se">\t</span><span class="s2">; THETA(V2~WT) POWER volume~WT &quot;</span>
         <span class="p">]</span>
     <span class="p">],</span>
-
     <span class="s2">&quot;V2~GENDER&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="s2">&quot;&quot;</span>
         <span class="p">],</span>
-        <span class="p">[</span><span class="s2">&quot;*CWTKG**THETA(V2~GENDER)&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;  (-4,0.1,4) </span><span class="se">\t</span><span class="s2">; THETA(V2~GENDER) POWER volume ~SEX &quot;</span>
+        <span class="p">[</span><span class="s2">&quot;*EXP(GENDER*THETA(V2~GENDER))&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;  (-4,0.1,4) </span><span class="se">\t</span><span class="s2">; THETA(V2~GENDER) exponential volume~GENDER &quot;</span>
         <span class="p">]</span>
     <span class="p">],</span>
     <span class="s2">&quot;CL~WT&quot;</span><span class="p">:</span> <span class="p">[</span>

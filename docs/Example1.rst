@@ -283,13 +283,12 @@ The tokens file for Example 1 is given below.
                 "  (-4,0.8,4) \t; THETA(V2~WT) POWER volume~WT "
             ]
         ],
-
         "V2~GENDER": [
             ["",
                 ""
             ],
-            ["*CWTKG**THETA(V2~GENDER)",
-                "  (-4,0.1,4) \t; THETA(V2~GENDER) POWER volume ~SEX "
+            ["*EXP(GENDER*THETA(V2~GENDER))",
+                "  (-4,0.1,4) \t; THETA(V2~GENDER) exponential volume~GENDER "
             ]
         ],
         "CL~WT": [

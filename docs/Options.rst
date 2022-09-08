@@ -96,9 +96,9 @@ applicable given algorithm selection and execution environment e.g., GA and grid
             :ref:`"python_path" <python_path_options_desc>`: "~/darwin/venv/bin/python",
             :ref:`"submit_search_command" <submit_search_command_options_desc>`: "qsub -b y -cwd -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'",
             :ref:`"submit_command" <submit_command_options_desc>`: "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
-            :ref:`"submit_job_id_re" <submit_job_id_re_options_desc>`: "Your job (\\w+) \\(\".+?\"\\) has been submitted",
+            :ref:`"submit_job_id_re" <submit_job_id_re_options_desc>`: "Your job (\\\\w+) \\\\(\\".+?\\"\\\\) has been submitted",
             :ref:`"poll_command" <poll_command_options_desc>`: "qstat -s z",
-            :ref:`"poll_job_id_re" <poll_job_id_re_options_desc>`: "^\\s+(\\w+)",
+            :ref:`"poll_job_id_re" <poll_job_id_re_options_desc>`: "^\\\\s+(\\\\w+)",
             :ref:`"poll_interval" <poll_interval_options_desc>`: 5,
             :ref:`"delete_command" <delete_command_options_desc>`: "qdel {project_stem}-\*"
         }

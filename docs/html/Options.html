@@ -189,9 +189,9 @@ applicable given algorithm selection and execution environment e.g., GA and grid
         <a class="reference internal" href="#python-path-options-desc"><span class="std std-ref">&quot;python_path&quot;</span></a>: &quot;~/darwin/venv/bin/python&quot;,
         <a class="reference internal" href="#submit-search-command-options-desc"><span class="std std-ref">&quot;submit_search_command&quot;</span></a>: &quot;qsub -b y -cwd -o {project_dir}/out.txt -e {project_dir}/err.txt -N '{project_name}'&quot;,
         <a class="reference internal" href="#submit-command-options-desc"><span class="std std-ref">&quot;submit_command&quot;</span></a>: &quot;qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}&quot;,
-        <a class="reference internal" href="#submit-job-id-re-options-desc"><span class="std std-ref">&quot;submit_job_id_re&quot;</span></a>: &quot;Your job (\w+) \(&quot;.+?&quot;\) has been submitted&quot;,
+        <a class="reference internal" href="#submit-job-id-re-options-desc"><span class="std std-ref">&quot;submit_job_id_re&quot;</span></a>: &quot;Your job (\\w+) \\(\&quot;.+?\&quot;\\) has been submitted&quot;,
         <a class="reference internal" href="#poll-command-options-desc"><span class="std std-ref">&quot;poll_command&quot;</span></a>: &quot;qstat -s z&quot;,
-        <a class="reference internal" href="#poll-job-id-re-options-desc"><span class="std std-ref">&quot;poll_job_id_re&quot;</span></a>: &quot;^\s+(\w+)&quot;,
+        <a class="reference internal" href="#poll-job-id-re-options-desc"><span class="std std-ref">&quot;poll_job_id_re&quot;</span></a>: &quot;^\\s+(\\w+)&quot;,
         <a class="reference internal" href="#poll-interval-options-desc"><span class="std std-ref">&quot;poll_interval&quot;</span></a>: 5,
         <a class="reference internal" href="#delete-command-options-desc"><span class="std std-ref">&quot;delete_command&quot;</span></a>: &quot;qdel {project_stem}-*&quot;
     }

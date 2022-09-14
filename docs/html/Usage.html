@@ -55,7 +55,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#required-files">Required Files</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#template-file">Template File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#template-file">Template File</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#special-notes-on-structure-of-theta-omega-sigma">Special notes on structure of $THETA/$OMEGA/$SIGMA:</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#tokens-file">Tokens File</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#options-file">Options File</a></li>
 </ul>
@@ -286,18 +289,76 @@ algorithm can parse the resulting file and correctly calculate the appropriate T
 <em>must</em> be unique in the token groups. The most convenient way to ensure that the text string index is unique in the Token groups is to use the token stem as the
 THETA index (e.g., THETA(ADVAN) is the token stem is ADVAN). Additional characters (e.g., ADVANA, ADVANB) can be added if multiple THETA text indices are needed.
 Note that the permitted syntax for residual error is EPS() or ERR().</p>
-<p>Special notes on structure of $THETA/$OMEGA/$SIGMA:</p>
+<section id="special-notes-on-structure-of-theta-omega-sigma">
+<h4>Special notes on structure of $THETA/$OMEGA/$SIGMA:<a class="headerlink" href="#special-notes-on-structure-of-theta-omega-sigma" title="Permalink to this heading">¶</a></h4>
 <p>Parameter initial estimate blocks require special treatment. A template file will typically include 2 types of initial estimates:</p>
 <ol class="arabic simple">
 <li><p>Fixed initial estimates - Initial estimates that are not searched, but will be copied from the template into <strong>ALL</strong> control files. These are the typical $THETA estimates, e.g.: (0,1)  ; THETA(1) Clearance.</p></li>
 <li><p>Searched initial estimates - Initial estimates that are specified in tokens that may or may not be in any given control file, e.g., {ALAG[2]} where the text for the ALAG[2] token key is “(0,1) ;; THETA(ALAG) Absorption lag time”</p></li>
 </ol>
-<p>There are 3 restrictions for the parsing of the initial estimates blocks:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Fixed initial estimates <strong>MUST</strong> be placed before searched initial estimates</p>
+</div>
+<p>pyDarwin automatically determines the correct indices for any THETA/OMEGA/SIGMA elements that are part of the search options.
+In order to correctly number these, it first must determine the number of “fixed” (i.e., present in all models, not searched) elements for each.
+For this reason, the fixed elements of THETA/OMEGA/SIGMA must come before any searched elements in the $THETA/$OMEGA/$SIGMA blocks.
+pyDarwin counts the number of fixed initial estimates in (for example) the $THETA block, then starts numbering the searched THETAs with the next consecutive number.
+As is the case for NONMEM, the indices for fixed THETAs are determined entirely by their position in the $THETA block. That is, if the $THETA block is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$THETA
+0.1
+0.1
+0.1
+</pre></div>
+</div>
+<p>These will be THETA(1) to THETA(3) and pyDarwin will start with an index of 4.
+Errors would occur if pyDarwin simply counted the number THETA/ETA/EPS values in the $PK, $ERROR, $MIX, $AES and $DES block if, for example, fixed THETAs were used in $THETA and they did not appear in $PK.
+Therefore, the sequencing of THETA/ETA/EPS indices is based on the values and positions in the initial values blocks.
+In addition, to correctly number the elements, pyDarwin needs a little more help finding the correct indices. Specifically, comments (text after a ‘;’) in the $THETA block and THETA initial estimate tokens MUST be used.
+If this text is not present, and more than one initial estimate was used in a token set (e.g., CL=THETA(VMAX)*CONC/(THETA(KM)+CONC), pyDarwin would not know which initial estimate is to be associated with THETA(EMAX) and which with THETA(KM).</p>
+<p>Generally, it is less confusing to have a separate line for each initial estimate, with a comment for that initial estimate.
+However, multiple initial estimates can be put on a single line, with multiple ‘;’ separating the defining text (please ensure that you are following naming conventions outlined below).</p>
+<p>Specifically, there are 3 ways to define a variable name (ETA/THETA/OMEGA):</p>
 <ol class="arabic simple">
-<li><p>Fixed initial estimates <strong>MUST</strong> be placed before searched initial estimates</p></li>
-<li><p>Each parameter initial estimate must be one a separate line</p></li>
-<li><p>Text for <strong>ALL</strong> initial estimates must be in parentheses, e.g., (1), or (0,1) or (0,1,5)</p></li>
+<li><p>; NAME (any amount of spaces before and after name)</p></li>
+<li><p>; any text ETA(NAME) any text (no spaces between ETA and name or around name)</p></li>
+<li><p>; any text ETA &lt;on|ON&gt; NAME any text (exactly one space between the words)</p></li>
 </ol>
+<p>Any combination of those in one line must work:</p>
+<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span>&lt;some complex definition&gt; <span class="p">;</span> name1 <span class="p">;</span> name2 <span class="p">;</span> also ETA<span class="o">(</span>name3<span class="o">)</span> <span class="p">;</span> be aware that numbers count as well: ETA<span class="o">(</span><span class="m">4</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Here we have 4 variables (ETAs) which can be referred to as ETA 1 to 4.
+Keep in mind that every ETA(name) in the model text is replaced with ETA(&lt;number&gt;), even inside the definition block.</p>
+<p>If this is not what you want, you may define it using another notation, or add something to the comment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>D = ETA(D1)*ETA(C)*ETA(A)*ETA(D2)
+$OMEGA
+0.1 ; ETA(D1)
+0.1 ; A
+0.1 ; ETA ON C
+0.1 ; ETA(D2) D2 or ETA ON D2 or any other way that doesn&#39;t look like another definition
+</pre></div>
+</div>
+<p>Which then becomes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>D = ETA(1)*ETA(3)*ETA(2)*ETA(4)
+$OMEGA
+0.1 ; ETA(1)
+0.1 ; A
+0.1 ; ETA ON C
+0.1 ; ETA(4) D2 or ETA ON D2
+</pre></div>
+</div>
+<p>Parenthesis with (lower bound, initial value, upper bound) may also be used, as illustrated below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PK
+D = THETA(1)*THETA(3)*THETA(2)*THETA(4)
+$OMEGA
+(0,0.1,10) ; THETA(1)
+(0,0.1) ; THETA(A)
+(0.1) ; THETA(3)
+0.1 ; THETA(4)
+</pre></div>
+</div>
+</section>
 </section>
 <section id="tokens-file">
 <span id="tokens-file-target"></span><h3>Tokens File<a class="headerlink" href="#tokens-file" title="Permalink to this heading">¶</a></h3>

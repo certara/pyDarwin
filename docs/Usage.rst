@@ -224,6 +224,7 @@ THETA index (e.g., THETA(ADVAN) is the token stem is ADVAN). Additional characte
 Note that the permitted syntax for residual error is EPS() or ERR(). 
 
 Special notes on structure of $THETA/$OMEGA/$SIGMA:
+-----------------------------------------------------
 
 Parameter initial estimate blocks require special treatment. A template file will typically include 2 types of initial estimates:
 
@@ -232,14 +233,80 @@ Parameter initial estimate blocks require special treatment. A template file wil
 
 2. Searched initial estimates - Initial estimates that are specified in tokens that may or may not be in any given control file, e.g., {ALAG[2]} where the text for the ALAG[2] token key is "(0,1) ;; THETA(ALAG) Absorption lag time"
    
+.. note::
+    Fixed initial estimates **MUST** be placed before searched initial estimates
 
-There are 3 restrictions for the parsing of the initial estimates blocks:
 
-1. Fixed initial estimates **MUST** be placed before searched initial estimates
+pyDarwin automatically determines the correct indices for any THETA/OMEGA/SIGMA elements that are part of the search options.
+In order to correctly number these, it first must determine the number of “fixed” (i.e., present in all models, not searched) elements for each. 
+For this reason, the fixed elements of THETA/OMEGA/SIGMA must come before any searched elements in the $THETA/$OMEGA/$SIGMA blocks. 
+pyDarwin counts the number of fixed initial estimates in (for example) the $THETA block, then starts numbering the searched THETAs with the next consecutive number. 
+As is the case for NONMEM, the indices for fixed THETAs are determined entirely by their position in the $THETA block. That is, if the $THETA block is:
 
-2. Each parameter initial estimate must be one a separate line
-   
-3. Text for **ALL** initial estimates must be in parentheses, e.g., (1), or (0,1) or (0,1,5)
+::
+
+    $THETA
+    0.1
+    0.1
+    0.1
+
+These will be THETA(1) to THETA(3) and pyDarwin will start with an index of 4. 
+Errors would occur if pyDarwin simply counted the number THETA/ETA/EPS values in the $PK, $ERROR, $MIX, $AES and $DES block if, for example, fixed THETAs were used in $THETA and they did not appear in $PK.
+Therefore, the sequencing of THETA/ETA/EPS indices is based on the values and positions in the initial values blocks.
+In addition, to correctly number the elements, pyDarwin needs a little more help finding the correct indices. Specifically, comments (text after a ';') in the $THETA block and THETA initial estimate tokens MUST be used. 
+If this text is not present, and more than one initial estimate was used in a token set (e.g., CL=THETA(VMAX)*CONC/(THETA(KM)+CONC), pyDarwin would not know which initial estimate is to be associated with THETA(EMAX) and which with THETA(KM).
+
+Generally, it is less confusing to have a separate line for each initial estimate, with a comment for that initial estimate. 
+However, multiple initial estimates can be put on a single line, with multiple ';' separating the defining text (please ensure that you are following naming conventions outlined below).
+
+Specifically, there are 3 ways to define a variable name (ETA/THETA/OMEGA):
+
+1.	; NAME (any amount of spaces before and after name)
+2.	; any text ETA(NAME) any text (no spaces between ETA and name or around name)
+3.	; any text ETA <on|ON> NAME any text (exactly one space between the words)
+
+Any combination of those in one line must work:
+
+.. code-block:: Bash
+
+    <some complex definition> ; name1 ; name2 ; also ETA(name3) ; be aware that numbers count as well: ETA(4)
+
+Here we have 4 variables (ETAs) which can be referred to as ETA 1 to 4.
+Keep in mind that every ETA(name) in the model text is replaced with ETA(<number>), even inside the definition block. 
+
+If this is not what you want, you may define it using another notation, or add something to the comment:
+
+::
+
+    D = ETA(D1)*ETA(C)*ETA(A)*ETA(D2)
+    $OMEGA
+    0.1 ; ETA(D1)
+    0.1 ; A
+    0.1 ; ETA ON C
+    0.1 ; ETA(D2) D2 or ETA ON D2 or any other way that doesn't look like another definition
+
+Which then becomes:
+
+::
+
+    D = ETA(1)*ETA(3)*ETA(2)*ETA(4)
+    $OMEGA
+    0.1 ; ETA(1)
+    0.1 ; A
+    0.1 ; ETA ON C
+    0.1 ; ETA(4) D2 or ETA ON D2
+
+Parenthesis with (lower bound, initial value, upper bound) may also be used, as illustrated below:
+
+::
+
+    $PK
+    D = THETA(1)*THETA(3)*THETA(2)*THETA(4)
+    $OMEGA
+    (0,0.1,10) ; THETA(1)
+    (0,0.1) ; THETA(A)
+    (0.1) ; THETA(3)
+    0.1 ; THETA(4)
 
 
 .. _tokens_file_target:

@@ -123,7 +123,7 @@ def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, v
 def set_omega_bands(control: str, bandwidth: int):
     """
     Removes ALL existing omega blocks from control, then inserts a series of $OMEGAs. These will be unchanged
-    if the source is BLOCK or DIAG. Not specified BLOCK or DIAG (and so is by default DIAG), will convert
+    if the source is BLOCK or DIAG. If it is noot specified BLOCK or DIAG (and so is by default DIAG), will convert
     to BLOCK with the number of bands specified in the model code.
 
     :param control: existing control file
@@ -142,6 +142,7 @@ def set_omega_bands(control: str, bandwidth: int):
     omega_ends = []
     omega_blocks = []
     for this_start in omega_starts:
+        ## need to ignore SAME AND BLOCK BEFORE SAME!!!
         rest_of_text = lines[this_start:]
         next_block_start = [idx for idx, element in enumerate(rest_of_text[1:]) if re.search(r"^\$", element)]
         if next_block_start is None:

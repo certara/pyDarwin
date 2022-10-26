@@ -70,7 +70,7 @@ class ModelCode:
 
     def to_dict(self):
         return {
-            'IntCode': _code_to_str(self.IntCode),
+            'IntCode': _codeto_str(self.IntCode),
             'MinBinCode': _code_to_str(self.MinBinCode),
             'FullBinCode': _code_to_str(self.FullBinCode)
         }

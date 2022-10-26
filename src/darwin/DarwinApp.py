@@ -100,8 +100,8 @@ def _init_app(options_file: str, folder: str = None):
     log.message(f"Project dir: {options.project_dir}")
     log.message(f"Data dir: {options.data_dir}")
     log.message(f"Project working dir: {options.working_dir}")
-    log.message(f"Project temp dir: {options.temp_dir}")
-    log.message(f"Project output dir: {options.output_dir}")
+    log.message(f"Project temp dir (models run here): {options.temp_dir}")
+    log.message(f"Project output dir (interim and final models files and results.csv here): {options.output_dir}")
 
     GlobalVars.StartTime = time.time()
 

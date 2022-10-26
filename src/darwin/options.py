@@ -129,6 +129,14 @@ class Options:
         self.grid_adapter = opts.get('grid_adapter', 'darwin.GenericGridAdapter')
 
         try:
+            self.search_omega_bands = int(opts.get('search_omega_bands', False))
+        except ValueError:
+            self.search_omega_bands = False
+        try:
+            self.max_omega_band_width = int(opts.get('max_omega_band_width', 4))
+        except ValueError:
+            self.max_omega_band_width = 0
+        try:
             self.random_seed = int(opts.get('random_seed', 0))
         except ValueError:
             self.random_seed = 0

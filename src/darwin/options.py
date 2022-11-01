@@ -129,9 +129,10 @@ class Options:
         self.grid_adapter = opts.get('grid_adapter', 'darwin.GenericGridAdapter')
 
         try:
-            self.random_seed = int(opts.get('random_seed', 0))
+            self.random_seed = int(opts.get('random_seed', 'none'))
         except ValueError:
-            self.random_seed = 0
+            pass
+
         try:
             self.num_parallel = int(opts.get('num_parallel', 4))
         except ValueError:

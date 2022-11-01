@@ -520,7 +520,9 @@ def run_pso(model_template: Template) -> ModelRun:
         pso_options['k'] = options['population_size']
         log.message("k (neighbor_num) was > population_size, value set to population_size")
 
-    np.random.seed(options.random_seed)
+    if options.random_seed is not None:
+        np.random.seed(options.random_seed)
+
     init_pos = np.random.randint(2, size=(pop_size, num_bits))  # looks like array is pop_size x numBits?
 
     runner = _PSORunner(model_template, pop_size, dimensions=num_bits, pso_options=pso_options, darwin_options=options,

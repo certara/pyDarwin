@@ -33,6 +33,16 @@ _default_GA = {
     'crossover_operator': 'cxOnePoint'
 }
 
+_default_PSO = {
+    "elitist_num": 4,
+    "cognitive": 0.5,
+    "social": 0.5,
+    "inertia": 0.4,
+    "neighbor_num": 20,  # must check if < pop_size
+    "p_norm": 2,
+    "break_on_no_change": 5
+}
+
 
 def _get_mandatory_option(opts: dict, name, for_what=None):
     res = opts.get(name)
@@ -119,6 +129,11 @@ class Options:
         self.grid_adapter = opts.get('grid_adapter', 'darwin.GenericGridAdapter')
 
         try:
+            self.random_seed = int(opts.get('random_seed', 'none'))
+        except ValueError:
+            pass
+
+        try:
             self.num_parallel = int(opts.get('num_parallel', 4))
         except ValueError:
             self.num_parallel = 0
@@ -160,10 +175,11 @@ class Options:
 
         penalty = opts.get('penalty', {})
         ga = opts.get('GA', {})
+        pso = opts.get('PSO', {})
 
         self.penalty = _default_penalty | penalty
         self.GA = _default_GA | ga
-
+        self.PSO = _default_PSO | pso
         self.use_saved_models = opts.get('use_saved_models', False)
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
         self.saved_models_readonly = opts.get('saved_models_readonly', False)
@@ -181,7 +197,7 @@ class Options:
             self.num_generations = _get_mandatory_option(opts, 'num_generations', self.algorithm)
         if self.algorithm in ["GBRT", "RF", "GP"]:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
-        if self.algorithm in ["GA", "GBRT", "RF", "GP"]:
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
             self.downhill_period = opts.get('downhill_period', -1)
             self.final_downhill_search = opts.get('final_downhill_search', False)
             self.local_2_bit_search = opts.get('local_2_bit_search', False)

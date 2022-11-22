@@ -237,6 +237,22 @@ class Options:
             log.warn("max_omega_band_width must be at least 1, omitting omega band width search")
             self.search_omega_bands = False
 
+        if self.search_omega_bands:
+            self.search_omega_sub_matrix = opts.get('search_omega_sub_matrix', False)
+            if self.search_omega_sub_matrix:
+                self.max_omega_sub_matrix = opts.get('max_omega_sub_matrix', 4)
+
+        if self.search_omega_sub_matrix and self.max_omega_sub_matrix < 1:
+            log.warn("max_omega_sub_matrix must be at least 1, omitting max_omega_sub_matrix")
+            self.max_omega_sub_matrix = False
+
+
+
+
+
+
+
+
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):
             log.error(f"Couldn't find options file '{options_file}', exiting")

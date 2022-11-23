@@ -125,9 +125,9 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         non_influential_token_num = sum(non_influential_tokens)
 
-        if not token_found:
-            log.error("No tokens used in template, exiting")
-            raise RuntimeError("No tokens used")
+        #if not token_found: - removed, can search only for OMEGA structure, no tokens
+        #    log.error("No tokens used in template, exiting")
+        #    raise RuntimeError("No tokens used")
 
         control = match_vars(control, template.tokens, template.theta_block, phenotype, "THETA")
         control = match_vars(control, template.tokens, template.omega_block, phenotype, "ETA")

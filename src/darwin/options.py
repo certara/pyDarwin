@@ -131,7 +131,8 @@ class Options:
         try:
             self.random_seed = int(opts.get('random_seed', 'none'))
         except ValueError:
-            pass
+            self.random_seed = 0
+
 
         try:
             self.num_parallel = int(opts.get('num_parallel', 4))
@@ -241,6 +242,8 @@ class Options:
             self.search_omega_sub_matrix = opts.get('search_omega_sub_matrix', False)
             if self.search_omega_sub_matrix:
                 self.max_omega_sub_matrix = opts.get('max_omega_sub_matrix', 4)
+        else:
+            self.search_omega_sub_matrix = False
 
         if self.search_omega_sub_matrix and self.max_omega_sub_matrix < 1:
             log.warn("max_omega_sub_matrix must be at least 1, omitting max_omega_sub_matrix")

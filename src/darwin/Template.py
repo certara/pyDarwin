@@ -91,7 +91,7 @@ class Template:
             log.message(f"Including search of band OMEGA, with width up to {options.max_omega_band_width}")
             self.Omega_band_pos = len(self.gene_max) - 1
             # OMEGA submatrices??
-            if options.search_omega_bands:
+            if options.search_omega_sub_matrix:
                 log.message(f"Including search for OMEGA submatrices, with size up to {options.max_omega_sub_matrix}")
                 for i in range(options.max_omega_sub_matrix):
                     self.gene_length.append(1)

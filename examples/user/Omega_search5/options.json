@@ -1,0 +1,51 @@
+{
+    "author": "Omega Search 4, band width 1",
+    "algorithm": "GA", 
+
+    "num_parallel": 4,
+    "crash_value": 99999999,
+    "GA": {
+        "crossover_rate": 0.95,
+        "elitist_num": 4,
+        "mutation_rate": 0.95,
+        "attribute_mutation_probability": 0.1,
+        "mutate": "flipBit",
+        "niche_penalty": 20,
+        "selection": "tournament",
+        "selection_size": 2,
+        "sharing_alpha": 0.1,
+        "crossover_operator": "cxOnePoint"
+    },
+
+    "random_seed": 1,
+    "population_size": 12,
+    "num_parallel": 4,
+    "num_generations": 4,
+
+    "downhill_period": 3,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "local_2_bit_search": true,
+    "final_downhill_search": true,
+
+    "crash_value": 99999999,
+    "penalty": {
+        "theta": 10,
+        "omega": 10,
+        "sigma": 10,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "condition_number": 100,
+        "non_influential_tokens": 0.00001
+    },
+
+    "search_omega_bands": true,
+    "max_omega_band_width":  1, 
+    "search_omega_sub_matrix": true,
+    "max_omega_sub_matrix": 2,
+
+    "remove_run_dir": false,
+    "nmfe_path": "c:/nm744/util/nmfe74.bat",
+    "model_run_timeout": 1200
+}

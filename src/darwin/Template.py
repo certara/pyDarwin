@@ -1,8 +1,9 @@
+import re
 import sys
 import json
 import math
 import collections
-
+import darwin.utils
 from darwin.Log import log
 
 from darwin.options import options 
@@ -62,8 +63,34 @@ class Template:
 
         # to be initialized by adapter
         self.theta_block = self.omega_block = self.sigma_block = []
+        if self.check_for_prior():
+            log.message(f"$PRIOR found in template, PRIOR routine is not supported, exiting")
+            sys.exit()
+        if options.search_omega_bands and not self.check_for_multiple_probs():
+            log.message(f"Search Omega bands is not supported with multiple $PROBs, exiting")
+            sys.exit()
 
-        self.template_text = options.apply_aliases(self.template_text)
+    def check_for_prior(self):
+
+        all_lines = darwin.utils.remove_comments(self.template_text)
+       # all_lines = all_lines.splitlines()
+        any_prior = re.search(r"\$PRIOR", all_lines, flags=re.MULTILINE)#  re.findall("^\$THETA", all_lines
+        if any_prior is None:
+            return False
+        else:
+            return True
+
+    def check_for_multiple_probs(self):
+        # can't have multiple problems, issues with counting $OMEGA and
+        # putting all $OMEGA at end of control
+        # next version, put $OMEGAs back in original place?
+        all_lines = darwin.utils.remove_comments(self.template_text)
+        # all_lines = all_lines.splitlines()
+        prob_lines = re.findall(r"\$PROB", all_lines)  #
+        if len(prob_lines) > 1:
+            return False
+        else:
+            return True
 
     def _get_gene_length(self):
         """ argument is the token sets, returns maximum value of token sets and number of bits"""
@@ -85,7 +112,6 @@ class Template:
         if options.search_omega_bands:
             # this is the number of off diagonal bands (diagonal is NOT included)
             self.gene_max.append(options.max_omega_band_width)
-
             self.gene_length.append(math.ceil(math.log(options.max_omega_band_width + 1, 2)))
 
             log.message(f"Including search of band OMEGA, with width up to {options.max_omega_band_width}")

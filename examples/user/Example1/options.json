@@ -1,6 +1,6 @@
 {
     "author": "Mark Sale",
-    "algorithm": "PSO",
+    "algorithm": "EX",
     "exhaustive_batch_size": 100,
     "population_size": 8,
     "num_parallel": 4,

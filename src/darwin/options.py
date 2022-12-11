@@ -133,7 +133,6 @@ class Options:
         except ValueError:
             self.random_seed = 0
 
-
         try:
             self.num_parallel = int(opts.get('num_parallel', 4))
         except ValueError:

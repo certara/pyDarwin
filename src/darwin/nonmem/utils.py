@@ -141,15 +141,17 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
     :return: modified control file
     :rtype: str
     """
+    # cut out all $OMEGA block, just put all at th end
+
     control_list = control.splitlines()
-    lines = control_list  # can't remove comments remove_comments(control).splitlines()
+    lines = control_list
     omega_starts = [idx for idx, element in enumerate(lines) if re.search(r"^\$OMEGA", element)]
     omega_ends = []
     omega_blocks = []
-    not_omega_blocks = []
+    temp_final_control = list()
     not_omega_start = 0
-    num_omega_starts = len(omega_starts)
-    # in the position of the original $OMEGAs?
+    if bandwidth == 1 and omega_band_pos == [1, 1]:
+        pass
     for this_start in omega_starts:
         # if FIX (fix) do not add off diagonals
         rest_of_text = lines[this_start:]
@@ -161,130 +163,99 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
         this_omega_ends = next_block_start + this_start + 1
         omega_ends.append(this_omega_ends)
         omega_blocks.append(copy.copy(lines[this_start:this_omega_ends]))
-        not_omega_blocks.append(copy.copy(lines[not_omega_start:this_start]))
+        temp_final_control.append(copy.copy(lines[not_omega_start:this_start]))
         not_omega_start = this_omega_ends
     # and the last one
     # get next block after $OMEGA
-    # next_block_start = [idx for idx, element in enumerate(rest_of_text[1:]) if re.search(r"^\$", element)]
-    # next_block_start = next_block_start[0]
-    not_omega_blocks.append(copy.copy(lines[not_omega_start:]))
-    all_omega_blocks = []
-    num_diag_omega = []
 
-    start_num = 0  # keep track of which omega start this, do add multiple new omega block when we put control back
+    temp_final_control.append(copy.copy(lines[not_omega_start:]))
+    # and convert final_control to string, probably a better way to do this?
+    final_control = ""
+    for i in temp_final_control:
+        for n in i:
+            final_control = final_control + "\n" + n
+
     for this_start in omega_blocks:
+        temp_omega_band_pos = copy.copy(omega_band_pos)  # temp copy, to use pop
+        # what is no ; search_band? or only some with search Omega band??
         if re.search(r".*;.*search.*band", this_start[0], re.IGNORECASE) is not None:  # $OMEGA should be first line
-            this_block = copy.deepcopy(this_start)
-            this_block = remove_comments(this_block).splitlines()
-            this_block[0] = this_block[0].replace("$OMEGA", "")
+            has_search_band_omega = True
+            this_block = copy.deepcopy(this_start)  # still full text of $OMEGA block
+            this_block = remove_comments(this_block).splitlines()   # remove comments, each value
+                                                                    # in $OMEGA needs to be new line
+            this_block = this_block[1:] # first line must be only $OMEGA + comments
             # remove any blank lines
             this_block[:] = [x for x in this_block if x]
             # and collect the values, to be used on diagonal
             this_block = ' '.join([str(elem) for elem in this_block]).replace("\n", "") \
                 .replace("  ", " ").replace("  ", " ").strip()
-            this_block = this_block.split(" ")
+            this_block = this_block.split(" ")  # should be numbers only at this point
             this_block = np.array(this_block, dtype=np.float32)  # this_block.split(" ")
-            # round to 6 digits (? is this enough digits, ever a need for > 6?)
-            this_block = np.around(this_block, decimals=6, out=None)
-        num_diag_omega.append(this_block)  # numerical diagonal omegas
-    # if using omega_sub_matrices, split omega_blocks here
-    if omega_band_pos[0] > -99:
-        omega_blocks_in_start = np.zeros(num_omega_starts,
-                                         dtype=int)  # after we divide up the omega matrices (how many go
-        new_omega_blocks = []
-        for old_diag_block in num_diag_omega:
-            temp_omega_band_pos = copy.copy(omega_band_pos)
-            divided_omega_blocks = []  # numerical diagonal blocks
-            while len(old_diag_block) > 0:
-                current_omega_block = [old_diag_block[0]]
-                old_diag_block = old_diag_block[1:]
-                omega_blocks_in_start[start_num] += 1
-                # current_omega_block = old_diag_block.pop()
-                include_next = temp_omega_band_pos.pop(0)
-                while include_next & (
-                        len(old_diag_block) > 0):  # & (next_diag_element < (len(old_diag_block)) - 1):  # append to current block
-                    #omega_blocks_in_start[start_num] += 1
-                    # next_diag_element += 1
+            # round to 6 digits (? is this enough digits, ever a need for > 6?, cannot round to 0, that is error)
+            this_block = np.around(this_block, decimals=7, out=None) # just the diagonal
+            old_diag_block = this_block
+            while len(old_diag_block) > 0:  # any left?
+                current_omega_block = [old_diag_block[0]]  # start with first
+                old_diag_block = old_diag_block[1:]      # save the remaining lines
+                omega_size = 1  # how big  is current $OMEGA?
+
+                if len(temp_omega_band_pos) > 0 and temp_omega_band_pos[0] != -99:
+                    include_next = temp_omega_band_pos.pop(0)  # is next record in omega block to be continuous?
+                else:
+                    include_next = 0  # reached max block size
+
+                while include_next & (len(old_diag_block) > 0):  # & (next_diag_element < (len(old_diag_block)) - 1):  # append to current block
                     current_omega_block.append(old_diag_block[0])
                     old_diag_block = old_diag_block[1:]
+                    omega_size += 1
                     if len(temp_omega_band_pos) > 0:
                         include_next = temp_omega_band_pos.pop(0)
                     else:
                         include_next = False
-                        break
-                # num_blocks += 1
-                # this_rec = 0  # new block, start over in omega_band_pos
-                temp_omega_band_pos = copy.copy(omega_band_pos)  # reset
-                divided_omega_blocks.append(current_omega_block)
-                # next_diag_element -= 1
-                #    current_omega_block = []
-            start_num += 1
-            for this_mat in divided_omega_blocks:
-                new_omega_blocks.append(this_mat)
-    else:
-        new_omega_blocks = num_diag_omega
-        omega_blocks_in_start = np.ones(len(omega_blocks), dtype=int)  # just one per block
-    # for each value in omega_band_pos, if 0 then separate from next, if 1, include next one.
-    for this_start in new_omega_blocks:
-        size = len(this_start)
-        # get max value, for first guess at diagonals
-        # build matrix, check if positive definite
-        is_pos_def = False
-        count = 0
-        matrix = []
-        # note that initial assumption of off-diagonals is 0, we do want them to be small, will randomly pick number
-        # between + and + largest number that makes it pos definite
-        init_off_diags = np.ones([size, size])
-        is_pos_def = False
-        factor = 1.0
-        while not is_pos_def and count < 51:
-            factor *= 0.5
-            for this_row in range(size):
-                row_diag = math.sqrt(this_start[this_row])
-                init_off_diags[this_row, this_row] = this_start[this_row]
-                for this_col in range(this_row):
-                    col_diag = math.sqrt(this_start[this_col])
-                    # for off diagonals, pick a random number between +/- val
-                    val = factor * row_diag * col_diag
-                    val = random.uniform(-val, val)
-                    # minimum abs value of 0.0000001
-                    val = np.size(val) * (max(abs(val), 0.0000001))  # keep sign, but abs(val) >=0.0000001
-                    # give nmtran error
-                    init_off_diags[this_row, this_col] = init_off_diags[this_col, this_row] = val
-            is_pos_def = np.all(np.linalg.eigvals(init_off_diags) > 0)  # works if matrix is symmetrical
-            count += 1
-            if count > 50:
-                log.error(f"Cannot find positive definite Omega matrix, consider not using search_omega")
 
-        for this_row in range(size):
-            for this_col in range(this_row + 1):
-                # get how far from diagonal
-                band = abs(this_row - this_col)
-                if band > bandwidth:
-                    init_off_diags[this_row, this_col] = init_off_diags[this_col, this_row] = 0
-        all_omega_blocks.append(init_off_diags)
-    new_control = ""
-    cur_new_omega_block = 0
-    # reassemble control file
-    for num in range(num_omega_starts):
-        for this_line in not_omega_blocks[num]:
-            new_control += (this_line.strip() + "\n")
-        #cur_row = 1  # only want lower triangle + diagonal
-        #cur_overall_block = 0
-        for this_new_block in range(omega_blocks_in_start[num]):
-            new_control += ("$OMEGA BLOCK(" + str(int(math.sqrt(all_omega_blocks[cur_new_omega_block].size))) +
-                            ") ;; omega band width = " +
-                            str(bandwidth) + ", omega continuation = " + str(omega_band_pos) + "\n ")
-            cur_row = 1
-            for this_line in all_omega_blocks[cur_new_omega_block]:
-                this_row = ""
-                for this_eta in np.asarray(this_line)[0:cur_row]:
-                    this_row += (str(this_eta) + " ")
-                new_control += (this_row + "\n")
-                cur_row += 1
-            cur_new_omega_block += 1
+                # diagonals for $OMEGA done, add bands to current_omega_block
+                num_bands = 0
+                init_off_diags = current_omega_block  # will overwrite late if band is used
+                if bandwidth > 0 and any(omega_band_pos) and omega_band_pos[0] != -99:
+                    init_off_diags = np.ones([omega_size, omega_size])
+                    is_pos_def = False
+                    factor = 1.0
+                    count = 0
+                    while not is_pos_def and count < 51:
+                        factor *= 0.5
+                        for this_row in range(omega_size):
+                            row_diag = math.sqrt(current_omega_block[this_row])
+                            init_off_diags[this_row, this_row] = current_omega_block[this_row]
 
-        for this_line in not_omega_blocks[num + 1]:
-            new_control += this_line
-            new_control += "\n"
-    return new_control
+                            for this_col in range(this_row):
+                                col_diag = math.sqrt(current_omega_block[this_col])
+                                # for off diagonals, pick a random number between +/- val
+                                val = factor * row_diag * col_diag
+                                val = random.uniform(-val, val)
+                                # minimum abs value of 0.0000001, 0.0 will give error in NONMEM
+                                val = np.size(val) * (max(abs(val), 0.0000001))  # keep sign, but abs(val) >=0.0000001
+                                # give nmtran error
+                                init_off_diags[this_row, this_col] = \
+                                    init_off_diags[this_col, this_row] = val
+                        is_pos_def = np.all(np.linalg.eigvals(init_off_diags) > 0)  # works if matrix is symmetrical
+                        count += 1
+                        if count > 50:
+                            log.error(f"Cannot find positive definite Omega matrix, consider not using search_omega")
+
+                # and add $OMEGA to start
+                if omega_size == 1 or num_bands == 0:
+                    final_control = final_control + "\n" + "$OMEGA  ;; block omega searched for bands" + "\n"
+                else:
+                    final_control = final_control + "\n" + "$OMEGA BLOCK(" + str(omega_size) + \
+                                    ") ;; block omega searched for bands" + "\n"
+
+                this_rec = 0
+                for i in init_off_diags:
+                    if isinstance(i, (float, np.float32, np.float64)):  # a float, not a np.array
+                        final_control = final_control + str(round(i, 7)) + " \n"
+                    else:
+                        final_control = final_control + " ".join(map(str, np.around(i[:(this_rec+1)], 7).tolist())) + " \n"
+                    this_rec += 1
+        else:
+            final_control = final_control + "\n" + '\n'.join(str(x) for x in this_start)
+    return final_control

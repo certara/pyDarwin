@@ -250,8 +250,8 @@ class _PSORunner(DiscreteSwarmOptimizer):
             )
             # downhill??
             have_downhill_results = False
-            if self.darwin_options['downhill_period'] > 0:
-                if (this_iter > 0) & (this_iter % self.darwin_options['downhill_period'] == 0):
+            if self.darwin_options.downhill_period > 0:
+                if (this_iter > 0) & (this_iter % self.darwin_options.downhill_period == 0):
                     have_downhill_results = True
                     log.message("Starting downhill for iteration " + str(this_iter))
                     self.population.name = this_iter

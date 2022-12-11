@@ -28,7 +28,6 @@ class _GARunner:
         self.elitist_num = elitist_num
         self.population = None
         self.num_generations = num_generations
-
         self.toolbox = DeapToolbox(template)
 
         # create an initial population of pop_size individuals (where
@@ -101,10 +100,10 @@ def run_ga(model_template: Template) -> ModelRun:
     :type model_template: Template
     :return: The single best model from the search
     :rtype: Model
-    """    
-    downhill_period = options.downhill_period
+    """
     pop_size = options.population_size
     elitist_num = options.GA['elitist_num']
+    downhill_period = options.downhill_period
 
     runner = _GARunner(model_template, pop_size, elitist_num, options.num_generations)
 

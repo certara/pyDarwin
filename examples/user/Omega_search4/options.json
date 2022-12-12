@@ -5,7 +5,10 @@
 
     "num_parallel": 4,
     "crash_value": 99999999,
-
+	
+    "working_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search4\\working",
+    "temp_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search4\\rundir",
+    "output_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search4\\output",
     "penalty": {
         "theta": 10,
         "omega": 10,

@@ -2,6 +2,9 @@
     "author": "Omega Search 4, band width 1",
     "algorithm": "GA", 
 
+    "working_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search5\\working",
+    "temp_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search5\\rundir",
+    "output_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search5\\output",
     "num_parallel": 4,
     "crash_value": 99999999,
     "GA": {

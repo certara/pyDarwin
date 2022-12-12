@@ -35,7 +35,6 @@ $THETA  ;; must be one THETA per line.
 $OMEGA   ;; search band
   0.6  	 ; ETA(1) K23
   0.5  	; ETA(2) K32
-
   0.4   ; ETA(3) CLEARANCE
   0.3  	; ETA(4) VOLUME
 {KAETA[2]}   

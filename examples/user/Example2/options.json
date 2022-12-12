@@ -1,10 +1,23 @@
 {
     "author": "Certara",
-    "algorithm": "GP",
+    "algorithm": "PSO",
     "num_opt_chains": 2,
 
+    "PSO": {
+        "cognitive": 0.5,
+        "social": 0.5,
+        "inertia": 0.3,
+        "neighbor_num": 20,
+        "break_on_no_change": 5,
+        "elitist_num": 4,
+        "p_norm": 2
+    }, 
+
+    "working_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example1\\working",
+    "temp_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example1\\rundir",
+    "output_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example1\\output",
     "random_seed": 11,
-    "population_size": 10,
+    "population_size": 20,
     "num_parallel": 4,
     "num_generations": 7,
 

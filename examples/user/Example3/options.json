@@ -1,11 +1,28 @@
 {
     "author": "Certara",
 
-    "algorithm": "EX",
+    "algorithm": "PSO",
     "exhaustive_batch_size": 100,
-
+ 
+    "PSO": {
+        "cognitive": 0.5,
+        "social": 0.5,
+        "inertia": 0.3,
+        "neighbor_num": 20,
+        "break_on_no_change": 5,
+        "elitist_num": 4,
+        "p_norm": 2
+    },
+    "working_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example3\\working",
+    "temp_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example3\\rundir",
+    "output_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example3\\output",
+    "random_seed": 11,
+    "population_size": 20,
     "num_parallel": 4,
-
+    "num_generations": 7,
+ 
+    "local_2_bit_search": false,
+    "final_downhill_search": true,
     "crash_value": 99999999999,
 
     "penalty": {

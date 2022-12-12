@@ -1,6 +1,6 @@
 {
     "author": "Certara",
-    "algorithm":"GP",
+    "algorithm":"GA",
     "num_opt_chains": 4,
 
     "random_seed": 11,
@@ -16,6 +16,13 @@
 
     "crash_value": 99999999,
 
+    "working_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example5\\working",
+    "temp_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example5\\rundir",
+    "output_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example5\\output",
+    "search_omega_bands": true,
+    "max_omega_band_width":  3, 
+    "search_omega_sub_matrix": true,
+    "max_omega_sub_matrix": 3,
     "penalty": {
         "theta": 10,
         "omega": 10,

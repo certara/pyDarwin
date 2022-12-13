@@ -18,9 +18,6 @@
     "num_parallel": 4,
     "crash_value": 99999999,
 
-    "working_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Example1_with_search\\working",
-    "temp_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Example1_with_search\\rundir",
-    "output_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Example1_with_search\\output",
     "penalty": {
         "theta": 10,
         "omega": 10,

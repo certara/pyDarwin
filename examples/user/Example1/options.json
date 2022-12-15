@@ -1,38 +1,8 @@
 {
     "author": "Certara",
     "algorithm": "EX",
-    "PSO": {
-        "elitist_num": 2,
-        "cognitive": 0.5,
-        "social": 0.5,
-        "inertia": 0.5,
-        "neighbor_num": 6,
-        "p_norm": 2
-    },
-    "GA": {
-        "crossover_rate": 0.95,
-        "elitist_num": 2,
-        "mutation_rate": 0.95,
-        "attribute_mutation_probability": 0.1,
-        "mutate": "flipBit",
-        "niche_penalty": 20,
-        "selection": "tournament",
-        "selection_size": 2,
-        "sharing_alpha": 0.1,
-        "crossover_operator": "cxOnePoint"
-    },
-
-    "working_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example1\\working",
-    "temp_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example1\\rundir",
-    "output_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\example1\\output",
-    "downhill_period": 1,
-    "num_niches": 2,
-    "niche_radius": 2,
-    "local_2_bit_search": true,
-    "final_downhill_search": true,
     "exhaustive_batch_size": 100,
-    "population_size":6,
-    "num_generations": 5,
+    "population_size": 8,
     "num_parallel": 4,
     "crash_value": 99999999,
 

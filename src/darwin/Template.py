@@ -63,6 +63,7 @@ class Template:
 
         # to be initialized by adapter
         self.theta_block = self.omega_block = self.sigma_block = []
+        self.template_text = options.apply_aliases(self.template_text)
         if self.check_for_prior():
             log.message(f"$PRIOR found in template, PRIOR routine is not supported, exiting")
             sys.exit()

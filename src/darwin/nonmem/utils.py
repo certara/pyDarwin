@@ -251,7 +251,7 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
                     final_control = final_control + "\n" + "$OMEGA  ;; block omega searched for bands\n"
                 else:
                     final_control = final_control + "\n" + "$OMEGA BLOCK(" + str(omega_size) + \
-                                    ") ;; block omega searched for bands, omegasize = " + str(omega_size) + "\n"
+                                    ") ;; block omega searched for bands\n"
 
                 this_rec = 0
                 for i in init_off_diags:

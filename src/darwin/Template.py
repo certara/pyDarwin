@@ -70,6 +70,7 @@ class Template:
             log.message(f"Search Omega bands is not supported with multiple $PROBs, exiting")
             sys.exit()
 
+        self.template_text = options.apply_aliases(self.template_text)
     def check_for_prior(self):
 
         all_lines = darwin.utils.remove_comments(self.template_text)

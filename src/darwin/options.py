@@ -131,7 +131,7 @@ class Options:
         try:
             self.random_seed = int(opts.get('random_seed', 'none'))
         except ValueError:
-            self.random_seed = 0
+            pass
 
         try:
             self.num_parallel = int(opts.get('num_parallel', 4))
@@ -247,12 +247,6 @@ class Options:
         if self.search_omega_sub_matrix and self.max_omega_sub_matrix < 1:
             log.warn("max_omega_sub_matrix must be at least 1, omitting max_omega_sub_matrix")
             self.max_omega_sub_matrix = False
-
-
-
-
-
-
 
 
     def initialize(self, options_file, folder=None):

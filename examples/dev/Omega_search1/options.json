@@ -1,0 +1,31 @@
+{
+    "author": "test band omega 2",
+    "algorithm": "EXHAUSTIVE",
+    "exhaustive_batch_size": 500,
+
+    "working_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search1\\working",
+    "temp_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search1\\rundir",
+    "output_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search1\\output",
+    "num_parallel": 4,
+    "crash_value": 99999999,
+    "use_saved_models": false,
+    "penalty": {
+        "theta": 10,
+        "omega": 10,
+        "sigma": 10,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "condition_number": 100,
+        "non_influential_tokens": 0.00001
+    },
+
+    "search_omega_bands": true,
+    "max_omega_band_width":  1, 
+    "search_omega_sub_matrix": true,
+    "max_omega_sub_matrix": 2,
+
+    "remove_run_dir": false,
+    "nmfe_path": "c:/nm744/util/nmfe74.bat",
+    "model_run_timeout": 1200
+}

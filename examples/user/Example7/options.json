@@ -1,8 +1,20 @@
 {
     "author": "Certara",
     "algorithm": "EX",
+    
+    "search_omega_bands": true,
+    "max_omega_band_width":  3, 
+    "search_omega_sub_matrix": true,
+    "max_omega_sub_matrix": 3,
+
+    "downhill_period": 1,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "local_2_bit_search": true,
+    "final_downhill_search": true,
     "exhaustive_batch_size": 100,
-    "population_size": 8,
+    "population_size":6,
+    "num_generations": 5,
     "num_parallel": 4,
     "crash_value": 99999999,
 

@@ -33,6 +33,11 @@ def run_exhaustive(model_template: Template) -> ModelRun:
     if options.search_omega_bands:
         num_groups.append(list(range(options.max_omega_band_width + 1)))
 
+    # need to add another group if searching on omega submatrices
+    if options.search_omega_sub_matrix:
+        for i in range(options.max_omega_sub_matrix):
+            num_groups.append([0, 1])
+
     codes = np.array(np.meshgrid(*num_groups)).T.reshape(-1, len(num_groups))
 
     # convert to regular list

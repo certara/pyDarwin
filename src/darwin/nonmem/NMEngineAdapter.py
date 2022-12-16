@@ -3,6 +3,7 @@ import os
 import re
 import glob
 import xmltodict
+import copy
 
 from collections import OrderedDict
 
@@ -124,10 +125,6 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         non_influential_token_num = sum(non_influential_tokens)
 
-        if not token_found:
-            log.error("No tokens used in template, exiting")
-            raise RuntimeError("No tokens used")
-
         control = match_vars(control, template.tokens, template.theta_block, phenotype, "THETA")
         control = match_vars(control, template.tokens, template.omega_block, phenotype, "ETA")
         control = match_vars(control, template.tokens, template.sigma_block, phenotype, "EPS")
@@ -144,9 +141,14 @@ class NMEngineAdapter(ModelEngineAdapter):
         # add band OMEGA
         if options.search_omega_bands:
             # bandwidth must be last gene
-            bandwidth = model_code.IntCode[-1]
-
-            control = set_omega_bands(control, bandwidth)
+            bandwidth = model_code.IntCode[template.Omega_band_pos]
+            if options.search_omega_sub_matrix:
+                submatrices = model_code.IntCode[(template.Omega_band_pos+1):]
+            else:
+                submatrices = [-99]
+            control = set_omega_bands(control, bandwidth, submatrices)  # need to know where the band
+                                                                                  # width is specified, rest is
+                                                                                  # omega submatrices
 
         return phenotype, control, non_influential_token_num
 
@@ -167,7 +169,6 @@ class NMEngineAdapter(ModelEngineAdapter):
                     log.error(f"Cannot remove folder {run_dir} in call to cleanup")
             else:
                 file_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
-
                 file_to_delete.pop(f'{file_stem}.mod', None)
                 file_to_delete.pop(f'{file_stem}.lst', None)
                 file_to_delete.pop(f'{file_stem}.xml', None)

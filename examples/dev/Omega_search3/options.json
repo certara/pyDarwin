@@ -1,0 +1,31 @@
+{
+    "author": "OMEGA SEARCH, EXAMPLE 3 - search only 1/2 $OMEGA - only omega, no tokens",
+    "algorithm": "EXHAUSTIVE",
+    "exhaustive_batch_size": 300,
+
+    "num_parallel": 4,
+    "crash_value": 99999999,
+
+    "working_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search3\\working",
+    "temp_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search3\\rundir",
+    "output_dir": "U:\\GitHub\\pyDarwin\\examples\\user\\Omega_search3\\output",
+    "penalty": {
+        "theta": 10,
+        "omega": 10,
+        "sigma": 10,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "condition_number": 100,
+        "non_influential_tokens": 0.00001
+    },
+
+    "search_omega_bands": true,
+    "max_omega_band_width":  1, 
+    "search_omega_sub_matrix": true,
+    "max_omega_sub_matrix": 2,
+
+    "remove_run_dir": false,
+    "nmfe_path": "c:/nm744/util/nmfe74.bat",
+    "model_run_timeout": 1200
+}

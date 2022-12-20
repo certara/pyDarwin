@@ -1,6 +1,6 @@
 import sys
 import os
-from os.path import exists
+from os.path import isfile
 
 import json
 import shlex
@@ -223,12 +223,12 @@ class ModelRun:
         if options.use_r:
             rscript_path = options.rscript_path
 
-            if not os.path.isfile(rscript_path):
+            if not isfile(rscript_path):
                 raise RuntimeError(f"RScript path doesn't exist: {rscript_path}")
 
             log.message(f"RScript found at {rscript_path}")
 
-            if not exists(options.post_run_r_code):
+            if not isfile(options.post_run_r_code):
                 raise RuntimeError(f"Post Run R code path '{options.post_run_r_code}' seems to be missing")
 
             log.message(f"Post Run R code found at {options.post_run_r_code}")
@@ -238,7 +238,7 @@ class ModelRun:
         if options.use_python:
             python_post_process_path = options.python_post_process_path
 
-            if not os.path.isfile(python_post_process_path):
+            if not isfile(python_post_process_path):
                 raise RuntimeError(f"Post Run Python code path '{python_post_process_path}' seems to be missing")
             else:
                 log.message(f"Post Run Python code found at {python_post_process_path}")
@@ -255,7 +255,7 @@ class ModelRun:
         log.message("Checking files in " + os.getcwd())
 
         try:
-            if not exists(self.control_file_name):
+            if not isfile(self.control_file_name):
                 raise RuntimeError("Cannot find " + self.control_file_name + " to check for data file")
 
             try:
@@ -266,7 +266,7 @@ class ModelRun:
             this_data_set = 1
 
             for this_file in data_files_path:
-                if not exists(this_file):
+                if not isfile(this_file):
                     raise RuntimeError(f"Data set # {this_data_set} seems to be missing: {this_file}")
                 else:
                     log.message(f"Data set # {this_data_set} was found: {this_file}")

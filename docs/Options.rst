@@ -429,6 +429,7 @@ Here is the list of all available options. Note that many of the options have de
 * | **working_dir** - *string*: The project's working directory, where all the necessary files and folders are created. Also, it's a default location of output and temp folders.
   | By default, it is set to ':mono_ref:`\<pyDarwin home\><pydarwin_home>`/:mono_ref:`{project_stem} <project_stem_alias>`'.
   | Aliased as :mono_ref:`{working_dir}<working_dir_alias>`.
+  | Available aliases are: :mono_ref:`{project_dir}<project_dir_alias>`.
 
 .. _data_dir_options_desc:
 

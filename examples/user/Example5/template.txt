@@ -1,7 +1,7 @@
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT {D1LAG[1]} DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
 
-$DATA      {data_dir}/dmag_with_period.csv IGNORE=@
+$DATA      {data_dir}/dataWithPeriod.csv IGNORE=@
            
 $SUBROUTINE {ADVAN[1]} 
 $PK      

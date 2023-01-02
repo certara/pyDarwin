@@ -3,7 +3,6 @@ import os
 import re
 import glob
 import xmltodict
-import copy
 
 from collections import OrderedDict
 
@@ -146,9 +145,9 @@ class NMEngineAdapter(ModelEngineAdapter):
                 submatrices = model_code.IntCode[(template.Omega_band_pos+1):]
             else:
                 submatrices = [-99]
-            control = set_omega_bands(control, bandwidth, submatrices)  # need to know where the band
-                                                                                  # width is specified, rest is
-                                                                                  # omega submatrices
+
+            # need to know where the band width is specified, rest is omega submatrices
+            control = set_omega_bands(control, bandwidth, submatrices)
 
         return phenotype, control, non_influential_token_num
 

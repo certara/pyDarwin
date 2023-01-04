@@ -38,13 +38,13 @@ At the start, this model will be far from the "true" optimal model. Starting wit
 This process is repeated until the current best predicted model no longer improves. This approach (start with a random representation of the search space, run a few models, 
 then train the representation) has been adapted to other traditionally supervised methods including Bayesian optimization (Gaussian process - GP), 
 Random Forest (RF) and gradient boosted random trees (GBRT). These three hybrid algorithms (:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` , :ref:`GBRT<GBRT_desc>`) have been included in ``pyDarwin``'s
-algorithm options along with the more traditional Genetic Algorithm (:ref:`GA<GA_desc>`) and exhaustive search (:ref:`EX<EX_desc>`). 
+algorithm options along with the more traditional Genetic Algorithm (:ref:`GA<GA_desc>`), (:ref:`PSO<PSO_desc>`) and exhaustive search (:ref:`EX<EX_desc>`).
 
 Traditional PK/PD model selection uses the "downhill method", starting usually at a trivial model, then adding
 "features" (compartments, lag times, nonlinear elimination, covariate effects), and accepting the new model if it is better ("downhill"), based on some user-defined, and somewhat informal criteria. 
 Typically, this user-defined criteria will include a lower -2LL plus usually a penalty for added parameters plus some other criteria that the user may feel is important. The downhill method is easily the 
 most efficient method (fewest evaluations of the reward/fitness to reach the convergence) but is highly prone to local minima. However, downhill does play a role in a very efficient 
-local search, in combination with a global search algorithm (e.g., :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` , :ref:`GBRT<GBRT_desc>`). 
+local search, in combination with a global search algorithm (e.g., :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` , :ref:`GBRT<GBRT_desc>`, :ref:`PSO<PSO_desc>`).
 
 Central to understanding the model selection process (with manual or machine learning), is the concept of the search space. The search space is an n-dimensional 
 space where each dimension represents a set of mutually exclusive options. That is, there likely will be a dimension for "number of compartments", with possible 
@@ -89,7 +89,7 @@ The overall process is shown in Figure 1 below:
 
  .. figure:: MLSelection.png
 
-The same 3 files are required for any search, whether :ref:`EX<EX_desc>` , :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` or :ref:`GBRT<GBRT_desc>`. 
+The same 3 files are required for any search, whether :ref:`EX<EX_desc>` , :ref:`GA<GA_desc>` , :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`, or :ref:`PSO<PSO_desc>`.
 These files are described in :ref:`"Required Files". <startRequiredFiles>`
 
 .. _The Algorithms:
@@ -173,9 +173,43 @@ Gradient Boosted Random Tree
 `Gradient Boosted Random Tree <https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad>`_ 
 is similar to Random Forest, but may increase the precision of the tree building by progressively building the tree and calculating a gradient of the reward/fitness with respect to each decision. 
 
-  
+.. _PSO_desc:
+
+Particle Swarm Optimization (PSO)
+==================================
+
+Particle swarm optimization (PSO [#f4]_) is another approach to optimization that, like Genetic Algorithm,
+attempts to reproduce a natural optimization process. In the case of PSO, the natural process is the
+swarm behavior of birds and fish, although the specifics of the relationship to bird and fish behavior
+is largely speculation. Each particle (candidate NONMEM model in this case) moves through the search
+space, as one might imagine individuals in a school of fish or a flock of birds moving together,
+but also each bird/fish moving somewhat independently.
+
+The velocity of each particle's movement is based on two factors:
+
+#. Random movement
+#. Coordinated movement.
+
+The coordinated movement is in turn, defined by the following parameters in the :ref:`Options List<Options>`:
+
+* :ref:`inertia<inertia_options_desc>` (:math:`\\w`): the particle tends to continue moving in the same direction as the previous velocity
+* :ref:`cognitive<cognitive_options_desc>` (:math:`c_1`): the particle tends to move in the direction toward its own best known position
+* :ref:`social<social_options_desc>` (:math:`c_2`): the particle tends to move in the direction toward the current best known position among all particles
+
+Other parameters for PSO include: :ref:`population_size <population_size_options_desc>`, :ref:`neighbor_number <neighbor_num_options_desc>`,
+:ref:`p_norm <p_norm_options_desc>`, and :ref:`break_on_no_change <break_on_no_change_options_desc>`.
+
+As with other optimization algorithms, the downhill step may also be implemented.
+The topology defines the region of the swarm whereby individual particles (models in this case) exchange information and thereby act in coordination.
+The "star" topology is the only implementation currently available in pyDarwin. The star topology permits particles (model) to coordinate with a set of nearest neighbors in a
+sort of star shape, up to the number of neighbors specified in :ref:`neighbor_number <neighbor_num_options_desc>`.
+
+
 .. [#f1] Wade JR, Beal SL, Sambol NC. 1994  Interaction between structural, statistical, and covariate models in population pharmacokinetic analysis. J Pharmacokinet Biopharm. 22(2):165-77 
  
 .. [#f2] PAGE 30 (2022) Abstr 10091 [https://www.page-meeting.org/?abstract=10091]
 
 .. [#f3] PAGE 30 (2022) Abstr 10053 [https://www.page-meeting.org/default.asp?abstract=10053]
+
+.. [#f4] J Kennedy and R.C. Eberhart. 1995  Particle Swarm Optimization. Proceedings of the IEEE International Joint Conference on Neural Networks, 4:1942-1948
+

@@ -1,36 +1,35 @@
 {
-    "author": "Mark Sale",
-    "algorithm": "EXHAUSTIVE",
-    "exhaustive_batch_size": 100,
-
-    "num_parallel": 4,
-    "crash_value": 99999999,
-
-    "penalty": {
-        "theta": 10,
-        "omega": 10,
-        "sigma": 10,
-        "convergence": 100,
-        "covariance": 100,
-        "correlation": 100,
-        "condition_number": 100,
-        "non_influential_tokens": 0.00001
-    },
-
-    "nmfe_path": "/opt/nm751/util/nmfe75",
-    "model_run_timeout": 1200,
-
-    "model_run_man": "darwin.GridRunManager",
-
-    "remove_run_dir": true,
-
-    "generic_grid_adapter": {
-            "submit_search_command": "qsub -b y -cwd -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_name}'",
-            "python_path": "/home/ppolozov/darwin/venv/bin/python",
-            "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
-            "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
-            "poll_command": "qstat -s z",
-            "poll_job_id_re": "^\\s+(\\w+)",
-            "delete_command": "qdel {project_stem}-*"
-    }
+  "author": "Certara",
+  "algorithm": "EXHAUSTIVE",
+  "exhaustive_batch_size": 500,
+  "num_parallel": 4,
+  "crash_value": 99999999,
+  "random_seed": 11,
+  "penalty": {
+    "theta": 10,
+    "omega": 10,
+    "sigma": 10,
+    "convergence": 100,
+    "covariance": 100,
+    "correlation": 100,
+    "condition_number": 100,
+    "non_influential_tokens": 0.00001
+  },
+  "search_omega_bands": true,
+  "max_omega_band_width": 1,
+  "search_omega_sub_matrix": true,
+  "max_omega_sub_matrix": 2,
+  "nmfe_path": "/opt/nm751/util/nmfe75",
+  "model_run_timeout": 1200,
+  "model_run_man": "darwin.GridRunManager",
+  "remove_run_dir": false,
+  "generic_grid_adapter": {
+    "submit_search_command": "qsub -b y -cwd -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_name}'",
+    "python_path": "~/darwin/venv/bin/python",
+    "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name} -v R_LIBS=~/Rlibs",
+    "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
+    "poll_command": "qstat -s z",
+    "poll_job_id_re": "^\\s+(\\w+)",
+    "delete_command": "qdel {project_stem}-*"
+  }
 }

@@ -19,7 +19,8 @@ Welcome to pyDarwin's documentation
    Example3 
    Example4
    Example5
-   Example6 
+   Example6
+   Example8
    API 
    Glossary
    Troubleshooting

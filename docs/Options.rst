@@ -32,6 +32,15 @@ applicable given algorithm selection and execution environment e.g., GA and grid
             :ref:`"niche_penalty" <niche_penalty_options_desc>`: 20
         },
 
+        :ref:`"PSO" <PSO_options_desc>`: {
+            :ref:`"inertia" <inertia_options_desc>`: 0.4,
+            :ref:`"cognitive" <cognitive_options_desc>`: 0.5,
+            :ref:`"social" <social_options_desc>`: 0.5,
+            :ref:`"neighbor_num" <neighbor_num_options_desc>`: 20,
+            :ref:`"p_norm" <p_norm_options_desc>`: 2,
+            :ref:`"break_on_no_change" <break_on_no_change_options_desc>`: 5
+        },
+
         :ref:`"random_seed" <random_seed_options_desc>`: 11,
         :ref:`"num_parallel" <num_parallel_options_desc>`: 4,
         :ref:`"num_generations" <num_generations_options_desc>`: 6,
@@ -184,6 +193,42 @@ Here is the list of all available options. Note that many of the options have de
         penalty is to maintain diversity of models, to avoid premature convergence of the search by penalizing when models are too 
         similar to other models in the current generation.
       | *Default*: 20
+
+.. _PSO_options_desc:
+
+* **PSO** - *JSON*: Options specific to PSO. Ignored for all other algorithms.
+
+.. _inertia_options_desc:
+
+    * | **inertia** - *real*: Particle coordination movement as it relates to the previous velocity. Commonly denoted as :math:`\\w`.
+      | *Default*: 0.4
+
+.. _cognitive_options_desc:
+
+    * | **cognitive** - *real*: Particle coordination movement as it relates to it's own best known position. Commonly denoted as :math:`c_1`.
+      | *Default*: 0.5
+
+.. _social_options_desc:
+
+    * | **social** - *real*: Particle coordination movement as it relates to current best known position across all particles. Commonly denoted as :math:`c_2`.
+      | *Default*: 0.5
+
+.. _neighbor_num_options_desc:
+
+    * | **neighbor_num** - *positive int*: Number of neighbors that any particle interacts with to determine the social component of the velocity of the next step.
+      | Smaller number of neighbors results in  a more thorough search (as the neighborhoods tend to move more independently, allowing the swarm to cover a larger
+      | section of the total search space) but will converge more slowly.
+      | *Default*: 20
+
+.. _p_norm_options_desc:
+
+    * | **p_norm** - *positive int*: Minkowski p-norm to use. A Value of 1 is the sum-of-absolute values (or L1 distance) while 2 is the Euclidean (or L2) distance.
+      | *Default*: 2
+
+.. _break_on_no_change_options_desc:
+
+    * | **break_on_no_change** - *positive int*: Number of iterations used to determine whether the optimization has converged.
+      | *Default*: 5
 
 .. _random_seed_options_desc:
 
@@ -429,6 +474,7 @@ Here is the list of all available options. Note that many of the options have de
 * | **working_dir** - *string*: The project's working directory, where all the necessary files and folders are created. Also, it's a default location of output and temp folders.
   | By default, it is set to ':mono_ref:`\<pyDarwin home\><pydarwin_home>`/:mono_ref:`{project_stem} <project_stem_alias>`'.
   | Aliased as :mono_ref:`{working_dir}<working_dir_alias>`.
+  | Available aliases are: :mono_ref:`{project_dir}<project_dir_alias>`.
 
 .. _data_dir_options_desc:
 

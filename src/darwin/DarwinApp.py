@@ -190,4 +190,10 @@ class DarwinApp:
 
         log.message(f"Search end time = {time.asctime()}")
 
+        try:
+            os.remove(os.path.join(options.working_dir, "InterimControlFile.mod"))
+            os.remove(os.path.join(options.working_dir, "InterimResultFile.lst"))
+        except OSError:
+            pass
+
         return final

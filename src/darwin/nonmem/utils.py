@@ -179,8 +179,8 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
         if re.search(r".*;.*search.*band", this_start[0], re.IGNORECASE) is not None:  # $OMEGA should be first line
             temp_omega_band_pos = copy.deepcopy(omega_band_pos)  # temp copy, to use pop, start over each new block
             this_block = copy.deepcopy(this_start)  # still full text of $OMEGA block
-            this_block = remove_comments(this_block).splitlines()   # remove comments, each value
-                                                                    # in $OMEGA needs to be new line
+            # remove comments, each value in $OMEGA needs to be new line
+            this_block = remove_comments(this_block).splitlines()
             this_block = this_block[1:]  # first line must be only $OMEGA + comments
             # remove any blank lines
             this_block[:] = [x for x in this_block if x]
@@ -190,7 +190,7 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
             this_block = this_block.split(" ")  # should be numbers only at this point
             this_block = np.array(this_block, dtype=np.float32)  # this_block.split(" ")
             # round to 6 digits (? is this enough digits, ever a need for > 6?, cannot round to 0, that is error)
-            this_block = np.around(this_block, decimals=7, out=None) # just the diagonal
+            this_block = np.around(this_block, decimals=7, out=None)  # just the diagonal
             old_diag_block = this_block
             while len(old_diag_block) > 0:  # any left?
                 current_omega_block = [old_diag_block[0]]  # start with first
@@ -204,7 +204,8 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
                     temp_omega_band_pos = temp_omega_band_pos[1:]
                 else:
                     temp_omega_band_pos = []
-                while include_next & (len(old_diag_block) > 0):  # & (next_diag_element < (len(old_diag_block)) - 1):  # append to current block
+
+                while include_next & (len(old_diag_block) > 0):
                     current_omega_block.append(old_diag_block[0])
                     old_diag_block = old_diag_block[1:]
                     omega_size += 1
@@ -263,4 +264,5 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
                     this_rec += 1
         else:
             final_control = final_control + "\n" + '\n'.join(str(x) for x in this_start)
+
     return final_control

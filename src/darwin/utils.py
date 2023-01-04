@@ -86,11 +86,11 @@ def get_token_parts(token):
     return match.group(1), int(match.group(2))
 
 
-def remove_comments(code: str, comment_mark=';') -> str:
+def remove_comments(code, comment_mark=';') -> str:
     """ Remove any comments from the *code*
 
     :param code: Input code
-    :type code: str
+    :type code: str or list
     :param comment_mark: Mark of the beginning of a comment in the line
     :return: Code with comments removed
     :rtype: str

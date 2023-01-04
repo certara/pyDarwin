@@ -130,7 +130,7 @@ class Options:
         try:
             self.random_seed = int(opts.get('random_seed', 'none'))
         except ValueError:
-            self.random_seed = 0
+            pass
 
         try:
             self.num_parallel = int(opts.get('num_parallel', 4))
@@ -150,7 +150,8 @@ class Options:
         darwin_home = os.environ.get('PYDARWIN_HOME') or os.path.join(pathlib.Path.home(), 'pydarwin')
 
         self.project_dir = str(folder or options_file_parent)
-        self.working_dir = str(opts.get('working_dir') or os.path.join(darwin_home, self.project_stem))
+        self.working_dir = utils.apply_aliases(opts.get('working_dir'), {'project_dir': self.project_dir})\
+            or os.path.join(darwin_home, self.project_stem)
 
         project_dir_alias = {'project_dir': self.project_dir, 'working_dir': self.working_dir}
 
@@ -246,13 +247,6 @@ class Options:
         if self.search_omega_sub_matrix and self.max_omega_sub_matrix < 1:
             log.warn("max_omega_sub_matrix must be at least 1, omitting max_omega_sub_matrix")
             self.max_omega_sub_matrix = False
-
-
-
-
-
-
-
 
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):

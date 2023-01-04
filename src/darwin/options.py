@@ -34,7 +34,6 @@ _default_GA = {
 }
 
 _default_PSO = {
-    "elitist_num": 4,
     "cognitive": 0.5,
     "social": 0.5,
     "inertia": 0.4,

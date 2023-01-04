@@ -205,12 +205,13 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
                 else:
                     temp_omega_band_pos = []
 
-                while include_next & (len(old_diag_block) > 0):
+                while include_next and (len(old_diag_block) > 0):
                     current_omega_block.append(old_diag_block[0])
                     old_diag_block = old_diag_block[1:]
                     omega_size += 1
                     if len(temp_omega_band_pos) > 0:
-                        include_next = temp_omega_band_pos.pop(0)
+                        include_next = temp_omega_band_pos[0]
+                        temp_omega_band_pos = temp_omega_band_pos[1:]
                     else:
                         include_next = False
 

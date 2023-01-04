@@ -3,6 +3,7 @@ import os
 import re
 import glob
 import xmltodict
+import numpy as np
 
 from collections import OrderedDict
 
@@ -144,10 +145,10 @@ class NMEngineAdapter(ModelEngineAdapter):
             if options.search_omega_sub_matrix:
                 submatrices = model_code.IntCode[(template.Omega_band_pos+1):]
             else:
-                submatrices = [-99]
-
-            # need to know where the band width is specified, rest is omega submatrices
-            control = set_omega_bands(control, bandwidth, submatrices)
+                submatrices = np.ones(10)  # if no search, max is permitted, then unlimited size of omega matrices
+            control = set_omega_bands(control, bandwidth, submatrices)  # need to know where the band
+                                                                                  # width is specified, rest is
+                                                                                  # omega submatrices
 
         return phenotype, control, non_influential_token_num
 

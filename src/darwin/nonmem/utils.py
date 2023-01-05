@@ -122,7 +122,7 @@ def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, v
     return var_matches
 
 
-def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
+def set_omega_bands(control: str, bandwidth: int, omega_band_pos, seed: int):
     """
     Removes ALL existing omega blocks from control, then inserts a series of $OMEGAs. These will be unchanged
     if the source is BLOCK or DIAG. If it is not specified BLOCK or DIAG (and so is by default DIAG), will convert
@@ -137,6 +137,9 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
 
     :param omega_band_pos: require array of 0|1 whether to continue the omega block into the next one
     :type omega_band_pos: ndarray
+
+    :param seed: random seed for generating off diagonal elements
+    :type seed: int
 
     :return: modified control file
     :rtype: str
@@ -224,6 +227,7 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
                     count = 0
                     while not is_pos_def and count < 51:
                         factor *= 0.5
+                        np.random.seed(seed)  # same random numbers each time, for all models and each loop looking PD
                         for this_row in range(omega_size):
                             row_diag = math.sqrt(current_omega_block[this_row])
                             init_off_diags[this_row, this_row] = current_omega_block[this_row]
@@ -246,7 +250,8 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos):
                         is_pos_def = np.all(np.linalg.eigvals(init_off_diags) > 0)  # matrix must be symmetrical
                         count += 1
                         if count > 50:
-                            log.error(f"Cannot find positive definite Omega matrix, consider not using search_omega")
+                            log.error(f"Cannot find positive definite Omega matrix, consider not using search_omega \
+                            or increasing diagonal element initial estimates")
 
                 # and add $OMEGA to start
                 if omega_size == 1 or bandwidth == 0:

@@ -146,7 +146,12 @@ class NMEngineAdapter(ModelEngineAdapter):
                 submatrices = model_code.IntCode[(template.Omega_band_pos+1):]
             else:
                 submatrices = np.ones(10)  # if no search, max is permitted, then unlimited size of omega matrices
-            control = set_omega_bands(control, bandwidth, submatrices)  # need to know where the band
+            if hasattr(options, 'random_seed'):
+                seed = options.random_seed
+            else:
+                seed = 1
+
+            control = set_omega_bands(control, bandwidth, submatrices, seed)  # need to know where the band
                                                                                   # width is specified, rest is
                                                                                   # omega submatrices
 

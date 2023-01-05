@@ -37,7 +37,9 @@ def run_exhaustive(model_template: Template) -> ModelRun:
     if options.search_omega_sub_matrix:
         for i in range(options.max_omega_sub_matrix):
             num_groups.append([0, 1])
-
+    if not(num_groups):
+        log.message("Nothing to search in exhaustive search - exiting")
+        exit("Nothing to search in exhaustive search")
     codes = np.array(np.meshgrid(*num_groups)).T.reshape(-1, len(num_groups))
 
     # convert to regular list

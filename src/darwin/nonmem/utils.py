@@ -236,7 +236,7 @@ def set_omega_bands(control: str, bandwidth: int, omega_band_pos, seed: int):
                                 col_diag = math.sqrt(current_omega_block[this_col])
                                 # for off diagonals, pick a random number between +/- val
                                 val = factor * row_diag * col_diag
-                                val = random.uniform(-val, val)
+                                val = np.random.uniform(-val, val)
                                 # minimum abs value of 0.0000001, 0.0 will give error in NONMEM
                                 val = np.size(val) * (max(abs(val), 0.0000001))  # keep sign, but abs(val) >=0.0000001
                                 # give nmtran error

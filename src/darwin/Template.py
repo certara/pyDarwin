@@ -147,8 +147,12 @@ class Template:
             if fix_omega_check[0]:
                 log.message(f"{fix_omega_check[1]} OMEGA STRUCTURE IS NOT COMPATIBLE WITH OMEGA search, Turning off OMEGA search ")
                 options.search_omega_bands = False
+                options.search_omega_sub_matrix = False
                 return
-
+            if options.search_omega_bands is False and options.search_omega_sub_matrix is True:
+                log.message(
+                    f"Cannot do omega sub matrix search without omega band search Turning off omega submatrix search ")
+                options.search_omega_sub_matrix = False
             # this is the number of off diagonal bands (diagonal is NOT included)
             self.gene_max.append(options.max_omega_band_width)
             self.gene_length.append(math.ceil(math.log(options.max_omega_band_width + 1, 2)))

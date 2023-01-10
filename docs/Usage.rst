@@ -558,7 +558,7 @@ For the source OMEGA matrix of:
 
 ::
 
-    $OMEGA
+    $OMEGA ;; search band
     0.1
     0.1
     0.1
@@ -586,8 +586,8 @@ And with the additional sub matrix search used, this search would also include, 
     0.1
     p 0.1
     $OMEGA BLOCK(2)
-    p 0.1
-    0 p  0.1
+    0.1
+    p  0.1
 
 Resulting in one fewer variance parameters to be estimated (covariance of ETA(2) and ETA(3)).
 

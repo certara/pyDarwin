@@ -1,10 +1,10 @@
+:orphan:
+
+.. _startpk5:
 
 ##################################
 Example 5: PK Model, DMAG by GP
 ##################################
-  
-
-.. _startpk5:
 
 *Note: Data used in Example 5 will be publicly available soon.*
 

@@ -1,9 +1,10 @@
+:orphan:
+
+.. _startpk4:
 
 #####################################################
 Example 4: PK Model, DMAG by GA with post-run R code
 #####################################################
-  
-.. _startpk4:
 
 *Note: Data used in Example 4 will be publicly available soon.*
 

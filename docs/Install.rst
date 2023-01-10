@@ -66,6 +66,8 @@ command line, type:
 
    .venv/Scripts/activate
 
+.. _install_pyDarwin:
+
 Both the development version and released version of ``pyDarwin`` are available to install via ``pip`` from Certara's managed PyPi repository. 
 
 .. tabs::

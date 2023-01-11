@@ -41,10 +41,10 @@ applicable given algorithm selection and execution environment e.g., GA and grid
             :ref:`"break_on_no_change" <break_on_no_change_options_desc>`: 5
         },
 
-        :ref:`"search_omega_bands" <search_omega_bands_options_desc>`: true,
-        :ref:`"max_omega_band_width" <max_omega_band_width_options_desc>`: 1,
-        :ref:`"search_omega_sub_matrix" <search_omega_sub_matrix_options_desc>`: true,
-        :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`: 2,
+        :ref:`"search_omega_bands" <search_omega_bands_options_desc>`: false,
+        :ref:`"max_omega_band_width" <max_omega_band_width_options_desc>`: 0,
+        :ref:`"search_omega_sub_matrix" <search_omega_sub_matrix_options_desc>`: false,
+        :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`: 4,
 
         :ref:`"random_seed" <random_seed_options_desc>`: 11,
         :ref:`"num_parallel" <num_parallel_options_desc>`: 4,
@@ -238,18 +238,22 @@ Here is the list of all available options. Note that many of the options have de
 .. _search_omega_bands_options_desc:
 
 * | **search_omega_bands** - *boolean*: Set to `true` to search omega bands.
+  | *Default*: false
 
 .. _max_omega_band_width_options_desc:
 
 * | **max_omega_band_width** - *positive int*: Maximum size of omega band to use in search.
+  | *Default*: 0
 
 .. _search_omega_sub_matrix_options_desc:
 
 * | **search_omega_sub_matrix** - *boolean*: Set to `true` to search omega sub matrix.
+  | *Default*: false
 
 .. _max_omega_sub_matrix_options_desc:
 
 * | **max_omega_sub_matrix** - *positive int*: Maximum size of sub matrix to use in search.
+  | *Default*: 4
 
 .. _random_seed_options_desc:
 

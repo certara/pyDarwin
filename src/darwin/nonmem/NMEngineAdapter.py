@@ -284,9 +284,10 @@ class NMEngineAdapter(ModelEngineAdapter):
                     success = True
 
             # IS COVARIANCE REQUESTED:
-            if 'nm:covariance_status' in last_estimation:
-                if last_estimation['nm:covariance_status']['@nm:error'] == '0':
-                    covariance = True
+            if 'nm:covariance_status' in last_estimation\
+                    and last_estimation['nm:covariance_status']['@nm:error'] == '0':
+
+                covariance = True
 
                 corr_data = last_estimation.get('nm:correlation', {}).get('nm:row', [])
                 num_rows = len(corr_data)

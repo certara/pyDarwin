@@ -1,10 +1,10 @@
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DROP DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
 
-$DATA      /home/CertaraUser/Desktop/FDA-OGD-ML/examples/user/Example4/dataWithPeriod.csv IGNORE=@
+$DATA      /home/CertaraUser/examples/user/Example4/dataWithPeriod.csv IGNORE=@
 
-$SUBROUTINE ADVAN4 ;; advan4
-$PK
+$SUBROUTINE ADVAN4 ;; advan4 
+$PK      
   CWTKGONE = WT/81  ;; WEIGHT CENTERED ON ONE
   CWTKGZERO = WT-81 ;; WEIGHT CENTERED ON ZERO
   CAGE = AGE/60     ;; AGE CENTERED ON ONE
@@ -12,35 +12,35 @@ $PK
   CCOV1 = COV1-15.4 ;; COVARIATE 1 CENTERED ON ZERO
   IF(OCC.EQ.1) IOVV = ETA(8) 
   IF(OCC.EQ.2) IOVV = ETA(9) 
-  IF(OCC.EQ.3) IOVV = ETA(10)
+  IF(OCC.EQ.3) IOVV = ETA(10)  
   TVV2=THETA(1)      *EXP(IOVV)
-  V2=TVV2*EXP(ETA(2))
+  V2=TVV2*EXP(ETA(2))   
   IF(OCC.EQ.1) IOVCL = ETA(5) 
   IF(OCC.EQ.2) IOVCL = ETA(6) 
   IF(OCC.EQ.3) IOVCL = ETA(7)
   TVCL= THETA(3)     *EXP(IOVCL)
-  CL=TVCL*EXP(ETA(1))
+  CL=TVCL*EXP(ETA(1)) 
 
-  K=CL/V2
+  K=CL/V2      
   K23=THETA(4)
-  K32=THETA(5)
+  K32=THETA(5)  
   ALAG1=THETA(6)*EXP(ETA(4))
-  ;; No D1
-  TVKA=THETA(2)
-  KA=TVKA  *EXP(ETA(3)) 
-  S2 = V2
-$ERROR
-  REP = IREP
-  IPRED =F
+  ;; No D1    
+  TVKA=THETA(2) 
+  KA=TVKA  *EXP(ETA(3))     
+  S2 = V2 
+$ERROR     	
+  REP = IREP      
+  IPRED =F  
   IOBS = F *EXP(EPS(1))+EPS(2)
   Y=IOBS
-$THETA
+$THETA      
   (0.001,100) 	; THETA(1) V  UNITS = L
-  (0.001, 10) 	; THETA(2) KA UNITS = 1/HR
+  (0.001, 10) 	; THETA(2) KA UNITS = 1/HR    
   (0.001,20)	; THETA(3) CL UNITS =  L/HR
   (0.001,0.02)  	 ; THETA(4) K23 
   (0.001,0.3) 	 ; THETA(5) K32 
-  ; init for K23~WT 
+  ; init for K23~WT    
 
 
 
@@ -50,13 +50,13 @@ $THETA
 
 
   (0.001,0.1) 	; THETA(6) ALAG1   
-$OMEGA
-  0.1  		; ETA(1) CLEARANCE
-  0.4  		; ETA(2) VOLUME
+$OMEGA    
+  0.1  		; ETA(1) CLEARANCE 
+  0.4  		; ETA(2) VOLUME  
 $OMEGA ;; 2nd OMEGA block 
-  0.1		; ETA(3) ETA ON KA
+  0.1		; ETA(3) ETA ON KA  
 $OMEGA ;; 3rd OMEGA block 
-  0.1 		;; ETA(4) ETA ON ALAG1
+  0.1 		;; ETA(4) ETA ON ALAG1 
 $OMEGA BLOCK(1) ; ETA(5)
   0.1 
 $OMEGA BLOCK SAME ; ETA(6)
@@ -65,7 +65,7 @@ $OMEGA BLOCK(1) ; ETA(8)
   0.1 
 $OMEGA BLOCK SAME ; ETA(9)
 $OMEGA BLOCK SAME ; ETA(10)
-$SIGMA
+$SIGMA   
   0.1 	; EPS(1) proportional error
   100 	; EPS(2) additive error
 
@@ -77,9 +77,9 @@ $TABLE REP ID TIME DV EVID NOPRINT FILE = ORG.DAT ONEHEADER NOAPPEND
 $PROB SIMULATION FOR CMAX
 
 $INPUT       ID TIME AMT DROP DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
-$DATA      /home/CertaraUser/Desktop/FDA-OGD-ML/examples/user/Example4/dataWithPeriod.csv IGNORE=@  REWIND
+$DATA      /home/CertaraUser/examples/user/Example4/dataWithPeriod.csv IGNORE=@  REWIND
 $MSFI = MSF1
-$SIMULATION (1) ONLYSIM
+$SIMULATION (1) ONLYSIM  
 $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
 
 ;; Phenotype 

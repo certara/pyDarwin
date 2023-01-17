@@ -3,28 +3,28 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to pyDarwin's documentation
+|ReleaseVersion|
 ====================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: About:
 
-   Install 
    Overview
+   Algorithms
+   Support
+
+.. toctree::
+   :caption: User Guide:
+
+   Install
    Usage
+   Examples
    Options
-   Example1 
-   Example2
-   Example3 
-   Example4
-   Example5
-   Example6
-   Example8
-   API 
+   API
    Glossary
    Troubleshooting
-   Support 
+
 
 Indices and tables
 ==================
@@ -32,6 +32,6 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
- 
+
  
  

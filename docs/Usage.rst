@@ -31,6 +31,8 @@ To execute, call the ``darwin.run_search`` function and provide the paths to the
 
 See :ref:`"Required Files" <startRequiredFiles>` for additional details.
 
+.. _usage_run_search_in_folder:
+
 Alternatively, you may execute the :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function, 
 specifying the path to the folder containing the ``template.txt``, ``tokens.json``, and ``options.json`` files
 as a single argument:
@@ -401,32 +403,214 @@ See :ref:`"Options List"<Options>` for details.
 
 .. _examples_target:
 
-********************
-Examples
-********************
 
-We have published 6 examples of the above files, which provide a good starting place to explore different algorithms and 
-post-processing features in ``pyDarwin``. Example files can be found inside the `GitHub Repository <https://github.com/certara/pyDarwin/tree/master/examples/user>`_ 
-at ``pyDarwin/examples/user/``. 
+**************************
+Searching Omega Structure
+**************************
 
-*Note: Data used in Examples 4-6 will be publicly available soon.*
+In addition to specifying relations inside the :ref:`template file<template_file_target>` and :ref:`tokens file<tokens_file_target>` to define
+the search space, you may also search for different structures of the omega matrix given fields specified in :ref:`options.json <Options>`:
 
-Applicable files for each example are organized into folders by example name (e.g., ``Example1``, ``Example2``, etc.). The `linux` and `windows`
-subfolders contain reference files used during Quality Engineering Testing and can be ignored.
+Users may additionally search:
 
-After downloading `example files <https://github.com/certara/pyDarwin/tree/master/examples/user>`_, you may simply pass the path to one of the example
-folders to the :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function, e.g.:
+* Omega Bands
 
-.. code:: python
-    
-    python -m darwin.run_search_in_folder C:/Workspace/Example1
+    * :ref:`"search_omega_bands"<search_omega_bands_options_desc>`
 
+    * :ref:`"max_omega_band_width" <max_omega_band_width_options_desc>`
+
+*  Omega Submatrices
+
+    * :ref:`"search_omega_sub_matrix"<search_omega_sub_matrix_options_desc>`
+
+    * :ref:`"max_omega_sub_matrix"<max_omega_sub_matrix_options_desc>`
 
 .. note::
-   Ensure that the ``"nmfe_path"`` field  in ``/Example1/options.json`` points to valid location in your file system.
-   This change should be made across all ``options.json`` files in example folders, including other example-specific
-   changes such as ``"rscript_path"`` used in ``/Example4/options.json``.
-   
+    OMEGA structure alone can be searched without any tokens for compartments, covariates, etc.
+    If searching Omega submatrices, options for Omega band search should be additionally specified.
+
+Omega Band Search
+=========================
+
+Omega band search will take a diagonal OMEGA matrix and search for band OMEGA matrices.
+
+Band Omegas will be searched if:
+
+#.  The text “; search band” appears on the $OMEGA record in the :ref:`template file<template_file_target>`.
+
+#.  The following fields have been included in the :ref:`options file<options_file_target>`.
+
+    * :ref:`"search_omega_bands" <search_omega_bands_options_desc>`: true
+
+    * :ref:`"max_omega_band_width" <max_omega_band_width_options_desc>`: N
+
+    Where N is an positive integer.
+
+.. warning::
+    The $OMEGA must appear on a separate line, e.g,. `$OMEGA 0.1 0.1 0.1 ; search band`
+    is not permitted.
+
+
+For example, if the Omega matrix specified in the template file is:
+
+::
+
+    $OMEGA ; search band
+    0.1
+    0.1
+    0.1
+    0.1
+
+With `"search_omega_bands":true` and `"max_omega_band_width": 3` specified in the options file, the search space will consist
+of candidate models with the following Omega structures:
+
+* Width = 0
+
+::
+
+    $OMEGA BLOCK(4)
+    0.1
+    0 0.1
+    0 0 0.1
+    0 0 0 0.1
+
+* Width = 1
+
+::
+
+    $OMEGA BLOCK(4)
+    0.1
+    p 0.1
+    0 p 0.1
+    0 0 p  0.1
+
+* Width = 2
+
+::
+
+    $OMEGA BLOCK(4)
+    0.1
+    p 0.1
+    p p 0.1
+    0 p p  0.1
+
+* Width = 3
+
+::
+
+    $OMEGA BLOCK(4)
+    0.1
+    p 0.1
+    p p 0.1
+    p p p  0.1
+
+The actual value used for the off diagonal elements (p in example) are randomly chosen from a uniform distributions
+between -p and +p where p is a value less than the maximum value that results in a positive definite matrix.
+p will have a minimum value of 0.000001 to ensure it does not have a value of 0. Each value of p in the matrix will
+be different.
+
+.. note::
+    Use :ref:`"random_seed"<random_seed_options_desc>` to ensure values of off diagonal elements are the same across
+    subsequent searches.
+
+.. warning::
+    If the user defines the OMEGA structure (e.g., DIAG, BLOCK, SAME) with `;; search band` included, this
+    will override the search option and the block will be used. The OMEGA block is assumed to be variance/covariance,
+    CORRELATON  and CHOLESKY are not supported.
+
+Note that each OMEGA in the template file can be set to searched or not searched, for example:
+
+::
+
+    $OMEGA      ;; search band
+      0.6       ; ETA(1) K23
+      0.5       ; ETA(2) K32
+    $OMEGA
+      0.4       ; ETA(3) CLEARANCE
+      0.3       ; ETA(4) VOLUME
+      0.2       ; ETA(5) KA
+
+In this case the first $OMEGA block will be searched and the second will not.
+
+.. note::
+    Comments can appear in the $OMEGA block but each row of the matrix must be on its own line.
+
+
+.. warning::
+    Do not combine multiple OMEGA blocks in the template if some are BLOCK|DIAG|SAME|FIX and
+    others are to be searched.
+
+Omega Submatrices Search
+=========================
+
+OMEGA submatrices permit a wider range of OMEGA structure, and, importantly, the option to estimate fewer off diagonal elements of OMEGA.
+In addition to the options specified above for Omega band search, 2 additional options should be included in the :ref:`options file<options_file_target>`.
+
+The following fields are required to search for OMEGA submatrices:
+
+    * :ref:`"search_omega_sub_matrix" <search_omega_sub_matrix_options_desc>`: true
+
+    * :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`: N
+
+Where N is the maximum size of an OMEGA submatrix, them submatrices will be searched. OMEGA submatrices are intended to be use with OMEGA band search to further expand the options for OMEGA structure. Specifically,
+
+For the source OMEGA matrix of:
+
+::
+
+    $OMEGA ;; search band
+    0.1
+    0.1
+    0.1
+    0.1
+
+If band matrix search is used, for an OMEGA band width of 1, the OMEGA matrix would be:
+
+* Width = 1
+
+::
+
+    $OMEGA BLOCK(4)
+    0.1
+    p 0.1
+    0 p 0.1
+    0 0 p  0.1
+
+And with the additional sub matrix search used, this search would also include, for submatrices value of [1,0,1]:
+
+* Width = 1
+
+::
+
+    $OMEGA BLOCK(2)
+    0.1
+    p 0.1
+    $OMEGA BLOCK(2)
+    0.1
+    p  0.1
+
+Resulting in one fewer variance parameters to be estimated (covariance of ETA(2) and ETA(3)).
+
+In pyDarwin, this is converted to a bit string describing whether the next OMEGA row will be include with the current OMEGA row. In the above example,
+the bit string [1,0,1], the 1 in the first position, indicates that the 2nd row will be combined with the first into , but then a new OMEGA block will be created for
+the 3rd row (indicted by the 0 in the 2nd position). The 4th row will be combined into an OMEGA block with the 3rd, indicated by the 1 in the 3rd position.
+The user need only provide the maximum permitted submatrix size in the options file  e.g., :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`.
+
+For example, for submatrices values of [1,0,0]:
+
+* Width = 1
+
+::
+
+    $OMEGA BLOCK(2)
+    0.1
+    p 0.1
+    $OMEGA BLOCK(1)
+    0.1
+    $OMEGA BLOCK(1)
+    0.1
+
+As the 3rd row of OMEGA will not be continued into the 4th, despite the band width of 1, defining smaller submatrices will result in removing the covariance between ETA(3) and ETA(4).
 
 ********************
 pyDarwin Outputs

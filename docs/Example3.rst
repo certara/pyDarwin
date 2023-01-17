@@ -1,3 +1,6 @@
+:orphan:
+
+.. _startpk3:
 
 ################################
 Example 3: PK Model, ODE model

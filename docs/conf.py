@@ -23,7 +23,7 @@ copyright = '2022, Mark Sale'
 author = 'Mark Sale'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0'
+release = '1.1.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -65,3 +65,9 @@ html_theme_options = {
 html_static_path = ['_static']
 
 html_css_files = ['css/custom.css']
+
+rst_epilog = """
+.. |ReleaseVersion| replace:: pyDarwin {versionnum}
+""".format(
+versionnum = release,
+)

@@ -1,6 +1,6 @@
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
-$DATA      /home/CertaraUser/Desktop/FDA-OGD-ML/examples/user/Example1/dataExample1.csv IGNORE=@
+$DATA      /home/CertaraUser/examples/user/Example1/dataExample1.csv IGNORE=@
 
 $SUBROUTINE ADVAN2
 $ABBR DERIV2=NO

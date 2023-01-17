@@ -17,7 +17,7 @@ $PROBLEM ORAL BOLUS WITH PLASMA AND URINE OBSERVATIONS
   ; ====================================================================================================          
 
 $INPUT       ID TIME AMT CMT DROP DV DVID EVID MDV 
-$DATA      /home/CertaraUser/Desktop/FDA-OGD-ML/examples/user/Example3/OralBolus_PlasmaUrine_ResetCpt4.csv IGNORE=@
+$DATA      /home/CertaraUser/examples/user/Example3/OralBolus_PlasmaUrine_ResetCpt4.csv IGNORE=@
 
 
   ; ====================================================================================================

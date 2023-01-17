@@ -1,7 +1,7 @@
 
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE RATE
-$DATA      /home/CertaraUser/Desktop/FDA-OGD-ML/examples/user/Example2/datalarge.csv IGNORE=@
+$DATA      /home/CertaraUser/examples/user/Example2/datalarge.csv IGNORE=@
 
 $SUBROUTINE ADVAN4 ;; advan4 ;; ADVAN2, ADVAN4, ADVAN12
 $PK      

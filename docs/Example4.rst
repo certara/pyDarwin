@@ -6,10 +6,8 @@
 Example 4: PK Model, DMAG by GA with post-run R code
 #####################################################
 
-*Note: Data used in Example 4 will be publicly available soon.*
-
-Example 4 is the first realistic model search example, with real data (courtesy of `Dr. Rob Bies <https:/pharmacy.buffalo.edu/content/pharmacy/faculty-staff/faculty-profile.html?ubit=robertbi>`_ and the 
-`CATIE study <https://www.nimh.nih.gov/funding/clinical-research/practical/catie#:~:text=The%20NIMH%2Dfunded%20Clinical%20Antipsychotic,medications%20used%20to%20treat%20schizophrenia>`_ ).
+Example 4 uses a dataset simulated from the following `CATIE study <https://www.nimh.nih.gov/funding/clinical-research/practical/catie#:~:text=The%20NIMH%2Dfunded%20Clinical%20Antipsychotic,medications%20used%20to%20treat%20schizophrenia>`_ ,
+courtesy of `Dr. Rob Bies <https:/pharmacy.buffalo.edu/content/pharmacy/faculty-staff/faculty-profile.html?ubit=robertbi>`_ .
 This search again uses :ref:`nested tokens<Nested Tokens>`, as it searches whether K32 is a function of Weight, and 1 vs 2 vs 3 compartments. 
 Another important feature of example 4 is the use of post run R code. In this case, it was of interest to capture the Cmax value. There is no straightforward way to include a penalty for 
 missing the Cmax 
@@ -24,7 +22,7 @@ that are used to generate a table of the PPC: an estimation, followed by a simul
     $PROB SIMULATION FOR CMAX
 
     $INPUT       ID TIME AMT {D1LAG[1]} DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
-    $DATA      {data_dir}/dmag_with_period.csv IGNORE=@  REWIND
+    $DATA      {data_dir}/dataWithPeriod.csv IGNORE=@  REWIND
     $MSFI = MSF1
     $SIMULATION (1) ONLYSIM  
     $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
@@ -83,7 +81,7 @@ The Template file
     $PROBLEM    2 compartment fitting
     $INPUT       ID TIME AMT {D1LAG[1]} DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
 
-    $DATA      {data_dir}/dmag_with_period.csv IGNORE=@
+    $DATA      {data_dir}/dataWithPeriod.csv IGNORE=@
             
     $SUBROUTINE {ADVAN[1]} 
     $PK      
@@ -142,7 +140,7 @@ The Template file
     $PROB SIMULATION FOR CMAX
 
     $INPUT       ID TIME AMT {D1LAG[1]} DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
-    $DATA      {data_dir}/dmag_with_period.csv IGNORE=@  REWIND
+    $DATA      {data_dir}/dataWithPeriod.csv IGNORE=@  REWIND
     $MSFI = MSF1
     $SIMULATION (1) ONLYSIM  
     $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
@@ -541,8 +539,8 @@ Initialization output should look like:
 	[05:47:21] Post Run R code found at c:\fda\pyDarwin\examples\user\Example4\Cmaxppc.r
 	[05:47:21] Not using Post Run Python code
 	[05:47:21] Checking files in u:\pyDarwin\example4\rundir\00\01
-	[05:47:21] Data set # 1 was found: c:\fda\pyDarwin\examples\user\Example4/dmag_with_period.csv
-	[05:47:21] Data set # 2 was found: c:\fda\pyDarwin\examples\user\Example4/dmag_with_period.csv
+	[05:47:21] Data set # 1 was found: c:\fda\pyDarwin\examples\user\Example4/dataWithPeriod.csv
+	[05:47:21] Data set # 2 was found: c:\fda\pyDarwin\examples\user\Example4/dataWithPeriod.csv
 
 
 After a few seconds, the NONMEM execution should begin, with output like:

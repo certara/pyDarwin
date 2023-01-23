@@ -35,7 +35,7 @@ Briefly, GA presents the search space as a bit string, with each "gene" being a 
 residual error, the integer codes would be:
 
 #. Additive error (e.g., +EPS(1))
-#. Additive + proportional error (e.g., EXP(EPS(1))+EPS(s))
+#. Additive + proportional error (e.g., EXP(EPS(1))+EPS(2))
 
 It is straightforward enough to code these values [1,2] into a binary [0,1]. For dimensions with more than 2 values, more than 1 bit will be needed. For example, if 1 or 2 or 3 compartments are searched, the 
 string representation might be:
@@ -62,7 +62,7 @@ Gaussian Process
 *******************
 
 Gaussian Process is one of the two options used in `Bayesian Optimization <https://en.wikipedia.org/wiki/Bayesian_optimization#>`_. The Gaussian Process specifies the form of the prior and posterior distribution. 
-Initially the distribution is random, as is the case for all the global search algorithms. Once some models have been run, the distribution can be updated (the "tell" step) and new, more informative samples can be 
+Initially the distribution is random, as is the case for all the global search algorithms. Once some models have been run, the distribution can be updated (the "ask" step) and new, more informative samples can be
 generated (the "tell" step).
 
 .. _RF_desc:
@@ -113,7 +113,7 @@ Other parameters for PSO include: :ref:`population_size <population_size_options
 
 As with other optimization algorithms, the downhill step may also be implemented.
 The topology defines the region of the swarm whereby individual particles (models in this case) exchange information and thereby act in coordination.
-The "star" topology is the only implementation currently available in pyDarwin. The star topology permits particles (model) to coordinate with a set of nearest neighbors in a
+The "star" topology is the only implementation currently available in pyDarwin. The star topology permits particles (i.e., models) to coordinate with a set of nearest neighbors in a
 sort of star shape, up to the number of neighbors specified in :ref:`neighbor_number <neighbor_num_options_desc>`.
 
 

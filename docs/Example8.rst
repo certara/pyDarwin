@@ -7,7 +7,7 @@ Example 8: Emax Model, PSO
 ###########################################################
 
 Example 8 uses the :ref:`PSO<PSO_desc>` algorithm on a simulated dataset using an Emax model
-with BW having a power effect on E0, Sex and Race having an exponential effect
+with Body Weight (BW) having a power effect on E0, Sex and Race having an exponential effect
 on E0, sigmodicity = 1, and a proportional error model. Additionally, a final downhill search is
 performed.
 

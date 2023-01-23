@@ -13,6 +13,7 @@
    Overview
    Algorithms
    Support
+   Releases
 
 .. toctree::
    :caption: User Guide:

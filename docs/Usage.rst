@@ -124,7 +124,7 @@ Required Files
  
  
 The same 3 files are required for any search, whether :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`,
-:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, or :ref:`GBRT<GBRT_desc>`. Which algorithm is used is defined in the 
+:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`,:ref:`GBRT<GBRT_desc>`, or :ref:`PSO<EX_desc>`. Which algorithm is used is defined in the
 :ref:`options file<options_file_target>`. The template file serves as a framework and looks similar to a 
 NONMEM/NMTRAN control file. The tokens file specifies the range of "features" to be searched, and the options 
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution,
@@ -218,8 +218,8 @@ replaced by the token text, specified in the tokens file. Which set of token key
 the :ref:`phenotype.<Phenotype>`
 
 
-Note that the THETA (and ETA and EPS) indices cannot be determined until the final control file is defined, as THETAs may be included in one and not another token set. 
-For this reason, all fixed initial estimates in the $THETA block MUST occur before the THETA values that are not fixed. This is so the 
+Note that the THETA (and ETA and EPS) indices cannot be determined until the final control file is defined, as THETAs may be included in one token set, but missing in another token set.
+For this reason, all fixed initial estimates in the $THETA block MUST occur before the THETA values that are not fixed (e.g., are searched). This is so the
 algorithm can parse the resulting file and correctly calculate the appropriate THETA (and ETA and EPS) indices. Further, the text string index in the token (e.g., ADVANA and ADVANB) 
 *must* be unique in the token groups. The most convenient way to ensure that the text string index is unique in the Token groups is to use the token stem as the 
 THETA index (e.g., THETA(ADVAN) is the token stem is ADVAN). Additional characters (e.g., ADVANA, ADVANB) can be added if multiple THETA text indices are needed. 
@@ -401,8 +401,7 @@ algorithm-specific, while others are only relevant for execution on Linux Grids.
 See :ref:`"Options List"<Options>` for details.
 
 
-.. _examples_target:
-
+.. _omega_search_usage_target:
 
 **************************
 Searching Omega Structure
@@ -506,7 +505,7 @@ of candidate models with the following Omega structures:
 
 The actual value used for the off diagonal elements (p in example) are randomly chosen from a uniform distributions
 between -p and +p where p is a value less than the maximum value that results in a positive definite matrix.
-p will have a minimum value of 0.000001 to ensure it does not have a value of 0. Each value of p in the matrix will
+p will have a minimum absolute value of 0.000001 to ensure it does not have a value of 0. Each value of p in the matrix will
 be different.
 
 .. note::
@@ -515,8 +514,8 @@ be different.
 
 .. warning::
     If the user defines the OMEGA structure (e.g., DIAG, BLOCK, SAME) with `;; search band` included, this
-    will override the search option and the block will be used. The OMEGA block is assumed to be variance/covariance,
-    CORRELATON  and CHOLESKY are not supported.
+    will override the search option and the block will be used as specified in the template file, without any
+    OMEGA band search. The OMEGA block is assumed to be variance/covariance, CORRELATON  and CHOLESKY are not supported.
 
 Note that each OMEGA in the template file can be set to searched or not searched, for example:
 

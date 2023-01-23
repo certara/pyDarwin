@@ -136,7 +136,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _algorithm_options_desc:
 
-* **algorithim** :sup:`required` - *string*: One of :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`, :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`.
+* **algorithim** :sup:`required` - *string*: One of :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`, :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`, :ref:`PSO<PSO_desc>`.
 
 .. _GA_options_desc:
 

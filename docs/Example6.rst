@@ -6,8 +6,6 @@
 Example 6: PK Model, DMAG by RF with post-run Python code
 ###########################################################
 
-*Note: Data used in Example 6 will be publicly available soon.*
-
 Example 6 is again the same data and search as Example 4 and 5, but using the :ref:`Random Forest<RF_desc>` search algorithm and python code for 
 post run PPC penalty calculation.
    

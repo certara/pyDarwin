@@ -59,7 +59,13 @@ The next step for machine learning model selection is to get a simple model runn
 
 
 This text will serve as the starting point for developing the template file. 
-Note that for the template file, the data file can either be specified as a full path or starting with :ref:`{data_dir}<Data Directory>`).
+Note that for the template file, the data file can either be specified as a full
+path or starting with :ref:`{data_dir}<Data Directory>`).
+
+
+.. warning::
+    In all cases, the resulting path to the data file must be less than or equal to 80 characters, including
+    after the path is expanded with {data_dir}.
 
 .. _template file: 
 

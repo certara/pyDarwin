@@ -24,6 +24,7 @@ organized into folders with all required files available for execution.
 
 * :ref:`Example 8: Emax Model, PSO <startpd8>`.
 
+.. _examples_target:
 
 To get started, download and unzip the `Examples <https://github.com/certara/pyDarwin/tree/master/examples/user>`_
 folders from the following `link <https://certara-training.s3.amazonaws.com/Certara+Darwin+Project/pyDarwin-Examples.zip>`_.

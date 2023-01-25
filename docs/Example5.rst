@@ -6,8 +6,6 @@
 Example 5: PK Model, DMAG by GP
 ##################################
 
-*Note: Data used in Example 5 will be publicly available soon.*
-
 Example 5 is very similar to :ref:`Example 4<startpk4>`. The important difference is the use of :ref:`Gaussian Process<GP_desc>` rather than 
 :ref:`Genetic Algorithm<GA_desc>`. As noted in :ref:`Example 4<startpk4>`, the `ask step <https://scikit-optimize.github.io/stable/modules/optimizer.html#>`_ 
 for large cumulative sample sizes (> 500) will become very long. In this example, the population/sample size is reduced to 20 from 80. This improves the 

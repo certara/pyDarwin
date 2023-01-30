@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Usage &mdash; pyDarwin 1.0.0 documentation</title>
+  <title>Usage &mdash; pyDarwin 1.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -18,11 +18,12 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Options List" href="Options.html" />
-    <link rel="prev" title="Overview" href="Overview.html" /> 
+    <link rel="next" title="Examples" href="Examples.html" />
+    <link rel="prev" title="Installation" href="Install.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,10 +41,16 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">About:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#execution-overview">Execution Overview</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#running-search-on-local-machine">Running search on local machine</a></li>
@@ -63,7 +70,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#options-file">Options File</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#searching-omega-structure">Searching Omega Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#omega-band-search">Omega Band Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#omega-submatrices-search">Omega Submatrices Search</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#pydarwin-outputs">pyDarwin Outputs</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#console-output">Console output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#file-output">File output</a><ul>
@@ -81,17 +92,11 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
         </div>
@@ -107,8 +112,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Usage</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Usage</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -135,7 +140,7 @@
 <li><p><a class="reference internal" href="#options-file-target"><span class="std std-ref">Options file</span></a> (e.g., options.json) - json file describing algorithm, run options, and post-run penalty code configurations.</p></li>
 </ol>
 <p>See <a class="reference internal" href="#startrequiredfiles"><span class="std std-ref">“Required Files”</span></a> for additional details.</p>
-<p>Alternatively, you may execute the <a class="reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a> function,
+<p id="usage-run-search-in-folder">Alternatively, you may execute the <a class="reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a> function,
 specifying the path to the folder containing the <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">options.json</span></code> files
 as a single argument:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">run_search_in_folder</span> <span class="o">&lt;</span><span class="n">folder_path</span><span class="o">&gt;</span>
@@ -209,8 +214,8 @@ See <a class="reference internal" href="Options.html#submit-search-command-optio
 </section>
 <section id="required-files">
 <span id="startrequiredfiles"></span><h2>Required Files<a class="headerlink" href="#required-files" title="Permalink to this heading">¶</a></h2>
-<p>The same 3 files are required for any search, whether <a class="reference internal" href="Overview.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a>,
-<a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a>, or <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>. Which algorithm is used is defined in the
+<p>The same 3 files are required for any search, whether <a class="reference internal" href="Algorithms.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">GA</span></a>,
+<a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Algorithms.html#rf-desc"><span class="std std-ref">RF</span></a>,:ref:<cite>GBRT&lt;GBRT_desc&gt;</cite>, or <a class="reference internal" href="Algorithms.html#ex-desc"><span class="std std-ref">PSO</span></a>. Which algorithm is used is defined in the
 <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>. The template file serves as a framework and looks similar to a
 NONMEM/NMTRAN control file. The tokens file specifies the range of “features” to be searched, and the options
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution,
@@ -283,8 +288,8 @@ is referred to as the token text. Each token set consists of key-text pairs: tok
 <p>The token (consisting of “{” + token stem +[N] + “}” where N is an integer specifying which token text in the token set is to be substituted) in the template file is
 replaced by the token text, specified in the tokens file. Which set of token key-text pairs is substituted is determined by the search algorithm and provided in
 the <a class="reference internal" href="Glossary.html#phenotype"><span class="std std-ref">phenotype.</span></a></p>
-<p>Note that the THETA (and ETA and EPS) indices cannot be determined until the final control file is defined, as THETAs may be included in one and not another token set.
-For this reason, all fixed initial estimates in the $THETA block MUST occur before the THETA values that are not fixed. This is so the
+<p>Note that the THETA (and ETA and EPS) indices cannot be determined until the final control file is defined, as THETAs may be included in one token set, but missing in another token set.
+For this reason, all fixed initial estimates in the $THETA block MUST occur before the THETA values that are not fixed (e.g., are searched). This is so the
 algorithm can parse the resulting file and correctly calculate the appropriate THETA (and ETA and EPS) indices. Further, the text string index in the token (e.g., ADVANA and ADVANB)
 <em>must</em> be unique in the token groups. The most convenient way to ensure that the text string index is unique in the Token groups is to use the token stem as the
 THETA index (e.g., THETA(ADVAN) is the token stem is ADVAN). Additional characters (e.g., ADVANA, ADVANB) can be added if multiple THETA text indices are needed.
@@ -325,7 +330,7 @@ However, multiple initial estimates can be put on a single line, with multiple �
 <li><p>; any text ETA &lt;on|ON&gt; NAME any text (exactly one space between the words)</p></li>
 </ol>
 <p>Any combination of those in one line must work:</p>
-<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span>&lt;some complex definition&gt; <span class="p">;</span> name1 <span class="p">;</span> name2 <span class="p">;</span> also ETA<span class="o">(</span>name3<span class="o">)</span> <span class="p">;</span> be aware that numbers count as well: ETA<span class="o">(</span><span class="m">4</span><span class="o">)</span>
+<div class="highlight-Bash notranslate"><div class="highlight"><pre><span></span>&lt;some<span class="w"> </span>complex<span class="w"> </span>definition&gt;<span class="w"> </span><span class="p">;</span><span class="w"> </span>name1<span class="w"> </span><span class="p">;</span><span class="w"> </span>name2<span class="w"> </span><span class="p">;</span><span class="w"> </span>also<span class="w"> </span>ETA<span class="o">(</span>name3<span class="o">)</span><span class="w"> </span><span class="p">;</span><span class="w"> </span>be<span class="w"> </span>aware<span class="w"> </span>that<span class="w"> </span>numbers<span class="w"> </span>count<span class="w"> </span>as<span class="w"> </span>well:<span class="w"> </span>ETA<span class="o">(</span><span class="m">4</span><span class="o">)</span>
 </pre></div>
 </div>
 <p>Here we have 4 variables (ETAs) which can be referred to as ETA 1 to 4.
@@ -425,25 +430,202 @@ algorithm-specific, while others are only relevant for execution on Linux Grids.
 <p>See <a class="reference internal" href="Options.html#options"><span class="std std-ref">“Options List”</span></a> for details.</p>
 </section>
 </section>
-<section id="examples">
-<span id="examples-target"></span><h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
-<p>We have published 6 examples of the above files, which provide a good starting place to explore different algorithms and
-post-processing features in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code>. Example files can be found inside the <a class="reference external" href="https://github.com/certara/pyDarwin/tree/master/examples/user">GitHub Repository</a>
-at <code class="docutils literal notranslate"><span class="pre">pyDarwin/examples/user/</span></code>.</p>
-<p><em>Note: Data used in Examples 4-6 will be publicly available soon.</em></p>
-<p>Applicable files for each example are organized into folders by example name (e.g., <code class="docutils literal notranslate"><span class="pre">Example1</span></code>, <code class="docutils literal notranslate"><span class="pre">Example2</span></code>, etc.). The <cite>linux</cite> and <cite>windows</cite>
-subfolders contain reference files used during Quality Engineering Testing and can be ignored.</p>
-<p>After downloading <a class="reference external" href="https://github.com/certara/pyDarwin/tree/master/examples/user">example files</a>, you may simply pass the path to one of the example
-folders to the <a class="reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a> function, e.g.:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">run_search_in_folder</span> <span class="n">C</span><span class="p">:</span><span class="o">/</span><span class="n">Workspace</span><span class="o">/</span><span class="n">Example1</span>
-</pre></div>
-</div>
+<section id="searching-omega-structure">
+<span id="omega-search-usage-target"></span><h2>Searching Omega Structure<a class="headerlink" href="#searching-omega-structure" title="Permalink to this heading">¶</a></h2>
+<p>In addition to specifying relations inside the <a class="reference internal" href="#template-file-target"><span class="std std-ref">template file</span></a> and <a class="reference internal" href="#tokens-file-target"><span class="std std-ref">tokens file</span></a> to define
+the search space, you may also search for different structures of the omega matrix given fields specified in <a class="reference internal" href="Options.html#options"><span class="std std-ref">options.json</span></a>:</p>
+<p>Users may additionally search:</p>
+<ul>
+<li><p>Omega Bands</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="Options.html#search-omega-bands-options-desc"><span class="std std-ref">“search_omega_bands”</span></a></p></li>
+<li><p><a class="reference internal" href="Options.html#max-omega-band-width-options-desc"><span class="std std-ref">“max_omega_band_width”</span></a></p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Omega Submatrices</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="Options.html#search-omega-sub-matrix-options-desc"><span class="std std-ref">“search_omega_sub_matrix”</span></a></p></li>
+<li><p><a class="reference internal" href="Options.html#max-omega-sub-matrix-options-desc"><span class="std std-ref">“max_omega_sub_matrix”</span></a></p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Ensure that the <code class="docutils literal notranslate"><span class="pre">&quot;nmfe_path&quot;</span></code> field  in <code class="docutils literal notranslate"><span class="pre">/Example1/options.json</span></code> points to valid location in your file system.
-This change should be made across all <code class="docutils literal notranslate"><span class="pre">options.json</span></code> files in example folders, including other example-specific
-changes such as <code class="docutils literal notranslate"><span class="pre">&quot;rscript_path&quot;</span></code> used in <code class="docutils literal notranslate"><span class="pre">/Example4/options.json</span></code>.</p>
+<p>OMEGA structure alone can be searched without any tokens for compartments, covariates, etc.
+If searching Omega submatrices, options for Omega band search should be additionally specified.</p>
 </div>
+<section id="omega-band-search">
+<h3>Omega Band Search<a class="headerlink" href="#omega-band-search" title="Permalink to this heading">¶</a></h3>
+<p>Omega band search will take a diagonal OMEGA matrix and search for band OMEGA matrices.</p>
+<p>Band Omegas will be searched if:</p>
+<ol class="arabic">
+<li><p>The text “; search band” appears on the $OMEGA record in the <a class="reference internal" href="#template-file-target"><span class="std std-ref">template file</span></a>.</p></li>
+<li><p>The following fields have been included in the <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="Options.html#search-omega-bands-options-desc"><span class="std std-ref">“search_omega_bands”</span></a>: true</p></li>
+<li><p><a class="reference internal" href="Options.html#max-omega-band-width-options-desc"><span class="std std-ref">“max_omega_band_width”</span></a>: N</p></li>
+</ul>
+<p>Where N is an positive integer.</p>
+</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The $OMEGA must appear on a separate line, e.g,. <cite>$OMEGA 0.1 0.1 0.1 ; search band</cite>
+is not permitted.</p>
+</div>
+<p>For example, if the Omega matrix specified in the template file is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA ; search band
+0.1
+0.1
+0.1
+0.1
+</pre></div>
+</div>
+<p>With <cite>“search_omega_bands”:true</cite> and <cite>“max_omega_band_width”: 3</cite> specified in the options file, the search space will consist
+of candidate models with the following Omega structures:</p>
+<ul class="simple">
+<li><p>Width = 0</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA BLOCK(4)
+0.1
+0 0.1
+0 0 0.1
+0 0 0 0.1
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Width = 1</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA BLOCK(4)
+0.1
+p 0.1
+0 p 0.1
+0 0 p  0.1
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Width = 2</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA BLOCK(4)
+0.1
+p 0.1
+p p 0.1
+0 p p  0.1
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Width = 3</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA BLOCK(4)
+0.1
+p 0.1
+p p 0.1
+p p p  0.1
+</pre></div>
+</div>
+<p>The actual value used for the off diagonal elements (p in example) are randomly chosen from a uniform distributions
+between -p and +p where p is a value less than the maximum value that results in a positive definite matrix.
+p will have a minimum absolute value of 0.000001 to ensure it does not have a value of 0. Each value of p in the matrix will
+be different.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use <a class="reference internal" href="Options.html#random-seed-options-desc"><span class="std std-ref">“random_seed”</span></a> to ensure values of off diagonal elements are the same across
+subsequent searches.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If the user defines the OMEGA structure (e.g., DIAG, BLOCK, SAME) with <cite>;; search band</cite> included, this
+will override the search option and the block will be used as specified in the template file, without any
+OMEGA band search. The OMEGA block is assumed to be variance/covariance, CORRELATON  and CHOLESKY are not supported.</p>
+</div>
+<p>Note that each OMEGA in the template file can be set to searched or not searched, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA      ;; search band
+  0.6       ; ETA(1) K23
+  0.5       ; ETA(2) K32
+$OMEGA
+  0.4       ; ETA(3) CLEARANCE
+  0.3       ; ETA(4) VOLUME
+  0.2       ; ETA(5) KA
+</pre></div>
+</div>
+<p>In this case the first $OMEGA block will be searched and the second will not.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Comments can appear in the $OMEGA block but each row of the matrix must be on its own line.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not combine multiple OMEGA blocks in the template if some are BLOCK|DIAG|SAME|FIX and
+others are to be searched.</p>
+</div>
+</section>
+<section id="omega-submatrices-search">
+<h3>Omega Submatrices Search<a class="headerlink" href="#omega-submatrices-search" title="Permalink to this heading">¶</a></h3>
+<p>OMEGA submatrices permit a wider range of OMEGA structure, and, importantly, the option to estimate fewer off diagonal elements of OMEGA.
+In addition to the options specified above for Omega band search, 2 additional options should be included in the <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>.</p>
+<p>The following fields are required to search for OMEGA submatrices:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="Options.html#search-omega-sub-matrix-options-desc"><span class="std std-ref">“search_omega_sub_matrix”</span></a>: true</p></li>
+<li><p><a class="reference internal" href="Options.html#max-omega-sub-matrix-options-desc"><span class="std std-ref">“max_omega_sub_matrix”</span></a>: N</p></li>
+</ul>
+</div></blockquote>
+<p>Where N is the maximum size of an OMEGA submatrix, them submatrices will be searched. OMEGA submatrices are intended to be use with OMEGA band search to further expand the options for OMEGA structure. Specifically,</p>
+<p>For the source OMEGA matrix of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA ;; search band
+0.1
+0.1
+0.1
+0.1
+</pre></div>
+</div>
+<p>If band matrix search is used, for an OMEGA band width of 1, the OMEGA matrix would be:</p>
+<ul class="simple">
+<li><p>Width = 1</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA BLOCK(4)
+0.1
+p 0.1
+0 p 0.1
+0 0 p  0.1
+</pre></div>
+</div>
+<p>And with the additional sub matrix search used, this search would also include, for submatrices value of [1,0,1]:</p>
+<ul class="simple">
+<li><p>Width = 1</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA BLOCK(2)
+0.1
+p 0.1
+$OMEGA BLOCK(2)
+0.1
+p  0.1
+</pre></div>
+</div>
+<p>Resulting in one fewer variance parameters to be estimated (covariance of ETA(2) and ETA(3)).</p>
+<p>In pyDarwin, this is converted to a bit string describing whether the next OMEGA row will be include with the current OMEGA row. In the above example,
+the bit string [1,0,1], the 1 in the first position, indicates that the 2nd row will be combined with the first into , but then a new OMEGA block will be created for
+the 3rd row (indicted by the 0 in the 2nd position). The 4th row will be combined into an OMEGA block with the 3rd, indicated by the 1 in the 3rd position.
+The user need only provide the maximum permitted submatrix size in the options file  e.g., <a class="reference internal" href="Options.html#max-omega-sub-matrix-options-desc"><span class="std std-ref">“max_omega_sub_matrix”</span></a>.</p>
+<p>For example, for submatrices values of [1,0,0]:</p>
+<ul class="simple">
+<li><p>Width = 1</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA BLOCK(2)
+0.1
+p 0.1
+$OMEGA BLOCK(1)
+0.1
+$OMEGA BLOCK(1)
+0.1
+</pre></div>
+</div>
+<p>As the 3rd row of OMEGA will not be continued into the 4th, despite the band width of 1, defining smaller submatrices will result in removing the covariance between ETA(3) and ETA(4).</p>
+</section>
 </section>
 <section id="pydarwin-outputs">
 <h2>pyDarwin Outputs<a class="headerlink" href="#pydarwin-outputs" title="Permalink to this heading">¶</a></h2>
@@ -529,14 +711,14 @@ are also frequently duplicated. Duplicated files are not rerun, and so those wil
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Options.html" class="btn btn-neutral float-right" title="Options List" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Install.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Mark Sale.</p>
+    <p>&#169; Copyright 2023, Mark Sale.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

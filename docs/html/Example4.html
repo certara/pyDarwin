@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example 4: PK Model, DMAG by GA with post-run R code &mdash; pyDarwin 1.0.0 documentation</title>
+  <title>Example 4: PK Model, DMAG by GA with post-run R code &mdash; pyDarwin 1.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -18,11 +18,10 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Example 5: PK Model, DMAG by GP" href="Example5.html" />
-    <link rel="prev" title="Example 3: PK Model, ODE model" href="Example3.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,28 +39,22 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+              <p class="caption" role="heading"><span class="caption-text">About:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Example 4: PK Model, DMAG by GA with post-run R code</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#execute-search">Execute Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
+<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
         </div>
@@ -77,8 +70,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Example 4: PK Model, DMAG by GA with post-run R code</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Example 4: PK Model, DMAG by GA with post-run R code</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -88,10 +81,9 @@
            <div itemprop="articleBody">
              
   <section id="example-4-pk-model-dmag-by-ga-with-post-run-r-code">
-<h1>Example 4: PK Model, DMAG by GA with post-run R code<a class="headerlink" href="#example-4-pk-model-dmag-by-ga-with-post-run-r-code" title="Permalink to this heading">¶</a></h1>
-<p id="startpk4"><em>Note: Data used in Example 4 will be publicly available soon.</em></p>
-<p>Example 4 is the first realistic model search example, with real data (courtesy of <a class="reference external" href="https:/pharmacy.buffalo.edu/content/pharmacy/faculty-staff/faculty-profile.html?ubit=robertbi">Dr. Rob Bies</a> and the
-<a class="reference external" href="https://www.nimh.nih.gov/funding/clinical-research/practical/catie#:~:text=The%20NIMH%2Dfunded%20Clinical%20Antipsychotic,medications%20used%20to%20treat%20schizophrenia">CATIE study</a> ).
+<span id="startpk4"></span><h1>Example 4: PK Model, DMAG by GA with post-run R code<a class="headerlink" href="#example-4-pk-model-dmag-by-ga-with-post-run-r-code" title="Permalink to this heading">¶</a></h1>
+<p>Example 4 uses a dataset simulated from the following <a class="reference external" href="https://www.nimh.nih.gov/funding/clinical-research/practical/catie#:~:text=The%20NIMH%2Dfunded%20Clinical%20Antipsychotic,medications%20used%20to%20treat%20schizophrenia">CATIE study</a> ,
+courtesy of <a class="reference external" href="https:/pharmacy.buffalo.edu/content/pharmacy/faculty-staff/faculty-profile.html?ubit=robertbi">Dr. Rob Bies</a> .
 This search again uses <a class="reference internal" href="Glossary.html#nested-tokens"><span class="std std-ref">nested tokens</span></a>, as it searches whether K32 is a function of Weight, and 1 vs 2 vs 3 compartments.
 Another important feature of example 4 is the use of post run R code. In this case, it was of interest to capture the Cmax value. There is no straightforward way to include a penalty for
 missing the Cmax
@@ -102,7 +94,7 @@ that are used to generate a table of the PPC: an estimation, followed by a simul
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROB SIMULATION FOR CMAX
 
 $INPUT       ID TIME AMT {D1LAG[1]} DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
-$DATA      {data_dir}/dmag_with_period.csv IGNORE=@  REWIND
+$DATA      {data_dir}/dataWithPeriod.csv IGNORE=@  REWIND
 $MSFI = MSF1
 $SIMULATION (1) ONLYSIM
 $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
@@ -148,7 +140,7 @@ complete and the <a class="reference internal" href="Glossary.html#crash-value">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT {D1LAG[1]} DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
 
-$DATA      {data_dir}/dmag_with_period.csv IGNORE=@
+$DATA      {data_dir}/dataWithPeriod.csv IGNORE=@
 
 $SUBROUTINE {ADVAN[1]}
 $PK
@@ -207,7 +199,7 @@ $TABLE REP ID TIME DV EVID NOPRINT FILE = ORG.DAT ONEHEADER NOAPPEND
 $PROB SIMULATION FOR CMAX
 
 $INPUT       ID TIME AMT {D1LAG[1]} DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
-$DATA      {data_dir}/dmag_with_period.csv IGNORE=@  REWIND
+$DATA      {data_dir}/dataWithPeriod.csv IGNORE=@  REWIND
 $MSFI = MSF1
 $SIMULATION (1) ONLYSIM
 $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
@@ -406,7 +398,7 @@ $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
 </section>
 <section id="the-options-file">
 <h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
-<p>The algorithm selection in the options file is <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a>.</p>
+<p>The algorithm selection in the options file is <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">GA</span></a>.</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
 <p>Note that, to run in the environment used for this example, the directories are set to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example4/working&quot;</span><span class="p">,</span>
@@ -481,7 +473,7 @@ the default is:</p>
 <section id="execute-search">
 <h2>Execute Search<a class="headerlink" href="#execute-search" title="Permalink to this heading">¶</a></h2>
 <p>Usage details for starting a search in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> can be found <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here</span></a>.</p>
-<p>See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">“Examples”</span></a> for additional details about accessing example files.</p>
+<p>See <a class="reference internal" href="Examples.html#examples-target"><span class="std std-ref">“Examples”</span></a> for additional details about accessing example files.</p>
 <p>The search space contains 1.66 million possible models, and searches for the following:</p>
 <table class="docutils align-default">
 <thead>
@@ -550,7 +542,7 @@ the default is:</p>
 <li><p>Block OMEGA structures</p></li>
 <li><p>Different initial estimates (also likely not as many as a real search should include).</p></li>
 </ol>
-<p>As the search space is large, we’ll plan a large sample (population size of 80, with 12 generations). While <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> may be more efficient
+<p>As the search space is large, we’ll plan a large sample (population size of 80, with 12 generations). While <a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> may be more efficient
 in terms of number of models to convergence, once ~500 samples are defined, the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask step</a> becomes long,
 negating any efficiency of the algorithm.</p>
 <p>Below is a table of the ask and tell step times  (hh:mm:ss), by iteration for GP. The sample size was 80, with 4 chains on a 4 core computer:</p>
@@ -640,8 +632,8 @@ negating any efficiency of the algorithm.</p>
     <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Post</span> <span class="n">Run</span> <span class="n">R</span> <span class="n">code</span> <span class="n">found</span> <span class="n">at</span> <span class="n">c</span><span class="p">:</span>\<span class="n">fda</span>\<span class="n">pyDarwin</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">Example4</span>\<span class="n">Cmaxppc</span><span class="o">.</span><span class="n">r</span>
     <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Not</span> <span class="n">using</span> <span class="n">Post</span> <span class="n">Run</span> <span class="n">Python</span> <span class="n">code</span>
     <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Checking</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">u</span><span class="p">:</span>\<span class="n">pyDarwin</span>\<span class="n">example4</span>\<span class="n">rundir</span>\<span class="mi">00</span>\<span class="mi">01</span>
-    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 1 was found: c:\fda\pyDarwin\examples\user\Example4/dmag_with_period.csv</span>
-    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 2 was found: c:\fda\pyDarwin\examples\user\Example4/dmag_with_period.csv</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 1 was found: c:\fda\pyDarwin\examples\user\Example4/dataWithPeriod.csv</span>
+    <span class="p">[</span><span class="mi">05</span><span class="p">:</span><span class="mi">47</span><span class="p">:</span><span class="mi">21</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 2 was found: c:\fda\pyDarwin\examples\user\Example4/dataWithPeriod.csv</span>
 </pre></div>
 </div>
 <p>After a few seconds, the NONMEM execution should begin, with output like:</p>
@@ -671,15 +663,12 @@ token(s).</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Example3.html" class="btn btn-neutral float-left" title="Example 3: PK Model, ODE model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Example5.html" class="btn btn-neutral float-right" title="Example 5: PK Model, DMAG by GP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Mark Sale.</p>
+    <p>&#169; Copyright 2023, Mark Sale.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

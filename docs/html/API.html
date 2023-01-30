@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API &mdash; pyDarwin 1.0.0 documentation</title>
+  <title>API &mdash; pyDarwin 1.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -18,11 +18,12 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Glossary" href="Glossary.html" />
-    <link rel="prev" title="Example 6: PK Model, DMAG by RF with post-run Python code" href="Example6.html" /> 
+    <link rel="prev" title="Options List" href="Options.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,50 +41,101 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">About:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#high-level-functions">High level functions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#run-search">run_search</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#run-search-in-folder">run_search_in_folder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-search">run_search</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.run_search.run_search"><code class="docutils literal notranslate"><span class="pre">run_search()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#run-search-in-folder">run_search_in_folder</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.run_search_in_folder.run_search_in_folder"><code class="docutils literal notranslate"><span class="pre">run_search_in_folder()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#algorithms">Algorithms</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.exhaustive">exhaustive</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.GA">GA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.OPT">OPT</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.run_downhill">downhill</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.exhaustive">exhaustive</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.algorithms.exhaustive.run_exhaustive"><code class="docutils literal notranslate"><span class="pre">run_exhaustive()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.GA">GA</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.algorithms.GA.run_ga"><code class="docutils literal notranslate"><span class="pre">run_ga()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.OPT">OPT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.algorithms.OPT.run_skopt"><code class="docutils literal notranslate"><span class="pre">run_skopt()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.algorithms.run_downhill">downhill</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.algorithms.run_downhill.run_downhill"><code class="docutils literal notranslate"><span class="pre">run_downhill()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#model-classes">Model classes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.Template">darwin.Template</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.Model">darwin.Model</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.ModelCode">darwin.ModelCode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.ModelResults">darwin.ModelResults</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.ModelRun">darwin.ModelRun</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.Population">darwin.Population</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.Template">darwin.Template</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.Template.Template"><code class="docutils literal notranslate"><span class="pre">Template</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.Model">darwin.Model</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.Model.Model"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.ModelCode">darwin.ModelCode</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.ModelCode.ModelCode"><code class="docutils literal notranslate"><span class="pre">ModelCode</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.ModelResults">darwin.ModelResults</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.ModelResults.ModelResults"><code class="docutils literal notranslate"><span class="pre">ModelResults</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.ModelRun">darwin.ModelRun</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.ModelRun.ModelRun"><code class="docutils literal notranslate"><span class="pre">ModelRun</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.ModelRun.write_best_model_files"><code class="docutils literal notranslate"><span class="pre">write_best_model_files()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.ModelRun.run_to_json"><code class="docutils literal notranslate"><span class="pre">run_to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.ModelRun.json_to_run"><code class="docutils literal notranslate"><span class="pre">json_to_run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.Population">darwin.Population</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.Population.Population"><code class="docutils literal notranslate"><span class="pre">Population</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#caching-model-runs">Caching model runs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.ModelCache">darwin.ModelCache</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-darwin.MemoryModelCache">darwin.MemoryModelCache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.ModelCache">darwin.ModelCache</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.ModelCache.ModelCache"><code class="docutils literal notranslate"><span class="pre">ModelCache</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.ModelCache.set_model_cache"><code class="docutils literal notranslate"><span class="pre">set_model_cache()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.ModelCache.get_model_cache"><code class="docutils literal notranslate"><span class="pre">get_model_cache()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.ModelCache.register_model_cache"><code class="docutils literal notranslate"><span class="pre">register_model_cache()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.ModelCache.create_model_cache"><code class="docutils literal notranslate"><span class="pre">create_model_cache()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-darwin.MemoryModelCache">darwin.MemoryModelCache</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.MemoryModelCache.MemoryModelCache"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.MemoryModelCache.AsyncMemoryModelCache"><code class="docutils literal notranslate"><span class="pre">AsyncMemoryModelCache</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#darwin.MemoryModelCache.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
         </div>
@@ -99,8 +151,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>API</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">API</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -233,6 +285,11 @@ the number of fixed/non-searched THETAs/OMEGAs/SIGMAs.</p>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="darwin.Template.Template.any_block_diag">
+<span class="sig-name descname"><span class="pre">any_block_diag</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.Template.Template.any_block_diag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -633,14 +690,14 @@ and <a class="reference internal" href="#darwin.MemoryModelCache.AsyncMemoryMode
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Example6.html" class="btn btn-neutral float-left" title="Example 6: PK Model, DMAG by RF with post-run Python code" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Options.html" class="btn btn-neutral float-left" title="Options List" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="Glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Mark Sale.</p>
+    <p>&#169; Copyright 2023, Mark Sale.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

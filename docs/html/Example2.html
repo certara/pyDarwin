@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example 2: PK Model 2, Simulation model by GP with Python code &mdash; pyDarwin 1.0.0 documentation</title>
+  <title>Example 2: PK Model 2, Simulation model by GP with Python code &mdash; pyDarwin 1.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -18,11 +18,10 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Example 3: PK Model, ODE model" href="Example3.html" />
-    <link rel="prev" title="Example 1: PK Model, Trivial Exhaustive Search" href="Example1.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,31 +39,22 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+              <p class="caption" role="heading"><span class="caption-text">About:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Example 2: PK Model 2, Simulation model by GP with Python code</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-template-file">The Template file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-tokens-file">The Tokens file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-options-file">The Options file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#execute-search">Execute Search</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#notes-on-gaussian-process-performance">Notes on Gaussian Process performance</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
         </div>
@@ -80,8 +70,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Example 2: PK Model 2, Simulation model by GP with Python code</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Example 2: PK Model 2, Simulation model by GP with Python code</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -182,7 +172,7 @@
 </tr>
 </tbody>
 </table>
-<p>This gives a search space of 3 x 2 x 2 x 3 x 2 x 3 x 2 x 5 x 3 x 2 = 12960 models. We’ll use the <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> algorithm for the search,
+<p>This gives a search space of 3 x 2 x 2 x 3 x 2 x 3 x 2 x 5 x 3 x 2 = 12960 models. We’ll use the <a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">Gaussian Process</span></a> algorithm for the search,
 with a population size of 40 models, for up to 7 iterations. We’ll run the downhill (1 and 2 bit local search, each with 5 iterations). The downhill step will be
 done starting with the 2 models that are in different niches, i.e., differ by at least the niche radius. The models are selected as the best in each of
 the two best niches.</p>
@@ -441,14 +431,14 @@ the default is:</p>
 <section id="execute-search">
 <h2>Execute Search<a class="headerlink" href="#execute-search" title="Permalink to this heading">¶</a></h2>
 <p>Usage details for starting a search in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> can be found <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here</span></a>.</p>
-<p>See <a class="reference internal" href="Usage.html#examples-target"><span class="std std-ref">“Examples”</span></a> for additional details about accessing example files.</p>
+<p>See <a class="reference internal" href="Examples.html#examples-target"><span class="std std-ref">“Examples”</span></a> for additional details about accessing example files.</p>
 <section id="notes-on-gaussian-process-performance">
 <h3>Notes on Gaussian Process performance<a class="headerlink" href="#notes-on-gaussian-process-performance" title="Permalink to this heading">¶</a></h3>
 <p>Gaussian Process is an approach in <a class="reference external" href="https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf">Bayesian Optimization</a>
 (<a class="reference external" href="https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py">scikit-optimize</a>) where the samples are drawn from
 a Gaussian Process. There are reasons to believe that this approach should be the most efficient (fewer reward evaluations to convergence), other than downhill search.
 However, the sampling itself can be very
-computationally expensive. Therefore, the <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP option</span></a> is best suited when the number of reward calculations (number of NONMEM models run) is relatively small, perhaps &lt; 1000,
+computationally expensive. Therefore, the <a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">GP option</span></a> is best suited when the number of reward calculations (number of NONMEM models run) is relatively small, perhaps &lt; 1000,
 and the NONMEM run time is long (1 hour). Below is a table of the <a class="reference external" href="https://scikit-optimize.github.io/stable/modules/optimizer.html#">ask and tell</a> step times  (h:mm:ss), by iteration.
 The sample size was 80, with 4 chains on a 4 core computer:</p>
 <table class="docutils align-default">
@@ -514,9 +504,9 @@ The sample size was 80, with 4 chains on a 4 core computer:</p>
 </tbody>
 </table>
 <p>Note the essentially linear increase in the ask step time (time to generate samples for next iteration) as the dataset size increases.
-For problems with larger search spaces and greater number of model evaluations, <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">Genetic algorithm</span></a> or <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">Random Forest</span></a> may
+For problems with larger search spaces and greater number of model evaluations, <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">Genetic algorithm</span></a> or <a class="reference internal" href="Algorithms.html#rf-desc"><span class="std std-ref">Random Forest</span></a> may
 be more appropriate.</p>
-<p>See <a class="reference internal" href="Overview.html#the-algorithms"><span class="std std-ref">algorithm recommendations</span></a>.</p>
+<p>See <a class="reference internal" href="Algorithms.html#the-algorithms"><span class="std std-ref">algorithm recommendations</span></a>.</p>
 </section>
 </section>
 </section>
@@ -524,15 +514,12 @@ be more appropriate.</p>
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="Example1.html" class="btn btn-neutral float-left" title="Example 1: PK Model, Trivial Exhaustive Search" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Example3.html" class="btn btn-neutral float-right" title="Example 3: PK Model, ODE model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Mark Sale.</p>
+    <p>&#169; Copyright 2023, Mark Sale.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

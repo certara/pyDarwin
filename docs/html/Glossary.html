@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Glossary &mdash; pyDarwin 1.0.0 documentation</title>
+  <title>Glossary &mdash; pyDarwin 1.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -18,6 +18,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,22 +41,22 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">About:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
         </div>
@@ -71,8 +72,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Glossary</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Glossary</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -160,7 +161,7 @@ if the search space includes a dimension for 1, 2, or 3 compartments, 2 bits wil
 the niche radius. Finally, the penalty is calculated as: exp((crowding-1)*niche_penalty)-1. The objective of using a niche penalty is to maintain diversity of models,
 to avoid premature convergence of the search, by penalizing when models are too similar to other models in the current generation. A typical value for the penalty is 20 (the default).</p>
 <p id="niche-radius"><strong>Niche Radius:</strong> The niche radius is used to define how similar pairs of models are. This is used to select models for the <a class="reference internal" href="#local-search"><span class="std std-ref">Local search</span></a>, as requested, and to calculate the sharing penalty for
-<a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">Genetic Algorithm</span></a>.</p>
+<a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">Genetic Algorithm</span></a>.</p>
 <p id="parameter-sorting"><strong>Parameter sorting:</strong> The tokens are first merged into the template file. In this merged file, the parameters in the searched text are indexed only with
 text, e.g., THETA(ALAG). This is necessary as the integer indices assigned to each parameter cannot be determined until the control file is merged. Once this is done, the
 number and sequence of searched THETA/OMEGA/SIGMA values in the control file can be determined and the correct parameter indices assigned. Essential rules for parsing the
@@ -247,7 +248,7 @@ Can be provided as an argument for <code class="docutils literal notranslate"><s
 search space into “good” and “bad” regions. As before, the initial divisions are random, but become increasingly well-informed as real values for the fitness/reward of models are
 included.</p>
 <p id="scikit-optimized"><strong>scikit-optimize:</strong> <a class="reference external" href="https://scikit-optimize.github.io/stable/">Optimization package</a>
-The python package that includes <a class="reference internal" href="Overview.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Overview.html#rf-desc"><span class="std std-ref">RF</span></a>, and <a class="reference internal" href="Overview.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>.</p>
+The python package that includes <a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Algorithms.html#rf-desc"><span class="std std-ref">RF</span></a>, and <a class="reference internal" href="Algorithms.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>.</p>
 <p id="temp-dir"><strong>temp_dir:</strong> Folder where all iterations/runs are performed, i.e., where all NONMEM files are written.
 Default value is ‘<a class="reference internal" href="#working-directory"><span class="std std-ref">{working_dir}</span></a>/temp’. May be deleted after search finished/stopped, if <a class="reference internal" href="Options.html#remove-temp-dir-options-desc"><span class="std std-ref">remove_temp_dir</span></a> is set to true.</p>
 <p id="template"><strong>Template:</strong> A text string, saved in the <a class="reference internal" href="Usage.html#template-file-target"><span class="std std-ref">template file</span></a> that forms the basis for the models to be run. The template file is similar to a NONMEM control file, but with <a class="reference internal" href="#token"><span class="std std-ref">tokens</span></a>
@@ -323,7 +324,7 @@ In the json code file for tokens:</p>
 <img alt="_images/tokens.png" src="_images/tokens.png" />
 </figure>
 <p id="tournament-selection"><strong>Tournament Selection</strong>
-An algorithm used in <a class="reference internal" href="Overview.html#ga-desc"><span class="std std-ref">GA</span></a> when there are two or more “parents”. The one with the highest fitness (lowest penalized -2LL) wins and enters into the next
+An algorithm used in <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">GA</span></a> when there are two or more “parents”. The one with the highest fitness (lowest penalized -2LL) wins and enters into the next
 generation.</p>
 <p id="working-directory"><strong>Working directory</strong> Folder where all project’s intermediate files are created, such as models.json (model run cache), messages.txt (log file), interim model files, and stop files.
 It is also a default location of output and temp folders. Can be set with <a class="reference internal" href="Options.html#working-dir-options-desc"><span class="std std-ref">working_dir</span></a> option.
@@ -341,7 +342,7 @@ By default, it is set to ‘<a class="reference internal" href="#pydarwin-home">
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Mark Sale.</p>
+    <p>&#169; Copyright 2023, Mark Sale.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

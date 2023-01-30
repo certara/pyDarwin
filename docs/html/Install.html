@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; pyDarwin 1.0.0 documentation</title>
+  <title>Installation &mdash; pyDarwin 1.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -18,12 +18,13 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/tabs.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Overview" href="Overview.html" />
-    <link rel="prev" title="Welcome to pyDarwin’s documentation" href="index.html" /> 
+    <link rel="next" title="Usage" href="Usage.html" />
+    <link rel="prev" title="Releases" href="Releases.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,7 +42,14 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">About:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#system-requirements">System Requirements</a><ul>
@@ -57,19 +65,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#install-pydarwin">Install pyDarwin</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 </ul>
 
         </div>
@@ -85,8 +86,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Installation</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Installation</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -166,7 +167,7 @@ command line, type:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.venv/Scripts/activate
 </pre></div>
 </div>
-<p>Both the development version and released version of <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> are available to install via <code class="docutils literal notranslate"><span class="pre">pip</span></code> from Certara’s managed PyPi repository.</p>
+<p id="id1">Both the development version and released version of <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> are available to install via <code class="docutils literal notranslate"><span class="pre">pip</span></code> from Certara’s managed PyPi repository.</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-UmVsZWFzZWQ=" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-UmVsZWFzZWQ=" name="UmVsZWFzZWQ=" role="tab" tabindex="0">Released</button><button aria-controls="panel-0-RGV2ZWxvcG1lbnQ=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-RGV2ZWxvcG1lbnQ=" name="RGV2ZWxvcG1lbnQ=" role="tab" tabindex="-1">Development</button></div><div aria-labelledby="tab-0-UmVsZWFzZWQ=" class="sphinx-tabs-panel group-tab" id="panel-0-UmVsZWFzZWQ=" name="UmVsZWFzZWQ=" role="tabpanel" tabindex="0"><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pyDarwin</span><span class="o">-</span><span class="n">Certara</span> <span class="o">--</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">certara</span><span class="o">.</span><span class="n">jfrog</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">artifactory</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">pypi</span><span class="o">/</span><span class="n">certara</span><span class="o">-</span><span class="n">pypi</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="n">public</span><span class="o">/</span><span class="n">simple</span> <span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pypi</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">simple</span><span class="o">/</span>
 </pre></div>
@@ -182,14 +183,14 @@ command line, type:</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to pyDarwin’s documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Releases.html" class="btn btn-neutral float-left" title="Releases" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Usage.html" class="btn btn-neutral float-right" title="Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, Mark Sale.</p>
+    <p>&#169; Copyright 2023, Mark Sale.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

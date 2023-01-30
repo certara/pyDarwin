@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example 8: Emax Model, PSO &mdash; pyDarwin 1.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Example 8: Emax Model, PSO</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-8-emax-model-pso">
+<span id="startpd8"></span><h1>Example 8: Emax Model, PSO<a class="headerlink" href="#example-8-emax-model-pso" title="Permalink to this heading">¶</a></h1>
+<p>Example 8 uses the <a class="reference internal" href="Algorithms.html#pso-desc"><span class="std std-ref">PSO</span></a> algorithm on a simulated dataset using an Emax model
+with Body Weight (BW) having a power effect on E0, Sex and Race having an exponential effect
+on E0, sigmodicity = 1, and a proportional error model. Additionally, a final downhill search is
+performed.</p>
+<p>The template file can be downloaded <a class="reference download internal" download="" href="_downloads/c19df591df5fd16d6ba2623e5eb2ef7d/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>
+and the tokens file <a class="reference download internal" download="" href="_downloads/7c9013f405d4fd6587effbc5eaafc367/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
+<p>The options file looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;PSO&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;PSO&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;cognitive&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="s2">&quot;social&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+    <span class="s2">&quot;inertia&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+    <span class="s2">&quot;neighbor_num&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;p_norm&quot;</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+  <span class="s2">&quot;population_size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s2">&quot;num_generations&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+  <span class="s2">&quot;downhill_period&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+  <span class="s2">&quot;num_niches&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="s2">&quot;niche_radius&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="s2">&quot;local_2_bit_search&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+  <span class="s2">&quot;final_downhill_search&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;covariance&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;correlation&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;condition_number&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">&quot;non_influential_tokens&quot;</span><span class="p">:</span> <span class="mf">0.00001</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999999</span><span class="p">,</span>
+  <span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+  <span class="s2">&quot;nmfe_path&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm74g64/util/nmfe74.bat&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;model_run_timeout&quot;</span><span class="p">:</span> <span class="mi">1200</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>and can be downloaded <a class="reference download internal" download="" href="_downloads/8ab9ca81754a9cb9b4821d743c6a1332/options.json"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
+<section id="execute-search">
+<h2>Execute Search<a class="headerlink" href="#execute-search" title="Permalink to this heading">¶</a></h2>
+<p>Usage details for starting a search in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> can be found <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here</span></a>.</p>
+<p>See <a class="reference internal" href="Examples.html#examples-target"><span class="std std-ref">“Examples”</span></a> for additional details about accessing example files.</p>
+<p>Initialization output should look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Model</span> <span class="n">run</span> <span class="n">priority</span> <span class="ow">is</span> <span class="n">below_normal</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Using</span> <span class="n">darwin</span><span class="o">.</span><span class="n">MemoryModelCache</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Algorithm</span> <span class="ow">is</span> <span class="n">PSO</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Project</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Workspace</span>\<span class="n">Example8</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Workspace</span>\<span class="n">Example8</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Project</span> <span class="n">working</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">jcraig</span>\<span class="n">pydarwin</span>\<span class="n">Example8</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Project</span> <span class="n">temp</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">jcraig</span>\<span class="n">pydarwin</span>\<span class="n">Example8</span>\<span class="n">temp</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Project</span> <span class="n">output</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">jcraig</span>\<span class="n">pydarwin</span>\<span class="n">Example8</span>\<span class="n">output</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Writing</span> <span class="n">intermediate</span> <span class="n">output</span> <span class="n">to</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">jcraig</span>\<span class="n">pydarwin</span>\<span class="n">Example8</span>\<span class="n">output</span>\<span class="n">results</span><span class="o">.</span><span class="n">csv</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Models</span> <span class="n">will</span> <span class="n">be</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">jcraig</span>\<span class="n">pydarwin</span>\<span class="n">Example8</span>\<span class="n">models</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Template</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="n">template</span><span class="o">.</span><span class="n">txt</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Tokens</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="n">tokens</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Search</span> <span class="n">start</span> <span class="n">time</span> <span class="o">=</span> <span class="n">Fri</span> <span class="n">Dec</span> <span class="mi">16</span> <span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span> <span class="mi">2022</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">NMFE</span> <span class="n">found</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span><span class="o">/</span><span class="n">nm74g64</span><span class="o">/</span><span class="n">util</span><span class="o">/</span><span class="n">nmfe74</span><span class="o">.</span><span class="n">bat</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Not</span> <span class="n">using</span> <span class="n">Post</span> <span class="n">Run</span> <span class="n">R</span> <span class="n">code</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Not</span> <span class="n">using</span> <span class="n">Post</span> <span class="n">Run</span> <span class="n">Python</span> <span class="n">code</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Checking</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">jcraig</span>\<span class="n">pydarwin</span>\<span class="n">Example8</span>\<span class="n">temp</span>\<span class="mi">0</span>\<span class="mi">02</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">set</span> <span class="c1"># 1 was found: C:\Workspace\Example8\PDdata.csv</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">57</span><span class="p">:</span><span class="mi">03</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">2</span><span class="p">,</span>           <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="o">-</span><span class="mf">619.152</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">57</span><span class="p">:</span><span class="mi">05</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">4</span><span class="p">,</span>           <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2475.044</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+<span class="p">[</span><span class="mi">12</span><span class="p">:</span><span class="mi">57</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">3</span><span class="p">,</span>           <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="o">-</span><span class="mf">723.686</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+</pre></div>
+</div>
+<p>and the final output should look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">01</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="mi">6</span><span class="n">D03</span><span class="p">,</span> <span class="n">Model</span>    <span class="mi">15</span><span class="p">,</span>           <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2822.644</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+<span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">05</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="mi">6</span><span class="n">D03</span><span class="p">,</span> <span class="n">Model</span>    <span class="mi">16</span><span class="p">,</span>           <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2821.427</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+<span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="mi">6</span><span class="n">D03</span><span class="p">,</span> <span class="n">Model</span>    <span class="mi">20</span><span class="p">,</span>           <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2820.297</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span> <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
+<span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span> <span class="n">best</span> <span class="n">fitness</span> <span class="o">-</span><span class="mf">2829.911515459548</span><span class="p">,</span> <span class="n">model</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span> <span class="n">Final</span> <span class="n">output</span> <span class="kn">from</span> <span class="nn">best</span> <span class="n">model</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">jcraig</span>\<span class="n">pydarwin</span>\<span class="n">Example8</span>\<span class="n">output</span>\<span class="n">FinalResultFile</span><span class="o">.</span><span class="n">lst</span>
+<span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">unique</span> <span class="n">models</span> <span class="n">to</span> <span class="n">best</span> <span class="n">model</span> <span class="o">=</span> <span class="mi">72</span>
+<span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span> <span class="n">Time</span> <span class="n">to</span> <span class="n">best</span> <span class="n">model</span> <span class="o">=</span> <span class="mf">13.4</span> <span class="n">minutes</span>
+<span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span> <span class="n">Best</span> <span class="n">overall</span> <span class="n">fitness</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2829.911515</span><span class="p">,</span> <span class="n">iteration</span> <span class="mi">6</span><span class="n">D02</span><span class="p">,</span> <span class="n">model</span> <span class="mi">6</span>
+<span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span> <span class="n">Elapsed</span> <span class="n">time</span> <span class="o">=</span> <span class="mf">16.6</span> <span class="n">minutes</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Mark Sale.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

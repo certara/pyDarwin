@@ -1,8 +1,8 @@
 {
-    "author": "Mark Sale",
-    "algorithm": "EXHAUSTIVE",
+    "author": "Certara",
+    "algorithm": "EX",
     "exhaustive_batch_size": 100,
-
+    "population_size": 8,
     "num_parallel": 4,
     "crash_value": 99999999,
 

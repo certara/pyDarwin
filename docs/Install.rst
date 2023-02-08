@@ -64,7 +64,7 @@ command line, type:
 
 .. code:: bash
 
-   .venv/Scripts/activate
+   .venv\Scripts\activate
 
 .. _install_pyDarwin:
 

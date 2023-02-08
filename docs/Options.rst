@@ -257,8 +257,8 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _random_seed_options_desc:
 
-* | **random_seed** - *positive int*: A seed value for random number generator.
-  | Not used for :ref:`EX<EX_desc>`.
+* | **random_seed** - *positive int*: A seed value for random number generator. Used by all machine learning algorithms.
+  | The random_seed is also used to generate off-diagonal estimates when :ref:`Searching Omega Structure<omega_search_usage_target>`, regardless if using one of the machine learning algorithms or performing an :ref:`Exhaustive Search<EX_desc>`.
 
 .. _num_parallel_options_desc:
 

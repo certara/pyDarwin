@@ -39,7 +39,7 @@ At the start, this model will be far from the "true" optimal model. Starting wit
 This process is repeated until the current best predicted model no longer improves. This approach (start with a random representation of the search space, run a few models, 
 then train the representation) has been adapted to other traditionally supervised methods including Bayesian optimization (Gaussian process - GP), 
 Random Forest (RF) and gradient boosted random trees (GBRT). These three hybrid algorithms (:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>` , :ref:`GBRT<GBRT_desc>`) have been included in ``pyDarwin``'s
-algorithm options along with the more traditional Genetic Algorithm (:ref:`GA<GA_desc>`), (:ref:`PSO<PSO_desc>`) and exhaustive search (:ref:`EX<EX_desc>`).
+algorithm options along with the more traditional Genetic Algorithm (:ref:`GA<GA_desc>`), Particle Swarm Optimization (:ref:`PSO<PSO_desc>`) and exhaustive search (:ref:`EX<EX_desc>`).
 
 Traditional PK/PD model selection uses the "downhill method", starting usually at a trivial model, then adding
 "features" (compartments, lag times, nonlinear elimination, covariate effects), and accepting the new model if it is better ("downhill"), based on some user-defined, and somewhat informal criteria. 

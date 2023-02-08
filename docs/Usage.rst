@@ -344,7 +344,7 @@ A diagram of the token structure is given below
 
 .. figure:: tokens.png
 
-Note the "nested token" - a token ("{K23~WT[1]}") within a token, circled in red. Any number of levels of nested tokens is permitted (but the logic becomes very difficult with more than one) 
+Note the "nested token" - a token ("{K23~WT[1]}") within a token, circled in red. Any number of levels of nested tokens is permitted (but the logic becomes very difficult with more than one).
 pyDarwin will first substitute the full text 
 into the template, then scans the resulting text again. This nested token will then be found and the text from the {K23~WT[1]} token set will be substituted. 
 
@@ -381,7 +381,7 @@ for the text in the $PK block, then code to be put into the $THETA block will be
 
 ::
 
- "  (0,100) \t; THETA(EMAXs) "
+ "  (0,100) \t; THETA(EMAX) "
  "  (0,1000) \t; THETA(EC50) "
 
 Where \\t is a tab. Without this THETA(EMAX) and THETA(EC50) as a comment, there would not be any way to identify which initial estimate is to be associated with which 
@@ -551,7 +551,7 @@ The following fields are required to search for OMEGA submatrices:
 
     * :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`: N
 
-Where N is the maximum size of an OMEGA submatrix, them submatrices will be searched. OMEGA submatrices are intended to be use with OMEGA band search to further expand the options for OMEGA structure. Specifically,
+Where N is the maximum size of an OMEGA submatrix, then submatrices will be searched. OMEGA submatrices are intended to be use with OMEGA band search to further expand the options for OMEGA structure. Specifically,
 
 For the source OMEGA matrix of:
 
@@ -591,7 +591,7 @@ And with the additional sub matrix search used, this search would also include, 
 Resulting in one fewer variance parameters to be estimated (covariance of ETA(2) and ETA(3)).
 
 In pyDarwin, this is converted to a bit string describing whether the next OMEGA row will be include with the current OMEGA row. In the above example,
-the bit string [1,0,1], the 1 in the first position, indicates that the 2nd row will be combined with the first into , but then a new OMEGA block will be created for
+the bit string [1,0,1], the 1 in the first position, indicates that the 2nd row will be combined with the first into a single block, but then a new OMEGA block will be created for
 the 3rd row (indicted by the 0 in the 2nd position). The 4th row will be combined into an OMEGA block with the 3rd, indicated by the 1 in the 3rd position.
 The user need only provide the maximum permitted submatrix size in the options file  e.g., :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`.
 

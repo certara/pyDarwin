@@ -9,7 +9,7 @@ be more appropriate.
 
 Below is a list of recommendations for algorithm selection.
 
- - Fast execution, large search space (> 100,000 models, expected sample > 1000 models) – :ref:`GA<GA_desc>` or :ref:`RF<RF_desc>`
+ - Short model run times, large search space (> 100,000 models, expected sample > 1000 models) – :ref:`GA<GA_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`, or :ref:`PSO<PSO_desc>`
  - Small search space (<100,000, expected # of samples < 1000) - :ref:`Gaussian Process<GP_desc>`.
  - Very small search space (< 500 models), many cores (> 20) – :ref:`Exhaustive Search <EX_desc>`.
 
@@ -20,7 +20,7 @@ Exhaustive Search
 *******************
 
 The exhaustive search algorithm is simple to understand. The search space is initially represented as a string of integers - one for each dimension. To facilitate the search, 
-this integer string is coded into a "minimal binary".
+this integer string is coded into a "minimal binary". Since all candidate models are executed in an exhaustive search, this algorithm is best suited for small search spaces.
  
 .. _GA_desc:
 

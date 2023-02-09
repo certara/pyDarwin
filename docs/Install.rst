@@ -62,7 +62,7 @@ command line, type:
 
    python -m venv .venv
 
-.. code:: bash
+.. code:: ps1
 
    .venv\Scripts\activate
 

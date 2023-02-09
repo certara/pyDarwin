@@ -98,7 +98,7 @@ be more appropriate.</p>
 <p>Below is a list of recommendations for algorithm selection.</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Fast execution, large search space (&gt; 100,000 models, expected sample &gt; 1000 models) – <a class="reference internal" href="#ga-desc"><span class="std std-ref">GA</span></a> or <a class="reference internal" href="#rf-desc"><span class="std std-ref">RF</span></a></p></li>
+<li><p>Short model run times, large search space (&gt; 100,000 models, expected sample &gt; 1000 models) – <a class="reference internal" href="#ga-desc"><span class="std std-ref">GA</span></a>, <a class="reference internal" href="#rf-desc"><span class="std std-ref">RF</span></a>, <a class="reference internal" href="#gbrt-desc"><span class="std std-ref">GBRT</span></a>, or <a class="reference internal" href="#pso-desc"><span class="std std-ref">PSO</span></a></p></li>
 <li><p>Small search space (&lt;100,000, expected # of samples &lt; 1000) - <a class="reference internal" href="#gp-desc"><span class="std std-ref">Gaussian Process</span></a>.</p></li>
 <li><p>Very small search space (&lt; 500 models), many cores (&gt; 20) – <a class="reference internal" href="#ex-desc"><span class="std std-ref">Exhaustive Search</span></a>.</p></li>
 </ul>
@@ -106,7 +106,7 @@ be more appropriate.</p>
 <section id="exhaustive-search">
 <span id="ex-desc"></span><h2>Exhaustive Search<a class="headerlink" href="#exhaustive-search" title="Permalink to this heading">¶</a></h2>
 <p>The exhaustive search algorithm is simple to understand. The search space is initially represented as a string of integers - one for each dimension. To facilitate the search,
-this integer string is coded into a “minimal binary”.</p>
+this integer string is coded into a “minimal binary”. Since all candidate models are executed in an exhaustive search, this algorithm is best suited for small search spaces.</p>
 </section>
 <section id="genetic-algorithm">
 <span id="ga-desc"></span><h2>Genetic Algorithm<a class="headerlink" href="#genetic-algorithm" title="Permalink to this heading">¶</a></h2>

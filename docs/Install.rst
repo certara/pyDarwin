@@ -62,9 +62,9 @@ command line, type:
 
    python -m venv .venv
 
-.. code:: bash
+.. code:: ps1
 
-   .venv/Scripts/activate
+   .venv\Scripts\activate
 
 .. _install_pyDarwin:
 

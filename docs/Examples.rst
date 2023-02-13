@@ -27,7 +27,7 @@ organized into folders with all required files available for execution.
 .. _examples_target:
 
 To get started, download and unzip the `Examples <https://github.com/certara/pyDarwin/tree/master/examples/user>`_
-folders from the following `link <https://certara-training.s3.amazonaws.com/Certara+Darwin+Project/pyDarwin-Examples.zip>`_.
+folders from the following `link <https://certara-training.s3.amazonaws.com/Certara+Darwin+Project/pyDarwin_1_1_Examples.zip>`_.
 
 After setting up your :ref:`Python virtual environment <install_python_venv>` and :ref:`installing pyDarwin <install_pyDarwin>`,
 you can simply specify the path to the one of the Example[n] folders in the command below and the search will begin:

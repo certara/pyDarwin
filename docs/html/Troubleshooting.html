@@ -55,7 +55,11 @@
 <li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#error-messages">Error Messages</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -83,6 +87,17 @@
              
   <section id="troubleshooting">
 <h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">¶</a></h1>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
+<p id="installation-troubleshooting"><strong>SSL: CERTIFICATE_VERIFY_FAILED</strong></p>
+<p>The likely cause of this error is you are installing behind a company/corporate firewall. The solution is
+to add <cite>–trusted-host</cite> params into the installation command.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pyDarwin</span><span class="o">-</span><span class="n">Certara</span> <span class="o">--</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">certara</span><span class="o">.</span><span class="n">jfrog</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">artifactory</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">pypi</span><span class="o">/</span><span class="n">certara</span><span class="o">-</span><span class="n">pypi</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="n">public</span><span class="o">/</span><span class="n">simple</span> <span class="o">--</span><span class="n">extra</span><span class="o">-</span><span class="n">index</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pypi</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">simple</span><span class="o">/</span> <span class="o">--</span><span class="n">trusted</span><span class="o">-</span><span class="n">host</span><span class="o">=</span><span class="n">pypi</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">org</span> <span class="o">--</span><span class="n">trusted</span><span class="o">-</span><span class="n">host</span><span class="o">=</span><span class="n">pypi</span><span class="o">.</span><span class="n">org</span> <span class="o">--</span><span class="n">trusted</span><span class="o">-</span><span class="n">host</span><span class="o">=</span><span class="n">files</span><span class="o">.</span><span class="n">pythonhosted</span><span class="o">.</span><span class="n">org</span> <span class="o">--</span><span class="n">trusted</span><span class="o">-</span><span class="n">host</span><span class="o">=</span><span class="n">certara</span><span class="o">.</span><span class="n">jfrog</span><span class="o">.</span><span class="n">io</span> <span class="o">--</span><span class="n">trusted</span><span class="o">-</span><span class="n">host</span><span class="o">=</span><span class="n">jfrog</span><span class="o">-</span><span class="n">prod</span><span class="o">-</span><span class="n">use1</span><span class="o">-</span><span class="n">shared</span><span class="o">-</span><span class="n">virginia</span><span class="o">-</span><span class="n">main</span><span class="o">.</span><span class="n">s3</span><span class="o">.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+</section>
+<section id="error-messages">
+<h2>Error Messages<a class="headerlink" href="#error-messages" title="Permalink to this heading">¶</a></h2>
 <p id="non-integer-index-to-theta-omega-sigma"><strong>Non integer index to THETA/OMEGA/SIGMA</strong></p>
 <p>The error from NONMEM (nmtran) will look something like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AN</span> <span class="n">ERROR</span> <span class="n">WAS</span> <span class="n">FOUND</span> <span class="n">ON</span> <span class="n">LINE</span> <span class="mi">11</span> <span class="n">AT</span> <span class="n">THE</span> <span class="n">APPROXIMATE</span> <span class="n">POSITION</span> <span class="n">NOTED</span><span class="p">:</span>
@@ -122,6 +137,7 @@ or a file in a folder is open, <code class="docutils literal notranslate"><span 
 <p>pyDarwin opens and closes the <code class="file docutils literal notranslate"><span class="pre">results.csv</span></code> file with each model completed.
 If it is opened in an application that “locks” it, e.g., Excel, an exception will occur. The workaround is to
 copy the file to another file (e.g., <code class="docutils literal notranslate"><span class="pre">cp</span> <span class="pre">results.csv</span> <span class="pre">results1.csv</span></code>), then open the copied file.</p>
+</section>
 </section>
 
 

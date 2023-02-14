@@ -3,6 +3,25 @@
 Troubleshooting
 ################
 
+******************
+Installation
+******************
+
+.. _installation_troubleshooting:
+
+**SSL: CERTIFICATE_VERIFY_FAILED**
+
+The likely cause of this error is you are installing behind a company/corporate firewall. The solution is
+to add `--trusted-host` params into the installation command.
+
+.. code:: python
+
+    pip install pyDarwin-Certara --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-release-public/simple --extra-index-url https://pypi.python.org/simple/ --trusted-host=pypi.python.org --trusted-host=pypi.org --trusted-host=files.pythonhosted.org --trusted-host=certara.jfrog.io --trusted-host=jfrog-prod-use1-shared-virginia-main.s3.amazonaws.com
+
+*******************
+Error Messages
+*******************
+
 .. _Non integer index to THETA/OMEGA/SIGMA:
 
 **Non integer index to THETA/OMEGA/SIGMA**

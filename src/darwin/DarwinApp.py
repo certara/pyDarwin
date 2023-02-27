@@ -60,6 +60,7 @@ def _reset_global_vars():
 
 
 def _init_app(options_file: str, folder: str = None):
+    log.message("Running pyDarwin v1.1.0")
     _reset_global_vars()
 
     file_checker.reset()

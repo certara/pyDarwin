@@ -297,14 +297,10 @@ class NMEngineAdapter(ModelEngineAdapter):
                 for this_row in range(1, num_rows):
                     row_data = corr_data[this_row]['nm:col'][:-1]
 
-                    def abs_function(t):
-                        return abs(t) > 99999
-
-                    row_data = [abs_function(float(x['#text'])) for x in row_data]
-
-                    if any(row_data):
-                        correlation = False
-                        break
+                    for x in row_data:
+                        if abs(float(x['#text'])) > 0.95:
+                            correlation = False
+                            break
 
                 if 'nm:eigenvalues' in last_estimation:
                     # if last_estimation['nm:eigenvalues'] is None:
@@ -313,7 +309,7 @@ class NMEngineAdapter(ModelEngineAdapter):
                     min_val = 9999999
 
                     for i in eigenvalues:
-                        val = float(i['#text'])
+                        val = abs(float(i['#text']))
                         if val < min_val:
                             min_val = val
                         if val > max_val:

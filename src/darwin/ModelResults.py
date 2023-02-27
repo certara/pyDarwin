@@ -59,7 +59,7 @@ class ModelResults:
         else:
             if not self.correlation:
                 fitness += penalties['correlation']
-            if not self.condition_num > 1000:
+            if self.condition_num > 1000:
                 fitness += penalties['condition_number']
 
         fitness += model.estimated_theta_num * penalties['theta']

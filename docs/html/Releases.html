@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Releases &mdash; pyDarwin 1.1.0 documentation</title>
+  <title>Releases &mdash; pyDarwin 1.1.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -47,9 +47,14 @@
 <li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Releases</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#pydarwin-certara-1-1">pyDarwin-Certara 1.1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pydarwin-certara-1-1-1">pyDarwin-Certara 1.1.1</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#what-s-new">What’s New</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#issues-fixed">Issues Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pydarwin-certara-1-1">pyDarwin-Certara 1.1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">What’s New</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Issues Fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#pydarwin-certara-1-0">pyDarwin-Certara 1.0</a></li>
@@ -92,10 +97,26 @@
              
   <section id="releases">
 <h1>Releases<a class="headerlink" href="#releases" title="Permalink to this heading">¶</a></h1>
-<section id="pydarwin-certara-1-1">
-<h2>pyDarwin-Certara 1.1<a class="headerlink" href="#pydarwin-certara-1-1" title="Permalink to this heading">¶</a></h2>
+<section id="pydarwin-certara-1-1-1">
+<h2>pyDarwin-Certara 1.1.1<a class="headerlink" href="#pydarwin-certara-1-1-1" title="Permalink to this heading">¶</a></h2>
 <section id="what-s-new">
 <h3>What’s New<a class="headerlink" href="#what-s-new" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>The condition_number penalty is now added to the fitness value for the case when the covariance step is successful and condition_number &gt; 1000.
+Previously, the condition_number penalty was added to fitness value only for the case when covariance was unsuccessful or not requested.</p></li>
+</ul>
+</section>
+<section id="issues-fixed">
+<h3>Issues Fixed<a class="headerlink" href="#issues-fixed" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>An issue was corrected where the correlation penalty does not get added to the resulting fitness value for cases when it should.</p></li>
+</ul>
+</section>
+</section>
+<section id="pydarwin-certara-1-1">
+<h2>pyDarwin-Certara 1.1<a class="headerlink" href="#pydarwin-certara-1-1" title="Permalink to this heading">¶</a></h2>
+<section id="id1">
+<h3>What’s New<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
 <ul>
 <li><p>pyDarwin now supports additional options for <a class="reference internal" href="Usage.html#omega-search-usage-target"><span class="std std-ref">Searching Omega Structure</span></a>, including:</p>
 <blockquote>
@@ -108,8 +129,8 @@
 <li><p>pyDarwin now supports usage of the <a class="reference internal" href="Algorithms.html#pso-desc"><span class="std std-ref">Particle Swarms Optimization (PSO)</span></a> algorithm to search for a global optimal solution in the candidate model search space.</p></li>
 </ul>
 </section>
-<section id="issues-fixed">
-<h3>Issues Fixed<a class="headerlink" href="#issues-fixed" title="Permalink to this heading">¶</a></h3>
+<section id="id2">
+<h3>Issues Fixed<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>An issue has been fixed that could cause the search to fail if the covariance step ($COV) was not specified in template.txt.</p></li>
 </ul>

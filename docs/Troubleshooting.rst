@@ -18,6 +18,14 @@ to add `--trusted-host` params into the installation command.
 
     pip install pyDarwin-Certara --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-release-public/simple --extra-index-url https://pypi.python.org/simple/ --trusted-host=pypi.python.org --trusted-host=pypi.org --trusted-host=files.pythonhosted.org --trusted-host=certara.jfrog.io --trusted-host=jfrog-prod-use1-shared-virginia-main.s3.amazonaws.com
 
+**Cannot install updated version**
+
+If you are attempting to update pyDarwin-Certara and do not see that the latest version has been installed, please specify the additional `--upgrade` argument to the installation command.
+
+.. code:: python
+
+    pip install pyDarwin-Certara --upgrade --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-release-public/simple --extra-index-url https://pypi.python.org/simple/ --trusted-host=pypi.python.org --trusted-host=pypi.org --trusted-host=files.pythonhosted.org --trusted-host=certara.jfrog.io --trusted-host=jfrog-prod-use1-shared-virginia-main.s3.amazonaws.com
+
 *******************
 Error Messages
 *******************

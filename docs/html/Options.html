@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Options List &mdash; pyDarwin 1.1.0 documentation</title>
+  <title>Options List &mdash; pyDarwin 1.1.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -544,8 +544,8 @@ value &gt; 0.95 (real number). This penalty will be added if the covariance step
 <blockquote id="condition-number-options-desc">
 <div><ul>
 <li><div class="line-block">
-<div class="line"><strong>condition_number</strong> - <em>real</em>: Penalty added to fitness/reward if the condition number is &gt; 1000.
-This penalty will be added if the covariance step fails or is not requested, e.g., PRINT=E is not included in $COV.</div>
+<div class="line"><strong>condition_number</strong> - <em>real</em>:  Penalty added if the covariance step fails or is not requested, e.g., PRINT=E is not included in $COV.
+Additionally, if covariance is successful and the condition number of the covariance matrix is &gt; 1000, then this penalty is added to the fitness/reward.</div>
 <div class="line"><em>Default</em>: 100</div>
 </div>
 </li>

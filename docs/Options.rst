@@ -342,8 +342,8 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _condition_number_options_desc:
 
-    * | **condition_number** - *real*: Penalty added to fitness/reward if the condition number is > 1000.
-        This penalty will be added if the covariance step fails or is not requested, e.g., PRINT=E is not included in $COV.
+    * | **condition_number** - *real*:  Penalty added if the covariance step fails or is not requested, e.g., PRINT=E is not included in $COV.
+        Additionally, if covariance is successful and the condition number of the covariance matrix is > 1000, then this penalty is added to the fitness/reward.
       | *Default*: 100
 
 .. _non_influential_tokens_options_desc:

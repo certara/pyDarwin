@@ -3,6 +3,23 @@
 Releases
 ######################
 
+
+**********************
+pyDarwin-Certara 1.1.1
+**********************
+
+What's New
+====================
+
+* The condition_number penalty is now added to the fitness value for the case when the covariance step is successful and condition_number > 1000.
+  Previously, the condition_number penalty was added to fitness value only for the case when covariance was unsuccessful or not requested.
+
+Issues Fixed
+====================
+
+* An issue was corrected where the correlation penalty does not get added to the resulting fitness value for cases when it should.
+
+
 ********************
 pyDarwin-Certara 1.1
 ********************

@@ -1,4 +1,4 @@
-Tue Jan 17 10:20:12 AM PST 2023
+Sat Mar  4 05:18:34 PM PST 2023
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DROP DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
 
@@ -92,8 +92,9 @@ Note: Analytical 2nd Derivatives are constructed in FSUBS but are never used.
 
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2023
-Current Date:       17 JAN 2023
-Days until program expires :  57
+Current Date:        4 MAR 2023
+  **** WARNING!!! Days until program expires :  10 ****
+  **** CONTACT idssoftware@iconplc.com FOR RENEWAL ****
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -243,7 +244,7 @@ Days until program expires :  57
  EXCLUDE NON-INFLUENTIAL (NON-INFL.) ETAS
        IN SHRINKAGE (ETASTYPE):             NO
  NON-INFL. ETA CORRECTION (NONINFETA):      0
- RAW OUTPUT FILE (FILE): NM_FND04_15.ext
+ RAW OUTPUT FILE (FILE): NM_5D05_31.ext
  EXCLUDE TITLE (NOTITLE):                   NO
  EXCLUDE COLUMN LABELS (NOLABEL):           NO
  FORMAT FOR ADDITIONAL FILES (FORMAT):      S1PE12.5
@@ -362,10 +363,10 @@ Days until program expires :  57
  TOTAL EFFECTIVE ETAS (NIND*NETA):                           348
   
  #TERE:
- Elapsed estimation  time in seconds:    34.14
+ Elapsed estimation  time in seconds:    36.11
  TESTING R MATRIX FOR POSITIVE DEFINITNESS
  R MATRIX IS POSITIVE DEFINITE
- Elapsed covariance  time in seconds:    16.04
+ Elapsed covariance  time in seconds:    15.59
  Elapsed postprocess time in seconds:     0.00
 1
  
@@ -1039,9 +1040,9 @@ Days until program expires :  57
           3.67E+00
  
  Elapsed finaloutput time in seconds:     0.02
- #CPUT: Total CPU Time in Seconds,       48.477
+ #CPUT: Total CPU Time in Seconds,       47.960
 Stop Time:
-Tue Jan 17 10:21:14 AM PST 2023
+Sat Mar  4 05:19:36 PM PST 2023
 OFV = 8563.982632057203
 success = True
 covariance = True
@@ -1050,4 +1051,4 @@ Condition # = 53.372081985724165
 Num Non fixed THETAs = 7
 Num Non fixed OMEGAs = 4
 Num Non fixed SIGMAs = 2
-Original run directory = /home/CertaraUser/pydarwin/Example5/temp/FND04/15
+Original run directory = /home/CertaraUser/pydarwin/Example5/temp/5D05/31

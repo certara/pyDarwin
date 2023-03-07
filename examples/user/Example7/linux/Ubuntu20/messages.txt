@@ -1,60 +1,60 @@
-[11:48:03] Using darwin.MemoryModelCache
-[11:48:03] Algorithm is EXHAUSTIVE
-[11:48:03] Project dir: /home/CertaraUser/examples/user/Example7
-[11:48:03] Data dir: /home/CertaraUser/examples/user/Example7
-[11:48:03] Project working dir: /home/CertaraUser/pydarwin/Example7
-[11:48:03] Project temp dir: /home/CertaraUser/pydarwin/Example7/temp
-[11:48:03] Project output dir: /home/CertaraUser/pydarwin/Example7/output
-[11:48:03] Writing intermediate output to /home/CertaraUser/pydarwin/Example7/output/results.csv
-[11:48:03] Models will be saved in /home/CertaraUser/pydarwin/Example7/models.json
-[11:48:03] Template file found at template.txt
-[11:48:03] Tokens file found at tokens.json
-[11:48:03] Including search of band OMEGA, with width up to 1
-[11:48:03] Including search for OMEGA submatrices, with size up to 2
-[11:48:03] Search start time = Tue Jan 17 11:48:03 2023
-[11:48:03] Total of 32 to be run in exhaustive search
-[11:48:03] NMFE found: /home/CertaraUser/nm751/util/nmfe75
-[11:48:03] Not using Post Run R code
-[11:48:03] Not using Post Run Python code
-[11:48:03] Checking files in /home/CertaraUser/pydarwin/Example7/temp/0/01
-[11:48:03] Data set # 1 was found: /home/CertaraUser/examples/user/Example7/dataExample1.csv
-[11:48:30] Iteration = 0, Model     4,           Done,    fitness = 5167.283,    message = No important warnings
-[11:48:33] Iteration = 0, Model     3,           Done,    fitness = 5138.493,    message = No important warnings
-[11:48:38] Iteration = 0, Model     2,           Done,    fitness = 5177.204,    message = No important warnings
-[11:48:40] Iteration = 0, Model     1,           Done,    fitness = 5147.703,    message = No important warnings
-[11:49:02] Iteration = 0, Model     5,           Done,    fitness = 5147.703,    message = No important warnings
-[11:49:02] Iteration = 0, Model     6,           Done,    fitness = 5177.204,    message = No important warnings
-[11:49:03] Iteration = 0, Model     7,           Done,    fitness = 5138.493,    message = No important warnings
-[11:49:04] Iteration = 0, Model     8,           Done,    fitness = 5167.283,    message = No important warnings
-[11:49:29] Iteration = 0, Model    11,           Done,    fitness = 5138.493,    message = No important warnings
-[11:49:31] Iteration = 0, Model    12,           Done,    fitness = 5167.283,    message = No important warnings
-[11:49:36] Iteration = 0, Model    10,           Done,    fitness = 5177.204,    message = No important warnings
-[11:49:38] Iteration = 0, Model     9,           Done,    fitness = 5147.703,    message = No important warnings
-[11:49:58] Iteration = 0, Model    14,           Done,    fitness = 5183.802,    message = No important warnings
-[11:50:00] Iteration = 0, Model    13,           Done,    fitness = 5152.757,    message = No important warnings
-[11:50:03] Iteration = 0, Model    15,           Done,    fitness = 5143.037,    message = No important warnings
-[11:50:05] Iteration = 0, Model    16,           Done,    fitness = 5173.801,    message = No important warnings
-[11:50:26] Iteration = 0, Model    20,           Done,    fitness = 5167.283,    message = No important warnings
-[11:50:27] Iteration = 0, Model    19,           Done,    fitness = 5138.493,    message = No important warnings
-[11:50:32] Iteration = 0, Model    17,           Done,    fitness = 5147.703,    message = No important warnings
-[11:50:35] Iteration = 0, Model    18,           Done,    fitness = 5177.204,    message = No important warnings
-[11:50:55] Iteration = 0, Model    22,           Done,    fitness = 5183.633,    message = No important warnings
-[11:50:56] Iteration = 0, Model    24,           Done,    fitness = 5167.283,    message = No important warnings
-[11:50:57] Iteration = 0, Model    23,           Done,    fitness = 5138.493,    message = No important warnings
-[11:50:57] Iteration = 0, Model    21,           Done,    fitness = 5157.651,    message = No important warnings
-[11:51:23] Iteration = 0, Model    28,           Done,    fitness = 5167.283,    message = No important warnings
-[11:51:24] Iteration = 0, Model    27,           Done,    fitness = 5138.493,    message = No important warnings
-[11:51:29] Iteration = 0, Model    25,           Done,    fitness = 5147.703,    message = No important warnings
-[11:51:29] Iteration = 0, Model    26,           Done,    fitness = 5177.204,    message = No important warnings
-[11:51:51] Iteration = 0, Model    31,           Done,    fitness = 5143.037,    message = No important warnings
-[11:51:52] Iteration = 0, Model    30,           Done,    fitness = 5192.377,    message = No important warnings
-[11:51:53] Iteration = 0, Model    32,           Done,    fitness = 5173.801,    message = No important warnings
-[11:51:55] Iteration = 0, Model    29,           Done,    fitness = 5170.933,    message = No important warnings
-[11:51:55] Current Best fitness = 5138.49275264449
-[11:51:55] Final output from best model is in /home/CertaraUser/pydarwin/Example7/output/FinalResultFile.lst
-[11:51:55] Number of unique models to best model = 6
-[11:51:55] Time to best model = 0.5 minutes
-[11:51:55] Best overall fitness = 5138.492753, iteration 0, model 3
-[11:51:55] Elapsed time = 3.9 minutes 
+[01:41:01] Using darwin.MemoryModelCache
+[01:41:01] Algorithm is EXHAUSTIVE
+[01:41:01] Project dir: /home/CertaraUser/examples/user/Example7
+[01:41:01] Data dir: /home/CertaraUser/examples/user/Example7
+[01:41:01] Project working dir: /home/CertaraUser/pydarwin/Example7
+[01:41:01] Project temp dir: /home/CertaraUser/pydarwin/Example7/temp
+[01:41:01] Project output dir: /home/CertaraUser/pydarwin/Example7/output
+[01:41:01] Writing intermediate output to /home/CertaraUser/pydarwin/Example7/output/results.csv
+[01:41:01] Models will be saved in /home/CertaraUser/pydarwin/Example7/models.json
+[01:41:01] Template file found at template.txt
+[01:41:01] Tokens file found at tokens.json
+[01:41:01] Including search of band OMEGA, with width up to 1
+[01:41:01] Including search for OMEGA submatrices, with size up to 2
+[01:41:01] Search start time = Tue Mar  7 01:41:01 2023
+[01:41:01] Total of 32 to be run in exhaustive search
+[01:41:01] NMFE found: /home/CertaraUser/nm751/util/nmfe75
+[01:41:01] Not using Post Run R code
+[01:41:01] Not using Post Run Python code
+[01:41:01] Checking files in /home/CertaraUser/pydarwin/Example7/temp/0/02
+[01:41:01] Data set # 1 was found: /home/CertaraUser/examples/user/Example7/dataExample1.csv
+[01:41:29] Iteration = 0, Model     4,           Done,    fitness = 5167.283,    message = No important warnings
+[01:41:30] Iteration = 0, Model     3,           Done,    fitness = 5138.493,    message = No important warnings
+[01:41:37] Iteration = 0, Model     2,           Done,    fitness = 5177.204,    message = No important warnings
+[01:41:38] Iteration = 0, Model     1,           Done,    fitness = 5147.703,    message = No important warnings
+[01:42:02] Iteration = 0, Model     5,           Done,    fitness = 5147.703,    message = No important warnings
+[01:42:02] Iteration = 0, Model     7,           Done,    fitness = 5138.493,    message = No important warnings
+[01:42:02] Iteration = 0, Model     6,           Done,    fitness = 5177.204,    message = No important warnings
+[01:42:03] Iteration = 0, Model     8,           Done,    fitness = 5167.283,    message = No important warnings
+[01:42:35] Iteration = 0, Model    12,           Done,    fitness = 5167.283,    message = No important warnings
+[01:42:44] Iteration = 0, Model    11,           Done,    fitness = 5138.493,    message = No important warnings
+[01:42:57] Iteration = 0, Model    10,           Done,    fitness = 5177.204,    message = No important warnings
+[01:43:07] Iteration = 0, Model     9,           Done,    fitness = 5147.703,    message = No important warnings
+[01:43:30] Iteration = 0, Model    14,           Done,    fitness = 5183.802,    message = No important warnings
+[01:43:33] Iteration = 0, Model    13,           Done,    fitness = 5152.757,    message = No important warnings
+[01:43:39] Iteration = 0, Model    15,           Done,    fitness = 5143.037,    message = No important warnings
+[01:43:44] Iteration = 0, Model    16,           Done,    fitness = 5173.801,    message = No important warnings
+[01:44:01] Iteration = 0, Model    17,           Done,    fitness = 5147.703,    message = No important warnings
+[01:44:02] Iteration = 0, Model    19,           Done,    fitness = 5138.493,    message = No important warnings
+[01:44:04] Iteration = 0, Model    18,           Done,    fitness = 5177.204,    message = No important warnings
+[01:44:08] Iteration = 0, Model    20,           Done,    fitness = 5167.283,    message = No important warnings
+[01:44:29] Iteration = 0, Model    23,           Done,    fitness = 5138.493,    message = No important warnings
+[01:44:29] Iteration = 0, Model    24,           Done,    fitness = 5167.283,    message = No important warnings
+[01:44:33] Iteration = 0, Model    22,           Done,    fitness = 5183.633,    message = No important warnings
+[01:44:33] Iteration = 0, Model    21,           Done,    fitness = 5157.651,    message = No important warnings
+[01:44:57] Iteration = 0, Model    28,           Done,    fitness = 5167.283,    message = No important warnings
+[01:44:58] Iteration = 0, Model    27,           Done,    fitness = 5138.493,    message = No important warnings
+[01:45:03] Iteration = 0, Model    26,           Done,    fitness = 5177.204,    message = No important warnings
+[01:45:03] Iteration = 0, Model    25,           Done,    fitness = 5147.703,    message = No important warnings
+[01:45:28] Iteration = 0, Model    30,           Done,    fitness = 5192.377,    message = No important warnings
+[01:45:28] Iteration = 0, Model    31,           Done,    fitness = 5143.037,    message = No important warnings
+[01:45:29] Iteration = 0, Model    32,           Done,    fitness = 5173.801,    message = No important warnings
+[01:45:32] Iteration = 0, Model    29,           Done,    fitness = 5170.933,    message = No important warnings
+[01:45:32] Current Best fitness = 5138.49275264449
+[01:45:32] Final output from best model is in /home/CertaraUser/pydarwin/Example7/output/FinalResultFile.lst
+[01:45:32] Number of unique models to best model = 6
+[01:45:32] Time to best model = 0.5 minutes
+[01:45:32] Best overall fitness = 5138.492753, iteration 0, model 3
+[01:45:32] Elapsed time = 4.5 minutes 
 
-[11:51:55] Search end time = Tue Jan 17 11:51:55 2023
+[01:45:32] Search end time = Tue Mar  7 01:45:32 2023

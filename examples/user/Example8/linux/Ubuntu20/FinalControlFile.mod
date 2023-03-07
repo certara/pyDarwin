@@ -24,7 +24,7 @@ $PROBLEM EMAX
   ; ====================================================================================================          
 
 $INPUT ID TIME SEX RACE BW C DV 
-$DATA /home/CertaraUser/Desktop/FDA-OGD-ML/examples/user/Example8/PDdata.csv IGNORE = @
+$DATA /home/CertaraUser/examples/user/Example8/PDdata.csv IGNORE = @
 
 
   ; ====================================================================================================

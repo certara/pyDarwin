@@ -1,4 +1,4 @@
-Sun Jan 15 12:40:51 PM PST 2023
+Wed Mar  1 12:00:47 PM PST 2023
 
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE RATE
@@ -73,8 +73,9 @@ Note: Analytical 2nd Derivatives are constructed in FSUBS but are never used.
 
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2023
-Current Date:       15 JAN 2023
-Days until program expires :  59
+Current Date:        1 MAR 2023
+  **** WARNING!!! Days until program expires :  13 ****
+  **** CONTACT idssoftware@iconplc.com FOR RENEWAL ****
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -284,8 +285,8 @@ Days until program expires :  59
  TOTAL EFFECTIVE ETAS (NIND*NETA):                           100
   
  #TERE:
- Elapsed estimation  time in seconds:     6.68
- Elapsed covariance  time in seconds:     6.71
+ Elapsed estimation  time in seconds:     2.21
+ Elapsed covariance  time in seconds:     2.37
  Elapsed postprocess time in seconds:     0.00
 1
  
@@ -638,10 +639,10 @@ Days until program expires :  59
  
          1.04E-02  3.07E-02  2.38E-01  5.36E-01  6.21E-01  7.97E-01  1.22E+00  1.43E+00  1.53E+00  3.59E+00
  
- Elapsed finaloutput time in seconds:     0.01
- #CPUT: Total CPU Time in Seconds,        6.522
+ Elapsed finaloutput time in seconds:     0.00
+ #CPUT: Total CPU Time in Seconds,        4.639
 Stop Time:
-Sun Jan 15 12:41:45 PM PST 2023
+Wed Mar  1 12:01:03 PM PST 2023
 OFV = 4718.163467524981
 success = True
 covariance = True

@@ -1,9 +1,9 @@
-Sun 07/31/2022 
-08:22 AM
+Tue 03/07/2023 
+10:57 AM
 
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE RATE
-$DATA      C:\workspace\ffe\user\Example2/datalarge.csv IGNORE=@
+$DATA      C:\Workspace\Example2/datalarge.csv IGNORE=@
 
 $SUBROUTINE ADVAN4 ;; advan4 ;; ADVAN2, ADVAN4, ADVAN12
 $PK      
@@ -70,8 +70,9 @@ NM-TRAN MESSAGES
   
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2023
-Current Date:       31 JUL 2022
-Days until program expires : 228
+Current Date:        7 MAR 2023
+  **** WARNING!!! Days until program expires :   7 ****
+  **** CONTACT idssoftware@iconplc.com FOR RENEWAL ****
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -280,8 +281,8 @@ Days until program expires : 228
  TOTAL EFFECTIVE ETAS (NIND*NETA):                           100
   
  #TERE:
- Elapsed estimation  time in seconds:     2.55
- Elapsed covariance  time in seconds:     5.75
+ Elapsed estimation  time in seconds:     4.65
+ Elapsed covariance  time in seconds:     4.88
  Elapsed postprocess time in seconds:     0.00
 1
  
@@ -634,11 +635,11 @@ Days until program expires : 228
  
          2.27E-02  4.31E-02  3.48E-01  5.18E-01  6.62E-01  8.45E-01  1.30E+00  1.49E+00  1.67E+00  3.10E+00
  
- Elapsed finaloutput time in seconds:     0.05
- #CPUT: Total CPU Time in Seconds,        5.219
+ Elapsed finaloutput time in seconds:     0.03
+ #CPUT: Total CPU Time in Seconds,        9.609
 Stop Time: 
-Sun 07/31/2022 
-08:22 AM
+Tue 03/07/2023 
+10:58 AM
 OFV = 4718.163467469434
 success = True
 covariance = True
@@ -647,4 +648,4 @@ Condition # = 136.3487828433066
 Num Non fixed THETAs = 6
 Num Non fixed OMEGAs = 2
 Num Non fixed SIGMAs = 2
-Original run directory = C:\workspace\ffe\Example2\temp\5D03\15
+Original run directory = C:\Users\jcraig\pydarwin\Example2\temp\5D03\15

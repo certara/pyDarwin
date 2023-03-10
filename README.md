@@ -49,11 +49,11 @@ To execute, call the `run_search` function from the `darwin` module and provide 
 
 1. Template file (e.g., template.txt) - basic shell for NONMEM control files
 2. Tokens file (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension
-3. Options file (e.g., options.json) - json file describing algorithim, run options, and post-run penalty code configurations.
+3. Options file (e.g., options.json) - json file describing algorithm, run options, and post-run penalty code configurations.
 
 ### Example
 
-After cloning https://github.com/certara/pyDarwin from GitHub, navigate to one of the five example folders e.g., 
+After cloning https://github.com/certara/pyDarwin from GitHub, navigate to one of the example folders e.g., 
 
 `cd .\pyDarwin\examples\user\Example1`
 

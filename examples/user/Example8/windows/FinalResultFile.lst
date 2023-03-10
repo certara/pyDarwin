@@ -1,5 +1,5 @@
-Fri 12/16/2022 
-01:09 PM
+Mon 03/06/2023 
+12:34 PM
 $PROBLEM EMAX  
   ; 
   ; CONTINUOUS COVARIATE, BW
@@ -26,7 +26,7 @@ $PROBLEM EMAX
   ; ====================================================================================================          
 
 $INPUT ID TIME SEX RACE BW C DV 
-$DATA C:\Workspace\Example8\PDdata.csv IGNORE = @
+$DATA C:\Workspace\Example8/PDdata.csv IGNORE = @
 
 
   ; ====================================================================================================
@@ -129,8 +129,9 @@ NM-TRAN MESSAGES
   
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2023
-Current Date:       16 DEC 2022
-Days until program expires :  93
+Current Date:        6 MAR 2023
+  **** WARNING!!! Days until program expires :   8 ****
+  **** CONTACT idssoftware@iconplc.com FOR RENEWAL ****
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -317,8 +318,8 @@ Days until program expires :  93
  TOTAL EFFECTIVE ETAS (NIND*NETA):                           300
   
  #TERE:
- Elapsed estimation  time in seconds:     5.98
- Elapsed covariance  time in seconds:     5.43
+ Elapsed estimation  time in seconds:     5.61
+ Elapsed covariance  time in seconds:     4.71
  Elapsed postprocess time in seconds:     0.00
 1
  
@@ -638,11 +639,11 @@ Days until program expires :  93
  
          1.47E-01  3.70E-01  6.29E-01  7.27E-01  9.20E-01  9.81E-01  1.13E+00  1.85E+00  2.24E+00
  
- Elapsed finaloutput time in seconds:     0.03
- #CPUT: Total CPU Time in Seconds,       11.469
+ Elapsed finaloutput time in seconds:     0.02
+ #CPUT: Total CPU Time in Seconds,       10.266
 Stop Time: 
-Fri 12/16/2022 
-01:09 PM
+Mon 03/06/2023 
+12:35 PM
 OFV = -2874.911515459548
 success = True
 covariance = True
@@ -651,4 +652,4 @@ Condition # = 15.24999652370745
 Num Non fixed THETAs = 6
 Num Non fixed OMEGAs = 2
 Num Non fixed SIGMAs = 1
-Original run directory = C:\Users\jcraig\pydarwin\Example8\temp\6D02\06
+Original run directory = C:\Workspace\Example8/rundir\6D02\06

@@ -1,4 +1,4 @@
-Wed Jan  4 13:03:21 CST 2023
+Mon Mar  6 11:39:59 CST 2023
 
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
@@ -45,7 +45,7 @@ $COV UNCOND PRINT=E
 ;; Phenotype 
 ;; OrderedDict([('KAETA', 1), ('ALAG', 0)])
 ;; Genotype 
-;; [1, 0, 1, 0, 0]
+;; [1, 0, 0, 0, 0]
 ;; Num non-influential tokens = 0
 $OMEGA   
   0.6  	 ; ETA(1) K23
@@ -64,8 +64,9 @@ NM-TRAN MESSAGES
 
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2023
-Current Date:        4 JAN 2023
-Days until program expires :  70
+Current Date:        6 MAR 2023
+  **** WARNING!!! Days until program expires :   8 ****
+  **** CONTACT idssoftware@iconplc.com FOR RENEWAL ****
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -202,7 +203,7 @@ Days until program expires :  70
  EXCLUDE NON-INFLUENTIAL (NON-INFL.) ETAS
        IN SHRINKAGE (ETASTYPE):             NO
  NON-INFL. ETA CORRECTION (NONINFETA):      0
- RAW OUTPUT FILE (FILE): NM_0_07.ext
+ RAW OUTPUT FILE (FILE): NM_0_03.ext
  EXCLUDE TITLE (NOTITLE):                   NO
  EXCLUDE COLUMN LABELS (NOLABEL):           NO
  FORMAT FOR ADDITIONAL FILES (FORMAT):      S1PE12.5
@@ -277,12 +278,12 @@ Days until program expires :  70
  TOTAL EFFECTIVE ETAS (NIND*NETA):                           200
   
  #TERE:
- Elapsed estimation  time in seconds:     4.50
+ Elapsed estimation  time in seconds:     4.41
 0R MATRIX ALGORITHMICALLY SINGULAR
  AND ALGORITHMICALLY NON-POSITIVE-SEMIDEFINITE
 0R MATRIX IS OUTPUT
 0COVARIANCE STEP ABORTED
- Elapsed covariance  time in seconds:     3.69
+ Elapsed covariance  time in seconds:     3.67
  Elapsed postprocess time in seconds:     0.00
 1
  
@@ -476,10 +477,10 @@ Days until program expires :  70
 +       -3.82E-02  4.64E-04  6.75E-01 -1.52E+02  7.10E+01 -8.29E+00  0.00E+00 ......... ......... ......... -8.00E+00 .........
          ......... -1.81E+00 .........  6.70E+00  2.38E+02 .........  1.39E+02
  
- Elapsed finaloutput time in seconds:     0.01
- #CPUT: Total CPU Time in Seconds,        8.088
+ Elapsed finaloutput time in seconds:     0.00
+ #CPUT: Total CPU Time in Seconds,        8.062
 Stop Time:
-Wed Jan  4 13:03:43 CST 2023
+Mon Mar  6 11:40:23 CST 2023
 OFV = 4718.492754473165
 success = True
 covariance = False
@@ -488,4 +489,4 @@ Condition # = 99999999
 Num Non fixed THETAs = 6
 Num Non fixed OMEGAs = 4
 Num Non fixed SIGMAs = 2
-Original run directory = /home/jcraig/pydarwin/Example7/temp/0/07
+Original run directory = /home/jcraig/pydarwin/Example7/temp/0/03

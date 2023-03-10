@@ -1,7 +1,7 @@
 
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE RATE
-$DATA      /home/ppolozov/darwin/examples/user/Example2/datalarge.csv IGNORE=@
+$DATA      /home/jcraig/Example2/datalarge.csv IGNORE=@
 
 $SUBROUTINE ADVAN4 ;; advan4 ;; ADVAN2, ADVAN4, ADVAN12
 $PK      

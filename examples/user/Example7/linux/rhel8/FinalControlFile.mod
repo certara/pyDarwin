@@ -44,7 +44,7 @@ $COV UNCOND PRINT=E
 ;; Phenotype 
 ;; OrderedDict([('KAETA', 1), ('ALAG', 0)])
 ;; Genotype 
-;; [1, 0, 1, 0, 0]
+;; [1, 0, 0, 0, 0]
 ;; Num non-influential tokens = 0
 $OMEGA   
   0.6  	 ; ETA(1) K23

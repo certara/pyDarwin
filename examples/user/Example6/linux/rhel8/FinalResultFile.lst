@@ -1,4 +1,4 @@
-Wed Dec 21 10:50:49 CST 2022
+Mon Mar  6 10:34:44 CST 2023
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DROP DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
 
@@ -106,8 +106,9 @@ Note: Analytical 2nd Derivatives are constructed in FSUBS but are never used.
 
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2023
-Current Date:       21 DEC 2022
-Days until program expires :  88
+Current Date:        6 MAR 2023
+  **** WARNING!!! Days until program expires :   8 ****
+  **** CONTACT idssoftware@iconplc.com FOR RENEWAL ****
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -280,7 +281,7 @@ Days until program expires :  88
  EXCLUDE NON-INFLUENTIAL (NON-INFL.) ETAS
        IN SHRINKAGE (ETASTYPE):             NO
  NON-INFL. ETA CORRECTION (NONINFETA):      0
- RAW OUTPUT FILE (FILE): NM_5S061_097.ext
+ RAW OUTPUT FILE (FILE): NM_5S080_096.ext
  EXCLUDE TITLE (NOTITLE):                   NO
  EXCLUDE COLUMN LABELS (NOLABEL):           NO
  FORMAT FOR ADDITIONAL FILES (FORMAT):      S1PE12.5
@@ -390,11 +391,11 @@ Days until program expires :  88
  TOTAL EFFECTIVE ETAS (NIND*NETA):                           348
   
  #TERE:
- Elapsed estimation  time in seconds:    20.25
+ Elapsed estimation  time in seconds:    25.50
  TESTING R MATRIX FOR POSITIVE DEFINITNESS
  R MATRIX IS POSITIVE DEFINITE
- Elapsed covariance  time in seconds:    13.02
- Elapsed postprocess time in seconds:     0.05
+ Elapsed covariance  time in seconds:    14.46
+ Elapsed postprocess time in seconds:     0.07
 1
  
  
@@ -1150,10 +1151,10 @@ SEED   1 RESET TO INITIAL: YES
     SEED1:    1746721617   SEED2:             0
  Elapsed simulation  time in seconds:     0.02
  ESTIMATION STEP OMITTED:                 YES
- Elapsed finaloutput time in seconds:     0.02
- #CPUT: Total CPU Time in Seconds,       32.105
+ Elapsed finaloutput time in seconds:     0.03
+ #CPUT: Total CPU Time in Seconds,       38.180
 Stop Time:
-Wed Dec 21 10:51:36 CST 2022
+Mon Mar  6 10:35:38 CST 2023
 Post run Python code Penalty = 2.465085865521979
 Post run Python code text = Observed day 1 Cmax geo mean = 567.9, simulated day 1 Cmax geo mean = 564.4
 OFV = 8564.315242802155
@@ -1164,4 +1165,4 @@ Condition # = 55.744390507400695
 Num Non fixed THETAs = 7
 Num Non fixed OMEGAs = 4
 Num Non fixed SIGMAs = 2
-Original run directory = /home/jcraig/pydarwin/Ex6_RF_grid/temp/5S061/097
+Original run directory = /home/jcraig/pydarwin/Ex6_RF_grid/temp/5S080/096

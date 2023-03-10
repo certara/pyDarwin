@@ -1,8 +1,8 @@
-Fri Jul 29 16:32:16 CDT 2022
+Tue Mar  7 16:42:44 CST 2023
 
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE RATE
-$DATA      /home/ppolozov/darwin/examples/user/Example2/datalarge.csv IGNORE=@
+$DATA      /home/jcraig/Example2/datalarge.csv IGNORE=@
 
 $SUBROUTINE ADVAN4 ;; advan4 ;; ADVAN2, ADVAN4, ADVAN12
 $PK      
@@ -73,8 +73,9 @@ Note: Analytical 2nd Derivatives are constructed in FSUBS but are never used.
 
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2023
-Current Date:       29 JUL 2022
-Days until program expires : 230
+Current Date:        7 MAR 2023
+  **** WARNING!!! Days until program expires :   7 ****
+  **** CONTACT idssoftware@iconplc.com FOR RENEWAL ****
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -284,8 +285,8 @@ Days until program expires : 230
  TOTAL EFFECTIVE ETAS (NIND*NETA):                           100
   
  #TERE:
- Elapsed estimation  time in seconds:     1.92
- Elapsed covariance  time in seconds:     2.30
+ Elapsed estimation  time in seconds:     2.29
+ Elapsed covariance  time in seconds:     2.55
  Elapsed postprocess time in seconds:     0.00
 1
  
@@ -639,9 +640,9 @@ Days until program expires : 230
          1.36E-02  3.37E-02  2.79E-01  5.33E-01  6.35E-01  8.22E-01  1.21E+00  1.38E+00  1.56E+00  3.53E+00
  
  Elapsed finaloutput time in seconds:     0.02
- #CPUT: Total CPU Time in Seconds,        4.228
+ #CPUT: Total CPU Time in Seconds,        4.901
 Stop Time:
-Fri Jul 29 16:32:30 CDT 2022
+Tue Mar  7 16:43:01 CST 2023
 OFV = 4718.163467524965
 success = True
 covariance = True
@@ -650,4 +651,4 @@ Condition # = 259.1084198967072
 Num Non fixed THETAs = 6
 Num Non fixed OMEGAs = 2
 Num Non fixed SIGMAs = 2
-Original run directory = /home/ppolozov/pydarwin/Example2/temp/5D02/06
+Original run directory = /home/jcraig/pydarwin/Example2/temp/5D02/06

@@ -13,10 +13,10 @@ $PK
   IF(OCC.EQ.1) IOVV = ETA(4) 
   IF(OCC.EQ.2) IOVV = ETA(5) 
   IF(OCC.EQ.3) IOVV = ETA(6)  
-  TVV2=THETA(1) *CWTKGONE**THETA(6)     *EXP(IOVV)
+  TVV2=THETA(1)      *EXP(IOVV)
   V2=TVV2*EXP(ETA(2))   
   IOVCL = 0
-  TVCL= THETA(3)     *EXP(IOVCL)
+  TVCL= THETA(3)   *CCRCL**THETA(6)  *EXP(IOVCL)
   CL=TVCL*EXP(ETA(1)) 
 
   K=CL/V2      
@@ -35,17 +35,17 @@ $ERROR
 $THETA      
   (0.001,100) 	; THETA(1) V  UNITS = L
   (0.001, 10) 	; THETA(2) KA UNITS = 1/HR    
-  (0.001,2)	; THETA(3) CL UNITS =  L/HR
+  (0.001,20)	; THETA(3) CL UNITS =  L/HR
   (0.001,0.02)  	 ; THETA(4) K23 
   (0.001,0.3) 	 ; THETA(5) K32 
   ; init for K23~WT    
-  (-4,0.8) 	; THETA(6) POWER volume ~WT    
 
 
 
 
 
 
+  (-4,-0.2) 	; THETA(6) POWER clearance~CRCL 
 
   (0.001,0.1) 	; THETA(7) ALAG1   
 $OMEGA    
@@ -67,7 +67,7 @@ $EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 PRINT = 10
 $COV UNCOND PRINT=E  PRECOND=1 PRECONDS=TOS  MATRIX = R
 
 ;; Phenotype 
-;; OrderedDict([('ADVAN', 1), ('K23~WT', 0), ('KAETA', 1), ('V2~WT', 1), ('V2~AGE', 0), ('V2~SEX', 0), ('V2~COV2', 0), ('CL~WT', 0), ('CL~AGE', 0), ('CL~CRCL', 0), ('CL~COV1', 0), ('IOVCL', 1), ('IOVV', 0), ('INITCL', 0), ('ETAD1LAG', 0), ('D1LAG', 0), ('RESERR', 0)])
+;; OrderedDict([('ADVAN', 1), ('K23~WT', 0), ('KAETA', 1), ('V2~WT', 0), ('V2~AGE', 0), ('V2~SEX', 0), ('V2~COV2', 0), ('CL~WT', 0), ('CL~AGE', 0), ('CL~CRCL', 1), ('CL~COV1', 0), ('IOVCL', 1), ('IOVV', 0), ('INITCL', 1), ('ETAD1LAG', 0), ('D1LAG', 0), ('RESERR', 0)])
 ;; Genotype 
-;; [1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+;; [1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0]
 ;; Num non-influential tokens = 0

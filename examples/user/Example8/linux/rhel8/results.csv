@@ -1,22 +1,22 @@
 Iteration,Model number,Run Directory,Fitness,Model,ofv,success,covar,correlation #,ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages
-0,10,/home/jcraig/pydarwin/Example8/temp/0/10,-1052.096376,111101010,-1112.096375623806,True,True,True,9,2,1,29.96863313144807,0,0,No important warnings
-0,08,/home/jcraig/pydarwin/Example8/temp/0/08,-2150.522082,000111012,-2505.5220819408273,True,False,False,7,2,2,99999999999,0,0,No important warnings
 0,09,/home/jcraig/pydarwin/Example8/temp/0/09,-729.066496,010010000,-769.0664959657233,True,True,True,5,2,1,56.585487154229945,0,0,No important warnings
-0,02,/home/jcraig/pydarwin/Example8/temp/0/02,-319.151577,010010110,-769.1515770323039,False,False,False,6,3,1,99999999999,0,0,No important warnings
-0,07,/home/jcraig/pydarwin/Example8/temp/0/07,-720.998649,011101020,-1080.9986487896242,True,False,False,8,3,1,99999999999,0,0,No important warnings
 0,04,/home/jcraig/pydarwin/Example8/temp/0/04,-2175.043695,110100021,-2530.0436952970786,True,False,False,7,3,1,99999999999,0,0,No important warnings
-0,03,/home/jcraig/pydarwin/Example8/temp/0/03,-423.685556,010111020,-783.6855558340034,True,False,False,8,3,1,99999999999,0,0,No important warnings
-0,05,/home/jcraig/pydarwin/Example8/temp/0/05,-2407.355016,101101111,-2767.3550160147756,True,False,False,8,3,1,99999999999,0,0,No important warnings
+0,08,/home/jcraig/pydarwin/Example8/temp/0/08,-2150.522082,000111012,-2505.5220819408273,True,False,False,7,2,2,99999999999,0,0,No important warnings
+0,10,/home/jcraig/pydarwin/Example8/temp/0/10,-1052.096376,111101010,-1112.096375623806,True,True,True,9,2,1,29.96863313144807,0,0,No important warnings
 0,06,/home/jcraig/pydarwin/Example8/temp/0/06,-2173.124967,110001022,-2533.1249669889585,True,False,False,7,3,2,99999999999,0,0,No important warnings
+0,03,/home/jcraig/pydarwin/Example8/temp/0/03,-423.685556,010111020,-783.6855558340034,True,False,False,8,3,1,99999999999,0,0,No important warnings
+0,02,/home/jcraig/pydarwin/Example8/temp/0/02,-319.151577,010010110,-769.1515770323039,False,False,False,6,3,1,99999999999,0,0,No important warnings
+0,05,/home/jcraig/pydarwin/Example8/temp/0/05,-2407.355016,101101111,-2767.3550160147756,True,False,False,8,3,1,99999999999,0,0,No important warnings
+0,07,/home/jcraig/pydarwin/Example8/temp/0/07,-720.998649,011101020,-1080.9986487896242,True,False,False,8,3,1,99999999999,0,0,No important warnings
 0,01,/home/jcraig/pydarwin/Example8/temp/0/01,-2167.374203,110111112,-2537.37420281145,True,False,False,9,3,2,99999999999,0,0,No important warnings
 1,05,/home/jcraig/pydarwin/Example8/temp/0/04,-2175.043695,110100021,-2530.0436952970786,True,False,False,7,3,1,99999999999,0,0,From NM_0_04: No important warnings
 1,06,/home/jcraig/pydarwin/Example8/temp/0/05,-2407.355016,101101111,-2767.3550160147756,True,False,False,8,3,1,99999999999,0,0,From NM_0_05: No important warnings
 1,08,/home/jcraig/pydarwin/Example8/temp/0/06,-2173.124967,110001022,-2533.1249669889585,True,False,False,7,3,2,99999999999,0,0,From NM_0_06: No important warnings
 1,09,/home/jcraig/pydarwin/Example8/temp/0/01,-2167.374203,110111112,-2537.37420281145,True,False,False,9,3,2,99999999999,0,0,From NM_0_01: No important warnings
-1,03,/home/jcraig/pydarwin/Example8/temp/1/03,-2155.337791,100111021,-2515.337791186123,True,False,False,8,3,1,99999999999,0,0,No important warnings
 1,01,/home/jcraig/pydarwin/Example8/temp/1/01,-409.532206,100111020,-769.5322059509112,True,False,False,8,3,1,99999999999,0,0,No important warnings
-1,02,/home/jcraig/pydarwin/Example8/temp/1/02,-2508.952070,111011112,-2878.9520697569096,True,False,False,9,3,2,99999999999,0,0,No important warnings
+1,03,/home/jcraig/pydarwin/Example8/temp/1/03,-2155.337791,100111021,-2515.337791186123,True,False,False,8,3,1,99999999999,0,0,No important warnings
 1,07,/home/jcraig/pydarwin/Example8/temp/1/07,-2153.893102,100100112,-2508.893102246086,True,False,False,6,3,2,99999999999,0,0,No important warnings
+1,02,/home/jcraig/pydarwin/Example8/temp/1/02,-2508.952070,111011112,-2878.9520697569096,True,False,False,9,3,2,99999999999,0,0,No important warnings
 1,10,/home/jcraig/pydarwin/Example8/temp/1/10,-2505.493025,111110122,-2880.4930245266883,True,False,False,9,4,2,99999999999,0,0,No important warnings
 1,04,/home/jcraig/pydarwin/Example8/temp/1/04,-2464.155409,011011122,-2834.1554085397433,True,False,False,8,4,2,99999999999,0,0,No important warnings
 2,02,/home/jcraig/pydarwin/Example8/temp/1/10,-2505.493025,111110122,-2880.4930245266883,True,False,False,9,4,2,99999999999,0,0,From NM_1_10: No important warnings
@@ -27,8 +27,8 @@ Iteration,Model number,Run Directory,Fitness,Model,ofv,success,covar,correlation
 2,06,/home/jcraig/pydarwin/Example8/temp/2/06,-2386.462903,001100102,-2736.4629025495883,True,False,False,5,3,2,99999999999,0,0,No important warnings
 2,03,/home/jcraig/pydarwin/Example8/temp/2/03,-2477.477592,011010111,-2832.477591828406,True,False,False,7,3,1,99999999999,0,0,No important warnings
 2,01,/home/jcraig/pydarwin/Example8/temp/2/01,-2510.848452,111101022,-2880.84845208513,True,False,False,9,3,2,99999999999,0,0,No important warnings
-2,05,/home/jcraig/pydarwin/Example8/temp/2/05,-2397.257748,101111022,-2767.2577476635465,True,False,False,9,3,2,99999999999,0,0,No important warnings
 2,09,/home/jcraig/pydarwin/Example8/temp/2/09,-2404.153540,101001121,-2764.153539853039,True,False,False,7,4,1,99999999999,0,0,No important warnings
+2,05,/home/jcraig/pydarwin/Example8/temp/2/05,-2397.257748,101111022,-2767.2577476635465,True,False,False,9,3,2,99999999999,0,0,No important warnings
 3,01,/home/jcraig/pydarwin/Example8/temp/1/10,-2505.493025,111110122,-2880.4930245266883,True,False,False,9,4,2,99999999999,0,0,From NM_1_10: No important warnings
 3,02,/home/jcraig/pydarwin/Example8/temp/1/10,-2505.493025,111110122,-2880.4930245266883,True,False,False,9,4,2,99999999999,0,0,From NM_1_10: No important warnings
 3,10,/home/jcraig/pydarwin/Example8/temp/1/02,-2508.952070,111011112,-2878.9520697569096,True,False,False,9,3,2,99999999999,0,0,From NM_1_02: No important warnings
@@ -37,27 +37,27 @@ Iteration,Model number,Run Directory,Fitness,Model,ofv,success,covar,correlation
 3,04,/home/jcraig/pydarwin/Example8/temp/3/04,-2378.522884,001111102,-2738.5228839945153,True,False,False,7,3,2,99999999999,0,0,No important warnings
 3,03,/home/jcraig/pydarwin/Example8/temp/3/03,-718.640620,011100120,-1078.640619906929,True,False,False,7,4,1,99999999999,0,0,No important warnings
 3,06,/home/jcraig/pydarwin/Example8/temp/3/06,-2401.860722,101000122,-2761.8607219175888,True,False,False,6,4,2,99999999999,0,0,No important warnings
-3,08,/home/jcraig/pydarwin/Example8/temp/3/08,-2503.936350,111011122,-2878.936350488095,True,False,False,9,4,2,99999999999,0,0,No important warnings
 3,07,/home/jcraig/pydarwin/Example8/temp/3/07,-2507.330529,111111022,-2882.3305294679526,True,False,False,10,3,2,99999999999,0,0,No important warnings
+3,08,/home/jcraig/pydarwin/Example8/temp/3/08,-2503.936350,111011122,-2878.936350488095,True,False,False,9,4,2,99999999999,0,0,No important warnings
 4,02,/home/jcraig/pydarwin/Example8/temp/1/10,-2505.493025,111110122,-2880.4930245266883,True,False,False,9,4,2,99999999999,0,0,From NM_1_10: No important warnings
 4,04,/home/jcraig/pydarwin/Example8/temp/1/10,-2505.493025,111110122,-2880.4930245266883,True,False,False,9,4,2,99999999999,0,0,From NM_1_10: No important warnings
 4,06,/home/jcraig/pydarwin/Example8/temp/2/05,-2397.257748,101111022,-2767.2577476635465,True,False,False,9,3,2,99999999999,0,0,From NM_2_05: No important warnings
 4,09,/home/jcraig/pydarwin/Example8/temp/3/07,-2507.330529,111111022,-2882.3305294679526,True,False,False,10,3,2,99999999999,0,0,From NM_3_07: No important warnings
 4,10,/home/jcraig/pydarwin/Example8/temp/1/02,-2508.952070,111011112,-2878.9520697569096,True,False,False,9,3,2,99999999999,0,0,From NM_1_02: No important warnings
 4,07,/home/jcraig/pydarwin/Example8/temp/4/07,-2517.392732,111001102,-2877.392731787948,True,False,False,7,3,2,99999999999,0,0,No important warnings
-4,03,/home/jcraig/pydarwin/Example8/temp/4/03,-2404.157340,101011021,-2764.1573404323376,True,False,False,8,3,1,99999999999,0,0,No important warnings
-4,05,/home/jcraig/pydarwin/Example8/temp/4/05,-2373.736463,001011112,-2733.7364631987866,True,False,False,7,3,2,99999999999,0,0,No important warnings
-4,01,/home/jcraig/pydarwin/Example8/temp/4/01,-2377.781343,001110121,-2737.7813433610527,True,False,False,7,4,1,99999999999,0,0,No important warnings
 4,08,/home/jcraig/pydarwin/Example8/temp/4/08,-2401.938971,101010112,-2761.938970695982,True,False,False,7,3,2,99999999999,0,0,No important warnings
+4,01,/home/jcraig/pydarwin/Example8/temp/4/01,-2377.781343,001110121,-2737.7813433610527,True,False,False,7,4,1,99999999999,0,0,No important warnings
+4,05,/home/jcraig/pydarwin/Example8/temp/4/05,-2373.736463,001011112,-2733.7364631987866,True,False,False,7,3,2,99999999999,0,0,No important warnings
+4,03,/home/jcraig/pydarwin/Example8/temp/4/03,-2404.157340,101011021,-2764.1573404323376,True,False,False,8,3,1,99999999999,0,0,No important warnings
 5,03,/home/jcraig/pydarwin/Example8/temp/4/07,-2517.392732,111001102,-2877.392731787948,True,False,False,7,3,2,99999999999,0,0,From NM_4_07: No important warnings
 5,05,/home/jcraig/pydarwin/Example8/temp/1/02,-2508.952070,111011112,-2878.9520697569096,True,False,False,9,3,2,99999999999,0,0,From NM_1_02: No important warnings
 5,06,/home/jcraig/pydarwin/Example8/temp/3/07,-2507.330529,111111022,-2882.3305294679526,True,False,False,10,3,2,99999999999,0,0,From NM_3_07: No important warnings
 5,08,/home/jcraig/pydarwin/Example8/temp/1/10,-2505.493025,111110122,-2880.4930245266883,True,False,False,9,4,2,99999999999,0,0,From NM_1_10: No important warnings
-5,10,/home/jcraig/pydarwin/Example8/temp/5/10,-2411.534602,101101002,-2766.5346017235775,True,False,False,7,2,2,99999999999,0,0,No important warnings
-5,02,/home/jcraig/pydarwin/Example8/temp/5/02,-2404.022202,101011012,-2764.022201827188,True,False,False,8,2,2,99999999999,0,0,No important warnings
 5,04,/home/jcraig/pydarwin/Example8/temp/5/04,-2514.089518,111011021,-2879.089518401186,True,False,False,9,3,1,99999999999,0,0,No important warnings
-5,01,/home/jcraig/pydarwin/Example8/temp/5/01,-2510.276214,111000122,-2875.2762135431667,True,False,False,7,4,2,99999999999,0,0,No important warnings
 5,09,/home/jcraig/pydarwin/Example8/temp/5/09,-2378.713470,001001022,-2733.713470342144,True,False,False,6,3,2,99999999999,0,0,No important warnings
+5,02,/home/jcraig/pydarwin/Example8/temp/5/02,-2404.022202,101011012,-2764.022201827188,True,False,False,8,2,2,99999999999,0,0,No important warnings
+5,10,/home/jcraig/pydarwin/Example8/temp/5/10,-2411.534602,101101002,-2766.5346017235775,True,False,False,7,2,2,99999999999,0,0,No important warnings
+5,01,/home/jcraig/pydarwin/Example8/temp/5/01,-2510.276214,111000122,-2875.2762135431667,True,False,False,7,4,2,99999999999,0,0,No important warnings
 5,07,/home/jcraig/pydarwin/Example8/temp/5/07,-2508.026015,111001122,-2878.026015099765,True,False,False,8,4,2,99999999999,0,0,No important warnings
 6,04,/home/jcraig/pydarwin/Example8/temp/5/01,-2510.276214,111000122,-2875.2762135431667,True,False,False,7,4,2,99999999999,0,0,From NM_5_01: No important warnings
 6,05,/home/jcraig/pydarwin/Example8/temp/5/04,-2514.089518,111011021,-2879.089518401186,True,False,False,9,3,1,99999999999,0,0,From NM_5_04: No important warnings
@@ -66,72 +66,72 @@ Iteration,Model number,Run Directory,Fitness,Model,ofv,success,covar,correlation
 6,06,/home/jcraig/pydarwin/Example8/temp/6/06,99999999999.000000,111101122,99999999999,False,False,False,9,4,2,99999999999,0,0,No important warnings
 6,02,/home/jcraig/pydarwin/Example8/temp/6/02,-2151.174977,000001121,-2501.1749767774654,True,False,False,5,4,1,99999999999,0,0,No important warnings
 6,09,/home/jcraig/pydarwin/Example8/temp/6/09,-2823.194171,111001011,-2878.194171158371,True,True,True,8,2,1,33.33126972923655,0,0,No important warnings
-6,01,/home/jcraig/pydarwin/Example8/temp/6/01,-2151.045392,000001112,-2501.045392013198,True,False,False,5,3,2,99999999999,0,0,No important warnings
 6,03,/home/jcraig/pydarwin/Example8/temp/6/03,-2404.008436,101001022,-2764.0084355921745,True,False,False,7,3,2,99999999999,0,0,No important warnings
 6,10,/home/jcraig/pydarwin/Example8/temp/6/10,-2169.894876,110100022,-2529.894875674983,True,False,False,7,3,2,99999999999,0,0,No important warnings
+6,01,/home/jcraig/pydarwin/Example8/temp/6/01,-2151.045392,000001112,-2501.045392013198,True,False,False,5,3,2,99999999999,0,0,No important warnings
 6D01,13,/home/jcraig/pydarwin/Example8/temp/3/06,-2401.860722,101000122,-2761.8607219175888,True,False,False,6,4,2,99999999999,0,0,From NM_3_06: No important warnings
 6D01,17,/home/jcraig/pydarwin/Example8/temp/5/07,-2508.026015,111001122,-2878.026015099765,True,False,False,8,4,2,99999999999,0,0,From NM_5_07: No important warnings
 6D01,20,/home/jcraig/pydarwin/Example8/temp/5/01,-2510.276214,111000122,-2875.2762135431667,True,False,False,7,4,2,99999999999,0,0,From NM_5_01: No important warnings
 6D01,22,/home/jcraig/pydarwin/Example8/temp/5/01,-2510.276214,111000122,-2875.2762135431667,True,False,False,7,4,2,99999999999,0,0,From NM_5_01: No important warnings
 6D01,08,/home/jcraig/pydarwin/Example8/temp/6D01/08,99999999999.000000,111001021,99999999999,False,False,False,8,3,1,99999999999,0,0,No important warnings
-6D01,01,/home/jcraig/pydarwin/Example8/temp/6D01/01,-2783.389384,011001011,-2833.389384214864,True,True,True,7,2,1,33.1457444516234,0,0,No important warnings
-6D01,11,/home/jcraig/pydarwin/Example8/temp/6D01/11,-1056.032302,111001010,-1111.032301909041,True,True,True,8,2,1,28.980258162602517,0,0,No important warnings
-6D01,02,/home/jcraig/pydarwin/Example8/temp/6D01/02,-2714.170577,101001011,-2764.170577240205,True,True,True,7,2,1,31.954357446420588,0,0,No important warnings
-6D01,06,/home/jcraig/pydarwin/Example8/temp/6D01/06,-2825.449354,111000011,-2875.449354057122,True,True,True,7,2,1,17.4135915873176,0,0,No important warnings
-6D01,19,/home/jcraig/pydarwin/Example8/temp/6D01/19,-2519.756818,111000102,-2874.756817625503,True,False,False,6,3,2,99999999999,0,0,No important warnings
-6D01,09,/home/jcraig/pydarwin/Example8/temp/6D01/09,-2827.544966,111001001,-2877.544966142572,True,True,True,7,2,1,26.057217724938887,0,0,No important warnings
-6D01,03,/home/jcraig/pydarwin/Example8/temp/6D01/03,-2483.279222,110001011,-2533.279221966191,True,True,True,7,2,1,31.62237841946901,0,0,No important warnings
-6D01,04,/home/jcraig/pydarwin/Example8/temp/6D01/04,-2821.021193,111101011,-2881.021193330104,True,True,True,9,2,1,34.76557273323243,0,0,No important warnings
-6D01,07,/home/jcraig/pydarwin/Example8/temp/6D01/07,-2518.191018,111001111,-2878.191018410139,True,False,False,8,3,1,99999999999,0,0,No important warnings
-6D01,18,/home/jcraig/pydarwin/Example8/temp/6D01/18,-2515.279970,111000022,-2875.279970168067,True,False,False,7,3,2,99999999999,0,0,No important warnings
-6D01,14,/home/jcraig/pydarwin/Example8/temp/6D01/14,-2166.646950,110000122,-2526.6469502276755,True,False,False,6,4,2,99999999999,0,0,No important warnings
-6D01,21,/home/jcraig/pydarwin/Example8/temp/6D01/21,-747.230433,111000120,-1107.2304327647212,True,False,False,7,4,1,99999999999,0,0,No important warnings
-6D01,12,/home/jcraig/pydarwin/Example8/temp/6D01/12,-2470.771510,011000122,-2830.771510092763,True,False,False,6,4,2,99999999999,0,0,No important warnings
 6D01,05,/home/jcraig/pydarwin/Example8/temp/6D01/05,-2819.105141,111011011,-2879.105141422708,True,True,True,9,2,1,40.572244680306504,0,0,No important warnings
 6D01,10,/home/jcraig/pydarwin/Example8/temp/6D01/10,-2818.043524,111001012,-2878.0435235118657,True,True,True,8,2,2,33.29317905460472,0,0,No important warnings
-6D01,15,/home/jcraig/pydarwin/Example8/temp/6D01/15,-2508.203367,111100122,-2878.203367331054,True,False,False,8,4,2,99999999999,0,0,No important warnings
+6D01,09,/home/jcraig/pydarwin/Example8/temp/6D01/09,-2827.544966,111001001,-2877.544966142572,True,True,True,7,2,1,26.057217724938887,0,0,No important warnings
+6D01,06,/home/jcraig/pydarwin/Example8/temp/6D01/06,-2825.449354,111000011,-2875.449354057122,True,True,True,7,2,1,17.4135915873176,0,0,No important warnings
+6D01,01,/home/jcraig/pydarwin/Example8/temp/6D01/01,-2783.389384,011001011,-2833.389384214864,True,True,True,7,2,1,33.1457444516234,0,0,No important warnings
+6D01,03,/home/jcraig/pydarwin/Example8/temp/6D01/03,-2483.279222,110001011,-2533.279221966191,True,True,True,7,2,1,31.62237841946901,0,0,No important warnings
+6D01,02,/home/jcraig/pydarwin/Example8/temp/6D01/02,-2714.170577,101001011,-2764.170577240205,True,True,True,7,2,1,31.954357446420588,0,0,No important warnings
+6D01,11,/home/jcraig/pydarwin/Example8/temp/6D01/11,-1056.032302,111001010,-1111.032301909041,True,True,True,8,2,1,28.980258162602517,0,0,No important warnings
+6D01,19,/home/jcraig/pydarwin/Example8/temp/6D01/19,-2519.756818,111000102,-2874.756817625503,True,False,False,6,3,2,99999999999,0,0,No important warnings
+6D01,07,/home/jcraig/pydarwin/Example8/temp/6D01/07,-2518.191018,111001111,-2878.191018410139,True,False,False,8,3,1,99999999999,0,0,No important warnings
+6D01,21,/home/jcraig/pydarwin/Example8/temp/6D01/21,-747.230433,111000120,-1107.2304327647212,True,False,False,7,4,1,99999999999,0,0,No important warnings
+6D01,04,/home/jcraig/pydarwin/Example8/temp/6D01/04,-2821.021193,111101011,-2881.021193330104,True,True,True,9,2,1,34.76557273323243,0,0,No important warnings
+6D01,18,/home/jcraig/pydarwin/Example8/temp/6D01/18,-2515.279970,111000022,-2875.279970168067,True,False,False,7,3,2,99999999999,0,0,No important warnings
 6D01,16,/home/jcraig/pydarwin/Example8/temp/6D01/16,-2506.826771,111010122,-2876.8267712106385,True,False,False,8,4,2,99999999999,0,0,No important warnings
+6D01,12,/home/jcraig/pydarwin/Example8/temp/6D01/12,-2470.771510,011000122,-2830.771510092763,True,False,False,6,4,2,99999999999,0,0,No important warnings
+6D01,14,/home/jcraig/pydarwin/Example8/temp/6D01/14,-2166.646950,110000122,-2526.6469502276755,True,False,False,6,4,2,99999999999,0,0,No important warnings
+6D01,15,/home/jcraig/pydarwin/Example8/temp/6D01/15,-2508.203367,111100122,-2878.203367331054,True,False,False,8,4,2,99999999999,0,0,No important warnings
 6D02,08,/home/jcraig/pydarwin/Example8/temp/6D01/08,99999999999.000000,111001021,99999999999,False,False,False,8,3,1,99999999999,0,0,From NM_6D01_08: No important warnings
 6D02,09,/home/jcraig/pydarwin/Example8/temp/6/09,-2823.194171,111001011,-2878.194171158371,True,True,True,8,2,1,33.33126972923655,0,0,From NM_6_09: No important warnings
 6D02,17,/home/jcraig/pydarwin/Example8/temp/4/07,-2517.392732,111001102,-2877.392731787948,True,False,False,7,3,2,99999999999,0,0,From NM_4_07: No important warnings
 6D02,19,/home/jcraig/pydarwin/Example8/temp/5/01,-2510.276214,111000122,-2875.2762135431667,True,False,False,7,4,2,99999999999,0,0,From NM_5_01: No important warnings
 6D02,22,/home/jcraig/pydarwin/Example8/temp/6D01/19,-2519.756818,111000102,-2874.756817625503,True,False,False,6,3,2,99999999999,0,0,From NM_6D01_19: No important warnings
-6D02,03,/home/jcraig/pydarwin/Example8/temp/6D02/03,-2487.306435,110001001,-2532.306434928631,True,True,True,6,2,1,22.565564381481355,0,0,No important warnings
-6D02,11,/home/jcraig/pydarwin/Example8/temp/6D02/11,-1060.826725,111001000,-1110.826725487475,True,True,True,7,2,1,24.716522387485227,0,0,No important warnings
+6D02,21,/home/jcraig/pydarwin/Example8/temp/6D02/21,-756.897329,111000100,-1106.8973290551028,True,False,False,6,3,1,99999999999,0,0,No important warnings
 6D02,02,/home/jcraig/pydarwin/Example8/temp/6D02/02,-2718.543578,101001001,-2763.543577860446,True,True,True,6,2,1,23.07952634194318,0,0,No important warnings
-6D02,06,/home/jcraig/pydarwin/Example8/temp/6D02/06,-2829.911515,111000001,-2874.911515465762,True,True,True,6,2,1,15.24759206557195,0,0,No important warnings
 6D02,04,/home/jcraig/pydarwin/Example8/temp/6D02/04,-2825.323838,111101001,-2880.3238379944337,True,True,True,8,2,1,27.28148007638624,0,0,No important warnings
 6D02,14,/home/jcraig/pydarwin/Example8/temp/6D02/14,-2175.927284,110000102,-2525.9272837234284,True,False,False,5,3,2,99999999999,0,0,No important warnings
-6D02,13,/home/jcraig/pydarwin/Example8/temp/6D02/13,-2411.329655,101000102,-2761.329654957636,True,False,False,5,3,2,99999999999,0,0,No important warnings
-6D02,21,/home/jcraig/pydarwin/Example8/temp/6D02/21,-756.897329,111000100,-1106.8973290551028,True,False,False,6,3,1,99999999999,0,0,No important warnings
 6D02,01,/home/jcraig/pydarwin/Example8/temp/6D02/01,-2787.613478,011001001,-2832.6134781533315,True,True,True,6,2,1,24.94521046605231,0,0,No important warnings
-6D02,15,/home/jcraig/pydarwin/Example8/temp/6D02/15,-2517.639151,111100102,-2877.639151246737,True,False,False,7,3,2,99999999999,0,0,No important warnings
 6D02,07,/home/jcraig/pydarwin/Example8/temp/6D02/07,-2522.541628,111001101,-2877.541628184474,True,False,False,7,3,1,99999999999,0,0,No important warnings
 6D02,10,/home/jcraig/pydarwin/Example8/temp/6D02/10,-2522.396811,111001002,-2877.396811136461,True,False,False,7,2,2,99999999999,0,0,No important warnings
+6D02,06,/home/jcraig/pydarwin/Example8/temp/6D02/06,-2829.911515,111000001,-2874.911515465762,True,True,True,6,2,1,15.24759206557195,0,0,No important warnings
+6D02,12,/home/jcraig/pydarwin/Example8/temp/6D02/12,-2480.120305,011000102,-2830.120305001993,True,False,False,5,3,2,99999999999,0,0,No important warnings
+6D02,11,/home/jcraig/pydarwin/Example8/temp/6D02/11,-1060.826725,111001000,-1110.826725487475,True,True,True,7,2,1,24.716522387485227,0,0,No important warnings
+6D02,03,/home/jcraig/pydarwin/Example8/temp/6D02/03,-2487.306435,110001001,-2532.306434928631,True,True,True,6,2,1,22.565564381481355,0,0,No important warnings
+6D02,05,/home/jcraig/pydarwin/Example8/temp/6D02/05,-2823.557705,111011001,-2878.5577052597323,True,True,True,8,2,1,34.16375547900846,0,0,No important warnings
+6D02,15,/home/jcraig/pydarwin/Example8/temp/6D02/15,-2517.639151,111100102,-2877.639151246737,True,False,False,7,3,2,99999999999,0,0,No important warnings
 6D02,18,/home/jcraig/pydarwin/Example8/temp/6D02/18,-2524.760684,111000002,-2874.7606835699175,True,False,False,6,2,2,99999999999,0,0,No important warnings
+6D02,13,/home/jcraig/pydarwin/Example8/temp/6D02/13,-2411.329655,101000102,-2761.329654957636,True,False,False,5,3,2,99999999999,0,0,No important warnings
 6D02,20,/home/jcraig/pydarwin/Example8/temp/6D02/20,-2815.291232,111000112,-2875.2912324071253,True,True,True,7,3,2,19.14924048411698,0,0,No important warnings
 6D02,16,/home/jcraig/pydarwin/Example8/temp/6D02/16,-2516.423395,111010102,-2876.4233954523274,True,False,False,7,3,2,99999999999,0,0,No important warnings
-6D02,05,/home/jcraig/pydarwin/Example8/temp/6D02/05,-2823.557705,111011001,-2878.5577052597323,True,True,True,8,2,1,34.16375547900846,0,0,No important warnings
-6D02,12,/home/jcraig/pydarwin/Example8/temp/6D02/12,-2480.120305,011000102,-2830.120305001993,True,False,False,5,3,2,99999999999,0,0,No important warnings
 6D03,06,/home/jcraig/pydarwin/Example8/temp/6D01/09,-2827.544966,111001001,-2877.544966142572,True,True,True,7,2,1,26.057217724938887,0,0,From NM_6D01_09: No important warnings
 6D03,09,/home/jcraig/pydarwin/Example8/temp/6D01/06,-2825.449354,111000011,-2875.449354057122,True,True,True,7,2,1,17.4135915873176,0,0,From NM_6D01_06: No important warnings
 6D03,10,/home/jcraig/pydarwin/Example8/temp/6D02/18,-2524.760684,111000002,-2874.7606835699175,True,False,False,6,2,2,99999999999,0,0,From NM_6D02_18: No important warnings
 6D03,19,/home/jcraig/pydarwin/Example8/temp/5/01,-2510.276214,111000122,-2875.2762135431667,True,False,False,7,4,2,99999999999,0,0,From NM_5_01: No important warnings
 6D03,20,/home/jcraig/pydarwin/Example8/temp/6D01/19,-2519.756818,111000102,-2874.756817625503,True,False,False,6,3,2,99999999999,0,0,From NM_6D01_19: No important warnings
 6D03,22,/home/jcraig/pydarwin/Example8/temp/6D02/20,-2815.291232,111000112,-2875.2912324071253,True,True,True,7,3,2,19.14924048411698,0,0,From NM_6D02_20: No important warnings
-6D03,08,/home/jcraig/pydarwin/Example8/temp/6D03/08,99999999999.000000,111000021,99999999999,False,False,False,7,3,1,99999999999,0,0,No important warnings
 6D03,01,/home/jcraig/pydarwin/Example8/temp/6D03/01,-2790.274036,011000001,-2830.2740364008714,True,True,True,5,2,1,14.507592149659146,0,0,No important warnings
-6D03,03,/home/jcraig/pydarwin/Example8/temp/6D03/03,-2486.071376,110000001,-2526.0713758858906,True,True,True,5,2,1,12.851087328650339,0,0,No important warnings
-6D03,04,/home/jcraig/pydarwin/Example8/temp/6D03/04,-2827.800339,111100001,-2877.800339437145,True,True,True,7,2,1,15.308217335903915,0,0,No important warnings
-6D03,07,/home/jcraig/pydarwin/Example8/temp/6D03/07,-2524.907555,111000101,-2874.90755496465,True,False,False,6,3,1,99999999999,0,0,No important warnings
-6D03,02,/home/jcraig/pydarwin/Example8/temp/6D03/02,-2721.482175,101000001,-2761.482174517467,True,True,True,5,2,1,5.9547117221857615,0,0,No important warnings
-6D03,18,/home/jcraig/pydarwin/Example8/temp/6D03/18,-2520.296537,111000012,-2875.29653713684,True,False,False,7,2,2,99999999999,0,0,No important warnings
 6D03,11,/home/jcraig/pydarwin/Example8/temp/6D03/11,-1061.897607,111000000,-1106.8976065641612,True,True,True,6,2,1,21.98539600283421,0,0,No important warnings
-6D03,12,/home/jcraig/pydarwin/Example8/temp/6D03/12,-2475.787604,011000112,-2830.787603588406,True,False,False,6,3,2,99999999999,0,0,No important warnings
-6D03,14,/home/jcraig/pydarwin/Example8/temp/6D03/14,-2171.663882,110000112,-2526.6638819395926,True,False,False,6,3,2,99999999999,0,0,No important warnings
+6D03,08,/home/jcraig/pydarwin/Example8/temp/6D03/08,99999999999.000000,111000021,99999999999,False,False,False,7,3,1,99999999999,0,0,No important warnings
+6D03,02,/home/jcraig/pydarwin/Example8/temp/6D03/02,-2721.482175,101000001,-2761.482174517467,True,True,True,5,2,1,5.9547117221857615,0,0,No important warnings
+6D03,03,/home/jcraig/pydarwin/Example8/temp/6D03/03,-2486.071376,110000001,-2526.0713758858906,True,True,True,5,2,1,12.851087328650339,0,0,No important warnings
+6D03,07,/home/jcraig/pydarwin/Example8/temp/6D03/07,-2524.907555,111000101,-2874.90755496465,True,False,False,6,3,1,99999999999,0,0,No important warnings
 6D03,05,/home/jcraig/pydarwin/Example8/temp/6D03/05,-2826.576904,111010001,-2876.5769042773604,True,True,True,7,2,1,18.58438164546386,0,0,No important warnings
-6D03,16,/home/jcraig/pydarwin/Example8/temp/6D03/16,-2511.844682,111010112,-2876.844682091416,True,False,False,8,3,2,99999999999,0,0,No important warnings
-6D03,17,/home/jcraig/pydarwin/Example8/temp/6D03/17,-2513.040350,111001112,-2878.0403498671294,True,False,False,8,3,2,99999999999,0,0,No important warnings
+6D03,04,/home/jcraig/pydarwin/Example8/temp/6D03/04,-2827.800339,111100001,-2877.800339437145,True,True,True,7,2,1,15.308217335903915,0,0,No important warnings
 6D03,21,/home/jcraig/pydarwin/Example8/temp/6D03/21,-752.232408,111000110,-1107.2324080094913,True,False,False,7,3,1,99999999999,0,0,No important warnings
-6D03,15,/home/jcraig/pydarwin/Example8/temp/6D03/15,-2513.221910,111100112,-2878.221909612239,True,False,False,8,3,2,99999999999,0,0,No important warnings
+6D03,16,/home/jcraig/pydarwin/Example8/temp/6D03/16,-2511.844682,111010112,-2876.844682091416,True,False,False,8,3,2,99999999999,0,0,No important warnings
 6D03,13,/home/jcraig/pydarwin/Example8/temp/6D03/13,-2406.875909,101000112,-2761.875909485741,True,False,False,6,3,2,99999999999,0,0,No important warnings
+6D03,18,/home/jcraig/pydarwin/Example8/temp/6D03/18,-2520.296537,111000012,-2875.29653713684,True,False,False,7,2,2,99999999999,0,0,No important warnings
+6D03,14,/home/jcraig/pydarwin/Example8/temp/6D03/14,-2171.663882,110000112,-2526.6638819395926,True,False,False,6,3,2,99999999999,0,0,No important warnings
+6D03,12,/home/jcraig/pydarwin/Example8/temp/6D03/12,-2475.787604,011000112,-2830.787603588406,True,False,False,6,3,2,99999999999,0,0,No important warnings
+6D03,15,/home/jcraig/pydarwin/Example8/temp/6D03/15,-2513.221910,111100112,-2878.221909612239,True,False,False,8,3,2,99999999999,0,0,No important warnings
+6D03,17,/home/jcraig/pydarwin/Example8/temp/6D03/17,-2513.040350,111001112,-2878.0403498671294,True,False,False,8,3,2,99999999999,0,0,No important warnings

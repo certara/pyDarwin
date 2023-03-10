@@ -1,4 +1,4 @@
-Tue Jan 17 11:48:03 AM PST 2023
+Tue Mar  7 01:41:01 AM PST 2023
 
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE DROP
@@ -64,8 +64,9 @@ NM-TRAN MESSAGES
 
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2023
-Current Date:       17 JAN 2023
-Days until program expires :  57
+Current Date:        7 MAR 2023
+  **** WARNING!!! Days until program expires :   7 ****
+  **** CONTACT idssoftware@iconplc.com FOR RENEWAL ****
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -277,12 +278,12 @@ Days until program expires :  57
  TOTAL EFFECTIVE ETAS (NIND*NETA):                           200
   
  #TERE:
- Elapsed estimation  time in seconds:     4.62
+ Elapsed estimation  time in seconds:     4.92
 0R MATRIX ALGORITHMICALLY SINGULAR
  AND ALGORITHMICALLY NON-POSITIVE-SEMIDEFINITE
 0R MATRIX IS OUTPUT
 0COVARIANCE STEP ABORTED
- Elapsed covariance  time in seconds:     5.96
+ Elapsed covariance  time in seconds:     4.74
  Elapsed postprocess time in seconds:     0.00
 1
  
@@ -476,10 +477,10 @@ Days until program expires :  57
 +       -3.82E-02  5.55E-04  6.38E-01 -1.53E+02  7.09E+01 -8.26E+00  0.00E+00 ......... ......... .........  0.00E+00 .........
          ......... -2.12E+00 .........  6.78E+00  2.39E+02 .........  1.39E+02
  
- Elapsed finaloutput time in seconds:     0.00
- #CPUT: Total CPU Time in Seconds,        9.018
+ Elapsed finaloutput time in seconds:     0.02
+ #CPUT: Total CPU Time in Seconds,        9.341
 Stop Time:
-Tue Jan 17 11:48:33 AM PST 2023
+Tue Mar  7 01:41:30 AM PST 2023
 OFV = 4718.49275264449
 success = True
 covariance = False

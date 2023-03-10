@@ -1,5 +1,5 @@
-Wed 12/21/2022 
-01:35 PM
+Tue 03/07/2023 
+12:29 AM
 $PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DROP DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
 
@@ -103,8 +103,9 @@ NM-TRAN MESSAGES
   
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2023
-Current Date:       21 DEC 2022
-Days until program expires :  88
+Current Date:        7 MAR 2023
+  **** WARNING!!! Days until program expires :   7 ****
+  **** CONTACT idssoftware@iconplc.com FOR RENEWAL ****
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -273,7 +274,7 @@ Days until program expires :  88
  EXCLUDE NON-INFLUENTIAL (NON-INFL.) ETAS
        IN SHRINKAGE (ETASTYPE):             NO
  NON-INFL. ETA CORRECTION (NONINFETA):      OFF
- RAW OUTPUT FILE (FILE): NM_5D03_05.ext
+ RAW OUTPUT FILE (FILE): NM_5S061_088.ext
  EXCLUDE TITLE (NOTITLE):                   NO
  EXCLUDE COLUMN LABELS (NOLABEL):           NO
  FORMAT FOR ADDITIONAL FILES (FORMAT):      S1PE12.5
@@ -383,10 +384,10 @@ Days until program expires :  88
  TOTAL EFFECTIVE ETAS (NIND*NETA):                           348
   
  #TERE:
- Elapsed estimation  time in seconds:    60.25
+ Elapsed estimation  time in seconds:    51.34
  TESTING R MATRIX FOR POSITIVE DEFINITNESS
  R MATRIX IS POSITIVE DEFINITE
- Elapsed covariance  time in seconds:    39.88
+ Elapsed covariance  time in seconds:    34.18
  Elapsed postprocess time in seconds:     0.14
 1
  
@@ -1059,7 +1060,7 @@ Days until program expires :  88
          6.62E-02  1.80E-01  3.17E-01  7.70E-01  8.22E-01  8.84E-01  9.44E-01  9.54E-01  9.91E-01  1.06E+00  1.11E+00  1.23E+00
           3.68E+00
  
- Elapsed finaloutput time in seconds:     0.28
+ Elapsed finaloutput time in seconds:     0.34
 1
  PROBLEM NO.:         2
  SIMULATION FOR CMAX
@@ -1141,10 +1142,10 @@ SEED   1 RESET TO INITIAL: YES
  Elapsed simulation  time in seconds:     0.02
  ESTIMATION STEP OMITTED:                 YES
  Elapsed finaloutput time in seconds:     0.16
- #CPUT: Total CPU Time in Seconds,       93.563
+ #CPUT: Total CPU Time in Seconds,       84.547
 Stop Time: 
-Wed 12/21/2022 
-01:37 PM
+Tue 03/07/2023 
+12:31 AM
 Post run Python code Penalty = 2.465085865521979
 Post run Python code text = Observed day 1 Cmax geo mean = 567.9, simulated day 1 Cmax geo mean = 564.4
 OFV = 8564.31520276968
@@ -1155,4 +1156,4 @@ Condition # = 55.592257644946955
 Num Non fixed THETAs = 7
 Num Non fixed OMEGAs = 4
 Num Non fixed SIGMAs = 2
-Original run directory = C:\Users\jcraig\pydarwin\Example6\temp\5D03\05
+Original run directory = C:\Users\jcraig\pydarwin\Example6\temp\5S061\088

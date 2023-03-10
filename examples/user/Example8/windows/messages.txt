@@ -1,179 +1,179 @@
-[12:56:38] Model run priority is below_normal
-[12:56:38] Using darwin.MemoryModelCache
-[12:56:38] Algorithm is PSO
-[12:56:38] Project dir: C:\Workspace\Example8
-[12:56:38] Data dir: C:\Workspace\Example8
-[12:56:38] Project working dir: C:\Users\jcraig\pydarwin\Example8
-[12:56:38] Project temp dir: C:\Users\jcraig\pydarwin\Example8\temp
-[12:56:38] Project output dir: C:\Users\jcraig\pydarwin\Example8\output
-[12:56:38] Writing intermediate output to C:\Users\jcraig\pydarwin\Example8\output\results.csv
-[12:56:38] Models will be saved in C:\Users\jcraig\pydarwin\Example8\models.json
-[12:56:38] Template file found at template.txt
-[12:56:38] Tokens file found at tokens.json
-[12:56:38] Search start time = Fri Dec 16 12:56:38 2022
-[12:56:38] NMFE found: c:/nm74g64/util/nmfe74.bat
-[12:56:38] Not using Post Run R code
-[12:56:38] Not using Post Run Python code
-[12:56:38] Checking files in C:\Users\jcraig\pydarwin\Example8\temp\0\02
-[12:56:38] Data set # 1 was found: C:\Workspace\Example8\PDdata.csv
-[12:57:03] Iteration = 0, Model     2,           Done,    fitness = -619.152,    message = No important warnings
-[12:57:05] Iteration = 0, Model     4,           Done,    fitness = -2475.044,    message = No important warnings
-[12:57:11] Iteration = 0, Model     3,           Done,    fitness = -723.686,    message = No important warnings
-[12:57:22] Iteration = 0, Model     1,           Done,    fitness = -2467.374,    message = No important warnings
-[12:57:36] Iteration = 0, Model     6,           Done,    fitness = -2473.125,    message = No important warnings
-[12:57:38] Iteration = 0, Model     5,           Done,    fitness = -2707.355,    message = No important warnings
-[12:57:41] Iteration = 0, Model     7,           Done,    fitness = -1020.999,    message = No important warnings
-[12:57:48] Iteration = 0, Model     8,           Done,    fitness = -2450.522,    message = No important warnings
-[12:57:51] Iteration = 0, Model     9,           Done,    fitness = -729.066,    message = No important warnings
-[12:57:59] Iteration = 0, Model    10,           Done,    fitness = -1052.096,    message = No important warnings
-[12:57:59] Better model found by PSO, cost = -2707.355015829477, iteration = 0
-[12:58:34] Iteration = 1, Model     3,           Done,    fitness = -2455.338,    message = No important warnings
-[12:58:34] Iteration = 1, Model     5,           Done,    fitness = -2475.044,    message = From NM_0_04: No important warnings
-[12:58:34] Iteration = 1, Model     6,           Done,    fitness = -2707.355,    message = From NM_0_05: No important warnings
-[12:58:35] Iteration = 1, Model     1,           Done,    fitness = -709.532,    message = No important warnings
-[12:58:36] Iteration = 1, Model     8,           Done,    fitness = -2473.125,    message = From NM_0_06: No important warnings
-[12:58:36] Iteration = 1, Model     9,           Done,    fitness = -2467.374,    message = From NM_0_01: No important warnings
-[12:58:47] Iteration = 1, Model     2,           Done,    fitness = -2808.952,    message = No important warnings
-[12:58:51] Iteration = 1, Model     4,           Done,    fitness = -2764.162,    message = No important warnings
-[12:59:04] Iteration = 1, Model     7,           Done,    fitness = -2453.893,    message = No important warnings
-[12:59:18] Iteration = 1, Model    10,           Done,    fitness = -2805.493,    message = No important warnings
-[12:59:18] Better model found by PSO, cost = -2808.952083301862, iteration = 1
-[12:59:18] Iteration = 2, Model     2,           Done,    fitness = -2805.493,    message = From NM_1_10: No important warnings
-[12:59:18] Iteration = 2, Model     4,           Done,    fitness = -2707.355,    message = From NM_0_05: No important warnings
-[12:59:49] Iteration = 2, Model     6,           Done,    fitness = -2686.463,    message = No important warnings
-[12:59:49] Iteration = 2, Model     7,   Duplicate(2),    fitness = -2805.493,    message = From NM_1_10: No important warnings
-[12:59:49] Iteration = 2, Model     8,           Done,    fitness = -2808.952,    message = From NM_1_02: No important warnings
-[12:59:59] Iteration = 2, Model     3,           Done,    fitness = -2777.478,    message = No important warnings
-[12:59:59] Iteration = 2, Model    10,           Done,    fitness = -2764.162,    message = From NM_1_04: No important warnings
-[13:00:11] Iteration = 2, Model     1,           Done,    fitness = -2810.848,    message = No important warnings
-[13:00:14] Iteration = 2, Model     5,           Done,    fitness = -2697.258,    message = No important warnings
-[13:00:23] Iteration = 2, Model     9,           Done,    fitness = -2704.154,    message = No important warnings
-[13:00:23] Better model found by PSO, cost = -2810.848452096612, iteration = 2
-[13:00:23] Iteration = 3, Model     1,           Done,    fitness = -2805.493,    message = From NM_1_10: No important warnings
-[13:00:23] Iteration = 3, Model     2,   Duplicate(1),    fitness = -2805.493,    message = From NM_1_10: No important warnings
-[13:00:52] Iteration = 3, Model     5,           Done,    fitness = -2716.334,    message = No important warnings
-[13:01:08] Iteration = 3, Model     4,           Done,    fitness = -2678.523,    message = No important warnings
-[13:01:15] Iteration = 3, Model     3,           Done,    fitness = -1018.641,    message = No important warnings
-[13:01:20] Iteration = 3, Model     6,           Done,    fitness = -2701.861,    message = No important warnings
-[13:01:20] Iteration = 3, Model    10,           Done,    fitness = -2808.952,    message = From NM_1_02: No important warnings
-[13:01:49] Iteration = 3, Model     7,           Done,    fitness = -2807.331,    message = No important warnings
-[13:02:02] Iteration = 3, Model     8,           Done,    fitness = -2803.936,    message = No important warnings
-[13:02:05] Iteration = 3, Model     9,           Done,    fitness = -2445.728,    message = No important warnings, error = F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN). 
-[13:02:05] Iterations without improvement = 1, iteration = 3
-[13:02:05] Iteration = 4, Model     2,           Done,    fitness = -2805.493,    message = From NM_1_10: No important warnings
-[13:02:05] Iteration = 4, Model     4,   Duplicate(2),    fitness = -2805.493,    message = From NM_1_10: No important warnings
-[13:02:05] Iteration = 4, Model     6,           Done,    fitness = -2697.258,    message = From NM_2_05: No important warnings
-[13:02:44] Iteration = 4, Model     7,           Done,    fitness = -2817.393,    message = No important warnings
-[13:02:50] Iteration = 4, Model     3,           Done,    fitness = -2704.157,    message = No important warnings
-[13:02:50] Iteration = 4, Model     9,           Done,    fitness = -2807.331,    message = From NM_3_07: No important warnings
-[13:02:50] Iteration = 4, Model    10,           Done,    fitness = -2808.952,    message = From NM_1_02: No important warnings
-[13:02:55] Iteration = 4, Model     5,           Done,    fitness = -2673.736,    message = No important warnings
-[13:02:55] Iteration = 4, Model     1,           Done,    fitness = -2677.781,    message = No important warnings
-[13:03:13] Iteration = 4, Model     8,           Done,    fitness = -2701.939,    message = No important warnings
-[13:03:13] Better model found by PSO, cost = -2817.3927317372672, iteration = 4
-[13:03:13] Iteration = 5, Model     3,           Done,    fitness = -2817.393,    message = From NM_4_07: No important warnings
-[13:03:13] Iteration = 5, Model     5,           Done,    fitness = -2808.952,    message = From NM_1_02: No important warnings
-[13:03:13] Iteration = 5, Model     6,           Done,    fitness = -2807.331,    message = From NM_3_07: No important warnings
-[13:03:53] Iteration = 5, Model     2,           Done,    fitness = -2704.022,    message = No important warnings
-[13:03:53] Iteration = 5, Model     8,           Done,    fitness = -2805.493,    message = From NM_1_10: No important warnings
-[13:04:05] Iteration = 5, Model     4,           Done,    fitness = -2814.090,    message = No important warnings
-[13:04:10] Iteration = 5, Model     1,           Done,    fitness = -2810.276,    message = No important warnings
-[13:04:20] Iteration = 5, Model     7,           Done,    fitness = -2808.026,    message = No important warnings
-[13:04:27] Iteration = 5, Model     9,           Done,    fitness = -2678.713,    message = No important warnings
-[13:04:32] Iteration = 5, Model    10,           Done,    fitness = -2711.535,    message = No important warnings
-[13:04:32] Iterations without improvement = 1, iteration = 5
-[13:04:32] Iteration = 6, Model     4,           Done,    fitness = -2810.276,    message = From NM_5_01: No important warnings
-[13:04:32] Iteration = 6, Model     5,           Done,    fitness = -2814.090,    message = From NM_5_04: No important warnings
-[13:05:10] Iteration = 6, Model     2,           Done,    fitness = -2451.175,    message = No important warnings
-[13:05:10] Iteration = 6, Model     7,           Done,    fitness = -2808.952,    message = From NM_1_02: No important warnings
-[13:05:10] Iteration = 6, Model     8,           Done,    fitness = -2817.393,    message = From NM_4_07: No important warnings
-[13:05:14] Iteration = 6, Model     1,           Done,    fitness = -2451.045,    message = No important warnings
-[13:05:23] Iteration = 6, Model     3,           Done,    fitness = -2704.008,    message = No important warnings
-[13:05:40] Iteration = 6, Model     9,           Done,    fitness = -2823.194,    message = No important warnings
-[13:05:49] Iteration = 6, Model     6,           Done,    fitness = -2805.844,    message = No important warnings
-[13:05:52] Iteration = 6, Model    10,           Done,    fitness = -2469.895,    message = No important warnings
-[13:05:52] Better model found by PSO, cost = -2823.1941711578033, iteration = 6
-[13:05:52] Starting final downhill
-[13:05:52] code for niche (minimal binary) 1 = [1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1], fitness = -2823.1941711578033
-[13:05:52] code for niche (minimal binary) 2 = [1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0], fitness = -2810.276203788916
-[13:05:52] Starting downhill step 1, total of 22 in 2 niches to be run.
-[13:06:26] Iteration = 6D01, Model     1,           Done,    fitness = -2783.389,    message = No important warnings
-[13:06:28] Iteration = 6D01, Model     2,           Done,    fitness = -2714.171,    message = No important warnings
-[13:06:30] Iteration = 6D01, Model     3,           Done,    fitness = -2483.279,    message = No important warnings
-[13:06:39] Iteration = 6D01, Model     4,           Done,    fitness = -2821.021,    message = No important warnings
-[13:07:02] Iteration = 6D01, Model     6,           Done,    fitness = -2825.449,    message = No important warnings
-[13:07:09] Iteration = 6D01, Model     5,           Done,    fitness = -2819.105,    message = No important warnings
-[13:07:21] Iteration = 6D01, Model     7,           Done,    fitness = -2818.191,    message = No important warnings
-[13:07:24] Iteration = 6D01, Model     8,           Done,    fitness = -2818.180,    message = No important warnings, error = F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN). 
-[13:07:30] Iteration = 6D01, Model     9,           Done,    fitness = -2827.545,    message = No important warnings
-[13:07:30] Iteration = 6D01, Model    13,           Done,    fitness = -2701.861,    message = From NM_3_06: No important warnings
-[13:07:42] Iteration = 6D01, Model    10,           Done,    fitness = -2818.044,    message = No important warnings
-[13:07:45] Iteration = 6D01, Model    11,           Done,    fitness = -1056.032,    message = No important warnings
-[13:08:03] Iteration = 6D01, Model    12,           Done,    fitness = -2770.772,    message = No important warnings
-[13:08:03] Iteration = 6D01, Model    17,           Done,    fitness = -2808.026,    message = From NM_5_07: No important warnings
-[13:08:05] Iteration = 6D01, Model    14,           Done,    fitness = -2466.647,    message = No important warnings
-[13:08:31] Iteration = 6D01, Model    15,           Done,    fitness = -2808.203,    message = No important warnings
-[13:08:31] Iteration = 6D01, Model    20,           Done,    fitness = -2810.276,    message = From NM_5_01: No important warnings
-[13:08:31] Iteration = 6D01, Model    19,           Done,    fitness = -2819.757,    message = No important warnings
-[13:08:31] Iteration = 6D01, Model    22,  Duplicate(20),    fitness = -2810.276,    message = From NM_5_01: No important warnings
-[13:08:34] Iteration = 6D01, Model    16,           Done,    fitness = -2806.827,    message = No important warnings
-[13:08:37] Iteration = 6D01, Model    18,           Done,    fitness = -2815.280,    message = No important warnings
-[13:09:04] Iteration = 6D01, Model    21,           Done,    fitness = -1047.230,    message = No important warnings
-[13:09:04] code for niche (minimal binary) 1 = [1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1], fitness = -2827.5449661573207
-[13:09:04] code for niche (minimal binary) 2 = [1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0], fitness = -2819.7568176344025
-[13:09:04] Starting downhill step 2, total of 22 in 2 niches to be run.
-[13:09:30] Iteration = 6D02, Model     1,           Done,    fitness = -2787.613,    message = No important warnings
-[13:09:31] Iteration = 6D02, Model     2,           Done,    fitness = -2718.544,    message = No important warnings
-[13:09:34] Iteration = 6D02, Model     3,           Done,    fitness = -2487.306,    message = No important warnings
-[13:09:43] Iteration = 6D02, Model     4,           Done,    fitness = -2825.324,    message = No important warnings
-[13:09:43] Iteration = 6D02, Model     8,           Done,    fitness = -2818.180,    message = From NM_6D01_08: No important warnings, error = F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN). 
-[13:09:43] Iteration = 6D02, Model     9,           Done,    fitness = -2823.194,    message = From NM_6_09: No important warnings
-[13:09:59] Iteration = 6D02, Model     6,           Done,    fitness = -2829.912,    message = No important warnings
-[13:10:07] Iteration = 6D02, Model     5,           Done,    fitness = -2823.558,    message = No important warnings
-[13:10:17] Iteration = 6D02, Model     7,           Done,    fitness = -2822.542,    message = No important warnings
-[13:10:19] Iteration = 6D02, Model    10,           Done,    fitness = -2822.397,    message = No important warnings
-[13:10:27] Iteration = 6D02, Model    11,           Done,    fitness = -1060.827,    message = No important warnings
-[13:10:34] Iteration = 6D02, Model    12,           Done,    fitness = -2780.120,    message = No important warnings
-[13:10:43] Iteration = 6D02, Model    13,           Done,    fitness = -2711.330,    message = No important warnings
-[13:10:43] Iteration = 6D02, Model    17,           Done,    fitness = -2817.393,    message = From NM_4_07: No important warnings
-[13:10:45] Iteration = 6D02, Model    14,           Done,    fitness = -2475.927,    message = No important warnings
-[13:10:45] Iteration = 6D02, Model    19,           Done,    fitness = -2810.276,    message = From NM_5_01: No important warnings
-[13:11:00] Iteration = 6D02, Model    15,           Done,    fitness = -2817.639,    message = No important warnings
-[13:11:06] Iteration = 6D02, Model    16,           Done,    fitness = -2816.423,    message = No important warnings
-[13:11:06] Iteration = 6D02, Model    22,           Done,    fitness = -2819.757,    message = From NM_6D01_19: No important warnings
-[13:11:09] Iteration = 6D02, Model    18,           Done,    fitness = -2824.761,    message = No important warnings
-[13:11:22] Iteration = 6D02, Model    20,           Done,    fitness = -2815.291,    message = No important warnings
-[13:11:23] Iteration = 6D02, Model    21,           Done,    fitness = -1056.897,    message = No important warnings
-[13:11:23] code for niche (minimal binary) 1 = [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1], fitness = -2829.911515459548
-[13:11:23] code for niche (minimal binary) 2 = [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0], fitness = -2824.760683530331
-[13:11:23] Starting downhill step 3, total of 22 in 2 niches to be run.
-[13:11:44] Iteration = 6D03, Model     1,           Done,    fitness = -2790.274,    message = No important warnings
-[13:11:45] Iteration = 6D03, Model     2,           Done,    fitness = -2721.482,    message = No important warnings
-[13:11:45] Iteration = 6D03, Model     6,           Done,    fitness = -2827.545,    message = From NM_6D01_09: No important warnings
-[13:11:45] Iteration = 6D03, Model     3,           Done,    fitness = -2486.071,    message = No important warnings
-[13:11:54] Iteration = 6D03, Model     4,           Done,    fitness = -2827.800,    message = No important warnings
-[13:11:54] Iteration = 6D03, Model     9,           Done,    fitness = -2825.449,    message = From NM_6D01_06: No important warnings
-[13:11:54] Iteration = 6D03, Model    10,           Done,    fitness = -2824.761,    message = From NM_6D02_18: No important warnings
-[13:12:15] Iteration = 6D03, Model     5,           Done,    fitness = -2826.577,    message = No important warnings
-[13:12:19] Iteration = 6D03, Model    11,           Done,    fitness = -1061.898,    message = No important warnings
-[13:12:19] Iteration = 6D03, Model    13,           Done,    fitness = -2716.334,    message = From NM_3_05: No important warnings
-[13:12:24] Iteration = 6D03, Model     7,           Done,    fitness = -2824.908,    message = No important warnings
-[13:12:32] Iteration = 6D03, Model     8,           Done,    fitness = -2820.433,    message = No important warnings, error = F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN). 
-[13:12:46] Iteration = 6D03, Model    12,           Done,    fitness = -2785.124,    message = No important warnings
-[13:12:46] Iteration = 6D03, Model    17,           Done,    fitness = -2822.397,    message = From NM_6D02_10: No important warnings
-[13:12:46] Iteration = 6D03, Model    18,           Done,    fitness = -2819.757,    message = From NM_6D01_19: No important warnings
-[13:12:46] Iteration = 6D03, Model    19,           Done,    fitness = -2815.280,    message = From NM_6D01_18: No important warnings
-[13:12:54] Iteration = 6D03, Model    14,           Done,    fitness = -2480.932,    message = No important warnings
-[13:12:54] Iteration = 6D03, Model    21,  Duplicate(11),    fitness = 99999999999,    message = 
-[13:12:54] Iteration = 6D03, Model    22,  Duplicate(10),    fitness = -2824.761,    message = From NM_6D02_18: No important warnings
-[13:13:01] Iteration = 6D03, Model    15,           Done,    fitness = -2822.644,    message = No important warnings
-[13:13:05] Iteration = 6D03, Model    16,           Done,    fitness = -2821.427,    message = No important warnings
-[13:13:14] Iteration = 6D03, Model    20,           Done,    fitness = -2820.297,    message = No important warnings
-[13:13:14] best fitness -2829.911515459548, model [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1]
-[13:13:14] Final output from best model is in C:\Users\jcraig\pydarwin\Example8\output\FinalResultFile.lst
-[13:13:14] Number of unique models to best model = 72
-[13:13:14] Time to best model = 13.4 minutes
-[13:13:14] Best overall fitness = -2829.911515, iteration 6D02, model 6
-[13:13:14] Elapsed time = 16.6 minutes 
+[12:21:36] Model run priority is below_normal
+[12:21:36] Using darwin.MemoryModelCache
+[12:21:36] Algorithm is PSO
+[12:21:36] Project dir: C:\Workspace\Example8
+[12:21:36] Data dir: C:\Workspace\Example8
+[12:21:36] Project working dir: C:\Workspace\Example8/working
+[12:21:36] Project temp dir: C:\Workspace\Example8/rundir
+[12:21:36] Project output dir: C:\Workspace\Example8/output
+[12:21:36] Writing intermediate output to C:\Workspace\Example8/output\results.csv
+[12:21:36] Models will be saved in C:\Workspace\Example8/working\models.json
+[12:21:36] Template file found at template.txt
+[12:21:36] Tokens file found at tokens.json
+[12:21:36] Search start time = Mon Mar  6 12:21:36 2023
+[12:21:36] NMFE found: c:/nm74g64/util/nmfe74.bat
+[12:21:36] Not using Post Run R code
+[12:21:36] Not using Post Run Python code
+[12:21:36] Checking files in C:\Workspace\Example8\rundir\0\01
+[12:21:36] Data set # 1 was found: C:\Workspace\Example8/PDdata.csv
+[12:22:02] Iteration = 0, Model     2,           Done,    fitness = -619.152,    message = No important warnings
+[12:22:04] Iteration = 0, Model     4,           Done,    fitness = -2475.044,    message = No important warnings
+[12:22:09] Iteration = 0, Model     3,           Done,    fitness = -723.686,    message = No important warnings
+[12:22:20] Iteration = 0, Model     1,           Done,    fitness = -2467.374,    message = No important warnings
+[12:22:35] Iteration = 0, Model     6,           Done,    fitness = -2473.125,    message = No important warnings
+[12:22:36] Iteration = 0, Model     5,           Done,    fitness = -2707.355,    message = No important warnings
+[12:22:40] Iteration = 0, Model     7,           Done,    fitness = -1020.999,    message = No important warnings
+[12:22:46] Iteration = 0, Model     8,           Done,    fitness = -2450.522,    message = No important warnings
+[12:22:50] Iteration = 0, Model     9,           Done,    fitness = -729.066,    message = No important warnings
+[12:22:57] Iteration = 0, Model    10,           Done,    fitness = -1052.096,    message = No important warnings
+[12:22:57] Better model found by PSO, cost = -2707.355015829477, iteration = 0
+[12:23:37] Iteration = 1, Model     3,           Done,    fitness = -2455.338,    message = No important warnings
+[12:23:37] Iteration = 1, Model     5,           Done,    fitness = -2475.044,    message = From NM_0_04: No important warnings
+[12:23:37] Iteration = 1, Model     6,           Done,    fitness = -2707.355,    message = From NM_0_05: No important warnings
+[12:23:38] Iteration = 1, Model     1,           Done,    fitness = -709.532,    message = No important warnings
+[12:23:38] Iteration = 1, Model     8,           Done,    fitness = -2473.125,    message = From NM_0_06: No important warnings
+[12:23:38] Iteration = 1, Model     9,           Done,    fitness = -2467.374,    message = From NM_0_01: No important warnings
+[12:23:51] Iteration = 1, Model     2,           Done,    fitness = -2808.952,    message = No important warnings
+[12:23:55] Iteration = 1, Model     4,           Done,    fitness = -2764.162,    message = No important warnings
+[12:24:09] Iteration = 1, Model     7,           Done,    fitness = -2453.893,    message = No important warnings
+[12:24:22] Iteration = 1, Model    10,           Done,    fitness = -2805.493,    message = No important warnings
+[12:24:22] Better model found by PSO, cost = -2808.952083301862, iteration = 1
+[12:24:22] Iteration = 2, Model     2,           Done,    fitness = -2805.493,    message = From NM_1_10: No important warnings
+[12:24:22] Iteration = 2, Model     4,           Done,    fitness = -2707.355,    message = From NM_0_05: No important warnings
+[12:24:57] Iteration = 2, Model     6,           Done,    fitness = -2686.463,    message = No important warnings
+[12:24:57] Iteration = 2, Model     7,   Duplicate(2),    fitness = -2805.493,    message = From NM_1_10: No important warnings
+[12:24:57] Iteration = 2, Model     8,           Done,    fitness = -2808.952,    message = From NM_1_02: No important warnings
+[12:25:06] Iteration = 2, Model     3,           Done,    fitness = -2777.478,    message = No important warnings
+[12:25:06] Iteration = 2, Model    10,           Done,    fitness = -2764.162,    message = From NM_1_04: No important warnings
+[12:25:19] Iteration = 2, Model     1,           Done,    fitness = -2810.848,    message = No important warnings
+[12:25:22] Iteration = 2, Model     5,           Done,    fitness = -2697.258,    message = No important warnings
+[12:25:33] Iteration = 2, Model     9,           Done,    fitness = -2704.154,    message = No important warnings
+[12:25:33] Better model found by PSO, cost = -2810.848452096612, iteration = 2
+[12:25:33] Iteration = 3, Model     1,           Done,    fitness = -2805.493,    message = From NM_1_10: No important warnings
+[12:25:33] Iteration = 3, Model     2,   Duplicate(1),    fitness = -2805.493,    message = From NM_1_10: No important warnings
+[12:26:05] Iteration = 3, Model     5,           Done,    fitness = -2716.334,    message = No important warnings
+[12:26:19] Iteration = 3, Model     4,           Done,    fitness = -2678.523,    message = No important warnings
+[12:26:28] Iteration = 3, Model     3,           Done,    fitness = -1018.641,    message = No important warnings
+[12:26:33] Iteration = 3, Model     6,           Done,    fitness = -2701.861,    message = No important warnings
+[12:26:33] Iteration = 3, Model    10,           Done,    fitness = -2808.952,    message = From NM_1_02: No important warnings
+[12:27:02] Iteration = 3, Model     7,           Done,    fitness = -2807.331,    message = No important warnings
+[12:27:14] Iteration = 3, Model     8,           Done,    fitness = -2803.936,    message = No important warnings
+[12:27:16] Iteration = 3, Model     9,           Done,    fitness = -2445.728,    message = No important warnings, error = F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN). 
+[12:27:16] Iterations without improvement = 1, iteration = 3
+[12:27:16] Iteration = 4, Model     2,           Done,    fitness = -2805.493,    message = From NM_1_10: No important warnings
+[12:27:16] Iteration = 4, Model     4,   Duplicate(2),    fitness = -2805.493,    message = From NM_1_10: No important warnings
+[12:27:16] Iteration = 4, Model     6,           Done,    fitness = -2697.258,    message = From NM_2_05: No important warnings
+[12:27:57] Iteration = 4, Model     7,           Done,    fitness = -2817.393,    message = No important warnings
+[12:28:03] Iteration = 4, Model     3,           Done,    fitness = -2704.157,    message = No important warnings
+[12:28:03] Iteration = 4, Model     9,           Done,    fitness = -2807.331,    message = From NM_3_07: No important warnings
+[12:28:03] Iteration = 4, Model    10,           Done,    fitness = -2808.952,    message = From NM_1_02: No important warnings
+[12:28:07] Iteration = 4, Model     5,           Done,    fitness = -2673.736,    message = No important warnings
+[12:28:08] Iteration = 4, Model     1,           Done,    fitness = -2677.781,    message = No important warnings
+[12:28:26] Iteration = 4, Model     8,           Done,    fitness = -2701.939,    message = No important warnings
+[12:28:26] Better model found by PSO, cost = -2817.3927317372672, iteration = 4
+[12:28:26] Iteration = 5, Model     3,           Done,    fitness = -2817.393,    message = From NM_4_07: No important warnings
+[12:28:26] Iteration = 5, Model     5,           Done,    fitness = -2808.952,    message = From NM_1_02: No important warnings
+[12:28:26] Iteration = 5, Model     6,           Done,    fitness = -2807.331,    message = From NM_3_07: No important warnings
+[12:29:05] Iteration = 5, Model     2,           Done,    fitness = -2704.022,    message = No important warnings
+[12:29:05] Iteration = 5, Model     8,           Done,    fitness = -2805.493,    message = From NM_1_10: No important warnings
+[12:29:16] Iteration = 5, Model     4,           Done,    fitness = -2814.090,    message = No important warnings
+[12:29:20] Iteration = 5, Model     1,           Done,    fitness = -2810.276,    message = No important warnings
+[12:29:33] Iteration = 5, Model     7,           Done,    fitness = -2808.026,    message = No important warnings
+[12:29:40] Iteration = 5, Model     9,           Done,    fitness = -2678.713,    message = No important warnings
+[12:29:45] Iteration = 5, Model    10,           Done,    fitness = -2711.535,    message = No important warnings
+[12:29:45] Iterations without improvement = 1, iteration = 5
+[12:29:45] Iteration = 6, Model     4,           Done,    fitness = -2810.276,    message = From NM_5_01: No important warnings
+[12:29:45] Iteration = 6, Model     5,           Done,    fitness = -2814.090,    message = From NM_5_04: No important warnings
+[12:30:19] Iteration = 6, Model     2,           Done,    fitness = -2451.175,    message = No important warnings
+[12:30:19] Iteration = 6, Model     7,           Done,    fitness = -2808.952,    message = From NM_1_02: No important warnings
+[12:30:19] Iteration = 6, Model     8,           Done,    fitness = -2817.393,    message = From NM_4_07: No important warnings
+[12:30:24] Iteration = 6, Model     1,           Done,    fitness = -2451.045,    message = No important warnings
+[12:30:32] Iteration = 6, Model     3,           Done,    fitness = -2704.008,    message = No important warnings
+[12:30:47] Iteration = 6, Model     9,           Done,    fitness = -2823.194,    message = No important warnings
+[12:30:54] Iteration = 6, Model     6,           Done,    fitness = -2805.844,    message = No important warnings
+[12:30:57] Iteration = 6, Model    10,           Done,    fitness = -2469.895,    message = No important warnings
+[12:30:57] Better model found by PSO, cost = -2823.1941711578033, iteration = 6
+[12:30:57] Starting final downhill
+[12:30:57] code for niche (minimal binary) 1 = [1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1], fitness = -2823.1941711578033
+[12:30:57] code for niche (minimal binary) 2 = [1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0], fitness = -2810.276203788916
+[12:30:57] Starting downhill step 1, total of 22 in 2 niches to be run.
+[12:31:27] Iteration = 6D01, Model     1,           Done,    fitness = -2783.389,    message = No important warnings
+[12:31:29] Iteration = 6D01, Model     2,           Done,    fitness = -2714.171,    message = No important warnings
+[12:31:31] Iteration = 6D01, Model     3,           Done,    fitness = -2483.279,    message = No important warnings
+[12:31:40] Iteration = 6D01, Model     4,           Done,    fitness = -2821.021,    message = No important warnings
+[12:32:01] Iteration = 6D01, Model     6,           Done,    fitness = -2825.449,    message = No important warnings
+[12:32:07] Iteration = 6D01, Model     5,           Done,    fitness = -2819.105,    message = No important warnings
+[12:32:18] Iteration = 6D01, Model     7,           Done,    fitness = -2818.191,    message = No important warnings
+[12:32:22] Iteration = 6D01, Model     8,           Done,    fitness = -2818.180,    message = No important warnings, error = F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN). 
+[12:32:30] Iteration = 6D01, Model     9,           Done,    fitness = -2827.545,    message = No important warnings
+[12:32:30] Iteration = 6D01, Model    13,           Done,    fitness = -2701.861,    message = From NM_3_06: No important warnings
+[12:32:47] Iteration = 6D01, Model    10,           Done,    fitness = -2818.044,    message = No important warnings
+[12:32:50] Iteration = 6D01, Model    11,           Done,    fitness = -1056.032,    message = No important warnings
+[12:33:12] Iteration = 6D01, Model    12,           Done,    fitness = -2770.772,    message = No important warnings
+[12:33:12] Iteration = 6D01, Model    17,           Done,    fitness = -2808.026,    message = From NM_5_07: No important warnings
+[12:33:15] Iteration = 6D01, Model    14,           Done,    fitness = -2466.647,    message = No important warnings
+[12:33:45] Iteration = 6D01, Model    15,           Done,    fitness = -2808.203,    message = No important warnings
+[12:33:45] Iteration = 6D01, Model    20,           Done,    fitness = -2810.276,    message = From NM_5_01: No important warnings
+[12:33:45] Iteration = 6D01, Model    19,           Done,    fitness = -2819.757,    message = No important warnings
+[12:33:45] Iteration = 6D01, Model    22,  Duplicate(20),    fitness = -2810.276,    message = From NM_5_01: No important warnings
+[12:33:48] Iteration = 6D01, Model    16,           Done,    fitness = -2806.827,    message = No important warnings
+[12:33:52] Iteration = 6D01, Model    18,           Done,    fitness = -2815.280,    message = No important warnings
+[12:34:10] Iteration = 6D01, Model    21,           Done,    fitness = -1047.230,    message = No important warnings
+[12:34:10] code for niche (minimal binary) 1 = [1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1], fitness = -2827.5449661573207
+[12:34:10] code for niche (minimal binary) 2 = [1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0], fitness = -2819.7568176344025
+[12:34:11] Starting downhill step 2, total of 22 in 2 niches to be run.
+[12:34:35] Iteration = 6D02, Model     1,           Done,    fitness = -2787.613,    message = No important warnings
+[12:34:36] Iteration = 6D02, Model     2,           Done,    fitness = -2718.544,    message = No important warnings
+[12:34:37] Iteration = 6D02, Model     3,           Done,    fitness = -2487.306,    message = No important warnings
+[12:34:48] Iteration = 6D02, Model     4,           Done,    fitness = -2825.324,    message = No important warnings
+[12:34:48] Iteration = 6D02, Model     8,           Done,    fitness = -2818.180,    message = From NM_6D01_08: No important warnings, error = F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN). 
+[12:34:48] Iteration = 6D02, Model     9,           Done,    fitness = -2823.194,    message = From NM_6_09: No important warnings
+[12:35:08] Iteration = 6D02, Model     6,           Done,    fitness = -2829.912,    message = No important warnings
+[12:35:13] Iteration = 6D02, Model     5,           Done,    fitness = -2823.558,    message = No important warnings
+[12:35:21] Iteration = 6D02, Model     7,           Done,    fitness = -2822.542,    message = No important warnings
+[12:35:25] Iteration = 6D02, Model    10,           Done,    fitness = -2822.397,    message = No important warnings
+[12:35:37] Iteration = 6D02, Model    11,           Done,    fitness = -1060.827,    message = No important warnings
+[12:35:43] Iteration = 6D02, Model    12,           Done,    fitness = -2780.120,    message = No important warnings
+[12:35:54] Iteration = 6D02, Model    13,           Done,    fitness = -2711.330,    message = No important warnings
+[12:35:54] Iteration = 6D02, Model    17,           Done,    fitness = -2817.393,    message = From NM_4_07: No important warnings
+[12:35:57] Iteration = 6D02, Model    14,           Done,    fitness = -2475.927,    message = No important warnings
+[12:35:57] Iteration = 6D02, Model    19,           Done,    fitness = -2810.276,    message = From NM_5_01: No important warnings
+[12:36:16] Iteration = 6D02, Model    15,           Done,    fitness = -2817.639,    message = No important warnings
+[12:36:20] Iteration = 6D02, Model    16,           Done,    fitness = -2816.423,    message = No important warnings
+[12:36:20] Iteration = 6D02, Model    22,           Done,    fitness = -2819.757,    message = From NM_6D01_19: No important warnings
+[12:36:23] Iteration = 6D02, Model    18,           Done,    fitness = -2824.761,    message = No important warnings
+[12:36:35] Iteration = 6D02, Model    20,           Done,    fitness = -2815.291,    message = No important warnings
+[12:36:36] Iteration = 6D02, Model    21,           Done,    fitness = -1056.897,    message = No important warnings
+[12:36:37] code for niche (minimal binary) 1 = [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1], fitness = -2829.911515459548
+[12:36:37] code for niche (minimal binary) 2 = [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0], fitness = -2824.760683530331
+[12:36:37] Starting downhill step 3, total of 22 in 2 niches to be run.
+[12:37:00] Iteration = 6D03, Model     1,           Done,    fitness = -2790.274,    message = No important warnings
+[12:37:01] Iteration = 6D03, Model     2,           Done,    fitness = -2721.482,    message = No important warnings
+[12:37:01] Iteration = 6D03, Model     6,           Done,    fitness = -2827.545,    message = From NM_6D01_09: No important warnings
+[12:37:02] Iteration = 6D03, Model     3,           Done,    fitness = -2486.071,    message = No important warnings
+[12:37:10] Iteration = 6D03, Model     4,           Done,    fitness = -2827.800,    message = No important warnings
+[12:37:10] Iteration = 6D03, Model     9,           Done,    fitness = -2825.449,    message = From NM_6D01_06: No important warnings
+[12:37:10] Iteration = 6D03, Model    10,           Done,    fitness = -2824.761,    message = From NM_6D02_18: No important warnings
+[12:37:29] Iteration = 6D03, Model     5,           Done,    fitness = -2826.577,    message = No important warnings
+[12:37:33] Iteration = 6D03, Model    11,           Done,    fitness = -1061.898,    message = No important warnings
+[12:37:33] Iteration = 6D03, Model    13,           Done,    fitness = -2716.334,    message = From NM_3_05: No important warnings
+[12:37:37] Iteration = 6D03, Model     7,           Done,    fitness = -2824.908,    message = No important warnings
+[12:37:44] Iteration = 6D03, Model     8,           Done,    fitness = -2820.433,    message = No important warnings, error = F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN). 
+[12:37:57] Iteration = 6D03, Model    12,           Done,    fitness = -2785.124,    message = No important warnings
+[12:37:57] Iteration = 6D03, Model    17,           Done,    fitness = -2822.397,    message = From NM_6D02_10: No important warnings
+[12:37:57] Iteration = 6D03, Model    18,           Done,    fitness = -2819.757,    message = From NM_6D01_19: No important warnings
+[12:37:57] Iteration = 6D03, Model    19,           Done,    fitness = -2815.280,    message = From NM_6D01_18: No important warnings
+[12:38:04] Iteration = 6D03, Model    14,           Done,    fitness = -2480.932,    message = No important warnings
+[12:38:04] Iteration = 6D03, Model    21,  Duplicate(11),    fitness = 99999999999,    message = 
+[12:38:04] Iteration = 6D03, Model    22,  Duplicate(10),    fitness = -2824.761,    message = From NM_6D02_18: No important warnings
+[12:38:11] Iteration = 6D03, Model    15,           Done,    fitness = -2822.644,    message = No important warnings
+[12:38:15] Iteration = 6D03, Model    16,           Done,    fitness = -2821.427,    message = No important warnings
+[12:38:20] Iteration = 6D03, Model    20,           Done,    fitness = -2820.297,    message = No important warnings
+[12:38:20] best fitness -2829.911515459548, model [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+[12:38:20] Final output from best model is in C:\Workspace\Example8/output\FinalResultFile.lst
+[12:38:20] Number of unique models to best model = 72
+[12:38:20] Time to best model = 13.5 minutes
+[12:38:20] Best overall fitness = -2829.911515, iteration 6D02, model 6
+[12:38:20] Elapsed time = 16.7 minutes 
 
-[13:13:14] Search end time = Fri Dec 16 13:13:14 2022
+[12:38:20] Search end time = Mon Mar  6 12:38:20 2023

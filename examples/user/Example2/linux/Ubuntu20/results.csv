@@ -40,13 +40,13 @@ Iteration,Model number,Run Directory,Fitness,Model,ofv,success,covar,correlation
 4,01,/home/CertaraUser/pydarwin/Example2/temp/4/01,5149.751799,0010011210,4729.751798930508,True,False,False,6,4,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
 4,05,/home/CertaraUser/pydarwin/Example2/temp/4/05,5159.846163,0010011220,4729.8461626792405,True,False,False,7,4,2,99999999,0,0,No important warnings
 5,03,/home/CertaraUser/pydarwin/Example2/temp/5/01,99999999.000000,1001021010,99999999,False,False,False,0,0,0,99999999,0,0,
+5,04,/home/CertaraUser/pydarwin/Example2/temp/5/01,99999999.000000,1001021010,99999999,False,False,False,0,0,0,99999999,0,0,
 5,05,/home/CertaraUser/pydarwin/Example2/temp/5/02,99999999.000000,1001021000,99999999,False,False,False,0,0,0,99999999,0,0,
 5,06,/home/CertaraUser/pydarwin/Example2/temp/5/01,99999999.000000,1001021010,99999999,False,False,False,0,0,0,99999999,0,0,
 5,07,/home/CertaraUser/pydarwin/Example2/temp/5/01,99999999.000000,1001021010,99999999,False,False,False,0,0,0,99999999,0,0,
 5,08,/home/CertaraUser/pydarwin/Example2/temp/5/01,99999999.000000,1001021010,99999999,False,False,False,0,0,0,99999999,0,0,
 5,09,/home/CertaraUser/pydarwin/Example2/temp/5/01,99999999.000000,1001021010,99999999,False,False,False,0,0,0,99999999,0,0,
 5,10,/home/CertaraUser/pydarwin/Example2/temp/5/02,99999999.000000,1001021000,99999999,False,False,False,0,0,0,99999999,0,0,
-5,04,/home/CertaraUser/pydarwin/Example2/temp/5/01,99999999.000000,1001021010,99999999,False,False,False,0,0,0,99999999,0,0,
 5,02,/home/CertaraUser/pydarwin/Example2/temp/5/02,4831.258058,1001021000,4701.258057634605,True,True,True,9,2,2,496.81605397937204,0,0,No important warnings
 5,01,/home/CertaraUser/pydarwin/Example2/temp/5/01,4830.965471,1001021010,4700.965470789542,True,True,True,9,2,2,139.93280567558998,0,0,No important warnings
 5D01,01,/home/CertaraUser/pydarwin/Example2/temp/5D01/01,99999999.000000,2001001000,99999999,False,False,False,10,2,2,99999999,0,0,No important warnings
@@ -63,8 +63,8 @@ Iteration,Model number,Run Directory,Fitness,Model,ofv,success,covar,correlation
 5D01,12,/home/CertaraUser/pydarwin/Example2/temp/5D01/12,5137.564351,1001001200,4707.564351347698,True,False,False,8,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
 5D01,13,/home/CertaraUser/pydarwin/Example2/temp/5D01/13,4837.564230,1001001100,4707.564230441484,True,True,True,8,3,2,296.2102615388825,0,0,No important warnings
 5D01,16,/home/CertaraUser/pydarwin/Example2/temp/5D01/16,5687.905320,1001001001,5577.905320073139,True,True,True,8,2,1,424.9625668183434,0,0,No important warnings
-5D01,15,/home/CertaraUser/pydarwin/Example2/temp/5D01/15,4827.330979,1001001010,4707.3309794026045,True,True,True,8,2,2,393.0408434696235,0,0,No important warnings
 5D01,14,/home/CertaraUser/pydarwin/Example2/temp/5D01/14,5137.335250,1001001020,4707.335250059727,True,False,False,9,2,2,99999999,0,0,No important warnings
+5D01,15,/home/CertaraUser/pydarwin/Example2/temp/5D01/15,4827.330979,1001001010,4707.3309794026045,True,True,True,8,2,2,393.0408434696235,0,0,No important warnings
 5D02,01,/home/CertaraUser/pydarwin/Example2/temp/5D02/01,99999999.000000,2001000000,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
 5D02,02,/home/CertaraUser/pydarwin/Example2/temp/5D02/02,4822.599691,0001000000,4732.59969108544,True,True,True,5,2,2,51.68401391027586,0,0,No important warnings
 5D02,03,/home/CertaraUser/pydarwin/Example2/temp/5D02/03,4829.052868,1101000000,4709.052867644106,True,True,True,8,2,2,299.81319368556933,0,0,No important warnings
@@ -91,14 +91,14 @@ Iteration,Model number,Run Directory,Fitness,Model,ofv,success,covar,correlation
 5D03,07,/home/CertaraUser/pydarwin/Example2/temp/5D03/07,4822.659303,1000100000,4712.6593029039195,True,True,True,7,2,2,187.55269860099168,0,0,No important warnings
 5D03,08,/home/CertaraUser/pydarwin/Example2/temp/5D03/08,4824.301310,1000020000,4714.301309598052,True,True,True,7,2,2,208.3656259888498,0,0,No important warnings
 5D03,09,/home/CertaraUser/pydarwin/Example2/temp/5D03/09,4824.461912,1000010000,4714.461912054925,True,True,True,7,2,2,275.09078908005534,0,0,No important warnings
-5D03,11,/home/CertaraUser/pydarwin/Example2/temp/5D03/11,5148.487952,1000000400,4718.487952101895,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
 5D03,12,/home/CertaraUser/pydarwin/Example2/temp/5D03/12,5128.488248,1000000200,4718.488247801621,True,False,False,6,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D03,11,/home/CertaraUser/pydarwin/Example2/temp/5D03/11,5148.487952,1000000400,4718.487952101895,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
 5D03,13,/home/CertaraUser/pydarwin/Example2/temp/5D03/13,4828.487952,1000000100,4718.487952136086,True,True,True,6,3,2,296.07037113288413,0,0,No important warnings
 5D03,16,/home/CertaraUser/pydarwin/Example2/temp/5D03/16,5986.634240,1000000001,5596.634239744958,True,False,False,6,2,1,99999999,0,0,No important warnings
 5D03,15,/home/CertaraUser/pydarwin/Example2/temp/5D03/15,4818.163468,1000000010,4718.163467524981,True,True,True,6,2,2,344.7776198976175,0,0,No important warnings
 5D03,14,/home/CertaraUser/pydarwin/Example2/temp/5D03/14,5128.168312,1000000020,4718.168311851672,True,False,False,7,2,2,99999999,0,0,No important warnings
 5D04,01,/home/CertaraUser/pydarwin/Example2/temp/5D04/01,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,No important warnings
-5D04,02,/home/CertaraUser/pydarwin/Example2/temp/5D04/02,4818.223228,0000000010,4738.2232283201665,True,True,True,4,2,2,99.17510935972025,0,0,No important warnings
+5D04,02,/home/CertaraUser/pydarwin/Example2/temp/5D04/02,4918.223228,0000000010,4738.2232283201665,True,True,False,4,2,2,99.17510935972025,0,0,No important warnings
 5D04,06,/home/CertaraUser/pydarwin/Example2/temp/5D02/15,4822.403389,1001000010,4712.403389040417,True,True,True,7,2,2,271.78583044933725,0,0,From NM_5D02_15: No important warnings
 5D04,03,/home/CertaraUser/pydarwin/Example2/temp/5D04/03,4826.189141,1100000010,4716.189141427592,True,True,True,7,2,2,252.03157728503675,0,0,No important warnings
 5D04,04,/home/CertaraUser/pydarwin/Example2/temp/5D04/04,4827.258229,1010000010,4717.258229211435,True,True,True,6,3,2,487.99112992818664,0,0,No important warnings
@@ -106,35 +106,35 @@ Iteration,Model number,Run Directory,Fitness,Model,ofv,success,covar,correlation
 5D04,07,/home/CertaraUser/pydarwin/Example2/temp/5D04/07,4822.403389,1000100010,4712.4033891803465,True,True,True,7,2,2,184.91861886981658,0,0,No important warnings
 5D04,08,/home/CertaraUser/pydarwin/Example2/temp/5D04/08,4823.929928,1000020010,4713.929928202561,True,True,True,7,2,2,176.69383642181535,0,0,No important warnings
 5D04,09,/home/CertaraUser/pydarwin/Example2/temp/5D04/09,4824.091262,1000010010,4714.091262266521,True,True,True,7,2,2,365.0509221038854,0,0,No important warnings
-5D04,10,/home/CertaraUser/pydarwin/Example2/temp/5D04/10,4823.185558,1000001010,4713.185558089887,True,True,True,7,2,2,504.2225765490003,0,0,No important warnings
+5D04,10,/home/CertaraUser/pydarwin/Example2/temp/5D04/10,4923.185558,1000001010,4713.185558089887,True,True,False,7,2,2,504.2225765490003,0,0,No important warnings
 5D04,14,/home/CertaraUser/pydarwin/Example2/temp/5D03/14,5128.168312,1000000020,4718.168311851672,True,False,False,7,2,2,99999999,0,0,From NM_5D03_14: No important warnings
 5D04,15,/home/CertaraUser/pydarwin/Example2/temp/5D02/06,4818.488248,1000000000,4718.488247831011,True,True,True,6,2,2,273.7276752727312,0,0,From NM_5D02_06: No important warnings
-5D04,11,/home/CertaraUser/pydarwin/Example2/temp/5D04/11,5148.135329,1000000410,4718.135328875428,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
 5D04,12,/home/CertaraUser/pydarwin/Example2/temp/5D04/12,5128.163467,1000000210,4718.1634674657935,True,False,False,6,3,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D04,11,/home/CertaraUser/pydarwin/Example2/temp/5D04/11,5148.135329,1000000410,4718.135328875428,True,False,False,6,5,2,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D04,16,/home/CertaraUser/pydarwin/Example2/temp/5D04/16,5876.163601,1000000011,5586.163601199107,True,True,False,6,2,1,3253.5420963953543,0,0,No important warnings
 5D04,13,/home/CertaraUser/pydarwin/Example2/temp/5D04/13,4828.135329,1000000110,4718.135328644055,True,True,True,6,3,2,197.22351432992738,0,0,No important warnings
-5D04,16,/home/CertaraUser/pydarwin/Example2/temp/5D04/16,5676.163601,1000000011,5586.163601199107,True,True,True,6,2,1,3253.5420963953543,0,0,No important warnings
 6,02,/home/CertaraUser/pydarwin/Example2/temp/6/01,99999999.000000,1001020010,99999999,False,False,False,0,0,0,99999999,0,0,
+6,03,/home/CertaraUser/pydarwin/Example2/temp/5D02/08,4826.325348,1001020000,4706.3253484279485,True,True,True,8,2,2,191.71818170578447,0,0,From NM_5D02_08: No important warnings
+6,04,/home/CertaraUser/pydarwin/Example2/temp/5D02/08,4826.325348,1001020000,4706.3253484279485,True,True,True,8,2,2,191.71818170578447,0,0,From NM_5D02_08: No important warnings
 6,05,/home/CertaraUser/pydarwin/Example2/temp/6/01,99999999.000000,1001020010,99999999,False,False,False,0,0,0,99999999,0,0,
 6,06,/home/CertaraUser/pydarwin/Example2/temp/6/01,99999999.000000,1001020010,99999999,False,False,False,0,0,0,99999999,0,0,
 6,07,/home/CertaraUser/pydarwin/Example2/temp/6/01,99999999.000000,1001020010,99999999,False,False,False,0,0,0,99999999,0,0,
 6,08,/home/CertaraUser/pydarwin/Example2/temp/6/01,99999999.000000,1001020010,99999999,False,False,False,0,0,0,99999999,0,0,
 6,09,/home/CertaraUser/pydarwin/Example2/temp/5/01,4830.965471,1001021010,4700.965470789542,True,True,True,9,2,2,139.93280567558998,0,0,From NM_5_01: No important warnings
 6,10,/home/CertaraUser/pydarwin/Example2/temp/6/01,99999999.000000,1001020010,99999999,False,False,False,0,0,0,99999999,0,0,
-6,03,/home/CertaraUser/pydarwin/Example2/temp/5D02/08,4826.325348,1001020000,4706.3253484279485,True,True,True,8,2,2,191.71818170578447,0,0,From NM_5D02_08: No important warnings
-6,04,/home/CertaraUser/pydarwin/Example2/temp/5D02/08,4826.325348,1001020000,4706.3253484279485,True,True,True,8,2,2,191.71818170578447,0,0,From NM_5D02_08: No important warnings
-6,01,/home/CertaraUser/pydarwin/Example2/temp/6/01,4826.013181,1001020010,4706.013180675383,True,True,True,8,2,2,571.0683711599924,0,0,No important warnings
-7,01,/home/CertaraUser/pydarwin/Example2/temp/5/01,4830.965471,1001021010,4700.965470789542,True,True,True,9,2,2,139.93280567558998,0,0,From NM_5_01: No important warnings
-7,02,/home/CertaraUser/pydarwin/Example2/temp/6/01,4826.013181,1001020010,4706.013180675383,True,True,True,8,2,2,571.0683711599924,0,0,From NM_6_01: No important warnings
-7,03,/home/CertaraUser/pydarwin/Example2/temp/6/01,4826.013181,1001020010,4706.013180675383,True,True,True,8,2,2,571.0683711599924,0,0,From NM_6_01: No important warnings
-7,04,/home/CertaraUser/pydarwin/Example2/temp/6/01,4826.013181,1001020010,4706.013180675383,True,True,True,8,2,2,571.0683711599924,0,0,From NM_6_01: No important warnings
-7,05,/home/CertaraUser/pydarwin/Example2/temp/5/01,4830.965471,1001021010,4700.965470789542,True,True,True,9,2,2,139.93280567558998,0,0,From NM_5_01: No important warnings
-7,06,/home/CertaraUser/pydarwin/Example2/temp/6/01,4826.013181,1001020010,4706.013180675383,True,True,True,8,2,2,571.0683711599924,0,0,From NM_6_01: No important warnings
-7,07,/home/CertaraUser/pydarwin/Example2/temp/6/01,4826.013181,1001020010,4706.013180675383,True,True,True,8,2,2,571.0683711599924,0,0,From NM_6_01: No important warnings
-7,08,/home/CertaraUser/pydarwin/Example2/temp/5D02/08,4826.325348,1001020000,4706.3253484279485,True,True,True,8,2,2,191.71818170578447,0,0,From NM_5D02_08: No important warnings
-7,09,/home/CertaraUser/pydarwin/Example2/temp/5D02/08,4826.325348,1001020000,4706.3253484279485,True,True,True,8,2,2,191.71818170578447,0,0,From NM_5D02_08: No important warnings
-7,10,/home/CertaraUser/pydarwin/Example2/temp/6/01,4826.013181,1001020010,4706.013180675383,True,True,True,8,2,2,571.0683711599924,0,0,From NM_6_01: No important warnings
+6,01,/home/CertaraUser/pydarwin/Example2/temp/6/01,4926.013181,1001020010,4706.013180675383,True,True,False,8,2,2,571.0683711599924,0,0,No important warnings
+7,01,/home/CertaraUser/pydarwin/Example2/temp/2/06,4827.564351,1001001000,4707.564351316231,True,True,True,8,2,2,205.94240749223098,0,0,From NM_2_06: No important warnings
+7,02,/home/CertaraUser/pydarwin/Example2/temp/5/02,4831.258058,1001021000,4701.258057634605,True,True,True,9,2,2,496.81605397937204,0,0,From NM_5_02: No important warnings
+7,04,/home/CertaraUser/pydarwin/Example2/temp/5/02,4831.258058,1001021000,4701.258057634605,True,True,True,9,2,2,496.81605397937204,0,0,From NM_5_02: No important warnings
+7,05,/home/CertaraUser/pydarwin/Example2/temp/5/02,4831.258058,1001021000,4701.258057634605,True,True,True,9,2,2,496.81605397937204,0,0,From NM_5_02: No important warnings
+7,06,/home/CertaraUser/pydarwin/Example2/temp/5/02,4831.258058,1001021000,4701.258057634605,True,True,True,9,2,2,496.81605397937204,0,0,From NM_5_02: No important warnings
+7,07,/home/CertaraUser/pydarwin/Example2/temp/5/01,4830.965471,1001021010,4700.965470789542,True,True,True,9,2,2,139.93280567558998,0,0,From NM_5_01: No important warnings
+7,09,/home/CertaraUser/pydarwin/Example2/temp/2/06,4827.564351,1001001000,4707.564351316231,True,True,True,8,2,2,205.94240749223098,0,0,From NM_2_06: No important warnings
+7,10,/home/CertaraUser/pydarwin/Example2/temp/5/02,4831.258058,1001021000,4701.258057634605,True,True,True,9,2,2,496.81605397937204,0,0,From NM_5_02: No important warnings
+7,03,/home/CertaraUser/pydarwin/Example2/temp/7/03,4829.473577,1000021000,4709.473577362107,True,True,True,8,2,2,202.6484632392213,0,0,No important warnings
+7,08,/home/CertaraUser/pydarwin/Example2/temp/7/08,4829.122165,1000021010,4709.122164855102,True,True,True,8,2,2,236.73934764047456,0,0,No important warnings
 FND01,01,/home/CertaraUser/pydarwin/Example2/temp/5D04/01,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From NM_5D04_01: No important warnings
-FND01,02,/home/CertaraUser/pydarwin/Example2/temp/5D04/02,4818.223228,0000000010,4738.2232283201665,True,True,True,4,2,2,99.17510935972025,0,0,From NM_5D04_02: No important warnings
+FND01,02,/home/CertaraUser/pydarwin/Example2/temp/5D04/02,4918.223228,0000000010,4738.2232283201665,True,True,False,4,2,2,99.17510935972025,0,0,From NM_5D04_02: No important warnings
 FND01,03,/home/CertaraUser/pydarwin/Example2/temp/5D04/03,4826.189141,1100000010,4716.189141427592,True,True,True,7,2,2,252.03157728503675,0,0,From NM_5D04_03: No important warnings
 FND01,04,/home/CertaraUser/pydarwin/Example2/temp/5D04/04,4827.258229,1010000010,4717.258229211435,True,True,True,6,3,2,487.99112992818664,0,0,From NM_5D04_04: No important warnings
 FND01,05,/home/CertaraUser/pydarwin/Example2/temp/5D04/05,4822.497152,1002000010,4712.4971519068695,True,True,True,7,2,2,232.88876592091975,0,0,From NM_5D04_05: No important warnings
@@ -142,10 +142,10 @@ FND01,06,/home/CertaraUser/pydarwin/Example2/temp/5D02/15,4822.403389,1001000010
 FND01,07,/home/CertaraUser/pydarwin/Example2/temp/5D04/07,4822.403389,1000100010,4712.4033891803465,True,True,True,7,2,2,184.91861886981658,0,0,From NM_5D04_07: No important warnings
 FND01,08,/home/CertaraUser/pydarwin/Example2/temp/5D04/08,4823.929928,1000020010,4713.929928202561,True,True,True,7,2,2,176.69383642181535,0,0,From NM_5D04_08: No important warnings
 FND01,09,/home/CertaraUser/pydarwin/Example2/temp/5D04/09,4824.091262,1000010010,4714.091262266521,True,True,True,7,2,2,365.0509221038854,0,0,From NM_5D04_09: No important warnings
-FND01,10,/home/CertaraUser/pydarwin/Example2/temp/5D04/10,4823.185558,1000001010,4713.185558089887,True,True,True,7,2,2,504.2225765490003,0,0,From NM_5D04_10: No important warnings
+FND01,10,/home/CertaraUser/pydarwin/Example2/temp/5D04/10,4923.185558,1000001010,4713.185558089887,True,True,False,7,2,2,504.2225765490003,0,0,From NM_5D04_10: No important warnings
 FND01,11,/home/CertaraUser/pydarwin/Example2/temp/5D04/11,5148.135329,1000000410,4718.135328875428,True,False,False,6,5,2,99999999,0,0,From NM_5D04_11: NON-FIXED OMEGA NON-FIXED PARAMETER 
 FND01,12,/home/CertaraUser/pydarwin/Example2/temp/5D04/12,5128.163467,1000000210,4718.1634674657935,True,False,False,6,3,2,99999999,0,0,From NM_5D04_12: NON-FIXED OMEGA NON-FIXED PARAMETER 
 FND01,13,/home/CertaraUser/pydarwin/Example2/temp/5D04/13,4828.135329,1000000110,4718.135328644055,True,True,True,6,3,2,197.22351432992738,0,0,From NM_5D04_13: No important warnings
 FND01,14,/home/CertaraUser/pydarwin/Example2/temp/5D03/14,5128.168312,1000000020,4718.168311851672,True,False,False,7,2,2,99999999,0,0,From NM_5D03_14: No important warnings
 FND01,15,/home/CertaraUser/pydarwin/Example2/temp/5D02/06,4818.488248,1000000000,4718.488247831011,True,True,True,6,2,2,273.7276752727312,0,0,From NM_5D02_06: No important warnings
-FND01,16,/home/CertaraUser/pydarwin/Example2/temp/5D04/16,5676.163601,1000000011,5586.163601199107,True,True,True,6,2,1,3253.5420963953543,0,0,From NM_5D04_16: No important warnings
+FND01,16,/home/CertaraUser/pydarwin/Example2/temp/5D04/16,5876.163601,1000000011,5586.163601199107,True,True,False,6,2,1,3253.5420963953543,0,0,From NM_5D04_16: No important warnings

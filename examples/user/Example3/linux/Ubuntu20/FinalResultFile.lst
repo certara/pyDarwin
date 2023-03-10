@@ -1,4 +1,4 @@
-Mon Jan 16 06:28:59 AM PST 2023
+Mon Mar  6 12:17:56 PM PST 2023
 $PROBLEM ORAL BOLUS WITH PLASMA AND URINE OBSERVATIONS  
   ; 
   ; NUMBER OF COMPARTMENTS        : 1 OR 2 OR 3
@@ -146,8 +146,9 @@ Note: Analytical 2nd Derivatives are constructed in FSUBS but are never used.
 
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2023
-Current Date:       16 JAN 2023
-Days until program expires :  58
+Current Date:        6 MAR 2023
+  **** WARNING!!! Days until program expires :   8 ****
+  **** CONTACT idssoftware@iconplc.com FOR RENEWAL ****
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.1
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -432,8 +433,8 @@ Days until program expires :  58
  TOTAL EFFECTIVE ETAS (NIND*NETA):                           600
   
  #TERE:
- Elapsed estimation  time in seconds:    49.21
- Elapsed covariance  time in seconds:    19.26
+ Elapsed estimation  time in seconds:    43.21
+ Elapsed covariance  time in seconds:    18.92
  Elapsed postprocess time in seconds:     0.00
 1
  
@@ -1148,10 +1149,10 @@ Days until program expires :  58
          7.51E-02  1.71E-01  2.65E-01  3.41E-01  4.30E-01  4.39E-01  5.86E-01  7.02E-01  7.24E-01  9.41E-01  1.30E+00  1.38E+00
           1.82E+00  2.58E+00  3.25E+00
  
- Elapsed finaloutput time in seconds:     0.02
- #CPUT: Total CPU Time in Seconds,       63.022
+ Elapsed finaloutput time in seconds:     0.03
+ #CPUT: Total CPU Time in Seconds,       52.460
 Stop Time:
-Mon Jan 16 06:30:21 AM PST 2023
+Mon Mar  6 12:19:09 PM PST 2023
 OFV = 2464.60157948336
 success = True
 covariance = True

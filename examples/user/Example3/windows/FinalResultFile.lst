@@ -1,5 +1,5 @@
-Sun 07/31/2022 
-06:46 AM
+Tue 03/07/2023 
+04:55 PM
 $PROBLEM ORAL BOLUS WITH PLASMA AND URINE OBSERVATIONS  
   ; 
   ; NUMBER OF COMPARTMENTS        : 1 OR 2 OR 3
@@ -19,7 +19,7 @@ $PROBLEM ORAL BOLUS WITH PLASMA AND URINE OBSERVATIONS
   ; ====================================================================================================          
 
 $INPUT       ID TIME AMT CMT DROP DV DVID EVID MDV 
-$DATA      C:\workspace\ffe\user\Example3/OralBolus_PlasmaUrine_ResetCpt4.csv IGNORE=@
+$DATA      C:\Workspace\Example3/OralBolus_PlasmaUrine_ResetCpt4.csv IGNORE=@
 
 
   ; ====================================================================================================
@@ -143,8 +143,9 @@ NM-TRAN MESSAGES
   
 License Registered to: Certara USA
 Expiration Date:    14 MAR 2023
-Current Date:       31 JUL 2022
-Days until program expires : 228
+Current Date:        7 MAR 2023
+  **** WARNING!!! Days until program expires :   7 ****
+  **** CONTACT idssoftware@iconplc.com FOR RENEWAL ****
 1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
  ORIGINALLY DEVELOPED BY STUART BEAL, LEWIS SHEINER, AND ALISON BOECKMANN
  CURRENT DEVELOPERS ARE ROBERT BAUER, ICON DEVELOPMENT SOLUTIONS,
@@ -429,8 +430,8 @@ Days until program expires : 228
  TOTAL EFFECTIVE ETAS (NIND*NETA):                           600
   
  #TERE:
- Elapsed estimation  time in seconds:    35.27
- Elapsed covariance  time in seconds:    26.16
+ Elapsed estimation  time in seconds:    72.06
+ Elapsed covariance  time in seconds:    27.09
  Elapsed postprocess time in seconds:     0.00
 1
  
@@ -1145,11 +1146,11 @@ Days until program expires : 228
          7.85E-02  1.71E-01  2.65E-01  3.42E-01  4.30E-01  4.39E-01  5.87E-01  7.02E-01  7.26E-01  9.41E-01  1.30E+00  1.38E+00
           1.82E+00  2.57E+00  3.24E+00
  
- Elapsed finaloutput time in seconds:     0.31
- #CPUT: Total CPU Time in Seconds,       43.344
+ Elapsed finaloutput time in seconds:     0.13
+ #CPUT: Total CPU Time in Seconds,       98.094
 Stop Time: 
-Sun 07/31/2022 
-06:48 AM
+Tue 03/07/2023 
+04:57 PM
 OFV = 2464.6016423312294
 success = True
 covariance = True
@@ -1158,4 +1159,4 @@ Condition # = 41.32571937193572
 Num Non fixed THETAs = 6
 Num Non fixed OMEGAs = 6
 Num Non fixed SIGMAs = 3
-Original run directory = C:\workspace\ffe\Example3\temp\0\261
+Original run directory = C:\Users\jcraig\pydarwin\Example3\temp\0\261

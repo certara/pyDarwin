@@ -24,7 +24,7 @@ $PROBLEM EMAX
   ; ====================================================================================================          
 
 $INPUT ID TIME SEX RACE BW C DV 
-$DATA C:\Workspace\Example8\PDdata.csv IGNORE = @
+$DATA C:\Workspace\Example8/PDdata.csv IGNORE = @
 
 
   ; ====================================================================================================

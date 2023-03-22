@@ -1,8 +1,7 @@
 # from https://pyswarms.readthedocs.io/en/development/examples/basic_optimization.html
 
 r"""
-Modified from
-# modifed from https://pyswarms.readthedocs.io/en/latest/_modules/pyswarms/discrete/binary.html
+Modified from https://pyswarms.readthedocs.io/en/latest/_modules/pyswarms/discrete/binary.html
 
 A Binary Particle Swarm Optimization (binary PSO) algorithm.
 
@@ -82,10 +81,11 @@ from darwin.ModelCode import ModelCode
 
 class _PSORunner(DiscreteSwarmOptimizer):
     """
-    Run a binary Particle Swarm optimization (binary so it can use same full binary representation of the model that GA uses)
+    Run a binary Particle Swarm optimization (binary, so it can use same full binary representation
+     of the model that GA uses)
     Only the star topology is supported.
-    :param model_template: Template object for the search
-    :type model_template: Template
+    :param template: Template object for the search
+    :type template: Template
     :return: The single best model from the search
     :rtype: Model
     """
@@ -101,8 +101,7 @@ class _PSORunner(DiscreteSwarmOptimizer):
             velocity_clamp=None,
             vh_strategy="unmodified",
             ftol=-np.inf,
-            ftol_iter=1,
-            num_generations=1
+            ftol_iter=1
     ):
         """Initialize the swarm
 
@@ -112,7 +111,7 @@ class _PSORunner(DiscreteSwarmOptimizer):
             number of particles in the swarm.
         dimensions : int
             number of dimensions in the space.
-        options : dict with keys :code:`{'c1', 'c2', 'w', 'k', 'p'}`
+        pso_options : dict with keys :code:`{'c1', 'c2', 'w', 'k', 'p'}`
             a dictionary containing the parameters for the specific
             optimization technique
                 * c1 : float
@@ -146,20 +145,8 @@ class _PSORunner(DiscreteSwarmOptimizer):
             objective_func(best_pos) is acceptable for convergence.
             Default is :code:`1`
         """
-        self.darwin_options = darwin_options
-        self.pso_options = pso_options
-        self.generation = 0
-        self.template = template
-        self.init_pos = init_pos
-        # self.pop_full_bits is the binary
-        self.population = Population.from_codes(self.template, self.generation, self.init_pos,
-                                                ModelCode.from_full_binary,
-                                                max_iteration=self.darwin_options.num_generations)
-        # Initialize logger
-        self.rep = Reporter(logger=logging.getLogger(__name__))
 
-
-        # Initialize parent class, this creates the swarm, can set intitial position if needed
+        # Initialize parent class, this creates the swarm, can set initial position if needed
         super(_PSORunner, self).__init__(
             n_particles=n_particles,
             dimensions=dimensions,
@@ -170,14 +157,29 @@ class _PSORunner(DiscreteSwarmOptimizer):
             ftol=ftol,
             ftol_iter=ftol_iter,
         )
+
+        self.darwin_options = darwin_options
+        self.pso_options = pso_options
+        self.generation = 0
+        self.template = template
+        self.init_pos = init_pos
+
+        # self.pop_full_bits is the binary
+        self.population = Population.from_codes(self.template, self.generation, self.init_pos,
+                                                ModelCode.from_full_binary,
+                                                max_iteration=self.darwin_options.num_generations)
+        # Initialize logger
+        self.rep = Reporter(logger=logging.getLogger(__name__))
+
         # Initialize the resettable attributes
         self.reset()
+
         # Initialize the topology
         self.top = Star(static=False)
         self.vh = VelocityHandler(strategy=vh_strategy)
         self.name = __name__
 
-    def optimize(self, objective_func):  # , best_cost_yet_found, iters, model_template):
+    def optimize(self, objective_func, iters=None, n_processes=None, **kwargs):
         """Optimize the swarm for a number of iterations
 
         Performs the optimization to evaluate the objective
@@ -185,15 +187,6 @@ class _PSORunner(DiscreteSwarmOptimizer):
 
         objective_func : function
             objective function to be evaluated
-        iters : int
-            number of iterations
-        n_processes : int, optional
-            number of processes to use for parallel particle evaluation
-            Defaut is None with no parallelization.
-        verbose : bool
-            enable or disable the logs and progress bar (default: True = enable logs)
-        kwargs : dict
-            arguments for objective function
 
         tuple
             the local best cost and the local best position among the
@@ -213,7 +206,8 @@ class _PSORunner(DiscreteSwarmOptimizer):
                      lvl=log_level, )
 
         # Populate memory of the handlers
-        # not sure this is needed, as we aren't doing velocity handler for binary, but will update for elitism and downhill
+        # not sure if this is needed, as we aren't doing velocity handler for binary,
+        # but will update for elitism and downhill
         self.vh.memory = self.swarm.position
 
         # Setup Pool of processes for parallel evaluation
@@ -222,63 +216,65 @@ class _PSORunner(DiscreteSwarmOptimizer):
         self.swarm.pbest_cost = np.full(self.swarm_size[0], self.darwin_options['crash_value'])
         ftol_history = deque(maxlen=self.ftol_iter)
 
+        last_best_cost = self.darwin_options.crash_value
 
-        last_best_cost = self.darwin_options['crash_value']
-        last_best_poss = np.zeros([self.swarm.dimensions])
-        found_better = False
         iterations_without_improvement = 0
-        # elitism
-        if self.darwin_options.PSO['elitist_num'] > 0:
-            use_elitism = True
-            elitism_num = self.darwin_options.PSO['elitist_num']
-            best_costs_for_elitism = np.ones(elitism_num) * self.darwin_options['crash_value']
+        this_iter = 0
 
-        else:
-            use_elitism = False
+        elitism_num = self.darwin_options.PSO['elitist_num']
+
         for this_iter in range(self.darwin_options.num_generations):
             self.generation = this_iter
 
             self.swarm.current_cost, self.population.runs = compute_objective_function(
                 self.swarm, objective_func, pool, model_template=self.template, iteration=this_iter)
+
             # only have fitness in swarm .current_cost at this point (not in results)
             # current position seems to be in swarm.best_pos, while swarm.best_cost is just the best
             # fitness in swarm.current_cost
             # pbest is personal best, best position ever for each particle
             # for elitism and downhill, need to update swarm.vh.memory with new position
-            self.swarm.pbest_pos, self.swarm.pbest_cost = compute_pbest(
-                self.swarm
-            )
-            # downhill??
-            have_downhill_results = False
-            if self.darwin_options.downhill_period > 0:
-                if (this_iter > 0) & (this_iter % self.darwin_options.downhill_period == 0):
-                    have_downhill_results = True
-                    log.message("Starting downhill for iteration " + str(this_iter))
-                    self.population.name = this_iter
-                    all_run = rundown.run_downhill(self.template, self.population)
-                    best_downhill_models = self.population.get_best_runs(self.darwin_options['num_niches'])
-                    # copy position and vh_memory
-                    best_downhill_model = self.population.get_best_run()
-                    downhill_best_cost = best_downhill_model.result.fitness
-                    best_poss = []  # probably a better way to do this than a loop?
-                    best_vh_memory = []
-                    for x in best_downhill_models:
-                            best_poss.append(x.model.model_code.FullBinCode)
-                            best_vh_memory.append(x.model.model_code.FullBinCode)
+            self.swarm.pbest_pos, self.swarm.pbest_cost = compute_pbest(self.swarm)
 
-
-            if not have_downhill_results: # only use elitism if no downhill
-                elitism_models = self.population.get_best_runs(elitism_num)
-                best_indices = sorted(range(len(self.swarm.current_cost)), # save for position and vh
-                                    key=lambda sub: self.swarm.current_cost[sub])[:elitism_num]
-                best_poss = self.swarm.position[best_indices]  # best_poss (plural)
-                best_vh_memory = self.vh.memory[best_indices]
             best_index = sorted(range(len(self.swarm.current_cost)),
                                 key=lambda sub: self.swarm.current_cost[sub])[:1]
             best_cost = self.swarm.current_cost[best_index][0]
-            best_pos = self.swarm.pbest_pos[best_index]  # best positions
-            if have_downhill_results:
-                best_cost = np.min([best_cost, downhill_best_cost])
+
+            best_poss = []
+            best_vh_memory = []
+
+            num_new = 0
+
+            # downhill??
+            if self.darwin_options.downhill_period > 0 and this_iter > 0 \
+               and (this_iter % self.darwin_options.downhill_period == 0):
+
+                log.message("Starting downhill for iteration " + str(this_iter))
+
+                self.population.name = this_iter
+                rundown.run_downhill(self.template, self.population)
+                best_downhill_models = self.population.get_best_runs(self.darwin_options['num_niches'])
+
+                # copy position and vh_memory
+                best_downhill_model = self.population.get_best_run()
+
+                best_cost = np.min([best_cost, best_downhill_model.result.fitness])
+
+                for x in best_downhill_models:
+                    best_poss.append(x.model.model_code.FullBinCode)
+                    best_vh_memory.append(x.model.model_code.FullBinCode)
+
+                num_new = self.darwin_options.num_niches
+
+            elif elitism_num > 0:  # only use elitism if no downhill
+                # save for position and vh
+                best_indices = sorted(range(len(self.swarm.current_cost)),
+                                      key=lambda sub: self.swarm.current_cost[sub])[:elitism_num]
+                best_poss = self.swarm.position[best_indices]  # best_poss (plural)
+                best_vh_memory = self.vh.memory[best_indices]
+
+                num_new = elitism_num
+
             if best_cost < last_best_cost:
                 log.message(
                     "Better model found by PSO, cost = " + str(best_cost) + ", iteration = " + str(this_iter))
@@ -287,21 +283,21 @@ class _PSORunner(DiscreteSwarmOptimizer):
                 last_best_cost = best_cost
                 best_model = self.population.get_best_run()
                 # write best to intermediate
-                output_control = open(os.path.join(self.darwin_options.output_dir, "intermediate_control_file.mod"), "w")
+                out_dir = self.darwin_options.output_dir
+                output_control = open(os.path.join(out_dir, "intermediate_control_file.mod"), "w")
                 output_control.write(best_model.model.control)
                 output_control.close()
                 shutil.copyfile(os.path.join(best_model.run_dir, best_model.output_file_name),
-                                os.path.join(self.darwin_options.output_dir, "intermediate_output_file.lst"))
+                                os.path.join(out_dir, "intermediate_output_file.lst"))
             else:
-                found_better = False
                 iterations_without_improvement += 1
                 log.message(
                     "Iterations without improvement = " + str(iterations_without_improvement) + ", iteration = " + str(
                         this_iter))
 
-
             best_cost_this_iter = np.min(self.swarm.current_cost)
             best_cost_yet_found = np.min([best_cost_yet_found, best_cost_this_iter])
+
             # Update gbest from neighborhood, global best
             self.swarm.best_pos, self.swarm.best_cost = self.top.compute_gbest(
                 self.swarm, p=self.pso_options['p'], k=self.pso_options['k']
@@ -315,16 +311,18 @@ class _PSORunner(DiscreteSwarmOptimizer):
                 position=self.swarm.position,
                 velocity=self.swarm.velocity,
             )
+
             self._populate_history(hist)
+
             # Verify stop criteria based on the relative acceptable cost ftol
             relative_measure = self.ftol * (1 + np.abs(best_cost_yet_found))
             delta = (
                     np.abs(self.swarm.best_cost - best_cost_yet_found) <= relative_measure
             )
-            if this_iter < self.ftol_iter:
-                ftol_history.append(delta)
-            else:
-                ftol_history.append(delta)
+
+            ftol_history.append(delta)
+
+            if this_iter >= self.ftol_iter:
                 if all(ftol_history) and iterations_without_improvement >= options.PSO['break_on_no_change']:
                     break
 
@@ -332,19 +330,18 @@ class _PSORunner(DiscreteSwarmOptimizer):
             # don't need velocity clamp for binary, can't large or small velocity
             # and position can be < 0 or > 1 due to sigmoid
             self.swarm.position = self._compute_position()
-            if use_elitism or have_downhill_results:  # put best back randomly
-                if have_downhill_results:
-                    num_new = self.darwin_options['num_niches']
-                else:
-                    num_new = elitism_num
+
+            if num_new > 0:  # put best back randomly
                 indices = np.random.randint(0, self.darwin_options['population_size'], num_new)
                 self.swarm.position[indices] = best_poss
-                self.vh.memory[indices] = best_vh_memory # not sure we need this, seems to be the same as position
+                self.vh.memory[indices] = best_vh_memory  # not sure if we need this, seems to be the same as position
+
         if self.darwin_options['final_downhill_search']:
             log.message("Starting final downhill")
 
             self.population.name = this_iter
-            all_run = rundown.run_downhill(self.template, self.population)
+            rundown.run_downhill(self.template, self.population)
+
             final_best = self.population.get_best_run()
             final_best_cost = final_best.result.fitness
             final_best_pos = final_best.model.model_code.FullBinCode
@@ -356,7 +353,7 @@ class _PSORunner(DiscreteSwarmOptimizer):
                 self.swarm.pbest_cost.argmin()
             ].copy()
 
-            # Close Pool of Processes
+        # Close Pool of Processes
         if n_processes is not None:
             pool.close()
         # need all costs/positions for downhill
@@ -366,7 +363,7 @@ class _PSORunner(DiscreteSwarmOptimizer):
 
     def _compute_velocity(self):  # swarm, clamp, vh, bounds=None):
         """Update the velocity matrix
-        modifed from https://pyswarms.readthedocs.io/en/latest/_modules/pyswarms/discrete/binary.html
+        modified from https://pyswarms.readthedocs.io/en/latest/_modules/pyswarms/discrete/binary.html
         This method updates the velocity matrix using the best and current
         positions of the swarm. The velocity matrix is computed using the
         cognitive and social terms of the swarm. The velocity is handled
@@ -386,22 +383,6 @@ class _PSORunner(DiscreteSwarmOptimizer):
                 # Inside the for-loop
                 my_swarm.velocity = compute_velocity(my_swarm, clamp, my_vh, bounds)
 
-        Parameters
-        ----------
-        swarm : pyswarms.backend.swarms.Swarm
-            a Swarm instance
-        clamp : tuple of floats, optional
-            a tuple of size 2 where the first entry is the minimum velocity
-            and the second entry is the maximum velocity. It
-            sets the limits for velocity clamping.
-        vh : pyswarms.backend.handlers.VelocityHandler
-            a VelocityHandler object with a specified handling strategy.
-            For further information see :mod:`pyswarms.backend.handlers`.
-        bounds : tuple of numpy.ndarray or list, optional
-            a tuple of size 2 where the first entry is the minimum bound while
-            the second entry is the maximum bound. Each array must be of shape
-            :code:`(dimensions,)`.
-
         Returns
         -------
         numpy.ndarray
@@ -415,20 +396,24 @@ class _PSORunner(DiscreteSwarmOptimizer):
             w = self.swarm.options["w"]
             # Compute for cognitive and social terms, moves "downhill" best, if pbest > current, will be +ive,
 
-            cognitive = ( # moves in direction toward best from this particles last  position
+            # moves in direction toward best from this particles last  position
+            cognitive = (
                     c1
                     * np.random.uniform(0, 1, swarm_size)
                     * (self.swarm.pbest_pos - self.swarm.position)
             )
-            social = (  # moves in direction of global best
+
+            # moves in direction of global best
+            social = (
                     c2
                     * np.random.uniform(0, 1, swarm_size)
                     * (self.swarm.best_pos - self.swarm.position)
             )
+
             # Compute temp velocity (subject to clamping if possible)
             temp_velocity = (w * self.swarm.velocity) + cognitive + social
 
-            updated_velocity = temp_velocity # np.max(np.append(np.min(np.append(temp_velocity, 1)), -1))  # do need velocity clamp for binary vh(
+            updated_velocity = temp_velocity  # do need velocity clamp for binary vh(
 
             return updated_velocity
         except AttributeError:
@@ -439,8 +424,6 @@ class _PSORunner(DiscreteSwarmOptimizer):
         except KeyError:
             log.message("Missing keyword in swarm.options")
             raise
-        else:
-            return updated_velocity
 
     def _compute_position(self):
         """Update the position matrix of the swarm
@@ -448,22 +431,19 @@ class _PSORunner(DiscreteSwarmOptimizer):
         This computes the next position in a binary swarm. It compares the
         sigmoid output of the velocity-matrix and compares it with a randomly
         generated matrix.
-
-        Parameters
-        ----------
-        swarm: pyswarms.backend.swarms.Swarm
-            a Swarm class
         """
         return (
-                   #  np.random.random_sample(size=self.swarm.dimensions)
-                   #  < self._sigmoid(self.swarm.velocity), if (untransformed) velocity is -ive, this will likley b 0,
-                   #  if +ive, will likely be 1
-               # modifed from https://pyswarms.readthedocs.io/en/latest/_modules/pyswarms/discrete/binary.html, need both n_particles and self.swarm.dimensions
-                       np.random.random_sample(size=[self.n_particles, self.swarm.dimensions])
-                       <  self._sigmoid(self.swarm.velocity)
+               #  np.random.random_sample(size=self.swarm.dimensions)
+               #  < self._sigmoid(self.swarm.velocity), if (untransformed) velocity is -ive, this will likely b 0,
+               #  if +ive, will likely be 1
+               # modified from https://pyswarms.readthedocs.io/en/latest/_modules/pyswarms/discrete/binary.html,
+               # need both n_particles and self.swarm.dimensions
+               np.random.random_sample(size=[self.n_particles, self.swarm.dimensions])
+               < self._sigmoid(self.swarm.velocity)
                ) * 1
 
-    def _sigmoid(self, x):
+    @staticmethod
+    def _sigmoid(x):
         """Helper method for the sigmoid function
 
         Parameters
@@ -493,9 +473,6 @@ def f(x, model_template, iteration):
     return np.array(j), pop.runs
 
 
-# Initialize swarm, arbitrary
-
-
 def run_pso(model_template: Template) -> ModelRun:
     """
     Runs Particle Swarm Optimization (PSO), based on PySwarm (https://github.com/ljvmiranda921/pyswarms)
@@ -508,14 +485,15 @@ def run_pso(model_template: Template) -> ModelRun:
     """
     pop_size = options.population_size
     num_bits = int(np.sum(model_template.gene_length))
-    # k is the number of positions to consider in the search
-    # can be up to all, but can't be > pop size
 
     pso_options = {'c1': options.PSO['cognitive'],
                    'c2': options.PSO['social'],
                    'w': options.PSO['inertia'],
                    'k': options.PSO['neighbor_num'],
                    'p': options.PSO['p_norm']}
+
+    # k is the number of positions to consider in the search
+    # can be up to all, but can't be > pop size
     if pso_options['k'] > options['population_size']:
         pso_options['k'] = options['population_size']
         log.message("k (neighbor_num) was > population_size, value set to population_size")
@@ -526,15 +504,14 @@ def run_pso(model_template: Template) -> ModelRun:
     init_pos = np.random.randint(2, size=(pop_size, num_bits))  # looks like array is pop_size x numBits?
 
     runner = _PSORunner(model_template, pop_size, dimensions=num_bits, pso_options=pso_options, darwin_options=options,
-                        ftol=0, ftol_iter=5, init_pos=init_pos, num_generations=0)
-
+                        ftol=0, ftol_iter=5, init_pos=init_pos)
 
     # Perform optimization
     # doc for local vs global search at
     # https://pyswarms.readthedocs.io/en/development/_modules/pyswarms/discrete/binary.html?highlight=local#
-    # like deap, need to break up the optimizaer so we can run in parallel, and do
-    current_generation = 0
-    best_cost_yet_found = options.crash_value
+    # like deap, need to break up the optimizer, so we can run in parallel, and do
+
     cost, pos = runner.optimize(f)
     log.message(f"best fitness {str(cost)}, model {str(pos)}")
+
     return GlobalVars.BestRun

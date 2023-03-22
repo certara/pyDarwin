@@ -77,6 +77,7 @@ from darwin.Template import Template
 from darwin.ModelRun import ModelRun
 from darwin.Population import Population
 from darwin.ModelCode import ModelCode
+from darwin.ExecutionManager import keep_going
 
 
 class _PSORunner(DiscreteSwarmOptimizer):
@@ -226,8 +227,14 @@ class _PSORunner(DiscreteSwarmOptimizer):
         for this_iter in range(self.darwin_options.num_generations):
             self.generation = this_iter
 
+            if not keep_going():
+                break
+
             self.swarm.current_cost, self.population.runs = compute_objective_function(
                 self.swarm, objective_func, pool, model_template=self.template, iteration=this_iter)
+
+            if not keep_going():
+                break
 
             # only have fitness in swarm .current_cost at this point (not in results)
             # current position seems to be in swarm.best_pos, while swarm.best_cost is just the best
@@ -252,10 +259,10 @@ class _PSORunner(DiscreteSwarmOptimizer):
                 log.message("Starting downhill for iteration " + str(this_iter))
 
                 self.population.name = this_iter
-                rundown.run_downhill(self.template, self.population)
-                best_downhill_models = self.population.get_best_runs(self.darwin_options['num_niches'])
 
-                # copy position and vh_memory
+                rundown.run_downhill(self.template, self.population)
+
+                best_downhill_models = self.population.get_best_runs(self.darwin_options.num_niches)
                 best_downhill_model = self.population.get_best_run()
 
                 best_cost = np.min([best_cost, best_downhill_model.result.fitness])
@@ -281,14 +288,6 @@ class _PSORunner(DiscreteSwarmOptimizer):
 
                 iterations_without_improvement = 0
                 last_best_cost = best_cost
-                best_model = self.population.get_best_run()
-                # write best to intermediate
-                out_dir = self.darwin_options.output_dir
-                output_control = open(os.path.join(out_dir, "intermediate_control_file.mod"), "w")
-                output_control.write(best_model.model.control)
-                output_control.close()
-                shutil.copyfile(os.path.join(best_model.run_dir, best_model.output_file_name),
-                                os.path.join(out_dir, "intermediate_output_file.lst"))
             else:
                 iterations_without_improvement += 1
                 log.message(
@@ -336,7 +335,7 @@ class _PSORunner(DiscreteSwarmOptimizer):
                 self.swarm.position[indices] = best_poss
                 self.vh.memory[indices] = best_vh_memory  # not sure if we need this, seems to be the same as position
 
-        if self.darwin_options['final_downhill_search']:
+        if self.darwin_options.final_downhill_search and keep_going():
             log.message("Starting final downhill")
 
             self.population.name = this_iter

@@ -1,7 +1,6 @@
 import re
 import math
 import numpy as np
-import copy
 from darwin.utils import remove_comments, get_token_parts, replace_tokens
 
 from darwin.Log import log
@@ -122,9 +121,8 @@ def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, v
 
 
 def _get_omega_block(start: list) -> np.array:
-    block = copy.deepcopy(start)  # still full text of $OMEGA block
     # remove comments, each value in $OMEGA needs to be new line
-    block = remove_comments(block).splitlines()
+    block = remove_comments(start).splitlines()
     block = block[1:]  # first line must be only $OMEGA + comments
     # remove any blank lines
     block[:] = [x for x in block if x]
@@ -184,13 +182,13 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos, seed: int) ->
 
         this_omega_ends = next_block_start + this_start + 1
         omega_ends.append(this_omega_ends)
-        omega_blocks.append(copy.copy(lines[this_start:this_omega_ends]))
-        temp_final_control.append(copy.copy(lines[not_omega_start:this_start]))
+        omega_blocks.append(lines[this_start:this_omega_ends])
+        temp_final_control.append(lines[not_omega_start:this_start])
         not_omega_start = this_omega_ends
     # and the last one
     # get next block after $OMEGA
 
-    temp_final_control.append(copy.copy(lines[not_omega_start:]))
+    temp_final_control.append(lines[not_omega_start:])
 
     final_control = ""
 
@@ -205,7 +203,7 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos, seed: int) ->
             final_control += "\n" + '\n'.join(str(x) for x in start)
             continue
 
-        temp_omega_band_pos = copy.deepcopy(omega_band_pos)  # temp copy, to use pop, start over each new block
+        temp_omega_band_pos = omega_band_pos  # temp copy, to use pop, start over each new block
 
         diag_block = _get_omega_block(start)
 
@@ -220,10 +218,8 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos, seed: int) ->
             else:
                 include_next = 0  # reached max block size
 
-            if len(temp_omega_band_pos) >= 1:
+            if len(temp_omega_band_pos) > 0:
                 temp_omega_band_pos = temp_omega_band_pos[1:]
-            else:
-                temp_omega_band_pos = []
 
             while include_next and (len(diag_block) > 0):
                 current_omega_block.append(diag_block[0])

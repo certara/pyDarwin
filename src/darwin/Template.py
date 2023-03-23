@@ -5,8 +5,7 @@ import math
 import collections
 import darwin.utils
 from darwin.Log import log
-import copy
-from darwin.options import options 
+from darwin.options import options
 from darwin.utils import remove_comments
 
 
@@ -64,14 +63,15 @@ class Template:
 
         # to be initialized by adapter
         self.theta_block = self.omega_block = self.sigma_block = []
+
         self.template_text = options.apply_aliases(self.template_text)
 
         if self._check_for_prior():
-            log.message(f"$PRIOR found in template, PRIOR routine is not supported, exiting")
+            log.error(f"$PRIOR found in template, PRIOR routine is not supported, exiting")
             sys.exit()
 
         if options.search_omega_bands and not self._check_for_multiple_probs():
-            log.message(f"Search Omega bands is not supported with multiple $PROBs, exiting")
+            log.error(f"Search Omega bands is not supported with multiple $PROBs, exiting")
             sys.exit()
 
     def _check_for_prior(self):
@@ -117,24 +117,29 @@ class Template:
             # if FIX (fix) do not add off diagonals
             rest_of_text = lines[this_start:]
             next_block_start = [idx for idx, element in enumerate(rest_of_text[1:]) if re.search(r"^\$", element)]
+
             if next_block_start is None:
                 next_block_start = len(rest_of_text)
             else:
                 next_block_start = next_block_start[0]
+
             this_omega_ends = next_block_start + this_start + 1
             omega_ends.append(this_omega_ends)
-            cur_block = remove_comments(copy.copy(lines[this_start:this_omega_ends])).splitlines()
+            cur_block = remove_comments(lines[this_start:this_omega_ends]).splitlines()
+
             # check for DIAG|BLOCK|FIX|SAME         # look for DIAG|BLOCK|FIX|SAME
             for this_line in cur_block:
-                uline = this_line.upper()
-                if uline.find("BLOCK") > 0:
+                line = this_line.upper()
+
+                if line.find("BLOCK") > 0:
                     return True, "BLOCK"
-                if uline.find("DIAG") > 0:
+                elif line.find("DIAG") > 0:
                     return True, "DIAG"
-                if uline.find("SAME") > 0:
+                elif line.find("SAME") > 0:
                     return True, "SAME"
-                if uline.find("FIX") > 0:
+                elif line.find("FIX") > 0:
                     return True, "FIX"
+
         return False, "None"
 
     def _check_omega_search(self): 

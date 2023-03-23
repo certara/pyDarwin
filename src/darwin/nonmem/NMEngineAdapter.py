@@ -35,6 +35,9 @@ class NMEngineAdapter(ModelEngineAdapter):
         template.omega_block = _get_variable_block(template_text, "$OMEGA")
         template.sigma_block = _get_variable_block(template_text, "$SIGMA")
 
+        _check_for_prior(template_text)
+        _check_for_multiple_probs(template_text)
+
     @staticmethod
     def check_settings():
         nmfe_path = options.get('nmfe_path', None)
@@ -545,6 +548,33 @@ def _get_full_block(code, key):
     full_block.extend(lines)
 
     return full_block
+
+
+def _check_for_prior(template_text: str):
+    all_lines = utils.remove_comments(template_text)
+
+    any_prior = re.search(r"\$PRIOR", all_lines, flags=re.MULTILINE)
+
+    if any_prior is not None:
+        log.error(f"$PRIOR found in template, PRIOR routine is not supported, exiting")
+        sys.exit()
+
+
+def _check_for_multiple_probs(template_text: str):
+    # can't have multiple problems, issues with counting $OMEGA and
+    # putting all $OMEGA at end of control
+    # next version, put $OMEGAs back in original place?
+
+    if not options.search_omega_bands:
+        return
+
+    all_lines = utils.remove_comments(template_text)
+
+    prob_lines = re.findall(r"\$PROB", all_lines)  #
+
+    if len(prob_lines) > 1:
+        log.error(f"Search Omega bands is not supported with multiple $PROBs, exiting")
+        sys.exit()
 
 
 def register():

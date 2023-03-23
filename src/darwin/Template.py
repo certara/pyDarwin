@@ -3,7 +3,6 @@ import sys
 import json
 import math
 import collections
-import darwin.utils
 from darwin.Log import log
 from darwin.options import options
 from darwin.utils import remove_comments
@@ -65,32 +64,6 @@ class Template:
         self.theta_block = self.omega_block = self.sigma_block = []
 
         self.template_text = options.apply_aliases(self.template_text)
-
-        if self._check_for_prior():
-            log.error(f"$PRIOR found in template, PRIOR routine is not supported, exiting")
-            sys.exit()
-
-        if options.search_omega_bands and not self._check_for_multiple_probs():
-            log.error(f"Search Omega bands is not supported with multiple $PROBs, exiting")
-            sys.exit()
-
-    def _check_for_prior(self):
-
-        all_lines = darwin.utils.remove_comments(self.template_text)
-
-        any_prior = re.search(r"\$PRIOR", all_lines, flags=re.MULTILINE)
-
-        return any_prior is not None
-
-    def _check_for_multiple_probs(self):
-        # can't have multiple problems, issues with counting $OMEGA and
-        # putting all $OMEGA at end of control
-        # next version, put $OMEGAs back in original place?
-        all_lines = darwin.utils.remove_comments(self.template_text)
-
-        prob_lines = re.findall(r"\$PROB", all_lines)  #
-
-        return len(prob_lines) < 2
 
     def _get_gene_length(self):
         """ argument is the token sets, returns maximum value of token sets and number of bits"""

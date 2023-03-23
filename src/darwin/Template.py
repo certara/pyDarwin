@@ -1,11 +1,9 @@
-import re
 import sys
 import json
 import math
 import collections
 from darwin.Log import log
 from darwin.options import options
-from darwin.utils import remove_comments
 
 
 class Template:
@@ -58,10 +56,12 @@ class Template:
         self.gene_length = []  # length is 1 based
 
         self._get_gene_length()
-        self._check_omega_search()
 
         # to be initialized by adapter
         self.theta_block = self.omega_block = self.sigma_block = []
+
+        # initialized outside
+        self.omega_band_pos = None
 
         self.template_text = options.apply_aliases(self.template_text)
 
@@ -78,84 +78,3 @@ class Template:
 
                 if val == 1:
                     log.warn(f'Token {this_set} has the only option.')
-
-    def any_block_diag(self):
-        # find all OMEGA blocks
-        control_list = self.template_text.splitlines()
-        lines = control_list
-        omega_starts = [idx for idx, element in enumerate(lines) if re.search(r"^\$OMEGA", element)]
-        omega_ends = []
-
-        for this_start in omega_starts:
-            # if FIX (fix) do not add off diagonals
-            rest_of_text = lines[this_start:]
-            next_block_start = [idx for idx, element in enumerate(rest_of_text[1:]) if re.search(r"^\$", element)]
-
-            if next_block_start is None:
-                next_block_start = len(rest_of_text)
-            else:
-                next_block_start = next_block_start[0]
-
-            this_omega_ends = next_block_start + this_start + 1
-            omega_ends.append(this_omega_ends)
-            cur_block = remove_comments(lines[this_start:this_omega_ends]).splitlines()
-
-            # check for DIAG|BLOCK|FIX|SAME         # look for DIAG|BLOCK|FIX|SAME
-            for this_line in cur_block:
-                line = this_line.upper()
-
-                if line.find("BLOCK") > 0:
-                    return True, "BLOCK"
-                elif line.find("DIAG") > 0:
-                    return True, "DIAG"
-                elif line.find("SAME") > 0:
-                    return True, "SAME"
-                elif line.find("FIX") > 0:
-                    return True, "FIX"
-
-        return False, "None"
-
-    def _check_omega_search(self): 
-        """
-        see if Search_OMEGA and omega_band_width are in the token set
-        if so, find how many bits needed for band width, and add that gene
-        final gene in genome is omega band width, values 0 to max omega size -1
-        Note that if submatrices are already defined with any BLOCK or DIAG, can't do omega_search"""
-
-        if not options.search_omega_bands:
-            return
-
-        fix_omega_check = self.any_block_diag()
-
-        if fix_omega_check[0]:
-            log.warn(f"{fix_omega_check[1]}"
-                        f" OMEGA STRUCTURE IS NOT COMPATIBLE WITH OMEGA search. Turning off OMEGA search.")
-
-            options.search_omega_bands = False
-            options.search_omega_sub_matrix = False
-
-            return
-
-        if options.search_omega_bands is False and options.search_omega_sub_matrix is True:
-            log.warn(
-                f"Cannot do omega sub matrix search without omega band search. Turning off omega submatrix search.")
-
-            options.search_omega_sub_matrix = False
-
-            return
-
-        # this is the number of off diagonal bands (diagonal is NOT included)
-        self.gene_max.append(options.max_omega_band_width)
-        self.gene_length.append(math.ceil(math.log(options.max_omega_band_width + 1, 2)))
-
-        log.message(f"Including search of band OMEGA, with width up to {options.max_omega_band_width}")
-
-        self.Omega_band_pos = len(self.gene_max) - 1
-
-        # OMEGA submatrices?
-        if options.search_omega_sub_matrix:
-            log.message(f"Including search for OMEGA submatrices, with size up to {options.max_omega_sub_matrix}")
-
-            for i in range(options.max_omega_sub_matrix):
-                self.gene_length.append(1)
-                self.gene_max.append(1)

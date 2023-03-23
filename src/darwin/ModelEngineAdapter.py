@@ -105,6 +105,16 @@ class ModelEngineAdapter(ABC):
 
         pass
 
+    @staticmethod
+    @abstractmethod
+    def can_omega_search(template_text: str) -> tuple:
+        """
+        Tell if it's possible to perform omega search with current template
+        If not, second member tells why
+        """
+
+        pass
+
 
 def register_engine_adapter(name: str, engine):
     global _ENGINES

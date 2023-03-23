@@ -2,6 +2,7 @@ import os
 import time
 import sys
 import traceback
+import math
 
 import darwin.GlobalVars as GlobalVars
 import darwin.utils as utils
@@ -156,6 +157,8 @@ class DarwinApp:
         adapter = get_engine_adapter(options.engine_adapter)
         adapter.init_template(model_template)
 
+        _init_omega_search(model_template, adapter)
+
         self.exec_man.start()
 
         log.message(f"Search start time = {time.asctime()}")
@@ -198,3 +201,48 @@ class DarwinApp:
             pass
 
         return final
+
+
+def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAdapter):
+    """
+    see if Search_OMEGA and omega_band_width are in the token set
+    if so, find how many bits needed for band width, and add that gene
+    final gene in genome is omega band width, values 0 to max omega size -1
+    """
+
+    if not options.search_omega_bands:
+        return
+
+    can_search = adapter.can_omega_search(template.template_text)
+
+    if not can_search[0]:
+        log.warn(f"{can_search[1]} Turning off OMEGA search.")
+
+        options.search_omega_bands = False
+        options.search_omega_sub_matrix = False
+
+        return
+
+    if options.search_omega_bands is False and options.search_omega_sub_matrix is True:
+        log.warn(
+            f"Cannot do omega sub matrix search without omega band search. Turning off omega submatrix search.")
+
+        options.search_omega_sub_matrix = False
+
+        return
+
+    # this is the number of off diagonal bands (diagonal is NOT included)
+    template.gene_max.append(options.max_omega_band_width)
+    template.gene_length.append(math.ceil(math.log(options.max_omega_band_width + 1, 2)))
+
+    log.message(f"Including search of band OMEGA, with width up to {options.max_omega_band_width}")
+
+    template.omega_band_pos = len(template.gene_max) - 1
+
+    # OMEGA submatrices?
+    if options.search_omega_sub_matrix:
+        log.message(f"Including search for OMEGA submatrices, with size up to {options.max_omega_sub_matrix}")
+
+        for i in range(options.max_omega_sub_matrix):
+            template.gene_length.append(1)
+            template.gene_max.append(1)

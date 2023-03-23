@@ -144,10 +144,10 @@ class NMEngineAdapter(ModelEngineAdapter):
         # add band OMEGA
         if options.search_omega_bands:
             # bandwidth must be last gene
-            bandwidth = model_code.IntCode[template.Omega_band_pos]
+            bandwidth = model_code.IntCode[template.omega_band_pos]
 
             if options.search_omega_sub_matrix:
-                submatrices = model_code.IntCode[(template.Omega_band_pos+1):]
+                submatrices = model_code.IntCode[(template.omega_band_pos + 1):]
             else:
                 submatrices = np.ones(10)  # if no search, max is permitted, then unlimited size of omega matrices
 
@@ -437,6 +437,42 @@ class NMEngineAdapter(ModelEngineAdapter):
         model.estimated_sigma_num = estimated_sigma
 
         return True
+
+    @staticmethod
+    def can_omega_search(template_text: str) -> tuple:
+        """
+        Tell if it's possible to perform omega search with current template
+
+        If submatrices are already defined with any BLOCK or DIAG, can't do omega_search
+        """
+
+        lines = template_text.splitlines()
+
+        omega_starts = [idx for idx, element in enumerate(lines) if re.search(r'^\$OMEGA', element)]
+
+        if not omega_starts:
+            return False, f"No omega blocks."
+
+        for this_start in omega_starts:
+            # if FIX (fix) do not add off diagonals
+            rest_of_text = lines[this_start:]
+            next_block_start = [idx for idx, element in enumerate(rest_of_text[1:]) if re.search(r'^\$', element)]
+
+            if next_block_start is None:
+                next_block_start = len(rest_of_text)
+            else:
+                next_block_start = next_block_start[0]
+
+            this_omega_ends = next_block_start + this_start + 1
+
+            cur_block = utils.remove_comments(lines[this_start:this_omega_ends]).splitlines()
+
+            for line in cur_block:
+                match = re.search(r'\b(BLOCK|DIAG|SAME|FIX)\b', line.upper())
+                if match is not None:
+                    return False, f"{match.group(1)} omega structure is not compatible with omega search."
+
+        return True, ""
 
 
 def _file_to_lines(file_name: str):

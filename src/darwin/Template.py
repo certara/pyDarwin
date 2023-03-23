@@ -9,6 +9,7 @@ import copy
 from darwin.options import options 
 from darwin.utils import remove_comments
 
+
 class Template:
     """
     The Template object contains information common to all the model objects, including the template code
@@ -142,29 +143,41 @@ class Template:
         if so, find how many bits needed for band width, and add that gene
         final gene in genome is omega band width, values 0 to max omega size -1
         Note that if submatrices are already defined with any BLOCK or DIAG, can't do omega_search"""
-        if options.search_omega_bands:
-            fix_omega_check = self.any_block_diag()
-            if fix_omega_check[0]:
-                log.message(f"{fix_omega_check[1]} OMEGA STRUCTURE IS NOT COMPATIBLE WITH OMEGA search, Turning off OMEGA search ")
-                options.search_omega_bands = False
-                options.search_omega_sub_matrix = False
-                return
-            if options.search_omega_bands is False and options.search_omega_sub_matrix is True:
-                log.message(
-                    f"Cannot do omega sub matrix search without omega band search Turning off omega submatrix search ")
-                options.search_omega_sub_matrix = False
-            # this is the number of off diagonal bands (diagonal is NOT included)
-            self.gene_max.append(options.max_omega_band_width)
-            self.gene_length.append(math.ceil(math.log(options.max_omega_band_width + 1, 2)))
 
-            log.message(f"Including search of band OMEGA, with width up to {options.max_omega_band_width}")
+        if not options.search_omega_bands:
+            return
 
-            self.Omega_band_pos = len(self.gene_max) - 1
+        fix_omega_check = self.any_block_diag()
 
-            # OMEGA submatrices??
-            if options.search_omega_sub_matrix:
-                log.message(f"Including search for OMEGA submatrices, with size up to {options.max_omega_sub_matrix}")
+        if fix_omega_check[0]:
+            log.warn(f"{fix_omega_check[1]}"
+                        f" OMEGA STRUCTURE IS NOT COMPATIBLE WITH OMEGA search. Turning off OMEGA search.")
 
-                for i in range(options.max_omega_sub_matrix):
-                    self.gene_length.append(1)
-                    self.gene_max.append(1)
+            options.search_omega_bands = False
+            options.search_omega_sub_matrix = False
+
+            return
+
+        if options.search_omega_bands is False and options.search_omega_sub_matrix is True:
+            log.warn(
+                f"Cannot do omega sub matrix search without omega band search. Turning off omega submatrix search.")
+
+            options.search_omega_sub_matrix = False
+
+            return
+
+        # this is the number of off diagonal bands (diagonal is NOT included)
+        self.gene_max.append(options.max_omega_band_width)
+        self.gene_length.append(math.ceil(math.log(options.max_omega_band_width + 1, 2)))
+
+        log.message(f"Including search of band OMEGA, with width up to {options.max_omega_band_width}")
+
+        self.Omega_band_pos = len(self.gene_max) - 1
+
+        # OMEGA submatrices?
+        if options.search_omega_sub_matrix:
+            log.message(f"Including search for OMEGA submatrices, with size up to {options.max_omega_sub_matrix}")
+
+            for i in range(options.max_omega_sub_matrix):
+                self.gene_length.append(1)
+                self.gene_max.append(1)

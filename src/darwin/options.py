@@ -246,8 +246,8 @@ class Options:
             self.search_omega_sub_matrix = False
 
         if self.search_omega_sub_matrix and self.max_omega_sub_matrix < 1:
-            log.warn("max_omega_sub_matrix must be at least 1, omitting max_omega_sub_matrix")
-            self.max_omega_sub_matrix = False
+            log.warn("max_omega_sub_matrix must be at least 1, omitting search_omega_sub_matrix")
+            self.search_omega_sub_matrix = False
 
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):

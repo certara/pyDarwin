@@ -292,7 +292,7 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos, seed: int) ->
                 if isinstance(i, (float, np.float32, np.float64)):  # a float, not a np.array
                     final_control += str(round(i, 7)) + " \n"
                 else:
-                    final_control += " ".join(map(str, np.around(i[:(this_rec+1)], 7).tolist())) + " \n"
+                    final_control += " ".join(map(str, np.around(i[:(this_rec+1)], 7))) + " \n"
 
                 this_rec += 1
 

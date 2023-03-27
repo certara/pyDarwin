@@ -59,12 +59,10 @@ from pyswarms.backend.topology import Star
 from pyswarms.backend.handlers import VelocityHandler
 from pyswarms.base import DiscreteSwarmOptimizer
 from pyswarms.utils.reporter import Reporter
-# Import standard library
+
 import logging
-import shutil
-import os
 import darwin.algorithms.run_downhill as rundown
-# Import modules
+
 import numpy as np
 import multiprocessing as mp
 
@@ -227,6 +225,7 @@ class _PSORunner(DiscreteSwarmOptimizer):
             if not keep_going():
                 break
 
+            # !!! PyCharm complains about kwargs. Not sure who to blame, but we can live with this.
             self.swarm.current_cost, self.population.runs = compute_objective_function(
                 self.swarm, objective_func, pool, model_template=self.template, iteration=this_iter)
 

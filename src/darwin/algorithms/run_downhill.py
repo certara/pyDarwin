@@ -165,11 +165,9 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
 
         all_runs.extend(runs)
 
-        # fitness should already be added to all_results here, gets added by _full_search after call to run_all GA
-        # and only use the fullbest  
         # replace the niche this one came from, to preserve diversity
         if run_for_search.result.fitness < last_best_fitness:
-            niches[-1].best_run = run_for_search
+            niches[best_niche].best_run = run_for_search
 
     for i in range(len(niches)):
         pop.runs[worst[i]] = niches[i].best_run

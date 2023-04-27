@@ -188,7 +188,7 @@ pipeline {
                     labelledShell label: 'Appending Build Number to Version', script: """
                         cd ${WORKSPACE}
                         sed -i "s/^version = .*/version = ${BUILD_VERSION}/" setup.cfg
-                        sed -i "s/\\(version = [0-9\\.]*\\)-dev-build\\.\\([0-9]*\\)/\\1-dev.build.\\2/g" setup.cfg
+                        sed -i "s/\\(version = [0-9\\.]*\\)dev-build\\.\\([0-9]*\\)/\\1 dev.build.\\2/g" setup.cfg
                     """
                 }
             }

@@ -178,6 +178,19 @@ pipeline {
             }
         }
         stage('Package Build') {
+            when {
+                not {
+                    tag pattern: "[0-9]+.[0-9]+.[0-9]+", comparator: "REGEXP"
+                }
+            }
+            steps {
+                container('certara-python') {
+                    labelledShell label: 'Appending Build Number to Version', script: """
+                        cd ${WORKSPACE}
+                        sed -i "s/^version = .*/version = ${BUILD_VERSION}/" setup.cfg
+                    """
+                }
+            }
             steps {
                 container('certara-python') {
                     labelledShell label: 'Building the Package', script: """

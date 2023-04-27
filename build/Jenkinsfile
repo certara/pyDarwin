@@ -177,7 +177,7 @@ pipeline {
                 }
             }
         }
-        stage('Package Build') {
+        stage('Version Tag') {
             when {
                 not {
                     tag pattern: "[0-9]+.[0-9]+.[0-9]+", comparator: "REGEXP"
@@ -191,6 +191,8 @@ pipeline {
                     """
                 }
             }
+        }
+        stage('Package Build') {
             steps {
                 container('certara-python') {
                     labelledShell label: 'Building the Package', script: """

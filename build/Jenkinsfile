@@ -185,6 +185,7 @@ pipeline {
                             labelledShell label: "Unit Tests Execution", script: """
                                 cd ${WORKSPACE}
                                 pip install pytest
+                                pip install .
                                 pytest --junitxml=./${TEST_RESULTS_DIR}/results.xml ./tests -v
                             """
                         }

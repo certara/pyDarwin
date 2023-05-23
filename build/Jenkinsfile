@@ -184,6 +184,7 @@ pipeline {
                         container('certara-python') {
                             labelledShell label: "Unit Tests Execution", script: """
                                 cd ${WORKSPACE}
+                                pip install pytest
                                 pytest --junitxml=./${TEST_RESULTS_DIR}/results.xml ./tests -v
                             """
                         }

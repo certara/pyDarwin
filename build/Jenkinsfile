@@ -185,7 +185,7 @@ pipeline {
                             labelledShell label: "Unit Tests Execution", script: """
                                 cd ${WORKSPACE}
                                 pip install pytest
-                                pip install .
+                                pip install . --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-release-public/simple --extra-index-url https://pypi.python.org/simple/
                                 pytest --junitxml=./${TEST_RESULTS_DIR}/results.xml ./tests -v
                             """
                         }

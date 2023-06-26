@@ -18,7 +18,7 @@ from darwin.options import options
 from darwin.Template import Template
 from darwin.ModelCode import ModelCode
 
-from .utils import set_omega_bands, match_vars
+from .utils import set_omega_bands, match_vars, remove_comments
 
 
 class NMEngineAdapter(ModelEngineAdapter):
@@ -41,6 +41,7 @@ class NMEngineAdapter(ModelEngineAdapter):
     @staticmethod
     def check_settings():
         nmfe_path = options.get('nmfe_path', None)
+
         if not nmfe_path:
             raise RuntimeError(f"nmfe_path must be set for running NONMEM models")
 
@@ -465,7 +466,7 @@ class NMEngineAdapter(ModelEngineAdapter):
 
             this_omega_ends = next_block_start + this_start + 1
 
-            cur_block = utils.remove_comments(lines[this_start:this_omega_ends]).splitlines()
+            cur_block = remove_comments(lines[this_start:this_omega_ends]).splitlines()
 
             for line in cur_block:
                 match = re.search(r'\b(BLOCK|DIAG|SAME|FIX)\b', line.upper())
@@ -496,7 +497,7 @@ def _get_non_inf_tokens(tokens: dict, phenotype: OrderedDict):
         token_set = val[phenotype[key]]
 
         for token in token_set:
-            trimmed_token = utils.remove_comments(token)
+            trimmed_token = remove_comments(token)
 
             if "THETA" in trimmed_token or "OMEGA" in trimmed_token or "SIGMA" in trimmed_token \
                     or "ETA(" in trimmed_token or "EPS(" in trimmed_token or "ERR(" in trimmed_token:
@@ -545,7 +546,7 @@ def _get_block(start, fcon, fixed=False):
 
 
 def _not_empty_line(line: str) -> bool:
-    return line and utils.remove_comments(line) != ''
+    return line and remove_comments(line) != ''
 
 
 def _get_variable_block(template_text, key) -> list:
@@ -587,7 +588,7 @@ def _get_full_block(code, key):
 
 
 def _check_for_prior(template_text: str):
-    all_lines = utils.remove_comments(template_text)
+    all_lines = remove_comments(template_text)
 
     any_prior = re.search(r"\$PRIOR", all_lines, flags=re.MULTILINE)
 
@@ -604,7 +605,7 @@ def _check_for_multiple_probs(template_text: str):
     if not options.search_omega_bands:
         return
 
-    all_lines = utils.remove_comments(template_text)
+    all_lines = remove_comments(template_text)
 
     prob_lines = re.findall(r"\$PROB", all_lines)  #
 

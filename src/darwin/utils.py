@@ -86,26 +86,6 @@ def get_token_parts(token):
     return match.group(1), int(match.group(2))
 
 
-def remove_comments(code, comment_mark=';') -> str:
-    """ Remove any comments from the *code*
-
-    :param code: Input code
-    :type code: str or list
-    :param comment_mark: Mark of the beginning of a comment in the line
-    :return: Code with comments removed
-    :rtype: str
-    """
-
-    if type(code) != list:
-        lines = code.splitlines()
-    else:
-        lines = code
-
-    lines = [(line[:line.find(comment_mark)] if line.find(comment_mark) > -1 else line).strip() for line in lines]
-
-    return '\n'.join(lines)
-
-
 def remove_file(file_path: str):
     if os.path.isfile(file_path): 
         os.unlink(file_path) 

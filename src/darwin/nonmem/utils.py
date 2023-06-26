@@ -1,7 +1,7 @@
 import re
 import math
 import numpy as np
-from darwin.utils import remove_comments, get_token_parts, replace_tokens
+from darwin.utils import get_token_parts, replace_tokens
 
 from darwin.Log import log
 
@@ -297,3 +297,23 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos, seed: int) ->
                 this_rec += 1
 
     return final_control
+
+
+def remove_comments(code, comment_mark=';') -> str:
+    """ Remove any comments from the *code*
+
+    :param code: Input code
+    :type code: str or list
+    :param comment_mark: Mark of the beginning of a comment in the line
+    :return: Code with comments removed
+    :rtype: str
+    """
+
+    if type(code) != list:
+        lines = code.splitlines()
+    else:
+        lines = code
+
+    lines = [(line[:line.find(comment_mark)] if line.find(comment_mark) > -1 else line).strip() for line in lines]
+
+    return '\n'.join(lines)

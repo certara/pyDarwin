@@ -188,6 +188,9 @@ class Options:
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)
 
+        self.tmp_rscript = opts.get('tmp_rscript', 'C:/Program Files/R/R-4.3.1/bin/Rscript.exe')
+        self.tmp_runscript = opts.get('tmp_runscript', 'C:/Program Files (x86)/Pirana/internal/run_metamodel_script.R')
+
         self.crash_value = opts.get('crash_value', 99999999)
 
         self.isGA = self.algorithm == "GA"

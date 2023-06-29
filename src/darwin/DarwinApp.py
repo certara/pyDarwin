@@ -16,6 +16,7 @@ import darwin.ModelRunManager
 import darwin.LocalRunManager
 import darwin.grid.GridRunManager
 import darwin.nonmem.NMEngineAdapter
+import darwin.nlme.NLMEEngineAdapter
 
 from darwin.ModelEngineAdapter import get_engine_adapter
 
@@ -108,6 +109,7 @@ def _init_app(options_file: str, folder: str = None):
     GlobalVars.StartTime = time.time()
 
     darwin.nonmem.NMEngineAdapter.register()
+    darwin.nlme.NLMEEngineAdapter.register()
     darwin.MemoryModelCache.register()
 
     _init_model_results()

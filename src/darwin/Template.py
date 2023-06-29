@@ -40,6 +40,10 @@ class Template:
         try:
             self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
 
+            for key, val in self.tokens.items():
+                if type(val) == dict:
+                    self.tokens[key] = [x for x in val.values()]
+
             for group in self.tokens.values():
                 for tokens in group:
                     for i, token in enumerate(tokens):

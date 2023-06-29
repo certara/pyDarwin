@@ -177,6 +177,48 @@ pipeline {
                 }
             }
         }
+        stage('Unit Testing') {
+            parallel {
+                stage('Unit Tests') {
+                    steps {
+                        container('certara-python') {
+                            labelledShell label: "Unit Tests Execution", script: """
+                                cd ${WORKSPACE}
+                                pip install pytest
+                                pip install . --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-release-public/simple --extra-index-url https://pypi.python.org/simple/
+                                pytest --junitxml=./${TEST_RESULTS_DIR}/results.xml ./tests -v
+                            """
+                        }
+                    }
+                }
+            }
+            post {
+                always {
+                    junit skipPublishingChecks: true, testResults: "**/${TEST_RESULTS_DIR}/results.xml"
+                    // cobertura coberturaReportFile: "${TEST_RESULTS_DIR}/coverage.xml", enableNewApi: true, lineCoverageTargets: "80, 35, 20", autoUpdateHealth: false, autoUpdateStability: false
+                    recordIssues enabledForFailure: true, aggregatingResults: true, tool: junitParser(pattern: "**/${TEST_RESULTS_DIR}/results.xml"), sourceCodeEncoding: 'UTF-8'
+                    autoGrade('{"tests":{"maxScore":100,"passedImpact":0,"failureImpact":-5,"skippedImpact":-1},}')
+                    // autoGrade('{"tests":{"maxScore":100,"passedImpact":0,"failureImpact":-5,"skippedImpact":-1},"coverage":{"maxScore":100,"coveredPercentageImpact":0,"missedPercentageImpact":-1}}')
+                    // Coverage for autograder for this report (cobertura) seems to have an issue
+                }
+            }
+        }
+        stage('Version Tag') {
+            when {
+                not {
+                    tag pattern: "[0-9]+.[0-9]+.[0-9]+", comparator: "REGEXP"
+                }
+            }
+            steps {
+                container('certara-python') {
+                    labelledShell label: 'Appending Build Number to Version', script: """
+                        cd ${WORKSPACE}
+                        sed -i "s/^version = .*/version = ${BUILD_VERSION}/" setup.cfg
+                        sed -i 's/\\(version = \\)\\([0-9]*\\.[0-9]*\\.\\)\\?\\([a-z]*\\)-\\?build\\.\\?\\([0-9]*\\)/\\1\\2\\3\\4/g' setup.cfg
+                    """
+                }
+            }
+        }
         stage('Package Build') {
             steps {
                 container('certara-python') {

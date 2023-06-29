@@ -26,7 +26,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
     def __init__(self):
         os.environ['INSTALLDIR'] = r'C:/Program Files/Certara/NLME_Engine'
         os.environ['NLMEGCCDir64'] = r'C:/Program Files/Certara/mingw64'
-        os.environ['PhoenixLicenseFile'] = r'c:/workspace/Pirana/lservrc'
+        os.environ['PhoenixLicenseFile'] = r'c:/workspace/lservrc'
 
     @staticmethod
     def get_engine_name() -> str:

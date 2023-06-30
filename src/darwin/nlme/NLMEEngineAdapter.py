@@ -1,9 +1,7 @@
-import sys
 import os
 import re
 import glob
-import json
-import csv
+import math
 
 from collections import OrderedDict
 
@@ -104,8 +102,8 @@ class NLMEEngineAdapter(ModelEngineAdapter):
                 file_to_delete.pop(f'{file_stem}.mmdl', None)
                 file_to_delete.pop(f'{file_stem}_out.txt', None)
 
-                for file in ['dmp.json', 'omega.csv', 'omega_stderr.csv', 'out.txt', 'theta.csv', 'residuals.csv',
-                             'ConvergenceData.csv', 'nlme7engine.log', 'thetaCorrelation.csv', 'thetaCovariance.csv']:
+                for file in ['test.mdl', 'dmp.txt', 'omega.csv', 'omega_stderr.csv', 'out.txt', 'theta.csv',
+                             'residuals.csv', 'ConvergenceData.csv', 'nlme7engine.log']:
                     file_to_delete.pop(file, None)
 
                 for f in file_to_delete:
@@ -151,18 +149,46 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
         res = run.result
 
-        res_file = os.path.join(run.run_dir, 'dmp.json')
+        res_file = os.path.join(run.run_dir, 'dmp.txt')
 
         if not os.path.exists(res_file):
             return False
 
         with open(res_file) as file:
             text = file.read()
-            text = re.sub(r',"residuals":.+$', '}', text, flags=re.RegexFlag.MULTILINE)
-            data = json.loads(text)
 
-            success = (data['returnCode'][0] in [1, 2, 3])
-            ofv = float(data['logLik'][0] * -2)
+            rc = re.search(r'"returnCode" = c\((\d+)', text, flags=re.RegexFlag.MULTILINE)
+            success = (rc is not None and int(rc.group(1)) in [1, 2, 3])
+
+            ll = re.search(r'"logLik" = c\(([^,]+)\)', text, flags=re.RegexFlag.MULTILINE)
+
+            if ll is not None:
+                ofv = float(ll.group(1)) * -2
+
+            covariance = re.search(r'"Covariance" = matrix', text, flags=re.RegexFlag.MULTILINE) is not None
+
+            cor = re.search(r'"Correlation" = matrix\(\s*as\.numeric\(c\(([^)]+)\)\)', text,
+                            flags=re.RegexFlag.MULTILINE | re.RegexFlag.DOTALL)
+
+            if cor is not None:
+                correlation = True
+
+                arr = re.sub(r'\s', '', cor.group(1), flags=re.RegexFlag.MULTILINE)
+                arr = arr.split(',')
+
+                n = int(math.sqrt(len(arr)))
+
+                lines = [arr[i:i + n] for i in range(0, len(arr), n)]
+
+                try:
+                    i = 0
+                    for line in lines:
+                        i += 1
+                        for cell in line[1:i]:
+                            if abs(float(cell)) > 0.95:
+                                raise 'nope'
+                except:
+                    correlation = False
 
         try:
             with open(os.path.join(run.run_dir, 'out.txt')) as file:
@@ -172,36 +198,6 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
                 if match is not None:
                     condition_num = float(match.group(1).strip())
-        except:
-            pass
-
-        try:
-            with open(os.path.join(run.run_dir, 'thetaCovariance.csv')) as file:
-                lines = file.readlines()
-
-                covariance = len(lines) > 1
-        except:
-            pass
-
-        try:
-            with open(os.path.join(run.run_dir, 'thetaCorrelation.csv')) as file:
-                lines = file.readlines()
-
-                correlation = len(lines) > 1
-
-            with open(os.path.join(run.run_dir, 'thetaCorrelation.csv')) as file:
-                lines = csv.reader(file)
-
-                lines.__next__()
-
-                i = 0
-                for line in lines:
-                    i += 1
-                    for cell in line[1:i]:
-                        if float(cell) > 0.95:
-                            correlation = False
-                            raise 'enough'
-
         except:
             pass
 
@@ -311,41 +307,6 @@ def _get_non_inf_tokens(tokens: dict, phenotype: OrderedDict):
         token_set_num += 1
 
     return non_influential_tokens
-
-
-def _get_block(start, fcon, fixed=False):
-    # how many lines? find next RNBL
-    rnbl_block = fcon[start:]
-    rest_of_block = fcon[(1 + start):]
-    next_start = [bool(re.search("^RNBL", n)) for n in rest_of_block]
-
-    if any(next_start):
-        rnbl_start_lines = [i for i, x in enumerate(next_start) if x][0]  # RNBL lines
-        this_block = rnbl_block[:(rnbl_start_lines + 1)]
-    else:
-        next_start = [bool(re.search(r"^\S+", n)) for n in rest_of_block]
-        next_start = [i for i, x in enumerate(next_start) if x][0]  # RNBL lines
-        this_block = rnbl_block[:(next_start + 1)]
-
-    # if next_start:
-    this_block = " ".join(this_block)
-
-    if fixed:
-        # remove 1 i position 7
-        this_block = list(this_block)
-        this_block[7] = ' '
-        this_block = "".join(this_block)
-
-    this_block = this_block[4:].strip().replace("\n", ",")
-    this_block = this_block.split(",")
-
-    # convert to float
-    this_block = [float(a) for a in this_block]
-
-    # have to remove any 0's they will be 0's for band OMEGA
-    this_block = [i for i in this_block if i != 0]
-
-    return len(this_block)
 
 
 def remove_comments(code: str) -> str:

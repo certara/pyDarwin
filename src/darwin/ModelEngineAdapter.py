@@ -16,7 +16,7 @@ class ModelEngineAdapter(ABC):
 
     @staticmethod
     @abstractmethod
-    def check_settings():
+    def init_engine():
         pass
 
     @staticmethod
@@ -70,7 +70,7 @@ class ModelEngineAdapter(ABC):
 
     @staticmethod
     @abstractmethod
-    def get_model_run_command(run) -> list:
+    def get_model_run_commands(run) -> list:
 
         pass
 

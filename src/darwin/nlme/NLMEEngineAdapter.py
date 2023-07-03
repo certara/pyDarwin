@@ -1,4 +1,5 @@
 import os
+import platform
 import re
 import glob
 import math
@@ -21,11 +22,6 @@ from .utils import extract_multiline_block, get_comment_re, extract_data, extrac
 
 class NLMEEngineAdapter(ModelEngineAdapter):
 
-    def __init__(self):
-        os.environ['INSTALLDIR'] = r'C:/Program Files/Certara/NLME_Engine'
-        os.environ['NLMEGCCDir64'] = r'C:/Program Files/Certara/mingw64'
-        os.environ['PhoenixLicenseFile'] = r'c:/workspace/lservrc'
-
     @staticmethod
     def get_engine_name() -> str:
         return 'nlme'
@@ -35,16 +31,46 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         pass
 
     @staticmethod
-    def check_settings():
+    def init_engine():
         nlme_dir = options.get('nlme_dir', None)
 
         if not nlme_dir:
-            raise RuntimeError(f"nlme_dir must be set for running NLME models")
+            log.error('nlme_dir must be set for running NLME models')
+            return False
 
         if not os.path.isdir(nlme_dir):
-            raise RuntimeError(f"NLME directory '{nlme_dir}' seems to be missing")
+            log.error(f"NLME directory '{nlme_dir}' seems to be missing")
+            return False
 
         log.message(f"NLME found: {nlme_dir}")
+
+        gcc_dir = options.get('gcc_dir', None)
+
+        if not gcc_dir:
+            log.error('gcc_dir must be set for running NLME models')
+            return False
+
+        if not os.path.isdir(gcc_dir):
+            log.error(f"GCC directory '{gcc_dir}' seems to be missing")
+            return False
+
+        log.message(f"GCC found: {gcc_dir}")
+
+        os.environ['INSTALLDIR'] = nlme_dir
+        os.environ['NLMEGCCDir64'] = gcc_dir
+
+        lic_file = options.get('nlme_license', None)
+
+        if lic_file is not None:
+            if not os.path.exists(lic_file):
+                log.error(f"TDL license file '{lic_file}' seems to be missing")
+                return False
+
+            log.message(f"Using TDL license file: {lic_file}")
+
+            os.environ['PhoenixLicenseFile'] = lic_file
+
+        return True
 
     @staticmethod
     def get_error_messages(run: ModelRun):
@@ -118,8 +144,17 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         return
 
     @staticmethod
-    def get_model_run_command(run: ModelRun) -> list:
-        return [options.tmp_rscript, options.tmp_runscript, run.control_file_name, run.run_dir]
+    def get_model_run_commands(run: ModelRun) -> list:
+        return [
+            {
+                'command': [options.tmp_rscript, '-e', f"Certara.RsNLME::extract_mmdl('{run.control_file_name}', '.')"],
+                'timeout': 30
+            },
+            {
+                'command': _get_run_command(run),
+                'timeout': options.model_run_timeout
+            }
+        ]
 
     @staticmethod
     def get_stem(generation, model_num) -> str:
@@ -212,8 +247,6 @@ class NLMEEngineAdapter(ModelEngineAdapter):
     @staticmethod
     def read_model(run: ModelRun) -> bool:
         path = os.path.join(run.run_dir, run.control_file_name)
-
-        # path = r'C:\workspace\Pirana\mmdl_examples\ex11.mmdl'
 
         if not os.path.exists(path):
             return False
@@ -321,6 +354,19 @@ def remove_comments(code: str) -> str:
     code = re.sub('/\\*.*?\\*/', '', code, flags=re.RegexFlag.MULTILINE | re.RegexFlag.DOTALL)
 
     return code
+
+
+def _get_run_command(run: ModelRun) -> list:
+    nlme_dir = options.get('nlme_dir', '')
+
+    if platform.system() == 'Windows':
+        return ['powershell', '-noninteractive', '-executionpolicy', 'remotesigned', '-file',
+                f"{nlme_dir}/execNLMECmd.ps1", '-NLME_EXE_POSTFIX', f"_{run.generation}_{run.model_num}",
+                '-RUN_MODE', 'COMPILE_AND_RUN', '-MODELFILE', 'test.mdl', '-WORKING_DIR', run.run_dir,
+                '-MPIFLAG', 'MPINO', '-LOCAL_HOST', 'YES', '-NUM_NODES', '1', '-NLME_ARGS', '@nlmeargs.txt']
+
+    return [f"{nlme_dir}/execNLMECmd.sh", 'COMPILE_AND_RUN', 'test.mdl', run.run_dir,
+            'MPINO', 'YES', '1', '', '', '', '@nlmeargs.txt', '', f"_{run.generation}_{run.model_num}"]
 
 
 def register():

@@ -157,6 +157,10 @@ class DarwinApp:
         algorithm = options.algorithm
 
         adapter = get_engine_adapter(options.engine_adapter)
+
+        if not adapter.init_engine():
+            return GlobalVars.BestRun
+
         adapter.init_template(model_template)
 
         _init_omega_search(model_template, adapter)

@@ -39,16 +39,20 @@ class NMEngineAdapter(ModelEngineAdapter):
         _check_for_multiple_probs(template_text)
 
     @staticmethod
-    def check_settings():
+    def init_engine():
         nmfe_path = options.get('nmfe_path', None)
 
         if not nmfe_path:
-            raise RuntimeError(f"nmfe_path must be set for running NONMEM models")
+            log.error('nmfe_path must be set for running NONMEM models')
+            return False
 
         if not os.path.exists(nmfe_path):
-            raise RuntimeError(f"NMFE path '{nmfe_path}' seems to be missing")
+            log.error(f"NMFE path '{nmfe_path}' seems to be missing")
+            return False
 
         log.message(f"NMFE found: {nmfe_path}")
+
+        return True
 
     @staticmethod
     def get_error_messages(run: ModelRun):
@@ -198,9 +202,14 @@ class NMEngineAdapter(ModelEngineAdapter):
         return
 
     @staticmethod
-    def get_model_run_command(run: ModelRun) -> list:
-        return [options['nmfe_path'], run.control_file_name, run.output_file_name,
-                " -nmexec=" + run.executable_file_name, f'-rundir={run.run_dir}']
+    def get_model_run_commands(run: ModelRun) -> list:
+        return [
+            {
+                'command': [options['nmfe_path'], run.control_file_name, run.output_file_name,
+                            f"-nmexec={run.executable_file_name}", f"-rundir={run.run_dir}"],
+                'timeout': options.model_run_timeout
+            }
+        ]
 
     @staticmethod
     def get_stem(generation, model_num) -> str:

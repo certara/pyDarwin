@@ -218,8 +218,6 @@ class ModelRun:
             f.flush()
 
     def check_files_present_impl(self):
-        self._adapter.check_settings()
-
         if options.use_r:
             rscript_path = options.rscript_path
 
@@ -294,7 +292,7 @@ class ModelRun:
         if not file_checker.check_files_present(self):
             return
 
-        command = self._adapter.get_model_run_command(self)
+        commands = self._adapter.get_model_run_commands(self)
 
         GlobalVars.UniqueModels += 1
 
@@ -303,10 +301,11 @@ class ModelRun:
         try:
             self.status = "Running model"
 
-            run_process = Popen(command, stdout=DEVNULL, stderr=STDOUT, cwd=self.run_dir,
-                                creationflags=options.model_run_priority)
+            for command in commands:
+                run_process = Popen(command['command'], stdout=DEVNULL, stderr=STDOUT, cwd=self.run_dir,
+                                    creationflags=options.model_run_priority)
 
-            run_process.communicate(timeout=options.model_run_timeout)
+                run_process.communicate(timeout=command['timeout'])
 
             self.status = "Finished model run"
         except TimeoutExpired:

@@ -188,9 +188,6 @@ class Options:
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)
 
-        self.tmp_rscript = opts.get('tmp_rscript', 'C:/Program Files/R/R-4.3.1/bin/Rscript.exe')
-        self.tmp_runscript = opts.get('tmp_runscript', 'C:/Program Files (x86)/Pirana/internal/run_metamodel_script.R')
-
         self.crash_value = opts.get('crash_value', 99999999)
 
         self.isGA = self.algorithm == "GA"
@@ -215,6 +212,11 @@ class Options:
         self.model_run_priority = _get_priority_class(opts)
         self.model_run_timeout = int(opts.get('model_run_timeout', 1200))
 
+        if self.engine_adapter == 'nlme':
+            self.rscript_path = _get_mandatory_option(opts, 'rscript_path')
+        else:
+            self.rscript_path = opts.get('rscript_path', None)
+
         pp_opts = opts.get('postprocess', {})
 
         self.use_r = pp_opts.get('use_r', False)
@@ -223,7 +225,8 @@ class Options:
         self.r_timeout = int(pp_opts.get('r_timeout', 90))
 
         if self.use_r:
-            self.rscript_path = _get_mandatory_option(pp_opts, 'rscript_path')
+            if self.rscript_path is None:
+                self.rscript_path = _get_mandatory_option(pp_opts, 'rscript_path')
 
             rr = utils.apply_aliases(_get_mandatory_option(pp_opts, 'post_run_r_code'), project_dir_alias)
 

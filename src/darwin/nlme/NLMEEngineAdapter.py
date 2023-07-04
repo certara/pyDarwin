@@ -147,7 +147,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
     def get_model_run_commands(run: ModelRun) -> list:
         return [
             {
-                'command': [options.tmp_rscript, '-e', f"Certara.RsNLME::extract_mmdl('{run.control_file_name}', '.')"],
+                'command': [options.rscript_path, '-e', f"Certara.RsNLME::extract_mmdl('{run.control_file_name}', '.')"],
                 'timeout': 30
             },
             {

@@ -18,10 +18,17 @@ class ModelResults:
 
         self.success = self.covariance = self.correlation = False
 
-        self.post_run_r_text = self.post_run_python_text = ""
+        self.post_run_r_text = self.post_run_python_text = ''
         self.post_run_python_penalty = self.post_run_r_penalty = 0
 
-        self.messages = self.errors = ""
+        self.messages = self.errors = ''
+        self.ref_run = ''
+
+    def get_message_text(self) -> str:
+        message = f"From {self.ref_run}: " if self.ref_run != '' else ''
+        message += self.messages or 'No important warnings'
+
+        return message
 
     def to_dict(self):
         res = {attr: self.__getattribute__(attr) for attr in JSON_ATTRIBUTES}

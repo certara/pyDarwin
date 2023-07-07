@@ -331,9 +331,6 @@ class ModelRun:
 
         self._get_error_messages()
 
-        if not self.result.messages:
-            self.result.messages = 'No important warnings'
-
         if self._post_run_r() and self._post_run_python() and self._calc_fitness():
             self.status = "Done"
 

@@ -82,7 +82,8 @@ class Population:
             run.status = f'Duplicate({run.reference_model_num})'
         elif run:
             if run.generation != self.name or run.model_num != self.model_number:
-                run.result.messages = f"From {run.file_stem}: " + str(run.result.messages)
+                run.result.messages = str(run.result.messages)
+                run.result.ref_run = run.file_stem
 
             run.model_num = self.model_number
             run.generation = self.name

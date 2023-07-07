@@ -90,12 +90,14 @@ class PipelineRunManager(ModelRunManager):
         if res.errors:
             prd_err_text = ", error = " + res.errors
 
+        message = res.get_message_text()
+
         with open(GlobalVars.results_file, "a") as result_file:
-            result_file.write(f"{run.generation},{run.wide_model_num},"
-                              f"{run.run_dir},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
+            result_file.write(f"{run.generation},{run.wide_model_num},{run.run_dir},{res.ref_run},"
+                              f"{run.status},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
                               f"{res.ofv},{res.success},{res.covariance},{res.correlation},{model.theta_num},"
                               f"{model.omega_num},{model.sigma_num},{res.condition_num},{res.post_run_r_penalty},"
-                              f"{res.post_run_python_penalty},{res.messages}\n")
+                              f"{res.post_run_python_penalty},{res.messages},{res.errors}\n")
 
         fitness_crashed = res.fitness == options.crash_value
         fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
@@ -103,7 +105,7 @@ class PipelineRunManager(ModelRunManager):
         status = run.status.rjust(14)
         log.message(
             f"{step_name} = {run.generation}, Model {run.model_num:5}, {status},"
-            f"    fitness = {fitness_text},    message = {res.messages.strip()}{prd_err_text}"
+            f"    fitness = {fitness_text},    message = {message}{prd_err_text}"
         )
 
         return run

@@ -76,9 +76,77 @@ class NLMEEngineAdapter(ModelEngineAdapter):
     def get_error_messages(run: ModelRun):
         """
         """
-        nm_translation_message = prd_err = ""
 
-        return prd_err, nm_translation_message
+        # TDL errors
+        patterns_tdl = [
+            r'TDL5: Startup error.+$',
+            r'Failed to get license for NLME',
+            r'^Error:.+$',
+        ]
+
+        text = _read_file('log.txt', run.run_dir)
+
+        err = _find_errors(text, patterns_tdl)
+
+        if err != '':
+            return err, ''
+
+        warning = _find_errors(text, [r'^Warning:.+$'])
+
+        stderr = _read_file('err2.txt', run.run_dir)
+        stdout = _read_file('err1.txt', run.run_dir)
+        engine_log = _read_file('nlme7engine.log', run.run_dir)
+
+        patterns1 = [
+            r'Fatal error:.+$',
+            r'^error in boundmap$',
+            r'^error in boundmapinv$',
+            r'^Initial parameter values result in -LL = NaN$',
+            r'^Out of range Optimal objective value.+$'
+            r'Error: etablups called.+$'
+            r'^illegal parameter settings in call to estblups$',
+            r'^Numerical LL integration produced bad.+$'
+            r'^MAXACTem needs to be reset as large as npoint$',
+            r'^MAXSUBem needs to be reset as large as nsub$',
+            r'^primaldual failure:.+$',
+            r'^psi matrix not non-negative',
+            r'^psi has a zero \w+',
+            r'^Out ofrange pseudoLL.+$',
+        ]
+
+        # the first two are always followed by Fortran Exception, the last one happens on its own
+        patterns2 = [
+            r'Fatal error:.+$',
+            r'^Execution failed due to integration error.$',
+            r'^Model not suitable for QRPEM analysis$'
+        ]
+
+        patterns7 = [
+            r'Fatal error:.+$'
+        ]
+
+        # check NLME stderr first
+        err = _find_error(stderr, patterns2)
+
+        if err != '':
+            return warning, err
+
+        err = re.search(r'Error: Model Exception: (.+)$', stderr, flags=re.RegexFlag.MULTILINE)
+
+        if err is not None:
+            err = err.group(1).strip()
+
+            if err == 'Fortran Exception':
+                err = _find_error(stdout, patterns1) or _find_error(engine_log, patterns7) or err
+
+            return warning, err
+
+        elif stderr != '':
+            return warning, f"Unidentified error in err2.txt for model run {run.generation}, {run.model_num}"
+
+        err = _find_error(engine_log, [r'^Model not suitable for QRPEM analysis$'])
+
+        return warning, err
 
     @staticmethod
     def make_control(template: Template, model_code: ModelCode):
@@ -128,8 +196,8 @@ class NLMEEngineAdapter(ModelEngineAdapter):
                 file_to_delete.pop(f'{file_stem}.mmdl', None)
                 file_to_delete.pop(f'{file_stem}_out.txt', None)
 
-                for file in ['test.mdl', 'dmp.txt', 'omega.csv', 'omega_stderr.csv', 'out.txt', 'theta.csv',
-                             'residuals.csv', 'ConvergenceData.csv', 'nlme7engine.log']:
+                for file in ['test.mdl', 'log.txt', 'dmp.txt', 'omega.csv', 'omega_stderr.csv', 'out.txt', 'theta.csv',
+                             'residuals.csv', 'ConvergenceData.csv', 'nlme7engine.log', 'err1.txt', 'err2.txt']:
                     file_to_delete.pop(file, None)
 
                 for f in file_to_delete:
@@ -179,7 +247,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def read_results(run: ModelRun) -> bool:
-        success = covariance = correlation = False
+        correlation = False
         ofv = condition_num = options.crash_value
 
         res = run.result
@@ -367,6 +435,48 @@ def _get_run_command(run: ModelRun) -> list:
 
     return [f"{nlme_dir}/execNLMECmd.sh", 'COMPILE_AND_RUN', 'test.mdl', run.run_dir,
             'MPINO', 'YES', '1', '', '', '', '@nlmeargs.txt', '', f"_{run.generation}_{run.model_num}"]
+
+
+def _read_file(file: str, run_dir: str) -> str:
+    log_file = os.path.join(run_dir, file)
+
+    if not os.path.exists(log_file):
+        return ''
+
+    with open(log_file) as file:
+        return file.read()
+
+
+def _find_error(text: str, patterns: list) -> str:
+    for p in patterns:
+        err = re.search(p, text, flags=re.RegexFlag.MULTILINE)
+
+        if err is not None:
+            err = err.group(0).strip()
+            return str(err)
+
+    return ''
+
+
+def _find_errors(text: str, patterns: list) -> str:
+    res = ''
+    count = 0
+
+    for p in patterns:
+        matches = re.findall(p, text, flags=re.RegexFlag.MULTILINE)
+
+        if not matches:
+            continue
+
+        if res == '':
+            res = matches[0]
+
+        count += len(matches)
+
+    if count != 0:
+        res += f" (+{count-1} more)"
+
+    return res
 
 
 def register():

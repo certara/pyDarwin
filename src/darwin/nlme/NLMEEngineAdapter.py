@@ -197,7 +197,8 @@ class NLMEEngineAdapter(ModelEngineAdapter):
                 file_to_delete.pop(f'{file_stem}_out.txt', None)
 
                 for file in ['test.mdl', 'log.txt', 'dmp.txt', 'omega.csv', 'omega_stderr.csv', 'out.txt', 'theta.csv',
-                             'residuals.csv', 'ConvergenceData.csv', 'nlme7engine.log', 'err1.txt', 'err2.txt']:
+                             'residuals.csv', 'ConvergenceData.csv', 'nlme7engine.log', 'err1.txt', 'err2.txt',
+                             'TDL5Warnings.log', 'integration_errors.txt', 'fort.27']:
                     file_to_delete.pop(file, None)
 
                 for f in file_to_delete:

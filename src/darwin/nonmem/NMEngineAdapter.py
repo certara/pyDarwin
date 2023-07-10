@@ -156,13 +156,8 @@ class NMEngineAdapter(ModelEngineAdapter):
             else:
                 submatrices = np.ones(10)  # if no search, max is permitted, then unlimited size of omega matrices
 
-            if hasattr(options, 'random_seed'):
-                seed = options.random_seed
-            else:
-                seed = 1
-
             # need to know where the band width is specified, rest is omega submatrices
-            control = set_omega_bands(control, bandwidth, submatrices, seed)
+            control = set_omega_bands(control, bandwidth, submatrices)
 
         return phenotype, control, non_influential_token_num
 
@@ -461,7 +456,7 @@ class NMEngineAdapter(ModelEngineAdapter):
         omega_starts = [idx for idx, element in enumerate(lines) if re.search(r'^\$OMEGA', element)]
 
         if not omega_starts:
-            return False, f"No omega blocks."
+            return False, 'No omega blocks.'
 
         for this_start in omega_starts:
             # if FIX (fix) do not add off diagonals
@@ -482,7 +477,7 @@ class NMEngineAdapter(ModelEngineAdapter):
                 if match is not None:
                     return False, f"{match.group(1)} omega structure is not compatible with omega search."
 
-        return True, ""
+        return True, ''
 
 
 def _file_to_lines(file_name: str):

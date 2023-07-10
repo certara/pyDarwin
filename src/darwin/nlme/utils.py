@@ -1,7 +1,5 @@
 import re
 
-from darwin.Log import log
-
 info_blocks = ['Author:', 'Description:', 'Based on:', 'AUTHOR:', 'DESCRIPTION:', 'BASED ON:']
 one_line_blocks = ['DATA', 'DATA1', 'DATA2', 'MAP', 'MAP1', 'MAP2']
 multiline_blocks = ['COLDEF', 'MODEL', 'TABLES', 'ESTARGS', 'DOSING CYCLE']
@@ -57,7 +55,8 @@ def extract_bracketed(text: str) -> str:
 
 
 def extract_data(name: str, text: str) -> list:
-    matches = re.findall(f"\\b{name}\\b(.+?)(?=\\b{name}\\b|\\Z)", text, flags=re.RegexFlag.MULTILINE | re.RegexFlag.DOTALL)
+    matches = re.findall(f"\\b{name}\\b(.+?)(?=\\b{name}\\b|\\Z)", text,
+                         flags=re.RegexFlag.MULTILINE | re.RegexFlag.DOTALL)
 
     data = []
 
@@ -132,11 +131,8 @@ def extract_ranefs(ranefs: list) -> tuple:
                 bt = t == 'block'
                 block = []
 
-                i = 1
-
-                for o in omegas:
+                for i in range(1, len(omegas)):
                     block.append([fix] * i if bt else [fix])
-                    i += 1
 
                 blocks.append(block)
 

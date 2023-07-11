@@ -148,8 +148,8 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         # add band OMEGA
         if options.search_omega_bands:
-            # bandwidth must be last gene
-            bandwidth = model_code.IntCode[template.omega_band_pos]
+            # band width must be last gene
+            band_width = model_code.IntCode[template.omega_band_pos]
 
             if options.search_omega_sub_matrix:
                 submatrices = model_code.IntCode[(template.omega_band_pos + 1):]
@@ -157,7 +157,7 @@ class NMEngineAdapter(ModelEngineAdapter):
                 submatrices = np.ones(10)  # if no search, max is permitted, then unlimited size of omega matrices
 
             # need to know where the band width is specified, rest is omega submatrices
-            control = set_omega_bands(control, bandwidth, submatrices)
+            control = set_omega_bands(control, band_width, submatrices)
 
         return phenotype, control, non_influential_token_num
 

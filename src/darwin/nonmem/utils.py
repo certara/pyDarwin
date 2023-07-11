@@ -201,12 +201,12 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str:
 
         bands = get_bands(diag_block, band_width, omega_band_pos)
 
-        for band, omega_size in bands:
+        for band, block_size in bands:
             # and add $OMEGA to start
-            if omega_size == 1 or band_width == 0:
+            if block_size == 0 or band_width == 0:
                 final_control += "\n" + "$OMEGA  ;; block omega searched for bands\n"
             else:
-                final_control += "\n" + "$OMEGA BLOCK(" + str(omega_size) + ") ;; block omega searched for bands\n"
+                final_control += "\n" + "$OMEGA BLOCK(" + str(block_size) + ") ;; block omega searched for bands\n"
 
             this_rec = 0
 
@@ -221,43 +221,47 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str:
 def get_bands(diag_block: list, band_width: int, omega_band_pos: list) -> list:
     res = []
 
-    omega_band_pos_orig = omega_band_pos
+    bands = omega_band_pos.copy()
 
     seed = options.get('random_seed', None)
+    any_band = band_width > 0 and any(bands)
 
-    while len(diag_block) > 0:  # any left?
-        current_omega_block = [diag_block[0]]  # start with first
-        diag_block = diag_block[1:]  # save the remaining lines
+    bands.extend([0] * (len(diag_block) - len(bands)))
 
-        omega_size = 1  # how big  is current $OMEGA?
+    for i in range(len(bands) - 1):
+        if bands[i] == 1 and bands[i + 1] == 0:
+            bands[i + 1] = 2
 
-        if len(omega_band_pos) > 0:
-            include_next = omega_band_pos[0]  # is next record in omega block to be continuous?
+    block = [[], []]
+    last_band = bands[0]
+
+    omega_size = 0  # current omega block size
+
+    def add_res():
+        if any_band and last_band:
+            init_off_diags = find_band(omega_size, band_width, block[last_band], seed)
         else:
-            include_next = 0  # reached max block size
-
-        if len(omega_band_pos) > 0:
-            omega_band_pos = omega_band_pos[1:]
-
-        while include_next and (len(diag_block) > 0):
-            current_omega_block.append(diag_block[0])
-            diag_block = diag_block[1:]
-
-            omega_size += 1
-
-            if len(omega_band_pos) > 0:
-                include_next = omega_band_pos[0]
-                omega_band_pos = omega_band_pos[1:]
-            else:
-                include_next = False
-
-        if band_width > 0 and any(omega_band_pos_orig):
-            init_off_diags = find_band(omega_size, band_width, current_omega_block, seed)
-        else:
-            # diagonals for $OMEGA done, add bands to current_omega_block
-            init_off_diags = [[i] for i in current_omega_block]
+            init_off_diags = [[j] for j in block[last_band]]
 
         res.append((init_off_diags, omega_size))
+
+    for omega, band in zip(diag_block, bands):
+        idx = band if band < 2 else 1
+        block[idx].append(omega)
+
+        if band != last_band and band != 2:
+            add_res()
+
+            block[last_band] = []
+            omega_size = 0
+
+        if band:
+            omega_size += 1
+
+        last_band = idx
+
+    if len(block[last_band]):
+        add_res()
 
     return res
 

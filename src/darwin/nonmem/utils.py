@@ -139,7 +139,7 @@ def _get_omega_block(start: list) -> np.array:
     return block
 
 
-def set_omega_bands(control: str, band_width: int, omega_band_pos) -> str:
+def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str:
     """
     Removes ALL existing omega blocks from control, then inserts a series of $OMEGAs. These will be unchanged
     if the source is BLOCK or DIAG. If it is not specified BLOCK or DIAG (and so is by default DIAG), will convert
@@ -231,7 +231,7 @@ def get_bands(diag_block: list, band_width: int, omega_band_pos: list) -> list:
 
         omega_size = 1  # how big  is current $OMEGA?
 
-        if len(omega_band_pos) > 0 and omega_band_pos[0] != -99:
+        if len(omega_band_pos) > 0:
             include_next = omega_band_pos[0]  # is next record in omega block to be continuous?
         else:
             include_next = 0  # reached max block size
@@ -251,7 +251,7 @@ def get_bands(diag_block: list, band_width: int, omega_band_pos: list) -> list:
             else:
                 include_next = False
 
-        if band_width > 0 and any(omega_band_pos_orig) and omega_band_pos_orig[0] != -99:
+        if band_width > 0 and any(omega_band_pos_orig):
             init_off_diags = find_band(omega_size, band_width, current_omega_block, seed)
         else:
             # diagonals for $OMEGA done, add bands to current_omega_block

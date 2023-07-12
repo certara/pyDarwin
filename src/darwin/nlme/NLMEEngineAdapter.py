@@ -3,6 +3,7 @@ import platform
 import re
 import glob
 import math
+import numpy as np
 
 from collections import OrderedDict
 
@@ -16,6 +17,7 @@ from darwin.options import options
 
 from darwin.Template import Template
 from darwin.ModelCode import ModelCode
+from darwin.omega_search import apply_omega_bands, get_bands
 
 from .utils import extract_multiline_block, get_comment_re, extract_data, extract_lhs, extract_rhs_array, extract_ranefs
 
@@ -171,6 +173,10 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         control = re.sub(r'^[^\S\r\n]*', '  ', control, flags=re.RegexFlag.MULTILINE)
         control = re.sub(r'^ {2}(?=##|$)', '', control, flags=re.RegexFlag.MULTILINE)
 
+        control = apply_omega_bands(control, model_code, template.omega_band_pos, _set_omega_bands)
+
+        control = re.sub(r'\branef:search_band\b', 'ranef', control, flags=re.MULTILINE)
+
         control += "\n## Phenotype: " + str(phenotype) + "\n## Genotype: " + model_code_str \
                    + "\n## Num non-influential tokens: " + str(non_influential_token_num)
 
@@ -323,16 +329,10 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         with open(path, "r") as file:
             model_text = file.read()
 
-        model_text = re.sub(get_comment_re(), '', model_text, flags=re.RegexFlag.MULTILINE)
+        mdl = _get_mdl(model_text)
 
-        mdl = extract_multiline_block(model_text, 'MODEL')
-
-        match = re.search(r'^\s*\w+\s*\(.*?\)\s*\{(.+)}', mdl, flags=re.RegexFlag.MULTILINE | re.RegexFlag.DOTALL)
-
-        if match is None:
+        if mdl == '':
             return False
-
-        mdl = remove_comments(match.group(1).strip())
 
         fixef = extract_data('fixef', mdl)
         ranef = extract_data('ranef', mdl)
@@ -343,7 +343,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         th_low = [x[0] for x in th_val]
         th_up = [x[2] for x in th_val]
 
-        (om_descr, om_same, om_fix, om_block_struct_fix) = extract_ranefs(ranef)
+        (om_descr, om_same, om_block, om_fix) = extract_ranefs(ranef)
 
         (si_descr, si_fix) = extract_lhs(error)
 
@@ -380,11 +380,9 @@ class NLMEEngineAdapter(ModelEngineAdapter):
     def can_omega_search(template_text: str) -> tuple:
         """
         Tell if it's possible to perform omega search with current template
-
-        If submatrices are already defined with any BLOCK or DIAG, can't do omega_search
         """
 
-        return False, 'Not now.'
+        return True, 'Always'
 
 
 def _get_non_inf_tokens(tokens: dict, phenotype: OrderedDict):
@@ -478,6 +476,77 @@ def _find_errors(text: str, patterns: list) -> str:
         res += f" (+{count-1} more)"
 
     return res
+
+
+def _get_mdl(model_text: str) -> str:
+    model_text = re.sub(get_comment_re(), '', model_text, flags=re.RegexFlag.MULTILINE)
+
+    mdl = extract_multiline_block(model_text, 'MODEL')
+
+    match = re.search(r'^\s*\w+\s*\(.*?\)\s*\{(.+)}', mdl, flags=re.RegexFlag.MULTILINE | re.RegexFlag.DOTALL)
+
+    if match is None:
+        return ''
+
+    mdl = remove_comments(match.group(1).strip())
+
+    return mdl
+
+
+def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str:
+    mdl = _get_mdl(control)
+
+    ranefs = extract_data('ranef:search_band', mdl)
+
+    if len(ranefs) == 0:
+        return control
+
+    for ranef in ranefs:
+        (om_descr, om_same, om_block, om_fix) = extract_ranefs([ranef])
+
+        if any(om_same) or any(om_block) or any(om_fix):
+            continue
+
+        om_val = extract_rhs_array([ranef])
+        om_val = [float(item) for sublist in om_val for item in sublist]
+
+        bands = get_bands(om_val, band_width, omega_band_pos)
+
+        if not any([b[1] for b in bands]):
+            # no block ranefs
+            print('nope')
+            continue
+
+        omega_rep = []
+
+        for band, block_size in bands:
+            if block_size == 0 or band_width == 0:
+                omega_text = 'diag'
+            else:
+                omega_text = 'block'
+
+            this_rec = 0
+
+            rows = []
+
+            for i in band:
+                rows.append(", ".join(map(str, np.around(i[:(this_rec + 1)], 7))))
+                this_rec += 1
+
+            names = ', '.join(om_descr[:len(band)])
+            vals = ', '.join(rows)
+
+            omega_text += f"({names}) = c({vals})"
+
+            print(omega_text)
+
+            omega_rep.append(omega_text)
+
+            om_descr = om_descr[len(band):]
+
+        control = control.replace(ranef, ', '.join(omega_rep))
+
+    return control
 
 
 def register():

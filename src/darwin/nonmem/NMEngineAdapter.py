@@ -17,8 +17,9 @@ from darwin.options import options
 
 from darwin.Template import Template
 from darwin.ModelCode import ModelCode
+from darwin.omega_search import apply_omega_bands, get_bands
 
-from .utils import set_omega_bands, match_vars, remove_comments
+from .utils import match_vars, remove_comments, get_omega_block
 
 
 class NMEngineAdapter(ModelEngineAdapter):
@@ -143,21 +144,10 @@ class NMEngineAdapter(ModelEngineAdapter):
         control = re.sub(r'^[^\S\r\n]*', '  ', control, flags=re.RegexFlag.MULTILINE)
         control = re.sub(r'^ {2}(?=\$|$)', '', control, flags=re.RegexFlag.MULTILINE)
 
+        control = apply_omega_bands(control, model_code, template.omega_band_pos, set_omega_bands)
+
         control += "\n;; Phenotype \n;; " + str(phenotype) + "\n;; Genotype \n;; " + model_code_str \
                    + "\n;; Num non-influential tokens = " + str(non_influential_token_num)
-
-        # add band OMEGA
-        if options.search_omega_bands:
-            # band width must be last gene
-            band_width = model_code.IntCode[template.omega_band_pos]
-
-            if options.search_omega_sub_matrix:
-                submatrices = model_code.IntCode[(template.omega_band_pos + 1):]
-            else:
-                submatrices = np.ones(10)  # if no search, max is permitted, then unlimited size of omega matrices
-
-            # need to know where the band width is specified, rest is omega submatrices
-            control = set_omega_bands(control, band_width, submatrices)
 
         return phenotype, control, non_influential_token_num
 
@@ -616,6 +606,85 @@ def _check_for_multiple_probs(template_text: str):
     if len(prob_lines) > 1:
         log.error(f"Search Omega bands is not supported with multiple $PROBs, exiting")
         sys.exit()
+
+
+def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str:
+    """
+    Removes ALL existing omega blocks from control, then inserts a series of $OMEGAs. These will be unchanged
+    if the source is BLOCK or DIAG. If it is not specified BLOCK or DIAG (and so is by default DIAG), will convert
+    to BLOCK with the number of bands specified in the model code.
+    Will then split up the OMEGA matrix into sub matrices (individual $OMEGA block) based on omega_band_pos
+
+    :param control: existing control file
+    :type control: str
+
+    :param band_width: require band width
+    :type band_width: int
+
+    :param omega_band_pos: require array of 0|1 whether to continue the omega block into the next one
+    :type omega_band_pos: ndarray
+
+    :return: modified control file
+    :rtype: str
+    """
+    # cut out all $OMEGA block, just put all at th end
+
+    control_list = control.splitlines()
+    lines = control_list
+    omega_starts = [idx for idx, element in enumerate(lines) if re.search(r"^\$OMEGA", element)]
+    omega_ends = []
+    omega_blocks = []
+    temp_final_control = []
+    not_omega_start = 0
+
+    for this_start in omega_starts:
+        # if FIX (fix) do not add off diagonals
+        rest_of_text = lines[this_start:]
+        next_block_start = [idx for idx, element in enumerate(rest_of_text[1:]) if re.search(r"^\$", element)]
+
+        if next_block_start is None:
+            next_block_start = len(rest_of_text)
+        else:
+            next_block_start = next_block_start[0]
+
+        this_omega_ends = next_block_start + this_start + 1
+        omega_ends.append(this_omega_ends)
+        omega_blocks.append(lines[this_start:this_omega_ends])
+        temp_final_control.extend(lines[not_omega_start:this_start])
+        not_omega_start = this_omega_ends
+    # and the last one
+    # get next block after $OMEGA
+
+    temp_final_control.extend(lines[not_omega_start:])
+
+    final_control = "\n".join(temp_final_control)
+
+    for start in omega_blocks:
+        # TODO: what if no ; search_band? or only some with search Omega band??
+
+        if re.search(r".*;.*search.*band", start[0], re.IGNORECASE) is None:  # $OMEGA should be first line
+            final_control += "\n" + '\n'.join(str(x) for x in start)
+            continue
+
+        diag_block = get_omega_block(start)
+
+        bands = get_bands(diag_block, band_width, omega_band_pos)
+
+        for band, block_size in bands:
+            # and add $OMEGA to start
+            if block_size == 0 or band_width == 0:
+                final_control += "\n" + "$OMEGA  ;; block omega searched for bands\n"
+            else:
+                final_control += "\n" + "$OMEGA BLOCK(" + str(block_size) + ") ;; block omega searched for bands\n"
+
+            this_rec = 0
+
+            for i in band:
+                final_control += " ".join(map(str, np.around(i[:(this_rec + 1)], 7))) + " \n"
+
+                this_rec += 1
+
+    return final_control
 
 
 def register():

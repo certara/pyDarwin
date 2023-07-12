@@ -1,10 +1,7 @@
 import re
-import math
 import numpy as np
-from darwin.utils import get_token_parts, replace_tokens
 
-from darwin.Log import log
-from darwin.options import options
+from darwin.utils import get_token_parts, replace_tokens
 
 _var_regex = {}
 
@@ -121,7 +118,7 @@ def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, v
     return var_matches
 
 
-def _get_omega_block(start: list) -> np.array:
+def get_omega_block(start: list) -> np.array:
     # remove comments, each value in $OMEGA needs to be new line
     block = remove_comments(start).splitlines()
     block = block[1:]  # first line must be only $OMEGA + comments
@@ -137,182 +134,6 @@ def _get_omega_block(start: list) -> np.array:
     block = np.around(block, decimals=7, out=None)  # just the diagonal
 
     return block
-
-
-def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str:
-    """
-    Removes ALL existing omega blocks from control, then inserts a series of $OMEGAs. These will be unchanged
-    if the source is BLOCK or DIAG. If it is not specified BLOCK or DIAG (and so is by default DIAG), will convert
-    to BLOCK with the number of bands specified in the model code.
-    Will then split up the OMEGA matrix into sub matrices (individual $OMEGA block) based on omega_band_pos
-
-    :param control: existing control file
-    :type control: str
-
-    :param band_width: require band width
-    :type band_width: int
-
-    :param omega_band_pos: require array of 0|1 whether to continue the omega block into the next one
-    :type omega_band_pos: ndarray
-
-    :return: modified control file
-    :rtype: str
-    """
-    # cut out all $OMEGA block, just put all at th end
-
-    control_list = control.splitlines()
-    lines = control_list
-    omega_starts = [idx for idx, element in enumerate(lines) if re.search(r"^\$OMEGA", element)]
-    omega_ends = []
-    omega_blocks = []
-    temp_final_control = []
-    not_omega_start = 0
-
-    for this_start in omega_starts:
-        # if FIX (fix) do not add off diagonals
-        rest_of_text = lines[this_start:]
-        next_block_start = [idx for idx, element in enumerate(rest_of_text[1:]) if re.search(r"^\$", element)]
-
-        if next_block_start is None:
-            next_block_start = len(rest_of_text)
-        else:
-            next_block_start = next_block_start[0]
-
-        this_omega_ends = next_block_start + this_start + 1
-        omega_ends.append(this_omega_ends)
-        omega_blocks.append(lines[this_start:this_omega_ends])
-        temp_final_control.extend(lines[not_omega_start:this_start])
-        not_omega_start = this_omega_ends
-    # and the last one
-    # get next block after $OMEGA
-
-    temp_final_control.extend(lines[not_omega_start:])
-
-    final_control = "\n".join(temp_final_control)
-
-    for start in omega_blocks:
-        # TODO: what if no ; search_band? or only some with search Omega band??
-
-        if re.search(r".*;.*search.*band", start[0], re.IGNORECASE) is None:  # $OMEGA should be first line
-            final_control += "\n" + '\n'.join(str(x) for x in start)
-            continue
-
-        diag_block = _get_omega_block(start)
-
-        bands = get_bands(diag_block, band_width, omega_band_pos)
-
-        for band, block_size in bands:
-            # and add $OMEGA to start
-            if block_size == 0 or band_width == 0:
-                final_control += "\n" + "$OMEGA  ;; block omega searched for bands\n"
-            else:
-                final_control += "\n" + "$OMEGA BLOCK(" + str(block_size) + ") ;; block omega searched for bands\n"
-
-            this_rec = 0
-
-            for i in band:
-                final_control += " ".join(map(str, np.around(i[:(this_rec + 1)], 7))) + " \n"
-
-                this_rec += 1
-
-    return final_control
-
-
-def get_bands(diag_block: list, band_width: int, omega_band_pos: list) -> list:
-    res = []
-
-    bands = omega_band_pos.copy()
-
-    seed = options.get('random_seed', None)
-    any_band = band_width > 0 and any(bands)
-
-    bands.extend([0] * (len(diag_block) - len(bands)))
-
-    for i in range(len(bands) - 1):
-        if bands[i] == 1 and bands[i + 1] == 0:
-            bands[i + 1] = 2
-
-    block = [[], []]
-    last_band = bands[0]
-
-    omega_size = 0  # current omega block size
-
-    def add_res():
-        if any_band and last_band:
-            init_off_diags = find_band(omega_size, band_width, block[last_band], seed)
-        else:
-            init_off_diags = [[j] for j in block[last_band]]
-
-        res.append((init_off_diags, omega_size))
-
-    for omega, band in zip(diag_block, bands):
-        idx = band if band < 2 else 1
-        block[idx].append(omega)
-
-        if band != last_band and band != 2:
-            add_res()
-
-            block[last_band] = []
-            omega_size = 0
-
-        if band:
-            omega_size += 1
-
-        last_band = idx
-
-    if len(block[last_band]):
-        add_res()
-
-    return res
-
-
-def find_band(omega_size: int, band_width: int, current_omega_block: list, seed):
-    factor = 1.0
-    count = 0
-
-    init_off_diags = np.ones([omega_size, omega_size])
-
-    is_pos_def = False
-
-    while not is_pos_def:
-        factor *= 0.5
-
-        if seed is not None:
-            np.random.seed(seed)
-
-        for this_row in range(omega_size):
-            row_diag = math.sqrt(current_omega_block[this_row])
-            init_off_diags[this_row, this_row] = current_omega_block[this_row]
-
-            for this_col in range(this_row):
-                col_diag = math.sqrt(current_omega_block[this_col])
-
-                # for off diagonals, pick a random number between +/- val
-                val = factor * row_diag * col_diag
-                val = np.random.uniform(-val, val)
-
-                # minimum abs value of 0.0000001, 0.0 will give error in NONMEM
-                val = np.size(val) * (max(abs(val), 0.0000001))  # keep sign, but abs(val) >=0.0000001
-
-                # give nmtran error
-                init_off_diags[this_row, this_col] = init_off_diags[this_col, this_row] = val
-
-        # set any bands > bandwidth to 0
-        for this_band_row in range((band_width + 1), omega_size):  # start in row after bandwidth
-            for this_band_col in range(0, (this_band_row - band_width)):
-                init_off_diags[this_band_col, this_band_row] = \
-                    init_off_diags[this_band_row, this_band_col] = 0
-
-        is_pos_def = np.all(np.linalg.eigvals(init_off_diags) > 0)  # matrix must be symmetrical
-
-        count += 1
-
-        if count > 50:
-            log.error("Cannot find positive definite Omega matrix, consider not using search_omega \
-            or increasing diagonal element initial estimates")
-            break
-
-    return init_off_diags
 
 
 def remove_comments(code, comment_mark=';') -> str:

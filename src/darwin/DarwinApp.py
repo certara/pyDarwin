@@ -182,8 +182,10 @@ class DarwinApp:
             log.error(f"Algorithm {algorithm} is not available")
             sys.exit()
 
-        final_control_file = os.path.join(options.output_dir, "FinalControlFile.mod")
-        final_result_file = os.path.join(options.output_dir, "FinalResultFile.lst")
+        final_control_file, final_result_file = adapter.get_final_file_names()
+
+        final_control_file = os.path.join(options.output_dir, final_control_file)
+        final_result_file = os.path.join(options.output_dir, final_result_file)
 
         if write_best_model_files(final_control_file, final_result_file):
             log.message(f"Final output from best model is in {final_result_file}")

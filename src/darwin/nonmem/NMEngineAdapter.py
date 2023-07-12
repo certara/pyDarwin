@@ -205,6 +205,10 @@ class NMEngineAdapter(ModelEngineAdapter):
         return stem + ".mod", stem + ".lst", stem + ".exe"
 
     @staticmethod
+    def get_final_file_names():
+        return 'FinalControlFile.mod', 'FinalResultFile.lst'
+
+    @staticmethod
     def read_data_file_name(control_file_name: str) -> list:
         datalines = []
 

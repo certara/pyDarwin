@@ -82,7 +82,13 @@ class ModelEngineAdapter(ABC):
 
     @staticmethod
     @abstractmethod
-    def get_file_names(stem: str):
+    def get_file_names(stem: str) -> tuple:
+
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def get_final_file_names() -> tuple:
 
         pass
 

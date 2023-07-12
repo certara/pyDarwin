@@ -240,6 +240,10 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         return stem + ".mmdl", stem + "_out.txt", stem + ".exe"
 
     @staticmethod
+    def get_final_file_names():
+        return 'FinalControlFile.mmdl', 'FinalResultFile.txt'
+
+    @staticmethod
     def read_data_file_name(control_file_name: str) -> list:
         datalines = []
 
@@ -514,7 +518,6 @@ def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str
 
         if not any([b[1] for b in bands]):
             # no block ranefs
-            print('nope')
             continue
 
         omega_rep = []
@@ -537,8 +540,6 @@ def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str
             vals = ', '.join(rows)
 
             omega_text += f"({names}) = c({vals})"
-
-            print(omega_text)
 
             omega_rep.append(omega_text)
 

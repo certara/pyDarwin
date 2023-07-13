@@ -294,8 +294,6 @@ class ModelRun:
 
         commands = self._adapter.get_model_run_commands(self)
 
-        GlobalVars.UniqueModels += 1
-
         run_process = None
 
         try:
@@ -308,6 +306,7 @@ class ModelRun:
                 run_process.communicate(timeout=command['timeout'])
 
             self.status = "Finished model run"
+
         except TimeoutExpired:
             log.error(f'run {self.model_num} has timed out')
             utils.terminate_process(run_process.pid)
@@ -316,8 +315,12 @@ class ModelRun:
             self._get_error_messages()
 
             return
+
         except Exception as e:
             log.error(str(e))
+
+        finally:
+            GlobalVars.UniqueModels += 1
 
         if run_process is None or run_process.returncode != 0:
             if interrupted():

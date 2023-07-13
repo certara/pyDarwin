@@ -1,4 +1,4 @@
-from copy import copy
+from copy import copy, deepcopy
 
 import darwin.utils as utils
 
@@ -68,25 +68,38 @@ class Population:
         model = self.adapter.create_new_model(self.template, code)
 
         genotype = str(model.genotype())
+        phenotype = model.phenotype
 
         self.model_number += 1
 
-        run = self.model_cache.find_model_run(genotype)
-        existing_runs = list(filter(lambda r: str(r.model.genotype()) == genotype, self.runs))
+        run = self.model_cache.find_model_run(genotype=genotype) \
+            or self.model_cache.find_model_run(phenotype=phenotype)
+
+        existing_runs = list(filter(lambda r: str(r.model.genotype()) == genotype, self.runs)) \
+            + list(filter(lambda r: r.model.phenotype == phenotype, self.runs))
 
         if existing_runs:
             run = copy(existing_runs[0])
             run.model_num = self.model_number
             run.file_stem += f'_{run.model_num}'
             run.reference_model_num = existing_runs[0].model_num
-            run.status = f'Duplicate({run.reference_model_num})'
+            clone = 'Clone' if existing_runs[0].model.genotype() == genotype else 'Twin'
+            run.status = f'{clone}({run.reference_model_num})'
         elif run:
             if run.generation != self.name or run.model_num != self.model_number:
                 run.result.messages = str(run.result.messages)
                 run.result.ref_run = run.file_stem
 
+            if run.status != 'Restored':
+                run.status = f"Cache({run.generation}-{run.model_num})"
+
             run.model_num = self.model_number
             run.generation = self.name
+
+            if not run.status.startswith('Cache('):
+                run1 = deepcopy(run)
+                run1.status = 'not restored'
+                self.model_cache.store_model_run(run1)
         else:
             run = ModelRun(model, self.num_format.format(self.model_number), self.name, self.adapter)
 

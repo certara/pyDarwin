@@ -173,11 +173,15 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         control = re.sub(r'^[^\S\r\n]*', '  ', control, flags=re.RegexFlag.MULTILINE)
         control = re.sub(r'^ {2}(?=##|$)', '', control, flags=re.RegexFlag.MULTILINE)
 
-        control = apply_omega_bands(control, model_code, template.omega_band_pos, _set_omega_bands)
+        control, bands = apply_omega_bands(control, model_code, template.omega_band_pos, _set_omega_bands)
 
         control = re.sub(r'\branef:search_band\b', 'ranef', control, flags=re.MULTILINE)
 
-        control += "\n## Phenotype: " + str(phenotype) + "\n## Genotype: " + model_code_str \
+        phenotype = str(phenotype)
+        phenotype = phenotype.replace('OrderedDict', '')
+        phenotype += bands
+
+        control += "\n## Phenotype: " + phenotype + "\n## Genotype: " + model_code_str \
                    + "\n## Num non-influential tokens: " + str(non_influential_token_num)
 
         return phenotype, control, non_influential_token_num
@@ -497,13 +501,12 @@ def _get_mdl(model_text: str) -> str:
     return mdl
 
 
-def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str:
+def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tuple:
     mdl = _get_mdl(control)
 
     ranefs = extract_data('ranef:search_band', mdl)
 
-    if len(ranefs) == 0:
-        return control
+    band_arr = []
 
     for ranef in ranefs:
         (om_descr, om_same, om_block, om_fix) = extract_ranefs([ranef])
@@ -523,7 +526,7 @@ def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str
         omega_rep = []
 
         for band, block_size in bands:
-            if block_size == 0 or band_width == 0:
+            if block_size == 0:
                 omega_text = 'diag'
             else:
                 omega_text = 'block'
@@ -539,7 +542,12 @@ def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str
             names = ', '.join(om_descr[:len(band)])
             vals = ', '.join(rows)
 
-            omega_text += f"({names}) = c({vals})"
+            names = f"({names})"
+
+            if omega_text == 'block':
+                band_arr.append(names)
+
+            omega_text += f"{names} = c({vals})"
 
             omega_rep.append(omega_text)
 
@@ -547,7 +555,7 @@ def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str
 
         control = control.replace(ranef, ', '.join(omega_rep))
 
-    return control
+    return control, band_arr
 
 
 def register():

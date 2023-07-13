@@ -78,6 +78,9 @@ class PipelineRunManager(ModelRunManager):
         res = run.result
         model = run.model
 
+        if run.status == 'Restored':
+            GlobalVars.UniqueModels += 1
+
         if this_one_is_better:
             _copy_to_best(run)
 
@@ -99,13 +102,17 @@ class PipelineRunManager(ModelRunManager):
                               f"{model.omega_num},{model.sigma_num},{res.condition_num},{res.post_run_r_penalty},"
                               f"{res.post_run_python_penalty},{res.messages},{res.errors}\n")
 
-        fitness_crashed = res.fitness == options.crash_value
-        fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
+        if run.status.startswith('Twin(') or run.status.startswith('Clone(') or run.status.startswith('Cache('):
+            fitness_text = ''
+        else:
+            fitness_crashed = res.fitness == options.crash_value
+            fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
 
         status = run.status.rjust(14)
+
         log.message(
             f"{step_name} = {run.generation}, Model {run.model_num:5}, {status},"
-            f"    fitness = {fitness_text},    message = {message}{prd_err_text}"
+            f"    fitness = {fitness_text:>9},    message = {message}{prd_err_text}"
         )
 
         return run

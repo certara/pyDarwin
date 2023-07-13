@@ -144,10 +144,14 @@ class NMEngineAdapter(ModelEngineAdapter):
         control = re.sub(r'^[^\S\r\n]*', '  ', control, flags=re.RegexFlag.MULTILINE)
         control = re.sub(r'^ {2}(?=\$|$)', '', control, flags=re.RegexFlag.MULTILINE)
 
-        control = apply_omega_bands(control, model_code, template.omega_band_pos, set_omega_bands)
+        control, bands = apply_omega_bands(control, model_code, template.omega_band_pos, set_omega_bands)
 
-        control += "\n;; Phenotype \n;; " + str(phenotype) + "\n;; Genotype \n;; " + model_code_str \
-                   + "\n;; Num non-influential tokens = " + str(non_influential_token_num)
+        phenotype = str(phenotype)
+        phenotype = phenotype.replace('OrderedDict', '')
+        phenotype += bands
+
+        control += "\n;; Phenotype: " + phenotype + "\n;; Genotype: " + model_code_str \
+                   + "\n;; Num non-influential tokens: " + str(non_influential_token_num)
 
         return phenotype, control, non_influential_token_num
 
@@ -612,7 +616,7 @@ def _check_for_multiple_probs(template_text: str):
         sys.exit()
 
 
-def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str:
+def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tuple:
     """
     Removes ALL existing omega blocks from control, then inserts a series of $OMEGAs. These will be unchanged
     if the source is BLOCK or DIAG. If it is not specified BLOCK or DIAG (and so is by default DIAG), will convert
@@ -640,6 +644,7 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str:
     omega_blocks = []
     temp_final_control = []
     not_omega_start = 0
+    band_arr = []
 
     for this_start in omega_starts:
         # if FIX (fix) do not add off diagonals
@@ -674,13 +679,18 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str:
 
         bands = get_bands(diag_block, band_width, omega_band_pos)
 
+        band_start = 0
+
         for band, block_size in bands:
             # and add $OMEGA to start
-            if block_size == 0 or band_width == 0:
+            if block_size == 0:
                 final_control += "\n" + "$OMEGA  ;; block omega searched for bands\n"
             else:
                 final_control += "\n" + "$OMEGA BLOCK(" + str(block_size) + ") ;; block omega searched for bands\n"
 
+                band_arr.append(f"({band_start}, {len(band)})")
+
+            band_start += len(band)
             this_rec = 0
 
             for i in band:
@@ -688,7 +698,7 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> str:
 
                 this_rec += 1
 
-    return final_control
+    return final_control, band_arr
 
 
 def register():

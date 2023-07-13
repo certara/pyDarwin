@@ -5,7 +5,7 @@ from .ModelCode import ModelCode
 JSON_ATTRIBUTES = [
     'control', 'non_influential_token_num',
     'theta_num', 'omega_num', 'sigma_num',
-    'estimated_theta_num', 'estimated_omega_num', 'estimated_sigma_num'
+    'estimated_theta_num', 'estimated_omega_num', 'estimated_sigma_num', 'phenotype'
 ]
 
 

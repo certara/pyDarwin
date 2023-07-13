@@ -19,9 +19,9 @@ class ModelCache(ABC):
         pass
 
     @abstractmethod
-    def find_model_run(self, key: str) -> ModelRun:
+    def find_model_run(self, **kwargs) -> ModelRun:
         """
-        Find a run by genotype.
+        Find a run by parameters. Actual parameters depend on implementation.
         """
         pass
 

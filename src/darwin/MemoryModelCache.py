@@ -33,6 +33,7 @@ class MemoryModelCache(ModelCache):
     def __init__(self):
         self._lock_all_runs = threading.Lock()
         self.all_runs = OrderedDict()
+        self.phenotypes = {}
 
         default_models_file = os.path.join(options.working_dir, ALL_MODELS_FILE)
 
@@ -55,8 +56,17 @@ class MemoryModelCache(ModelCache):
 
             self.all_runs[genotype] = run
 
-    def find_model_run(self, genotype: str) -> ModelRun:
-        return deepcopy(self.all_runs.get(genotype))
+            if run.model.phenotype not in self.phenotypes:
+                self.phenotypes[run.model.phenotype] = run
+
+    def find_model_run(self, **kwargs) -> ModelRun:
+        if 'genotype' in kwargs:
+            return deepcopy(self.all_runs.get(kwargs['genotype']))
+
+        if 'phenotype' in kwargs:
+            return deepcopy(self.phenotypes.get(kwargs['phenotype']))
+
+        raise RuntimeError('Expected genotype or phenotype')
 
     def load(self):
         """
@@ -78,8 +88,19 @@ class MemoryModelCache(ModelCache):
                         for r in map(lambda src: ModelRun.from_dict(src), loaded_runs.values())
                     )
 
+                    phenotypes = {}
+
+                    for r in all_runs.values():
+                        r.status = 'Restored'
+
+                        if r.model.phenotype in phenotypes:
+                            continue
+
+                        phenotypes[r.model.phenotype] = r
+
                     with self._lock_all_runs:
                         self.all_runs = all_runs
+                        self.phenotypes = phenotypes
 
                     if not all_runs:
                         log.warn(f"'{models_list}' is empty")

@@ -102,10 +102,8 @@ def run_skopt(model_template: Template) -> ModelRun:
     """
     downhill_period = options.downhill_period
 
-    seed = options.get('random_seed', None)
-
-    if seed is not None:
-        np.random.seed(seed)
+    if options.random_seed is not None:
+        np.random.seed(options.random_seed)
 
     opts = _create_optimizer(model_template, options.algorithm, options.num_opt_chains)
 

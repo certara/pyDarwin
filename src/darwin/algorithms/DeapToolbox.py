@@ -28,10 +28,8 @@ class DeapToolbox:
         #                      from the range [0,1] (i.e. 0 or 1 with equal
         #                      probability)
 
-        seed = options.get('random_seed', None)
-
-        if seed is not None:
-            random.seed(seed)
+        if options.random_seed is not None:
+            random.seed(options.random_seed)
 
         toolbox.register("attr_bool", random.randint, 0, 1)
 

@@ -131,7 +131,7 @@ class Options:
         try:
             self.random_seed = int(opts.get('random_seed', 'none'))
         except ValueError:
-            pass
+            self.random_seed = None
 
         try:
             self.num_parallel = int(opts.get('num_parallel', 4))
@@ -243,6 +243,9 @@ class Options:
         if self.search_omega_bands and self.max_omega_band_width < 1:
             log.warn("max_omega_band_width must be at least 1, omitting omega band width search")
             self.search_omega_bands = False
+
+        if self.search_omega_bands and self.random_seed is None:
+            raise RuntimeError('random_seed is required for omega band search')
 
         if self.search_omega_bands:
             self.search_omega_sub_matrix = opts.get('search_omega_sub_matrix', False)

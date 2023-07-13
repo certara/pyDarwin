@@ -1,8 +1,11 @@
 import datetime
+import threading
 
 
 class Log:
     def __init__(self):
+        self._lock_all_runs = threading.Lock()
+
         self.file_path = None
         self.file = None
 
@@ -17,7 +20,8 @@ class Log:
     def message(self, message):
         message = datetime.datetime.now().strftime("[%H:%M:%S] ") + str(message)
 
-        print(message)
+        with self._lock_all_runs:
+            print(message)
 
         if self.file:
             self.file.write(message + "\n")

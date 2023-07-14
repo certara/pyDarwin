@@ -509,4 +509,4 @@ def run_pso(model_template: Template) -> ModelRun:
     cost, pos = runner.optimize(f)
     log.message(f"best fitness {str(cost)}, model {str(pos)}")
 
-    return GlobalVars.BestRun
+    return GlobalVars.best_run

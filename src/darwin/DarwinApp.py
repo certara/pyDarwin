@@ -24,7 +24,7 @@ from .Template import Template
 from .ModelRun import ModelRun, write_best_model_files, file_checker
 from .ModelCache import set_model_cache, create_model_cache
 
-from .algorithms.exhaustive import run_exhaustive
+from .algorithms.exhaustive import run_exhaustive, get_search_space_size
 from .algorithms.GA import run_ga
 from .algorithms.PSO import run_pso
 from .algorithms.OPT import run_skopt
@@ -55,11 +55,13 @@ def _init_model_results():
 
 def _reset_global_vars():
     GlobalVars.results_file = None
-    GlobalVars.BestRun = None
-    GlobalVars.UniqueModels = 0
-    GlobalVars.UniqueModelsToBest = 0
-    GlobalVars.StartTime = GlobalVars.TimeToBest = 0
-    GlobalVars.BestModelOutput = "No output yet"
+    GlobalVars.best_run = None
+    GlobalVars.all_models_num = 0
+    GlobalVars.run_models_num = 0
+    GlobalVars.unique_models_num = 0
+    GlobalVars.unique_models_to_best = 0
+    GlobalVars.start_time = GlobalVars.TimeToBest = 0
+    GlobalVars.best_model_output = "No output yet"
 
 
 def _init_app(options_file: str, folder: str = None):
@@ -107,7 +109,7 @@ def _init_app(options_file: str, folder: str = None):
     log.message(f"Project temp dir: {options.temp_dir}")
     log.message(f"Project output dir: {options.output_dir}")
 
-    GlobalVars.StartTime = time.time()
+    GlobalVars.start_time = time.time()
 
     darwin.nonmem.NMEngineAdapter.register()
     darwin.nlme.NLMEEngineAdapter.register()
@@ -151,7 +153,7 @@ class DarwinApp:
         except:
             traceback.print_exc()
 
-        return GlobalVars.BestRun
+        return GlobalVars.best_run
 
     def _run_template(self, model_template: Template) -> ModelRun:
 
@@ -160,13 +162,16 @@ class DarwinApp:
         adapter = get_engine_adapter(options.engine_adapter)
 
         if not adapter.init_engine():
-            return GlobalVars.BestRun
+            return GlobalVars.best_run
 
         adapter.init_template(model_template)
 
         _init_omega_search(model_template, adapter)
 
         self.exec_man.start()
+
+        space_size = get_search_space_size(model_template)
+        log.message(f"Search space size = {space_size}")
 
         log.message(f"Search start time = {time.asctime()}")
 
@@ -191,13 +196,15 @@ class DarwinApp:
             log.message(f"Final output from best model is in {final_result_file}")
 
         if final:
-            log.message(f"Number of unique models to best model = {GlobalVars.UniqueModelsToBest}")
+            log.message(f"Number of considered models = {GlobalVars.all_models_num}")
+            log.message(f"Number of models that were run during the search = {GlobalVars.run_models_num}")
+            log.message(f"Number of unique models to best model = {GlobalVars.unique_models_to_best}")
             log.message(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
 
             log.message(f"Best overall fitness = {final.result.fitness:4f},"
                         f" iteration {final.generation}, model {final.model_num}")
 
-        elapsed = time.time() - GlobalVars.StartTime
+        elapsed = time.time() - GlobalVars.start_time
 
         log.message(f"Elapsed time = {elapsed / 60:.1f} minutes \n")
 

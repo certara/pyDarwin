@@ -22,7 +22,29 @@ def run_exhaustive(model_template: Template) -> ModelRun:
 
     :return: Returns final/best model run
     :rtype: ModelRun
-    """    
+    """
+    codes = get_search_space(model_template)
+
+    num_models = codes.shape[0]
+
+    # break into smaller list, for memory management
+    batch_size = options.get('exhaustive_batch_size', 100)
+
+    for start in range(0, num_models, batch_size):
+        pop = Population.from_codes(model_template, '0', codes[start:start + batch_size], ModelCode.from_int,
+                                    start_number=start, max_number=num_models)
+
+        pop.run()
+
+        if not keep_going():
+            break
+
+        log.message(f"Current Best fitness = {GlobalVars.best_run.result.fitness}")
+
+    return GlobalVars.best_run
+
+
+def get_search_space(model_template: Template) -> np.ndarray:
     num_groups = []
 
     for thisKey in model_template.tokens.keys():
@@ -39,29 +61,13 @@ def run_exhaustive(model_template: Template) -> ModelRun:
             num_groups.append([0, 1])
 
     if not num_groups:
-        log.message("Nothing to search in exhaustive search - exiting")
-        exit("Nothing to search in exhaustive search")
+        log.error('The search space is empty - exiting')
+        exit('The search space is empty')
 
     codes = np.array(np.meshgrid(*num_groups)).T.reshape(-1, len(num_groups))
 
-    # convert to regular list
-    codes = codes.tolist()
-    num_models = len(codes)
+    return codes
 
-    log.message(f"Total of {num_models} to be run in exhaustive search")
 
-    # break into smaller list, for memory management
-    batch_size = options.get('exhaustive_batch_size', 100)
-
-    for start in range(0, num_models, batch_size):
-        pop = Population.from_codes(model_template, '0', codes[start:start + batch_size], ModelCode.from_int,
-                                    start_number=start, max_number=num_models)
-
-        pop.run()
-
-        if not keep_going():
-            break
-
-        log.message(f"Current Best fitness = {GlobalVars.BestRun.result.fitness}")
-
-    return GlobalVars.BestRun
+def get_search_space_size(model_template: Template) -> int:
+    return get_search_space(model_template).shape[0]

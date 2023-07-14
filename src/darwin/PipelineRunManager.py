@@ -57,7 +57,7 @@ class PipelineRunManager(ModelRunManager):
 
     @staticmethod
     def _process_run_results(run: ModelRun):
-        this_one_is_better = GlobalVars.BestRun is None or run.result.fitness < GlobalVars.BestRun.result.fitness
+        this_one_is_better = GlobalVars.best_run is None or run.result.fitness < GlobalVars.best_run.result.fitness
 
         if run.source == 'new' and run.started() and not run.is_duplicate() and not interrupted():
             run.output_results()
@@ -65,7 +65,7 @@ class PipelineRunManager(ModelRunManager):
             # cleanup may wipe entire run_dir, so need to save the output before
             if this_one_is_better:
                 with open(os.path.join(run.run_dir, run.output_file_name)) as file:
-                    GlobalVars.BestModelOutput = file.read()
+                    GlobalVars.best_model_output = file.read()
 
             run.cleanup()
 
@@ -79,7 +79,7 @@ class PipelineRunManager(ModelRunManager):
         model = run.model
 
         if run.status == 'Restored':
-            GlobalVars.UniqueModels += 1
+            GlobalVars.unique_models_num += 1
 
         if this_one_is_better:
             _copy_to_best(run)
@@ -119,6 +119,6 @@ class PipelineRunManager(ModelRunManager):
 
 
 def _copy_to_best(run: ModelRun):
-    GlobalVars.BestRun = run
-    GlobalVars.TimeToBest = time.time() - GlobalVars.StartTime
-    GlobalVars.UniqueModelsToBest = GlobalVars.UniqueModels
+    GlobalVars.best_run = run
+    GlobalVars.TimeToBest = time.time() - GlobalVars.start_time
+    GlobalVars.unique_models_to_best = GlobalVars.unique_models_num

@@ -1,6 +1,7 @@
 from copy import copy, deepcopy
 
 import darwin.utils as utils
+import darwin.GlobalVars as GlobalVars
 
 from darwin.options import options
 
@@ -104,6 +105,8 @@ class Population:
             run = ModelRun(model, self.num_format.format(self.model_number), self.name, self.adapter)
 
         run.wide_model_num = self.num_format.format(self.model_number)
+
+        GlobalVars.all_models_num += 1
 
         self.runs.append(run)
 

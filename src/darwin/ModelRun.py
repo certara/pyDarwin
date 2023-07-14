@@ -299,6 +299,8 @@ class ModelRun:
         try:
             self.status = "Running model"
 
+            GlobalVars.run_models_num += 1
+
             for command in commands:
                 run_process = Popen(command['command'], stdout=DEVNULL, stderr=STDOUT, cwd=self.run_dir,
                                     creationflags=options.model_run_priority)
@@ -320,7 +322,7 @@ class ModelRun:
             log.error(str(e))
 
         finally:
-            GlobalVars.UniqueModels += 1
+            GlobalVars.unique_models_num += 1
 
         if run_process is None or run_process.returncode != 0:
             if interrupted():
@@ -491,15 +493,15 @@ def write_best_model_files(control_path: str, result_path: str) -> bool:
     :param result_path: Path to current best model result file
     """
 
-    if not GlobalVars.BestRun:
+    if not GlobalVars.best_run:
         return False
 
     try:
         with open(control_path, 'w') as control:
-            control.write(GlobalVars.BestRun.model.control)
+            control.write(GlobalVars.best_run.model.control)
 
         with open(result_path, 'w') as result:
-            result.write(GlobalVars.BestModelOutput)
+            result.write(GlobalVars.best_model_output)
     except:
         traceback.print_exc()
 

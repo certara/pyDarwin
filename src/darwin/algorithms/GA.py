@@ -109,7 +109,7 @@ def run_ga(model_template: Template) -> ModelRun:
 
     # run generation 0
     if not runner.run_generation():
-        return GlobalVars.BestRun
+        return GlobalVars.best_run
 
     generations_no_change = 0
     overall_best_fitness = options.crash_value
@@ -128,7 +128,7 @@ def run_ga(model_template: Template) -> ModelRun:
         log.message(f"Current generation best genome = {best_run.model.model_code.FullBinCode},"
                     f" best fitness = {best_fitness:.4f}")
 
-        best_run_overall = GlobalVars.BestRun
+        best_run_overall = GlobalVars.best_run
 
         log.message(f"Best overall fitness = {best_run_overall.result.fitness:4f},"
                     f" iteration {best_run_overall.generation}, model {best_run_overall.model_num}")
@@ -161,4 +161,4 @@ def run_ga(model_template: Template) -> ModelRun:
 
         log.message(f"Done with final downhill step. best fitness = {best.result.fitness}")
 
-    return GlobalVars.BestRun
+    return GlobalVars.best_run

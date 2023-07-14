@@ -182,7 +182,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         phenotype += bands
 
         control += "\n## Phenotype: " + phenotype + "\n## Genotype: " + model_code_str \
-                   + "\n## Num non-influential tokens: " + str(non_influential_token_num)
+                   + "\n## Num non-influential tokens: " + str(non_influential_token_num) + "\n"
 
         return phenotype, control, non_influential_token_num
 

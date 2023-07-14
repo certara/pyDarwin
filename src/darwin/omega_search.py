@@ -37,8 +37,6 @@ def get_bands(diag_block: list, band_width: int, omega_band_pos: list) -> list:
 
     any_band = band_width > 0 and any(bands)
 
-    rng = np.random.default_rng(seed=options.random_seed)
-
     bands.extend([0] * (len(diag_block) - len(bands)))
 
     for i in range(len(bands) - 1):
@@ -54,7 +52,7 @@ def get_bands(diag_block: list, band_width: int, omega_band_pos: list) -> list:
         nonlocal omega_size
 
         if any_band and last_band and omega_size > 1:
-            init_off_diags = find_band(omega_size, band_width, block[last_band], rng)
+            init_off_diags = find_band(omega_size, band_width, block[last_band])
         else:
             init_off_diags = [[j] for j in block[last_band]]
             omega_size = 0
@@ -82,7 +80,7 @@ def get_bands(diag_block: list, band_width: int, omega_band_pos: list) -> list:
     return res
 
 
-def find_band(omega_size: int, band_width: int, omega_block: list, rng):
+def find_band(omega_size: int, band_width: int, omega_block: list):
     factor = 1.0
     count = 0
 
@@ -92,6 +90,9 @@ def find_band(omega_size: int, band_width: int, omega_block: list, rng):
 
     while not is_pos_def:
         factor *= 0.5
+
+        # same random numbers each time, for all models and each loop looking PD
+        rng = np.random.default_rng(seed=options.random_seed)
 
         for row in range(omega_size):
             row_diag = math.sqrt(omega_block[row])

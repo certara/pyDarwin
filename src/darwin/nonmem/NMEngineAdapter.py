@@ -171,7 +171,10 @@ class NMEngineAdapter(ModelEngineAdapter):
                 except OSError:
                     log.error(f"Cannot remove folder {run_dir} in call to cleanup")
             else:
+                utils.remove_dir(os.path.join(run_dir, 'temp_dir'))
+
                 file_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
+
                 file_to_delete.pop(f'{file_stem}.mod', None)
                 file_to_delete.pop(f'{file_stem}.lst', None)
                 file_to_delete.pop(f'{file_stem}.xml', None)
@@ -183,8 +186,6 @@ class NMEngineAdapter(ModelEngineAdapter):
                         os.remove(os.path.join(run_dir, f))
                     except OSError:
                         pass
-
-                utils.remove_dir(os.path.join(run_dir, "temp_dir"))
         except OSError as e:
             log.error(f"OS Error {e}")
 

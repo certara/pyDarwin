@@ -201,6 +201,8 @@ class NLMEEngineAdapter(ModelEngineAdapter):
                 except OSError:
                     log.error(f"Cannot remove folder {run_dir} in call to cleanup")
             else:
+                utils.remove_dir(os.path.join(run_dir, 'Work'))
+
                 file_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
                 file_to_delete.pop(f'{file_stem}.mmdl', None)
@@ -241,7 +243,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def get_file_names(stem: str):
-        return stem + ".mmdl", stem + "_out.txt", stem + ".exe"
+        return stem + ".mmdl", stem + "_out.txt", f"{stem}.exe".replace('NLME', 'NLME7')
 
     @staticmethod
     def get_final_file_names():
@@ -436,7 +438,7 @@ def _get_run_command(run: ModelRun) -> list:
 
     if platform.system() == 'Windows':
         return ['powershell', '-noninteractive', '-executionpolicy', 'remotesigned', '-file',
-                f"{nlme_dir}/execNLMECmd.ps1", '-NLME_EXE_POSTFIX', f"_{run.generation}_{run.model_num}",
+                f"{nlme_dir}/execNLMECmd.ps1", '-NLME_EXE_POSTFIX', f"_{run.generation}_{run.wide_model_num}",
                 '-RUN_MODE', 'COMPILE_AND_RUN', '-MODELFILE', 'test.mdl', '-WORKING_DIR', run.run_dir,
                 '-MPIFLAG', 'MPINO', '-LOCAL_HOST', 'YES', '-NUM_NODES', '1', '-NLME_ARGS', '@nlmeargs.txt']
 

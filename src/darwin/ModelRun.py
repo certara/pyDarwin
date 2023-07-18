@@ -1,5 +1,7 @@
 import sys
 import os
+import shutil
+import glob
 from os.path import isfile
 
 import json
@@ -338,6 +340,29 @@ class ModelRun:
 
         if self._post_run_r() and self._post_run_python() and self._calc_fitness():
             self.status = "Done"
+
+    def keep(self):
+        """
+        Keep all necessary files in a separate folder after run completes.
+        """
+
+        keep_path = os.path.join(options.key_models_dir, self.file_stem)
+
+        try:
+            os.mkdir(keep_path)
+
+            files = dict.fromkeys(glob.glob('*', root_dir=self.run_dir))
+
+            files.pop(self.executable_file_name, None)
+
+            for f in files:
+                try:
+                    path = os.path.join(self.run_dir, f)
+                    shutil.copy2(path, keep_path)
+                except OSError:
+                    pass
+        except OSError as e:
+            log.error(f"OS Error: {e}")
 
     def cleanup(self):
         """

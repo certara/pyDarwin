@@ -47,7 +47,12 @@ class LocalRunManager(PipelineRunManager):
             return
 
         utils.remove_dir(options.temp_dir)
+        utils.remove_dir(options.key_models_dir)
+
         os.makedirs(options.temp_dir)
+
+        if options.keep_key_models:
+            os.makedirs(options.key_models_dir)
 
     @staticmethod
     def cleanup_folders():

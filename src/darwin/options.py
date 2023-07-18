@@ -161,6 +161,8 @@ class Options:
             or os.path.join(self.working_dir, 'output')
         self.temp_dir = utils.apply_aliases(opts.get('temp_dir'), project_dir_alias) \
             or os.path.join(self.working_dir, 'temp')
+        self.key_models_dir = utils.apply_aliases(opts.get('key_models_dir'), project_dir_alias) \
+            or os.path.join(options.working_dir, 'key_models')
 
         self.aliases = {
             'project_dir': self.project_dir,
@@ -257,6 +259,8 @@ class Options:
         if self.search_omega_sub_matrix and self.max_omega_sub_matrix < 1:
             log.warn("max_omega_sub_matrix must be at least 1, omitting search_omega_sub_matrix")
             self.search_omega_sub_matrix = False
+
+        self.keep_key_models = opts.get('keep_key_models', False)
 
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):

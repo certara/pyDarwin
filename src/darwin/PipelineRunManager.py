@@ -67,6 +67,9 @@ class PipelineRunManager(ModelRunManager):
                 with open(os.path.join(run.run_dir, run.output_file_name)) as file:
                     GlobalVars.best_model_output = file.read()
 
+                if options.keep_key_models:
+                    run.keep()
+
             run.cleanup()
 
             model_cache = get_model_cache()
@@ -84,14 +87,14 @@ class PipelineRunManager(ModelRunManager):
         if this_one_is_better:
             _copy_to_best(run)
 
-        step_name = "Iteration"
-        prd_err_text = ""
+        step_name = 'Iteration'
+        prd_err_text = ''
 
         if options.isGA:
-            step_name = "Generation"
+            step_name = 'Generation'
 
         if res.errors:
-            prd_err_text = ", error = " + res.errors
+            prd_err_text = ', error = ' + res.errors
 
         message = res.get_message_text()
 

@@ -261,6 +261,8 @@ class Options:
             self.search_omega_sub_matrix = False
 
         self.keep_key_models = opts.get('keep_key_models', False)
+        # don't rerun if key models are not kept
+        self.rerun_key_models = opts.get('rerun_key_models', False) and self.keep_key_models
 
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):

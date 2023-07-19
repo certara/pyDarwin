@@ -79,6 +79,11 @@ class Population:
         existing_runs = list(filter(lambda r: str(r.model.genotype()) == genotype, self.runs)) \
             + list(filter(lambda r: r.model.phenotype == phenotype, self.runs))
 
+        if run and options.rerun_key_models \
+                and (GlobalVars.best_run is None or run.result.fitness < GlobalVars.best_run.result.fitness):
+            # re-run this one
+            run = None
+
         if existing_runs:
             run = copy(existing_runs[0])
             run.model_num = self.model_number

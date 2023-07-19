@@ -205,7 +205,7 @@ class ModelRun:
         # if we cannot create run_dir, there's no point to continue
         sys.exit()
 
-    def _make_control_file(self):
+    def make_control_file(self):
         """
         Constructs the control file from the template and the model code.
         """
@@ -289,7 +289,7 @@ class ModelRun:
         if not keep_going():
             return
 
-        self._make_control_file()
+        self.make_control_file()
 
         if not file_checker.check_files_present(self):
             return
@@ -349,6 +349,7 @@ class ModelRun:
         keep_path = os.path.join(options.key_models_dir, self.file_stem)
 
         try:
+            utils.remove_dir(keep_path)
             os.mkdir(keep_path)
 
             files = dict.fromkeys(glob.glob('*', root_dir=self.run_dir))

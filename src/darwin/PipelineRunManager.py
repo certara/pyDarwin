@@ -59,6 +59,12 @@ class PipelineRunManager(ModelRunManager):
     def _process_run_results(run: ModelRun):
         this_one_is_better = GlobalVars.best_run is None or run.result.fitness < GlobalVars.best_run.result.fitness
 
+        if this_one_is_better and options.keep_key_models and run.status == 'Restored':
+            run.make_control_file()
+            run.output_results()
+
+            run.keep()
+
         if run.source == 'new' and run.started() and not run.is_duplicate() and not interrupted():
             run.output_results()
 

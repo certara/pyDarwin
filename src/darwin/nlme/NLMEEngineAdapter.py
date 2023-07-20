@@ -482,7 +482,7 @@ def _find_errors(text: str, patterns: list) -> str:
 
         count += len(matches)
 
-    if count != 0:
+    if count > 1:
         res += f" (+{count-1} more)"
 
     return res

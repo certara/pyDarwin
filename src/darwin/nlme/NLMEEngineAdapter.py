@@ -360,7 +360,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         (si_descr, si_fix) = extract_lhs(error)
 
         theta_num = len(th_descr)
-        omega_num = len(om_descr)
+        omega_num = len(om_block)
         sigma_num = len(si_descr)
 
         estimated_theta = theta_num
@@ -370,8 +370,8 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         for i in range(theta_num):
             estimated_theta -= (th_fix[i] or th_low[i] == th_up[i] and th_low[i] != '')
 
-        for i in range(omega_num):
-            estimated_omega -= (om_fix[i])
+        for ob in om_block:
+            estimated_omega -= ob
 
         for i in range(sigma_num):
             estimated_sigma -= (si_fix[i])

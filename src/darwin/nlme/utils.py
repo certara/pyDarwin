@@ -102,7 +102,7 @@ def extract_ranefs(ranefs: list) -> tuple:
     all_omegas = []
     freezes = []
     sames = []
-    blocks = []
+    block_fix = []
 
     prev_freeze = 0
 
@@ -125,6 +125,11 @@ def extract_ranefs(ranefs: list) -> tuple:
 
             sames.extend([same] * len(omegas))
             freezes.extend([fix] * len(omegas))
-            blocks.extend([t == 'block'] * len(omegas))
 
-    return all_omegas, sames, blocks, freezes
+            if not same:
+                bt = t == 'block'
+
+                for i in range(1, len(omegas)+1):
+                    block_fix.extend([fix] * i if bt else [fix])
+
+    return all_omegas, sames, block_fix, freezes

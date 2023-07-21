@@ -267,9 +267,11 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         correlation = False
         ofv = condition_num = options.crash_value
 
+        run_dir = f"{run.run_dir}/1-est"
+
         res = run.result
 
-        res_file = os.path.join(run.run_dir, 'dmp.txt')
+        res_file = os.path.join(run_dir, 'dmp.txt')
 
         if not os.path.exists(res_file):
             return False
@@ -311,7 +313,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
                     correlation = False
 
         try:
-            with open(os.path.join(run.run_dir, 'out.txt')) as file:
+            with open(os.path.join(run_dir, 'out.txt')) as file:
                 text = file.read()
 
                 match = re.search(r'^\s*condition\s*=\s*(\S+)', text, flags=re.RegexFlag.MULTILINE)
@@ -439,7 +441,7 @@ def _get_run_command(run: ModelRun) -> list:
     if platform.system() == 'Windows':
         return ['powershell', '-noninteractive', '-executionpolicy', 'remotesigned', '-file',
                 f"{nlme_dir}/execNLMECmd.ps1", '-NLME_EXE_POSTFIX', f"_{run.generation}_{run.wide_model_num}",
-                '-RUN_MODE', 'COMPILE_AND_RUN', '-MODELFILE', 'test.mdl', '-WORKING_DIR', run.run_dir,
+                '-RUN_MODE', 'COMPILE_AND_RUN', '-MODELFILE', 'test.mdl', '-WORKING_DIR', f"{run.run_dir}/1-est",
                 '-MPIFLAG', 'MPINO', '-LOCAL_HOST', 'YES', '-NUM_NODES', '1', '-NLME_ARGS', '@nlmeargs.txt']
 
     return [f"{nlme_dir}/execNLMECmd.sh", 'COMPILE_AND_RUN', 'test.mdl', run.run_dir,
@@ -519,7 +521,7 @@ def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tup
         om_val = extract_rhs_array([ranef])
         om_val = [float(item) for sublist in om_val for item in sublist]
 
-        bands = get_bands(om_val, band_width, omega_band_pos)
+        bands = get_bands(om_val, band_width, omega_band_pos, True)
 
         if not any([b[1] for b in bands]):
             # no block ranefs

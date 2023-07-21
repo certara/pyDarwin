@@ -242,11 +242,14 @@ class Options:
         self.search_omega_bands = opts.get('search_omega_bands', False)
         self.max_omega_band_width = opts.get('max_omega_band_width', 0)
 
+        if self.engine_adapter == 'nlme':
+            self.max_omega_band_width = 1
+
         if self.search_omega_bands and self.max_omega_band_width < 1:
             log.warn("max_omega_band_width must be at least 1, omitting omega band width search")
             self.search_omega_bands = False
 
-        if self.search_omega_bands and self.random_seed is None:
+        if self.search_omega_bands and self.random_seed is None and self.engine_adapter == 'nonmem':
             raise RuntimeError('random_seed is required for omega band search')
 
         if self.search_omega_bands:

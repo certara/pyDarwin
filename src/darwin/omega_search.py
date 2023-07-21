@@ -30,7 +30,7 @@ def apply_omega_bands(control: str, model_code: ModelCode, omega_band_pos: int, 
     return control, bands
 
 
-def get_bands(diag_block: list, band_width: int, omega_band_pos: list) -> list:
+def get_bands(diag_block: list, band_width: int, omega_band_pos: list, nlme: bool = False) -> list:
     res = []
 
     bands = omega_band_pos.copy()
@@ -52,7 +52,12 @@ def get_bands(diag_block: list, band_width: int, omega_band_pos: list) -> list:
         nonlocal omega_size
 
         if any_band and last_band and omega_size > 1:
-            init_off_diags = find_band(omega_size, band_width, block[last_band])
+            if nlme:
+                init_off_diags = np.zeros([omega_size, omega_size])
+                for row in range(omega_size):
+                    init_off_diags[row, row] = block[last_band][row]
+            else:
+                init_off_diags = find_band(omega_size, band_width, block[last_band])
         else:
             init_off_diags = [[j] for j in block[last_band]]
             omega_size = 0

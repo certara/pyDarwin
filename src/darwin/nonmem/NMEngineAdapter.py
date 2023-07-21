@@ -689,7 +689,7 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tupl
             else:
                 final_control += "\n" + "$OMEGA BLOCK(" + str(block_size) + ") ;; block omega searched for bands\n"
 
-                band_arr.append(f"({band_start}, {len(band)})")
+                band_arr.append(f"({band_start}, {len(band)}: {band_width})")
 
             band_start += len(band)
             this_rec = 0

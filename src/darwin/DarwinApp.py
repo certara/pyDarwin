@@ -150,6 +150,8 @@ class DarwinApp:
     def run_template(self, model_template: Template) -> ModelRun:
         try:
             return self._run_template(model_template)
+        except RuntimeError as e:
+            log.error(str(e))
         except:
             traceback.print_exc()
 

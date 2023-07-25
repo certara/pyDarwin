@@ -214,6 +214,9 @@ class NLMEEngineAdapter(ModelEngineAdapter):
                     file_to_delete.pop(file, None)
 
                 for f in file_to_delete:
+                    if re.search(r'^(err|out)\d+$', f):
+                        continue
+
                     try:
                         path = os.path.join(run_dir, f)
                         os.remove(path)
@@ -355,12 +358,12 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         th_low = [x[0] for x in th_val]
         th_up = [x[2] for x in th_val]
 
-        (om_descr, om_same, om_block, om_fix) = extract_ranefs(ranef)
+        (om_descr, om_same, om_blocks, om_fix, diag_vals, om_block_fix) = extract_ranefs(ranef)
 
         (si_descr, si_fix) = extract_lhs(error)
 
         theta_num = len(th_descr)
-        omega_num = len(om_block)
+        omega_num = len(om_block_fix)
         sigma_num = len(si_descr)
 
         estimated_theta = theta_num
@@ -370,7 +373,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         for i in range(theta_num):
             estimated_theta -= (th_fix[i] or th_low[i] == th_up[i] and th_low[i] != '')
 
-        for ob in om_block:
+        for ob in om_block_fix:
             estimated_omega -= ob
 
         for i in range(sigma_num):
@@ -505,21 +508,155 @@ def _get_mdl(model_text: str) -> str:
     return mdl
 
 
+def _get_searched_omegas(search_blocks: list) -> set:
+    searched_omegas = set()
+
+    for sb in search_blocks:
+        sb = sb.replace(' ', '')
+
+        for name in sb.split(','):
+            searched_omegas.add(name)
+
+    return searched_omegas
+
+
+def _get_values(ranefs: list, searched_omegas: set) -> dict:
+    vals = {}
+
+    for ranef in ranefs:
+        (om_descr, om_same, om_blocks, om_fix, diag_vals, om_block_fix) = extract_ranefs([ranef])
+        vals |= diag_vals
+
+        same_omegas = dict.fromkeys(om_same)
+        del same_omegas['']
+
+        i = -1
+
+        for name, same, block, fix in zip(om_descr, om_same, om_blocks, om_fix):
+            i += 1
+
+            if name in same_omegas:
+                raise RuntimeError(f"Omega search cannot be performed for '{name}'"
+                                   f" due to dependent omega structure (same): {ranef}")
+
+            if name not in searched_omegas:
+                continue
+
+            if same != '' or block or fix:
+                raise RuntimeError(f"Omega search cannot be performed for '{name}': {ranef}")
+
+    return vals
+
+
+def _remove_searched_omegas(control: str, blocks: dict) -> str:
+    matches = re.findall(r'(diag\s*\(([^)]+)\)\s*(?:<-|=)\s*c\(([^)]+)\))', control, flags=re.MULTILINE | re.DOTALL)
+
+    for (total, omegas, values) in matches:
+        omegas = re.sub(r'\s+', '', omegas, flags=re.MULTILINE | re.DOTALL).split(',')
+        values = re.sub(r'\s+', '', values, flags=re.MULTILINE | re.DOTALL).split(',')
+
+        res_omegas = []
+        res_values = []
+
+        for om, val in zip(omegas, values):
+            if om in blocks:
+                continue
+
+            res_omegas.append(om)
+            res_values.append(val)
+
+        if omegas != res_omegas:
+            names = ', '.join(res_omegas)
+            values = ', '.join(res_values)
+            control = control.replace(total, f"diag({names}) = c({values})")
+
+    return control
+
+
+def _find_block_structure(bands: list, band_arr: list, blocks: dict, sb: list) -> str:
+    omega_rep = []
+
+    for band, block_size in bands:
+        if block_size == 0:
+            omega_text = 'diag'
+        else:
+            omega_text = 'block'
+
+        this_rec = 0
+
+        rows = []
+
+        for i in band:
+            rows.append(", ".join(map(str, np.around(i[:(this_rec + 1)], 7))))
+            this_rec += 1
+
+        names = ', '.join(sb[:len(band)])
+        vals = ', '.join(rows)
+
+        blocks |= dict.fromkeys(sb[:len(band)])
+
+        names = f"({names})"
+
+        if omega_text == 'block':
+            band_arr.append(names)
+
+        omega_text += f"{names} = c({vals})"
+
+        omega_rep.append(omega_text)
+
+        sb = sb[len(band):]
+
+    return ', '.join(omega_rep)
+
+
+def _extract_omega_search_blocks(text: str) -> tuple:
+    matches = re.findall(r'(^\s*#search_block\s*\(\s*(\w+(?:\s*,\s*\w+)*)\))', text, flags=re.MULTILINE | re.DOTALL)
+
+    data = []
+    data0 = []
+
+    for occ0, occ in matches:
+        data0.append(occ0)
+        data.append(occ)
+
+    return data, data0
+
+
+def _add_search_ranef_blocks(control: str, block_omegas: list) -> str:
+    full_blocks = {}
+
+    for x in block_omegas:
+        full_blocks[x[0]] = x[0].replace('#search_block', 'ranef')
+
+    for full_block, block, omega_rep in block_omegas:
+        full_blocks[full_block] = full_blocks[full_block].replace(block, omega_rep)
+
+    for search_block, ranef_block in full_blocks.items():
+        control = control.replace(search_block, f"{search_block}\n{ranef_block}")
+
+    return control
+
+
 def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tuple:
     mdl = _get_mdl(control)
 
-    ranefs = extract_data('ranef:search_band', mdl)
+    ranefs = extract_data('ranef', mdl)
+
+    (search_blocks, full_search_blocks) = _extract_omega_search_blocks(control)
+    searched_omegas = _get_searched_omegas(search_blocks)
+    vals = _get_values(ranefs, searched_omegas)
 
     band_arr = []
+    blocks = {}
+    block_omegas = []
 
-    for ranef in ranefs:
-        (om_descr, om_same, om_block, om_fix) = extract_ranefs([ranef])
+    for sblock, full_block in zip(search_blocks, full_search_blocks):
+        sb = re.sub(r'\s+', '', sblock, flags=re.MULTILINE | re.DOTALL).split(',')
 
-        if any(om_same) or any(om_block) or any(om_fix):
-            continue
-
-        om_val = extract_rhs_array([ranef])
-        om_val = [float(item) for sublist in om_val for item in sublist]
+        try:
+            om_val = [float(vals[o]) for o in sb]
+        except KeyError as e:
+            raise RuntimeError(f"Unknown omega '{e.args[0]}': {full_block}")
 
         bands = get_bands(om_val, band_width, omega_band_pos, True)
 
@@ -527,37 +664,20 @@ def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tup
             # no block ranefs
             continue
 
-        omega_rep = []
+        omega_rep = _find_block_structure(bands, band_arr, blocks, sb)
 
-        for band, block_size in bands:
-            if block_size == 0:
-                omega_text = 'diag'
-            else:
-                omega_text = 'block'
+        block_omegas.append((full_block, sblock, omega_rep))
 
-            this_rec = 0
+    control = _remove_searched_omegas(control, blocks)
 
-            rows = []
+    control = _add_search_ranef_blocks(control, block_omegas)
 
-            for i in band:
-                rows.append(", ".join(map(str, np.around(i[:(this_rec + 1)], 7))))
-                this_rec += 1
+    empty_diag = r'diag\(\) = c\(\)'
 
-            names = ', '.join(om_descr[:len(band)])
-            vals = ', '.join(rows)
+    control = re.sub(f",?\\s*{empty_diag}", '', control, flags=re.MULTILINE | re.DOTALL)
+    control = re.sub(f"{empty_diag}\\s*,?", '', control, flags=re.MULTILINE | re.DOTALL)
 
-            names = f"({names})"
-
-            if omega_text == 'block':
-                band_arr.append(names)
-
-            omega_text += f"{names} = c({vals})"
-
-            omega_rep.append(omega_text)
-
-            om_descr = om_descr[len(band):]
-
-        control = control.replace(ranef, ', '.join(omega_rep))
+    control = re.sub(r'^\s*ranef\(\)\s*\n', '', control, flags=re.MULTILINE)
 
     return control, band_arr
 

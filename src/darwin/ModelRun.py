@@ -303,9 +303,18 @@ class ModelRun:
 
             GlobalVars.run_models_num += 1
 
+            cmd_count = 0
+
             for command in commands:
-                run_process = Popen(command['command'], stdout=DEVNULL, stderr=STDOUT, cwd=self.run_dir,
-                                    creationflags=options.model_run_priority)
+                cmd_count += 1
+
+                path1 = os.path.join(self.run_dir, f"out{cmd_count}")
+                path2 = os.path.join(self.run_dir, f"err{cmd_count}")
+
+                with open(path1, 'a') as out:
+                    with open(path2, 'a') as err:
+                        run_process = Popen(command['command'], stdout=out, stderr=err, cwd=self.run_dir,
+                                            creationflags=options.model_run_priority)
 
                 run_process.communicate(timeout=command['timeout'])
 

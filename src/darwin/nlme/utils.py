@@ -102,34 +102,62 @@ def extract_ranefs(ranefs: list) -> tuple:
     all_omegas = []
     freezes = []
     sames = []
+    blocks = []
     block_fix = []
+    diag_vals = {}
 
     prev_freeze = 0
+    prev_block_size = 0
 
     for r in ranefs:
-        match = re.findall(r'(block|diag|same)\s*\((.+?)\)\s*(?:\(\s*(freeze)\s*\))?', r,
+        match = re.findall(r'(block|diag|same)\s*\((.+?)\)\s*(?:\(\s*(freeze)\s*\))?(?:(?:=|<-)\s*c\((.*?)\))?', r,
                            flags=re.RegexFlag.MULTILINE | re.RegexFlag.DOTALL)
 
-        for (t, omega, freeze) in match:
+        i = 0
+
+        for (t, omega, freeze, values) in match:
             omega = re.sub(r'\s', '', omega, flags=re.RegexFlag.MULTILINE)
             omegas = omega.split(',')
+
+            omega_len = len(omegas)
+
+            values = re.sub(r'\s', '', values, flags=re.RegexFlag.MULTILINE)
+            values = values.split(',')
+
+            if t == 'diag':
+                if omega_len != len(values):
+                    raise RuntimeError(f"ranef values mismatch: {omegas} vs. {values}")
+                diag_vals |= dict(zip(omegas, values))
 
             same = t == 'same'
 
             fix = freeze != '' or same and prev_freeze
 
-            if not same:
-                prev_freeze = freeze
-
             all_omegas.extend(omegas)
 
-            sames.extend([same] * len(omegas))
+            if not same:
+                prev_freeze = freeze
+                prev_block_size = omega_len
+
+                same_block = [''] * omega_len
+            else:
+                if omega_len != prev_block_size:
+                    raise RuntimeError(f"same block mismatch: block size is {omega_len}, expected size is {prev_block_size}")
+                if sames[i-1] != '':
+                    same_block = sames[i-omega_len:i]
+                else:
+                    same_block = all_omegas[i-omega_len:i]
+
+            i += len(omegas)
+
+            sames.extend(same_block)
             freezes.extend([fix] * len(omegas))
+            blocks.extend([t == 'block'] * len(omegas))
 
             if not same:
                 bt = t == 'block'
 
-                for i in range(1, len(omegas)+1):
-                    block_fix.extend([fix] * i if bt else [fix])
+                for j in range(1, len(omegas)+1):
+                    block_fix.extend([fix] * j if bt else [fix])
 
-    return all_omegas, sames, block_fix, freezes
+    return all_omegas, sames, blocks, freezes, diag_vals, block_fix

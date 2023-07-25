@@ -1,5 +1,7 @@
 import re
 
+from darwin.DarwinError import DarwinError
+
 info_blocks = ['Author:', 'Description:', 'Based on:', 'AUTHOR:', 'DESCRIPTION:', 'BASED ON:']
 one_line_blocks = ['DATA', 'DATA1', 'DATA2', 'MAP', 'MAP1', 'MAP2']
 multiline_blocks = ['COLDEF', 'MODEL', 'TABLES', 'ESTARGS', 'DOSING CYCLE']
@@ -126,7 +128,7 @@ def extract_ranefs(ranefs: list) -> tuple:
 
             if t == 'diag':
                 if omega_len != len(values):
-                    raise RuntimeError(f"ranef values mismatch: {omegas} vs. {values}")
+                    raise DarwinError(f"ranef values mismatch: {omegas} vs. {values}")
                 diag_vals |= dict(zip(omegas, values))
 
             same = t == 'same'
@@ -142,7 +144,8 @@ def extract_ranefs(ranefs: list) -> tuple:
                 same_block = [''] * omega_len
             else:
                 if omega_len != prev_block_size:
-                    raise RuntimeError(f"same block mismatch: block size is {omega_len}, expected size is {prev_block_size}")
+                    raise DarwinError(f"same block mismatch: block size is {omega_len},"
+                                      f" expected size is {prev_block_size}")
                 if sames[i-1] != '':
                     same_block = sames[i-omega_len:i]
                 else:

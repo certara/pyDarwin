@@ -18,6 +18,7 @@ from darwin.options import options
 from darwin.Template import Template
 from darwin.ModelCode import ModelCode
 from darwin.omega_search import apply_omega_bands, get_bands
+from darwin.DarwinError import DarwinError
 
 from .utils import extract_multiline_block, get_comment_re, extract_data, extract_lhs, extract_rhs_array, extract_ranefs
 
@@ -536,14 +537,14 @@ def _get_values(ranefs: list, searched_omegas: set) -> dict:
             i += 1
 
             if name in same_omegas:
-                raise RuntimeError(f"Omega search cannot be performed for '{name}'"
-                                   f" due to dependent omega structure (same): {ranef}")
+                raise DarwinError(f"Omega search cannot be performed for '{name}'"
+                                  f" due to dependent omega structure (same): {ranef}")
 
             if name not in searched_omegas:
                 continue
 
             if same != '' or block or fix:
-                raise RuntimeError(f"Omega search cannot be performed for '{name}': {ranef}")
+                raise DarwinError(f"Omega search cannot be performed for '{name}': {ranef}")
 
     return vals
 
@@ -656,7 +657,7 @@ def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tup
         try:
             om_val = [float(vals[o]) for o in sb]
         except KeyError as e:
-            raise RuntimeError(f"Unknown omega '{e.args[0]}': {full_block}")
+            raise DarwinError(f"Unknown omega '{e.args[0]}': {full_block}")
 
         bands = get_bands(om_val, band_width, omega_band_pos, True)
 

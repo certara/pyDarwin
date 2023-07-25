@@ -23,6 +23,7 @@ from darwin.ModelEngineAdapter import get_engine_adapter
 from .Template import Template
 from .ModelRun import ModelRun, write_best_model_files, file_checker
 from .ModelCache import set_model_cache, create_model_cache
+from .DarwinError import DarwinError
 
 from .algorithms.exhaustive import run_exhaustive, get_search_space_size
 from .algorithms.GA import run_ga
@@ -150,7 +151,7 @@ class DarwinApp:
     def run_template(self, model_template: Template) -> ModelRun:
         try:
             return self._run_template(model_template)
-        except RuntimeError as e:
+        except DarwinError as e:
             log.error(str(e))
         except:
             traceback.print_exc()

@@ -22,6 +22,7 @@ import darwin.GlobalVars as GlobalVars
 from .Model import Model
 from .ModelResults import ModelResults
 from .ModelEngineAdapter import ModelEngineAdapter, get_engine_adapter
+from .DarwinError import DarwinError
 
 JSON_ATTRIBUTES = [
     'model_num', 'generation', 'file_stem',
@@ -224,12 +225,12 @@ class ModelRun:
             rscript_path = options.rscript_path
 
             if not isfile(rscript_path):
-                raise RuntimeError(f"RScript path doesn't exist: {rscript_path}")
+                raise DarwinError(f"RScript path doesn't exist: {rscript_path}")
 
             log.message(f"RScript found at {rscript_path}")
 
             if not isfile(options.post_run_r_code):
-                raise RuntimeError(f"Post Run R code path '{options.post_run_r_code}' seems to be missing")
+                raise DarwinError(f"Post Run R code path '{options.post_run_r_code}' seems to be missing")
 
             log.message(f"Post Run R code found at {options.post_run_r_code}")
         else:
@@ -239,7 +240,7 @@ class ModelRun:
             python_post_process_path = options.python_post_process_path
 
             if not isfile(python_post_process_path):
-                raise RuntimeError(f"Post Run Python code path '{python_post_process_path}' seems to be missing")
+                raise DarwinError(f"Post Run Python code path '{python_post_process_path}' seems to be missing")
             else:
                 log.message(f"Post Run Python code found at {python_post_process_path}")
 
@@ -256,18 +257,18 @@ class ModelRun:
 
         try:
             if not isfile(self.control_file_name):
-                raise RuntimeError("Cannot find " + self.control_file_name + " to check for data file")
+                raise DarwinError("Cannot find " + self.control_file_name + " to check for data file")
 
             try:
                 data_files_path = self._adapter.read_data_file_name(self.control_file_name)
             except:
-                raise RuntimeError(f"Unable to check if data set is present")
+                raise DarwinError(f"Unable to check if data set is present")
 
             this_data_set = 1
 
             for this_file in data_files_path:
                 if not isfile(this_file):
-                    raise RuntimeError(f"Data set # {this_data_set} seems to be missing: {this_file}")
+                    raise DarwinError(f"Data set # {this_data_set} seems to be missing: {this_file}")
                 else:
                     log.message(f"Data set # {this_data_set} was found: {this_file}")
                     this_data_set += 1

@@ -7,6 +7,8 @@ import pathlib
 
 import darwin.utils as utils
 
+from .DarwinError import DarwinError
+
 from darwin.Log import log
 
 _default_penalty = {
@@ -53,7 +55,7 @@ def _get_mandatory_option(opts: dict, name, for_what=None):
         if for_what:
             err += f' for {for_what}'
 
-        raise RuntimeError(err)
+        raise DarwinError(err)
 
     return res
 
@@ -139,7 +141,7 @@ class Options:
             self.num_parallel = 0
 
         if self.num_parallel < 1:
-            raise RuntimeError('num_parallel must be a positive integer')
+            raise DarwinError('num_parallel must be a positive integer')
 
         self.options_file = os.path.abspath(options_file)
 
@@ -250,7 +252,7 @@ class Options:
             self.search_omega_bands = False
 
         if self.search_omega_bands and self.random_seed is None and self.engine_adapter == 'nonmem':
-            raise RuntimeError('random_seed is required for omega band search')
+            raise DarwinError('random_seed is required for omega band search')
 
         if self.search_omega_bands:
             self.search_omega_sub_matrix = opts.get('search_omega_sub_matrix', False)
@@ -274,6 +276,9 @@ class Options:
 
         try:
             self._init_options(options_file, folder)
+        except DarwinError as error:
+            log.error('Option error: ' + str(error))
+            sys.exit()
         except Exception as error:
             log.error(str(error))
             log.error(f"Failed to parse JSON options in '{options_file}', exiting")

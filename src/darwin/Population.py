@@ -11,6 +11,7 @@ from .ModelCode import ModelCode
 from .ModelCache import get_model_cache
 from .ModelEngineAdapter import get_engine_adapter
 from .ModelRunManager import get_run_manager
+from .DarwinError import DarwinError
 
 
 class Population:
@@ -144,6 +145,6 @@ class Population:
         """
 
         if not self.runs:
-            raise RuntimeError('Nothing to run')
+            raise DarwinError('Nothing to run')
 
         self.runs = get_run_manager().run_all(self.runs)

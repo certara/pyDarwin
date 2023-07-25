@@ -9,6 +9,8 @@ import psutil
 
 from darwin.Log import log
 
+from .DarwinError import DarwinError
+
 
 def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list):
     """ 
@@ -45,7 +47,7 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
     if any_found:
         log.error("It appears that there is more than four level of nested tokens."
                   " Only four levels are supported, exiting")
-        raise RuntimeError("Are there more than 4 levels of nested tokens?")
+        raise DarwinError("Are there more than 4 levels of nested tokens?")
 
     return token_found, text
 
@@ -173,7 +175,7 @@ class PipelineStep:
 
     def run(self):
         if self._workers:
-            raise RuntimeError(f"{self.name} is already running")
+            raise DarwinError(f"{self.name} is already running")
 
         # for current purposes is good enough, for computation intensive problem need to utilize multiprocessing.Process
         self._workers = [threading.Thread(target=self._thread_fun, args=(i,)) for i in range(self._size)]
@@ -183,7 +185,7 @@ class PipelineStep:
 
     def join(self):
         if not self._workers:
-            raise RuntimeError(f"{self.name} is not running")
+            raise DarwinError(f"{self.name} is not running")
 
         for w in self._workers:
             w.join()

@@ -13,6 +13,7 @@ from darwin.options import options
 
 from .ModelCache import ModelCache, register_model_cache
 from .ModelRun import ModelRun
+from .DarwinError import DarwinError
 
 ALL_MODELS_FILE = "models.json"
 
@@ -66,7 +67,7 @@ class MemoryModelCache(ModelCache):
         if 'phenotype' in kwargs:
             return deepcopy(self.phenotypes.get(kwargs['phenotype']))
 
-        raise RuntimeError('Expected genotype or phenotype')
+        raise DarwinError('Expected genotype or phenotype')
 
     def load(self):
         """

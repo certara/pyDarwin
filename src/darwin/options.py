@@ -247,8 +247,13 @@ class Options:
         if self.engine_adapter == 'nlme':
             self.max_omega_band_width = 1
 
+        self.max_omega_search_len = opts.get('max_omega_search_len', 16)
+
+        if self.max_omega_search_len > 16:
+            log.warn('max_omega_search_len is too big, resetting to 16')
+
         if self.search_omega_bands and self.max_omega_band_width < 1:
-            log.warn("max_omega_band_width must be at least 1, omitting omega band width search")
+            log.warn('max_omega_band_width must be at least 1, omitting omega band width search')
             self.search_omega_bands = False
 
         if self.search_omega_bands and self.random_seed is None and self.engine_adapter == 'nonmem':
@@ -262,7 +267,7 @@ class Options:
             self.search_omega_sub_matrix = False
 
         if self.search_omega_sub_matrix and self.max_omega_sub_matrix < 1:
-            log.warn("max_omega_sub_matrix must be at least 1, omitting search_omega_sub_matrix")
+            log.warn('max_omega_sub_matrix must be at least 1, omitting search_omega_sub_matrix')
             self.search_omega_sub_matrix = False
 
         self.keep_key_models = opts.get('keep_key_models', False)

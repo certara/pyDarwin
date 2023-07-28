@@ -21,6 +21,7 @@ from darwin.Template import Template
 from darwin.Model import Model
 from darwin.ModelRun import ModelRun
 from darwin.Population import Population
+from darwin.omega_search import get_omega_block_masks
 
 logger = logging.getLogger(__name__)
 
@@ -46,11 +47,10 @@ def _create_optimizer(model_template: Template, algorithm, chain_num) -> list:
 
     # and for omega submatrices
     if options.search_omega_sub_matrix:
-        numerical_group = list(range(2))
+        numerical_group = list(range(len(get_omega_block_masks())))
 
-        for this_m in range(options.max_omega_sub_matrix):
-            this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
-            num_groups.append(this_x)
+        this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
+        num_groups.append(this_x)
 
     opts = []
 

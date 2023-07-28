@@ -617,7 +617,7 @@ def _check_for_multiple_probs(template_text: str):
         sys.exit()
 
 
-def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tuple:
+def set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
     """
     Removes ALL existing omega blocks from control, then inserts a series of $OMEGAs. These will be unchanged
     if the source is BLOCK or DIAG. If it is not specified BLOCK or DIAG (and so is by default DIAG), will convert
@@ -630,8 +630,8 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tupl
     :param band_width: require band width
     :type band_width: int
 
-    :param omega_band_pos: require array of 0|1 whether to continue the omega block into the next one
-    :type omega_band_pos: ndarray
+    :param mask_idx: require array of 0|1 whether to continue the omega block into the next one
+    :type mask_idx: ndarray
 
     :return: modified control file
     :rtype: str
@@ -670,15 +670,13 @@ def set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tupl
     final_control = "\n".join(temp_final_control)
 
     for start in omega_blocks:
-        # TODO: what if no ; search_band? or only some with search Omega band??
-
-        if re.search(r".*;.*search.*band", start[0], re.IGNORECASE) is None:  # $OMEGA should be first line
+        if re.search(r'.*?;\s*search\s+band\b', start[0], re.IGNORECASE) is None:  # $OMEGA should be first line
             final_control += "\n" + '\n'.join(str(x) for x in start)
             continue
 
         diag_block = get_omega_block(start)
 
-        bands = get_bands(diag_block, band_width, omega_band_pos)
+        bands = get_bands(diag_block, band_width, mask_idx)
 
         band_start = 0
 

@@ -5,23 +5,27 @@ from darwin.Log import log
 
 from darwin.options import options
 from darwin.ModelCode import ModelCode
+from darwin.DarwinError import DarwinError
+
+
+_masks = []
+_max_mask_len = 0
 
 
 def apply_omega_bands(control: str, model_code: ModelCode, omega_band_pos: int, set_bands_impl: callable) -> tuple:
     bands = ''
 
     if options.search_omega_bands:
-        # band width must be last gene
         band_width = model_code.IntCode[omega_band_pos]
 
         if band_width > 0:
             if options.search_omega_sub_matrix:
-                submatrices = model_code.IntCode[(omega_band_pos + 1):]
+                mask_idx = model_code.IntCode[omega_band_pos + 1]
             else:
-                submatrices = [1] * 10  # if no search, max is permitted, then unlimited size of omega matrices
+                mask_idx = -1  # if no search, max is permitted, then unlimited size of omega matrices
 
             # need to know where the band width is specified, rest is omega submatrices
-            control, band_arr = set_bands_impl(control, band_width, submatrices)
+            control, band_arr = set_bands_impl(control, band_width, mask_idx)
 
             if band_arr:
                 bands = ', '. join(band_arr)
@@ -30,57 +34,46 @@ def apply_omega_bands(control: str, model_code: ModelCode, omega_band_pos: int, 
     return control, bands
 
 
-def get_bands(diag_block: list, band_width: int, omega_band_pos: list, nlme: bool = False) -> list:
+def get_bands(diag_block: list, band_width: int, mask_idx: int, nlme: bool = False) -> list:
     res = []
 
-    bands = omega_band_pos.copy()
+    len_d = len(diag_block)
 
-    any_band = band_width > 0 and any(bands)
+    if mask_idx < 0:
+        masks = [(0, min(len_d, options.max_omega_search_len))]
+    else:
+        if len_d > options.max_omega_search_len:
+            raise DarwinError('Omega search block size is bigger than max_omega_search_len')
 
-    bands.extend([0] * (len(diag_block) - len(bands)))
+        all_masks = get_omega_block_masks(len_d)
 
-    for i in range(len(bands) - 1):
-        if bands[i] == 1 and bands[i + 1] == 0:
-            bands[i + 1] = 2
+        i = int(mask_idx * len(all_masks) / _max_mask_len)
 
-    block = [[], []]
-    last_band = bands[0]
+        masks = all_masks[i]
 
-    omega_size = 0  # current omega block size
+    last_end = 0
 
-    def add_res():
-        nonlocal omega_size
+    for start, size in masks:
+        end = start + size
 
-        if any_band and last_band and omega_size > 1:
-            if nlme:
-                init_off_diags = np.zeros([omega_size, omega_size])
-                for row in range(omega_size):
-                    init_off_diags[row, row] = block[last_band][row]
-            else:
-                init_off_diags = find_band(omega_size, band_width, block[last_band])
+        if start > last_end:
+            init_off_diags = [[j] for j in diag_block[last_end:start]]
+            res.append((init_off_diags, 0))
+
+        if nlme:
+            init_off_diags = np.zeros([size, size])
+            for row in range(size):
+                init_off_diags[row, row] = diag_block[start + row]
         else:
-            init_off_diags = [[j] for j in block[last_band]]
-            omega_size = 0
+            init_off_diags = find_band(size, band_width, diag_block[start:end])
 
-        res.append((init_off_diags, omega_size))
+        res.append((init_off_diags, size))
 
-    for omega, band in zip(diag_block, bands):
-        idx = band if band < 2 else 1
-        block[idx].append(omega)
+        last_end = end
 
-        if band != last_band and band != 2:
-            add_res()
-
-            block[last_band] = []
-            omega_size = 0
-
-        if band:
-            omega_size += 1
-
-        last_band = idx
-
-    if len(block[last_band]):
-        add_res()
+    if len(diag_block) > last_end:
+        init_off_diags = [[j] for j in diag_block[last_end:]]
+        res.append((init_off_diags, 0))
 
     return res
 
@@ -131,3 +124,45 @@ def find_band(omega_size: int, band_width: int, omega_block: list):
             break
 
     return init_off_diags
+
+
+def get_masks2(start: int, end: int, min_size: int, max_size: int):
+    me = min(max_size, end) + 1
+
+    for i in range(min_size, me):
+        if i + start > end:
+            return
+
+        t = [(start, i)]
+
+        yield t
+
+        for j in range(start + i, end):
+            for m2 in get_masks2(j, end, min_size, max_size):
+                yield t + m2
+
+
+def _get_masks(end: int, min_size: int, max_size: int) -> list:
+    masks = []
+
+    for start in range(0, end - 1):
+        for mask in get_masks2(start, end, min_size, max_size):
+            masks.append(mask)
+
+    return masks
+
+
+def get_omega_block_masks(search_len: int = 0) -> list:
+    global _masks
+    global _max_mask_len
+
+    search_len = search_len or options.max_omega_search_len
+
+    if not _masks:
+        _masks = [[], []]
+        for i in range(2, options.max_omega_search_len + 1):
+            _masks.append(_get_masks(i, 2, options.max_omega_sub_matrix))
+
+        _max_mask_len = len(get_omega_block_masks(options.max_omega_search_len))
+
+    return _masks[search_len]

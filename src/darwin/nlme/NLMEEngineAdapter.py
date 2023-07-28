@@ -176,8 +176,6 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
         control, bands = apply_omega_bands(control, model_code, template.omega_band_pos, _set_omega_bands)
 
-        control = re.sub(r'\branef:search_band\b', 'ranef', control, flags=re.MULTILINE)
-
         phenotype = str(phenotype)
         phenotype = phenotype.replace('OrderedDict', '')
         phenotype += bands
@@ -638,7 +636,7 @@ def _add_search_ranef_blocks(control: str, block_omegas: list) -> str:
     return control
 
 
-def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tuple:
+def _set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
     mdl = _get_mdl(control)
 
     ranefs = extract_data('ranef', mdl)
@@ -659,7 +657,7 @@ def _set_omega_bands(control: str, band_width: int, omega_band_pos: list) -> tup
         except KeyError as e:
             raise DarwinError(f"Unknown omega '{e.args[0]}': {full_block}")
 
-        bands = get_bands(om_val, band_width, omega_band_pos, True)
+        bands = get_bands(om_val, band_width, mask_idx, True)
 
         if not any([b[1] for b in bands]):
             # no block ranefs

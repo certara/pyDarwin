@@ -17,6 +17,7 @@ import darwin.LocalRunManager
 import darwin.grid.GridRunManager
 import darwin.nonmem.NMEngineAdapter
 import darwin.nlme.NLMEEngineAdapter
+from darwin.omega_search import get_omega_block_masks
 
 from darwin.ModelEngineAdapter import get_engine_adapter
 
@@ -262,6 +263,7 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
     if options.search_omega_sub_matrix:
         log.message(f"Including search for OMEGA submatrices, with size up to {options.max_omega_sub_matrix}")
 
-        for i in range(options.max_omega_sub_matrix):
-            template.gene_length.append(1)
-            template.gene_max.append(1)
+        size = len(get_omega_block_masks())
+
+        template.gene_max.append(size - 1)
+        template.gene_length.append(math.ceil(math.log(size, 2)))

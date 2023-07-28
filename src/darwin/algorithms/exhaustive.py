@@ -10,6 +10,7 @@ from darwin.Template import Template
 from darwin.ModelRun import ModelRun
 from darwin.ModelCode import ModelCode
 from darwin.Population import Population
+from darwin.omega_search import get_omega_block_masks
 
 
 def run_exhaustive(model_template: Template) -> ModelRun:
@@ -57,8 +58,8 @@ def get_search_space(model_template: Template) -> np.ndarray:
 
     # need to add another group if searching on omega submatrices
     if options.search_omega_sub_matrix:
-        for i in range(options.max_omega_sub_matrix):
-            num_groups.append([0, 1])
+        size = len(get_omega_block_masks())
+        num_groups.append(list(range(size)))
 
     if not num_groups:
         log.error('The search space is empty - exiting')

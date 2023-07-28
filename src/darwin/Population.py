@@ -39,6 +39,8 @@ class Population:
 
         self.name = str(name)
         self.runs = []
+        self.runs_g = {}
+        self.runs_ph = {}
         self.model_number = start_number
         self.num_format = '{:0' + str(len(str(max_number))) + 'd}'
         self.template = template
@@ -77,20 +79,19 @@ class Population:
         run = self.model_cache.find_model_run(genotype=genotype) \
             or self.model_cache.find_model_run(phenotype=phenotype)
 
-        existing_runs = list(filter(lambda r: str(r.model.genotype()) == genotype, self.runs)) \
-            + list(filter(lambda r: r.model.phenotype == phenotype, self.runs))
+        existing_run = self.runs_g.get(genotype, None) or self.runs_ph.get(phenotype, None)
 
         if run and options.rerun_key_models \
                 and (GlobalVars.best_run is None or run.result.fitness < GlobalVars.best_run.result.fitness):
             # re-run this one
             run = None
 
-        if existing_runs:
-            run = copy(existing_runs[0])
+        if existing_run:
+            run = copy(existing_run)
             run.model_num = self.model_number
             run.file_stem += f'_{run.model_num}'
-            run.reference_model_num = existing_runs[0].model_num
-            clone = 'Clone' if existing_runs[0].model.genotype() == genotype else 'Twin'
+            run.reference_model_num = existing_run.model_num
+            clone = 'Clone' if existing_run.model.genotype() == genotype else 'Twin'
             run.status = f'{clone}({run.reference_model_num})'
         elif run:
             if run.generation != self.name or run.model_num != self.model_number:
@@ -115,6 +116,11 @@ class Population:
         GlobalVars.all_models_num += 1
 
         self.runs.append(run)
+
+        if genotype not in self.runs_g:
+            self.runs_g[genotype] = run
+        if phenotype not in self.runs_ph:
+            self.runs_ph[phenotype] = run
 
     def get_best_run(self) -> ModelRun:
         """

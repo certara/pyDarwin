@@ -158,7 +158,6 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         Ignore last value if self_search_omega_bands.
         """
 
-        # this appears to be OK with search_omega_bands
         phenotype = OrderedDict(zip(template.tokens.keys(), model_code.IntCode))
 
         non_influential_tokens = _get_non_inf_tokens(template.tokens, phenotype)

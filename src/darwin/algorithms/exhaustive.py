@@ -53,7 +53,7 @@ def get_search_space(model_template: Template) -> np.ndarray:
         num_groups.append(list(range(len(token_group))))
 
     # need to add another group if searching on omega bands
-    if options.search_omega_bands:
+    if options.search_omega_blocks:
         num_groups.append(list(range(options.max_omega_band_width + 1)))
 
     # need to add another group if searching on omega submatrices

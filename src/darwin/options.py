@@ -241,30 +241,33 @@ class Options:
 
             self.python_post_process_path = os.path.abspath(rp)
 
-        self.search_omega_bands = opts.get('search_omega_bands', False)
-        self.max_omega_band_width = opts.get('max_omega_band_width', 0)
+        if self.engine_adapter == 'nonmem':
+            self.search_omega_blocks = opts.get('search_omega_bands', False)
+
+            if self.search_omega_blocks and self.random_seed is None:
+                raise DarwinError('random_seed is required for omega band search')
+
+            self.max_omega_band_width = opts.get('max_omega_band_width', 1)
 
         if self.engine_adapter == 'nlme':
+            self.search_omega_blocks = opts.get('search_omega_blocks', False)
             self.max_omega_band_width = 1
+
+        if self.search_omega_blocks and self.max_omega_band_width < 1:
+            log.warn('max_omega_band_width must be at least 1, omitting omega band width search')
+            self.search_omega_blocks = False
 
         self.max_omega_search_len = opts.get('max_omega_search_len', 16)
 
         if self.max_omega_search_len > 16:
             log.warn('max_omega_search_len is too big, resetting to 16')
 
-        if self.search_omega_bands and self.max_omega_band_width < 1:
-            log.warn('max_omega_band_width must be at least 1, omitting omega band width search')
-            self.search_omega_bands = False
+        self.search_omega_sub_matrix = False
 
-        if self.search_omega_bands and self.random_seed is None and self.engine_adapter == 'nonmem':
-            raise DarwinError('random_seed is required for omega band search')
-
-        if self.search_omega_bands:
+        if self.search_omega_blocks:
             self.search_omega_sub_matrix = opts.get('search_omega_sub_matrix', False)
             if self.search_omega_sub_matrix:
                 self.max_omega_sub_matrix = opts.get('max_omega_sub_matrix', 4)
-        else:
-            self.search_omega_sub_matrix = False
 
         if self.search_omega_sub_matrix and self.max_omega_sub_matrix < 1:
             log.warn('max_omega_sub_matrix must be at least 1, omitting search_omega_sub_matrix')

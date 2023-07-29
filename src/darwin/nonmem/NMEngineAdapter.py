@@ -123,7 +123,6 @@ class NMEngineAdapter(ModelEngineAdapter):
         Ignore last value if self_search_omega_bands.
         """
 
-        # this appears to be OK with search_omega_bands
         phenotype = OrderedDict(zip(template.tokens.keys(), model_code.IntCode))
 
         non_influential_tokens = _get_non_inf_tokens(template.tokens, phenotype)
@@ -605,7 +604,7 @@ def _check_for_multiple_probs(template_text: str):
     # putting all $OMEGA at end of control
     # next version, put $OMEGAs back in original place?
 
-    if not options.search_omega_bands:
+    if not options.search_omega_blocks:
         return
 
     all_lines = remove_comments(template_text)

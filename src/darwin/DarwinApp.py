@@ -230,20 +230,20 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
     final gene in genome is omega band width, values 0 to max omega size -1
     """
 
-    if not options.search_omega_bands:
+    if not options.search_omega_blocks:
         return
 
-    can_search = adapter.can_omega_search(template.template_text)
+    (can_search, err) = adapter.can_omega_search(template.template_text)
 
-    if not can_search[0]:
-        log.warn(f"{can_search[1]} Turning off OMEGA search.")
+    if not can_search:
+        log.warn(f"{err} Turning off OMEGA search.")
 
-        options.search_omega_bands = False
+        options.search_omega_blocks = False
         options.search_omega_sub_matrix = False
 
         return
 
-    if options.search_omega_bands is False and options.search_omega_sub_matrix is True:
+    if options.search_omega_blocks is False and options.search_omega_sub_matrix is True:
         log.warn(
             f"Cannot do omega sub matrix search without omega band search. Turning off omega submatrix search.")
 
@@ -259,7 +259,6 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
 
     template.omega_band_pos = len(template.gene_max) - 1
 
-    # OMEGA submatrices?
     if options.search_omega_sub_matrix:
         log.message(f"Including search for OMEGA submatrices, with size up to {options.max_omega_sub_matrix}")
 

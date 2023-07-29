@@ -15,7 +15,7 @@ _max_mask_len = 0
 def apply_omega_bands(control: str, model_code: ModelCode, omega_band_pos: int, set_bands_impl: callable) -> tuple:
     bands = ''
 
-    if options.search_omega_bands:
+    if options.search_omega_blocks:
         band_width = model_code.IntCode[omega_band_pos]
 
         if band_width > 0:

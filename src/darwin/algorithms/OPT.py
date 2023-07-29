@@ -39,7 +39,7 @@ def _create_optimizer(model_template: Template, algorithm, chain_num) -> list:
         num_groups.append(this_x)
 
     # and for omega bands
-    if options.search_omega_bands:
+    if options.search_omega_blocks:
         numerical_group = list(range(options.max_omega_band_width))
 
         this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")

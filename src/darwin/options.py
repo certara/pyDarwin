@@ -257,10 +257,17 @@ class Options:
             log.warn('max_omega_band_width must be at least 1, omitting omega band width search')
             self.search_omega_blocks = False
 
-        self.max_omega_search_len = opts.get('max_omega_search_len', 16)
+        omega_search_limit = 16
+        self.OMEGA_SEARCH_LIMIT = 16
 
-        if self.max_omega_search_len > 16:
-            log.warn('max_omega_search_len is too big, resetting to 16')
+        self.max_omega_search_len = opts.get('max_omega_search_len', omega_search_limit)
+
+        if self.max_omega_search_len > omega_search_limit:
+            log.warn(f"max_omega_search_len is too big, resetting to {omega_search_limit}")
+
+        if self.max_omega_search_len < 2:
+            log.warn(f"max_omega_search_len must be [2, {omega_search_limit}], disabling omega search")
+            self.search_omega_blocks = False
 
         self.search_omega_sub_matrix = False
 

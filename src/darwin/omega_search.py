@@ -7,7 +7,6 @@ from darwin.options import options
 from darwin.ModelCode import ModelCode
 from darwin.DarwinError import DarwinError
 
-
 _masks = []
 _max_mask_len = 0
 
@@ -42,8 +41,8 @@ def get_bands(diag_block: list, band_width: int, mask_idx: int, nlme: bool = Fal
     if mask_idx < 0:
         masks = [(0, min(len_d, options.max_omega_search_len))]
     else:
-        if len_d > options.max_omega_search_len:
-            raise DarwinError('Omega search block size is bigger than max_omega_search_len')
+        if len_d > options.OMEGA_SEARCH_LIMIT:
+            raise DarwinError(f"Omega search block size is bigger than {options.OMEGA_SEARCH_LIMIT}")
 
         all_masks = get_omega_block_masks(len_d)
 
@@ -160,7 +159,7 @@ def get_omega_block_masks(search_len: int = 0) -> list:
 
     if not _masks:
         _masks = [[], []]
-        for i in range(2, options.max_omega_search_len + 1):
+        for i in range(2, MAX_OMEGA_SEARCH + 1):
             _masks.append(_get_masks(i, 2, options.max_omega_sub_matrix))
 
         _max_mask_len = len(get_omega_block_masks(options.max_omega_search_len))

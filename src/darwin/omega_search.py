@@ -159,7 +159,7 @@ def get_omega_block_masks(search_len: int = 0) -> list:
 
     if not _masks:
         _masks = [[], []]
-        for i in range(2, MAX_OMEGA_SEARCH + 1):
+        for i in range(2, options.OMEGA_SEARCH_LIMIT + 1):
             _masks.append(_get_masks(i, 2, options.max_omega_sub_matrix))
 
         _max_mask_len = len(get_omega_block_masks(options.max_omega_search_len))

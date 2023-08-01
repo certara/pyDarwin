@@ -1,0 +1,27 @@
+{
+    "author": "Certara",
+    "algorithm": "EX",
+    "exhaustive_batch_size": 100,
+    "num_parallel": 4,
+
+    "population_size": 8,
+    "num_generations": 4,
+
+    "search_omega_blocks": true,
+    "search_omega_sub_matrix": true,
+    "max_omega_sub_matrix": 4,
+    "max_omega_search_len": 4,
+
+    "engine_adapter": "nlme",
+
+    "remove_run_dir": false,
+
+    "keep_key_models": true,
+
+    "nlme_dir": "C:/Program Files/Certara/NLME_Engine",
+    "gcc_dir": "C:/Program Files/Certara/mingw64",
+    "nlme_license": "c:/workspace/lservrc",
+    "rscript_path": "C:/Program Files/R/R-4.3.1/bin/Rscript.exe",
+
+    "model_run_timeout": 1200
+}

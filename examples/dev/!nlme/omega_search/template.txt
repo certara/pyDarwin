@@ -1,0 +1,9 @@
+##Description: SearchTlag
+##Author: Certara
+##DATA {data_dir}/OneCpt_OralBolus.csv
+##MAP   {PML[1]} id = ID time = time
+##MODEL {PML[2]}
+##ESTARGS
+
+##TABLES
+

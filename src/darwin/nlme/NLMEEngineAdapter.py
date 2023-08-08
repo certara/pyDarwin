@@ -608,7 +608,7 @@ def _find_block_structure(bands: list, band_arr: list, blocks: dict, sb: list) -
 
 
 def _extract_omega_search_blocks(text: str) -> tuple:
-    matches = re.findall(r'(^\s*#search_block\s*\(\s*(\w+(?:\s*,\s*\w+)*)\))', text, flags=re.MULTILINE | re.DOTALL)
+    matches = re.findall(r'(^\s*#search_block\s*\(\s*(\w+(?:\s*,\s*\w*)*)\))', text, flags=re.MULTILINE | re.DOTALL)
 
     data = []
     data0 = []
@@ -649,12 +649,12 @@ def _set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
     block_omegas = []
 
     for sblock, full_block in zip(search_blocks, full_search_blocks):
-        sb = re.sub(r'\s+', '', sblock, flags=re.MULTILINE | re.DOTALL).split(',')
+        sb = re.sub(r'\s+', '', sblock, flags=re.MULTILINE | re.DOTALL)
+        sb = re.sub(r',,+', ',', sb, flags=re.MULTILINE | re.DOTALL)
+        sb = sb.split(',')
 
-        try:
-            om_val = [float(vals[o]) for o in sb]
-        except KeyError as e:
-            raise DarwinError(f"Unknown omega '{e.args[0]}': {full_block}")
+        sb = [o for o in sb if o in vals]
+        om_val = [float(vals[o]) for o in sb]
 
         bands = get_bands(om_val, band_width, mask_idx, True)
 

@@ -38,6 +38,9 @@ def get_bands(diag_block: list, band_width: int, mask_idx: int, nlme: bool = Fal
 
     len_d = len(diag_block)
 
+    if len_d < 2:
+        return res
+
     if mask_idx < 0:
         masks = [(0, min(len_d, options.max_omega_search_len))]
     else:

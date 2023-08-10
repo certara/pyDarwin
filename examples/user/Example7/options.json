@@ -19,7 +19,6 @@
   "max_omega_band_width": 1,
   "search_omega_sub_matrix": true,
   "max_omega_sub_matrix": 2,
-  "max_omega_search_len": 3,
   "remove_run_dir": false,
   "nmfe_path": "c:/nm74g64/util/nmfe74.bat",
   "model_run_timeout": 1200

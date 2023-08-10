@@ -241,45 +241,6 @@ class Options:
 
             self.python_post_process_path = os.path.abspath(rp)
 
-        if self.engine_adapter == 'nonmem':
-            self.search_omega_blocks = opts.get('search_omega_bands', False)
-
-            if self.search_omega_blocks and self.random_seed is None:
-                raise DarwinError('random_seed is required for omega band search')
-
-            self.max_omega_band_width = opts.get('max_omega_band_width', 1)
-
-        if self.engine_adapter == 'nlme':
-            self.search_omega_blocks = opts.get('search_omega_blocks', False)
-            self.max_omega_band_width = 1
-
-        if self.search_omega_blocks and self.max_omega_band_width < 1:
-            log.warn('max_omega_band_width must be at least 1, omitting omega band width search')
-            self.search_omega_blocks = False
-
-        omega_search_limit = 16
-        self.OMEGA_SEARCH_LIMIT = 16
-
-        self.max_omega_search_len = opts.get('max_omega_search_len', omega_search_limit)
-
-        if self.max_omega_search_len > omega_search_limit:
-            log.warn(f"max_omega_search_len is too big, resetting to {omega_search_limit}")
-
-        if self.max_omega_search_len < 2:
-            log.warn(f"max_omega_search_len must be [2, {omega_search_limit}], disabling omega search")
-            self.search_omega_blocks = False
-
-        self.search_omega_sub_matrix = False
-
-        if self.search_omega_blocks:
-            self.search_omega_sub_matrix = opts.get('search_omega_sub_matrix', False)
-            if self.search_omega_sub_matrix:
-                self.max_omega_sub_matrix = opts.get('max_omega_sub_matrix', 4)
-
-        if self.search_omega_sub_matrix and self.max_omega_sub_matrix < 1:
-            log.warn('max_omega_sub_matrix must be at least 1, omitting search_omega_sub_matrix')
-            self.search_omega_sub_matrix = False
-
         self.keep_key_models = opts.get('keep_key_models', False)
         # don't rerun if key models are not kept
         self.rerun_key_models = opts.get('rerun_key_models', False) and self.keep_key_models

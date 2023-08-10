@@ -211,7 +211,7 @@ def _get_subtree(text: str, tokens: dict, is_sb: bool, pattern: str, prefix: str
                 yield tok, i, x[int(i)-1]
 
 
-def get_max_search_block(template: Template, pattern: str, get_omega_block: callable, prefix: str):
+def get_max_search_block(template: Template, pattern: str, get_omega_block: callable, prefix: str) -> int:
     max_len = 0
 
     for i in _get_subtree(template.template_text, template.tokens, False, pattern, prefix):
@@ -220,6 +220,4 @@ def get_max_search_block(template: Template, pattern: str, get_omega_block: call
         for j, sb in enumerate(sblocks):
             max_len = max(len(get_omega_block(sb.split("\n"))), max_len)
 
-    if max_len > 0:
-        log.message(f"Calculated max omega search length = {max_len}")
-        options.max_omega_search_len = max_len
+    return max_len

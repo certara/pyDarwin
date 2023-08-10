@@ -33,7 +33,11 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def init_template(template: Template):
-        get_max_search_block(template, omega_search_pattern, _get_searched_omegas, '#search_block')
+        pass
+
+    @staticmethod
+    def get_max_search_block(template: Template) -> int:
+        return get_max_search_block(template, omega_search_pattern, _get_searched_omegas, '#search_block')
 
     @staticmethod
     def init_engine():

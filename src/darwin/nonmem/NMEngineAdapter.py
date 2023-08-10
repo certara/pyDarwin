@@ -39,8 +39,10 @@ class NMEngineAdapter(ModelEngineAdapter):
         _check_for_prior(template_text)
         _check_for_multiple_probs(template_text)
 
-        get_max_search_block(template, r'(^\s*\$OMEGA\b[^$]*;\s*search\s+band.*?\n([^$]+))',
-                             get_omega_block, '$OMEGA')
+    @staticmethod
+    def get_max_search_block(template: Template) -> int:
+        return get_max_search_block(template, r'(^\s*\$OMEGA\b[^$]*;\s*search\s+band.*?\n([^$]+))',
+                                    get_omega_block, '$OMEGA')
 
     @staticmethod
     def init_engine():

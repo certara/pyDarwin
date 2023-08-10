@@ -121,6 +121,14 @@ class ModelEngineAdapter(ABC):
 
         pass
 
+    @staticmethod
+    @abstractmethod
+    def get_max_search_block(template: Template) -> int:
+        """
+        """
+
+        pass
+
 
 def register_engine_adapter(name: str, engine):
     global _ENGINES

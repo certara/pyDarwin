@@ -121,7 +121,6 @@ def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, v
 def get_omega_block(start: list) -> np.array:
     # remove comments, each value in $OMEGA needs to be new line
     block = remove_comments(start).splitlines()
-    block = block[1:]  # first line must be only $OMEGA + comments
     # remove any blank lines
     block[:] = [x for x in block if x]
     # and collect the values, to be used on diagonal

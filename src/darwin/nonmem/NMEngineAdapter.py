@@ -17,7 +17,7 @@ from darwin.options import options
 
 from darwin.Template import Template
 from darwin.ModelCode import ModelCode
-from darwin.omega_search import apply_omega_bands, get_bands
+from darwin.omega_search import apply_omega_bands, get_bands, get_max_search_block
 
 from .utils import match_vars, remove_comments, get_omega_block
 
@@ -38,6 +38,9 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         _check_for_prior(template_text)
         _check_for_multiple_probs(template_text)
+
+        get_max_search_block(template, r'(^\s*\$OMEGA\b[^$]*;\s*search\s+band.*?\n([^$]+))',
+                             get_omega_block, '$OMEGA')
 
     @staticmethod
     def init_engine():
@@ -673,7 +676,7 @@ def set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
             final_control += "\n" + '\n'.join(str(x) for x in start)
             continue
 
-        diag_block = get_omega_block(start)
+        diag_block = get_omega_block(start[1:])
 
         bands = get_bands(diag_block, band_width, mask_idx)
 

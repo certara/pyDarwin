@@ -1,10 +1,12 @@
 import math
 import numpy as np
+import re
 
 from darwin.Log import log
 
 from darwin.options import options
 from darwin.ModelCode import ModelCode
+from darwin.Template import Template
 from darwin.DarwinError import DarwinError
 
 _masks = []
@@ -168,3 +170,56 @@ def get_omega_block_masks(search_len: int = 0) -> list:
         _max_mask_len = len(get_omega_block_masks(options.max_omega_search_len))
 
     return _masks[search_len]
+
+
+def extract_omega_search_blocks(pattern: str, text: str) -> tuple:
+    matches = re.findall(pattern, text, flags=re.MULTILINE | re.DOTALL)
+
+    data = []
+    data0 = []
+
+    for occ0, occ in matches:
+        data0.append(occ0)
+        data.append(occ)
+
+    return data, data0
+
+
+def _get_subtree(text: str, tokens: dict, is_sb: bool, pattern: str, prefix: str):
+    (sblocks, full_search_blocks) = extract_omega_search_blocks(pattern, text)
+
+    for i, sb in enumerate(full_search_blocks):
+        has_toks = False
+
+        for tt in _get_subtree(sb.replace(prefix, ''), tokens, True, pattern, prefix):
+            has_toks = True
+            yield sb.replace('{' + f"{tt[0]}[{tt[1]}]" + '}', tt[2])
+
+        if not has_toks and not is_sb:
+            yield sb
+
+        text = text.replace(sb, '')
+
+    toks = re.findall(r'\{([^\[{}]+)\[(\d+)]}', text, flags=re.MULTILINE | re.DOTALL)
+
+    for (tok, i) in toks:
+        for x in tokens[tok]:
+            for tt in _get_subtree(x[int(i) - 1], tokens, is_sb, pattern, prefix):
+                yield tt
+
+            if is_sb:
+                yield tok, i, x[int(i)-1]
+
+
+def get_max_search_block(template: Template, pattern: str, get_omega_block: callable, prefix: str):
+    max_len = 0
+
+    for i in _get_subtree(template.template_text, template.tokens, False, pattern, prefix):
+        (sblocks, full_search_blocks) = extract_omega_search_blocks(pattern, i)
+
+        for j, sb in enumerate(sblocks):
+            max_len = max(len(get_omega_block(sb.split("\n"))), max_len)
+
+    if max_len > 0:
+        log.message(f"Calculated max omega search length = {max_len}")
+        options.max_omega_search_len = max_len

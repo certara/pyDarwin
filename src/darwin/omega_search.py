@@ -211,14 +211,14 @@ def _get_subtree(text: str, tokens: dict, is_sb: bool, pattern: str):
             yield tt
 
 
-def _get_subtree2(text: str, tokens: dict, is_sb: bool, pattern: str, tok=None) -> OrderedDict:
+def _get_subtree2(text: str, tokens: dict, is_sb: bool, pattern: str, tok=None, depth=1) -> OrderedDict:
     tree = OrderedDict()
 
     if not is_sb:
         (sblocks, full_search_blocks) = extract_omega_search_blocks(pattern, text)
 
         for i, sb in enumerate(full_search_blocks):
-            tt = _get_subtree2(sb, tokens, True, pattern)
+            tt = _get_subtree2(sb, tokens, True, pattern, depth=depth+1)
             tree.update(tt)
             text = text.replace(sb, '')
             if tok:
@@ -226,9 +226,12 @@ def _get_subtree2(text: str, tokens: dict, is_sb: bool, pattern: str, tok=None) 
 
     toks = re.findall(r'\{([^\[{}]+)\[(\d+)]}', text, flags=re.MULTILINE | re.DOTALL)
 
+    if toks and depth > options.TOKEN_NESTING_LIMIT:
+        raise DarwinError(f"There are more than {options.TOKEN_NESTING_LIMIT} levels of nested tokens.")
+
     for (tok, i) in toks:
         for x in tokens[tok]:
-            tt = _get_subtree2(x[int(i)-1], tokens, is_sb, pattern, {tok: int(i)-1})
+            tt = _get_subtree2(x[int(i)-1], tokens, is_sb, pattern, {tok: int(i)-1}, depth=depth+1)
             if not is_sb and len(tt) == 0:
                 continue
             tree.update(tt)

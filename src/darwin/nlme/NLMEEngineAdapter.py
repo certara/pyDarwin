@@ -170,7 +170,8 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
         control = template.template_text
 
-        token_found, control = utils.replace_tokens(template.tokens, control, phenotype, non_influential_tokens)
+        token_found, control = utils.replace_tokens(template.tokens, control, phenotype, non_influential_tokens,
+                                                    options.TOKEN_NESTING_LIMIT)
 
         non_influential_token_num = sum(non_influential_tokens)
 

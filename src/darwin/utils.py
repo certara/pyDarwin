@@ -12,7 +12,7 @@ from darwin.Log import log
 from .DarwinError import DarwinError
 
 
-def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list):
+def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list, max_depth: int):
     """ 
     Loops over tokens in a single token set, replaces any token stem in the control file with the assigned token.
     Called once for each token group, until no more token stems are found. 
@@ -27,6 +27,8 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
     :type phenotype: dict
     :param non_influential_tokens: Boolean list of whether the token group appears in the control file
     :type non_influential_tokens: list
+    :param max_depth: Maximum depth of nested tokens
+    :type max_depth: int
     :return: Boolean (were any tokens substituted, in which case we need to loop over again)
              and current control file text
     :rtype: tuple
@@ -36,7 +38,7 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
     any_found = True  # keep looping, looking for nested tokens
     token_found = False  # error check to see if any tokens are present
 
-    for _ in range(3):  # up to 3 levels of nesting?
+    for _ in range(max_depth):  # levels of nesting
 
         any_found, text = _replace_tokens(tokens, text, phenotype, non_influential_tokens)
         token_found = token_found or any_found
@@ -45,9 +47,7 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
             break
 
     if any_found:
-        log.error("It appears that there is more than four level of nested tokens."
-                  " Only four levels are supported, exiting")
-        raise DarwinError("Are there more than 4 levels of nested tokens?")
+        raise DarwinError(f"There are more than {max_depth} levels of nested tokens.")
 
     return token_found, text
 

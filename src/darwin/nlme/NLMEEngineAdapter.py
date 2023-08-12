@@ -37,7 +37,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def get_max_search_block(template: Template) -> int:
-        return get_max_search_block(template, omega_search_pattern, _get_searched_omegas, '#search_block')
+        return get_max_search_block(template, omega_search_pattern, _get_searched_omegas)
 
     @staticmethod
     def init_engine():
@@ -512,11 +512,18 @@ def _get_mdl(model_text: str) -> str:
     return mdl
 
 
+def _cleanup_search_block(block: str) -> str:
+    sb = re.sub(r'\s+', '', block, flags=re.MULTILINE | re.DOTALL)
+    sb = re.sub(r',,+', ',', sb, flags=re.MULTILINE | re.DOTALL)
+
+    return sb
+
+
 def _get_searched_omegas(search_blocks: list) -> set:
     searched_omegas = set()
 
     for sb in search_blocks:
-        sb = sb.replace(' ', '')
+        sb = _cleanup_search_block(sb)
 
         for name in sb.split(','):
             searched_omegas.add(name)
@@ -642,8 +649,7 @@ def _set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
     block_omegas = []
 
     for sblock, full_block in zip(search_blocks, full_search_blocks):
-        sb = re.sub(r'\s+', '', sblock, flags=re.MULTILINE | re.DOTALL)
-        sb = re.sub(r',,+', ',', sb, flags=re.MULTILINE | re.DOTALL)
+        sb = _cleanup_search_block(sblock)
         sb = sb.split(',')
 
         sb = [o for o in sb if o in vals]

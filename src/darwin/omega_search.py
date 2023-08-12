@@ -1,6 +1,8 @@
 import math
 import numpy as np
 import re
+from collections import OrderedDict
+from copy import deepcopy
 
 from darwin.Log import log
 
@@ -185,39 +187,83 @@ def extract_omega_search_blocks(pattern: str, text: str) -> tuple:
     return data, data0
 
 
-def _get_subtree(text: str, tokens: dict, is_sb: bool, pattern: str, prefix: str):
-    (sblocks, full_search_blocks) = extract_omega_search_blocks(pattern, text)
+def _get_subtree(text: str, tokens: dict, is_sb: bool, pattern: str):
+    if not is_sb:
+        (sblocks, full_search_blocks) = extract_omega_search_blocks(pattern, text)
 
-    for i, sb in enumerate(full_search_blocks):
-        has_toks = False
+        for i, sb in enumerate(full_search_blocks):
+            for tt in _get_subtree(sb, tokens, True, pattern):
+                yield tt
 
-        for tt in _get_subtree(sb.replace(prefix, ''), tokens, True, pattern, prefix):
-            has_toks = True
-            yield sb.replace('{' + f"{tt[0]}[{tt[1]}]" + '}', tt[2])
+            text = text.replace(sb, '')
 
-        if not has_toks and not is_sb:
-            yield sb
+    toks = re.findall(r'\{([^\[{}]+)\[(\d+)]}', text, flags=re.MULTILINE | re.DOTALL)
 
-        text = text.replace(sb, '')
+    if not toks:
+        if is_sb:
+            yield text
+        return
+
+    (tok, i) = toks[0]
+
+    for x in tokens[tok]:
+        for tt in _get_subtree(text.replace('{' + f"{tok}[{i}]" + '}', x[int(i)-1]), tokens, is_sb, pattern):
+            yield tt
+
+
+def _get_subtree2(text: str, tokens: dict, is_sb: bool, pattern: str, tok=None) -> OrderedDict:
+    tree = OrderedDict()
+
+    if not is_sb:
+        (sblocks, full_search_blocks) = extract_omega_search_blocks(pattern, text)
+
+        for i, sb in enumerate(full_search_blocks):
+            tt = _get_subtree2(sb, tokens, True, pattern)
+            tree.update(tt)
+            text = text.replace(sb, '')
+            if tok:
+                tree.update(tok)
 
     toks = re.findall(r'\{([^\[{}]+)\[(\d+)]}', text, flags=re.MULTILINE | re.DOTALL)
 
     for (tok, i) in toks:
         for x in tokens[tok]:
-            for tt in _get_subtree(x[int(i) - 1], tokens, is_sb, pattern, prefix):
-                yield tt
+            tt = _get_subtree2(x[int(i)-1], tokens, is_sb, pattern, {tok: int(i)-1})
+            if not is_sb and len(tt) == 0:
+                continue
+            tree.update(tt)
+            tree[tok] = int(i)-1
 
-            if is_sb:
-                yield tok, i, x[int(i)-1]
+    return tree
 
 
-def get_max_search_block(template: Template, pattern: str, get_omega_block: callable, prefix: str) -> int:
+def _trim_model(text: str, tokens: OrderedDict, pattern: str) -> tuple:
+    tree = _get_subtree2(text, tokens, False, pattern)
+
+    tokens = deepcopy(tokens)
+
+    for k in tokens:
+        for i in range(len(tokens[k]) - 1, -1, -1):
+            for j in range(len(tokens[k][i])):
+                if k not in tree or tree[k] != j:
+                    tokens[k][i][j] = ''
+                    text = text.replace('{' + f"{k}[{j+1}]" + '}', '')
+            if not any(tokens[k][i]):
+                del tokens[k][i]
+
+    return text, tokens
+
+
+def get_max_search_block(template: Template, pattern: str, get_omega_block: callable) -> int:
     max_len = 0
 
-    for i in _get_subtree(template.template_text, template.tokens, False, pattern, prefix):
+    (text, tokens) = _trim_model(template.template_text, template.tokens, pattern)
+
+    for i in _get_subtree(text, tokens, False, pattern):
         (sblocks, full_search_blocks) = extract_omega_search_blocks(pattern, i)
 
-        for j, sb in enumerate(sblocks):
+        for sb in sblocks:
+            sb = re.sub(r'^\s+|^\s*\n(\s*\n)+', '', sb, flags=re.MULTILINE | re.DOTALL)
             max_len = max(len(get_omega_block(sb.split("\n"))), max_len)
 
     return max_len

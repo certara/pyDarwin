@@ -245,7 +245,7 @@ class Options:
         # don't rerun if key models are not kept
         self.rerun_key_models = opts.get('rerun_key_models', False) and self.keep_key_models
 
-        self.TOKEN_NESTING_LIMIT = opts.get('TOKEN_NESTING_LIMIT', 3)
+        self.TOKEN_NESTING_LIMIT = opts.get('TOKEN_NESTING_LIMIT', 4)
 
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):

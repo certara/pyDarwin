@@ -211,7 +211,15 @@ def _get_subtree(text: str, tokens: dict, is_sb: bool, pattern: str):
             yield tt
 
 
-def _get_subtree2(text: str, tokens: dict, is_sb: bool, pattern: str, tok=None, depth=1) -> OrderedDict:
+def _merge_trees(tree: OrderedDict, subtree: dict):
+    for k in subtree:
+        if k not in tree:
+            tree[k] = subtree[k]
+        else:
+            tree[k].update(subtree[k])
+
+
+def _get_subtree2(text: str, tokens: dict, is_sb: bool, pattern: str, subtree=None, depth=1) -> OrderedDict:
     tree = OrderedDict()
 
     if not is_sb:
@@ -219,10 +227,10 @@ def _get_subtree2(text: str, tokens: dict, is_sb: bool, pattern: str, tok=None, 
 
         for i, sb in enumerate(full_search_blocks):
             tt = _get_subtree2(sb, tokens, True, pattern, depth=depth+1)
-            tree.update(tt)
+            _merge_trees(tree, tt)
             text = text.replace(sb, '')
-            if tok:
-                tree.update(tok)
+            if subtree:
+                _merge_trees(tree, subtree)
 
     toks = re.findall(r'\{([^\[{}]+)\[(\d+)]}', text, flags=re.MULTILINE | re.DOTALL)
 
@@ -231,11 +239,11 @@ def _get_subtree2(text: str, tokens: dict, is_sb: bool, pattern: str, tok=None, 
 
     for (tok, i) in toks:
         for x in tokens[tok]:
-            tt = _get_subtree2(x[int(i)-1], tokens, is_sb, pattern, {tok: int(i)-1}, depth=depth+1)
+            tt = _get_subtree2(x[int(i)-1], tokens, is_sb, pattern, {tok: {int(i) - 1: 1}}, depth=depth+1)
             if not is_sb and len(tt) == 0:
                 continue
-            tree.update(tt)
-            tree[tok] = int(i)-1
+            _merge_trees(tree, tt)
+            _merge_trees(tree, {tok: {int(i) - 1: 1}})
 
     return tree
 
@@ -248,7 +256,7 @@ def _trim_model(text: str, tokens: OrderedDict, pattern: str) -> tuple:
     for k in tokens:
         for i in range(len(tokens[k]) - 1, -1, -1):
             for j in range(len(tokens[k][i])):
-                if k not in tree or tree[k] != j:
+                if k not in tree or j not in tree[k]:
                     tokens[k][i][j] = ''
                     text = text.replace('{' + f"{k}[{j+1}]" + '}', '')
             if not any(tokens[k][i]):

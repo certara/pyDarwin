@@ -187,11 +187,15 @@ def extract_omega_search_blocks(pattern: str, text: str) -> tuple:
     return data, data0
 
 
-def _get_subtree(text: str, tokens: dict, is_sb: bool, pattern: str):
+def _get_subtree(text: str, tokens: dict, is_sb: bool, pattern: str, full: bool = True):
+    """
+    full = False only when called from _get_max_search_blocks
+    in this case there will be no search block in any token
+    """
     if not is_sb:
         (sblocks, full_search_blocks) = extract_omega_search_blocks(pattern, text)
 
-        for i, sb in enumerate(full_search_blocks):
+        for i, sb in enumerate(full_search_blocks if full else sblocks):
             for tt in _get_subtree(sb, tokens, True, pattern):
                 yield tt
 
@@ -297,7 +301,7 @@ def _get_max_search_blocks(text: str, tokens: dict, pattern: str, get_omega_bloc
     for k, fsb in enumerate(full_search_blocks):
         ll = 0
 
-        for sb in _get_subtree(fsb, tokens, False, pattern):
+        for sb in _get_subtree(fsb, tokens, False, pattern, False):
             sb = re.sub(r'^\s+|^\s*\n(\s*\n)+', '', sb, flags=re.MULTILINE | re.DOTALL)
 
             ll = max(ll, len(get_omega_block(sb.split("\n"))))

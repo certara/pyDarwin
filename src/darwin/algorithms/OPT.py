@@ -38,19 +38,18 @@ def _create_optimizer(model_template: Template, algorithm, chain_num) -> list:
         this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
         num_groups.append(this_x)
 
-    # and for omega bands
     if options.search_omega_blocks:
-        numerical_group = list(range(options.max_omega_band_width))
+        for i in options.max_omega_search_lens:
+            if options.max_omega_band_width is not None:
+                numerical_group = list(range(1, options.max_omega_band_width+1))
 
-        this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
-        num_groups.append(this_x)
+                this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
+                num_groups.append(this_x)
 
-    # and for omega submatrices
-    if options.search_omega_sub_matrix:
-        numerical_group = list(range(len(get_omega_block_masks())))
+            numerical_group = list(range(len(get_omega_block_masks(i))))
 
-        this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
-        num_groups.append(this_x)
+            this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
+            num_groups.append(this_x)
 
     opts = []
 

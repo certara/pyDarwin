@@ -40,7 +40,7 @@ class NMEngineAdapter(ModelEngineAdapter):
         _check_for_multiple_probs(template_text)
 
     @staticmethod
-    def get_max_search_block(template: Template) -> int:
+    def get_max_search_block(template: Template) -> tuple:
         return get_max_search_block(template, r'(^\s*\$OMEGA\b[^$]*;\s*search\s+band.*?\n([^$]+))', get_omega_block)
 
     @staticmethod
@@ -482,6 +482,13 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         return True, ''
 
+    @staticmethod
+    def get_omega_search_pattern() -> str:
+        """
+        """
+
+        return r'\$OMEGA.*?;\s*search\s+band\b'
+
 
 def _file_to_lines(file_name: str):
     if os.path.exists(file_name):
@@ -621,7 +628,7 @@ def _check_for_multiple_probs(template_text: str):
         sys.exit()
 
 
-def set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
+def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
     """
     Removes ALL existing omega blocks from control, then inserts a series of $OMEGAs. These will be unchanged
     if the source is BLOCK or DIAG. If it is not specified BLOCK or DIAG (and so is by default DIAG), will convert
@@ -631,8 +638,8 @@ def set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
     :param control: existing control file
     :type control: str
 
-    :param band_width: require band width
-    :type band_width: int
+    :param band_width: require band widths
+    :type band_width: list
 
     :param mask_idx: require array of 0|1 whether to continue the omega block into the next one
     :type mask_idx: ndarray
@@ -673,6 +680,8 @@ def set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
 
     final_control = "\n".join(temp_final_control)
 
+    omega_idx = 0
+
     for start in omega_blocks:
         if re.search(r'.*?;\s*search\s+band\b', start[0], re.IGNORECASE) is None:  # $OMEGA should be first line
             final_control += "\n" + '\n'.join(str(x) for x in start)
@@ -680,11 +689,19 @@ def set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
 
         diag_block = get_omega_block(start[1:])
 
-        bands = get_bands(diag_block, band_width, mask_idx)
+        max_len = options.max_omega_search_lens[omega_idx]
+
+        bands = get_bands(diag_block, band_width[omega_idx] + 1, mask_idx[omega_idx], max_len)
+
+        if options.individual_omega_search:
+            omega_idx += 1
 
         band_start = 0
 
         for band, block_size in bands:
+            if len(band) == 0:
+                continue
+
             # and add $OMEGA to start
             if block_size == 0:
                 final_control += "\n" + "$OMEGA  ;; block omega searched for bands\n"

@@ -123,7 +123,15 @@ class ModelEngineAdapter(ABC):
 
     @staticmethod
     @abstractmethod
-    def get_max_search_block(template: Template) -> int:
+    def get_max_search_block(template: Template) -> tuple:
+        """
+        """
+
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def get_omega_search_pattern() -> str:
         """
         """
 

@@ -15,29 +15,31 @@ _masks = []
 _max_mask_len = 0
 
 
-def apply_omega_bands(control: str, model_code: ModelCode, omega_band_pos: int, set_bands_impl: callable) -> tuple:
+def apply_omega_bands(control: str, model_code: ModelCode, omega_band_pos: int, set_bands_impl: callable,
+                      nlme: bool = False) -> tuple:
     bands = ''
 
-    if options.search_omega_blocks:
-        band_width = model_code.IntCode[omega_band_pos]
+    if not options.search_omega_blocks:
+        return control, bands
 
-        if band_width > 0:
-            if options.search_omega_sub_matrix:
-                mask_idx = model_code.IntCode[omega_band_pos + 1]
-            else:
-                mask_idx = -1  # if no search, max is permitted, then unlimited size of omega matrices
+    if nlme:
+        band_width = []
+        mask_idx = model_code.IntCode[omega_band_pos:]
+    else:
+        band_width = model_code.IntCode[omega_band_pos::2]
+        mask_idx = model_code.IntCode[omega_band_pos + 1::2]
 
-            # need to know where the band width is specified, rest is omega submatrices
-            control, band_arr = set_bands_impl(control, band_width, mask_idx)
+    # need to know where the band width is specified, rest is omega submatrices
+    control, band_arr = set_bands_impl(control, band_width, mask_idx)
 
-            if band_arr:
-                bands = ', '. join(band_arr)
-                bands = f", bands: ({bands})"
+    if band_arr:
+        bands = ', '. join(band_arr)
+        bands = f", bands: ({bands})"
 
     return control, bands
 
 
-def get_bands(diag_block: list, band_width: int, mask_idx: int, nlme: bool = False) -> list:
+def get_bands(diag_block: list, band_width: int, mask_idx: int, max_len: int, nlme: bool = False) -> list:
     res = []
 
     len_d = len(diag_block)
@@ -45,17 +47,12 @@ def get_bands(diag_block: list, band_width: int, mask_idx: int, nlme: bool = Fal
     if len_d < 2:
         return res
 
-    if mask_idx < 0:
-        masks = [(0, min(len_d, options.max_omega_search_len))]
-    else:
-        if len_d > options.OMEGA_SEARCH_LIMIT:
-            raise DarwinError(f"Omega search block size is bigger than {options.OMEGA_SEARCH_LIMIT}")
+    len_d = min(len_d, max_len)
 
-        all_masks = get_omega_block_masks(len_d)
+    all_masks = get_omega_block_masks(len_d)
+    i = int(mask_idx * len(all_masks) / _max_mask_len)
 
-        i = int(mask_idx * len(all_masks) / _max_mask_len)
-
-        masks = all_masks[i]
+    masks = all_masks[i]
 
     last_end = 0
 
@@ -149,7 +146,10 @@ def get_masks2(start: int, end: int, min_size: int, max_size: int):
 
 
 def _get_masks(end: int, min_size: int, max_size: int) -> list:
-    masks = []
+    if not options.search_omega_sub_matrix:
+        return [[(0, 0)], [(0, end)]]
+
+    masks = [[(0, 0)]]
 
     for start in range(0, end - 1):
         for mask in get_masks2(start, end, min_size, max_size):
@@ -257,16 +257,50 @@ def _trim_model(text: str, tokens: OrderedDict, pattern: str) -> tuple:
     return text, tokens
 
 
-def get_max_search_block(template: Template, pattern: str, get_omega_block: callable) -> int:
+def _get_max_search_block(text: str, tokens: dict, pattern: str, get_omega_block: callable) -> int:
     max_len = 0
-
-    (text, tokens) = _trim_model(template.template_text, template.tokens, pattern)
 
     for i in _get_subtree(text, tokens, False, pattern):
         (sblocks, full_search_blocks) = extract_omega_search_blocks(pattern, i)
 
         for sb in sblocks:
             sb = re.sub(r'^\s+|^\s*\n(\s*\n)+', '', sb, flags=re.MULTILINE | re.DOTALL)
+
             max_len = max(len(get_omega_block(sb.split("\n"))), max_len)
 
     return max_len
+
+
+def get_max_search_block(template: Template, pattern: str, get_omega_block: callable) -> tuple:
+    (text, tokens) = _trim_model(template.template_text, template.tokens, pattern)
+
+    if options.individual_omega_search:
+        return _get_max_search_blocks(text, tokens, pattern, get_omega_block)
+
+    return _get_max_search_block(text, tokens, pattern, get_omega_block), []
+
+
+def _get_max_search_blocks(text: str, tokens: dict, pattern: str, get_omega_block: callable) -> tuple:
+    max_len = 0
+    max_lens = []
+
+    (sblocks, full_search_blocks) = extract_omega_search_blocks(pattern, text)
+
+    for k, fsb in enumerate(full_search_blocks):
+        ll = 0
+
+        for sb in _get_subtree(fsb, tokens, False, pattern):
+            sb = re.sub(r'^\s+|^\s*\n(\s*\n)+', '', sb, flags=re.MULTILINE | re.DOTALL)
+
+            ll = max(ll, len(get_omega_block(sb.split("\n"))))
+
+        if ll > options.OMEGA_SEARCH_LIMIT:
+            log.warn(fsb)
+            log.warn(f"Omega search block size is too big, resetting to {options.OMEGA_SEARCH_LIMIT}")
+            ll = options.OMEGA_SEARCH_LIMIT
+
+        max_lens.append(ll)
+
+        max_len = max(ll, max_len)
+
+    return max_len, max_lens

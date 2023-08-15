@@ -52,14 +52,14 @@ def get_search_space(model_template: Template) -> np.ndarray:
         token_group = model_template.tokens.get(thisKey)
         num_groups.append(list(range(len(token_group))))
 
-    # need to add another group if searching on omega bands
     if options.search_omega_blocks:
-        num_groups.append(list(range(options.max_omega_band_width + 1)))
+        for i in options.max_omega_search_lens:
+            if options.max_omega_band_width is not None:
+                # need to add another group if searching on omega bands
+                num_groups.append(list(range(1, options.max_omega_band_width + 1)))
 
-    # need to add another group if searching on omega submatrices
-    if options.search_omega_sub_matrix:
-        size = len(get_omega_block_masks())
-        num_groups.append(list(range(size)))
+            # need to add another group if searching on omega submatrices
+            num_groups.append(list(range(len(get_omega_block_masks(i)))))
 
     if not num_groups:
         log.error('The search space is empty - exiting')

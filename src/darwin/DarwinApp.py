@@ -1,8 +1,10 @@
 import os
 import time
 import sys
+import re
 import traceback
 import math
+from collections import OrderedDict
 
 import darwin.GlobalVars as GlobalVars
 import darwin.utils as utils
@@ -223,6 +225,16 @@ class DarwinApp:
         return final
 
 
+def _has_omega_search(tokens: OrderedDict, pattern: str) -> bool:
+    for k in tokens.values():
+        for i in k:
+            for j in i:
+                if re.findall(pattern, j, flags=re.MULTILINE):
+                    return True
+
+    return False
+
+
 def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAdapter):
     """
     see if Search_OMEGA and omega_band_width are in the token set
@@ -238,48 +250,58 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
 
         options.max_omega_band_width = options.get('max_omega_band_width', 1)
 
-    if options.engine_adapter == 'nlme':
-        options.search_omega_blocks = options.get('search_omega_blocks', False)
-        options.max_omega_band_width = 1
+        if options.search_omega_blocks and options.max_omega_band_width < 1:
+            log.warn('max_omega_band_width must be at least 1, omitting omega band width search')
+            options.search_omega_blocks = False
 
-    if options.search_omega_blocks and options.max_omega_band_width < 1:
-        log.warn('max_omega_band_width must be at least 1, omitting omega band width search')
-        options.search_omega_blocks = False
+    elif options.engine_adapter == 'nlme':
+        options.search_omega_blocks = options.get('search_omega_blocks', False)
+        options.max_omega_band_width = None
 
     omega_search_limit = options.get('OMEGA_SEARCH_LIMIT', 16)
     options.OMEGA_SEARCH_LIMIT = omega_search_limit
 
+    options.individual_omega_search = options.get('individual_omega_search', True)
+
+    if options.search_omega_blocks:
+        if options.individual_omega_search and _has_omega_search(template.tokens, adapter.get_omega_search_pattern()):
+            log.warn('Token file contains omega search blocks, turning individual omega search off')
+            options.individual_omega_search = False
+
     max_len = options.get('max_omega_search_len', 0)
+    max_lens = []
 
     if not max_len:
-        max_len = adapter.get_max_search_block(template)
+        (max_len, max_lens) = adapter.get_max_search_block(template)
 
         if max_len > 0:
             log.message(f"Calculated max omega search length = {max_len}")
 
-    if max_len > omega_search_limit:
-        log.warn(f"max_omega_search_len is too big, resetting to {omega_search_limit}")
-        max_len = omega_search_limit
+    if not options.individual_omega_search:
+        if max_len > omega_search_limit:
+            log.warn(f"max_omega_search_len is too big, resetting to {omega_search_limit}")
+            max_len = omega_search_limit
 
     if max_len < 2:
         log.warn(f"max_omega_search_len must be [2, {omega_search_limit}], disabling omega search")
         options.search_omega_blocks = False
 
+    # if not individual_omega_search, max_omega_search_lens contains the only value, and omega_idx is always 0
+    options.max_omega_search_lens = max_lens or [max_len]
     options.max_omega_search_len = max_len
 
+    if not options.search_omega_blocks:
+        return
+
     options.search_omega_sub_matrix = False
+    options.max_omega_sub_matrix = options.get('max_omega_sub_matrix', 4)
 
     if options.search_omega_blocks:
         options.search_omega_sub_matrix = options.get('search_omega_sub_matrix', False)
-        if options.search_omega_sub_matrix:
-            options.max_omega_sub_matrix = options.get('max_omega_sub_matrix', 4)
 
     if options.search_omega_sub_matrix and options.max_omega_sub_matrix < 2:
         log.warn('max_omega_sub_matrix must be at least 2, omitting search_omega_sub_matrix')
         options.search_omega_sub_matrix = False
-
-    if not options.search_omega_blocks:
-        return
 
     (can_search, err) = adapter.can_omega_search(template.template_text)
 
@@ -299,19 +321,25 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
 
         return
 
-    # this is the number of off diagonal bands (diagonal is NOT included)
-    template.gene_max.append(options.max_omega_band_width)
-    template.gene_length.append(math.ceil(math.log(options.max_omega_band_width + 1, 2)))
-
-    if options.engine_adapter == 'nonmem':
+    if options.max_omega_band_width is not None:
         log.message(f"Including search of band OMEGA, with width up to {options.max_omega_band_width}")
-
-    template.omega_band_pos = len(template.gene_max) - 1
 
     if options.search_omega_sub_matrix:
         log.message(f"Including search for OMEGA submatrices, with size up to {options.max_omega_sub_matrix}")
 
-        size = len(get_omega_block_masks())
+    for i in options.max_omega_search_lens:
+        if options.max_omega_band_width is not None:
+            # this is the number of off diagonal bands (diagonal is NOT included)
+            template.gene_max.append(options.max_omega_band_width - 1)
+            template.gene_length.append(math.ceil(math.log(options.max_omega_band_width, 2)))
+
+            if template.omega_band_pos is None:
+                template.omega_band_pos = len(template.gene_max) - 1
+
+        size = len(get_omega_block_masks(i))
 
         template.gene_max.append(size - 1)
         template.gene_length.append(math.ceil(math.log(size, 2)))
+
+        if template.omega_band_pos is None:
+            template.omega_band_pos = len(template.gene_max) - 1

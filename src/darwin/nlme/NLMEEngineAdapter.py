@@ -37,7 +37,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         pass
 
     @staticmethod
-    def get_max_search_block(template: Template) -> int:
+    def get_max_search_block(template: Template) -> tuple:
         return get_max_search_block(template, omega_search_pattern2, _get_searched_omegas)
 
     @staticmethod
@@ -181,7 +181,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         control = re.sub(r'^[^\S\r\n]*', '  ', control, flags=re.RegexFlag.MULTILINE)
         control = re.sub(r'^ {2}(?=##|$)', '', control, flags=re.RegexFlag.MULTILINE)
 
-        control, bands = apply_omega_bands(control, model_code, template.omega_band_pos, _set_omega_bands)
+        control, bands = apply_omega_bands(control, model_code, template.omega_band_pos, _set_omega_bands, True)
 
         phenotype = str(phenotype)
         phenotype = phenotype.replace('OrderedDict', '')
@@ -404,6 +404,13 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         """
 
         return True, 'Always'
+
+    @staticmethod
+    def get_omega_search_pattern() -> str:
+        """
+        """
+
+        return r'^\s*#search_block\b'
 
 
 def _get_non_inf_tokens(tokens: dict, phenotype: OrderedDict):
@@ -637,7 +644,7 @@ def _add_search_ranef_blocks(control: str, block_omegas: list) -> str:
     return control
 
 
-def _set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
+def _set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
     mdl = _get_mdl(control)
 
     ranefs = extract_data('ranef', mdl)
@@ -650,6 +657,8 @@ def _set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
     blocks = {}
     block_omegas = []
 
+    omega_idx = 0
+
     for sblock, full_block in zip(search_blocks, full_search_blocks):
         sb = _cleanup_search_block(sblock)
         sb = sb.split(',')
@@ -657,7 +666,12 @@ def _set_omega_bands(control: str, band_width: int, mask_idx: int) -> tuple:
         sb = [o for o in sb if o in vals]
         om_val = [float(vals[o]) for o in sb]
 
-        bands = get_bands(om_val, band_width, mask_idx, True)
+        max_len = options.max_omega_search_lens[omega_idx]
+
+        bands = get_bands(om_val, 0, mask_idx[omega_idx], max_len, True)
+
+        if options.individual_omega_search:
+            omega_idx += 1
 
         if not any([b[1] for b in bands]):
             # no block ranefs

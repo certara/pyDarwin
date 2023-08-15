@@ -23,6 +23,7 @@ from darwin.DarwinError import DarwinError
 from .utils import extract_multiline_block, get_comment_re, extract_data, extract_lhs, extract_rhs_array, extract_ranefs
 
 omega_search_pattern = r'(^\s*#search_block\s*\(\s*(\w+(?:\s*,\s*\w*)*)\))'
+omega_search_pattern2 = r'(^\s*#search_block\s*\(\s*([^\)]*)\))'
 
 
 class NLMEEngineAdapter(ModelEngineAdapter):
@@ -37,7 +38,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def get_max_search_block(template: Template) -> int:
-        return get_max_search_block(template, omega_search_pattern, _get_searched_omegas)
+        return get_max_search_block(template, omega_search_pattern2, _get_searched_omegas)
 
     @staticmethod
     def init_engine():

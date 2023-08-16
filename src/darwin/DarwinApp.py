@@ -258,46 +258,67 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
         options.search_omega_blocks = options.get('search_omega_blocks', False)
         options.max_omega_band_width = None
 
+    options.search_omega_sub_matrix = False
+
+    if not options.search_omega_blocks:
+        return
+
     omega_search_limit = options.get('OMEGA_SEARCH_LIMIT', 16)
     options.OMEGA_SEARCH_LIMIT = omega_search_limit
 
     options.individual_omega_search = options.get('individual_omega_search', True)
 
-    if options.search_omega_blocks:
-        if options.individual_omega_search and _has_omega_search(template.tokens, adapter.get_omega_search_pattern()):
-            log.warn('Token file contains omega search blocks, turning individual omega search off')
-            options.individual_omega_search = False
+    if options.individual_omega_search and _has_omega_search(template.tokens, adapter.get_omega_search_pattern()):
+        log.warn('Token file contains omega search blocks, turning individual omega search off')
+        options.individual_omega_search = False
 
-    max_len = options.get('max_omega_search_len', 0)
+    max_len_config = options.get('max_omega_search_len', None)
+
+    if max_len_config is not None and max_len_config < 2:
+        log.warn(f"max_omega_search_len must be [2, {omega_search_limit}], disabling omega search")
+        options.search_omega_blocks = False
+
+        return
+
+    max_len_config = max_len_config or 0
+
+    if max_len_config > omega_search_limit:
+        log.warn(f"max_omega_search_len is too big, resetting to {omega_search_limit}")
+        max_len_config = omega_search_limit
+
+    max_len = max_len_config
     max_lens = []
 
-    if not max_len:
+    # calculate it if it wasn't set, or if it was set and individual search was requested
+    if not max_len or options.individual_omega_search:
         (max_len, max_lens) = adapter.get_max_search_block(template)
 
-        if max_len > 0:
+        if max_len > 0 and not max_len_config:
             log.message(f"Calculated max omega search length = {max_len}")
 
-    if not options.individual_omega_search:
-        if max_len > omega_search_limit:
-            log.warn(f"max_omega_search_len is too big, resetting to {omega_search_limit}")
+    if max_len > omega_search_limit:
+        # if it was calculated for uniform (not individual) search
+        if not max_len_config and not options.individual_omega_search:
+            log.warn(f"max omega search length is too big, resetting to {omega_search_limit}")
             max_len = omega_search_limit
 
+    # if individual search was requested and the max len was set, make all the lengths equal
+    if options.individual_omega_search and max_len_config:
+        max_lens = [max_len_config] * len(max_lens)
+
     if max_len < 2:
-        log.warn(f"max_omega_search_len must be [2, {omega_search_limit}], disabling omega search")
+        log.warn(f"max omega search length must be [2, {omega_search_limit}], disabling omega search")
         options.search_omega_blocks = False
 
     # if not individual_omega_search, max_omega_search_lens contains the only value, and omega_idx is always 0
     options.max_omega_search_lens = max_lens or [max_len]
-    options.max_omega_search_len = max_len
+    options.max_omega_search_len = max_len_config if max_len_config else max_len
 
     if not options.search_omega_blocks:
         return
 
-    options.search_omega_sub_matrix = False
+    options.search_omega_sub_matrix = options.get('search_omega_sub_matrix', False)
     options.max_omega_sub_matrix = options.get('max_omega_sub_matrix', 4)
-
-    if options.search_omega_blocks:
-        options.search_omega_sub_matrix = options.get('search_omega_sub_matrix', False)
 
     if options.search_omega_sub_matrix and options.max_omega_sub_matrix < 2:
         log.warn('max_omega_sub_matrix must be at least 2, omitting search_omega_sub_matrix')
@@ -309,14 +330,6 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
         log.warn(f"{err} Turning off OMEGA search.")
 
         options.search_omega_blocks = False
-        options.search_omega_sub_matrix = False
-
-        return
-
-    if options.search_omega_blocks is False and options.search_omega_sub_matrix is True:
-        log.warn(
-            f"Cannot do omega sub matrix search without omega band search. Turning off omega submatrix search.")
-
         options.search_omega_sub_matrix = False
 
         return

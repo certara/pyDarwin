@@ -50,9 +50,9 @@ def _init_model_results():
     log.message(f"Writing intermediate output to {results_file}")
 
     with open(results_file, "w") as resultsfile:
-        resultsfile.write(f"Iteration,Model number,Run directory,Ref. run,Status,Fitness,Model,ofv,success,"
-                          f"covar,correlation #,ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,"
-                          f"Translation messages,Runtime errors\n")
+        resultsfile.write(f"iteration,model number,run directory,ref run,status,fitness,model,ofv,success,"
+                          f"covariance,correlation,ntheta,nomega,nsigm,condition num,r penalty,python penalty,"
+                          f"translation messages,runtime errors\n")
 
     GlobalVars.results_file = results_file
 

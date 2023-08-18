@@ -130,6 +130,8 @@ class Options:
         self.model_run_man = opts.get('model_run_man', 'darwin.LocalRunManager')
         self.grid_adapter = opts.get('grid_adapter', 'darwin.GenericGridAdapter')
 
+        self.LOCAL_RUN = self.model_run_man == 'darwin.LocalRunManager'
+
         try:
             self.random_seed = int(opts.get('random_seed', 'none'))
         except ValueError:

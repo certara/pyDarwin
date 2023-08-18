@@ -167,7 +167,7 @@ class DarwinApp:
 
         adapter = get_engine_adapter(options.engine_adapter)
 
-        if not adapter.init_engine():
+        if options.LOCAL_RUN and not adapter.init_engine():
             return GlobalVars.best_run
 
         _init_omega_search(model_template, adapter)

@@ -81,7 +81,7 @@ class Population:
 
         existing_run = self.runs_g.get(genotype, None) or self.runs_ph.get(phenotype, None)
 
-        if run and options.rerun_key_models \
+        if run and options.rerun_key_models and run.result.fitness != options.crash_value \
                 and (GlobalVars.best_run is None or run.result.fitness < GlobalVars.best_run.result.fitness):
             # re-run this one
             run = None

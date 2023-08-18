@@ -57,7 +57,8 @@ class PipelineRunManager(ModelRunManager):
 
     @staticmethod
     def _process_run_results(run: ModelRun):
-        this_one_is_better = GlobalVars.best_run is None or run.result.fitness < GlobalVars.best_run.result.fitness
+        this_one_is_better = (GlobalVars.best_run is None or run.result.fitness < GlobalVars.best_run.result.fitness) \
+                             and run.result.fitness != options.crash_value
 
         if this_one_is_better and options.keep_key_models and run.status == 'Restored':
             run.make_control_file()

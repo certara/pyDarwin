@@ -67,11 +67,17 @@ class GenericGridAdapter(GridAdapter):
             'run_number': job.run.model_num,
             'run_dir': job.run.run_dir,
             'generation': job.run.generation,
+            'darwin_cmd': f"{self.python_path} -m darwin.run_model "
+                          f"{job.input_path} {job.output_path} {options.options_file}",
         }
+
+        has_run_cmd = len([c for c in self.submit_command if c.find('{darwin_cmd}') != -1]) > 0
 
         command = [utils.apply_aliases(arg, aliases) for arg in self.submit_command]
 
-        command += [self.python_path, '-m', 'darwin.run_model', job.input_path, job.output_path, options.options_file]
+        if not has_run_cmd:
+            command += [self.python_path, '-m', 'darwin.run_model',
+                        job.input_path, job.output_path, options.options_file]
 
         out = _run_process(command, f'Failed to submit a job: {job.name}')
 

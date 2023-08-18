@@ -2,6 +2,7 @@ import sys
 import os
 
 from darwin.options import options
+import darwin.utils as utils
 
 
 def _run_grid_search(folder: str):
@@ -14,7 +15,17 @@ def _run_grid_search(folder: str):
     python_path = opts['python_path']
 
     submit_command = options.apply_aliases(opts['submit_search_command'])
-    submit_command += f' {python_path} -m darwin.run_search_in_folder {folder}'
+
+    has_run_cmd = submit_command.find('{darwin_cmd}') != -1
+
+    aliases = {
+        'darwin_cmd': f"{python_path} -m darwin.run_search_in_folder {folder}",
+    }
+
+    if has_run_cmd:
+        submit_command = utils.apply_aliases(submit_command, aliases)
+    else:
+        submit_command += f' {python_path} -m darwin.run_search_in_folder {folder}'
 
     os.system(submit_command)
 

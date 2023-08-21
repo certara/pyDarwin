@@ -313,15 +313,13 @@ class ModelRun:
 
         if run_process is None or run_process.returncode != 0:
             if interrupted():
-                self.status = "Model run interrupted"
+                self.status = 'Model run interrupted'
                 log.error(f'Model run {self.model_num} was interrupted')
             else:
-                self.status = "Model run failed"
+                self.status = 'Model run failed'
                 self._get_error_messages(run_dir)
 
             return False
-
-        self._get_error_messages(run_dir)
 
         return True
 
@@ -361,9 +359,11 @@ class ModelRun:
 
         GlobalVars.unique_models_num += 1
 
-        if not failed:
+        # if messages (translation errors) is not set, check the run_dir
+        if not failed or self.result.messages == '':
             self._get_error_messages(self.run_dir)
 
+        if not failed:
             self.status = 'Finished model run'
 
             if self._post_run_r() and self._post_run_python() and self._calc_fitness():

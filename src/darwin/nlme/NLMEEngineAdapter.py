@@ -96,12 +96,22 @@ class NLMEEngineAdapter(ModelEngineAdapter):
             'license not found'
         ]
 
-        text = _read_file('err0', run.run_dir)
+        err_files = []
 
-        err = _find_errors(text, patterns_tdl)
+        for f in glob.glob('err?', root_dir=run.run_dir) + glob.glob('err??', root_dir=run.run_dir):
+            text = _read_file(f, run.run_dir)
 
-        if err != '':
-            return '', err
+            err = _find_errors(text, patterns_tdl)
+
+            if err != '':
+                return '', err
+
+            if os.path.getsize(f"{run.run_dir}/{f}") > 0:
+                err_files.append(f)
+
+        if err_files:
+            err = ', '.join(err_files)
+            return '', f"See {err} for details"
 
         text = _read_file('log.txt', run_dir)
 

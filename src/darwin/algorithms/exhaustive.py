@@ -40,7 +40,8 @@ def run_exhaustive(model_template: Template) -> ModelRun:
         if not keep_going():
             break
 
-        log.message(f"Current Best fitness = {GlobalVars.best_run.result.fitness}")
+        if GlobalVars.best_run is not None:
+            log.message(f"Current Best fitness = {GlobalVars.best_run.result.fitness}")
 
     return GlobalVars.best_run
 

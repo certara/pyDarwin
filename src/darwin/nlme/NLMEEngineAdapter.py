@@ -4,6 +4,7 @@ import re
 import glob
 import math
 import numpy as np
+import shutil
 
 from collections import OrderedDict
 
@@ -83,7 +84,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         return True
 
     @staticmethod
-    def get_error_messages(run: ModelRun):
+    def get_error_messages(run: ModelRun, run_dir: str):
         """
         """
 
@@ -92,20 +93,28 @@ class NLMEEngineAdapter(ModelEngineAdapter):
             r'TDL5: Startup error.+$',
             r'Failed to get license for NLME',
             r'^Error:.+$',
+            'license not found'
         ]
 
-        text = _read_file('log.txt', run.run_dir)
+        text = _read_file('err0', run.run_dir)
 
         err = _find_errors(text, patterns_tdl)
 
         if err != '':
-            return err, ''
+            return '', err
+
+        text = _read_file('log.txt', run_dir)
+
+        err = _find_errors(text, patterns_tdl)
+
+        if err != '':
+            return '', err
 
         warning = _find_errors(text, [r'^Warning:.+$'])
 
-        stderr = _read_file('err2.txt', run.run_dir)
-        stdout = _read_file('err1.txt', run.run_dir)
-        engine_log = _read_file('nlme7engine.log', run.run_dir)
+        stderr = _read_file('err2.txt', run_dir)
+        stdout = _read_file('err1.txt', run_dir)
+        engine_log = _read_file('nlme7engine.log', run_dir)
 
         patterns1 = [
             r'Fatal error:.+$',
@@ -121,7 +130,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
             r'^primaldual failure:.+$',
             r'^psi matrix not non-negative',
             r'^psi has a zero \w+',
-            r'^Out ofrange pseudoLL.+$',
+            r'^Out of range pseudoLL.+$',
         ]
 
         # the first two are always followed by Fortran Exception, the last one happens on its own
@@ -200,51 +209,104 @@ class NLMEEngineAdapter(ModelEngineAdapter):
           entire :mono_ref:`run_dir <model_run_dir>` is deleted.
         """
 
-        try:
-            if options.remove_run_dir:
+        if options.remove_run_dir:
+            try:
+                utils.remove_dir(run_dir)
+            except OSError:
+                log.error(f"Cannot remove folder {run_dir} in call to cleanup")
+        else:
+            files_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
+
+            files_to_delete.pop(f'{file_stem}.mmdl', None)
+            files_to_delete.pop(f'{file_stem}_out.txt', None)
+
+            for file in ['log.txt', 'out.txt', 'err1.txt', 'err2.txt',
+                         'nlme7engine.log', 'TDL5Warnings.log', 'integration_errors.txt', 'fort.27']:
+                files_to_delete.pop(file, None)
+
+            for f in files_to_delete:
+                if re.search(r'^(err|out)\d+$|^sim-.*', f):
+                    continue
+
                 try:
-                    utils.remove_dir(run_dir)
+                    path = os.path.join(run_dir, f)
+                    os.remove(path)
                 except OSError:
-                    log.error(f"Cannot remove folder {run_dir} in call to cleanup")
-            else:
-                utils.remove_dir(os.path.join(run_dir, 'Work'))
+                    pass
 
-                file_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
-
-                file_to_delete.pop(f'{file_stem}.mmdl', None)
-                file_to_delete.pop(f'{file_stem}_out.txt', None)
-
-                for file in ['test.mdl', 'log.txt', 'dmp.txt', 'omega.csv', 'omega_stderr.csv', 'out.txt', 'theta.csv',
-                             'residuals.csv', 'ConvergenceData.csv', 'nlme7engine.log', 'err1.txt', 'err2.txt',
-                             'TDL5Warnings.log', 'integration_errors.txt', 'fort.27']:
-                    file_to_delete.pop(file, None)
-
-                for f in file_to_delete:
-                    if re.search(r'^(err|out)\d+$', f):
-                        continue
-
-                    try:
-                        path = os.path.join(run_dir, f)
-                        os.remove(path)
-                    except OSError:
-                        pass
-        except OSError as e:
-            log.error(f"OS Error {e}")
+            for f in glob.glob(f"{run_dir}/*/"):
+                try:
+                    shutil.rmtree(f)
+                except OSError:
+                    pass
 
         return
 
     @staticmethod
     def get_model_run_commands(run: ModelRun) -> list:
-        return [
+        run_dir = run.run_dir
+
+        command = {
+            'command': [options.rscript_path, '-e', f"Certara.RsNLME::extract_mmdl('{run.control_file_name}', '.')"],
+            'dir': run_dir,
+            'timeout': 30
+        }
+
+        if not run.run_command(0, command):
+            return []
+
+        run_dir = run_dir.replace('\\', '/')
+        folders = glob.glob('*/', root_dir=run_dir)
+        folders = [f"{run_dir}/"+f.removesuffix('\\') for f in folders]
+
+        res = [
             {
-                'command': [options.rscript_path, '-e', f"Certara.RsNLME::extract_mmdl('{run.control_file_name}', '.')"],
-                'timeout': 30
-            },
-            {
-                'command': _get_run_command(run),
+                'command': _get_run_command(run, folders[0]),
+                'dir': folders[0],
                 'timeout': options.model_run_timeout
             }
         ]
+
+        last_est = folders[0]
+        last_sim = None
+
+        for f in folders[1:]:
+            res.append(
+                {
+                    'command': [options.rscript_path, '-e',
+                                f"Certara.NLME8::UpdateMDLfrom_dmptxt(dmpfile='{last_est}/dmp.txt', compile=FALSE,"
+                                f"model_file='{last_est}/test.mdl', output_file='{f}/test.mdl')"],
+                    'dir': run_dir,
+                    'timeout': 30
+                }
+            )
+            res.append(
+                {
+                    'command': _get_run_command(run, f),
+                    'dir': f,
+                    'timeout': options.model_run_timeout
+                }
+            )
+
+            if f.endswith('est'):
+                last_est = f
+            elif f.endswith('sim'):
+                last_sim = f
+
+        res.append(
+            {
+                'fun': lambda: _copy_res_files(last_est, run_dir)
+            }
+        )
+
+        if last_sim is not None:
+            res.append(
+                {
+                    'fun': lambda: _copy_res_files(last_sim, run_dir, True)
+                }
+            )
+
+        return res
 
     @staticmethod
     def get_stem(generation, model_num) -> str:
@@ -451,16 +513,42 @@ def remove_comments(code: str) -> str:
     return code
 
 
-def _get_run_command(run: ModelRun) -> list:
+def _copy_res_files(src_dir: str, dst_dir: str, sim: bool = False):
+    log_files = ['TDL5Warnings.log', 'integration_errors.txt', 'fort.27', 'log.txt', 'err1.txt', 'err2.txt']
+    sim_files = ['dat2.txt', 'dat3.txt']
+    est_files = ['dmp.txt', 'out.txt']
+
+    prefix = 'sim-' if sim else ''
+
+    files = sim_files if sim else est_files
+    files.extend(log_files)
+
+    for file in log_files:
+        try:
+            shutil.copy(f"{src_dir}/{file}", f"{dst_dir}/{prefix}{file}")
+        except OSError:
+            pass
+
+    for file in files:
+        try:
+            shutil.copy(f"{src_dir}/{file}", dst_dir)
+        except OSError:
+            pass
+
+    for file in glob.glob(f"{src_dir}/*.csv"):
+        shutil.copy(file, dst_dir)
+
+
+def _get_run_command(run: ModelRun, folder: str) -> list:
     nlme_dir = options.get('nlme_dir', '')
 
     if platform.system() == 'Windows':
         return ['powershell', '-noninteractive', '-executionpolicy', 'remotesigned', '-file',
                 f"{nlme_dir}/execNLMECmd.ps1", '-NLME_EXE_POSTFIX', f"_{run.generation}_{run.wide_model_num}",
-                '-RUN_MODE', 'COMPILE_AND_RUN', '-MODELFILE', 'test.mdl', '-WORKING_DIR', f"{run.run_dir}/1-est",
+                '-RUN_MODE', 'COMPILE_AND_RUN', '-MODELFILE', 'test.mdl', '-WORKING_DIR', folder,
                 '-MPIFLAG', 'MPINO', '-LOCAL_HOST', 'YES', '-NUM_NODES', '1', '-NLME_ARGS', '@nlmeargs.txt']
 
-    return [f"{nlme_dir}/execNLMECmd.sh", 'COMPILE_AND_RUN', 'test.mdl', run.run_dir,
+    return [f"{nlme_dir}/execNLMECmd.sh", 'COMPILE_AND_RUN', 'test.mdl', folder,
             'MPINO', 'YES', '1', '', '', '', '@nlmeargs.txt', '', f"_{run.generation}_{run.model_num}"]
 
 

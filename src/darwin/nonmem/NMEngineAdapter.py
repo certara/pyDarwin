@@ -60,7 +60,7 @@ class NMEngineAdapter(ModelEngineAdapter):
         return True
 
     @staticmethod
-    def get_error_messages(run: ModelRun):
+    def get_error_messages(run: ModelRun, run_dir: str):
         """
         Reads NMTRAN messages from the FMSG file and error messages from the PRDERR file.
         """
@@ -168,30 +168,30 @@ class NMEngineAdapter(ModelEngineAdapter):
           entire :mono_ref:`run_dir <model_run_dir>` is deleted.
         """
 
-        try:
-            if options.remove_run_dir:
-                try:
-                    utils.remove_dir(run_dir)
-                except OSError:
-                    log.error(f"Cannot remove folder {run_dir} in call to cleanup")
-            else:
+        if options.remove_run_dir:
+            try:
+                utils.remove_dir(run_dir)
+            except OSError:
+                log.error(f"Cannot remove folder {run_dir} in call to cleanup")
+        else:
+            try:
                 utils.remove_dir(os.path.join(run_dir, 'temp_dir'))
+            except OSError:
+                pass
 
-                file_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
+            files_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
-                file_to_delete.pop(f'{file_stem}.mod', None)
-                file_to_delete.pop(f'{file_stem}.lst', None)
-                file_to_delete.pop(f'{file_stem}.xml', None)
-                file_to_delete.pop('FMSG', None)
-                file_to_delete.pop('PRDERR', None)
+            files_to_delete.pop(f'{file_stem}.mod', None)
+            files_to_delete.pop(f'{file_stem}.lst', None)
+            files_to_delete.pop(f'{file_stem}.xml', None)
+            files_to_delete.pop('FMSG', None)
+            files_to_delete.pop('PRDERR', None)
 
-                for f in file_to_delete:
-                    try:
-                        os.remove(os.path.join(run_dir, f))
-                    except OSError:
-                        pass
-        except OSError as e:
-            log.error(f"OS Error {e}")
+            for f in files_to_delete:
+                try:
+                    os.remove(os.path.join(run_dir, f))
+                except OSError:
+                    pass
 
         return
 
@@ -201,6 +201,7 @@ class NMEngineAdapter(ModelEngineAdapter):
             {
                 'command': [options['nmfe_path'], run.control_file_name, run.output_file_name,
                             f"-nmexec={run.executable_file_name}", f"-rundir={run.run_dir}"],
+                'dir': run.run_dir,
                 'timeout': options.model_run_timeout
             }
         ]

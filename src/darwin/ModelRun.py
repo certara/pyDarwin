@@ -276,10 +276,54 @@ class ModelRun:
         finally:
             os.chdir(cwd)
 
-    def _get_error_messages(self):
+    def _get_error_messages(self, run_dir: str):
         res = self.result
 
-        res.errors, res.messages = self._adapter.get_error_messages(self)
+        res.errors, res.messages = self._adapter.get_error_messages(self, run_dir)
+
+    def run_command(self, cmd_count: int, command: dict) -> bool:
+        run_process = None
+
+        run_dir = command['dir']
+
+        try:
+            path1 = os.path.join(self.run_dir, f"out{cmd_count}")
+            path2 = os.path.join(self.run_dir, f"err{cmd_count}")
+
+            with open(path1, 'a') as out:
+                with open(path2, 'a') as err:
+                    run_process = Popen(command['command'], stdout=out, stderr=err, cwd=run_dir,
+                                        creationflags=options.model_run_priority)
+
+            run_process.communicate(timeout=command['timeout'])
+
+        except TimeoutExpired:
+            log.error(f"run {self.model_num} has timed out")
+            utils.terminate_process(run_process.pid)
+
+            self.status = 'Model run timed out'
+
+            # there may be a reason for timeout
+            self._get_error_messages(run_dir)
+
+            return False
+
+        except Exception as e:
+            log.error(str(e))
+
+        if run_process is None or run_process.returncode != 0:
+            if interrupted():
+                self.status = "Model run interrupted"
+                log.error(f'Model run {self.model_num} was interrupted')
+            else:
+                self.status = "Model run failed"
+                self._get_error_messages(run_dir)
+
+            return False
+
+        self._get_error_messages(run_dir)
+
+        return True
 
     def run_model(self):
         """
@@ -295,61 +339,35 @@ class ModelRun:
         if not file_checker.check_files_present(self):
             return
 
+        self.status = 'Running model'
+
         commands = self._adapter.get_model_run_commands(self)
 
-        run_process = None
+        GlobalVars.run_models_num += 1
 
-        try:
-            self.status = "Running model"
+        cmd_count = 0
+        failed = False
 
-            GlobalVars.run_models_num += 1
+        for command in commands:
+            cmd_count += 1
 
-            cmd_count = 0
+            if 'fun' in command:
+                command['fun']()
+                continue
 
-            for command in commands:
-                cmd_count += 1
+            if not self.run_command(cmd_count, command):
+                failed = True
+                break
 
-                path1 = os.path.join(self.run_dir, f"out{cmd_count}")
-                path2 = os.path.join(self.run_dir, f"err{cmd_count}")
+        GlobalVars.unique_models_num += 1
 
-                with open(path1, 'a') as out:
-                    with open(path2, 'a') as err:
-                        run_process = Popen(command['command'], stdout=out, stderr=err, cwd=self.run_dir,
-                                            creationflags=options.model_run_priority)
+        if not failed:
+            self._get_error_messages(self.run_dir)
 
-                run_process.communicate(timeout=command['timeout'])
+            self.status = 'Finished model run'
 
-            self.status = "Finished model run"
-
-        except TimeoutExpired:
-            log.error(f'run {self.model_num} has timed out')
-            utils.terminate_process(run_process.pid)
-
-            self.status = "Model run timed out"
-            self._get_error_messages()
-
-            return
-
-        except Exception as e:
-            log.error(str(e))
-
-        finally:
-            GlobalVars.unique_models_num += 1
-
-        if run_process is None or run_process.returncode != 0:
-            if interrupted():
-                self.status = "Model run interrupted"
-                log.error(f'Model run {self.model_num} was interrupted')
-            else:
-                self.status = "Model run failed"
-                self._get_error_messages()
-
-            return
-
-        self._get_error_messages()
-
-        if self._post_run_r() and self._post_run_python() and self._calc_fitness():
-            self.status = "Done"
+            if self._post_run_r() and self._post_run_python() and self._calc_fitness():
+                self.status = 'Done'
 
     def keep(self):
         """

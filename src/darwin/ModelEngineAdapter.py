@@ -51,7 +51,7 @@ class ModelEngineAdapter(ABC):
 
     @staticmethod
     @abstractmethod
-    def get_error_messages(run):
+    def get_error_messages(run, run_dir: str):
         """
         Reads error messages from any available source.
         """

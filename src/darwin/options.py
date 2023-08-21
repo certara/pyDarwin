@@ -158,6 +158,9 @@ class Options:
         self.working_dir = utils.apply_aliases(opts.get('working_dir'), {'project_dir': self.project_dir})\
             or os.path.join(darwin_home, self.project_stem)
 
+        if not os.path.isabs(self.working_dir):
+            raise DarwinError('working_dir must be an absolute path')
+
         project_dir_alias = {'project_dir': self.project_dir, 'working_dir': self.working_dir}
 
         self.data_dir = utils.apply_aliases(opts.get('data_dir'), project_dir_alias) or self.project_dir

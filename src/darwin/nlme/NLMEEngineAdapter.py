@@ -266,7 +266,10 @@ class NLMEEngineAdapter(ModelEngineAdapter):
             return []
 
         run_dir = run_dir.replace('\\', '/')
+
         folders = glob.glob('*/', root_dir=run_dir)
+        folders = [f for f in folders if f.find('-') != -1]
+        folders.sort(key=lambda f: int(f[:f.index('-')]))
         folders = [f"{run_dir}/"+f.removesuffix('\\') for f in folders]
 
         res = [

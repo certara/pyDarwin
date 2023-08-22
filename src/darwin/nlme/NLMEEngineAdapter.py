@@ -235,7 +235,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
                 files_to_delete.pop(file, None)
 
             for f in files_to_delete:
-                if re.search(r'^(err|out)\d+$|^sim-.*', f):
+                if re.search(r'^(err|out)\d+$|^sim-.*|^data\w+\.txt$', f):
                     continue
 
                 try:
@@ -529,7 +529,7 @@ def remove_comments(code: str) -> str:
 def _copy_res_files(src_dir: str, dst_dir: str, sim: bool = False):
     log_files = ['TDL5Warnings.log', 'integration_errors.txt', 'fort.27', 'log.txt', 'err1.txt', 'err2.txt']
     sim_files = ['dat2.txt', 'dat3.txt']
-    est_files = ['dmp.txt', 'out.txt']
+    est_files = ['nlme7engine.log', 'dmp.txt', 'out.txt']
 
     prefix = 'sim-' if sim else ''
 
@@ -550,6 +550,10 @@ def _copy_res_files(src_dir: str, dst_dir: str, sim: bool = False):
 
     for file in glob.glob(f"{src_dir}/*.csv"):
         shutil.copy(file, dst_dir)
+
+    if not sim:
+        for file in glob.glob(f"{src_dir}/data*.txt"):
+            shutil.copy(file, dst_dir)
 
 
 def _get_run_command(run: ModelRun, folder: str) -> list:

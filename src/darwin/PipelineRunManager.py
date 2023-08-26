@@ -58,26 +58,19 @@ class PipelineRunManager(ModelRunManager):
     @staticmethod
     def _process_run_results(run: ModelRun):
         this_one_is_better = (GlobalVars.best_run is None or run.result.fitness < GlobalVars.best_run.result.fitness) \
-                             and run.result.fitness != options.crash_value
+            and run.result.fitness != options.crash_value
 
-        if this_one_is_better and options.keep_key_models and run.status == 'Restored':
-            run.make_control_file()
-            run.output_results()
-
-            run.keep()
+        run.better = this_one_is_better
 
         if run.source == 'new' and run.started() and not run.is_duplicate() and not interrupted():
             run.output_results()
 
-            # cleanup may wipe entire run_dir, so need to save the output before
+            # don't clean up better runs
             if this_one_is_better:
                 with open(os.path.join(run.run_dir, run.output_file_name)) as file:
                     GlobalVars.best_model_output = file.read()
-
-                if options.keep_key_models:
-                    run.keep()
-
-            run.cleanup()
+            else:
+                run.cleanup()
 
             model_cache = get_model_cache()
             model_cache.store_model_run(run)

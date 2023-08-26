@@ -45,6 +45,7 @@ class Population:
         self.num_format = '{:0' + str(len(str(max_number))) + 'd}'
         self.template = template
         self.adapter = get_engine_adapter(options.engine_adapter)
+        self.best_run_so_far = None
 
         self.model_cache = get_model_cache()
 
@@ -57,6 +58,8 @@ class Population:
 
         maxes = template.gene_max
         lengths = template.gene_length
+
+        pop.best_run_so_far = GlobalVars.best_run
 
         for code in codes:
             pop.add_model_run(code_converter(code, maxes, lengths))
@@ -82,7 +85,9 @@ class Population:
         existing_run = self.runs_g.get(genotype, None) or self.runs_ph.get(phenotype, None)
 
         if run and options.rerun_key_models and run.result.fitness != options.crash_value \
-                and (GlobalVars.best_run is None or run.result.fitness < GlobalVars.best_run.result.fitness):
+                and (self.best_run_so_far is None or run.result.fitness < self.best_run_so_far.result.fitness):
+            # minimize number of re-runs
+            self.best_run_so_far = run
             # re-run this one
             run = None
 
@@ -155,3 +160,17 @@ class Population:
             raise DarwinError('Nothing to run')
 
         self.runs = get_run_manager().run_all(self.runs)
+
+        if not options.keep_key_models or options.algorithm in ["EX", "EXHAUSTIVE"]:
+            return
+
+        best_run = self.get_best_run()
+
+        if not best_run.better:
+            return
+
+        if best_run.status == 'Restored':
+            best_run.make_control_file()
+            best_run.output_results()
+
+        best_run.keep()

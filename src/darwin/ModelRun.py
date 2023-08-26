@@ -147,6 +147,7 @@ class ModelRun:
         # "new" if new run, "saved" if from saved model
         # will be no results and no output file - consider saving output file?
         self.source = "new"
+        self.better = False
 
         self.reference_model_num = -1
 

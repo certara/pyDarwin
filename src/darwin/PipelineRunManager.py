@@ -65,11 +65,12 @@ class PipelineRunManager(ModelRunManager):
         if run.source == 'new' and run.started() and not run.is_duplicate() and not interrupted():
             run.output_results()
 
-            # don't clean up better runs
             if this_one_is_better:
                 with open(os.path.join(run.run_dir, run.output_file_name)) as file:
                     GlobalVars.best_model_output = file.read()
-            else:
+
+            # don't clean up better runs
+            if not this_one_is_better or not options.keep_key_models:
                 run.cleanup()
 
             model_cache = get_model_cache()

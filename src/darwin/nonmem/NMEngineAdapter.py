@@ -692,7 +692,7 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
 
         max_len = options.max_omega_search_lens[omega_idx]
 
-        bands = get_bands(diag_block, band_width[omega_idx] + 1, mask_idx[omega_idx], max_len)
+        bands = get_bands(diag_block, band_width[omega_idx], mask_idx[omega_idx], max_len)
 
         if options.individual_omega_search:
             omega_idx += 1

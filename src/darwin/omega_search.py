@@ -34,7 +34,7 @@ def apply_omega_bands(control: str, model_code: ModelCode, omega_band_pos: int, 
 
     if band_arr:
         bands = ', '. join(band_arr)
-        bands = f", bands: ({bands})"
+        bands = f", block: ({bands})"
 
     return control, bands
 

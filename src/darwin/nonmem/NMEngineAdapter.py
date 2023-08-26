@@ -683,7 +683,7 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
 
     omega_idx = 0
 
-    for start in omega_blocks:
+    for n, start in enumerate(omega_blocks):
         if re.search(r'.*?;\s*search\s+band\b', start[0], re.IGNORECASE) is None:  # $OMEGA should be first line
             final_control += "\n" + '\n'.join(str(x) for x in start)
             continue
@@ -693,9 +693,6 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
         max_len = options.max_omega_search_lens[omega_idx]
 
         bands = get_bands(diag_block, band_width[omega_idx], mask_idx[omega_idx], max_len)
-
-        if options.individual_omega_search:
-            omega_idx += 1
 
         band_start = 0
 
@@ -709,7 +706,10 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
             else:
                 final_control += "\n" + "$OMEGA BLOCK(" + str(block_size) + ") ;; block omega searched for bands\n"
 
-                band_arr.append(f"({band_start}, {len(band)}: {band_width})")
+                band_arr.append(f"([{n+1}]{band_start}, {len(band)}: {band_width[omega_idx]})")
+
+            if options.individual_omega_search:
+                omega_idx += 1
 
             band_start += len(band)
             this_rec = 0

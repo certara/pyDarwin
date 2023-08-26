@@ -68,7 +68,10 @@ class Population:
 
         if options.rerun_key_models and run.status == 'Restored' and run.result.fitness < best_fitness_so_far:
             # re-run this one
+            run.source = 'new'
             run.status = 'Not Started'
+            run.init_stem(run.model_num, run.generation)
+            run.orig_run_dir = None
 
         return pop
 
@@ -105,6 +108,7 @@ class Population:
             if run.status != 'Restored':
                 run.status = f"Cache({run.generation}-{run.model_num})"
 
+            run.orig_run_dir = run.run_dir
             run.init_stem(self.model_number, self.name)
 
             if not run.status.startswith('Cache('):
@@ -171,3 +175,4 @@ class Population:
             best_run.output_results()
 
         best_run.keep()
+        best_run.cleanup()

@@ -138,6 +138,7 @@ class ModelRun:
         self.output_file_name = None
         self.executable_file_name = None
         self.run_dir = None
+        self.orig_run_dir = None
 
         self.init_stem(model_num, generation)
 
@@ -533,6 +534,8 @@ class ModelRun:
             res = self.result
             model = self.model
 
+            if self.status == 'Restored':
+                output.write(f"Restored run\n")
             output.write(f"OFV = {res.ofv}\n")
             output.write(f"success = {res.success}\n")
             output.write(f"covariance = {res.covariance}\n")
@@ -541,7 +544,7 @@ class ModelRun:
             output.write(f"Num Non fixed THETAs = {model.estimated_theta_num}\n")
             output.write(f"Num Non fixed OMEGAs = {model.estimated_omega_num}\n")
             output.write(f"Num Non fixed SIGMAs = {model.estimated_sigma_num}\n")
-            output.write(f"Original run directory = {self.run_dir}\n")
+            output.write(f"Original run directory = {self.orig_run_dir or self.run_dir}\n")
 
 
 def _import_python_postprocessing(path: str):

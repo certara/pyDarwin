@@ -395,13 +395,19 @@ class ModelRun:
             utils.remove_dir(keep_path)
             os.mkdir(keep_path)
 
-            files = dict.fromkeys(glob.glob('*', root_dir=self.run_dir))
+            run_dir = self.run_dir
+
+            files = dict.fromkeys(glob.glob('*', root_dir=run_dir))
+
+            if not files and self.orig_run_dir:
+                run_dir = self.orig_run_dir
+                files = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
             files.pop(self.executable_file_name, None)
 
             for f in files:
                 try:
-                    path = os.path.join(self.run_dir, f)
+                    path = os.path.join(run_dir, f)
                     shutil.copy2(path, keep_path)
                 except OSError:
                     pass

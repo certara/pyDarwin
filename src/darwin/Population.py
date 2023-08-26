@@ -167,7 +167,7 @@ class Population:
 
         best_run = self.get_best_run()
 
-        if not best_run.better:
+        if options.keep_best_models and not best_run.better:
             return
 
         if best_run.status == 'Restored':

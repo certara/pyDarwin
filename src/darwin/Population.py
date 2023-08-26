@@ -45,7 +45,6 @@ class Population:
         self.num_format = '{:0' + str(len(str(max_number))) + 'd}'
         self.template = template
         self.adapter = get_engine_adapter(options.engine_adapter)
-        self.best_run_so_far = None
 
         self.model_cache = get_model_cache()
 
@@ -59,10 +58,17 @@ class Population:
         maxes = template.gene_max
         lengths = template.gene_length
 
-        pop.best_run_so_far = GlobalVars.best_run
-
         for code in codes:
             pop.add_model_run(code_converter(code, maxes, lengths))
+
+        run = pop.get_best_run()
+
+        best_fitness_so_far = GlobalVars.best_run.result.fitness if GlobalVars.best_run is not None \
+            else options.crash_value
+
+        if options.rerun_key_models and run.status == 'Restored' and run.result.fitness < best_fitness_so_far:
+            # re-run this one
+            run.status = 'Not Started'
 
         return pop
 
@@ -84,13 +90,6 @@ class Population:
 
         existing_run = self.runs_g.get(genotype, None) or self.runs_ph.get(phenotype, None)
 
-        if run and options.rerun_key_models and run.result.fitness != options.crash_value \
-                and (self.best_run_so_far is None or run.result.fitness < self.best_run_so_far.result.fitness):
-            # minimize number of re-runs
-            self.best_run_so_far = run
-            # re-run this one
-            run = None
-
         if existing_run:
             run = copy(existing_run)
             run.model_num = self.model_number
@@ -106,9 +105,7 @@ class Population:
             if run.status != 'Restored':
                 run.status = f"Cache({run.generation}-{run.model_num})"
 
-            run.model_num = self.model_number
-            run.generation = self.name
-            run.init_stem()
+            run.init_stem(self.model_number, self.name)
 
             if not run.status.startswith('Cache('):
                 run1 = deepcopy(run)

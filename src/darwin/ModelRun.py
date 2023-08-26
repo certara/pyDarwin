@@ -129,20 +129,19 @@ class ModelRun:
         self._adapter = adapter
         self.result = self.model_result_class()
 
-        self.wide_model_num = str(model_num)
-        self.model_num = int(model_num)
-        self.generation = str(generation)
+        self.wide_model_num = None
+        self.model_num = None
+        self.generation = None
 
         self.file_stem = None
         self.control_file_name = None
         self.output_file_name = None
         self.executable_file_name = None
+        self.run_dir = None
 
-        self.init_stem()
+        self.init_stem(model_num, generation)
 
-        self.run_dir = os.path.join(options.temp_dir, self.generation, str(model_num))
-
-        self.status = "Not Started"
+        self.status = 'Not Started'
 
         # "new" if new run, "saved" if from saved model
         # will be no results and no output file - consider saving output file?
@@ -151,11 +150,17 @@ class ModelRun:
 
         self.reference_model_num = -1
 
-    def init_stem(self):
+    def init_stem(self, model_num, generation):
+        self.wide_model_num = str(model_num)
+        self.model_num = int(model_num)
+        self.generation = str(generation)
+
         self.file_stem = self._adapter.get_stem(self.generation, self.model_num)
 
         self.control_file_name, self.output_file_name, self.executable_file_name \
             = self._adapter.get_file_names(self.file_stem)
+
+        self.run_dir = os.path.join(options.temp_dir, self.generation, self.wide_model_num)
 
     def is_duplicate(self) -> bool:
         """

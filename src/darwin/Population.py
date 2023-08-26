@@ -103,6 +103,7 @@ class Population:
 
             run.model_num = self.model_number
             run.generation = self.name
+            run.init_stem()
 
             if not run.status.startswith('Cache('):
                 run1 = deepcopy(run)

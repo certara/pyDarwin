@@ -8,7 +8,7 @@ import json
 import shlex
 
 import subprocess
-from subprocess import DEVNULL, STDOUT, TimeoutExpired, Popen
+from subprocess import TimeoutExpired, Popen
 import threading
 import traceback
 
@@ -133,7 +133,12 @@ class ModelRun:
         self.model_num = int(model_num)
         self.generation = str(generation)
 
-        self.file_stem = adapter.get_stem(generation, model_num)
+        self.file_stem = None
+        self.control_file_name = None
+        self.output_file_name = None
+        self.executable_file_name = None
+
+        self.init_stem()
 
         self.run_dir = os.path.join(options.temp_dir, self.generation, str(model_num))
 
@@ -143,10 +148,13 @@ class ModelRun:
         # will be no results and no output file - consider saving output file?
         self.source = "new"
 
-        self.control_file_name, self.output_file_name, self.executable_file_name \
-            = adapter.get_file_names(self.file_stem)
-
         self.reference_model_num = -1
+
+    def init_stem(self):
+        self.file_stem = self._adapter.get_stem(self.generation, self.model_num)
+
+        self.control_file_name, self.output_file_name, self.executable_file_name \
+            = self._adapter.get_file_names(self.file_stem)
 
     def is_duplicate(self) -> bool:
         """

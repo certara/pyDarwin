@@ -4,6 +4,7 @@ import re
 import json
 import subprocess
 import pathlib
+import random
 
 import darwin.utils as utils
 
@@ -132,8 +133,10 @@ class Options:
 
         self.LOCAL_RUN = self.model_run_man == 'darwin.LocalRunManager'
 
+        self.MAX_RAND_SEED = int(opts.get('MAX_RAND_SEED', 31415926))
+
         try:
-            self.random_seed = int(opts.get('random_seed', 'none'))
+            self.random_seed = int(opts.get('random_seed', random.randint(0, self.MAX_RAND_SEED)))
         except ValueError:
             self.random_seed = None
 

@@ -107,6 +107,8 @@ def _init_app(options_file: str, folder: str = None):
     log.message(f"Using {options.model_cache_class}")
     log.message(f"Algorithm is {options.algorithm}")
 
+    log.message(f"random_seed = {options.random_seed}")
+
     log.message(f"Project dir: {options.project_dir}")
     log.message(f"Data dir: {options.data_dir}")
     log.message(f"Project working dir: {options.working_dir}")

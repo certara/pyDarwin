@@ -146,10 +146,10 @@ def get_masks2(start: int, end: int, min_size: int, max_size: int):
 
 
 def _get_masks(end: int, min_size: int, max_size: int) -> list:
-    if not options.search_omega_sub_matrix:
-        return [[(0, 0)], [(0, end)]]
+    masks = [[(0, 0)], [(0, end)]]
 
-    masks = [[(0, 0)]]
+    if not options.search_omega_sub_matrix:
+        return masks
 
     for start in range(0, end - 1):
         for mask in get_masks2(start, end, min_size, max_size):

@@ -50,7 +50,7 @@ def get_bands(diag_block: list, band_width: int, mask_idx: int, max_len: int, nl
     len_d = min(len_d, max_len)
 
     all_masks = get_omega_block_masks(len_d)
-    i = int(mask_idx * len(all_masks) / _max_mask_len)
+    i = mask_idx if options.individual_omega_search else int(mask_idx * len(all_masks) / _max_mask_len)
 
     masks = all_masks[i]
 

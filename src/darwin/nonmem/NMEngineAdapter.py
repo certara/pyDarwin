@@ -41,7 +41,8 @@ class NMEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def get_max_search_block(template: Template) -> tuple:
-        return get_max_search_block(template, r'(^\s*\$OMEGA\b[^$]*;\s*search\s+band.*?\n([^$]+))', get_omega_block)
+        return get_max_search_block(template.template_text, template.tokens,
+                                    r'(^\s*\$OMEGA\b[^$]*;\s*search\s+band.*?\n([^$]+))', get_omega_block)
 
     @staticmethod
     def init_engine():

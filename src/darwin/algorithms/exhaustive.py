@@ -46,25 +46,8 @@ def run_exhaustive(model_template: Template) -> ModelRun:
     return GlobalVars.best_run
 
 
-def get_search_space(model_template: Template) -> np.ndarray:
-    num_groups = []
-
-    for thisKey in model_template.tokens.keys():
-        token_group = model_template.tokens.get(thisKey)
-        num_groups.append(list(range(len(token_group))))
-
-    if options.search_omega_blocks:
-        for i in options.max_omega_search_lens:
-            if options.max_omega_band_width is not None:
-                # need to add another group if searching on omega bands
-                num_groups.append(list(range(1, options.max_omega_band_width + 1)))
-
-            # need to add another group if searching on omega submatrices
-            num_groups.append(list(range(len(get_omega_block_masks(i)))))
-
-    if not num_groups:
-        log.error('The search space is empty - exiting')
-        exit('The search space is empty')
+def get_search_space(template: Template) -> np.ndarray:
+    num_groups = template.get_search_space_coordinates()
 
     codes = np.array(np.meshgrid(*num_groups)).T.reshape(-1, len(num_groups))
 

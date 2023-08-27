@@ -8,7 +8,6 @@ from darwin.Log import log
 
 from darwin.options import options
 from darwin.ModelCode import ModelCode
-from darwin.Template import Template
 from darwin.DarwinError import DarwinError
 
 _masks = []
@@ -129,7 +128,7 @@ def find_band(omega_size: int, band_width: int, omega_block: list):
     return init_off_diags
 
 
-def get_masks2(start: int, end: int, min_size: int, max_size: int):
+def _get_masks2(start: int, end: int, min_size: int, max_size: int):
     me = min(max_size, end) + 1
 
     for i in range(min_size, me):
@@ -141,7 +140,7 @@ def get_masks2(start: int, end: int, min_size: int, max_size: int):
         yield t
 
         for j in range(start + i, end):
-            for m2 in get_masks2(j, end, min_size, max_size):
+            for m2 in _get_masks2(j, end, min_size, max_size):
                 yield t + m2
 
 
@@ -152,7 +151,7 @@ def _get_masks(end: int, min_size: int, max_size: int) -> list:
         return masks
 
     for start in range(0, end - 1):
-        for mask in get_masks2(start, end, min_size, max_size):
+        for mask in _get_masks2(start, end, min_size, max_size):
             masks.append(mask)
 
     return masks
@@ -279,8 +278,8 @@ def _get_max_search_block(text: str, tokens: dict, pattern: str, get_omega_block
     return max_len
 
 
-def get_max_search_block(template: Template, pattern: str, get_omega_block: callable) -> tuple:
-    (text, tokens) = _trim_model(template.template_text, template.tokens, pattern)
+def get_max_search_block(template_text, template_tokens, pattern: str, get_omega_block: callable) -> tuple:
+    (text, tokens) = _trim_model(template_text, template_tokens, pattern)
 
     if options.individual_omega_search:
         return _get_max_search_blocks(text, tokens, pattern, get_omega_block)

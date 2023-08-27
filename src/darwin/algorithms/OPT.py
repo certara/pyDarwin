@@ -29,32 +29,12 @@ warnings.filterwarnings("ignore", message="The objective has been evaluated ")
 warnings.filterwarnings("ignore", message="The optimal value found for ", append=True)
 
 
-def _create_optimizer(model_template: Template, algorithm, chain_num) -> list:
-    # just get list of numbers, of len of each token group
-    num_groups = []
+def _create_optimizer(template: Template, algorithm, chain_num) -> list:
+    num_groups = [skopt.space.Categorical(categories=numerical_group, transform="onehot")
+                  for numerical_group in template.get_search_space_coordinates()]
 
-    for token_group in model_template.tokens.values():
-        numerical_group = list(range(len(token_group)))
-        this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
-        num_groups.append(this_x)
-
-    if options.search_omega_blocks:
-        for i in options.max_omega_search_lens:
-            if options.max_omega_band_width is not None:
-                numerical_group = list(range(1, options.max_omega_band_width+1))
-
-                this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
-                num_groups.append(this_x)
-
-            numerical_group = list(range(len(get_omega_block_masks(i))))
-
-            this_x = skopt.space.Categorical(categories=numerical_group, transform="onehot")
-            num_groups.append(this_x)
-
-    opts = []
-
-    for _ in range(chain_num):
-        opts.append(Optimizer(num_groups, n_jobs=1, base_estimator=algorithm, random_state=np.random.randint(0, 1000)))
+    opts = [Optimizer(num_groups, n_jobs=1, base_estimator=algorithm, random_state=rs)
+            for rs in np.random.randint(0, 1000, chain_num)]
 
     return opts
 

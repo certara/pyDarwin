@@ -23,8 +23,8 @@ from darwin.DarwinError import DarwinError
 
 from .utils import extract_multiline_block, get_comment_re, extract_data, extract_lhs, extract_rhs_array, extract_ranefs
 
-omega_search_pattern = r'(^\s*#search_block\s*\(\s*(\w+(?:\s*,\s*\w*)*)\))'
-omega_search_pattern2 = r'(^\s*#search_block\s*\(\s*([^\)]*)\))'
+omega_search_re = r'(^\s*#search_block\s*\(\s*(\w+(?:\s*,\s*\w*)*)\))'
+omega_search_re2 = r'(^\s*#search_block\s*\(\s*([^\)]*)\))'
 
 
 class NLMEEngineAdapter(ModelEngineAdapter):
@@ -39,7 +39,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def get_max_search_block(template: Template) -> tuple:
-        return get_max_search_block(template, omega_search_pattern2, _get_searched_omegas)
+        return get_max_search_block(template.template_text, template.tokens, omega_search_re2, _get_searched_omegas)
 
     @staticmethod
     def init_engine():
@@ -754,7 +754,7 @@ def _set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
 
     ranefs = extract_data('ranef', mdl)
 
-    (search_blocks, full_search_blocks) = extract_omega_search_blocks(omega_search_pattern, control)
+    (search_blocks, full_search_blocks) = extract_omega_search_blocks(omega_search_re, control)
     searched_omegas = _get_searched_omegas(search_blocks)
     vals = _get_values(ranefs, searched_omegas)
 

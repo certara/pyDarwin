@@ -709,9 +709,6 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
 
                 band_arr.append(f"([{n+1}]{band_start}, {len(band)}: {band_width[omega_idx]})")
 
-            if options.individual_omega_search:
-                omega_idx += 1
-
             band_start += len(band)
             this_rec = 0
 
@@ -719,6 +716,9 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
                 final_control += " ".join(map(str, np.around(i[:(this_rec + 1)], 7))) + " \n"
 
                 this_rec += 1
+
+        if options.individual_omega_search:
+            omega_idx += 1
 
     return final_control, band_arr
 

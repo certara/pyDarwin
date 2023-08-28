@@ -344,9 +344,12 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
 
     for i in options.max_omega_search_lens:
         if options.max_omega_band_width is not None:
+            # if no submatrices add no-block mask as band_width = 0
+            extra_band = 0 if options.search_omega_sub_matrix else 1
+
             # this is the number of off diagonal bands (diagonal is NOT included)
-            template.gene_max.append(options.max_omega_band_width - 1)
-            template.gene_length.append(math.ceil(math.log(options.max_omega_band_width, 2)))
+            template.gene_max.append(options.max_omega_band_width - 1 + extra_band)
+            template.gene_length.append(math.ceil(math.log(options.max_omega_band_width + extra_band, 2)))
 
             if template.omega_band_pos is None:
                 template.omega_band_pos = len(template.gene_max) - 1

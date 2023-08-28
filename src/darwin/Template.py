@@ -91,8 +91,11 @@ class Template:
         if options.search_omega_blocks:
             for i in options.max_omega_search_lens:
                 if options.max_omega_band_width is not None:
+                    # if no submatrices add no-block mask as band_width = 0
+                    start = 1 if options.search_omega_sub_matrix else 0
+
                     # need to add another group if searching on omega bands
-                    num_groups.append(list(range(1, options.max_omega_band_width + 1)))
+                    num_groups.append(list(range(start, options.max_omega_band_width + 1)))
 
                 # need to add another group if searching on omega submatrices
                 num_groups.append(list(range(len(get_omega_block_masks(i)))))

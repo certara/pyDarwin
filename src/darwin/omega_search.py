@@ -11,7 +11,6 @@ from darwin.ModelCode import ModelCode
 from darwin.DarwinError import DarwinError
 
 _masks = []
-_max_mask_len = 0
 
 
 def apply_omega_bands(control: str, model_code: ModelCode, omega_band_pos: int, set_bands_impl: callable,
@@ -39,24 +38,29 @@ def apply_omega_bands(control: str, model_code: ModelCode, omega_band_pos: int, 
 
 
 def get_bands(diag_block: list, band_width: int, mask_idx: int, max_len: int, nlme: bool = False) -> list:
-    res = []
-
     len_d = len(diag_block)
 
-    if len_d < 2:
-        return res
+    if len_d < 2 or band_width == 0:
+        init_off_diags = [[j] for j in diag_block]
+        return [(init_off_diags, 0)]
 
-    len_d = min(len_d, max_len)
+    res = []
 
-    all_masks = get_omega_block_masks(len_d)
-    i = mask_idx if options.individual_omega_search else int(mask_idx * len(all_masks) / _max_mask_len)
+    all_masks = get_omega_block_masks(max_len)
 
-    masks = all_masks[i]
+    masks = all_masks[mask_idx]
 
     last_end = 0
 
     for start, size in masks:
+        # full block
+        if size == max_len:
+            size = len_d
+
         end = start + size
+
+        if end > len_d:
+            break
 
         if start > last_end:
             init_off_diags = [[j] for j in diag_block[last_end:start]]
@@ -145,10 +149,18 @@ def _get_masks2(start: int, end: int, min_size: int, max_size: int):
 
 
 def _get_masks(end: int, min_size: int, max_size: int) -> list:
-    masks = [[(0, 0)], [(0, end)]]
-
     if not options.search_omega_sub_matrix:
-        return masks
+        if options.max_omega_band_width is not None:
+            # no block is band_width = 0
+            return [[(0, end)]]
+
+        return [[(0, 0)], [(0, end)]]
+
+    masks = [[(0, 0)]]
+
+    if max_size < end:
+        # otherwise it will be added as one of possible submatrices
+        masks.append([(0, end)])
 
     for start in range(0, end - 1):
         for mask in _get_masks2(start, end, min_size, max_size):
@@ -159,7 +171,6 @@ def _get_masks(end: int, min_size: int, max_size: int) -> list:
 
 def get_omega_block_masks(search_len: int = 0) -> list:
     global _masks
-    global _max_mask_len
 
     search_len = search_len or options.max_omega_search_len
 
@@ -167,8 +178,6 @@ def get_omega_block_masks(search_len: int = 0) -> list:
         _masks = [[], []]
         for i in range(2, options.OMEGA_SEARCH_LIMIT + 1):
             _masks.append(_get_masks(i, 2, options.max_omega_sub_matrix))
-
-        _max_mask_len = len(get_omega_block_masks(options.max_omega_search_len))
 
     return _masks[search_len]
 

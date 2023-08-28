@@ -5,7 +5,7 @@ import collections
 
 from darwin.Log import log
 from darwin.options import options
-from omega_search import get_omega_block_masks
+from darwin.omega_search import get_omega_block_masks
 
 
 class Template:

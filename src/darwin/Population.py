@@ -93,6 +93,8 @@ class Population:
 
         existing_run = self.runs_g.get(genotype, None) or self.runs_ph.get(phenotype, None)
 
+        wide_model_num = self.num_format.format(self.model_number)
+
         if existing_run:
             run = copy(existing_run)
             run.model_num = self.model_number
@@ -109,16 +111,16 @@ class Population:
                 run.status = f"Cache({run.generation}-{run.model_num})"
 
             run.orig_run_dir = run.run_dir
-            run.init_stem(self.model_number, self.name)
+            run.init_stem(wide_model_num, self.name)
 
             if not run.status.startswith('Cache('):
                 run1 = deepcopy(run)
                 run1.status = 'not restored'
                 self.model_cache.store_model_run(run1)
         else:
-            run = ModelRun(model, self.num_format.format(self.model_number), self.name, self.adapter)
+            run = ModelRun(model, wide_model_num, self.name, self.adapter)
 
-        run.wide_model_num = self.num_format.format(self.model_number)
+        run.wide_model_num = wide_model_num
 
         GlobalVars.all_models_num += 1
 

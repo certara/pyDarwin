@@ -156,7 +156,7 @@ class ModelRun:
         self.model_num = int(model_num)
         self.generation = str(generation)
 
-        self.file_stem = self._adapter.get_stem(self.generation, self.model_num)
+        self.file_stem = self._adapter.get_stem(self.generation, model_num)
 
         self.control_file_name, self.output_file_name, self.executable_file_name \
             = self._adapter.get_file_names(self.file_stem)

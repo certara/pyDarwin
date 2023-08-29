@@ -21,7 +21,6 @@ from darwin.Template import Template
 from darwin.Model import Model
 from darwin.ModelRun import ModelRun
 from darwin.Population import Population
-from darwin.omega_search import get_omega_block_masks
 
 logger = logging.getLogger(__name__)
 

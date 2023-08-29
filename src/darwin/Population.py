@@ -172,7 +172,7 @@ class Population:
         if options.keep_best_models and not best_run.better:
             return
 
-        if best_run.status == 'Restored':
+        if best_run.status == 'Restored' or best_run.status.startswith('Cache('):
             best_run.make_control_file()
             best_run.output_results()
 

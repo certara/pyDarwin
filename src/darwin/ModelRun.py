@@ -399,10 +399,6 @@ class ModelRun:
 
             files = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
-            if not files and self.orig_run_dir:
-                run_dir = self.orig_run_dir
-                files = dict.fromkeys(glob.glob('*', root_dir=run_dir))
-
             files.pop(self.executable_file_name, None)
 
             for f in files:

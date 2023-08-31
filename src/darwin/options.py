@@ -195,7 +195,7 @@ class Options:
         self.PSO = _default_PSO | pso
         self.use_saved_models = opts.get('use_saved_models', False)
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
-        self.saved_models_readonly = opts.get('saved_models_readonly', False)
+        self.saved_models_readonly = opts.get('saved_models_readonly', False) and self.use_saved_models
 
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)

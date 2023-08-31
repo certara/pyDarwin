@@ -12,6 +12,7 @@ import darwin.utils as utils
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import ExecutionManager
+from darwin.ModelRunManager import get_run_manager
 
 import darwin.MemoryModelCache
 import darwin.ModelRunManager
@@ -60,6 +61,7 @@ def _init_model_results():
 def _reset_global_vars():
     GlobalVars.results_file = None
     GlobalVars.best_run = None
+    GlobalVars.key_models = []
     GlobalVars.all_models_num = 0
     GlobalVars.run_models_num = 0
     GlobalVars.unique_models_num = 0
@@ -200,7 +202,11 @@ class DarwinApp:
         final_control_file = os.path.join(options.output_dir, final_control_file)
         final_result_file = os.path.join(options.output_dir, final_result_file)
 
-        if write_best_model_files(final_control_file, final_result_file):
+        final_output_done = False
+
+        if write_best_model_files(final_control_file, final_result_file) \
+                and GlobalVars.best_model_output != 'No output yet':
+            final_output_done = True
             log.message(f"Final output from best model is in {final_result_file}")
 
         if final:
@@ -216,7 +222,15 @@ class DarwinApp:
 
         log.message(f"Elapsed time = {elapsed / 60:.1f} minutes \n")
 
-        log.message(f"Search end time = {time.asctime()}")
+        log.message(f"Search end time = {time.asctime()}\n")
+
+        if options.rerun_key_models:
+            log.message("Re-running key models")
+
+            _rerun_key_models()
+
+            if not final_output_done and write_best_model_files(final_control_file, final_result_file):
+                log.message(f"Final output from best model is in {final_result_file}")
 
         try:
             os.remove(os.path.join(options.working_dir, "InterimControlFile.mod"))
@@ -225,6 +239,22 @@ class DarwinApp:
             pass
 
         return final
+
+
+def _rerun_key_models():
+    GlobalVars.best_run = None
+
+    for r in GlobalVars.key_models:
+        if r.orig_run_dir is None and not r.rerun:
+            continue
+
+        r.rerun = True
+        r.source = 'new'
+        r.reference_model_num = -1
+        r.status = 'Not Started'
+        r.result.ref_run = ''
+
+    get_run_manager().run_all(GlobalVars.key_models)
 
 
 def _has_omega_search(tokens: OrderedDict, pattern: str) -> bool:

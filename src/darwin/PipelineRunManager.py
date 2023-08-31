@@ -69,6 +69,9 @@ class PipelineRunManager(ModelRunManager):
                 with open(os.path.join(run.run_dir, run.output_file_name)) as file:
                     GlobalVars.best_model_output = file.read()
 
+            if run.rerun:
+                run.keep()
+
             # don't clean up better runs
             if not this_one_is_better or not options.keep_key_models:
                 run.cleanup()
@@ -99,12 +102,13 @@ class PipelineRunManager(ModelRunManager):
 
         message = res.get_message_text()
 
-        with open(GlobalVars.results_file, "a") as result_file:
-            result_file.write(f"{run.generation},{run.wide_model_num},{run.run_dir},{res.ref_run},"
-                              f"{run.status},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
-                              f"{res.ofv},{res.success},{res.covariance},{res.correlation},{model.theta_num},"
-                              f"{model.omega_num},{model.sigma_num},{res.condition_num},{res.post_run_r_penalty},"
-                              f"{res.post_run_python_penalty},{res.messages},{res.errors}\n")
+        if not run.rerun:
+            with open(GlobalVars.results_file, "a") as result_file:
+                result_file.write(f"{run.generation},{run.wide_model_num},{run.run_dir},{res.ref_run},"
+                                  f"{run.status},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
+                                  f"{res.ofv},{res.success},{res.covariance},{res.correlation},{model.theta_num},"
+                                  f"{model.omega_num},{model.sigma_num},{res.condition_num},{res.post_run_r_penalty},"
+                                  f"{res.post_run_python_penalty},{res.messages},{res.errors}\n")
 
         if run.status.startswith('Twin(') or run.status.startswith('Clone(') or run.status.startswith('Cache('):
             fitness_text = ''
@@ -124,5 +128,9 @@ class PipelineRunManager(ModelRunManager):
 
 def _copy_to_best(run: ModelRun):
     GlobalVars.best_run = run
+
+    if run.rerun:
+        return
+
     GlobalVars.TimeToBest = time.time() - GlobalVars.start_time
     GlobalVars.unique_models_to_best = GlobalVars.unique_models_num

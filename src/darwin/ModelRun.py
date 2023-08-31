@@ -139,6 +139,7 @@ class ModelRun:
         self.executable_file_name = None
         self.run_dir = None
         self.orig_run_dir = None
+        self.rerun = False
 
         self.init_stem(model_num, generation)
 
@@ -372,7 +373,8 @@ class ModelRun:
                 failed = True
                 break
 
-        GlobalVars.unique_models_num += 1
+        if not self.rerun:
+            GlobalVars.unique_models_num += 1
 
         # if messages (translation errors) is not set, check the run_dir
         if not failed or self.result.messages == '':

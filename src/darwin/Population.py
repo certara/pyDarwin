@@ -61,18 +61,6 @@ class Population:
         for code in codes:
             pop.add_model_run(code_converter(code, maxes, lengths))
 
-        run = pop.get_best_run()
-
-        best_fitness_so_far = GlobalVars.best_run.result.fitness if GlobalVars.best_run is not None \
-            else options.crash_value
-
-        if options.rerun_key_models and run.status == 'Restored' and run.result.fitness < best_fitness_so_far:
-            # re-run this one
-            run.source = 'new'
-            run.status = 'Not Started'
-            run.init_stem(run.model_num, run.generation)
-            run.orig_run_dir = None
-
         return pop
 
     def add_model_run(self, code: ModelCode):
@@ -175,6 +163,11 @@ class Population:
         if best_run.status == 'Restored' or best_run.status.startswith('Cache('):
             best_run.make_control_file()
             best_run.output_results()
+
+        GlobalVars.key_models.append(best_run)
+
+        if best_run.result.fitness > GlobalVars.best_run.result.fitness:
+            best_run.rerun = True
 
         best_run.keep()
         best_run.cleanup()

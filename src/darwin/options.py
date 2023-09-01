@@ -199,6 +199,7 @@ class Options:
 
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)
+        self.no_cleanup = opts.get('no_cleanup', False)
 
         self.crash_value = opts.get('crash_value', 99999999)
 

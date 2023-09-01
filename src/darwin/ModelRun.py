@@ -416,6 +416,9 @@ class ModelRun:
         """
         Deletes all unneeded files after run.
         """
+        if options.no_cleanup:
+            return
+
         self._adapter.cleanup(self.run_dir, self.file_stem)
 
     def _decode_r_stdout(self, r_stdout):

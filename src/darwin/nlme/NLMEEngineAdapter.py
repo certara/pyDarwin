@@ -351,7 +351,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         correlation = False
         ofv = condition_num = options.crash_value
 
-        run_dir = f"{run.run_dir}/1-est"
+        run_dir = run.run_dir
 
         res = run.result
 

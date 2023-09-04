@@ -96,14 +96,14 @@ class Population:
                 run.result.ref_run = run.file_stem
 
             if run.status != 'Restored':
-                run.status = f"Cache({run.generation}-{run.model_num})"
+                run.set_status(f"Cache({run.generation}-{run.model_num})")
 
             run.orig_run_dir = run.run_dir
             run.init_stem(wide_model_num, self.name)
 
             if not run.status.startswith('Cache('):
                 run1 = deepcopy(run)
-                run1.status = 'not restored'
+                run1.set_status('not restored')
                 self.model_cache.store_model_run(run1)
         else:
             run = ModelRun(model, wide_model_num, self.name, self.adapter)

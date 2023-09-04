@@ -152,6 +152,12 @@ class ModelRun:
 
         self.reference_model_num = -1
 
+    def set_status(self, status: str):
+        if self.status == 'Invalid model':
+            return
+
+        self.status = status
+
     def init_stem(self, model_num, generation):
         self.wide_model_num = str(model_num)
         self.model_num = int(model_num)
@@ -317,7 +323,7 @@ class ModelRun:
             log.error(f"run {self.model_num} has timed out")
             utils.terminate_process(run_process.pid)
 
-            self.status = 'Model run timed out'
+            self.set_status('Model run timed out')
 
             # there may be a reason for timeout
             self._get_error_messages(run_dir)
@@ -329,10 +335,10 @@ class ModelRun:
 
         if run_process is None or run_process.returncode != 0:
             if interrupted():
-                self.status = 'Model run interrupted'
+                self.set_status('Model run interrupted')
                 log.error(f'Model run {self.model_num} was interrupted')
             else:
-                self.status = 'Model run failed'
+                self.set_status('Model run failed')
                 self._get_error_messages(run_dir)
 
             return False
@@ -353,7 +359,7 @@ class ModelRun:
         if not file_checker.check_files_present(self):
             return
 
-        self.status = 'Running model'
+        self.set_status('Running model')
 
         commands = self._adapter.get_model_run_commands(self)
 
@@ -381,10 +387,10 @@ class ModelRun:
             self._get_error_messages(self.run_dir)
 
         if not failed:
-            self.status = 'Finished model run'
+            self.set_status('Finished model run')
 
             if self._post_run_r() and self._post_run_python() and self._calc_fitness():
-                self.status = 'Done'
+                self.set_status('Done')
 
     def keep(self):
         """
@@ -445,21 +451,21 @@ class ModelRun:
         command = [options.rscript_path, options.post_run_r_code]
 
         try:
-            self.status = "Running post process R code"
+            self.set_status('Running post process R code')
 
             r_process = subprocess.run(command, capture_output=True, cwd=self.run_dir,
                                        creationflags=options.model_run_priority, timeout=options.r_timeout)
 
-            self.status = "Done post process R code"
+            self.set_status('Done post process R code')
 
         except TimeoutExpired:
             log.error(f'Post run R code for run {self.model_num} has timed out')
-            self.status = "Post process R timed out"
+            self.set_status('Post process R timed out')
 
             return False
         except:
             log.error("Post run R code crashed in " + self.run_dir)
-            self.status = "Post process R failed"
+            self.set_status('Post process R failed')
 
             return False
 
@@ -474,7 +480,7 @@ class ModelRun:
                 if r_process is not None:
                     f.write(r_process.stderr.decode("utf-8") + '\n')
 
-            self.status = "Post process R failed"
+            self.set_status('Post process R failed')
 
             return False
         else:
@@ -499,12 +505,12 @@ class ModelRun:
                 f.write(f"Post run Python code Penalty = {str(res.post_run_python_penalty)}\n")
                 f.write(f"Post run Python code text = {str(res.post_run_python_text)}\n")
 
-            self.status = "Done post process Python"
+            self.set_status('Done post process Python')
 
         except:
             res.post_run_python_penalty = options.crash_value
 
-            self.status = "Post process Python failed"
+            self.set_status('Post process Python failed')
 
             with open(os.path.join(self.run_dir, self.output_file_name), "a") as f:
                 log.error("Post run Python code crashed in " + self.run_dir)

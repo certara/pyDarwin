@@ -93,6 +93,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
             r'TDL5: Startup error.+$',
             r'Failed to get license for NLME',
             r'^Error:.+$',
+            r'^Error line \d+: Error:.+$',
             'license not found'
         ]
 
@@ -155,6 +156,11 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         ]
 
         # check NLME stderr first
+        err = _find_error(stderr, [r'Model not suitable for QRPEM analysis'])
+        if err != '':
+            run.set_status('Invalid model')
+            return warning, err
+
         err = _find_error(stderr, patterns2)
 
         if err != '':
@@ -348,6 +354,9 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def read_results(run: ModelRun) -> bool:
+        if run.status == 'Invalid model':
+            return False
+
         correlation = False
         ofv = condition_num = options.crash_value
 

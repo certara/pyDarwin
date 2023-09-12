@@ -25,7 +25,7 @@ from darwin.omega_search import get_omega_block_masks
 from darwin.ModelEngineAdapter import get_engine_adapter
 
 from .Template import Template
-from .ModelRun import ModelRun, write_best_model_files, file_checker
+from .ModelRun import ModelRun, write_best_model_files, file_checker, log_run
 from .ModelCache import set_model_cache, create_model_cache
 from .DarwinError import DarwinError
 
@@ -224,9 +224,12 @@ class DarwinApp:
 
         log.message(f"Search end time = {time.asctime()}\n")
 
-        if options.rerun_key_models:
-            log.message("Re-running key models")
+        if options.keep_key_models:
+            log.message('Key models:')
+            for r in GlobalVars.key_models:
+                log_run(r)
 
+        if options.rerun_key_models:
             _rerun_key_models()
 
             if not final_output_done and write_best_model_files(final_control_file, final_result_file):
@@ -244,17 +247,21 @@ class DarwinApp:
 def _rerun_key_models():
     GlobalVars.best_run = None
 
-    for r in GlobalVars.key_models:
-        if r.orig_run_dir is None and not r.rerun:
-            continue
+    rerun_models = [r for r in GlobalVars.key_models if r.orig_run_dir is not None or r.rerun]
 
+    if not rerun_models:
+        return
+
+    for r in rerun_models:
         r.rerun = True
         r.source = 'new'
         r.reference_model_num = -1
         r.status = 'Not Started'
         r.result.ref_run = ''
 
-    get_run_manager().run_all(GlobalVars.key_models)
+    log.message("Re-running models")
+
+    get_run_manager().run_all(rerun_models)
 
 
 def _has_omega_search(tokens: OrderedDict, pattern: str) -> bool:

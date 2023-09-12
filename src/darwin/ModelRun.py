@@ -602,3 +602,24 @@ def run_to_json(run: ModelRun, file: str):
 def json_to_run(file: str) -> ModelRun:
     with open(file) as f:
         return ModelRun.from_dict(json.load(f))
+
+
+def log_run(run: ModelRun):
+    res = run.result
+
+    step_name = 'Generation' if options.isGA else 'Iteration'
+
+    if run.status.startswith('Twin(') or run.status.startswith('Clone(') or run.status.startswith('Cache('):
+        fitness_text = ''
+    else:
+        fitness_crashed = res.fitness == options.crash_value
+        fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
+
+    status = run.status.rjust(14)
+    message = res.get_message_text()
+    prd_err_text = ', error = ' + res.errors if res.errors else ''
+
+    log.message(
+        f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
+        f"    fitness = {fitness_text:>9},    message = {message}{prd_err_text}"
+    )

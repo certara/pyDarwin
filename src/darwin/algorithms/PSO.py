@@ -160,10 +160,6 @@ class _PSORunner(DiscreteSwarmOptimizer):
         self.template = template
         self.init_pos = init_pos
 
-        # self.pop_full_bits is the binary
-        self.population = Population.from_codes(self.template, self.generation, self.init_pos,
-                                                ModelCode.from_full_binary,
-                                                max_iteration=options.num_generations)
         # Initialize logger
         self.rep = Reporter(logger=logging.getLogger(__name__))
 
@@ -219,6 +215,8 @@ class _PSORunner(DiscreteSwarmOptimizer):
 
         elitism_num = options.PSO['elitist_num']
 
+        population = None
+
         for this_iter in range(options.num_generations):
             self.generation = this_iter
 
@@ -226,7 +224,7 @@ class _PSORunner(DiscreteSwarmOptimizer):
                 break
 
             # !!! PyCharm complains about kwargs. Not sure who to blame, but we can live with this.
-            self.swarm.current_cost, self.population.runs = compute_objective_function(
+            self.swarm.current_cost, population = compute_objective_function(
                 self.swarm, objective_func, pool, model_template=self.template, iteration=this_iter)
 
             if not keep_going():
@@ -254,12 +252,12 @@ class _PSORunner(DiscreteSwarmOptimizer):
 
                 log.message("Starting downhill for iteration " + str(this_iter))
 
-                self.population.name = this_iter
+                population.name = this_iter
 
-                rundown.run_downhill(self.template, self.population)
+                rundown.run_downhill(self.template, population)
 
-                best_downhill_models = self.population.get_best_runs(options.num_niches)
-                best_downhill_model = self.population.get_best_run()
+                best_downhill_models = population.get_best_runs(options.num_niches)
+                best_downhill_model = population.get_best_run()
 
                 best_cost = np.min([best_cost, best_downhill_model.result.fitness])
 
@@ -334,10 +332,10 @@ class _PSORunner(DiscreteSwarmOptimizer):
         if options.final_downhill_search and keep_going():
             log.message("Starting final downhill")
 
-            self.population.name = this_iter
-            rundown.run_downhill(self.template, self.population)
+            population.name = this_iter
+            rundown.run_downhill(self.template, population)
 
-            final_best = self.population.get_best_run()
+            final_best = population.get_best_run()
             final_best_cost = final_best.result.fitness
             final_best_pos = final_best.model.model_code.FullBinCode
 
@@ -465,7 +463,7 @@ def f(x, model_template, iteration):
 
     j = [r.result.fitness for r in pop.runs]
 
-    return np.array(j), pop.runs
+    return np.array(j), pop
 
 
 def run_pso(model_template: Template) -> ModelRun:
@@ -489,8 +487,8 @@ def run_pso(model_template: Template) -> ModelRun:
 
     # k is the number of positions to consider in the search
     # can be up to all, but can't be > pop size
-    if pso_options['k'] > options['population_size']:
-        pso_options['k'] = options['population_size']
+    if pso_options['k'] > pop_size:
+        pso_options['k'] = pop_size
         log.message("k (neighbor_num) was > population_size, value set to population_size")
 
     if options.random_seed is not None:

@@ -2,8 +2,10 @@ import sys
 import json
 import math
 import collections
+
 from darwin.Log import log
 from darwin.options import options
+from darwin.omega_search import get_omega_block_masks
 
 
 class Template:
@@ -82,3 +84,24 @@ class Template:
 
                 if val == 1:
                     log.warn(f'Token {this_set} has the only option.')
+
+    def get_search_space_coordinates(self) -> list:
+        num_groups = [list(range(len(token_group))) for token_group in self.tokens.values()]
+
+        if options.search_omega_blocks:
+            for i in options.max_omega_search_lens:
+                if options.max_omega_band_width is not None:
+                    # if no submatrices add no-block mask as band_width = 0
+                    start = 1 if options.search_omega_sub_matrix else 0
+
+                    # need to add another group if searching on omega bands
+                    num_groups.append(list(range(start, options.max_omega_band_width + 1)))
+
+                # need to add another group if searching on omega submatrices
+                num_groups.append(list(range(len(get_omega_block_masks(i)))))
+
+        if not num_groups:
+            log.error('The search space is empty - exiting')
+            exit('The search space is empty')
+
+        return num_groups

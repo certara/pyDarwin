@@ -8,7 +8,7 @@ import json
 import shlex
 
 import subprocess
-from subprocess import DEVNULL, STDOUT, TimeoutExpired, Popen
+from subprocess import TimeoutExpired, Popen
 import threading
 import traceback
 
@@ -129,24 +129,46 @@ class ModelRun:
         self._adapter = adapter
         self.result = self.model_result_class()
 
-        self.wide_model_num = str(model_num)
-        self.model_num = int(model_num)
-        self.generation = str(generation)
+        self.wide_model_num = None
+        self.model_num = None
+        self.generation = None
 
-        self.file_stem = adapter.get_stem(generation, model_num)
+        self.file_stem = None
+        self.control_file_name = None
+        self.output_file_name = None
+        self.executable_file_name = None
+        self.run_dir = None
+        self.orig_run_dir = None
+        self.rerun = False
 
-        self.run_dir = os.path.join(options.temp_dir, self.generation, str(model_num))
+        self.init_stem(model_num, generation)
 
-        self.status = "Not Started"
+        self.status = 'Not Started'
 
         # "new" if new run, "saved" if from saved model
         # will be no results and no output file - consider saving output file?
         self.source = "new"
-
-        self.control_file_name, self.output_file_name, self.executable_file_name \
-            = adapter.get_file_names(self.file_stem)
+        self.better = False
 
         self.reference_model_num = -1
+
+    def set_status(self, status: str):
+        if self.status == 'Invalid model':
+            return
+
+        self.status = status
+
+    def init_stem(self, model_num, generation):
+        self.wide_model_num = str(model_num)
+        self.model_num = int(model_num)
+        self.generation = str(generation)
+
+        self.file_stem = self._adapter.get_stem(self.generation, model_num)
+
+        self.control_file_name, self.output_file_name, self.executable_file_name \
+            = self._adapter.get_file_names(self.file_stem)
+
+        self.run_dir = os.path.join(options.temp_dir, self.generation, self.wide_model_num)
 
     def is_duplicate(self) -> bool:
         """
@@ -276,10 +298,52 @@ class ModelRun:
         finally:
             os.chdir(cwd)
 
-    def _get_error_messages(self):
+    def _get_error_messages(self, run_dir: str):
         res = self.result
 
-        res.errors, res.messages = self._adapter.get_error_messages(self)
+        res.errors, res.messages = self._adapter.get_error_messages(self, run_dir)
+
+    def run_command(self, cmd_count: int, command: dict) -> bool:
+        run_process = None
+
+        run_dir = command['dir']
+
+        try:
+            path1 = os.path.join(self.run_dir, f"out{cmd_count}")
+            path2 = os.path.join(self.run_dir, f"err{cmd_count}")
+
+            with open(path1, 'a') as out:
+                with open(path2, 'a') as err:
+                    run_process = Popen(command['command'], stdout=out, stderr=err, cwd=run_dir,
+                                        creationflags=options.model_run_priority)
+
+            run_process.communicate(timeout=command['timeout'])
+
+        except TimeoutExpired:
+            log.error(f"run {self.model_num} has timed out")
+            utils.terminate_process(run_process.pid)
+
+            self.set_status('Model run timed out')
+
+            # there may be a reason for timeout
+            self._get_error_messages(run_dir)
+
+            return False
+
+        except Exception as e:
+            log.error(str(e))
+
+        if run_process is None or run_process.returncode != 0:
+            if interrupted():
+                self.set_status('Model run interrupted')
+                log.error(f'Model run {self.model_num} was interrupted')
+            else:
+                self.set_status('Model run failed')
+                self._get_error_messages(run_dir)
+
+            return False
+
+        return True
 
     def run_model(self):
         """
@@ -295,61 +359,38 @@ class ModelRun:
         if not file_checker.check_files_present(self):
             return
 
+        self.set_status('Running model')
+
         commands = self._adapter.get_model_run_commands(self)
 
-        run_process = None
+        GlobalVars.run_models_num += 1
 
-        try:
-            self.status = "Running model"
+        cmd_count = 0
+        failed = False
 
-            GlobalVars.run_models_num += 1
+        for command in commands:
+            cmd_count += 1
 
-            cmd_count = 0
+            if 'fun' in command:
+                command['fun']()
+                continue
 
-            for command in commands:
-                cmd_count += 1
+            if not self.run_command(cmd_count, command):
+                failed = True
+                break
 
-                path1 = os.path.join(self.run_dir, f"out{cmd_count}")
-                path2 = os.path.join(self.run_dir, f"err{cmd_count}")
-
-                with open(path1, 'a') as out:
-                    with open(path2, 'a') as err:
-                        run_process = Popen(command['command'], stdout=out, stderr=err, cwd=self.run_dir,
-                                            creationflags=options.model_run_priority)
-
-                run_process.communicate(timeout=command['timeout'])
-
-            self.status = "Finished model run"
-
-        except TimeoutExpired:
-            log.error(f'run {self.model_num} has timed out')
-            utils.terminate_process(run_process.pid)
-
-            self.status = "Model run timed out"
-            self._get_error_messages()
-
-            return
-
-        except Exception as e:
-            log.error(str(e))
-
-        finally:
+        if not self.rerun:
             GlobalVars.unique_models_num += 1
 
-        if run_process is None or run_process.returncode != 0:
-            if interrupted():
-                self.status = "Model run interrupted"
-                log.error(f'Model run {self.model_num} was interrupted')
-            else:
-                self.status = "Model run failed"
-                self._get_error_messages()
+        # if messages (translation errors) is not set, check the run_dir
+        if not failed or self.result.messages == '':
+            self._get_error_messages(self.run_dir)
 
-            return
+        if not failed:
+            self.set_status('Finished model run')
 
-        self._get_error_messages()
-
-        if self._post_run_r() and self._post_run_python() and self._calc_fitness():
-            self.status = "Done"
+            if self._post_run_r() and self._post_run_python() and self._calc_fitness():
+                self.set_status('Done')
 
     def keep(self):
         """
@@ -362,13 +403,15 @@ class ModelRun:
             utils.remove_dir(keep_path)
             os.mkdir(keep_path)
 
-            files = dict.fromkeys(glob.glob('*', root_dir=self.run_dir))
+            run_dir = self.run_dir
+
+            files = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
             files.pop(self.executable_file_name, None)
 
             for f in files:
                 try:
-                    path = os.path.join(self.run_dir, f)
+                    path = os.path.join(run_dir, f)
                     shutil.copy2(path, keep_path)
                 except OSError:
                     pass
@@ -379,6 +422,9 @@ class ModelRun:
         """
         Deletes all unneeded files after run.
         """
+        if options.no_cleanup:
+            return
+
         self._adapter.cleanup(self.run_dir, self.file_stem)
 
     def _decode_r_stdout(self, r_stdout):
@@ -405,21 +451,21 @@ class ModelRun:
         command = [options.rscript_path, options.post_run_r_code]
 
         try:
-            self.status = "Running post process R code"
+            self.set_status('Running post process R code')
 
             r_process = subprocess.run(command, capture_output=True, cwd=self.run_dir,
                                        creationflags=options.model_run_priority, timeout=options.r_timeout)
 
-            self.status = "Done post process R code"
+            self.set_status('Done post process R code')
 
         except TimeoutExpired:
             log.error(f'Post run R code for run {self.model_num} has timed out')
-            self.status = "Post process R timed out"
+            self.set_status('Post process R timed out')
 
             return False
         except:
             log.error("Post run R code crashed in " + self.run_dir)
-            self.status = "Post process R failed"
+            self.set_status('Post process R failed')
 
             return False
 
@@ -434,7 +480,7 @@ class ModelRun:
                 if r_process is not None:
                     f.write(r_process.stderr.decode("utf-8") + '\n')
 
-            self.status = "Post process R failed"
+            self.set_status('Post process R failed')
 
             return False
         else:
@@ -459,12 +505,12 @@ class ModelRun:
                 f.write(f"Post run Python code Penalty = {str(res.post_run_python_penalty)}\n")
                 f.write(f"Post run Python code text = {str(res.post_run_python_text)}\n")
 
-            self.status = "Done post process Python"
+            self.set_status('Done post process Python')
 
         except:
             res.post_run_python_penalty = options.crash_value
 
-            self.status = "Post process Python failed"
+            self.set_status('Post process Python failed')
 
             with open(os.path.join(self.run_dir, self.output_file_name), "a") as f:
                 log.error("Post run Python code crashed in " + self.run_dir)
@@ -501,6 +547,8 @@ class ModelRun:
             res = self.result
             model = self.model
 
+            if self.status == 'Restored':
+                output.write(f"Restored run\n")
             output.write(f"OFV = {res.ofv}\n")
             output.write(f"success = {res.success}\n")
             output.write(f"covariance = {res.covariance}\n")
@@ -509,7 +557,7 @@ class ModelRun:
             output.write(f"Num Non fixed THETAs = {model.estimated_theta_num}\n")
             output.write(f"Num Non fixed OMEGAs = {model.estimated_omega_num}\n")
             output.write(f"Num Non fixed SIGMAs = {model.estimated_sigma_num}\n")
-            output.write(f"Original run directory = {self.run_dir}\n")
+            output.write(f"Original run directory = {self.orig_run_dir or self.run_dir}\n")
 
 
 def _import_python_postprocessing(path: str):
@@ -554,3 +602,24 @@ def run_to_json(run: ModelRun, file: str):
 def json_to_run(file: str) -> ModelRun:
     with open(file) as f:
         return ModelRun.from_dict(json.load(f))
+
+
+def log_run(run: ModelRun):
+    res = run.result
+
+    step_name = 'Generation' if options.isGA else 'Iteration'
+
+    if run.status.startswith('Twin(') or run.status.startswith('Clone(') or run.status.startswith('Cache('):
+        fitness_text = ''
+    else:
+        fitness_crashed = res.fitness == options.crash_value
+        fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
+
+    status = run.status.rjust(14)
+    message = res.get_message_text()
+    prd_err_text = ', error = ' + res.errors if res.errors else ''
+
+    log.message(
+        f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
+        f"    fitness = {fitness_text:>9},    message = {message}{prd_err_text}"
+    )

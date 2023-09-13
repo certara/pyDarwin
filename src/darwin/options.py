@@ -4,6 +4,7 @@ import re
 import json
 import subprocess
 import pathlib
+import random
 
 import darwin.utils as utils
 
@@ -132,8 +133,10 @@ class Options:
 
         self.LOCAL_RUN = self.model_run_man == 'darwin.LocalRunManager'
 
+        self.MAX_RAND_SEED = int(opts.get('MAX_RAND_SEED', 31415926))
+
         try:
-            self.random_seed = int(opts.get('random_seed', 'none'))
+            self.random_seed = int(opts.get('random_seed', random.randint(0, self.MAX_RAND_SEED)))
         except ValueError:
             self.random_seed = None
 
@@ -157,6 +160,9 @@ class Options:
         self.project_dir = str(folder or options_file_parent)
         self.working_dir = utils.apply_aliases(opts.get('working_dir'), {'project_dir': self.project_dir})\
             or os.path.join(darwin_home, self.project_stem)
+
+        if not os.path.isabs(self.working_dir):
+            raise DarwinError('working_dir must be an absolute path')
 
         project_dir_alias = {'project_dir': self.project_dir, 'working_dir': self.working_dir}
 
@@ -189,10 +195,11 @@ class Options:
         self.PSO = _default_PSO | pso
         self.use_saved_models = opts.get('use_saved_models', False)
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
-        self.saved_models_readonly = opts.get('saved_models_readonly', False)
+        self.saved_models_readonly = opts.get('saved_models_readonly', False) and self.use_saved_models
 
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)
+        self.no_cleanup = opts.get('no_cleanup', False)
 
         self.crash_value = opts.get('crash_value', 99999999)
 
@@ -243,7 +250,8 @@ class Options:
 
             self.python_post_process_path = os.path.abspath(rp)
 
-        self.keep_key_models = opts.get('keep_key_models', False)
+        self.keep_best_models = opts.get('keep_best_models', False)
+        self.keep_key_models = opts.get('keep_key_models', False) or self.keep_best_models
         # don't rerun if key models are not kept
         self.rerun_key_models = opts.get('rerun_key_models', False) and self.keep_key_models
 

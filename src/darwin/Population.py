@@ -81,10 +81,7 @@ class Population:
 
         existing_run = self.runs_g.get(genotype, None) or self.runs_ph.get(phenotype, None)
 
-        if run and options.rerun_key_models and run.result.fitness != options.crash_value \
-                and (GlobalVars.best_run is None or run.result.fitness < GlobalVars.best_run.result.fitness):
-            # re-run this one
-            run = None
+        wide_model_num = self.num_format.format(self.model_number)
 
         if existing_run:
             run = copy(existing_run)
@@ -99,19 +96,19 @@ class Population:
                 run.result.ref_run = run.file_stem
 
             if run.status != 'Restored':
-                run.status = f"Cache({run.generation}-{run.model_num})"
+                run.set_status(f"Cache({run.generation}-{run.model_num})")
 
-            run.model_num = self.model_number
-            run.generation = self.name
+            run.orig_run_dir = run.run_dir
+            run.init_stem(wide_model_num, self.name)
 
             if not run.status.startswith('Cache('):
                 run1 = deepcopy(run)
-                run1.status = 'not restored'
+                run1.set_status('not restored')
                 self.model_cache.store_model_run(run1)
         else:
-            run = ModelRun(model, self.num_format.format(self.model_number), self.name, self.adapter)
+            run = ModelRun(model, wide_model_num, self.name, self.adapter)
 
-        run.wide_model_num = self.num_format.format(self.model_number)
+        run.wide_model_num = wide_model_num
 
         GlobalVars.all_models_num += 1
 
@@ -154,3 +151,23 @@ class Population:
             raise DarwinError('Nothing to run')
 
         self.runs = get_run_manager().run_all(self.runs)
+
+        if not options.keep_key_models or options.algorithm in ["EX", "EXHAUSTIVE"]:
+            return
+
+        best_run = self.get_best_run()
+
+        if options.keep_best_models and not best_run.better:
+            return
+
+        if best_run.status == 'Restored' or best_run.status.startswith('Cache('):
+            best_run.make_control_file()
+            best_run.output_results()
+
+        GlobalVars.key_models.append(best_run)
+
+        if best_run.result.fitness > GlobalVars.best_run.result.fitness:
+            best_run.rerun = True
+
+        best_run.keep()
+        best_run.cleanup()

@@ -12,6 +12,7 @@ import darwin.utils as utils
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import ExecutionManager
+from darwin.ModelRunManager import get_run_manager
 
 import darwin.MemoryModelCache
 import darwin.ModelRunManager
@@ -24,7 +25,7 @@ from darwin.omega_search import get_omega_block_masks
 from darwin.ModelEngineAdapter import get_engine_adapter
 
 from .Template import Template
-from .ModelRun import ModelRun, write_best_model_files, file_checker
+from .ModelRun import ModelRun, write_best_model_files, file_checker, log_run
 from .ModelCache import set_model_cache, create_model_cache
 from .DarwinError import DarwinError
 
@@ -60,6 +61,7 @@ def _init_model_results():
 def _reset_global_vars():
     GlobalVars.results_file = None
     GlobalVars.best_run = None
+    GlobalVars.key_models = []
     GlobalVars.all_models_num = 0
     GlobalVars.run_models_num = 0
     GlobalVars.unique_models_num = 0
@@ -106,6 +108,8 @@ def _init_app(options_file: str, folder: str = None):
 
     log.message(f"Using {options.model_cache_class}")
     log.message(f"Algorithm is {options.algorithm}")
+
+    log.message(f"random_seed = {options.random_seed}")
 
     log.message(f"Project dir: {options.project_dir}")
     log.message(f"Data dir: {options.data_dir}")
@@ -198,7 +202,11 @@ class DarwinApp:
         final_control_file = os.path.join(options.output_dir, final_control_file)
         final_result_file = os.path.join(options.output_dir, final_result_file)
 
-        if write_best_model_files(final_control_file, final_result_file):
+        final_output_done = False
+
+        if write_best_model_files(final_control_file, final_result_file) \
+                and GlobalVars.best_model_output != 'No output yet':
+            final_output_done = True
             log.message(f"Final output from best model is in {final_result_file}")
 
         if final:
@@ -214,7 +222,18 @@ class DarwinApp:
 
         log.message(f"Elapsed time = {elapsed / 60:.1f} minutes \n")
 
-        log.message(f"Search end time = {time.asctime()}")
+        log.message(f"Search end time = {time.asctime()}\n")
+
+        if options.keep_key_models:
+            log.message('Key models:')
+            for r in GlobalVars.key_models:
+                log_run(r)
+
+        if options.rerun_key_models:
+            _rerun_key_models()
+
+            if not final_output_done and write_best_model_files(final_control_file, final_result_file):
+                log.message(f"Final output from best model is in {final_result_file}")
 
         try:
             os.remove(os.path.join(options.working_dir, "InterimControlFile.mod"))
@@ -223,6 +242,26 @@ class DarwinApp:
             pass
 
         return final
+
+
+def _rerun_key_models():
+    GlobalVars.best_run = None
+
+    rerun_models = [r for r in GlobalVars.key_models if r.orig_run_dir is not None or r.rerun]
+
+    if not rerun_models:
+        return
+
+    for r in rerun_models:
+        r.rerun = True
+        r.source = 'new'
+        r.reference_model_num = -1
+        r.status = 'Not Started'
+        r.result.ref_run = ''
+
+    log.message("Re-running models")
+
+    get_run_manager().run_all(rerun_models)
 
 
 def _has_omega_search(tokens: OrderedDict, pattern: str) -> bool:
@@ -342,9 +381,12 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
 
     for i in options.max_omega_search_lens:
         if options.max_omega_band_width is not None:
+            # if no submatrices add no-block mask as band_width = 0
+            extra_band = 0 if options.search_omega_sub_matrix else 1
+
             # this is the number of off diagonal bands (diagonal is NOT included)
-            template.gene_max.append(options.max_omega_band_width - 1)
-            template.gene_length.append(math.ceil(math.log(options.max_omega_band_width, 2)))
+            template.gene_max.append(options.max_omega_band_width - 1 + extra_band)
+            template.gene_length.append(math.ceil(math.log(options.max_omega_band_width + extra_band, 2)))
 
             if template.omega_band_pos is None:
                 template.omega_band_pos = len(template.gene_max) - 1

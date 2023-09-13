@@ -183,6 +183,9 @@ class NMEngineAdapter(ModelEngineAdapter):
                 file_to_delete.pop(f'{file_stem}.lst', None)
                 file_to_delete.pop(f'{file_stem}.xml', None)
                 file_to_delete.pop('FMSG', None)
+                file_to_delete.pop('FSTREAM', None)
+                file_to_delete.pop('MSF1', None)
+                file_to_delete.pop('SIM.DAT', None)
                 file_to_delete.pop('PRDERR', None)
 
                 for f in file_to_delete:

@@ -41,7 +41,8 @@ class NMEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def get_max_search_block(template: Template) -> tuple:
-        return get_max_search_block(template, r'(^\s*\$OMEGA\b[^$]*;\s*search\s+band.*?\n([^$]+))', get_omega_block)
+        return get_max_search_block(template.template_text, template.tokens,
+                                    r'(^\s*\$OMEGA\b[^$]*;\s*search\s+band.*?\n([^$]+))', get_omega_block)
 
     @staticmethod
     def init_engine():
@@ -60,7 +61,7 @@ class NMEngineAdapter(ModelEngineAdapter):
         return True
 
     @staticmethod
-    def get_error_messages(run: ModelRun):
+    def get_error_messages(run: ModelRun, run_dir: str):
         """
         Reads NMTRAN messages from the FMSG file and error messages from the PRDERR file.
         """
@@ -168,33 +169,38 @@ class NMEngineAdapter(ModelEngineAdapter):
           entire :mono_ref:`run_dir <model_run_dir>` is deleted.
         """
 
-        try:
-            if options.remove_run_dir:
-                try:
-                    utils.remove_dir(run_dir)
-                except OSError:
-                    log.error(f"Cannot remove folder {run_dir} in call to cleanup")
-            else:
+        if options.remove_run_dir:
+            try:
+                utils.remove_dir(run_dir)
+            except OSError:
+                log.error(f"Cannot remove folder {run_dir} in call to cleanup")
+        else:
+            try:
                 utils.remove_dir(os.path.join(run_dir, 'temp_dir'))
+            except OSError:
+                pass
 
-                file_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
+            files_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
+<<<<<<< HEAD
                 file_to_delete.pop(f'{file_stem}.mod', None)
                 file_to_delete.pop(f'{file_stem}.lst', None)
                 file_to_delete.pop(f'{file_stem}.xml', None)
-                file_to_delete.pop('FMSG', None)
-                file_to_delete.pop('FSTREAM', None)
-                file_to_delete.pop('MSF1', None)
-                file_to_delete.pop('SIM.DAT', None)
+                file_to_delete.pop('FMSG', None) 
                 file_to_delete.pop('PRDERR', None)
+=======
+            files_to_delete.pop(f'{file_stem}.mod', None)
+            files_to_delete.pop(f'{file_stem}.lst', None)
+            files_to_delete.pop(f'{file_stem}.xml', None)
+            files_to_delete.pop('FMSG', None)
+            files_to_delete.pop('PRDERR', None)
+>>>>>>> 07e14dcdeb037ec1085c5a1da69e3dae0fd60ddc
 
-                for f in file_to_delete:
-                    try:
-                        os.remove(os.path.join(run_dir, f))
-                    except OSError:
-                        pass
-        except OSError as e:
-            log.error(f"OS Error {e}")
+            for f in files_to_delete:
+                try:
+                    os.remove(os.path.join(run_dir, f))
+                except OSError:
+                    pass
 
         return
 
@@ -204,6 +210,7 @@ class NMEngineAdapter(ModelEngineAdapter):
             {
                 'command': [options['nmfe_path'], run.control_file_name, run.output_file_name,
                             f"-nmexec={run.executable_file_name}", f"-rundir={run.run_dir}"],
+                'dir': run.run_dir,
                 'timeout': options.model_run_timeout
             }
         ]
@@ -685,7 +692,7 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
 
     omega_idx = 0
 
-    for start in omega_blocks:
+    for n, start in enumerate(omega_blocks):
         if re.search(r'.*?;\s*search\s+band\b', start[0], re.IGNORECASE) is None:  # $OMEGA should be first line
             final_control += "\n" + '\n'.join(str(x) for x in start)
             continue
@@ -694,10 +701,7 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
 
         max_len = options.max_omega_search_lens[omega_idx]
 
-        bands = get_bands(diag_block, band_width[omega_idx] + 1, mask_idx[omega_idx], max_len)
-
-        if options.individual_omega_search:
-            omega_idx += 1
+        bands = get_bands(diag_block, band_width[omega_idx], mask_idx[omega_idx], max_len)
 
         band_start = 0
 
@@ -711,7 +715,7 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
             else:
                 final_control += "\n" + "$OMEGA BLOCK(" + str(block_size) + ") ;; block omega searched for bands\n"
 
-                band_arr.append(f"({band_start}, {len(band)}: {band_width})")
+                band_arr.append(f"([{n+1}]{band_start}, {len(band)}: {band_width[omega_idx]})")
 
             band_start += len(band)
             this_rec = 0
@@ -720,6 +724,9 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
                 final_control += " ".join(map(str, np.around(i[:(this_rec + 1)], 7))) + " \n"
 
                 this_rec += 1
+
+        if options.individual_omega_search:
+            omega_idx += 1
 
     return final_control, band_arr
 

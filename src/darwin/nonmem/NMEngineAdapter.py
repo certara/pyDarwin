@@ -188,8 +188,6 @@ class NMEngineAdapter(ModelEngineAdapter):
             files_to_delete.pop('FMSG', None)
             files_to_delete.pop('PRDERR', None)
             files_to_delete.pop('FSTREAM', None)
-            files_to_delete.pop('MSF1', None)
-            files_to_delete.pop('SIM.DAT', None)
 
             for f in files_to_delete:
                 try:

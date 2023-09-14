@@ -250,7 +250,7 @@ class Options:
 
             self.python_post_process_path = os.path.abspath(rp)
 
-        self.keep_best_models = opts.get('keep_best_models', False)
+        self.keep_best_models = opts.get('keep_best_models', True)
         self.keep_key_models = opts.get('keep_key_models', False) or self.keep_best_models
         # don't rerun if key models are not kept
         self.rerun_key_models = opts.get('rerun_key_models', False) and self.keep_key_models

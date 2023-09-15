@@ -263,6 +263,8 @@ class NMEngineAdapter(ModelEngineAdapter):
         if not os.path.exists(res_file):
             return False
 
+        corr_th = options.CORRELATION_THRESHOLD
+
         try:
             with open(res_file) as xml_file:
                 data_dict = xmltodict.parse(xml_file.read())
@@ -313,7 +315,7 @@ class NMEngineAdapter(ModelEngineAdapter):
                     row_data = corr_data[this_row]['nm:col'][:-1]
 
                     for x in row_data:
-                        if abs(float(x['#text'])) > 0.95:
+                        if abs(float(x['#text'])) > corr_th:
                             correlation = False
                             break
 

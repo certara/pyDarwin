@@ -369,6 +369,8 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         if not os.path.exists(res_file):
             return False
 
+        corr_th = options.CORRELATION_THRESHOLD
+
         with open(res_file) as file:
             text = file.read()
 
@@ -399,7 +401,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
                     i = 0
                     for line in lines:
                         for cell in line[:i]:
-                            if abs(float(cell)) > 0.95:
+                            if abs(float(cell)) > corr_th:
                                 raise 'nope'
 
                         i += 1

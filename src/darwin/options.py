@@ -257,6 +257,8 @@ class Options:
 
         self.TOKEN_NESTING_LIMIT = opts.get('TOKEN_NESTING_LIMIT', 4)
 
+        self.CORRELATION_THRESHOLD = opts.get('CORRELATION_THRESHOLD', 0.95)
+
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):
             log.error(f"Couldn't find options file '{options_file}', exiting")

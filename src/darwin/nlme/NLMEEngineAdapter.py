@@ -398,10 +398,11 @@ class NLMEEngineAdapter(ModelEngineAdapter):
                 try:
                     i = 0
                     for line in lines:
-                        i += 1
-                        for cell in line[1:i]:
+                        for cell in line[:i]:
                             if abs(float(cell)) > 0.95:
                                 raise 'nope'
+
+                        i += 1
                 except:
                     correlation = False
 

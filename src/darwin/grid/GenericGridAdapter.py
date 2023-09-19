@@ -186,7 +186,7 @@ def _run_process(command: list, error_message: str):
 
         return None
 
-    return str(process.stdout)
+    return str(process.stdout.decode('utf-8'))
 
 
 def register():

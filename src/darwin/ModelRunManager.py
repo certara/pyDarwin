@@ -2,6 +2,8 @@ import os
 
 from abc import ABC, abstractmethod
 
+import darwin.utils as utils
+
 from darwin.Log import log
 from darwin.options import options
 
@@ -22,6 +24,11 @@ class ModelRunManager(ABC):
 
         if not os.path.exists(options.output_dir):
             os.makedirs(options.output_dir)
+
+        utils.remove_dir(options.key_models_dir)
+
+        if options.keep_key_models:
+            os.makedirs(options.key_models_dir, exist_ok=True)
 
     @staticmethod
     def cleanup_folders():

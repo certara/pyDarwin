@@ -499,6 +499,11 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
         return r'^\s*#search_block\b'
 
+    @staticmethod
+    def remove_comments(text: str) -> str:
+
+        return remove_comments(text)
+
 
 def _get_non_inf_tokens(tokens: dict, phenotype: OrderedDict):
     """

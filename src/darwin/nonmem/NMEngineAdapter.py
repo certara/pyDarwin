@@ -494,6 +494,11 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         return r'\$OMEGA.*?;\s*search\s+band\b'
 
+    @staticmethod
+    def remove_comments(text: str) -> str:
+
+        return remove_comments(text)
+
 
 def _file_to_lines(file_name: str):
     if os.path.exists(file_name):

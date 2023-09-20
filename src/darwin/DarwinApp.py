@@ -22,7 +22,7 @@ import darwin.nonmem.NMEngineAdapter
 import darwin.nlme.NLMEEngineAdapter
 from darwin.omega_search import get_omega_block_masks
 
-from darwin.ModelEngineAdapter import get_engine_adapter
+from darwin.ModelEngineAdapter import get_engine_adapter, ModelEngineAdapter
 
 from .Template import Template
 from .ModelRun import ModelRun, write_best_model_files, file_checker, log_run
@@ -33,6 +33,8 @@ from .algorithms.exhaustive import run_exhaustive, get_search_space_size
 from .algorithms.GA import run_ga
 from .algorithms.PSO import run_pso
 from .algorithms.OPT import run_skopt
+
+search_exp = r'\{[^\[\n]+\[\s*\d+\s*]\s*}'
 
 
 def _go_to_folder(folder: str):
@@ -170,6 +172,9 @@ class DarwinApp:
         algorithm = options.algorithm
 
         adapter = get_engine_adapter(options.engine_adapter)
+
+        if not _check_tokens(model_template, adapter):
+            return GlobalVars.best_run
 
         if options.LOCAL_RUN and not adapter.init_engine():
             return GlobalVars.best_run
@@ -398,3 +403,67 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
 
         if template.omega_band_pos is None:
             template.omega_band_pos = len(template.gene_max) - 1
+
+
+def _check_tokens(model_template: Template, adapter: ModelEngineAdapter) -> bool:
+    """
+    Generates list of "target" tokens from the tokens file and of "source" tokens from
+    the template and tokens file. Checks to see if all source tokens are available in the target
+    tokens list. Also prints a warning if the number of text string in a token set are not
+    consistent.
+    """
+
+    template_text, tokens = adapter.remove_comments(model_template.template_text), model_template.tokens
+
+    target_tokens = _get_target_tokens(tokens)
+    source_tokens = _get_template_tokens(template_text) + _get_nested_tokens(tokens, adapter)
+
+    source_tokens = [re.sub(r'\s', '', tok, ) for tok in source_tokens]
+
+    missing = [token for token in source_tokens if token not in target_tokens]
+
+    if missing:
+        log.error("Text string for following tokens are missing: " + ', '.join(missing))
+
+    return not bool(missing)
+
+
+def _get_template_tokens(template_text) -> list:
+    token_keys = re.findall(search_exp, template_text)
+
+    return token_keys
+
+
+def _get_nested_tokens(tokens: dict, adapter: ModelEngineAdapter) -> list:
+    found_tokens = []
+
+    for group in tokens.values():
+        for lines in group:
+            for line in lines:
+                line = adapter.remove_comments(line)
+
+                pos = re.search(search_exp, line)
+
+                if pos is not None:
+                    found_tokens.append(pos.group(0))
+
+    return found_tokens
+
+
+def _get_target_tokens(tokens: dict) -> set:
+    full_tokens = set()
+
+    for key, group in tokens.items():
+        n_text = [len(text) for text in group]
+
+        if not all(x == n_text[0] for x in n_text):
+            log.error(f"Inconsistent number of text strings for {key} in tokens file")
+
+        for this_text in range(1, min(n_text) + 1):
+            # check each token, e.g., ADVAN[1], then ADVAN[3] is OK in template, but warning
+            # note that the token text are, by definition sequential in the tokens file, but there need not be
+            # a matching one in template - but give a warning for this.
+            text_string = "{" + key + "[" + str(this_text) + "]}"
+            full_tokens.add(text_string)
+
+    return full_tokens

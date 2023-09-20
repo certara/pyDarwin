@@ -137,6 +137,14 @@ class ModelEngineAdapter(ABC):
 
         pass
 
+    @staticmethod
+    @abstractmethod
+    def remove_comments(text: str) -> str:
+        """
+        """
+
+        pass
+
 
 def register_engine_adapter(name: str, engine):
     global _ENGINES

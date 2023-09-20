@@ -181,20 +181,11 @@ class NMEngineAdapter(ModelEngineAdapter):
                 pass
 
             files_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
-
-<<<<<<< HEAD
-                file_to_delete.pop(f'{file_stem}.mod', None)
-                file_to_delete.pop(f'{file_stem}.lst', None)
-                file_to_delete.pop(f'{file_stem}.xml', None)
-                file_to_delete.pop('FMSG', None) 
-                file_to_delete.pop('PRDERR', None)
-=======
             files_to_delete.pop(f'{file_stem}.mod', None)
             files_to_delete.pop(f'{file_stem}.lst', None)
             files_to_delete.pop(f'{file_stem}.xml', None)
             files_to_delete.pop('FMSG', None)
             files_to_delete.pop('PRDERR', None)
->>>>>>> 07e14dcdeb037ec1085c5a1da69e3dae0fd60ddc
 
             for f in files_to_delete:
                 try:

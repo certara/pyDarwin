@@ -152,7 +152,7 @@ class Population:
 
         self.runs = get_run_manager().run_all(self.runs)
 
-        if not options.keep_key_models or options.algorithm in ["EX", "EXHAUSTIVE"]:
+        if not options.keep_key_models:
             return
 
         best_run = self.get_best_run()

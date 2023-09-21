@@ -252,6 +252,14 @@ class Options:
 
         self.keep_best_models = opts.get('keep_best_models', True)
         self.keep_key_models = opts.get('keep_key_models', False) or self.keep_best_models
+
+        if self.algorithm in ['EX', 'EXHAUSTIVE']:
+            if self.keep_best_models or self.keep_key_models:
+                log.message('Not keeping key models for Exhaustive search')
+
+            self.keep_best_models = False
+            self.keep_key_models = False
+
         # don't rerun if key models are not kept
         self.rerun_key_models = opts.get('rerun_key_models', False) and self.keep_key_models
 

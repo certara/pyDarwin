@@ -85,8 +85,6 @@ def run_skopt(model_template: Template) -> ModelRun:
 
     opts = _create_optimizer(model_template, options.algorithm, options.num_opt_chains)
 
-    log.message(f"Algorithm is {options.algorithm}")
-
     # https://scikit-optimize.github.io/stable/auto_examples/ask-and-tell.html
 
     niter_no_change = 0

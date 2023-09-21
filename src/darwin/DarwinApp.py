@@ -37,7 +37,7 @@ from .algorithms.OPT import run_skopt
 search_exp = r'\{[^\[\n]+\[\s*\d+\s*]\s*}'
 
 
-def _go_to_folder(folder: str):
+def go_to_folder(folder: str):
     if not os.path.isdir(folder):
         os.makedirs(folder)
 
@@ -72,6 +72,37 @@ def _reset_global_vars():
     GlobalVars.best_model_output = "No output yet"
 
 
+def init_search(model_template: Template) -> bool:
+    darwin.nonmem.NMEngineAdapter.register()
+    darwin.nlme.NLMEEngineAdapter.register()
+
+    adapter = get_engine_adapter(options.engine_adapter)
+
+    log.message(f"Algorithm: {options.algorithm}")
+    log.message(f"Engine: {adapter.get_engine_name().upper()}")
+
+    log.message(f"random_seed: {options.random_seed}")
+
+    log.message(f"Project dir: {options.project_dir}")
+    log.message(f"Data dir: {options.data_dir}")
+    log.message(f"Project working dir: {options.working_dir}")
+    log.message(f"Project temp dir: {options.temp_dir}")
+    log.message(f"Project output dir: {options.output_dir}")
+    log.message(f"Key models dir: {options.key_models_dir}")
+
+    if not _check_tokens(model_template, adapter):
+        return False
+
+    _init_omega_search(model_template, adapter)
+
+    adapter.init_template(model_template)
+
+    space_size = get_search_space_size(model_template)
+    log.message(f"Search space size: {space_size}")
+
+    return True
+
+
 def _init_app(options_file: str, folder: str = None):
     log.message("Running pyDarwin v1.1.1")
     _reset_global_vars()
@@ -81,11 +112,9 @@ def _init_app(options_file: str, folder: str = None):
     # if running in folder, options_file may be a relative path, so need to cd to the folder first
     # but if it's an absolute path, then folder may not even exist, in which case we create it
     if folder:
-        _go_to_folder(folder)
+        go_to_folder(folder)
 
     options.initialize(options_file, folder)
-
-    log.message(f"Options file found at {options_file}")
 
     darwin.LocalRunManager.register()
     darwin.grid.GridRunManager.register()
@@ -109,20 +138,7 @@ def _init_app(options_file: str, folder: str = None):
             log.message(f'Model run priority is {priority}')
 
     log.message(f"Using {options.model_cache_class}")
-    log.message(f"Algorithm is {options.algorithm}")
 
-    log.message(f"random_seed = {options.random_seed}")
-
-    log.message(f"Project dir: {options.project_dir}")
-    log.message(f"Data dir: {options.data_dir}")
-    log.message(f"Project working dir: {options.working_dir}")
-    log.message(f"Project temp dir: {options.temp_dir}")
-    log.message(f"Project output dir: {options.output_dir}")
-
-    GlobalVars.start_time = time.time()
-
-    darwin.nonmem.NMEngineAdapter.register()
-    darwin.nlme.NLMEEngineAdapter.register()
     darwin.MemoryModelCache.register()
 
     _init_model_results()
@@ -168,27 +184,20 @@ class DarwinApp:
         return GlobalVars.best_run
 
     def _run_template(self, model_template: Template) -> ModelRun:
-
-        algorithm = options.algorithm
+        if not init_search(model_template):
+            return GlobalVars.best_run
 
         adapter = get_engine_adapter(options.engine_adapter)
-
-        if not _check_tokens(model_template, adapter):
-            return GlobalVars.best_run
 
         if options.LOCAL_RUN and not adapter.init_engine():
             return GlobalVars.best_run
 
-        _init_omega_search(model_template, adapter)
-
-        adapter.init_template(model_template)
-
         self.exec_man.start()
 
-        space_size = get_search_space_size(model_template)
-        log.message(f"Search space size = {space_size}")
-
+        GlobalVars.start_time = time.time()
         log.message(f"Search start time = {time.asctime()}")
+
+        algorithm = options.algorithm
 
         if algorithm in ["GBRT", "RF", "GP"]:
             final = run_skopt(model_template)

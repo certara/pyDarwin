@@ -255,7 +255,7 @@ class Options:
 
         if self.algorithm in ['EX', 'EXHAUSTIVE']:
             if self.keep_best_models or self.keep_key_models:
-                log.message('Not keeping key models for Exhaustive search')
+                log.warn('Not keeping key models for Exhaustive search')
 
             self.keep_best_models = False
             self.keep_key_models = False
@@ -271,6 +271,8 @@ class Options:
         if not os.path.exists(options_file):
             log.error(f"Couldn't find options file '{options_file}', exiting")
             sys.exit()
+
+        log.message(f"Options file found at {options_file}")
 
         try:
             self._init_options(options_file, folder)

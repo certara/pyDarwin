@@ -202,7 +202,7 @@ class DarwinApp:
         self.exec_man.start()
 
         GlobalVars.start_time = time.time()
-        log.message(f"Search start time = {time.asctime()}")
+        log.message(f"Search start time: {time.asctime()}")
 
         algorithm = options.algorithm
 
@@ -231,19 +231,19 @@ class DarwinApp:
             log.message(f"Final output from best model is in {final_result_file}")
 
         if final:
-            log.message(f"Number of considered models = {GlobalVars.all_models_num}")
-            log.message(f"Number of models that were run during the search = {GlobalVars.run_models_num}")
-            log.message(f"Number of unique models to best model = {GlobalVars.unique_models_to_best}")
-            log.message(f"Time to best model = {GlobalVars.TimeToBest / 60:0.1f} minutes")
+            log.message(f"Number of considered models: {GlobalVars.all_models_num}")
+            log.message(f"Number of models that were run during the search: {GlobalVars.run_models_num}")
+            log.message(f"Number of unique models to best model: {GlobalVars.unique_models_to_best}")
+            log.message(f"Time to best model: {GlobalVars.TimeToBest / 60:0.1f} minutes")
 
-            log.message(f"Best overall fitness = {final.result.fitness:4f},"
+            log.message(f"Best overall fitness: {final.result.fitness:4f},"
                         f" iteration {final.generation}, model {final.model_num}")
 
         elapsed = time.time() - GlobalVars.start_time
 
-        log.message(f"Elapsed time = {elapsed / 60:.1f} minutes \n")
+        log.message(f"Elapsed time: {elapsed / 60:.1f} minutes \n")
 
-        log.message(f"Search end time = {time.asctime()}\n")
+        log.message(f"Search end time: {time.asctime()}\n")
 
         if options.keep_key_models:
             log.message('Key models:')

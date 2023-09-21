@@ -37,8 +37,8 @@ from .algorithms.OPT import run_skopt
 search_exp = r'\{[^\[\n]+\[\s*\d+\s*]\s*}'
 
 
-def go_to_folder(folder: str):
-    if not os.path.isdir(folder):
+def go_to_folder(folder: str, create: bool = False):
+    if not os.path.isdir(folder) and create:
         os.makedirs(folder)
 
     log.message("Changing directory to " + folder)
@@ -112,7 +112,7 @@ def _init_app(options_file: str, folder: str = None):
     # if running in folder, options_file may be a relative path, so need to cd to the folder first
     # but if it's an absolute path, then folder may not even exist, in which case we create it
     if folder:
-        go_to_folder(folder)
+        go_to_folder(folder, True)
 
     options.initialize(options_file, folder)
 

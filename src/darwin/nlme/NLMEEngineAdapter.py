@@ -45,6 +45,11 @@ class NLMEEngineAdapter(ModelEngineAdapter):
     def init_engine():
         nlme_dir = options.get('nlme_dir', None)
 
+        rscript_path = options.rscript_path
+
+        if not os.path.isfile(rscript_path):
+            raise DarwinError(f"RScript path doesn't exist: {rscript_path}")
+
         if not nlme_dir:
             log.error('nlme_dir must be set for running NLME models')
             return False

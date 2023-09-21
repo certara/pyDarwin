@@ -37,12 +37,19 @@ from .algorithms.OPT import run_skopt
 search_exp = r'\{[^\[\n]+\[\s*\d+\s*]\s*}'
 
 
-def go_to_folder(folder: str, create: bool = False):
-    if not os.path.isdir(folder) and create:
-        os.makedirs(folder)
+def go_to_folder(folder: str, create: bool = False) -> bool:
+    if not os.path.isdir(folder):
+        if create:
+            os.makedirs(folder)
+        else:
+            log.error(f"Directory doesn't exist: {folder}")
+
+            return False
 
     log.message("Changing directory to " + folder)
     os.chdir(folder)
+
+    return True
 
 
 def _init_model_results():

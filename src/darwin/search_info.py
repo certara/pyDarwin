@@ -11,9 +11,8 @@ def get_search_info(
         template_file: str = 'template.txt', tokens_file: str = 'tokens.json', options_file: str = 'options.json'
 ):
     # if running in folder, options_file may be a relative path, so need to cd to the folder first
-    # but if it's an absolute path, then folder may not even exist, in which case we create it
-    if folder:
-        go_to_folder(folder)
+    if folder and not go_to_folder(folder):
+        return
 
     options.initialize(options_file, folder)
 

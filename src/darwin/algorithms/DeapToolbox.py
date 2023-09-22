@@ -95,7 +95,7 @@ class DeapToolbox:
             # "In addition they modify those individuals within the toolbox container,
             # and we do not need to reassign their results.""
 
-            if random.random() < crossover_probability:
+            if random.random() < crossover_probability and len(child1) > 1:
                 toolbox.mate(child1, child2)
 
         for mutant in offspring:

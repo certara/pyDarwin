@@ -143,18 +143,20 @@ def run_skopt(model_template: Template) -> ModelRun:
 
         log.message(f"Done telling")
 
-        best_fitness = heapq.nsmallest(1, fitnesses)[0]
+        best_run = population.get_best_run()
 
-        best_run = GlobalVars.best_run
+        best_fitness = best_run.result.fitness
 
-        if best_fitness < best_run.result.fitness:
+        best_run_overall = GlobalVars.best_run or best_run
+
+        if best_fitness < best_run_overall.result.fitness:
             niter_no_change = 0
         else:
             niter_no_change += 1
 
         log.message(f"Best fitness this iteration = {best_fitness:4f}  at {time.asctime()}")
-        log.message(f"Best overall fitness = {best_run.result.fitness:4f},"
-                    f" iteration {best_run.generation}, model {best_run.model_num}")
+        log.message(f"Best overall fitness = {best_run_overall.result.fitness:4f},"
+                    f" iteration {best_run_overall.generation}, model {best_run_overall.model_num}")
 
     if options.final_downhill_search and keep_going():
         log.message(f"Starting final downhill")

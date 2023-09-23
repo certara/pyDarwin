@@ -156,7 +156,6 @@ class _PSORunner(DiscreteSwarmOptimizer):
             ftol_iter=ftol_iter,
         )
 
-        self.generation = 0
         self.template = template
         self.init_pos = init_pos
 
@@ -218,8 +217,6 @@ class _PSORunner(DiscreteSwarmOptimizer):
         population = None
 
         for this_iter in range(options.num_generations):
-            self.generation = this_iter
-
             if not keep_going():
                 break
 

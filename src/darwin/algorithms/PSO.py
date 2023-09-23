@@ -215,7 +215,7 @@ class _PSORunner(DiscreteSwarmOptimizer):
 
         population = None
 
-        for this_iter in range(options.num_generations):
+        for this_iter in range(1, options.num_generations + 1):
             if not keep_going():
                 break
 

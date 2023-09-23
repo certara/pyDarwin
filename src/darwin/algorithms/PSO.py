@@ -192,7 +192,6 @@ class _PSORunner(DiscreteSwarmOptimizer):
         else:
             log_level = logging.NOTSET
 
-        # self.rep.log("Obj. func. args: {}".format(kwargs), lvl=logging.DEBUG)
         self.rep.log("Optimize for {} iterations with {}".format(options.num_generations, self.options),
                      lvl=log_level, )
 

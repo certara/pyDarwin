@@ -220,7 +220,7 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
     all_runs = []
 
     while current_best_fitness < last_best_fitness or this_step == 0:  # run at least once
-        full_generation = str(base_generation) + f'S{base_step:02d}' + str(this_step)
+        full_generation = str(base_generation) + f"S{base_step:02d}{this_step:02d}"
         last_best_fitness = current_best_fitness
         radius = 1
         test_models = [current_best_model]  # start with just one, then call recursively for each radius

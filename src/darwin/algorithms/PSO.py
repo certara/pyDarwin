@@ -453,7 +453,8 @@ def f(x, model_template, iteration):
     # create models
     pop_full_bits = [x[i].tolist() for i in range(n_particles)]
 
-    pop = Population.from_codes(model_template, iteration, pop_full_bits, ModelCode.from_full_binary)
+    pop = Population.from_codes(model_template, iteration, pop_full_bits, ModelCode.from_full_binary,
+                                max_iteration=options.num_generations)
 
     pop.run()
 

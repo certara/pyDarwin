@@ -114,7 +114,6 @@ def run_skopt(model_template: Template) -> ModelRun:
 
         downhill_runs = []
 
-        # run downhill?
         if downhill_period > 0 and generation % downhill_period == 0:
             # pop will have the fitnesses without the niche penalty here
 

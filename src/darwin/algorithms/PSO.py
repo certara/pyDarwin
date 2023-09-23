@@ -241,11 +241,8 @@ class _PSORunner(DiscreteSwarmOptimizer):
 
             num_new = 0
 
-            # downhill??
-            if options.downhill_period > 0 and this_iter > 0 \
-               and (this_iter % options.downhill_period == 0):
-
-                log.message("Starting downhill for iteration " + str(this_iter))
+            if options.downhill_period > 0 and this_iter % options.downhill_period == 0:
+                log.message(f"Starting downhill for iteration {this_iter}")
 
                 population.name = this_iter
 

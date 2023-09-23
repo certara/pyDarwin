@@ -209,7 +209,6 @@ class _PSORunner(DiscreteSwarmOptimizer):
         last_best_cost = options.crash_value
 
         iterations_without_improvement = 0
-        this_iter = 0
 
         elitism_num = options.PSO['elitist_num']
 
@@ -328,7 +327,8 @@ class _PSORunner(DiscreteSwarmOptimizer):
         if options.final_downhill_search and keep_going():
             log.message("Starting final downhill")
 
-            population.name = this_iter
+            population.name = 'FN'
+
             rundown.run_downhill(self.template, population)
 
             final_best = population.get_best_run()

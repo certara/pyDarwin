@@ -36,6 +36,9 @@ from .algorithms.OPT import run_skopt
 
 search_exp = r'\{[^\[\n]+\[\s*\d+\s*]\s*}'
 
+darwin.nonmem.NMEngineAdapter.register()
+darwin.nlme.NLMEEngineAdapter.register()
+
 
 def go_to_folder(folder: str, create: bool = False) -> bool:
     if not os.path.isdir(folder):
@@ -80,9 +83,6 @@ def _reset_global_vars():
 
 
 def init_search(model_template: Template) -> bool:
-    darwin.nonmem.NMEngineAdapter.register()
-    darwin.nlme.NLMEEngineAdapter.register()
-
     adapter = get_engine_adapter(options.engine_adapter)
 
     log.message(f"Algorithm: {options.algorithm}")

@@ -161,7 +161,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
                     f" phenotype = {run_for_search.model.phenotype} model Num = {run_for_search.model_num},"
                     f" fitness = {run_for_search.result.fitness}")
 
-        run_for_search, runs = _full_search(template, run_for_search, generation, this_step, return_all)
+        run_for_search, runs = _full_search(template, run_for_search, generation, return_all)
 
         all_runs.extend(runs)
 
@@ -204,13 +204,13 @@ def _change_each_bit(source_models: list, radius: int):  # only need upper trian
     return models, radius
 
 
-def _full_search(model_template: Template, best_pre: ModelRun, base_generation, base_step, return_all: bool = False):
+def _full_search(model_template: Template, best_pre: ModelRun, base_generation, return_all: bool = False):
     """perform 2 bit search (radius should always be 2 bits), will always be called after run_downhill (1 bit search),
     argument is:
     best_pre - base model for search 
     Output:
     single best model """
-    this_step = 0 
+    this_step = 1
     best_pre_fitness = best_pre.result.fitness
     last_best_fitness = best_pre_fitness
     current_best_fitness = best_pre_fitness
@@ -219,8 +219,8 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
 
     all_runs = []
 
-    while current_best_fitness < last_best_fitness or this_step == 0:  # run at least once
-        full_generation = str(base_generation) + f"S{base_step:02d}{this_step:02d}"
+    while current_best_fitness < last_best_fitness or this_step == 1:  # run at least once
+        full_generation = str(base_generation) + f"S{this_step:02d}"
         last_best_fitness = current_best_fitness
         radius = 1
         test_models = [current_best_model]  # start with just one, then call recursively for each radius

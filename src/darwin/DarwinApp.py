@@ -28,6 +28,7 @@ from .Template import Template
 from .ModelRun import ModelRun, write_best_model_files, file_checker, log_run
 from .ModelCache import set_model_cache, create_model_cache
 from .DarwinError import DarwinError
+from .Population import init_pop_nums
 
 from .algorithms.exhaustive import run_exhaustive, get_search_space_size
 from .algorithms.GA import run_ga
@@ -106,6 +107,8 @@ def init_search(model_template: Template) -> bool:
 
     space_size = get_search_space_size(model_template)
     log.message(f"Search space size: {space_size}")
+
+    init_pop_nums(model_template)
 
     return True
 

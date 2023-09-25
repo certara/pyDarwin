@@ -190,11 +190,14 @@ class Population:
         best_run.cleanup()
 
 
-def _init_pop_nums(template: Template) -> OrderedDict:
-    if options.algorithm in ['EX', 'EXHAUSTIVE']:
-        raise RuntimeError('_init_pop_nums is not supposed to be called for exhaustive search')
+def init_pop_nums(template: Template):
+    global pop_nums
 
     res = OrderedDict()
+
+    if options.algorithm in ['EX', 'EXHAUSTIVE']:
+        pop_nums = res
+        return
 
     pop_size = options.population_size
     downhill_period = options.downhill_period
@@ -204,11 +207,14 @@ def _init_pop_nums(template: Template) -> OrderedDict:
 
     start = 0 if options.algorithm == 'GA' else 1
 
+    dn = options.get('ESTIMATED_DOWNHILL_STEPS', 5)
+    sn = options.get('ESTIMATED_2BIT_STEPS', 2)
+
     def downhill(n: str):
-        for d in range(1, 6):
+        for d in range(1, dn+1):
             res[f"{n}D{d:02d}"] = x * options.num_niches
         if options.local_2_bit_search:
-            for d in range(1, 3):
+            for d in range(1, sn+1):
                 res[f"{n}S{d:02d}"] = int(x * (x + 1) / 2)
 
     for i in range(start, options.num_generations+1):
@@ -221,17 +227,16 @@ def _init_pop_nums(template: Template) -> OrderedDict:
     if options.final_downhill_search:
         downhill('FN')
 
-    return res
+    log.message(f"Estimated number of models to run: {sum(res.values())}")
+
+    pop_nums = res
 
 
-pop_nums = None
+pop_nums = {}
 
 
 def get_remaining_model_num(pop: Population):
     global pop_nums
-
-    if pop_nums is None:
-        pop_nums = _init_pop_nums(pop.template)
 
     if pop.name in pop_nums:
         names = list(pop_nums.keys())

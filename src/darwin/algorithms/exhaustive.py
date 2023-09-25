@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 import darwin.GlobalVars as GlobalVars
 
@@ -10,7 +11,6 @@ from darwin.Template import Template
 from darwin.ModelRun import ModelRun
 from darwin.ModelCode import ModelCode
 from darwin.Population import Population
-from darwin.omega_search import get_omega_block_masks
 
 
 def run_exhaustive(model_template: Template) -> ModelRun:
@@ -35,7 +35,7 @@ def run_exhaustive(model_template: Template) -> ModelRun:
         pop = Population.from_codes(model_template, '0', codes[start:start + batch_size], ModelCode.from_int,
                                     start_number=start, max_number=num_models)
 
-        pop.run()
+        pop.run(remaining_models=(num_models - GlobalVars.unique_models_num))
 
         if not keep_going():
             break

@@ -1,4 +1,8 @@
 from copy import copy, deepcopy
+from collections import OrderedDict
+import time
+
+from darwin.Log import log
 
 import darwin.utils as utils
 import darwin.GlobalVars as GlobalVars
@@ -141,7 +145,7 @@ class Population:
 
         return res
 
-    def run(self):
+    def run(self, remaining_models=None):
         """
         Run the population - pass all runs to current run manager.
         There is no return value, the runs are just updated.
@@ -149,6 +153,19 @@ class Population:
 
         if not self.runs:
             raise DarwinError('Nothing to run')
+
+        if remaining_models is not None:
+            remaining = remaining_models
+        else:
+            # at least remove current population from the list
+            remaining = get_remaining_model_num(self)
+
+        if GlobalVars.unique_models_num:
+            elapsed = (time.time() - GlobalVars.start_time) / 60
+            left = elapsed / GlobalVars.unique_models_num * remaining
+            fuzzy = options.fuzzy_eta
+
+            log.message(f"Time elapsed: {utils.format_time(elapsed, fuzzy)}, time left: {utils.format_time(left, fuzzy)}")
 
         self.runs = get_run_manager().run_all(self.runs)
 
@@ -171,3 +188,55 @@ class Population:
 
         best_run.keep()
         best_run.cleanup()
+
+
+def _init_pop_nums(template: Template) -> OrderedDict:
+    if options.algorithm in ['EX', 'EXHAUSTIVE']:
+        raise RuntimeError('_init_pop_nums is not supposed to be called for exhaustive search')
+
+    res = OrderedDict()
+
+    pop_size = options.population_size
+    downhill_period = options.downhill_period
+    x = sum(template.gene_length)
+
+    iter_format = '{:0' + str(len(str(options.num_generations))) + 'd}'
+
+    start = 0 if options.algorithm == 'GA' else 1
+
+    def downhill(n: str):
+        for d in range(1, 6):
+            res[f"{n}D{d:02d}"] = x * options.num_niches
+        if options.local_2_bit_search:
+            for d in range(1, 3):
+                res[f"{n}S{d:02d}"] = int(x * (x + 1) / 2)
+
+    for i in range(start, options.num_generations+1):
+        name = iter_format.format(i)
+        res[name] = pop_size
+
+        if downhill_period > 0 and i % downhill_period == 0 and i > 0:
+            downhill(name)
+
+    if options.final_downhill_search:
+        downhill('FN')
+
+    return res
+
+
+pop_nums = None
+
+
+def get_remaining_model_num(pop: Population):
+    global pop_nums
+
+    if pop_nums is None:
+        pop_nums = _init_pop_nums(pop.template)
+
+    if pop.name in pop_nums:
+        names = list(pop_nums.keys())
+
+        for name in names[:names.index(pop.name)+1]:
+            pop_nums.pop(name)
+
+    return sum(pop_nums.values()) + len(pop.runs)

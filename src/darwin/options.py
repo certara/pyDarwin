@@ -267,6 +267,8 @@ class Options:
 
         self.CORRELATION_THRESHOLD = opts.get('CORRELATION_THRESHOLD', 0.95)
 
+        self.fuzzy_eta = opts.get('fuzzy_eta', True)
+
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):
             log.error(f"Couldn't find options file '{options_file}', exiting")

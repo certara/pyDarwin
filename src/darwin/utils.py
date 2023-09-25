@@ -356,3 +356,34 @@ def apply_aliases(option, aliases: dict):
         res = res.replace('{' + alias + '}', str(text))
 
     return res
+
+
+def format_time(t: float, fuzzy_eta: bool = False) -> str:
+    if not fuzzy_eta:
+        if t > 10:
+            t = int(t)
+            return f"{t} min."
+
+        return f"{t:.1f} min."
+
+    h = int(t / 60)
+    d = int(h / 24)
+
+    if d > 6:
+        res = f"{d} d."
+    elif d > 2:
+        h %= 24
+        res = f"{d} d. {h:02d} h."
+    elif h > 23:
+        res = f"{h} h."
+    elif h > 1:
+        m = int(t) % 60
+        res = f"{h} h. {m:02d} min."
+    else:
+        if t > 10:
+            t = int(t)
+            return f"{t} min."
+
+        return f"{t:.1f} min."
+
+    return res

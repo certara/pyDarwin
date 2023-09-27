@@ -89,7 +89,7 @@ class NMEngineAdapter(ModelEngineAdapter):
         warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
                     ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n',
                     ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n']
-        short_warnings = ['NON-FIXED OMEGA ', 'NON-FIXED PARAMETER ', 'NON-FIXED THETA']
+        short_warnings = ['NON-FIXED OMEGA', 'NON-FIXED PARAMETER', 'NON-FIXED THETA']
 
         f_msg = _file_to_lines(os.path.join(run.run_dir, "FMSG"))
 

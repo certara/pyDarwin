@@ -13,7 +13,7 @@ from .ModelCache import get_model_cache
 from .ModelRunManager import ModelRunManager
 
 import darwin.GlobalVars as GlobalVars
-from darwin.utils import Pipeline
+from darwin.utils import Pipeline, cleanup_message
 from darwin.ExecutionManager import keep_going, interrupted
 
 
@@ -92,12 +92,15 @@ class PipelineRunManager(ModelRunManager):
             _copy_to_best(run)
 
         if not run.rerun:
+            message = cleanup_message(res.messages)
+            err = cleanup_message(res.errors)
+
             with open(GlobalVars.results_file, "a") as result_file:
                 result_file.write(f"{run.generation},{run.wide_model_num},{run.run_dir},{res.ref_run},"
                                   f"{run.status},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
                                   f"{res.ofv},{res.success},{res.covariance},{res.correlation},{model.theta_num},"
                                   f"{model.omega_num},{model.sigma_num},{res.condition_num},{res.post_run_r_penalty},"
-                                  f"{res.post_run_python_penalty},{res.messages},{res.errors}\n")
+                                  f"{res.post_run_python_penalty},{message},{err}\n")
 
         log_run(run)
 

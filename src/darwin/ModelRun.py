@@ -1,5 +1,6 @@
 import sys
 import os
+import re
 import shutil
 import glob
 from os.path import isfile
@@ -618,8 +619,13 @@ def log_run(run: ModelRun):
     status = run.status.rjust(14)
     message = res.get_message_text()
     prd_err_text = ', error = ' + res.errors if res.errors else ''
+    message += prd_err_text
+    message = re.sub(r'\n', '  ', message, flags=re.RegexFlag.MULTILINE)
+
+    if len(message) > 200:
+        message = message[:200] + '(...)'
 
     log.message(
         f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
-        f"    fitness = {fitness_text:>9},    message = {message}{prd_err_text}"
+        f"    fitness = {fitness_text:>9},    message = {message}"
     )

@@ -165,7 +165,8 @@ class Population:
             left = elapsed / GlobalVars.unique_models_num * remaining
             fuzzy = options.fuzzy_eta
 
-            log.message(f"Time elapsed: {utils.format_time(elapsed, fuzzy)}, time left: {utils.format_time(left, fuzzy)}")
+            log.message(f"Time elapsed: {utils.format_time(elapsed, fuzzy)}")
+            log.message(f"Estimated time remaining: {utils.format_time(left, fuzzy)}")
 
         self.runs = get_run_manager().run_all(self.runs)
 

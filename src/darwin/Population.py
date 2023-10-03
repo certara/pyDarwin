@@ -206,8 +206,6 @@ def init_pop_nums(template: Template):
 
     iter_format = '{:0' + str(len(str(options.num_generations))) + 'd}'
 
-    start = 0 if options.algorithm == 'GA' else 1
-
     dn = options.get('ESTIMATED_DOWNHILL_STEPS', 5)
     sn = options.get('ESTIMATED_2BIT_STEPS', 2)
 
@@ -218,7 +216,7 @@ def init_pop_nums(template: Template):
             for d in range(1, sn+1):
                 res[f"{n}S{d:02d}"] = int(x * (x + 1) / 2)
 
-    for i in range(start, options.num_generations+1):
+    for i in range(1, options.num_generations+1):
         name = iter_format.format(i)
         res[name] = pop_size
 

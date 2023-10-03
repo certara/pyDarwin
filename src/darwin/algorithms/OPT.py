@@ -91,11 +91,11 @@ def run_skopt(model_template: Template) -> ModelRun:
 
     population = Population(model_template, 0)
 
-    for generation in range(1, options.num_generations + 1):
+    for iteration in range(1, options.num_generations + 1):
         if not keep_going():
             break
 
-        log.message(f"Starting generation {generation}")
+        log.message(f"Starting iteration {iteration}")
 
         suggested = _ask_models(opts, options.population_size)
 
@@ -104,7 +104,7 @@ def run_skopt(model_template: Template) -> ModelRun:
         if not keep_going():
             break
 
-        population = Population.from_codes(model_template, generation, suggested, ModelCode.from_int,
+        population = Population.from_codes(model_template, iteration, suggested, ModelCode.from_int,
                                            max_iteration=options.num_generations)
 
         population.run()
@@ -114,12 +114,12 @@ def run_skopt(model_template: Template) -> ModelRun:
 
         downhill_runs = []
 
-        if downhill_period > 0 and generation % downhill_period == 0:
+        if downhill_period > 0 and iteration % downhill_period == 0:
             # pop will have the fitnesses without the niche penalty here
 
             population.runs.append(GlobalVars.best_run)
 
-            log.message(f"Starting downhill, iteration = {generation}")
+            log.message(f"Starting downhill, iteration = {iteration}")
 
             downhill_runs = run_downhill(model_template, population, return_all=False)
 

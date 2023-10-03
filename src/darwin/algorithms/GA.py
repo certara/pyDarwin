@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 class _GARunner:
     def __init__(self, template: Template, pop_size, elitist_num, num_generations):
-        self.generation = -1
+        self.generation = 0
         self.template = template
         self.elitist_num = elitist_num
         self.population = None
@@ -41,9 +41,9 @@ class _GARunner:
         if self.generation > self.num_generations or not keep_going():
             return False
 
-        log.message("-- Starting Generation %i --" % self.generation)
+        log.message(f"Starting generation {self.generation}")
 
-        if self.generation > 0:
+        if self.generation > 1:
             self.pop_full_bits = self.toolbox.get_offspring(self.pop_full_bits)
 
             # replace first elitist_num individuals

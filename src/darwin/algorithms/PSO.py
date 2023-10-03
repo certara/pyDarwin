@@ -214,13 +214,15 @@ class _PSORunner(DiscreteSwarmOptimizer):
 
         population = None
 
-        for this_iter in range(1, options.num_generations + 1):
+        for iteration in range(1, options.num_generations + 1):
             if not keep_going():
                 break
 
+            log.message(f"Starting iteration {iteration}")
+
             # !!! PyCharm complains about kwargs. Not sure who to blame, but we can live with this.
             self.swarm.current_cost, population = compute_objective_function(
-                self.swarm, objective_func, pool, model_template=self.template, iteration=this_iter)
+                self.swarm, objective_func, pool, model_template=self.template, iteration=iteration)
 
             if not keep_going():
                 break
@@ -241,10 +243,10 @@ class _PSORunner(DiscreteSwarmOptimizer):
 
             num_new = 0
 
-            if options.downhill_period > 0 and this_iter % options.downhill_period == 0:
-                log.message(f"Starting downhill for iteration {this_iter}")
+            if options.downhill_period > 0 and iteration % options.downhill_period == 0:
+                log.message(f"Starting downhill for iteration {iteration}")
 
-                population.name = this_iter
+                population.name = iteration
 
                 rundown.run_downhill(self.template, population)
 
@@ -270,7 +272,7 @@ class _PSORunner(DiscreteSwarmOptimizer):
 
             if best_cost < last_best_cost:
                 log.message(
-                    "Better model found by PSO, cost = " + str(best_cost) + ", iteration = " + str(this_iter))
+                    "Better model found by PSO, cost = " + str(best_cost) + ", iteration = " + str(iteration))
 
                 iterations_without_improvement = 0
                 last_best_cost = best_cost
@@ -278,7 +280,7 @@ class _PSORunner(DiscreteSwarmOptimizer):
                 iterations_without_improvement += 1
                 log.message(
                     "Iterations without improvement = " + str(iterations_without_improvement) + ", iteration = " + str(
-                        this_iter))
+                        iteration))
 
             best_cost_this_iter = np.min(self.swarm.current_cost)
             best_cost_yet_found = np.min([best_cost_yet_found, best_cost_this_iter])
@@ -307,7 +309,7 @@ class _PSORunner(DiscreteSwarmOptimizer):
 
             ftol_history.append(delta)
 
-            if this_iter >= self.ftol_iter:
+            if iteration >= self.ftol_iter:
                 if all(ftol_history) and iterations_without_improvement >= options.PSO['break_on_no_change']:
                     break
 

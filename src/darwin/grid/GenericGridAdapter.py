@@ -7,6 +7,7 @@ from darwin.Log import log
 from darwin.options import options
 
 import darwin.utils as utils
+import darwin.GlobalVars as GlobalVars
 from darwin.ModelRun import ModelRun, run_to_json, json_to_run
 
 from .GridAdapter import GridAdapter, register_grid_adapter
@@ -101,7 +102,7 @@ class GenericGridAdapter(GridAdapter):
         remaining = {_get_job_name(r): r for r in runs}
         finished = []
 
-        for line in out.split('\\n'):
+        for line in out.split('\n'):
             job_id = self._parse_poll_line(line)
 
             if not job_id:
@@ -116,6 +117,11 @@ class GenericGridAdapter(GridAdapter):
                 res.wide_model_num = remaining[job.name].wide_model_num
 
                 finished.append(res)
+
+                GlobalVars.run_models_num += 1
+
+                if not res.rerun:
+                    GlobalVars.unique_models_num += 1
 
                 del self.jobs[job_id]
                 del remaining[job.name]

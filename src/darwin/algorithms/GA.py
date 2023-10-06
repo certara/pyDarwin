@@ -107,10 +107,6 @@ def run_ga(model_template: Template) -> ModelRun:
 
     runner = _GARunner(model_template, pop_size, elitist_num, options.num_generations)
 
-    # run generation 0
-    if not runner.run_generation():
-        return GlobalVars.best_run
-
     generations_no_change = 0
 
     # Begin evolution

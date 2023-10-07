@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 import re
 import shutil
 import glob
@@ -152,6 +153,9 @@ class ModelRun:
         self.better = False
 
         self.reference_model_num = -1
+
+        self.global_num = None
+        self.finish_time = None
 
     def set_status(self, status: str):
         if self.status == 'Invalid model':
@@ -362,9 +366,9 @@ class ModelRun:
 
         self.set_status('Running model')
 
-        commands = self._adapter.get_model_run_commands(self)
-
         GlobalVars.run_models_num += 1
+
+        commands = self._adapter.get_model_run_commands(self)
 
         cmd_count = 0
         failed = False
@@ -380,9 +384,6 @@ class ModelRun:
                 failed = True
                 break
 
-        if not self.rerun:
-            GlobalVars.unique_models_num += 1
-
         # if messages (translation errors) is not set, check the run_dir
         if not failed or self.result.messages == '':
             self._get_error_messages(self.run_dir)
@@ -392,6 +393,15 @@ class ModelRun:
 
             if self._post_run_r() and self._post_run_python() and self._calc_fitness():
                 self.set_status('Done')
+
+    def finish(self):
+        if self.rerun:
+            return
+
+        GlobalVars.unique_models_num += 1
+
+        self.finish_time = time.time()
+        self.global_num = GlobalVars.unique_models_num
 
     def keep(self):
         """

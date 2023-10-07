@@ -102,7 +102,7 @@ class GenericGridAdapter(GridAdapter):
         remaining = {_get_job_name(r): r for r in runs}
         finished = []
 
-        for line in out.split('\n'):
+        for line in sorted(out.split('\n')):
             job_id = self._parse_poll_line(line)
 
             if not job_id:
@@ -113,15 +113,12 @@ class GenericGridAdapter(GridAdapter):
 
             # and it was requested by this poll
             if job and job.name in remaining:
-                res = json_to_run(job.output_path)
-                res.wide_model_num = remaining[job.name].wide_model_num
+                run = json_to_run(job.output_path)
+                run.wide_model_num = remaining[job.name].wide_model_num
 
-                finished.append(res)
+                finished.append(run)
 
                 GlobalVars.run_models_num += 1
-
-                if not res.rerun:
-                    GlobalVars.unique_models_num += 1
 
                 del self.jobs[job_id]
                 del remaining[job.name]

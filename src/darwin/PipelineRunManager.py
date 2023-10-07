@@ -1,5 +1,4 @@
 import os
-import time
 
 from copy import copy
 
@@ -72,6 +71,8 @@ class PipelineRunManager(ModelRunManager):
             if run.rerun:
                 run.keep()
 
+            run.finish()
+
             # don't clean up better runs
             if not this_one_is_better or not options.keep_key_models:
                 run.cleanup()
@@ -113,5 +114,5 @@ def _copy_to_best(run: ModelRun):
     if run.rerun:
         return
 
-    GlobalVars.TimeToBest = time.time() - GlobalVars.start_time
-    GlobalVars.unique_models_to_best = GlobalVars.unique_models_num
+    GlobalVars.TimeToBest = run.finish_time - GlobalVars.start_time
+    GlobalVars.unique_models_to_best = run.global_num

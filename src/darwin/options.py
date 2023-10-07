@@ -254,7 +254,7 @@ class Options:
         self.keep_key_models = opts.get('keep_key_models', False) or self.keep_best_models
 
         if self.algorithm in ['EX', 'EXHAUSTIVE']:
-            if self.keep_best_models or self.keep_key_models:
+            if opts.get('keep_best_models', False) or opts.get('keep_key_models', False):
                 log.warn('Not keeping key models for Exhaustive search')
 
             self.keep_best_models = False

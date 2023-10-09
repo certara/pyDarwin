@@ -184,7 +184,7 @@ class Population:
 
         GlobalVars.key_models.append(best_run)
 
-        if best_run.result.fitness > GlobalVars.best_run.result.fitness:
+        if GlobalVars.best_run is not None and best_run.result.fitness > GlobalVars.best_run.result.fitness:
             best_run.rerun = True
 
         best_run.keep()

@@ -117,7 +117,8 @@ def run_skopt(model_template: Template) -> ModelRun:
         if downhill_period > 0 and iteration % downhill_period == 0:
             # pop will have the fitnesses without the niche penalty here
 
-            population.runs.append(GlobalVars.best_run)
+            if GlobalVars.best_run is not None:
+                population.runs.append(GlobalVars.best_run)
 
             log.message(f"Starting downhill, iteration = {iteration}")
 
@@ -162,7 +163,8 @@ def run_skopt(model_template: Template) -> ModelRun:
 
         population.name = 'FN'
 
-        population.runs.append(GlobalVars.best_run)
+        if GlobalVars.best_run is not None:
+            population.runs.append(GlobalVars.best_run)
 
         run_downhill(model_template, population)
 

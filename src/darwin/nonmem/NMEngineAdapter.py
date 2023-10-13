@@ -151,6 +151,9 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         control, bands = apply_omega_bands(control, model_code, template.omega_band_pos, set_omega_bands)
 
+        control = re.sub(r'^\s*\$OMEGA(?=(?:\s*;.+\n)?(?:\s+|;.*\n)+(?:\$|\Z))', '; empty $OMEGA',
+                         control, flags=re.RegexFlag.MULTILINE)
+
         phenotype = str(phenotype)
         phenotype = phenotype.replace('OrderedDict', '')
         phenotype += bands

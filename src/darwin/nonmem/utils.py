@@ -129,6 +129,10 @@ def get_omega_block(start: list) -> np.array:
     block = ' '.join([str(elem) for elem in block]).replace("\n", "") \
         .replace("  ", " ").replace("  ", " ").strip()
     block = block.split(" ")  # should be numbers only at this point
+
+    if block == ['']:
+        return []
+
     block = np.array(block, dtype=np.float32)
 
     # round to 6 digits (? is this enough digits, ever a need for > 6?, cannot round to 0, that is error)

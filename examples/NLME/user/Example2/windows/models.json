@@ -1,0 +1,170 @@
+{
+    "NLME_0_1": {
+        "control_file_name": "NLME_0_1.mmdl",
+        "engine_adapter": "nlme",
+        "executable_file_name": "NLME7_0_1.exe",
+        "file_stem": "NLME_0_1",
+        "generation": "0",
+        "model": {
+            "control": "##Description: SearchTlag\n##Author: Certara\n##DATA .\\examples\\NLME\\user\\Example2/OneCpt_OralBolus.csv\n##MAP    Aa = Dose CObs = CObs id = ID time = time\n##MODEL test() {\n  cfMicro(A1, Cl / V, first = (Aa = Ka))\n  C = A1 / V\n  dosepoint(Aa, idosevar = AaDose, infdosevar = AaInfDose, infratevar = AaInfRate)\n  error(CEps = 0.1)\n  observe(CObs = C * (1 + CEps))\n\n  stparm(Cl = tvCl * exp( nCl ))\n  fixef(tvCl= c(, 1, ))\n  ranef(diag(nCl) = c(1))\n  stparm(V = tvV * exp( nV ))\n  fixef(tvV= c(, 1, ))\n  ranef(diag(nV) = c(1))\n  stparm(Ka = tvKa * exp( nKa ))\n  fixef(tvKa= c(, 1, ))\n  ranef(diag(nKa) = c(1))\n##search_block(nV, nCl, nKa)\n  }\n##ESTARGS\n\n##TABLES\n\n\n## Phenotype: ([('PML', 0)])\n## Genotype: [0]\n## Num non-influential tokens: 0\n",
+            "estimated_omega_num": 3,
+            "estimated_sigma_num": 1,
+            "estimated_theta_num": 3,
+            "model_code": {
+                "FullBinCode": "0, 0",
+                "IntCode": "0",
+                "MinBinCode": "0, 0"
+            },
+            "non_influential_token_num": 0,
+            "omega_num": 3,
+            "phenotype": "([('PML', 0)])",
+            "sigma_num": 1,
+            "theta_num": 3
+        },
+        "model_num": 1,
+        "output_file_name": "NLME_0_1_out.txt",
+        "result": {
+            "condition_num": 349.51086,
+            "correlation": false,
+            "covariance": true,
+            "errors": "",
+            "fitness": 516.178,
+            "messages": "",
+            "ofv": 346.178,
+            "post_run_python_penalty": 0,
+            "post_run_python_text": "",
+            "post_run_r_penalty": 0,
+            "post_run_r_text": "",
+            "success": true
+        },
+        "run_dir": ".\\pydarwin\\Example2\\temp\\0\\1",
+        "source": "saved",
+        "status": "Done"
+    },
+    "NLME_0_2": {
+        "control_file_name": "NLME_0_2.mmdl",
+        "engine_adapter": "nlme",
+        "executable_file_name": "NLME7_0_2.exe",
+        "file_stem": "NLME_0_2",
+        "generation": "0",
+        "model": {
+            "control": "##Description: SearchTlag\n##Author: Certara\n##DATA .\\examples\\NLME\\user\\Example2/OneCpt_OralBolus.csv\n##MAP    A1 = Dose CObs = CObs id = ID time = time\n##MODEL test() {\n  delayInfCpt(A1, MeanDelayTime, ShapeParamMinusOne, out = - Cl * C, dist = Gamma)\n  C = A1 / V\n  dosepoint(A1, idosevar = A1Dose, infdosevar = A1InfDose, infratevar = A1InfRate)\n  error(CEps = 0.1)\n  observe(CObs = C * (1 + CEps))\n\n  stparm(MeanDelayTime = tvMeanDelayTime * exp( nMeanDelayTime ))\n  fixef(tvMeanDelayTime= c(, 1, ))\n  ranef(diag(nMeanDelayTime) = c(1))\n  stparm(ShapeParamMinusOne = tvShapeParamMinusOne * exp( nShapeParamMinusOne ))\n  fixef(tvShapeParamMinusOne= c(, 1, ))\n  ranef(diag(nShapeParamMinusOne) = c(1))\n  stparm(Cl = tvCl * exp( nCl ))\n  fixef(tvCl= c(, 1, ))\n  ranef(diag(nCl) = c(1))\n  stparm(V = tvV * exp( nV ))\n  fixef(tvV= c(, 1, ))\n  ranef(diag(nV) = c(1))\n##search_block(nV, nCl, nShapeParamMinusOne, nMeanDelayTime)\n  }\n##ESTARGS\n\n##TABLES\n\n\n## Phenotype: ([('PML', 1)])\n## Genotype: [1]\n## Num non-influential tokens: 0\n",
+            "estimated_omega_num": 4,
+            "estimated_sigma_num": 1,
+            "estimated_theta_num": 4,
+            "model_code": {
+                "FullBinCode": "0, 1",
+                "IntCode": "1",
+                "MinBinCode": "0, 1"
+            },
+            "non_influential_token_num": 0,
+            "omega_num": 4,
+            "phenotype": "([('PML', 1)])",
+            "sigma_num": 1,
+            "theta_num": 4
+        },
+        "model_num": 2,
+        "output_file_name": "NLME_0_2_out.txt",
+        "result": {
+            "condition_num": 8.12408,
+            "correlation": false,
+            "covariance": true,
+            "errors": "",
+            "fitness": 601.7239999999999,
+            "messages": "",
+            "ofv": 411.724,
+            "post_run_python_penalty": 0,
+            "post_run_python_text": "",
+            "post_run_r_penalty": 0,
+            "post_run_r_text": "",
+            "success": true
+        },
+        "run_dir": ".\\pydarwin\\Example2\\temp\\0\\2",
+        "source": "saved",
+        "status": "Done"
+    },
+    "NLME_0_3": {
+        "control_file_name": "NLME_0_3.mmdl",
+        "engine_adapter": "nlme",
+        "executable_file_name": "NLME7_0_3.exe",
+        "file_stem": "NLME_0_3",
+        "generation": "0",
+        "model": {
+            "control": "##Description: SearchTlag\n##Author: Certara\n##DATA .\\examples\\NLME\\user\\Example2/OneCpt_OralBolus.csv\n##MAP    A1 = Dose CObs = CObs id = ID time = time\n##MODEL test() {\n  delayInfCpt(A1, MeanDelayTime, ShapeParam, out = - Cl * C, dist = InverseGaussian)\n  C = A1 / V\n  dosepoint(A1, idosevar = A1Dose, infdosevar = A1InfDose, infratevar = A1InfRate)\n  error(CEps = 0.1)\n  observe(CObs = C * (1 + CEps))\n\n  stparm(MeanDelayTime = tvMeanDelayTime * exp( nMeanDelayTime ))\n  fixef(tvMeanDelayTime= c(, 1, ))\n  ranef(diag(nMeanDelayTime) = c(1))\n  stparm(ShapeParam = tvShapeParam * exp( nShapeParam ))\n  fixef(tvShapeParam= c(, 1, ))\n  ranef(diag(nShapeParam) = c(1))\n  stparm(Cl = tvCl * exp( nCl ))\n  fixef(tvCl= c(, 1, ))\n  ranef(diag(nCl) = c(1))\n  stparm(V = tvV * exp( nV ))\n  fixef(tvV= c(, 1, ))\n  ranef(diag(nV) = c(1))\n##search_block(nV, nCl, nShapeParam, nMeanDelayTime)\n  }\n##ESTARGS\n\n##TABLES\n\n\n## Phenotype: ([('PML', 2)])\n## Genotype: [2]\n## Num non-influential tokens: 0\n",
+            "estimated_omega_num": 4,
+            "estimated_sigma_num": 1,
+            "estimated_theta_num": 4,
+            "model_code": {
+                "FullBinCode": "1, 0",
+                "IntCode": "2",
+                "MinBinCode": "1, 0"
+            },
+            "non_influential_token_num": 0,
+            "omega_num": 4,
+            "phenotype": "([('PML', 2)])",
+            "sigma_num": 1,
+            "theta_num": 4
+        },
+        "model_num": 3,
+        "output_file_name": "NLME_0_3_out.txt",
+        "result": {
+            "condition_num": 8.18585,
+            "correlation": true,
+            "covariance": true,
+            "errors": "",
+            "fitness": 341.664,
+            "messages": "",
+            "ofv": 251.664,
+            "post_run_python_penalty": 0,
+            "post_run_python_text": "",
+            "post_run_r_penalty": 0,
+            "post_run_r_text": "",
+            "success": true
+        },
+        "run_dir": ".\\pydarwin\\Example2\\temp\\0\\3",
+        "source": "saved",
+        "status": "Done"
+    },
+    "NLME_0_4": {
+        "control_file_name": "NLME_0_4.mmdl",
+        "engine_adapter": "nlme",
+        "executable_file_name": "NLME7_0_4.exe",
+        "file_stem": "NLME_0_4",
+        "generation": "0",
+        "model": {
+            "control": "##Description: SearchTlag\n##Author: Certara\n##DATA .\\examples\\NLME\\user\\Example2/OneCpt_OralBolus.csv\n##MAP    A1 = Dose CObs = CObs id = ID time = time\n##MODEL test() {\n  delayInfCpt(A1, MeanDelayTime, ShapeParamMinusOne, out = - Cl * C, dist = Weibull)\n  C = A1 / V\n  dosepoint(A1, idosevar = A1Dose, infdosevar = A1InfDose, infratevar = A1InfRate)\n  error(CEps = 0.1)\n  observe(CObs = C * (1 + CEps))\n\n  stparm(MeanDelayTime = tvMeanDelayTime * exp( nMeanDelayTime ))\n  fixef(tvMeanDelayTime= c(, 1, ))\n  ranef(diag(nMeanDelayTime) = c(1))\n  stparm(ShapeParamMinusOne = tvShapeParamMinusOne * exp( nShapeParamMinusOne ))\n  fixef(tvShapeParamMinusOne= c(, 1, ))\n  ranef(diag(nShapeParamMinusOne) = c(1))\n  stparm(Cl = tvCl * exp( nCl ))\n  fixef(tvCl= c(, 1, ))\n  ranef(diag(nCl) = c(1))\n  stparm(V = tvV * exp( nV ))\n  fixef(tvV= c(, 1, ))\n  ranef(diag(nV) = c(1))\n##search_block(nV, nCl, nShapeParamMinusOne, nMeanDelayTime)\n  }\n##ESTARGS\n\n##TABLES\n\n\n## Phenotype: ([('PML', 3)])\n## Genotype: [3]\n## Num non-influential tokens: 0\n",
+            "estimated_omega_num": 4,
+            "estimated_sigma_num": 1,
+            "estimated_theta_num": 4,
+            "model_code": {
+                "FullBinCode": "1, 1",
+                "IntCode": "3",
+                "MinBinCode": "1, 1"
+            },
+            "non_influential_token_num": 0,
+            "omega_num": 4,
+            "phenotype": "([('PML', 3)])",
+            "sigma_num": 1,
+            "theta_num": 4
+        },
+        "model_num": 4,
+        "output_file_name": "NLME_0_4_out.txt",
+        "result": {
+            "condition_num": 14.03531,
+            "correlation": true,
+            "covariance": true,
+            "errors": "",
+            "fitness": 280.53380000000004,
+            "messages": "",
+            "ofv": 190.5338,
+            "post_run_python_penalty": 0,
+            "post_run_python_text": "",
+            "post_run_r_penalty": 0,
+            "post_run_r_text": "",
+            "success": true
+        },
+        "run_dir": ".\\pydarwin\\Example2\\temp\\0\\4",
+        "source": "saved",
+        "status": "Done"
+    }
+}

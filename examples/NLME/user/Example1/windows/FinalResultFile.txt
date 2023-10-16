@@ -1,0 +1,11 @@
+Post run R code Penalty = 5.83635047587494
+Post run R code text = Observed Cmax geometric means sim/obs ratio = 1
+OFV = 6947.06
+success = True
+covariance = True
+correlation = True
+Condition # = 54.58713
+Num Non fixed THETAs = 5
+Num Non fixed OMEGAs = 5
+Num Non fixed SIGMAs = 1
+Original run directory = .\examples\NLME\user\Example1/Results/temp\0\03

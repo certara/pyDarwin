@@ -1,0 +1,41 @@
+##Description: search-numCpt-F-nF
+##Author: Certara
+##DATA ../../../../pkOralBolus.csv
+##MAP    Aa = Dose CObs = CObs id = ID time = time
+##MODEL test() {
+  cfMicro(A1, Cl / V, Cl2 / V, Cl2 / V2, first = (Aa = Ka))
+  C = A1 / V
+  dosepoint(Aa, idosevar = AaDose, infdosevar = AaInfDose, infratevar = AaInfRate)
+
+  error(CEps = 0.1)
+  observe(CObs = C * (1 + CEps))
+
+  stparm(Cl = tvCl * exp( nCl ))
+  fixef(tvCl= c(, 1, ))
+  ranef(diag(nCl) = c(1))
+  stparm(V = tvV * exp( nV ))
+  fixef(tvV= c(, 1, ))
+  ranef(diag(nV) = c(1))
+  stparm(Cl2 = tvCl2 * exp( nCl2 ))
+  fixef(tvCl2= c(, 1, ))
+  ranef(diag(nCl2) = c(1))
+  stparm(V2 = tvV2 * exp( nV2 ))
+  fixef(tvV2= c(, 1, ))
+  ranef(diag(nV2) = c(1))
+  stparm(Ka = tvKa * exp( nKa ))
+  fixef(tvKa= c(, 1, ))
+  ranef(diag(nKa) = c(1))
+
+  }
+##ESTARGS
+  sort=FALSE method=FOCE-ELS stdErr=Auto-Detect numIterMAPNP=3
+##SIMARGS
+  numReplicates=5 seed=12345678 sort=FALSE
+##TABLES
+  table(file="ObsData.csv", obs(CObs), mode = keep)
+  simtbl(file="SimData.csv", CObs, mode = keep)
+
+
+## Phenotype: ([('PML', 1), ('_F', 0), ('_nlogitF', 0)])
+## Genotype: [1, 0, 0]
+## Num non-influential tokens: 0

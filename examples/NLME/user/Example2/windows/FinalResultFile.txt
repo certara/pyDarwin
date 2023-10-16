@@ -1,0 +1,9 @@
+OFV = 190.5338
+success = True
+covariance = True
+correlation = True
+Condition # = 14.03531
+Num Non fixed THETAs = 4
+Num Non fixed OMEGAs = 4
+Num Non fixed SIGMAs = 1
+Original run directory = .\pydarwin\Example2\temp\0\4

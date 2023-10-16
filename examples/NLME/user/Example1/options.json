@@ -1,0 +1,41 @@
+{
+    "author": "",
+    "algorithm": "EX",
+    "num_parallel": 4,
+    "exhaustive_batch_size": 100,
+    "crash_value": 99999999,
+    "penalty": {
+        "theta": 10,
+        "omega": 10,
+        "sigma": 10,
+        "convergence": 100,
+        "covariance": 100,
+        "correlation": 100,
+        "condition_number": 100,
+        "non_influential_tokens": 1e-05
+    },
+    "model_run_timeout": 2400,
+    "model_run_priority_class": "below_normal",
+    "postprocess": {
+        "use_r": true,
+        "post_run_r_code": "{project_dir}/penaltyDiffObservedSimulatedCmax.R",
+        "r_timeout": 30
+    },
+    "keep_key_models": true,
+    "use_saved_models": false,
+    "saved_models_readonly": false,
+    "remove_run_dir": false,
+    "remove_temp_dir": false,
+    "use_system_options": true,
+    "model_cache": "darwin.MemoryModelCache",
+    "model_run_man": "darwin.LocalRunManager",
+    "engine_adapter": "nlme",
+    "working_dir": "{project_dir}/Results",
+    "data_dir": "../../../..",
+    "output_dir": "{project_dir}/Results/output",
+    "temp_dir": "{project_dir}/Results/temp",
+    "nlme_dir": "C:\\Program Files\\Certara\\NLME_Engine",
+    "gcc_dir": "C:\\Program Files\\Certara\\mingw64",
+    "rscript_path": "C:\\Program Files\\R\\R-4.3.0\\bin\\x64\\Rscript.exe"
+}
+

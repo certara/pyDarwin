@@ -1,0 +1,38 @@
+[14:31:11] Model run priority is below_normal
+[14:31:11] Using darwin.MemoryModelCache
+[14:31:11] Writing intermediate output to .\pydarwin\Example2\output\results.csv
+[14:31:11] Models will be saved in .\pydarwin\Example2\models.json
+[14:31:11] Template file found at template.txt
+[14:31:11] Tokens file found at tokens.json
+[14:31:11] Algorithm: EX
+[14:31:11] Engine: NLME
+[14:31:11] random_seed: 4820529
+[14:31:11] Project dir: .\examples\NLME\user\Example2
+[14:31:11] Data dir: .\examples\NLME\user\Example2
+[14:31:11] Project working dir: .\pydarwin\Example2
+[14:31:11] Project temp dir: .\pydarwin\Example2\temp
+[14:31:11] Project output dir: .\pydarwin\Example2\output
+[14:31:11] Key models dir: .\pydarwin\Example2\key_models
+[14:31:11] Search space size: 4
+[14:31:11] NLME found: C:/Program Files/Certara/NLME_Engine
+[14:31:11] GCC found: C:/Program Files/Certara/mingw64
+[14:31:11] Using TDL license file: C:/Program Files/Certara/NLME_Engine/lservrc
+[14:31:11] Search start time: Mon Oct 16 14:31:11 2023
+[14:31:11] Not using Post Run R code
+[14:31:11] Not using Post Run Python code
+[14:31:11] Checking files in .\pydarwin\Example2\temp\0\2
+[14:31:24] Iteration =     0, Model     1,           Done,    fitness =   516.178,    message = No important warnings
+[14:31:35] Iteration =     0, Model     2,           Done,    fitness =   601.724,    message = No important warnings
+[14:31:48] Iteration =     0, Model     3,           Done,    fitness =   341.664,    message = No important warnings
+[14:32:04] Iteration =     0, Model     4,           Done,    fitness =   280.534,    message = No important warnings
+[14:32:04] Current Best fitness = 280.53380000000004
+[14:32:04] Final output from best model is in .\pydarwin\Example2\output\FinalResultFile.txt
+[14:32:04] Number of considered models: 4
+[14:32:04] Number of models that were run during the search: 4
+[14:32:04] Number of unique models to best model: 4
+[14:32:04] Time to best model: 0.9 minutes
+[14:32:04] Best overall fitness: 280.533800, iteration 0, model 4
+[14:32:04] Elapsed time: 0.9 minutes 
+
+[14:32:04] Search end time: Mon Oct 16 14:32:04 2023
+

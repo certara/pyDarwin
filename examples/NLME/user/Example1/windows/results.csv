@@ -1,0 +1,13 @@
+iteration,model number,run directory,ref run,status,fitness,model,ofv,success,covariance,correlation,ntheta,nomega,nsigm,condition num,r penalty,python penalty,translation messages,runtime errors
+0,01,.\examples\NLME\user\Example1/Results/temp\0\01,,Done,8139.012959,000,7553.0,True,True,False,3,3,1,18.24416,416.012958610891,0,,
+0,02,.\examples\NLME\user\Example1/Results/temp\0\02,,Done,8177.053149,010,7611.94,True,True,False,4,3,1,3165.27764,285.113149478567,0,,
+0,04,.\examples\NLME\user\Example1/Results/temp\0\04,,Done,7219.683598,110,6895.34,True,True,False,6,5,1,4047.32973,4.34359805766826,0,,
+0,03,.\examples\NLME\user\Example1/Results/temp\0\03,,Done,7062.896350,100,6947.06,True,True,True,5,5,1,54.58713,5.83635047587494,0,,
+0,07,.\examples\NLME\user\Example1/Results/temp\0\07,,Done,8139.012969,001,7553.0,True,True,False,3,3,1,18.24416,416.012958610891,0,,
+0,08,.\examples\NLME\user\Example1/Results/temp\0\08,,Done,8242.219795,011,7710.88,True,True,False,4,4,1,2991.14022,241.339794531233,0,,
+0,05,.\examples\NLME\user\Example1/Results/temp\0\05,,Done,7283.444109,200,6921.42,True,True,False,7,7,1,2193.24301,12.0241085437873,0,,
+0,09,.\examples\NLME\user\Example1/Results/temp\0\09,,Done,7062.896360,101,6947.06,True,True,True,5,5,1,54.58713,5.83635047587494,0,,
+0,10,.\examples\NLME\user\Example1/Results/temp\0\10,,Done,7268.775435,111,6927.54,True,True,False,6,6,1,4042.69836,11.2354354961183,0,,
+0,06,.\examples\NLME\user\Example1/Results/temp\0\06,,Done,7256.620621,210,6889.56,True,True,False,8,7,1,11036.89534,7.0606210584629,0,,
+0,11,.\examples\NLME\user\Example1/Results/temp\0\11,,Done,7283.444119,201,6921.42,True,True,False,7,7,1,2193.24301,12.0241085437873,0,,
+0,12,.\examples\NLME\user\Example1/Results/temp\0\12,,Done,7336.981602,211,7066.28,True,True,True,8,8,1,1452970.43311,0.701601798010465,0,,

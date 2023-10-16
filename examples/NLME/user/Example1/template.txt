@@ -1,0 +1,13 @@
+##Description: search-numCpt-F-nF
+##Author: Certara
+##DATA {data_dir}/pkOralBolus.csv
+##MAP   {PML[1]} id = ID time = time
+##MODEL {PML[2]}
+##ESTARGS
+ sort=FALSE method=FOCE-ELS stdErr=Auto-Detect numIterMAPNP=3
+##SIMARGS
+ numReplicates=5 seed=12345678 sort=FALSE
+##TABLES
+table(file="ObsData.csv", obs(CObs), mode = keep)
+simtbl(file="SimData.csv", CObs, mode = keep)
+

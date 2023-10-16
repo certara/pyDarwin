@@ -1,0 +1,5 @@
+iteration,model number,run directory,ref run,status,fitness,model,ofv,success,covariance,correlation,ntheta,nomega,nsigm,condition num,r penalty,python penalty,translation messages,runtime errors
+0,1,.\pydarwin\Example2\temp\0\1,,Done,516.178000,0,346.178,True,True,False,3,3,1,349.51086,0,0,,
+0,2,.\pydarwin\Example2\temp\0\2,,Done,601.724000,1,411.724,True,True,False,4,4,1,8.12408,0,0,,
+0,3,.\pydarwin\Example2\temp\0\3,,Done,341.664000,2,251.664,True,True,True,4,4,1,8.18585,0,0,,
+0,4,.\pydarwin\Example2\temp\0\4,,Done,280.533800,3,190.5338,True,True,True,4,4,1,14.03531,0,0,,

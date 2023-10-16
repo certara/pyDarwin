@@ -1,0 +1,30 @@
+##Description: SearchTlag and Omega Search
+##Author: Certara
+##DATA ../../../../OneCpt_OralBolus.csv
+##MAP    A1 = Dose CObs = CObs id = ID time = time
+##MODEL test() {
+  delayInfCpt(A1, MeanDelayTime, ShapeParamMinusOne, out = - Cl * C, dist = Gamma)
+  C = A1 / V
+  dosepoint(A1, idosevar = A1Dose, infdosevar = A1InfDose, infratevar = A1InfRate)
+  error(CEps = 0.1)
+  observe(CObs = C * (1 + CEps))
+
+  stparm(MeanDelayTime = tvMeanDelayTime * exp( nMeanDelayTime ))
+  fixef(tvMeanDelayTime= c(, 1, ))
+  stparm(ShapeParamMinusOne = tvShapeParamMinusOne * exp( nShapeParamMinusOne ))
+  fixef(tvShapeParamMinusOne= c(, 1, ))
+  stparm(Cl = tvCl * exp( nCl ))
+  fixef(tvCl= c(, 1, ))
+  stparm(V = tvV * exp( nV ))
+  fixef(tvV= c(, 1, ))
+  #search_block(nV, nCl, nShapeParamMinusOne, nMeanDelayTime)
+  ranef(block(nV, nCl) = c(1.0, 0.0, 1.0), diag(nShapeParamMinusOne, nMeanDelayTime) = c(1.0, 1.0))
+  }
+##ESTARGS
+
+##TABLES
+
+
+## Phenotype: ([('PML', 1)]), block: ((nV, nCl))
+## Genotype: [1, 1]
+## Num non-influential tokens: 0

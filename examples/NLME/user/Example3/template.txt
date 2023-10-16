@@ -1,4 +1,4 @@
-##Description: SearchTlag
+##Description: SearchTlag and Omega Search
 ##Author: Certara
 ##DATA {data_dir}/OneCpt_OralBolus.csv
 ##MAP   {PML[1]} id = ID time = time

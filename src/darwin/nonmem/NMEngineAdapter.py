@@ -67,6 +67,10 @@ class NMEngineAdapter(ModelEngineAdapter):
         """
         nm_translation_message = prd_err = ""
 
+        lst = _read_file(run.output_file_name, run.run_dir)
+        if re.search(r'\*\*\*\* NONMEM LICENSE HAS EXPIRED \*\*\*\*', lst, flags=re.RegexFlag.MULTILINE):
+            return '', '**** NONMEM LICENSE HAS EXPIRED ****'
+
         errors = ['PK PARAMETER FOR',
                   'IS TOO CLOSE TO AN EIGENVALUE',
                   'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)',
@@ -501,6 +505,16 @@ class NMEngineAdapter(ModelEngineAdapter):
     def remove_comments(text: str) -> str:
 
         return remove_comments(text)
+
+
+def _read_file(file: str, run_dir: str) -> str:
+    log_file = os.path.join(run_dir, file)
+
+    if not os.path.exists(log_file):
+        return ''
+
+    with open(log_file) as file:
+        return file.read()
 
 
 def _file_to_lines(file_name: str):

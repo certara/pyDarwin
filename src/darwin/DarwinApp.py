@@ -114,7 +114,7 @@ def init_search(model_template: Template) -> bool:
 
 
 def _init_app(options_file: str, folder: str = None):
-    log.message("Running pyDarwin v1.1.1")
+    log.message("Running pyDarwin v2.0.0")
     _reset_global_vars()
 
     file_checker.reset()

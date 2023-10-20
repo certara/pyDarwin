@@ -8,10 +8,10 @@ $PK
   CWTKG = WTKG/70  ;; CENTERED ON ONE 
   CAGE = AGE/40
 ;; thetas out of sequence
-  TVV2=THETA(2){V2~WT[1]} {V2~GENDER[1]}
-  V2=TVV2*EXP(ETA(2)) 
-  TVCL= THETA(1) {CL~WT[1]}  
-  CL=TVCL*EXP(ETA(1)) 
+  MU_2=LOG(THETA(2)) {V2~WT[1]} {V2~GENDER[1]}
+  V2=EXP(MU_2 + ETA(2))
+  MU_1 = LOG(THETA(1)) {CL~WT[1]}
+  CL=EXP(MU_1+ETA(1))
   K=CL/V2  
   TVKA=THETA(3) 
   KA=TVKA  {KAETA[1]}  
@@ -37,11 +37,13 @@ $OMEGA   ;; must be one ETA/line
 ;; test for comments in blocks
   0.2  	; ETA(2) VOLUME
 ;; optional $OMEGA blocks
-{KAETA[2]}   
+{KAETA[2]}
+{ALAG[3}
   
 $SIGMA   
 
-{RESERR[2]} 
-$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 
+{RESERR[2]}
+$EST METHOD=SAEM AUTO=1 CTYPE=3 NITER=500 PRINT=20
+$EST METHOD=IMP EONLY=1 PRINT=1 NITER=5 ISAMPLE=1000 MAPITER=0
 $COV UNCOND PRINT=E
  

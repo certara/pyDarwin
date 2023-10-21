@@ -46,7 +46,9 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, ste
     for k, v in var_indices.items():
         # and put into control file
         control = control.replace(stem + "(" + k + ")", stem + "(" + str(v) + ")")
-
+      #  # and if ETA, look for MU(stem)
+        if stem == "ETA":
+            control = control.replace("MU" + "(" + k + ")", "MU_" + str(v))
     return control
 
 

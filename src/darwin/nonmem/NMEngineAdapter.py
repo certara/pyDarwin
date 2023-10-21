@@ -92,14 +92,26 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
                     ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n',
-                    ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n']
-        short_warnings = ['NON-FIXED OMEGA', 'NON-FIXED PARAMETER', 'NON-FIXED THETA']
+                    ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
+                    ' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n']
+        # really not sure what to do with the mu referencing warning, warning is generated regardless
+        # of whether the are time varying covariates
+        short_warnings = ['NON-FIXED OMEGA',
+                          'NON-FIXED PARAMETER',
+                          'NON-FIXED THETA',
+                          'Covars should not be time varying with MU ref']
 
         f_msg = _file_to_lines(os.path.join(run.run_dir, "FMSG"))
 
         for warning, short_warning in zip(warnings, short_warnings):
             if warning in f_msg:
-                nm_translation_message += short_warning
+                if warning == ' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n':
+                    where = f_msg.index(' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n')
+                    covar_name = f_msg[where + 1].strip()
+                    warning_message = "With MU ref " + covar_name + " should be constant for indiv"
+                else:
+                    warning_message = short_warning
+                nm_translation_message += warning_message
 
         errors = [' AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.\n']
 

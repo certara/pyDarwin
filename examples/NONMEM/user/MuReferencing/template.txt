@@ -12,9 +12,8 @@ $PK
   V2=EXP(MU_2 + ETA(2))
   MU_1 = LOG(THETA(1)) {CL~WT[1]}
   CL=EXP(MU_1+ETA(1))
-  K=CL/V2  
-  TVKA=THETA(3) 
-  KA=TVKA  {KAETA[1]}  
+  K=CL/V2
+  {KA[1]}
   S2 	= V2/1000 
   {ALAG[1]}
 $ERROR     
@@ -25,11 +24,11 @@ $ERROR
 $THETA  ;; must be one THETA per line.
  (0.001,100)	; THETA(1) CL UNITS =  L/HR
  (0.001,500) 	; THETA(2) V  UNITS = L
- (0.001,2) 	; THETA(3) KA UNITS = 1/HR  
+ (0.001,1) 	    ; THETA(3) KA UNITS = 1/HR
   
  {V2~WT[2]}   ;;; comment must consist of more than one word
  {V2~GENDER[2]}   ;;; otherwise it's a definition, and it will push you back
- {CL~WT[2]}  
+ {CL~WT[2]}
  {ALAG[2]}
  
 $OMEGA   ;; must be one ETA/line
@@ -37,8 +36,8 @@ $OMEGA   ;; must be one ETA/line
 ;; test for comments in blocks
   0.2  	; ETA(2) VOLUME
 ;; optional $OMEGA blocks
-{KAETA[2]}
-{ALAG[3}
+{KA[2]}
+{ALAG[3]}
   
 $SIGMA   
 

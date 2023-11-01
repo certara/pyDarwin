@@ -41,10 +41,13 @@ applicable given algorithm selection and execution environment e.g., GA and grid
             :ref:`"break_on_no_change" <break_on_no_change_options_desc>`: 5
         },
 
+        :ref:`"search_omega_blocks" <search_omega_blocks_options_desc>`: false,
         :ref:`"search_omega_bands" <search_omega_bands_options_desc>`: false,
         :ref:`"max_omega_band_width" <max_omega_band_width_options_desc>`: 0,
         :ref:`"search_omega_sub_matrix" <search_omega_sub_matrix_options_desc>`: false,
         :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`: 4,
+        :ref:`"individual_omega_search" <individual_omega_search_options_desc>`: true,
+        :ref:`"max_omega_search_len" <max_omega_search_len_options_desc>`: 8,
 
         :ref:`"random_seed" <random_seed_options_desc>`: 11,
         :ref:`"num_parallel" <num_parallel_options_desc>`: 4,
@@ -235,9 +238,14 @@ Here is the list of all available options. Note that many of the options have de
     * | **break_on_no_change** - *positive int*: Number of iterations used to determine whether the optimization has converged.
       | *Default*: 5
 
+.. _search_omega_blocks_options_desc:
+
+* | **search_omega_blocks** - *boolean*: Set to ``true`` to search omega blocks. (Similar to ``search_omega_bands``, but for NLME)
+  | *Default*: false
+
 .. _search_omega_bands_options_desc:
 
-* | **search_omega_bands** - *boolean*: Set to `true` to search omega bands.
+* | **search_omega_bands** - *boolean*: Set to ``true`` to search omega bands.
   | *Default*: false
 
 .. _max_omega_band_width_options_desc:
@@ -247,13 +255,24 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _search_omega_sub_matrix_options_desc:
 
-* | **search_omega_sub_matrix** - *boolean*: Set to `true` to search omega sub matrix.
+* | **search_omega_sub_matrix** - *boolean*: Set to ``true`` to search omega sub matrix.
   | *Default*: false
 
 .. _max_omega_sub_matrix_options_desc:
 
 * | **max_omega_sub_matrix** - *positive int*: Maximum size of sub matrix to use in search.
   | *Default*: 4
+
+.. _individual_omega_search_options_desc:
+
+* | **individual_omega_search** - *boolean*: If ``true``, every omega search block will be handled individually: each block will have a separate gene and max omega search length (either calculated or set explicitly with :mono_ref:`max_omega_search_len<max_omega_search_len_options_desc>`).
+  | When ``individual_omega_search`` is set to ``false``, the omega search will be performed uniformly, that is, all search blocks will have the same pattern of block omegas.
+  | Only search blocks placed directly in the template can be calculated individually. If any search block is found in tokens, ``individual_omega_search`` is reset to ``false``.
+  | *Default*: true
+
+.. _max_omega_search_len_options_desc:
+
+* | **max_omega_search_len** - *int [2, 16]*: Maximum amount of omegas in a single omega search block. If not set, it will be calculated automatically.
 
 .. _random_seed_options_desc:
 

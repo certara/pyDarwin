@@ -408,30 +408,75 @@ Searching Omega Structure
 **************************
 
 In addition to specifying relations inside the :ref:`template file<template_file_target>` and :ref:`tokens file<tokens_file_target>` to define
-the search space, you may also search for different structures of the omega matrix given fields specified in :ref:`options.json <Options>`:
-
-Users may additionally search:
-
-* Omega Bands
-
-    * :ref:`"search_omega_bands"<search_omega_bands_options_desc>`
-
-    * :ref:`"max_omega_band_width" <max_omega_band_width_options_desc>`
-
-*  Omega Submatrices
-
-    * :ref:`"search_omega_sub_matrix"<search_omega_sub_matrix_options_desc>`
-
-    * :ref:`"max_omega_sub_matrix"<max_omega_sub_matrix_options_desc>`
+the search space, you may also search for different structures of the omega matrix given fields specified in :ref:`options.json <Options>`.
 
 .. note::
-    OMEGA structure alone can be searched without any tokens for compartments, covariates, etc.
-    If searching Omega submatrices, options for Omega band search should be additionally specified.
+    Omega structure alone can be searched without any tokens for compartments, covariates, etc.
+    If searching Omega submatrices, options for Omega band/block search must be additionally specified.
+
+Omega structure is encoded by a set of separate genes. One of the genes represents the omega block pattern, another - the band width, if it's set. The pattern is an index of one of the valid patterns composed by pyDarwin. The band width is applicable only to NONMEM.
+
+In case of independent omega search the set is repeated as many times as there are search blocks in the template.
+
+Valid patterns are composed accodring to the maximum omega search block length and :mono_ref:`max_omega_sub_matrix<max_omega_sub_matrix_options_desc>`, if applicable. For example, for search_block(A, B, C, D, E) and max_omega_sub_matrix = 4 pyDarwin considers 16 patterns::
+
+    ()
+    (A B C D E)
+    (A B)
+    (A B) (C D)
+    (A B) (C D E)
+    (A B) (D E)
+    (A B C)
+    (A B C) (D E)
+    (A B C D)
+    (B C)
+    (B C) (D E)
+    (B C D)
+    (B C D E)
+    (C D)
+    (C D E)
+    (D E)
+
+The empty pattern means there is no block omega, everything is diagonal. For NONMEM without submatrix search the empty pattern is substituted with an extra value for band width gene (= 0).
+
+You can see number of patterns for different combinations of ``max_omega_search_len`` and ``max_omega_sub_matrix`` in the table below.
+
+.. csv-table:: Number of patterns
+   :file: pattern_num.csv
+   :header-rows: 1
+
+By defaut pyDarwin will try to search omega structure for each omega/band search block individually. This is only possible if all search blocks are placed in the template. If any search block is found in the tokens, the omega search will be performed uniformly, i.e. all search blocks will have the same pattern.
+
+Individual omega search will further increase the search space size. It can be turned off by setting :mono_ref:`individual_omega_search <individual_omega_search_options_desc>` to ``false``.
+
+Omega Block Search
+=========================
+
+Omega block search is applicable to NLME. It takes a diagonal omega matrix and searches for block omega matrices.
+
+To enable block search set :mono_ref:`search_omega_blocks <search_omega_blocks_options_desc>` to ``true`` and create one or more ``#search_block`` to the :ref:`template file<template_file_target>` and/or the :ref:`tokens file<tokens_file_target>`.
+
+Put your ``ranef`` in the template/tokens as usual, and then add the following block:
+
+::
+
+    #search_block(nV, nCl, nShapeParamMinusOne, nMeanDelayTime)
+
+* only names, commas, and spaces (including tabs and new lines) are allowed inside the block; no comments, no nested braces
+
+* only diagonal omegas are allowed inside ``search_block``; if you put a ``block``/``same``/``fixed`` omega there pyDarwin will halt the search
+
+* if you put a diagonal omega into the search block, but there are dependent omegas (``same``), pyDarwin will halt the search
+
+* omegas that are present in ``search_block`` but absent in any ``ranef`` are ignored
+
+When creating individual models pyDarwin puts new ``ranef`` statement below every ``#search_block`` and fills it with corresponding omegas, removing them from original ``ranef`` expressions (basically moves the omegas from original ``ranef`` statement to the new one). Empty ``diag`` and ``ranef`` statements are removed from the model.
+
 
 Omega Band Search
 =========================
 
-Omega band search will take a diagonal OMEGA matrix and search for band OMEGA matrices.
+Omega band search is applicable to NONMEM. It takes a diagonal OMEGA matrix and searches for band OMEGA matrices.
 
 Band Omegas will be searched if:
 
@@ -542,16 +587,14 @@ In this case the first $OMEGA block will be searched and the second will not.
 Omega Submatrices Search
 =========================
 
-OMEGA submatrices permit a wider range of OMEGA structure, and, importantly, the option to estimate fewer off diagonal elements of OMEGA.
-In addition to the options specified above for Omega band search, 2 additional options should be included in the :ref:`options file<options_file_target>`.
-
-The following fields are required to search for OMEGA submatrices:
+Omega submatrices permit a wider range of omega structure, and, importantly, the option to estimate fewer off diagonal elements of omega.
+In addition to the options specified above for Omega band search, 2 additional options must be included in the :ref:`options file<options_file_target>`:
 
     * :ref:`"search_omega_sub_matrix" <search_omega_sub_matrix_options_desc>`: true
 
     * :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`: N
 
-Where N is the maximum size of an OMEGA submatrix, then submatrices will be searched. OMEGA submatrices are intended to be use with OMEGA band search to further expand the options for OMEGA structure. Specifically,
+Where N is the maximum size of an omega submatrix, then submatrices will be searched. Omega submatrices are intended to be use with Omega band/block search to further expand the options for omega structure. Specifically,
 
 For the source OMEGA matrix of:
 
@@ -575,7 +618,7 @@ If band matrix search is used, for an OMEGA band width of 1, the OMEGA matrix wo
     0 p 0.1
     0 0 p  0.1
 
-And with the additional sub matrix search used, this search would also include, for submatrices value of [1,0,1]:
+And with the additional sub matrix search used, this search would also include:
 
 * Width = 1
 
@@ -590,26 +633,6 @@ And with the additional sub matrix search used, this search would also include, 
 
 Resulting in one fewer variance parameters to be estimated (covariance of ETA(2) and ETA(3)).
 
-In pyDarwin, this is converted to a bit string describing whether the next OMEGA row will be include with the current OMEGA row. In the above example,
-the bit string [1,0,1], the 1 in the first position, indicates that the 2nd row will be combined with the first into a single block, but then a new OMEGA block will be created for
-the 3rd row (indicted by the 0 in the 2nd position). The 4th row will be combined into an OMEGA block with the 3rd, indicated by the 1 in the 3rd position.
-The user need only provide the maximum permitted submatrix size in the options file  e.g., :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`.
-
-For example, for submatrices values of [1,0,0]:
-
-* Width = 1
-
-::
-
-    $OMEGA BLOCK(2)
-    0.1
-    p 0.1
-    $OMEGA BLOCK(1)
-    0.1
-    $OMEGA BLOCK(1)
-    0.1
-
-As the 3rd row of OMEGA will not be continued into the 4th, despite the band width of 1, defining smaller submatrices will result in removing the covariance between ETA(3) and ETA(4).
 
 ********************
 pyDarwin Outputs
@@ -634,8 +657,8 @@ The startup output also lists the location of:
 #. Project working dir - folder where template, token and options files are located, this is not set by the user
 #. Project temp dir - root folder where model file will be found, if the option is not set to remove them
 #. Project output dir - folder where all the results files will be put, such as results.csv and Final* files
-#. Where intermediate output will be written (e.g., u:/user/example2/output\results.csv)
-#. Where models will be saved (e.g., u:/user/example2/working\models.json)
+#. Where intermediate output will be written (e.g., u:/user/example2/output/results.csv)
+#. Where models will be saved (e.g., u:/user/example2/working/models.json)
 #. NMFE??.bat (Windows) or nmfe?? (Linux) file
 #. Rscript.exe, if used
 

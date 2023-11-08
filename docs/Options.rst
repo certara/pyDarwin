@@ -265,9 +265,9 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _individual_omega_search_options_desc:
 
-* | **individual_omega_search** - *boolean*: If ``true``, every omega search block will be handled individually: each block will have a separate gene and max omega search length (either calculated or set explicitly with :mono_ref:`max_omega_search_len<max_omega_search_len_options_desc>`).
+* | **individual_omega_search** - *boolean*: If ``true``, every omega search block will be handled individually: each block will have a separate gene and max omega search length (either calculated automatically or set explicitly with :mono_ref:`max_omega_search_len<max_omega_search_len_options_desc>`).
   | When ``individual_omega_search`` is set to ``false``, the omega search will be performed uniformly, that is, all search blocks will have the same pattern of block omegas.
-  | Only search blocks placed directly in the template can be calculated individually. If any search block is found in tokens, ``individual_omega_search`` is reset to ``false``.
+  | Only search blocks placed directly in the template file can be calculated individually. If any search block is found in tokens, ``individual_omega_search`` is reset to ``false``.
   | *Default*: true
 
 .. _max_omega_search_len_options_desc:

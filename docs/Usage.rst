@@ -414,11 +414,11 @@ the search space, you may also search for different structures of the omega matr
     Omega structure alone can be searched without any tokens for compartments, covariates, etc.
     If searching Omega submatrices, options for Omega band/block search must be additionally specified.
 
-Omega structure is encoded by a set of separate genes. One of the genes represents the omega block pattern, another - the band width, if it's set. The pattern is an index of one of the valid patterns composed by pyDarwin. The band width is applicable only to NONMEM.
+Omega structure is encoded by a set of separate genes: one of the genes represents the omega block pattern, another one is for the band width (only applicable to NONMEM models). The pattern is the index of a valid pattern composed by pyDarwin.
 
-In case of independent omega search the set is repeated as many times as there are search blocks in the template.
+In case of independent omega search, the set is repeated as many times as the number of search blocks in the template.
 
-Valid patterns are composed accodring to the maximum omega search block length and :mono_ref:`max_omega_sub_matrix<max_omega_sub_matrix_options_desc>`, if applicable. For example, for search_block(A, B, C, D, E) and max_omega_sub_matrix = 4 pyDarwin considers 16 patterns::
+Valid patterns are created based on the maximum omega search block length and maximum size of submatrices (specified through :mono_ref:`max_omega_sub_matrix<max_omega_sub_matrix_options_desc>`, see :ref:`Omega Submatrices Search<omega_submatrices_search_target>` for details) if applicable. For example, for search_block(A, B, C, D, E) and max_omega_sub_matrix = 4, pyDarwin will consider the following 16 patterns::
 
     ()
     (A B C D E)
@@ -437,46 +437,59 @@ Valid patterns are composed accodring to the maximum omega search block length a
     (C D E)
     (D E)
 
-The empty pattern means there is no block omega, everything is diagonal. For NONMEM without submatrix search the empty pattern is substituted with an extra value for band width gene (= 0).
+Here the empty pattern, (), means there is no block Omega  (i.e., everything is diagonal), and the variables enclosed by the parenthesis are the ones whose associated covariance matrix (Omega) is block (that is, for each pattern, only those variables whose Omega matrix is block are listed). For NONMEM models without submatrix search, the empty pattern is substituted with an extra value for band width gene (= 0).
 
-You can see number of patterns for different combinations of ``max_omega_search_len`` and ``max_omega_sub_matrix`` in the table below.
+The number of patterns for different combinations of ``max_omega_search_len`` (whose values listed in the first column) and ``max_omega_sub_matrix`` (whose values listed in the first row) can be found in the table below.
 
 .. csv-table:: Number of patterns
    :file: pattern_num.csv
    :header-rows: 1
 
-By defaut pyDarwin will try to search omega structure for each omega/band search block individually. This is only possible if all search blocks are placed in the template. If any search block is found in the tokens, the omega search will be performed uniformly, i.e. all search blocks will have the same pattern.
-
+By default, pyDarwin will try to search omega structure for each  search block/band individually. This is only possible if all search blocks are placed in the template. If any search block is found in the tokens, the omega search will be performed uniformly, i.e. all search blocks will have the same pattern.
 Individual omega search will further increase the search space size. It can be turned off by setting :mono_ref:`individual_omega_search <individual_omega_search_options_desc>` to ``false``.
 
 Omega Block Search
 =========================
 
-Omega block search is applicable to NLME. It takes a diagonal omega matrix and searches for block omega matrices.
+Omega block search is only applicable to NLME models. It takes a diagonal Omega matrix and searches for a block Omega matrix.
 
-To enable block search set :mono_ref:`search_omega_blocks <search_omega_blocks_options_desc>` to ``true`` and create one or more ``#search_block`` to the :ref:`template file<template_file_target>` and/or the :ref:`tokens file<tokens_file_target>`.
+To enable block search for NLME models,
 
-Put your ``ranef`` in the template/tokens as usual, and then add the following block:
+#.  Set :mono_ref:`search_omega_blocks <search_omega_blocks_options_desc>` to ``true`` in the ref:`template file<template_file_target>`.
 
-::
+#.  Add one or more ``#search_block(randomEffectList)`` to the :ref:`template file<template_file_target>` and/or the :ref:`tokens file<tokens_file_target>`, where ``randomEffectList`` denotes the list of random effects that one wants to search whether their associated covariance matrix (Omega) is diagonal or block.
 
-    #search_block(nV, nCl, nShapeParamMinusOne, nMeanDelayTime)
 
-* only names, commas, and spaces (including tabs and new lines) are allowed inside the block; no comments, no nested braces
+.. note::
+    * Only names, commas, and spaces (including tabs and new lines) are allowed inside the ``#search_block``; no comments, no nested braces.
 
-* only diagonal omegas are allowed inside ``search_block``; if you put a ``block``/``same``/``fixed`` omega there pyDarwin will halt the search
+    * Only those random effects having diagonal Omegas are allowed inside the ``search_block``; if you put some random effects having ``block``/``same``/``fixed`` Omega, pyDarwin will halt the search.
 
-* if you put a diagonal omega into the search block, but there are dependent omegas (``same``), pyDarwin will halt the search
+    * If there are random effects dependent (``same``) on the ones in the ``#search_block``, pyDarwin will halt the search.
 
-* omegas that are present in ``search_block`` but absent in any ``ranef`` are ignored
+    * Random effects present in ``#search_block`` but absent in the model (i.e., not present in any ``ranef`` statement) will be ignored.
 
-When creating individual models pyDarwin puts new ``ranef`` statement below every ``#search_block`` and fills it with corresponding omegas, removing them from original ``ranef`` expressions (basically moves the omegas from original ``ranef`` statement to the new one). Empty ``diag`` and ``ranef`` statements are removed from the model.
+When creating individual models, pyDarwin puts the new ``ranef`` statement below every ``#search_block`` and fills it with corresponding Omegas, and then removes the associated random effects from the original ``ranef`` statements (basically moves the Omegas from original ``ranef`` statement to the new one). Empty ``diag`` and ``ranef`` statements are removed from the model. For example, if a template contains ::
+
+    ranef(diag(nV, nCl) = c(1, 1))
+
+and the following statement is added to it ::
+
+    #serach_block(nV, nCl))
+
+with ``search_omega_blocks`` set to ``true`` in the options file, then pyDarwin will create two models with one having ::
+
+    ranef(diag(nV, nCl) = c(1, 1))
+
+and the other one having ::
+
+    ranef(block(nV, nCl) = c(1, 0, 1))
 
 
 Omega Band Search
 =========================
 
-Omega band search is applicable to NONMEM. It takes a diagonal OMEGA matrix and searches for band OMEGA matrices.
+Omega band search is only applicable to NONMEM models. It takes a diagonal OMEGA matrix and searches for band OMEGA matrices.
 
 Band Omegas will be searched if:
 
@@ -584,19 +597,20 @@ In this case the first $OMEGA block will be searched and the second will not.
     Do not combine multiple OMEGA blocks in the template if some are BLOCK|DIAG|SAME|FIX and
     others are to be searched.
 
+.. _omega_submatrices_search_target:
+
 Omega Submatrices Search
 =========================
 
-Omega submatrices permit a wider range of omega structure, and, importantly, the option to estimate fewer off diagonal elements of omega.
-In addition to the options specified above for Omega band search, 2 additional options must be included in the :ref:`options file<options_file_target>`:
+OMEGA submatrices permit a wider range of OMEGA structure, and, importantly, the option to estimate fewer off diagonal elements of OMEGA. In addition to the options specified above for Omega block search (for NLME models) or Omega band search (for NONMEM models), 2 additional options should be included in the :ref:`options file<options_file_target>`:
 
     * :ref:`"search_omega_sub_matrix" <search_omega_sub_matrix_options_desc>`: true
 
     * :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`: N
 
-Where N is the maximum size of an omega submatrix, then submatrices will be searched. Omega submatrices are intended to be use with Omega band/block search to further expand the options for omega structure. Specifically,
+Where N is the maximum size of an OMEGA submatrix, then submatrices will be searched. OMEGA submatrices are intended to be used with OMEGA block search (for NLME models) or Omega band search (for NONMEM models) to further expand the options for OMEGA structure. Specifically,
 
-For the source OMEGA matrix of:
+For the source OMEGA matrix of a NONMEM model:
 
 ::
 

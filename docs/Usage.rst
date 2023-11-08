@@ -455,7 +455,7 @@ Omega block search is only applicable to NLME models. It takes a diagonal Omega 
 
 To enable block search for NLME models,
 
-#.  Set :mono_ref:`search_omega_blocks <search_omega_blocks_options_desc>` to ``true`` in the ref:`template file<template_file_target>`.
+#.  Set :mono_ref:`search_omega_blocks <search_omega_blocks_options_desc>` to ``true`` in the :ref:`options file<options_file_target>`.
 
 #.  Add one or more ``#search_block(randomEffectList)`` to the :ref:`template file<template_file_target>` and/or the :ref:`tokens file<tokens_file_target>`, where ``randomEffectList`` denotes the list of random effects that one wants to search whether their associated covariance matrix (Omega) is diagonal or block.
 

@@ -83,7 +83,6 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 
         :ref:`"postprocess" <postprocess_options_desc>`: {
             :ref:`"use_r" <use_r_options_desc>`: true,
-            :ref:`"rscript_path" <rscript_path_options_desc>`: "/some/R/path/rscript",
             :ref:`"post_run_r_code" <post_run_r_code_options_desc>`: "{project_dir}/simplefunc.r",
             :ref:`"r_timeout" <r_timeout_options_desc>`: 30,
             :ref:`"use_python" <use_python_options_desc>`: true,
@@ -103,6 +102,11 @@ applicable given algorithm selection and execution environment e.g., GA and grid
         :ref:`"model_run_man" <model_run_man_options_desc>`: "darwin.GridRunManager",
         :ref:`"grid_adapter" <grid_adapter_options_desc>`: "darwin.GenericGridAdapter",
         :ref:`"engine_adapter" <engine_adapter_options_desc>`: "nonmem",
+
+        :ref:`"rscript_path" <rscript_path_options_desc>`: "C:/Program Files/R/R-4.3.1/bin/Rscript.exe",
+        :ref:`"nlme_dir" <nlme_dir_options_desc>`: "C:/Program Files/Certara/NLME_Engine",
+        :ref:`"gcc_dir" <gcc_dir_options_desc>`: "C:/Program Files/Certara/mingw64",
+        :ref:`"nlme_license" <nlme_license_options_desc>`: "c:/workspace/lservrc",
 
         :ref:`"working_dir" <working_dir_options_desc>`: "~/darwin/Ex1",
         :ref:`"data_dir" <data_dir_options_desc>`: "{project_dir}/data",
@@ -425,10 +429,8 @@ Here is the list of all available options. Note that many of the options have de
     * | **use_r** - *boolean*: Whether user-supplied R code is to be run after NONMEM execution.
       | *Default*: ``false``
 
-.. _rscript_path_options_desc:
-
-    * | **rscript_path** :sup:`required` - *string*: Absolute path to Rscript.exe.
-      | Required if ``use_r`` is set to ``true``.
+    * | **rscript_path** :sup:`deprecated` - *string*: *Absolute path to Rscript.exe.*
+      | Use :mono_ref:`rscript_path <rscript_path_options_desc>` instead.
 
 .. _post_run_r_code_options_desc:
 
@@ -510,8 +512,27 @@ Here is the list of all available options. Note that many of the options have de
 .. _engine_adapter_options_desc:
 
 * | **engine_adapter** - *string*: ModelEngineAdapter subclass to be used.
-  | Currently only :data:`nonmem <darwin.nonmem.NMEngineAdapter.NMEngineAdapter>` is available.
+  | Currently ``nonmem`` and ``nlme`` are available.
   | *Default*: ``nonmem``
+
+.. _rscript_path_options_desc:
+
+* | **rscript_path** :sup:`required` - *string*: Absolute path to Rscript.exe.
+  | Required if either of :mono_ref:`use_r <use_r_options_desc>` is set to ``true`` or ``engine_adapter`` is set to ``nlme``.
+
+.. _nlme_dir_options_desc:
+
+* | **nlme_dir** :sup:`required` - *string*: Absolute path to NLME Engine installation.
+  | Required if ``engine_adapter`` is set to ``nlme``.
+
+.. _gcc_dir_options_desc:
+
+* | **gcc_dir** :sup:`required` - *string*: Absolute path to GCC root directory.
+  | Required if ``engine_adapter`` is set to ``nlme``.
+
+.. _nlme_license_options_desc:
+
+* | **nlme_license** - *string*: Absolute path NLME license file.
 
 .. _working_dir_options_desc:
 

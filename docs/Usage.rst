@@ -475,7 +475,7 @@ When creating individual models, pyDarwin puts the new ``ranef`` statement below
 
 and the following statement is added to it ::
 
-    #serach_block(nV, nCl))
+    #search_block(nV, nCl))
 
 with ``search_omega_blocks`` set to ``true`` in the options file, then pyDarwin will create two models with one having ::
 

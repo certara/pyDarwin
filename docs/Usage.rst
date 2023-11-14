@@ -495,7 +495,7 @@ Band Omegas will be searched if:
 
 #.  The text “; search band” appears on the $OMEGA record in the :ref:`template file<template_file_target>`.
 
-#.  The following fields have been included in the :ref:`options file<options_file_target>`.
+#.  The following fields have been included in the :ref:`options file<options_file_target>`:
 
     * :ref:`"search_omega_bands" <search_omega_bands_options_desc>`: true
 

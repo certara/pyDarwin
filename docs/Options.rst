@@ -93,6 +93,10 @@ applicable given algorithm selection and execution environment e.g., GA and grid
         :ref:`"saved_models_file" <saved_models_file_options_desc>`: "{working_dir}/models0.json",
         :ref:`"saved_models_readonly" <saved_models_readonly_options_desc>`: false,
 
+        :ref:`"keep_key_models" <keep_key_models_options_desc>`: false,
+        :ref:`"keep_best_models" <keep_best_models_options_desc>`: true,
+        :ref:`"rerun_key_models" <rerun_key_models_options_desc>`: false,
+
         :ref:`"remove_run_dir" <remove_run_dir_options_desc>`: false,
         :ref:`"remove_temp_dir" <remove_temp_dir_options_desc>`: true,
 
@@ -112,6 +116,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
         :ref:`"data_dir" <data_dir_options_desc>`: "{project_dir}/data",
         :ref:`"output_dir" <output_dir_options_desc>`: "{project_dir}/output",
         :ref:`"temp_dir" <temp_dir_options_desc>`: "{working_dir}/temp",
+        :ref:`"key_models_dir" <key_models_dir_options_desc>`: "{working_dir}/key_models",
 
         :ref:`"generic_grid_adapter" <generic_grid_adapter_options_desc>`: {
             :ref:`"python_path" <python_path_options_desc>`: "~/darwin/venv/bin/python",
@@ -474,6 +479,33 @@ Here is the list of all available options. Note that many of the options have de
 * | **saved_models_readonly** - *boolean*: Do not overwrite the ``saved_models_file`` content.
   | *Default*: ``false``
 
+.. _keep_key_models_options_desc:
+
+* | **keep_key_models** - *boolean*: Whether to save the best model from every generation. Models are copied to :mono_ref:`key_models_dir <key_models_dir_options_desc>`.
+  | *Default*: ``false``
+
+.. _keep_best_models_options_desc:
+
+* | **keep_best_models** - *boolean*: Save models that improve fitness value, i.e. the models better than previous overall best model. Unlike ``keep_key_models`` this option may skip some generations.
+  | When set to ``true`` overrides ``keep_key_models`` to ``true`` as well.
+  | *Default*: ``true``
+
+.. note::
+   Since ``keep_best_models`` is on by default you have to set it to ``false`` explisitly if you want key models to be saved.
+
+.. _rerun_key_models_options_desc:
+
+* | **rerun_key_models** - *boolean*: Sometimes saved key models don't have any output:
+
+    * when a model is restored from the cache file it has only fitness value
+
+    * when a model is not better than the overall best model to the moment its run folder is cleaned up after the run
+
+  | In order to obtain desired output (e.g. tables) such models need to be re-run. To do so set ``rerun_key_models`` to ``true``.
+  | This option doesn't have effect if none of ``keep_key_models``/``keep_best_models`` is ``true``.
+  | All the models that don't have their output stored will be re-run after the entire search.
+  | *Default*: ``false``
+
 .. _remove_run_dir_options_desc:
 
 * | **remove_run_dir** - *boolean*: If ``true``, will delete the entire model :mono_ref:`run directory <model_run_dir>`, otherwise - only unnecessary files inside it.
@@ -560,6 +592,12 @@ Here is the list of all available options. Note that many of the options have de
 * | **temp_dir** - *string*: Parent directory for all model runs' run directories, i.e., where all folders for every iteration is located.
   | *Default*: ``{working_dir}/temp``
   | Aliased as :mono_ref:`{temp_dir}<temp_dir_alias>`.
+  | Available aliases are: :mono_ref:`{project_dir}<project_dir_alias>`, :mono_ref:`{working_dir}<working_dir_alias>`.
+
+.. _key_models_dir_options_desc:
+
+* | **key_models_dir** - *string*: Directory where key/best models will be saved.
+  | *Default*: ``{working_dir}/key_modlels``
   | Available aliases are: :mono_ref:`{project_dir}<project_dir_alias>`, :mono_ref:`{working_dir}<working_dir_alias>`.
 
 .. _generic_grid_adapter_options_desc:

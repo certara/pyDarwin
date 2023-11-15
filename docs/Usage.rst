@@ -71,10 +71,10 @@ A running search can be stopped using following command:
 Execution on Linux Grids
 =========================
 
-The following requirements should be met in order to execute ``pyDarwin`` on Linux Grids.
+The following requirements should be met in order to execute pyDarwin on Linux Grids.
 
 * You must have access to the grid system (e.g., you are able to connect to the system via terminal session).
-* You must make ``pyDarwin`` installation available for all grid nodes. 
+* You must make pyDarwin installation available for all grid nodes. 
 * Your search project must be available for all grid nodes as well.
 * You should be familiar with your grid controller commands (e.g., how to submit a job, query finished jobs, and delete jobs).
 * You should be familiar with regular expressions e.g., for usage in ``"submit_job_id_re"`` and ``"poll_job_id_re"`` fields in ``options.json``.
@@ -82,7 +82,7 @@ The following requirements should be met in order to execute ``pyDarwin`` on Lin
 .. note::
     If all grid nodes share the same file system, you can simply deploy pyDarwin in your home directory (always use virtual environment!).
 
-There are two ways to utilize grids for search in `pyDarwin`:
+There are two ways to utilize grids for search in pyDarwin:
 
 1. Run search :ref:`locally <local_execution>`, submit individual model runs to the grid (local search, grid model runs).
 2. Submit search :ref:`to the grid <running_grid_search>`, as well as all the model runs (grid search, grid model runs).
@@ -112,8 +112,37 @@ Or alternatively, run grid search in folder:
     python -m darwin.grid.run_search_in_folder <folder_path>
 
 .. note::
-    You must ensure that ``submit_search_command`` has been set up correctly in options.json, in addition to other grid settings.
-    See :ref:`submit_search_command <submit_search_command_options_desc>`.
+    You must ensure that :mono_ref:`submit_search_command <submit_search_command_options_desc>` has been set up correctly in options.json, in addition to other grid settings.
+
+
+.. _search_info:
+
+Search Info
+=========================
+
+.. code:: python
+    
+    python -m darwin.search_info <folder_path>
+
+This command loads the search folder and shows the summary that looks like this::
+
+[01:11:10] Changing directory to c:\workspace\fruitfly\examples\NONMEM\user\Example2
+[01:11:10] Options file found at options.json
+[01:11:10] Loading system options: c:\workspace\fruitfly\examples\user\options.json
+[01:11:10] Template file found at template.txt
+[01:11:10] Tokens file found at tokens.json
+[01:11:10] Algorithm: GP
+[01:11:10] Engine: NONMEM
+[01:11:10] random_seed: 11
+[01:11:10] Project dir: c:\workspace\fruitfly\examples\NONMEM\user\Example2
+[01:11:10] Data dir: c:\workspace\fruitfly\examples\NONMEM\user\Example2
+[01:11:10] Project working dir: C:\Users\jcook\pydarwin\Example2
+[01:11:10] Project temp dir: C:\Users\jcook\pydarwin\Example2\temp
+[01:11:10] Project output dir: C:\Users\jcook\pydarwin\Example2\output
+[01:11:10] Key models dir: C:\Users\jcook\pydarwin\Example2\key_models
+[01:11:10] Search space size: 12960
+[01:11:10] Estimated number of models to run: 454
+
 
 
 .. _startRequiredFiles:
@@ -437,7 +466,7 @@ Valid patterns are created based on the maximum omega search block length and ma
     (C D E)
     (D E)
 
-Here the empty pattern, (), means there is no block Omega  (i.e., everything is diagonal), and the variables enclosed by the parenthesis are the ones whose associated covariance matrix (Omega) is block (that is, for each pattern, only those variables whose Omega matrix is block are listed). For NONMEM models without submatrix search, the empty pattern is substituted with an extra value for band width gene (= 0).
+Here the empty pattern, ``()``, means there is no block Omega  (i.e., everything is diagonal), and the variables enclosed by the parenthesis are the ones whose associated covariance matrix (Omega) is block (that is, for each pattern, only those variables whose Omega matrix is block are listed). For NONMEM models without submatrix search, the empty pattern is substituted with an extra value for band width gene (= 0).
 
 The number of patterns for different combinations of ``max_omega_search_len`` (whose values listed in the first column) and ``max_omega_sub_matrix`` (whose values listed in the first row) can be found in the table below.
 
@@ -447,6 +476,8 @@ The number of patterns for different combinations of ``max_omega_search_len`` (w
 
 By default, pyDarwin will try to search omega structure for each  search block/band individually. This is only possible if all search blocks are placed in the template. If any search block is found in the tokens, the omega search will be performed uniformly, i.e. all search blocks will have the same pattern.
 Individual omega search will further increase the search space size. It can be turned off by setting :mono_ref:`individual_omega_search <individual_omega_search_options_desc>` to ``false``.
+
+.. _omega_block_search_target:
 
 Omega Block Search
 =========================
@@ -655,7 +686,7 @@ pyDarwin Outputs
 Console output
 =========================
 
-After the search command is submitted, ``pyDarwin`` first verifies that the following files and executables are available:
+After the search command is submitted, pyDarwin first verifies that the following files and executables are available:
 
 #. The template file
 #. The tokens file
@@ -677,7 +708,7 @@ The startup output also lists the location of:
 #. Rscript.exe, if used
 
 
-``pyDarwin`` provides verbose output about whether individual models have executed successfully.
+pyDarwin provides verbose output about whether individual models have executed successfully.
 
 A typical line of output might be::
 

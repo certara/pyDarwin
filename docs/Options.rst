@@ -407,7 +407,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _final_downhill_search_options_desc:
 
-* | **final_downhill_search** - *boolean*: Whether to perform a local search (1 and 2 bit) at the end of the global search.
+* | **final_downhill_search** - *boolean*: Whether to perform a :ref:`local search<Local Search>` (1 and 2 bit) at the end of the global search.
   | *Default*: ``false``
 
 .. _nmfe_path_options_desc:
@@ -486,12 +486,15 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _keep_best_models_options_desc:
 
-* | **keep_best_models** - *boolean*: Save models that improve fitness value, i.e. the models better than previous overall best model. Unlike ``keep_key_models`` this option may skip some generations.
+* | **keep_best_models** - *boolean*: Save only key models that improve fitness value, i.e. the models better than previous overall best model. Unlike ``keep_key_models`` this option may skip some generations.
   | When set to ``true`` overrides ``keep_key_models`` to ``true`` as well.
   | *Default*: ``true``
 
 .. note::
    Since ``keep_best_models`` is on by default you have to set it to ``false`` explisitly if you want key models to be saved.
+
+.. note::
+   ``keep_key_models``/``keep_best_models`` are not applicable to Exhaustive search.
 
 .. _rerun_key_models_options_desc:
 
@@ -502,9 +505,11 @@ Here is the list of all available options. Note that many of the options have de
     * when a model is not better than the overall best model to the moment its run folder is cleaned up after the run
 
   | In order to obtain desired output (e.g. tables) such models need to be re-run. To do so set ``rerun_key_models`` to ``true``.
-  | This option doesn't have effect if none of ``keep_key_models``/``keep_best_models`` is ``true``.
   | All the models that don't have their output stored will be re-run after the entire search.
   | *Default*: ``false``
+
+.. note::
+  | ``rerun_key_models`` doesn't have effect if none of ``keep_key_models``/``keep_best_models`` is ``true``.
 
 .. _remove_run_dir_options_desc:
 
@@ -620,7 +625,7 @@ Here is the list of all available options. Note that many of the options have de
     * | **submit_search_command** :sup:`required` - *string*: A command that submits search job to the grid queue. Similar to ``submit_command``, but for entire search.
       | Example: ``qsub -b y -cwd -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_name}'``
       | Required only for :ref:`grid search<running_grid_search>`.
-      | Available aliases are: :ref:`all common aliases<common_aliases>`.
+      | Available aliases are: :ref:`all common aliases<common_aliases>`, :ref:`{darwin_cmd} <darwin_cmd_alias>`.
 
     .. note::
        No directories are created at the point of submitting the search job. So even if it's possible to use ``{working_dir}``, ``{out_dir}``, and ``{temp_dir}`` in ``submit_search_command``, it's not recommended. There may be cases where the directories do exist (if you set those settings to existing folders or run the search locally before submitting it to the grid), which is why these aliases are not prohibited.
@@ -758,6 +763,26 @@ These aliases are only applicable to :mono_ref:`submit_command <submit_command_o
 .. _run_dir_alias:
 
   * **{run_dir}** - Alias for the :mono_ref:`ModelRun.run_dir <model_run_dir>`.
+
+.. _darwin_cmd_alias:
+
+  * **{darwin_cmd}** - Alias for the command sequence that runs a pyDarwin command. Depending on the context it can execute ``run_search``, ``run_search_in_folder``, or ``run_model``. By default the sequence is added to the end of :mono_ref:`submit_command <submit_command_options_desc>`/:mono_ref:`submit_search_command <submit_search_command_options_desc>`. Using this alias you can put the sequence wherever you want in the command. For example Slurm requires the command being wrapped, so the settings may be like this:
+
+    ..  code-block:: json
+
+      "generic_grid_adapter" : {
+        "submit_search_command" : "sbatch -D {project_dir} --job-name '{project_name}' --output {project_stem}.out --error {project_stem}.err --wrap '{darwin_cmd}'",
+        "submit_command" : "sbatch --job-name '{job_name}' --output {results_dir}/{run_name}.out --error {results_dir}/{run_name}.err --wrap {darwin_cmd}",
+        "submit_job_id_re" : "Submitted batch job (\\d+)",
+        "poll_command" : "squeue -t CD",
+        "poll_job_id_re" : "^(\\d+)",
+        "poll_interval" : 10,
+        "delete_command" : "scancel {job_ids}"
+      }
+
+.. note::
+   Due to different mechanisms of calling the command ``{darwin_cmd}`` must be enclosed in single quotes for ``submit_search_command`` and not enclosed for ``submit_command``.
+
 
 Job delete/poll aliases
 """"""""""""""""""""""""

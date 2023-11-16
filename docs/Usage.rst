@@ -29,11 +29,11 @@ To execute, call the ``darwin.run_search`` function and provide the paths to the
 2. :ref:`Tokens file <tokens_file_target>` (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension
 3. :ref:`Options file <options_file_target>` (e.g., options.json) - json file describing algorithm, run options, and post-run penalty code configurations.
 
-See :ref:`"Required Files" <startRequiredFiles>` for additional details.
+See :ref:`Required Files <startRequiredFiles>` for additional details.
 
 .. _usage_run_search_in_folder:
 
-Alternatively, you may execute the :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function, 
+Alternatively, you may execute the :mono_ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function, 
 specifying the path to the folder containing the ``template.txt``, ``tokens.json``, and ``options.json`` files
 as a single argument:
 
@@ -42,7 +42,7 @@ as a single argument:
     python -m darwin.run_search_in_folder <folder_path>
 
 .. note::
-    Files must be named as ``template.txt``, ``tokens.json``, and ``options.json`` when using :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>`.
+    Files must be named as ``template.txt``, ``tokens.json``, and ``options.json`` when using :mono_ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>`.
 
 
 .. _stop_search:
@@ -153,11 +153,11 @@ Required Files
  
  
 The same 3 files are required for any search, whether :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`,
-:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`,:ref:`GBRT<GBRT_desc>`, or :ref:`PSO<EX_desc>`. Which algorithm is used is defined in the
+:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`, or :ref:`PSO<EX_desc>`. Which algorithm is used is defined in the
 :ref:`options file<options_file_target>`. The template file serves as a framework and looks similar to a 
 NONMEM/NMTRAN control file. The tokens file specifies the range of "features" to be searched, and the options 
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution,
-and other options related to execution. See :ref:`"Options List"<Options>`.
+and other options related to execution. See :ref:`Options List <Options>`.
  
 .. _template_file_target:
 
@@ -373,7 +373,7 @@ A diagram of the token structure is given below
 
 .. figure:: tokens.png
 
-Note the "nested token" - a token ("{K23~WT[1]}") within a token, circled in red. Any number of levels of nested tokens is permitted (but the logic becomes very difficult with more than one).
+Note the "nested token" -- a token ("{K23~WT[1]}") within a token, circled in red. Any number of levels of nested tokens is permitted (but the logic becomes very difficult with more than one).
 pyDarwin will first substitute the full text 
 into the template, then scans the resulting text again. This nested token will then be found and the text from the {K23~WT[1]} token set will be substituted. 
 
@@ -385,7 +385,7 @@ Several notes:
 serves as the token key in the :ref:`token key-value pairs<token key-text pair>`. In this example, three replacements must be made in the template, in $SUBS, $PK, and $THETA. 
 In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]}, and {ADVAN[3]}. Note the curly braces, these are required in the template, but not the tokens file. 
 The indices correspond to the indices of the :ref:`tokens<token>` in the token set. In this case there are 3 :ref:`token key-value pairs<token key-text pair>` in each token set. 
-There may be additional unused tokens (as may be the case with :ref:`nest tokens<nested tokens>`) but each token in the template file must have a corresponding token key-value pair in the tokens file. 
+There may be additional unused tokens (as may be the case with :ref:`nested tokens<nested tokens>`) but each token in the template file must have a corresponding token key-value pair in the tokens file. 
 There are 2 token sets in this token group, one coding for ADVAN1 and one coding for ADVAN3.
 
 2. New lines in JSON files are ignored. To code a new line, enter the newline escape character "\\n". Similarly, a tab is coded as "\\t".
@@ -394,7 +394,7 @@ There are 2 token sets in this token group, one coding for ADVAN1 and one coding
 
 4. There is no dependency on the sequence of token sets in the file, any order is acceptable, they need not be in the same order as they appear in the :ref:`template file.<template_file_target>`
 
-5. All other JSON (`JSON <https://www.json.org/json-en.html>`_ ) rules apply.
+5. All other `JSON <https://www.json.org/json-en.html>`_ rules apply.
 
 **Special note on initial estimates**
 
@@ -427,7 +427,7 @@ Options File
 A JSON file with key-value pairs specifying various options for executing pyDarwin. While some fields are mandatory, some are
 algorithm-specific, while others are only relevant for execution on Linux Grids.
 
-See :ref:`"Options List"<Options>` for details.
+See :ref:`Options List <Options>` for details.
 
 
 .. _omega_search_usage_target:
@@ -468,7 +468,7 @@ Valid patterns are created based on the maximum omega search block length and ma
 
 Here the empty pattern, ``()``, means there is no block Omega  (i.e., everything is diagonal), and the variables enclosed by the parenthesis are the ones whose associated covariance matrix (Omega) is block (that is, for each pattern, only those variables whose Omega matrix is block are listed). For NONMEM models without submatrix search, the empty pattern is substituted with an extra value for band width gene (= 0).
 
-The number of patterns for different combinations of ``max_omega_search_len`` (whose values listed in the first column) and ``max_omega_sub_matrix`` (whose values listed in the first row) can be found in the table below.
+The number of patterns for different combinations of :mono_ref:`max_omega_search_len <max_omega_search_len_options_desc>` (whose values listed in the first column) and :mono_ref:`max_omega_sub_matrix <max_omega_sub_matrix_options_desc>` (whose values listed in the first row) can be found in the table below.
 
 .. csv-table:: Number of patterns
    :file: pattern_num.csv
@@ -598,7 +598,7 @@ p will have a minimum absolute value of 0.000001 to ensure it does not have a va
 be different.
 
 .. note::
-    Use :ref:`"random_seed"<random_seed_options_desc>` to ensure values of off diagonal elements are the same across
+    Use :mono_ref:`random_seed <random_seed_options_desc>` to ensure values of off diagonal elements are the same across
     subsequent searches.
 
 .. warning::
@@ -721,7 +721,7 @@ The columns in this output are::
 
 If there are messages from NONMEM execution, these will also be written to the console, as well as if execution failed, and, if request, if R execution failed.
 
-If the :ref:`"remove_temp_dir" <remove_temp_dir_options_desc>` is set to false, the NONMEM control file, output file and other key files can be found in {temp_dir}\Iteration/generation\Model Number for debugging. 
+If the :mono_ref:`remove_temp_dir <remove_temp_dir_options_desc>` is set to false, the NONMEM control file, output file and other key files can be found in ``{temp_dir}/Iteration/Model Number`` for debugging. 
 
 File output
 =========================

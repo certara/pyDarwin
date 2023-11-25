@@ -29,11 +29,11 @@ To execute, call the ``darwin.run_search`` function and provide the paths to the
 2. :ref:`Tokens file <tokens_file_target>` (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension
 3. :ref:`Options file <options_file_target>` (e.g., options.json) - json file describing algorithm, run options, and post-run penalty code configurations.
 
-See :ref:`"Required Files" <startRequiredFiles>` for additional details.
+See :ref:`Required Files <startRequiredFiles>` for additional details.
 
 .. _usage_run_search_in_folder:
 
-Alternatively, you may execute the :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function, 
+Alternatively, you may execute the :mono_ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function, 
 specifying the path to the folder containing the ``template.txt``, ``tokens.json``, and ``options.json`` files
 as a single argument:
 
@@ -42,7 +42,7 @@ as a single argument:
     python -m darwin.run_search_in_folder <folder_path>
 
 .. note::
-    Files must be named as ``template.txt``, ``tokens.json``, and ``options.json`` when using :ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>`.
+    Files must be named as ``template.txt``, ``tokens.json``, and ``options.json`` when using :mono_ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>`.
 
 
 .. _stop_search:
@@ -71,10 +71,10 @@ A running search can be stopped using following command:
 Execution on Linux Grids
 =========================
 
-The following requirements should be met in order to execute ``pyDarwin`` on Linux Grids.
+The following requirements should be met in order to execute pyDarwin on Linux Grids.
 
 * You must have access to the grid system (e.g., you are able to connect to the system via terminal session).
-* You must make ``pyDarwin`` installation available for all grid nodes. 
+* You must make pyDarwin installation available for all grid nodes. 
 * Your search project must be available for all grid nodes as well.
 * You should be familiar with your grid controller commands (e.g., how to submit a job, query finished jobs, and delete jobs).
 * You should be familiar with regular expressions e.g., for usage in ``"submit_job_id_re"`` and ``"poll_job_id_re"`` fields in ``options.json``.
@@ -82,7 +82,7 @@ The following requirements should be met in order to execute ``pyDarwin`` on Lin
 .. note::
     If all grid nodes share the same file system, you can simply deploy pyDarwin in your home directory (always use virtual environment!).
 
-There are two ways to utilize grids for search in `pyDarwin`:
+There are two ways to utilize grids for search in pyDarwin:
 
 1. Run search :ref:`locally <local_execution>`, submit individual model runs to the grid (local search, grid model runs).
 2. Submit search :ref:`to the grid <running_grid_search>`, as well as all the model runs (grid search, grid model runs).
@@ -112,8 +112,37 @@ Or alternatively, run grid search in folder:
     python -m darwin.grid.run_search_in_folder <folder_path>
 
 .. note::
-    You must ensure that ``submit_search_command`` has been set up correctly in options.json, in addition to other grid settings.
-    See :ref:`submit_search_command <submit_search_command_options_desc>`.
+    You must ensure that :mono_ref:`submit_search_command <submit_search_command_options_desc>` has been set up correctly in options.json, in addition to other grid settings.
+
+
+.. _search_info:
+
+Search Info
+=========================
+
+.. code:: python
+    
+    python -m darwin.search_info <folder_path>
+
+This command loads the search folder and shows the summary that looks like this::
+
+[01:11:10] Changing directory to c:\workspace\fruitfly\examples\NONMEM\user\Example2
+[01:11:10] Options file found at options.json
+[01:11:10] Loading system options: c:\workspace\fruitfly\examples\user\options.json
+[01:11:10] Template file found at template.txt
+[01:11:10] Tokens file found at tokens.json
+[01:11:10] Algorithm: GP
+[01:11:10] Engine: NONMEM
+[01:11:10] random_seed: 11
+[01:11:10] Project dir: c:\workspace\fruitfly\examples\NONMEM\user\Example2
+[01:11:10] Data dir: c:\workspace\fruitfly\examples\NONMEM\user\Example2
+[01:11:10] Project working dir: C:\Users\jcook\pydarwin\Example2
+[01:11:10] Project temp dir: C:\Users\jcook\pydarwin\Example2\temp
+[01:11:10] Project output dir: C:\Users\jcook\pydarwin\Example2\output
+[01:11:10] Key models dir: C:\Users\jcook\pydarwin\Example2\key_models
+[01:11:10] Search space size: 12960
+[01:11:10] Estimated number of models to run: 454
+
 
 
 .. _startRequiredFiles:
@@ -124,11 +153,11 @@ Required Files
  
  
 The same 3 files are required for any search, whether :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`,
-:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`,:ref:`GBRT<GBRT_desc>`, or :ref:`PSO<EX_desc>`. Which algorithm is used is defined in the
+:ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`, or :ref:`PSO<EX_desc>`. Which algorithm is used is defined in the
 :ref:`options file<options_file_target>`. The template file serves as a framework and looks similar to a 
 NONMEM/NMTRAN control file. The tokens file specifies the range of "features" to be searched, and the options 
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution,
-and other options related to execution. See :ref:`"Options List"<Options>`.
+and other options related to execution. See :ref:`Options List <Options>`.
  
 .. _template_file_target:
 
@@ -344,7 +373,7 @@ A diagram of the token structure is given below
 
 .. figure:: tokens.png
 
-Note the "nested token" - a token ("{K23~WT[1]}") within a token, circled in red. Any number of levels of nested tokens is permitted (but the logic becomes very difficult with more than one).
+Note the "nested token" -- a token ("{K23~WT[1]}") within a token, circled in red. Any number of levels of nested tokens is permitted (but the logic becomes very difficult with more than one).
 pyDarwin will first substitute the full text 
 into the template, then scans the resulting text again. This nested token will then be found and the text from the {K23~WT[1]} token set will be substituted. 
 
@@ -356,7 +385,7 @@ Several notes:
 serves as the token key in the :ref:`token key-value pairs<token key-text pair>`. In this example, three replacements must be made in the template, in $SUBS, $PK, and $THETA. 
 In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]}, and {ADVAN[3]}. Note the curly braces, these are required in the template, but not the tokens file. 
 The indices correspond to the indices of the :ref:`tokens<token>` in the token set. In this case there are 3 :ref:`token key-value pairs<token key-text pair>` in each token set. 
-There may be additional unused tokens (as may be the case with :ref:`nest tokens<nested tokens>`) but each token in the template file must have a corresponding token key-value pair in the tokens file. 
+There may be additional unused tokens (as may be the case with :ref:`nested tokens<nested tokens>`) but each token in the template file must have a corresponding token key-value pair in the tokens file. 
 There are 2 token sets in this token group, one coding for ADVAN1 and one coding for ADVAN3.
 
 2. New lines in JSON files are ignored. To code a new line, enter the newline escape character "\\n". Similarly, a tab is coded as "\\t".
@@ -365,7 +394,7 @@ There are 2 token sets in this token group, one coding for ADVAN1 and one coding
 
 4. There is no dependency on the sequence of token sets in the file, any order is acceptable, they need not be in the same order as they appear in the :ref:`template file.<template_file_target>`
 
-5. All other JSON (`JSON <https://www.json.org/json-en.html>`_ ) rules apply.
+5. All other `JSON <https://www.json.org/json-en.html>`_ rules apply.
 
 **Special note on initial estimates**
 
@@ -398,7 +427,7 @@ Options File
 A JSON file with key-value pairs specifying various options for executing pyDarwin. While some fields are mandatory, some are
 algorithm-specific, while others are only relevant for execution on Linux Grids.
 
-See :ref:`"Options List"<Options>` for details.
+See :ref:`Options List <Options>` for details.
 
 
 .. _omega_search_usage_target:
@@ -408,36 +437,96 @@ Searching Omega Structure
 **************************
 
 In addition to specifying relations inside the :ref:`template file<template_file_target>` and :ref:`tokens file<tokens_file_target>` to define
-the search space, you may also search for different structures of the omega matrix given fields specified in :ref:`options.json <Options>`:
-
-Users may additionally search:
-
-* Omega Bands
-
-    * :ref:`"search_omega_bands"<search_omega_bands_options_desc>`
-
-    * :ref:`"max_omega_band_width" <max_omega_band_width_options_desc>`
-
-*  Omega Submatrices
-
-    * :ref:`"search_omega_sub_matrix"<search_omega_sub_matrix_options_desc>`
-
-    * :ref:`"max_omega_sub_matrix"<max_omega_sub_matrix_options_desc>`
+the search space, you may also search for different structures of the omega matrix given fields specified in :ref:`options.json <Options>`.
 
 .. note::
-    OMEGA structure alone can be searched without any tokens for compartments, covariates, etc.
-    If searching Omega submatrices, options for Omega band search should be additionally specified.
+    Omega structure alone can be searched without any tokens for compartments, covariates, etc.
+    If searching Omega submatrices, options for Omega band/block search must be additionally specified.
+
+Omega structure is encoded by a set of separate genes: one of the genes represents the omega block pattern, another one is for the band width (only applicable to NONMEM models). The pattern is the index of a valid pattern composed by pyDarwin.
+
+In case of independent omega search, the set is repeated as many times as the number of search blocks in the template.
+
+Valid patterns are created based on the maximum omega search block length and maximum size of submatrices (specified through :mono_ref:`max_omega_sub_matrix<max_omega_sub_matrix_options_desc>`, see :ref:`Omega Submatrices Search<omega_submatrices_search_target>` for details) if applicable. For example, for search_block(A, B, C, D, E) and max_omega_sub_matrix = 4, pyDarwin will consider the following 16 patterns::
+
+    ()
+    (A B C D E)
+    (A B)
+    (A B) (C D)
+    (A B) (C D E)
+    (A B) (D E)
+    (A B C)
+    (A B C) (D E)
+    (A B C D)
+    (B C)
+    (B C) (D E)
+    (B C D)
+    (B C D E)
+    (C D)
+    (C D E)
+    (D E)
+
+Here the empty pattern, ``()``, means there is no block Omega  (i.e., everything is diagonal), and the variables enclosed by the parenthesis are the ones whose associated covariance matrix (Omega) is block (that is, for each pattern, only those variables whose Omega matrix is block are listed). For NONMEM models without submatrix search, the empty pattern is substituted with an extra value for band width gene (= 0).
+
+The number of patterns for different combinations of :mono_ref:`max_omega_search_len <max_omega_search_len_options_desc>` (whose values listed in the first column) and :mono_ref:`max_omega_sub_matrix <max_omega_sub_matrix_options_desc>` (whose values listed in the first row) can be found in the table below.
+
+.. csv-table:: Number of patterns
+   :file: pattern_num.csv
+   :header-rows: 1
+
+By default, pyDarwin will try to search omega structure for each  search block/band individually. This is only possible if all search blocks are placed in the template. If any search block is found in the tokens, the omega search will be performed uniformly, i.e. all search blocks will have the same pattern.
+Individual omega search will further increase the search space size. It can be turned off by setting :mono_ref:`individual_omega_search <individual_omega_search_options_desc>` to ``false``.
+
+.. _omega_block_search_target:
+
+Omega Block Search
+=========================
+
+Omega block search is only applicable to NLME models. It takes a diagonal Omega matrix and searches for a block Omega matrix.
+
+To enable block search for NLME models,
+
+#.  Set :mono_ref:`search_omega_blocks <search_omega_blocks_options_desc>` to ``true`` in the :ref:`options file<options_file_target>`.
+
+#.  Add one or more ``#search_block(randomEffectList)`` to the :ref:`template file<template_file_target>` and/or the :ref:`tokens file<tokens_file_target>`, where ``randomEffectList`` denotes the list of random effects that one wants to search whether their associated covariance matrix (Omega) is diagonal or block.
+
+
+.. note::
+    * Only names, commas, and spaces (including tabs and new lines) are allowed inside the ``#search_block``; no comments, no nested braces.
+
+    * Only those random effects having diagonal Omegas are allowed inside the ``search_block``; if you put some random effects having ``block``/``same``/``fixed`` Omega, pyDarwin will halt the search.
+
+    * If there are random effects dependent (``same``) on the ones in the ``#search_block``, pyDarwin will halt the search.
+
+    * Random effects present in ``#search_block`` but absent in the model (i.e., not present in any ``ranef`` statement) will be ignored.
+
+When creating individual models, pyDarwin puts the new ``ranef`` statement below every ``#search_block`` and fills it with corresponding Omegas, and then removes the associated random effects from the original ``ranef`` statements (basically moves the Omegas from original ``ranef`` statement to the new one). Empty ``diag`` and ``ranef`` statements are removed from the model. For example, if a template contains ::
+
+    ranef(diag(nV, nCl) = c(1, 1))
+
+and the following statement is added to it ::
+
+    #search_block(nV, nCl))
+
+with ``search_omega_blocks`` set to ``true`` in the options file, then pyDarwin will create two models with one having ::
+
+    ranef(diag(nV, nCl) = c(1, 1))
+
+and the other one having ::
+
+    ranef(block(nV, nCl) = c(1, 0, 1))
+
 
 Omega Band Search
 =========================
 
-Omega band search will take a diagonal OMEGA matrix and search for band OMEGA matrices.
+Omega band search is only applicable to NONMEM models. It takes a diagonal OMEGA matrix and searches for band OMEGA matrices.
 
 Band Omegas will be searched if:
 
 #.  The text “; search band” appears on the $OMEGA record in the :ref:`template file<template_file_target>`.
 
-#.  The following fields have been included in the :ref:`options file<options_file_target>`.
+#.  The following fields have been included in the :ref:`options file<options_file_target>`:
 
     * :ref:`"search_omega_bands" <search_omega_bands_options_desc>`: true
 
@@ -509,7 +598,7 @@ p will have a minimum absolute value of 0.000001 to ensure it does not have a va
 be different.
 
 .. note::
-    Use :ref:`"random_seed"<random_seed_options_desc>` to ensure values of off diagonal elements are the same across
+    Use :mono_ref:`random_seed <random_seed_options_desc>` to ensure values of off diagonal elements are the same across
     subsequent searches.
 
 .. warning::
@@ -539,21 +628,20 @@ In this case the first $OMEGA block will be searched and the second will not.
     Do not combine multiple OMEGA blocks in the template if some are BLOCK|DIAG|SAME|FIX and
     others are to be searched.
 
+.. _omega_submatrices_search_target:
+
 Omega Submatrices Search
 =========================
 
-OMEGA submatrices permit a wider range of OMEGA structure, and, importantly, the option to estimate fewer off diagonal elements of OMEGA.
-In addition to the options specified above for Omega band search, 2 additional options should be included in the :ref:`options file<options_file_target>`.
-
-The following fields are required to search for OMEGA submatrices:
+OMEGA submatrices permit a wider range of OMEGA structure, and, importantly, the option to estimate fewer off diagonal elements of OMEGA. In addition to the options specified above for Omega block search (for NLME models) or Omega band search (for NONMEM models), 2 additional options should be included in the :ref:`options file<options_file_target>`:
 
     * :ref:`"search_omega_sub_matrix" <search_omega_sub_matrix_options_desc>`: true
 
     * :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`: N
 
-Where N is the maximum size of an OMEGA submatrix, then submatrices will be searched. OMEGA submatrices are intended to be use with OMEGA band search to further expand the options for OMEGA structure. Specifically,
+Where N is the maximum size of an OMEGA submatrix, then submatrices will be searched. OMEGA submatrices are intended to be used with OMEGA block search (for NLME models) or Omega band search (for NONMEM models) to further expand the options for OMEGA structure. Specifically,
 
-For the source OMEGA matrix of:
+For the source OMEGA matrix of a NONMEM model:
 
 ::
 
@@ -575,7 +663,7 @@ If band matrix search is used, for an OMEGA band width of 1, the OMEGA matrix wo
     0 p 0.1
     0 0 p  0.1
 
-And with the additional sub matrix search used, this search would also include, for submatrices value of [1,0,1]:
+And with the additional sub matrix search used, this search would also include:
 
 * Width = 1
 
@@ -590,26 +678,6 @@ And with the additional sub matrix search used, this search would also include, 
 
 Resulting in one fewer variance parameters to be estimated (covariance of ETA(2) and ETA(3)).
 
-In pyDarwin, this is converted to a bit string describing whether the next OMEGA row will be include with the current OMEGA row. In the above example,
-the bit string [1,0,1], the 1 in the first position, indicates that the 2nd row will be combined with the first into a single block, but then a new OMEGA block will be created for
-the 3rd row (indicted by the 0 in the 2nd position). The 4th row will be combined into an OMEGA block with the 3rd, indicated by the 1 in the 3rd position.
-The user need only provide the maximum permitted submatrix size in the options file  e.g., :ref:`"max_omega_sub_matrix" <max_omega_sub_matrix_options_desc>`.
-
-For example, for submatrices values of [1,0,0]:
-
-* Width = 1
-
-::
-
-    $OMEGA BLOCK(2)
-    0.1
-    p 0.1
-    $OMEGA BLOCK(1)
-    0.1
-    $OMEGA BLOCK(1)
-    0.1
-
-As the 3rd row of OMEGA will not be continued into the 4th, despite the band width of 1, defining smaller submatrices will result in removing the covariance between ETA(3) and ETA(4).
 
 ********************
 pyDarwin Outputs
@@ -618,7 +686,7 @@ pyDarwin Outputs
 Console output
 =========================
 
-After the search command is submitted, ``pyDarwin`` first verifies that the following files and executables are available:
+After the search command is submitted, pyDarwin first verifies that the following files and executables are available:
 
 #. The template file
 #. The tokens file
@@ -634,13 +702,13 @@ The startup output also lists the location of:
 #. Project working dir - folder where template, token and options files are located, this is not set by the user
 #. Project temp dir - root folder where model file will be found, if the option is not set to remove them
 #. Project output dir - folder where all the results files will be put, such as results.csv and Final* files
-#. Where intermediate output will be written (e.g., u:/user/example2/output\results.csv)
-#. Where models will be saved (e.g., u:/user/example2/working\models.json)
+#. Where intermediate output will be written (e.g., u:/user/example2/output/results.csv)
+#. Where models will be saved (e.g., u:/user/example2/working/models.json)
 #. NMFE??.bat (Windows) or nmfe?? (Linux) file
 #. Rscript.exe, if used
 
 
-``pyDarwin`` provides verbose output about whether individual models have executed successfully.
+pyDarwin provides verbose output about whether individual models have executed successfully.
 
 A typical line of output might be::
 
@@ -653,7 +721,7 @@ The columns in this output are::
 
 If there are messages from NONMEM execution, these will also be written to the console, as well as if execution failed, and, if request, if R execution failed.
 
-If the :ref:`"remove_temp_dir" <remove_temp_dir_options_desc>` is set to false, the NONMEM control file, output file and other key files can be found in {temp_dir}\Iteration/generation\Model Number for debugging. 
+If the :mono_ref:`remove_temp_dir <remove_temp_dir_options_desc>` is set to false, the NONMEM control file, output file and other key files can be found in ``{temp_dir}/Iteration/Model Number`` for debugging. 
 
 File output
 =========================

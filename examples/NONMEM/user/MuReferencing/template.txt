@@ -7,7 +7,6 @@ $ABBR DERIV2=NO
 $PK      
   CWTKG = WTKG/70  ;; CENTERED ON ONE 
   CAGE = AGE/40
-;; thetas out of sequence
   MU_2=LOG(THETA(2)) {V2~WT[1]} {V2~GENDER[1]}
   V2=EXP(MU_2 + ETA(2))
   MU_1 = LOG(THETA(1)) {CL~WT[1]}

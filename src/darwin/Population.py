@@ -196,7 +196,7 @@ def init_pop_nums(template: Template):
 
     res = OrderedDict()
 
-    if options.algorithm in ['EX', 'EXHAUSTIVE']:
+    if options.algorithm in ['CH', 'CK', 'CHECK', 'CHECKOUT', 'EX', 'EXHAUSTIVE']:
         pop_nums = res
         return
 

@@ -1,6 +1,6 @@
 {
     "author": "Certara",
-    "algorithm": "EX",
+    "algorithm": "CHECK",
     "exhaustive_batch_size": 100,
     "population_size": 8,
     "num_parallel": 4,

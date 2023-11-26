@@ -32,6 +32,7 @@ from .Population import init_pop_nums
 
 from .algorithms.exhaustive import run_exhaustive, get_search_space_size
 from .algorithms.GA import run_ga
+from .algorithms.check import run_check
 from .algorithms.PSO import run_pso
 from .algorithms.OPT import run_skopt
 
@@ -217,6 +218,8 @@ class DarwinApp:
             final = run_pso(model_template)
         elif algorithm in ["EX", "EXHAUSTIVE"]:
             final = run_exhaustive(model_template)
+        elif algorithm in ["CH", "CK", "CHECK", "CHECKOUT"]:
+            final = run_check(model_template)
         else:
             log.error(f"Algorithm {algorithm} is not available")
             sys.exit()

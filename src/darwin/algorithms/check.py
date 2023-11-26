@@ -29,7 +29,11 @@ def set_checkout(control_text) -> str:
             ESTfound = True
             # in the event of multiple lines in the $EST block, need to loop to next block ($ in position 1 of trimmed line)
             trim_string = control_str[this_line + 1].rstrip()
-            while trim_string[0] != "$":
+
+            while (this_line + 1) < len(control_str):
+                if len(trim_string) > 0:
+                    if trim_string[0] != "$":
+                        break
                 this_line += 1
                 trim_string = control_str[this_line].rstrip()
         if "$COV" in control_str[this_line]:

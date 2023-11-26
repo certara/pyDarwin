@@ -1,0 +1,151 @@
+Iteration,Model number,Run Directory,Fitness,Model,ofv,success,covar,correlation #,ntheta,nomega,nsigm,condition,RPenalty,PythonPenalty,NMTran messages
+1,03,C:\Users\jcraig\pydarwin\Example2\temp\1\03,5902.759917,0100120401,5582.75990679142,True,True,False,6,5,1,4.784914425321329e+16,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+1,04,C:\Users\jcraig\pydarwin\Example2\temp\1\04,4945.647849,0001010310,4725.647848979854,True,True,False,6,4,2,273.132076164789,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+1,01,C:\Users\jcraig\pydarwin\Example2\temp\1\01,6005.504270,1110100211,5575.504270433393,True,False,False,8,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+1,02,C:\Users\jcraig\pydarwin\Example2\temp\1\02,4971.151377,0110111320,4721.151366826803,True,True,False,8,5,2,123.07555455338363,0,0,No important warnings
+1,05,C:\Users\jcraig\pydarwin\Example2\temp\1\05,5081.480931,0011121400,4721.48093095162,True,True,False,8,6,2,106815733.69399215,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+1,08,C:\Users\jcraig\pydarwin\Example2\temp\1\08,99999999.000000,2002000121,99999999,False,False,False,10,3,1,99999999,0,0,No important warnings
+1,07,C:\Users\jcraig\pydarwin\Example2\temp\1\07,5895.805755,0101000321,5485.805744707391,False,True,False,6,4,1,554537.1043713699,0,0,No important warnings
+1,06,C:\Users\jcraig\pydarwin\Example2\temp\1\06,5964.488112,1110111301,5804.488112258664,True,True,True,10,5,1,224.02369545697695,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+1,09,C:\Users\jcraig\pydarwin\Example2\temp\1\09,4848.225283,1010021210,4708.225282699447,True,True,True,8,4,2,625.1551061251637,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+1,10,C:\Users\jcraig\pydarwin\Example2\temp\1\10,5922.626978,1002001321,5482.626978227299,False,True,False,9,4,1,425991.52733489027,0,0,No important warnings
+2,01,C:\Users\jcraig\pydarwin\Example2\temp\2\01,99999999.000000,2000121021,99999999,False,False,False,12,2,1,99999999,0,0,No important warnings
+2,04,C:\Users\jcraig\pydarwin\Example2\temp\2\04,99999999.000000,2010010321,99999999,False,False,False,10,5,1,99999999,0,0,No important warnings
+2,05,C:\Users\jcraig\pydarwin\Example2\temp\2\05,99999999.000000,2111010001,99999999,False,False,False,11,3,1,99999999,0,0,No important warnings
+2,03,C:\Users\jcraig\pydarwin\Example2\temp\2\03,5813.153242,1102001101,5583.153242484797,True,True,False,9,3,1,502.40024152805034,0,0,No important warnings
+2,06,C:\Users\jcraig\pydarwin\Example2\temp\2\06,4827.564351,1001001000,4707.564351311975,True,True,True,8,2,2,269.211891068262,0,0,No important warnings
+2,07,C:\Users\jcraig\pydarwin\Example2\temp\2\07,99999999.000000,2101000301,99999999,False,False,False,10,4,1,99999999,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+2,02,C:\Users\jcraig\pydarwin\Example2\temp\2\02,5719.235169,1101011311,5469.235168856176,True,True,False,10,4,1,729.7285721657528,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+2,10,C:\Users\jcraig\pydarwin\Example2\temp\2\10,99999999.000000,2101111121,99999999,False,False,False,14,3,1,99999999,0,0,No important warnings
+2,09,C:\Users\jcraig\pydarwin\Example2\temp\2\09,5658.316891,0112110011,5548.3168806492995,True,True,True,7,3,1,63.51581289878799,0,0,No important warnings
+2,08,C:\Users\jcraig\pydarwin\Example2\temp\2\08,5907.995427,1012120221,5557.995426983266,True,True,False,10,4,1,68282.70736386359,0,0,No important warnings
+3,04,C:\Users\jcraig\pydarwin\Example2\temp\3\02,99999999.000000,0011011300,99999999,False,False,False,0,0,0,99999999,0,0,
+3,05,C:\Users\jcraig\pydarwin\Example2\temp\3\02,99999999.000000,0011011300,99999999,False,False,False,0,0,0,99999999,0,0,
+3,06,C:\Users\jcraig\pydarwin\Example2\temp\3\06,5672.814431,0010001211,5572.814430829622,True,True,True,5,4,1,82.64981061894566,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+3,01,C:\Users\jcraig\pydarwin\Example2\temp\3\01,5697.750248,0012001201,5587.750248288422,True,True,True,6,4,1,33.11900819559468,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+3,03,C:\Users\jcraig\pydarwin\Example2\temp\3\03,4851.607566,0011011200,4721.607566214985,True,True,True,7,4,2,68.60271954952334,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+3,09,C:\Users\jcraig\pydarwin\Example2\temp\3\07,99999999.000000,0010011310,99999999,False,False,False,0,0,0,99999999,0,0,
+3,10,C:\Users\jcraig\pydarwin\Example2\temp\3\07,99999999.000000,0010011310,99999999,False,False,False,0,0,0,99999999,0,0,
+3,02,C:\Users\jcraig\pydarwin\Example2\temp\3\02,4861.609074,0011011300,4721.609074212652,True,True,True,7,5,2,67.78621983839938,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+3,07,C:\Users\jcraig\pydarwin\Example2\temp\3\07,5059.830553,0010011310,4729.830553461097,True,True,False,6,5,2,42201.519903973785,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+3,08,C:\Users\jcraig\pydarwin\Example2\temp\3\08,4961.128548,0010111310,4721.128548036456,True,True,False,7,5,2,308.2682963873168,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+4,02,C:\Users\jcraig\pydarwin\Example2\temp\4\01,99999999.000000,0011111310,99999999,False,False,False,0,0,0,99999999,0,0,
+4,04,C:\Users\jcraig\pydarwin\Example2\temp\4\03,99999999.000000,0011111300,99999999,False,False,False,0,0,0,99999999,0,0,
+4,06,C:\Users\jcraig\pydarwin\Example2\temp\4\03,99999999.000000,0011111300,99999999,False,False,False,0,0,0,99999999,0,0,
+4,07,C:\Users\jcraig\pydarwin\Example2\temp\4\01,99999999.000000,0011111310,99999999,False,False,False,0,0,0,99999999,0,0,
+4,08,C:\Users\jcraig\pydarwin\Example2\temp\4\03,99999999.000000,0011111300,99999999,False,False,False,0,0,0,99999999,0,0,
+4,09,C:\Users\jcraig\pydarwin\Example2\temp\4\01,99999999.000000,0011111310,99999999,False,False,False,0,0,0,99999999,0,0,
+4,10,C:\Users\jcraig\pydarwin\Example2\temp\4\03,99999999.000000,0011111300,99999999,False,False,False,0,0,0,99999999,0,0,
+4,01,C:\Users\jcraig\pydarwin\Example2\temp\4\01,5071.128533,0011111310,4721.128533291406,True,True,False,8,5,2,15735324.473861879,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+4,03,C:\Users\jcraig\pydarwin\Example2\temp\4\03,4971.609074,0011111300,4721.609074230648,True,True,True,8,5,2,12352680.320830518,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+4,05,C:\Users\jcraig\pydarwin\Example2\temp\4\05,5081.151383,0011111320,4721.151383001825,True,True,False,9,5,2,173553742.19475693,0,0,No important warnings
+5,03,C:\Users\jcraig\pydarwin\Example2\temp\5\01,99999999.000000,1011021000,99999999,False,False,False,0,0,0,99999999,0,0,
+5,05,C:\Users\jcraig\pydarwin\Example2\temp\5\01,99999999.000000,1011021000,99999999,False,False,False,0,0,0,99999999,0,0,
+5,06,C:\Users\jcraig\pydarwin\Example2\temp\5\02,99999999.000000,1011021010,99999999,False,False,False,0,0,0,99999999,0,0,
+5,07,C:\Users\jcraig\pydarwin\Example2\temp\5\01,99999999.000000,1011021000,99999999,False,False,False,0,0,0,99999999,0,0,
+5,08,C:\Users\jcraig\pydarwin\Example2\temp\5\02,99999999.000000,1011021010,99999999,False,False,False,0,0,0,99999999,0,0,
+5,09,C:\Users\jcraig\pydarwin\Example2\temp\5\01,99999999.000000,1011021000,99999999,False,False,False,0,0,0,99999999,0,0,
+5,10,C:\Users\jcraig\pydarwin\Example2\temp\5\01,99999999.000000,1011021000,99999999,False,False,False,0,0,0,99999999,0,0,
+5,04,C:\Users\jcraig\pydarwin\Example2\temp\5\04,4830.965471,1001021010,4700.965470900909,True,True,True,9,2,2,264.1572471786908,0,0,No important warnings
+5,01,C:\Users\jcraig\pydarwin\Example2\temp\5\01,4840.526811,1011021000,4700.526810546391,True,True,True,9,3,2,548.8175380299417,0,0,No important warnings
+5,02,C:\Users\jcraig\pydarwin\Example2\temp\5\02,4840.149042,1011021010,4700.149041764093,True,True,True,9,3,2,642.4885399663036,0,0,No important warnings
+5D01,01,C:\Users\jcraig\pydarwin\Example2\temp\5D01\01,99999999.000000,2001001000,99999999,False,False,False,10,2,2,99999999,0,0,No important warnings
+5D01,02,C:\Users\jcraig\pydarwin\Example2\temp\5D01\02,4828.112616,0001001000,4728.112615726367,True,True,True,6,2,2,60.61255482188027,0,0,No important warnings
+5D01,04,C:\Users\jcraig\pydarwin\Example2\temp\5D01\04,4836.955590,1011001000,4706.9555895936355,True,True,True,8,3,2,455.0010355943176,0,0,No important warnings
+5D01,03,C:\Users\jcraig\pydarwin\Example2\temp\5D01\03,4833.931063,1101001000,4703.931062698804,True,True,True,9,2,2,319.8074275264991,0,0,No important warnings
+5D01,05,C:\Users\jcraig\pydarwin\Example2\temp\5D01\05,4827.644176,1002001000,4707.644175905099,True,True,True,8,2,2,286.60083885759815,0,0,No important warnings
+5D01,06,C:\Users\jcraig\pydarwin\Example2\temp\5D01\06,4823.488895,1000001000,4713.488894615356,True,True,True,7,2,2,259.9021051813866,0,0,No important warnings
+5D01,07,C:\Users\jcraig\pydarwin\Example2\temp\5D01\07,4937.564352,1001101000,4707.564351510732,True,True,True,9,2,2,75576976.22840385,0,0,No important warnings
+5D01,08,C:\Users\jcraig\pydarwin\Example2\temp\5D01\08,4831.258056,1001021000,4701.258055716047,True,True,True,9,2,2,234.25416982772052,0,0,No important warnings
+5D01,09,C:\Users\jcraig\pydarwin\Example2\temp\5D01\09,4831.379106,1001011000,4701.379105913307,True,True,True,9,2,2,273.9047741263858,0,0,No important warnings
+5D01,10,C:\Users\jcraig\pydarwin\Example2\temp\5D01\10,4822.659304,1001000000,4712.6593039551,True,True,True,7,2,2,224.2841349916606,0,0,No important warnings
+5D01,12,C:\Users\jcraig\pydarwin\Example2\temp\5D01\12,4837.564351,1001001200,4707.564351311975,True,True,True,8,3,2,269.21189106826256,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D01,11,C:\Users\jcraig\pydarwin\Example2\temp\5D01\11,5057.564230,1001001400,4707.56423040865,True,True,False,8,5,2,1.92343039915332e+16,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D01,13,C:\Users\jcraig\pydarwin\Example2\temp\5D01\13,4837.564230,1001001100,4707.56423040865,True,True,True,8,3,2,195.65664837544938,0,0,No important warnings
+5D01,15,C:\Users\jcraig\pydarwin\Example2\temp\5D01\15,4827.330979,1001001010,4707.330979429717,True,True,True,8,2,2,271.3108946456451,0,0,No important warnings
+5D01,16,C:\Users\jcraig\pydarwin\Example2\temp\5D01\16,5687.905322,1001001001,5577.905321683515,True,True,True,8,2,1,424.81345138171895,0,0,No important warnings
+5D01,14,C:\Users\jcraig\pydarwin\Example2\temp\5D01\14,4837.335250,1001001020,4707.33524992394,True,True,True,9,2,2,220.28987816337917,0,0,No important warnings
+5D02,01,C:\Users\jcraig\pydarwin\Example2\temp\5D02\01,99999999.000000,2001000000,99999999,False,False,False,9,2,2,99999999,0,0,No important warnings
+5D02,02,C:\Users\jcraig\pydarwin\Example2\temp\5D02\02,4822.599691,0001000000,4732.599691065949,True,True,True,5,2,2,51.58521155778934,0,0,No important warnings
+5D02,03,C:\Users\jcraig\pydarwin\Example2\temp\5D02\03,4829.052873,1101000000,4709.05287313065,True,True,True,8,2,2,367.5585476873411,0,0,No important warnings
+5D02,04,C:\Users\jcraig\pydarwin\Example2\temp\5D02\04,4832.007602,1011000000,4712.007602482372,True,True,True,7,3,2,349.45440177270905,0,0,No important warnings
+5D02,05,C:\Users\jcraig\pydarwin\Example2\temp\5D02\05,4822.752127,1002000000,4712.752126860488,True,True,True,7,2,2,241.6454976104623,0,0,No important warnings
+5D02,06,C:\Users\jcraig\pydarwin\Example2\temp\5D02\06,4818.488248,1000000000,4718.48824779619,True,True,True,6,2,2,220.00469634868256,0,0,No important warnings
+5D02,10,C:\Users\jcraig\pydarwin\Example2\temp\2\06,4827.564351,1001001000,4707.564351311975,True,True,True,8,2,2,269.211891068262,0,0,From NM_2_06: No important warnings
+5D02,07,C:\Users\jcraig\pydarwin\Example2\temp\5D02\07,5032.659304,1001100000,4712.6593037343155,True,True,False,8,2,2,61313410.386359416,0,0,No important warnings
+5D02,08,C:\Users\jcraig\pydarwin\Example2\temp\5D02\08,4826.325349,1001020000,4706.325348723598,True,True,True,8,2,2,294.87535866619766,0,0,No important warnings
+5D02,09,C:\Users\jcraig\pydarwin\Example2\temp\5D02\09,4826.527370,1001010000,4706.527369742185,True,True,True,8,2,2,210.40150467985058,0,0,No important warnings
+5D02,11,C:\Users\jcraig\pydarwin\Example2\temp\5D02\11,5052.659073,1001000400,4712.659073144887,True,True,False,7,5,2,2.6881593108764948e+16,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D02,12,C:\Users\jcraig\pydarwin\Example2\temp\5D02\12,4832.659304,1001000200,4712.6593039551,True,True,True,7,3,2,224.2841349916512,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D02,13,C:\Users\jcraig\pydarwin\Example2\temp\5D02\13,4832.659073,1001000100,4712.659073144887,True,True,True,7,3,2,303.9562924846387,0,0,No important warnings
+5D02,15,C:\Users\jcraig\pydarwin\Example2\temp\5D02\15,4822.403389,1001000010,4712.403389144992,True,True,True,7,2,2,381.70769159171317,0,0,No important warnings
+5D02,16,C:\Users\jcraig\pydarwin\Example2\temp\5D02\16,5681.386701,1001000001,5581.386701479658,True,True,True,7,2,1,269.6282315837689,0,0,No important warnings
+5D02,14,C:\Users\jcraig\pydarwin\Example2\temp\5D02\14,4932.407709,1001000020,4712.40770885729,True,True,False,8,2,2,560.7637456582376,0,0,No important warnings
+5D03,01,C:\Users\jcraig\pydarwin\Example2\temp\5D03\01,99999999.000000,2000000000,99999999,False,False,False,8,2,2,99999999,0,0,No important warnings
+5D03,05,C:\Users\jcraig\pydarwin\Example2\temp\5D02\05,4822.752127,1002000000,4712.752126860488,True,True,True,7,2,2,241.6454976104623,0,0,From NM_5D02_05: No important warnings
+5D03,06,C:\Users\jcraig\pydarwin\Example2\temp\5D01\10,4822.659304,1001000000,4712.6593039551,True,True,True,7,2,2,224.2841349916606,0,0,From NM_5D01_10: No important warnings
+5D03,02,C:\Users\jcraig\pydarwin\Example2\temp\5D03\02,4818.765529,0000000000,4738.7655294663255,True,True,True,4,2,2,50.81947338905344,0,0,No important warnings
+5D03,04,C:\Users\jcraig\pydarwin\Example2\temp\5D03\04,4827.697843,1010000000,4717.6978430785675,True,True,True,6,3,2,647.9802905128475,0,0,No important warnings
+5D03,03,C:\Users\jcraig\pydarwin\Example2\temp\5D03\03,4826.515841,1100000000,4716.515841411438,True,True,True,7,2,2,223.49203905611918,0,0,No important warnings
+5D03,10,C:\Users\jcraig\pydarwin\Example2\temp\5D01\06,4823.488895,1000001000,4713.488894615356,True,True,True,7,2,2,259.9021051813866,0,0,From NM_5D01_06: No important warnings
+5D03,07,C:\Users\jcraig\pydarwin\Example2\temp\5D03\07,4822.659303,1000100000,4712.659302893103,True,True,True,7,2,2,184.85363324480895,0,0,No important warnings
+5D03,08,C:\Users\jcraig\pydarwin\Example2\temp\5D03\08,4824.301309,1000020000,4714.301308869143,True,True,True,7,2,2,209.05319994027622,0,0,No important warnings
+5D03,09,C:\Users\jcraig\pydarwin\Example2\temp\5D03\09,4824.461912,1000010000,4714.461912039461,True,True,True,7,2,2,169.32948690086687,0,0,No important warnings
+5D03,11,C:\Users\jcraig\pydarwin\Example2\temp\5D03\11,5148.487952,1000000400,4718.487952108147,False,True,False,6,5,2,2.798379114014586e+16,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D03,12,C:\Users\jcraig\pydarwin\Example2\temp\5D03\12,4828.488248,1000000200,4718.48824779619,True,True,True,6,3,2,220.00469634868833,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D03,13,C:\Users\jcraig\pydarwin\Example2\temp\5D03\13,4828.487952,1000000100,4718.487952108147,True,True,True,6,3,2,180.0320823491852,0,0,No important warnings
+5D03,15,C:\Users\jcraig\pydarwin\Example2\temp\5D03\15,4818.163467,1000000010,4718.163467469434,True,True,True,6,2,2,136.3487828433066,0,0,No important warnings
+5D03,16,C:\Users\jcraig\pydarwin\Example2\temp\5D03\16,5686.634239,1000000001,5596.634238882435,True,True,True,6,2,1,67.3612917348561,0,0,No important warnings
+5D03,14,C:\Users\jcraig\pydarwin\Example2\temp\5D03\14,4828.168312,1000000020,4718.168311835499,True,True,True,7,2,2,256.25549673486086,0,0,No important warnings
+5D04,01,C:\Users\jcraig\pydarwin\Example2\temp\5D04\01,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,No important warnings
+5D04,02,C:\Users\jcraig\pydarwin\Example2\temp\5D04\02,4918.223228,0000000010,4738.223228294764,True,True,False,4,2,2,98.99063982635543,0,0,No important warnings
+5D04,06,C:\Users\jcraig\pydarwin\Example2\temp\5D02\15,4822.403389,1001000010,4712.403389144992,True,True,True,7,2,2,381.70769159171317,0,0,From NM_5D02_15: No important warnings
+5D04,03,C:\Users\jcraig\pydarwin\Example2\temp\5D04\03,4826.189141,1100000010,4716.189141383716,True,True,True,7,2,2,286.47053771472235,0,0,No important warnings
+5D04,04,C:\Users\jcraig\pydarwin\Example2\temp\5D04\04,4827.258229,1010000010,4717.258229061826,True,True,True,6,3,2,412.8135666484196,0,0,No important warnings
+5D04,05,C:\Users\jcraig\pydarwin\Example2\temp\5D04\05,4822.497149,1002000010,4712.497149016223,True,True,True,7,2,2,252.45180509397233,0,0,No important warnings
+5D04,07,C:\Users\jcraig\pydarwin\Example2\temp\5D04\07,4822.403389,1000100010,4712.403389019915,True,True,True,7,2,2,215.99053529597526,0,0,No important warnings
+5D04,08,C:\Users\jcraig\pydarwin\Example2\temp\5D04\08,4823.929927,1000020010,4713.9299266051985,True,True,True,7,2,2,161.76262089829928,0,0,No important warnings
+5D04,09,C:\Users\jcraig\pydarwin\Example2\temp\5D04\09,4824.091262,1000010010,4714.091262340645,True,True,True,7,2,2,154.00004164038543,0,0,No important warnings
+5D04,10,C:\Users\jcraig\pydarwin\Example2\temp\5D04\10,4823.185558,1000001010,4713.185558042529,True,True,True,7,2,2,256.9388474427148,0,0,No important warnings
+5D04,14,C:\Users\jcraig\pydarwin\Example2\temp\5D03\14,4828.168312,1000000020,4718.168311835499,True,True,True,7,2,2,256.25549673486086,0,0,From NM_5D03_14: No important warnings
+5D04,15,C:\Users\jcraig\pydarwin\Example2\temp\5D02\06,4818.488248,1000000000,4718.48824779619,True,True,True,6,2,2,220.00469634868256,0,0,From NM_5D02_06: No important warnings
+5D04,12,C:\Users\jcraig\pydarwin\Example2\temp\5D04\12,4828.163467,1000000210,4718.163467486026,True,True,True,6,3,2,218.9380229381247,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D04,11,C:\Users\jcraig\pydarwin\Example2\temp\5D04\11,5048.135329,1000000410,4718.135328517077,True,True,False,6,5,2,2.0834415453878636e+16,0,0,NON-FIXED OMEGA NON-FIXED PARAMETER 
+5D04,16,C:\Users\jcraig\pydarwin\Example2\temp\5D04\16,5876.163603,1000000011,5586.163603205184,True,True,False,6,2,1,3992.2140737728832,0,0,No important warnings
+5D04,13,C:\Users\jcraig\pydarwin\Example2\temp\5D04\13,4828.135328,1000000110,4718.135328485825,True,True,True,6,3,2,184.80120708463895,0,0,No important warnings
+6,01,C:\Users\jcraig\pydarwin\Example2\temp\5\04,4830.965471,1001021010,4700.965470900909,True,True,True,9,2,2,264.1572471786908,0,0,From NM_5_04: No important warnings
+6,02,C:\Users\jcraig\pydarwin\Example2\temp\5\04,4830.965471,1001021010,4700.965470900909,True,True,True,9,2,2,264.1572471786908,0,0,From NM_5_04: No important warnings
+6,04,C:\Users\jcraig\pydarwin\Example2\temp\5\04,4830.965471,1001021010,4700.965470900909,True,True,True,9,2,2,264.1572471786908,0,0,From NM_5_04: No important warnings
+6,05,C:\Users\jcraig\pydarwin\Example2\temp\5\04,4830.965471,1001021010,4700.965470900909,True,True,True,9,2,2,264.1572471786908,0,0,From NM_5_04: No important warnings
+6,06,C:\Users\jcraig\pydarwin\Example2\temp\5\04,4830.965471,1001021010,4700.965470900909,True,True,True,9,2,2,264.1572471786908,0,0,From NM_5_04: No important warnings
+6,07,C:\Users\jcraig\pydarwin\Example2\temp\5\04,4830.965471,1001021010,4700.965470900909,True,True,True,9,2,2,264.1572471786908,0,0,From NM_5_04: No important warnings
+6,08,C:\Users\jcraig\pydarwin\Example2\temp\6\03,99999999.000000,1000021010,99999999,False,False,False,0,0,0,99999999,0,0,
+6,09,C:\Users\jcraig\pydarwin\Example2\temp\5\04,4830.965471,1001021010,4700.965470900909,True,True,True,9,2,2,264.1572471786908,0,0,From NM_5_04: No important warnings
+6,10,C:\Users\jcraig\pydarwin\Example2\temp\5\04,4830.965471,1001021010,4700.965470900909,True,True,True,9,2,2,264.1572471786908,0,0,From NM_5_04: No important warnings
+6,03,C:\Users\jcraig\pydarwin\Example2\temp\6\03,4829.122165,1000021010,4709.122164978719,True,True,True,8,2,2,387.2369326910589,0,0,No important warnings
+7,01,C:\Users\jcraig\pydarwin\Example2\temp\5D01\08,4831.258056,1001021000,4701.258055716047,True,True,True,9,2,2,234.25416982772052,0,0,From NM_5D01_08: No important warnings
+7,02,C:\Users\jcraig\pydarwin\Example2\temp\5D01\08,4831.258056,1001021000,4701.258055716047,True,True,True,9,2,2,234.25416982772052,0,0,From NM_5D01_08: No important warnings
+7,03,C:\Users\jcraig\pydarwin\Example2\temp\6\03,4829.122165,1000021010,4709.122164978719,True,True,True,8,2,2,387.2369326910589,0,0,From NM_6_03: No important warnings
+7,04,C:\Users\jcraig\pydarwin\Example2\temp\5\04,4830.965471,1001021010,4700.965470900909,True,True,True,9,2,2,264.1572471786908,0,0,From NM_5_04: No important warnings
+7,05,C:\Users\jcraig\pydarwin\Example2\temp\5\04,4830.965471,1001021010,4700.965470900909,True,True,True,9,2,2,264.1572471786908,0,0,From NM_5_04: No important warnings
+7,07,C:\Users\jcraig\pydarwin\Example2\temp\5D01\08,4831.258056,1001021000,4701.258055716047,True,True,True,9,2,2,234.25416982772052,0,0,From NM_5D01_08: No important warnings
+7,08,C:\Users\jcraig\pydarwin\Example2\temp\6\03,4829.122165,1000021010,4709.122164978719,True,True,True,8,2,2,387.2369326910589,0,0,From NM_6_03: No important warnings
+7,09,C:\Users\jcraig\pydarwin\Example2\temp\7\06,99999999.000000,1000021000,99999999,False,False,False,0,0,0,99999999,0,0,
+7,10,C:\Users\jcraig\pydarwin\Example2\temp\6\03,4829.122165,1000021010,4709.122164978719,True,True,True,8,2,2,387.2369326910589,0,0,From NM_6_03: No important warnings
+7,06,C:\Users\jcraig\pydarwin\Example2\temp\7\06,4829.473577,1000021000,4709.473576965791,True,True,True,8,2,2,425.715037797879,0,0,No important warnings
+FND01,01,C:\Users\jcraig\pydarwin\Example2\temp\5D04\01,99999999.000000,2000000010,99999999,False,False,False,8,2,2,99999999,0,0,From NM_5D04_01: No important warnings
+FND01,02,C:\Users\jcraig\pydarwin\Example2\temp\5D04\02,4918.223228,0000000010,4738.223228294764,True,True,False,4,2,2,98.99063982635543,0,0,From NM_5D04_02: No important warnings
+FND01,03,C:\Users\jcraig\pydarwin\Example2\temp\5D04\03,4826.189141,1100000010,4716.189141383716,True,True,True,7,2,2,286.47053771472235,0,0,From NM_5D04_03: No important warnings
+FND01,04,C:\Users\jcraig\pydarwin\Example2\temp\5D04\04,4827.258229,1010000010,4717.258229061826,True,True,True,6,3,2,412.8135666484196,0,0,From NM_5D04_04: No important warnings
+FND01,05,C:\Users\jcraig\pydarwin\Example2\temp\5D04\05,4822.497149,1002000010,4712.497149016223,True,True,True,7,2,2,252.45180509397233,0,0,From NM_5D04_05: No important warnings
+FND01,06,C:\Users\jcraig\pydarwin\Example2\temp\5D02\15,4822.403389,1001000010,4712.403389144992,True,True,True,7,2,2,381.70769159171317,0,0,From NM_5D02_15: No important warnings
+FND01,07,C:\Users\jcraig\pydarwin\Example2\temp\5D04\07,4822.403389,1000100010,4712.403389019915,True,True,True,7,2,2,215.99053529597526,0,0,From NM_5D04_07: No important warnings
+FND01,08,C:\Users\jcraig\pydarwin\Example2\temp\5D04\08,4823.929927,1000020010,4713.9299266051985,True,True,True,7,2,2,161.76262089829928,0,0,From NM_5D04_08: No important warnings
+FND01,09,C:\Users\jcraig\pydarwin\Example2\temp\5D04\09,4824.091262,1000010010,4714.091262340645,True,True,True,7,2,2,154.00004164038543,0,0,From NM_5D04_09: No important warnings
+FND01,10,C:\Users\jcraig\pydarwin\Example2\temp\5D04\10,4823.185558,1000001010,4713.185558042529,True,True,True,7,2,2,256.9388474427148,0,0,From NM_5D04_10: No important warnings
+FND01,11,C:\Users\jcraig\pydarwin\Example2\temp\5D04\11,5048.135329,1000000410,4718.135328517077,True,True,False,6,5,2,2.0834415453878636e+16,0,0,From NM_5D04_11: NON-FIXED OMEGA NON-FIXED PARAMETER 
+FND01,12,C:\Users\jcraig\pydarwin\Example2\temp\5D04\12,4828.163467,1000000210,4718.163467486026,True,True,True,6,3,2,218.9380229381247,0,0,From NM_5D04_12: NON-FIXED OMEGA NON-FIXED PARAMETER 
+FND01,13,C:\Users\jcraig\pydarwin\Example2\temp\5D04\13,4828.135328,1000000110,4718.135328485825,True,True,True,6,3,2,184.80120708463895,0,0,From NM_5D04_13: No important warnings
+FND01,14,C:\Users\jcraig\pydarwin\Example2\temp\5D03\14,4828.168312,1000000020,4718.168311835499,True,True,True,7,2,2,256.25549673486086,0,0,From NM_5D03_14: No important warnings
+FND01,15,C:\Users\jcraig\pydarwin\Example2\temp\5D02\06,4818.488248,1000000000,4718.48824779619,True,True,True,6,2,2,220.00469634868256,0,0,From NM_5D02_06: No important warnings
+FND01,16,C:\Users\jcraig\pydarwin\Example2\temp\5D04\16,5876.163603,1000000011,5586.163603205184,True,True,False,6,2,1,3992.2140737728832,0,0,From NM_5D04_16: No important warnings

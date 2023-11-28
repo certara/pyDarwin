@@ -47,14 +47,19 @@
 <li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Releases</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#pydarwin-certara-1-1-1">pyDarwin-Certara 1.1.1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pydarwin-certara-2-0">pyDarwin-Certara 2.0</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#what-s-new">What’s New</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#issues-fixed">Issues Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#pydarwin-certara-1-1">pyDarwin-Certara 1.1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pydarwin-certara-1-1-1">pyDarwin-Certara 1.1.1</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id1">What’s New</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id2">Issues Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pydarwin-certara-1-1">pyDarwin-Certara 1.1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">What’s New</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Issues Fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#pydarwin-certara-1-0">pyDarwin-Certara 1.0</a></li>
@@ -97,17 +102,65 @@
              
   <section id="releases">
 <h1>Releases<a class="headerlink" href="#releases" title="Permalink to this heading">¶</a></h1>
-<section id="pydarwin-certara-1-1-1">
-<h2>pyDarwin-Certara 1.1.1<a class="headerlink" href="#pydarwin-certara-1-1-1" title="Permalink to this heading">¶</a></h2>
+<section id="pydarwin-certara-2-0">
+<h2>pyDarwin-Certara 2.0<a class="headerlink" href="#pydarwin-certara-2-0" title="Permalink to this heading">¶</a></h2>
 <section id="what-s-new">
 <h3>What’s New<a class="headerlink" href="#what-s-new" title="Permalink to this heading">¶</a></h3>
+<ul>
+<li><p>Added NLME Engine support, including <a class="reference internal" href="Usage.html#omega-block-search-target"><span class="std std-ref">Omega Block Search</span></a>.</p></li>
+<li><p>Introduced <a class="mono reference internal" href="Options.html#darwin-cmd-alias"><span class="std std-ref">{darwin_cmd}</span></a> alias for Linux Grid runs.</p></li>
+<li><p>Introduced <a class="mono reference internal" href="Usage.html#search-info"><span class="std std-ref">search_info</span></a> command.</p></li>
+<li><p>Introduced estimations of number of models and remaining time. The former is shown in the beginning of the search as well as in the <code class="docutils literal notranslate"><span class="pre">search_info</span></code> output (except for Exhaustive search), the latter – in the beginning of every but first iteration.
+Those may be not too accurate since they assume a certain amount of Downhill Search iterations (if it is requested) and that a model run time is on average the same (which is not always the case due to duplicates that sometimes make up a large part of the iteration).</p></li>
+<li><p>Added tokens consistency check before running the search.</p></li>
+<li><p>Added NONMEM license expiration error to the visible errors.</p></li>
+<li><p>Updated and renamed columns in <strong>results.csv</strong>.</p></li>
+<li><p>Introduced new model statuses:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Clone – a sibling with the same genotype</p></li>
+<li><p>Twin – a sibling with the same phenotype</p></li>
+<li><p>Restored – a model run picked from the cache, when the cache was loaded form a file and the model was picked for the first time</p></li>
+<li><p>Cache – a model run picked from the cache in all other cases</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Improved <a class="reference internal" href="Usage.html#omega-search-usage-target"><span class="std std-ref">Omega Structure Search</span></a>, e.g.:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>added <a class="reference internal" href="Options.html#individual-omega-search-options-desc"><span class="std std-ref">individual omega structure search</span></a></p></li>
+<li><p>increased number of possible omega block patterns</p></li>
+<li><p>reduced number of model runs by adding the omega structure to the model phenotype, detecting twins, and looking for duplicates in model cache by phenotype</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Introduced key models retention: best models from every iteration <a class="reference internal" href="Options.html#keep-key-models-options-desc"><span class="std std-ref">can be saved</span></a> with all the necessary output in a <a class="reference internal" href="Options.html#key-models-dir-options-desc"><span class="std std-ref">separate folder</span></a> for further analysis.</p></li>
+<li><p>Changed <a class="reference internal" href="Options.html#final-downhill-search-options-desc"><span class="std std-ref">Final Downhill</span></a> and <a class="reference internal" href="Glossary.html#local-two-bit-search"><span class="std std-ref">2-bit search</span></a> iteration names.</p></li>
+<li><p>Removed unnecessary 0 generation from <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">Genetic Algorithm</span></a>.</p></li>
+<li><p>Reorganized examples folder, added NONMEM and <span class="mono">NLME subfolders</span>.</p></li>
+<li><p>If <a class="mono reference internal" href="Options.html#random-seed-options-desc"><span class="std std-ref">random_seed</span></a> is not set in the options file it will be initialized with a random number.</p></li>
+<li><p><a class="mono reference internal" href="Options.html#working-dir-options-desc"><span class="std std-ref">working_dir</span></a> must be an absolute path.</p></li>
+</ul>
+</section>
+<section id="issues-fixed">
+<h3>Issues Fixed<a class="headerlink" href="#issues-fixed" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Removed commas and new lines from translation and runtime messages so they won’t break CSV structure anymore.</p></li>
+<li><p>Corrected calculation of ‘Number of unique models to best model’.</p></li>
+</ul>
+</section>
+</section>
+<section id="pydarwin-certara-1-1-1">
+<h2>pyDarwin-Certara 1.1.1<a class="headerlink" href="#pydarwin-certara-1-1-1" title="Permalink to this heading">¶</a></h2>
+<section id="id1">
+<h3>What’s New<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>The condition_number penalty is now added to the fitness value for the case when the covariance step is successful and condition_number &gt; 1000.
 Previously, the condition_number penalty was added to fitness value only for the case when covariance was unsuccessful or not requested.</p></li>
 </ul>
 </section>
-<section id="issues-fixed">
-<h3>Issues Fixed<a class="headerlink" href="#issues-fixed" title="Permalink to this heading">¶</a></h3>
+<section id="id2">
+<h3>Issues Fixed<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>An issue was corrected where the correlation penalty does not get added to the resulting fitness value for cases when it should.</p></li>
 </ul>
@@ -115,8 +168,8 @@ Previously, the condition_number penalty was added to fitness value only for the
 </section>
 <section id="pydarwin-certara-1-1">
 <h2>pyDarwin-Certara 1.1<a class="headerlink" href="#pydarwin-certara-1-1" title="Permalink to this heading">¶</a></h2>
-<section id="id1">
-<h3>What’s New<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<section id="id3">
+<h3>What’s New<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <ul>
 <li><p>pyDarwin now supports additional options for <a class="reference internal" href="Usage.html#omega-search-usage-target"><span class="std std-ref">Searching Omega Structure</span></a>, including:</p>
 <blockquote>
@@ -129,8 +182,8 @@ Previously, the condition_number penalty was added to fitness value only for the
 <li><p>pyDarwin now supports usage of the <a class="reference internal" href="Algorithms.html#pso-desc"><span class="std std-ref">Particle Swarms Optimization (PSO)</span></a> algorithm to search for a global optimal solution in the candidate model search space.</p></li>
 </ul>
 </section>
-<section id="id2">
-<h3>Issues Fixed<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<section id="id4">
+<h3>Issues Fixed<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>An issue has been fixed that could cause the search to fail if the covariance step ($COV) was not specified in template.txt.</p></li>
 </ul>

@@ -59,6 +59,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#running-grid-search">Running Grid Search</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#search-info">Search Info</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#required-files">Required Files</a><ul>
@@ -71,6 +72,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#searching-omega-structure">Searching Omega Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#omega-block-search">Omega Block Search</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#omega-band-search">Omega Band Search</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#omega-submatrices-search">Omega Submatrices Search</a></li>
 </ul>
@@ -139,8 +141,8 @@
 <li><p><a class="reference internal" href="#tokens-file-target"><span class="std std-ref">Tokens file</span></a> (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension</p></li>
 <li><p><a class="reference internal" href="#options-file-target"><span class="std std-ref">Options file</span></a> (e.g., options.json) - json file describing algorithm, run options, and post-run penalty code configurations.</p></li>
 </ol>
-<p>See <a class="reference internal" href="#startrequiredfiles"><span class="std std-ref">“Required Files”</span></a> for additional details.</p>
-<p id="usage-run-search-in-folder">Alternatively, you may execute the <a class="reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a> function,
+<p>See <a class="reference internal" href="#startrequiredfiles"><span class="std std-ref">Required Files</span></a> for additional details.</p>
+<p id="usage-run-search-in-folder">Alternatively, you may execute the <a class="mono reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a> function,
 specifying the path to the folder containing the <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">options.json</span></code> files
 as a single argument:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">run_search_in_folder</span> <span class="o">&lt;</span><span class="n">folder_path</span><span class="o">&gt;</span>
@@ -148,7 +150,7 @@ as a single argument:</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Files must be named as <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">options.json</span></code> when using <a class="reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a>.</p>
+<p>Files must be named as <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">options.json</span></code> when using <a class="mono reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a>.</p>
 </div>
 </section>
 <section id="stopping-execution">
@@ -172,10 +174,10 @@ as a single argument:</p>
 </section>
 <section id="execution-on-linux-grids">
 <span id="grid-execution"></span><h3>Execution on Linux Grids<a class="headerlink" href="#execution-on-linux-grids" title="Permalink to this heading">¶</a></h3>
-<p>The following requirements should be met in order to execute <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> on Linux Grids.</p>
+<p>The following requirements should be met in order to execute pyDarwin on Linux Grids.</p>
 <ul class="simple">
 <li><p>You must have access to the grid system (e.g., you are able to connect to the system via terminal session).</p></li>
-<li><p>You must make <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> installation available for all grid nodes.</p></li>
+<li><p>You must make pyDarwin installation available for all grid nodes.</p></li>
 <li><p>Your search project must be available for all grid nodes as well.</p></li>
 <li><p>You should be familiar with your grid controller commands (e.g., how to submit a job, query finished jobs, and delete jobs).</p></li>
 <li><p>You should be familiar with regular expressions e.g., for usage in <code class="docutils literal notranslate"><span class="pre">&quot;submit_job_id_re&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;poll_job_id_re&quot;</span></code> fields in <code class="docutils literal notranslate"><span class="pre">options.json</span></code>.</p></li>
@@ -184,7 +186,7 @@ as a single argument:</p>
 <p class="admonition-title">Note</p>
 <p>If all grid nodes share the same file system, you can simply deploy pyDarwin in your home directory (always use virtual environment!).</p>
 </div>
-<p>There are two ways to utilize grids for search in <cite>pyDarwin</cite>:</p>
+<p>There are two ways to utilize grids for search in pyDarwin:</p>
 <ol class="arabic simple">
 <li><p>Run search <a class="reference internal" href="#local-execution"><span class="std std-ref">locally</span></a>, submit individual model runs to the grid (local search, grid model runs).</p></li>
 <li><p>Submit search <a class="reference internal" href="#running-grid-search"><span class="std std-ref">to the grid</span></a>, as well as all the model runs (grid search, grid model runs).</p></li>
@@ -206,20 +208,44 @@ as a single argument:</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You must ensure that <code class="docutils literal notranslate"><span class="pre">submit_search_command</span></code> has been set up correctly in options.json, in addition to other grid settings.
-See <a class="reference internal" href="Options.html#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a>.</p>
+<p>You must ensure that <a class="mono reference internal" href="Options.html#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a> has been set up correctly in options.json, in addition to other grid settings.</p>
 </div>
 </section>
+</section>
+<section id="search-info">
+<span id="id2"></span><h3>Search Info<a class="headerlink" href="#search-info" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">search_info</span> <span class="o">&lt;</span><span class="n">folder_path</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>This command loads the search folder and shows the summary that looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Changing</span> <span class="n">directory</span> <span class="n">to</span> <span class="n">c</span><span class="p">:</span>\<span class="n">workspace</span>\<span class="n">fruitfly</span>\<span class="n">examples</span>\<span class="n">NONMEM</span>\<span class="n">user</span>\<span class="n">Example2</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Options</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="n">options</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Loading</span> <span class="n">system</span> <span class="n">options</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span>\<span class="n">workspace</span>\<span class="n">fruitfly</span>\<span class="n">examples</span>\<span class="n">user</span>\<span class="n">options</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Template</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="n">template</span><span class="o">.</span><span class="n">txt</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Tokens</span> <span class="n">file</span> <span class="n">found</span> <span class="n">at</span> <span class="n">tokens</span><span class="o">.</span><span class="n">json</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Algorithm</span><span class="p">:</span> <span class="n">GP</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Engine</span><span class="p">:</span> <span class="n">NONMEM</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">random_seed</span><span class="p">:</span> <span class="mi">11</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Project</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span>\<span class="n">workspace</span>\<span class="n">fruitfly</span>\<span class="n">examples</span>\<span class="n">NONMEM</span>\<span class="n">user</span>\<span class="n">Example2</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Data</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">c</span><span class="p">:</span>\<span class="n">workspace</span>\<span class="n">fruitfly</span>\<span class="n">examples</span>\<span class="n">NONMEM</span>\<span class="n">user</span>\<span class="n">Example2</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Project</span> <span class="n">working</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">jcook</span>\<span class="n">pydarwin</span>\<span class="n">Example2</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Project</span> <span class="n">temp</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">jcook</span>\<span class="n">pydarwin</span>\<span class="n">Example2</span>\<span class="n">temp</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Project</span> <span class="n">output</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">jcook</span>\<span class="n">pydarwin</span>\<span class="n">Example2</span>\<span class="n">output</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Key</span> <span class="n">models</span> <span class="nb">dir</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">jcook</span>\<span class="n">pydarwin</span>\<span class="n">Example2</span>\<span class="n">key_models</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Search</span> <span class="n">space</span> <span class="n">size</span><span class="p">:</span> <span class="mi">12960</span>
+<span class="p">[</span><span class="mi">01</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span> <span class="n">Estimated</span> <span class="n">number</span> <span class="n">of</span> <span class="n">models</span> <span class="n">to</span> <span class="n">run</span><span class="p">:</span> <span class="mi">454</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="required-files">
 <span id="startrequiredfiles"></span><h2>Required Files<a class="headerlink" href="#required-files" title="Permalink to this heading">¶</a></h2>
 <p>The same 3 files are required for any search, whether <a class="reference internal" href="Algorithms.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">GA</span></a>,
-<a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Algorithms.html#rf-desc"><span class="std std-ref">RF</span></a>,:ref:<cite>GBRT&lt;GBRT_desc&gt;</cite>, or <a class="reference internal" href="Algorithms.html#ex-desc"><span class="std std-ref">PSO</span></a>. Which algorithm is used is defined in the
+<a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Algorithms.html#rf-desc"><span class="std std-ref">RF</span></a>, <a class="reference internal" href="Algorithms.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>, or <a class="reference internal" href="Algorithms.html#ex-desc"><span class="std std-ref">PSO</span></a>. Which algorithm is used is defined in the
 <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>. The template file serves as a framework and looks similar to a
 NONMEM/NMTRAN control file. The tokens file specifies the range of “features” to be searched, and the options
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution,
-and other options related to execution. See <a class="reference internal" href="Options.html#options"><span class="std std-ref">“Options List”</span></a>.</p>
+and other options related to execution. See <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a>.</p>
 <section id="template-file">
 <span id="template-file-target"></span><h3>Template File<a class="headerlink" href="#template-file" title="Permalink to this heading">¶</a></h3>
 <p>The template file is a plain ASCII text file. This file is the framework for the construction of the NONMEM
@@ -391,7 +417,7 @@ will include the following JSON code:</p>
 <figure class="align-default">
 <img alt="_images/tokens.png" src="_images/tokens.png" />
 </figure>
-<p>Note the “nested token” - a token (“{K23~WT[1]}”) within a token, circled in red. Any number of levels of nested tokens is permitted (but the logic becomes very difficult with more than one).
+<p>Note the “nested token” – a token (“{K23~WT[1]}”) within a token, circled in red. Any number of levels of nested tokens is permitted (but the logic becomes very difficult with more than one).
 pyDarwin will first substitute the full text
 into the template, then scans the resulting text again. This nested token will then be found and the text from the {K23~WT[1]} token set will be substituted.</p>
 <p>Several notes:</p>
@@ -399,13 +425,13 @@ into the template, then scans the resulting text again. This nested token will t
 serves as the token key in the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-value pairs</span></a>. In this example, three replacements must be made in the template, in $SUBS, $PK, and $THETA.
 In the template file, these will be coded as {ADVAN[1]}, {ADVAN[2]}, and {ADVAN[3]}. Note the curly braces, these are required in the template, but not the tokens file.
 The indices correspond to the indices of the <a class="reference internal" href="Glossary.html#token"><span class="std std-ref">tokens</span></a> in the token set. In this case there are 3 <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-value pairs</span></a> in each token set.
-There may be additional unused tokens (as may be the case with <a class="reference internal" href="Glossary.html#nested-tokens"><span class="std std-ref">nest tokens</span></a>) but each token in the template file must have a corresponding token key-value pair in the tokens file.
+There may be additional unused tokens (as may be the case with <a class="reference internal" href="Glossary.html#nested-tokens"><span class="std std-ref">nested tokens</span></a>) but each token in the template file must have a corresponding token key-value pair in the tokens file.
 There are 2 token sets in this token group, one coding for ADVAN1 and one coding for ADVAN3.</p>
 <ol class="arabic simple" start="2">
 <li><p>New lines in JSON files are ignored. To code a new line, enter the newline escape character “\n”. Similarly, a tab is coded as “\t”.</p></li>
 <li><p>Comments are not permitted in JSON files. However, comments for the generated NMTRAN control file maybe included with the usual syntax “;”.</p></li>
 <li><p>There is no dependency on the sequence of token sets in the file, any order is acceptable, they need not be in the same order as they appear in the <a class="reference internal" href="#template-file-target"><span class="std std-ref">template file.</span></a></p></li>
-<li><p>All other JSON (<a class="reference external" href="https://www.json.org/json-en.html">JSON</a> ) rules apply.</p></li>
+<li><p>All other <a class="reference external" href="https://www.json.org/json-en.html">JSON</a> rules apply.</p></li>
 </ol>
 <p><strong>Special note on initial estimates</strong></p>
 <p>In order to parse the text in the initial estimates blocks (THETA, OMEGA, and SIGMA) the user MUST include token stem text as a NONMEM/NMTRAN comment (i.e., after “;”). There is
@@ -427,44 +453,363 @@ is created, this approach would lead to ambiguity. Each initial estimate must be
 <span id="options-file-target"></span><h3>Options File<a class="headerlink" href="#options-file" title="Permalink to this heading">¶</a></h3>
 <p>A JSON file with key-value pairs specifying various options for executing pyDarwin. While some fields are mandatory, some are
 algorithm-specific, while others are only relevant for execution on Linux Grids.</p>
-<p>See <a class="reference internal" href="Options.html#options"><span class="std std-ref">“Options List”</span></a> for details.</p>
+<p>See <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a> for details.</p>
 </section>
 </section>
 <section id="searching-omega-structure">
 <span id="omega-search-usage-target"></span><h2>Searching Omega Structure<a class="headerlink" href="#searching-omega-structure" title="Permalink to this heading">¶</a></h2>
 <p>In addition to specifying relations inside the <a class="reference internal" href="#template-file-target"><span class="std std-ref">template file</span></a> and <a class="reference internal" href="#tokens-file-target"><span class="std std-ref">tokens file</span></a> to define
-the search space, you may also search for different structures of the omega matrix given fields specified in <a class="reference internal" href="Options.html#options"><span class="std std-ref">options.json</span></a>:</p>
-<p>Users may additionally search:</p>
-<ul>
-<li><p>Omega Bands</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><a class="reference internal" href="Options.html#search-omega-bands-options-desc"><span class="std std-ref">“search_omega_bands”</span></a></p></li>
-<li><p><a class="reference internal" href="Options.html#max-omega-band-width-options-desc"><span class="std std-ref">“max_omega_band_width”</span></a></p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>Omega Submatrices</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><a class="reference internal" href="Options.html#search-omega-sub-matrix-options-desc"><span class="std std-ref">“search_omega_sub_matrix”</span></a></p></li>
-<li><p><a class="reference internal" href="Options.html#max-omega-sub-matrix-options-desc"><span class="std std-ref">“max_omega_sub_matrix”</span></a></p></li>
-</ul>
-</div></blockquote>
-</li>
-</ul>
+the search space, you may also search for different structures of the omega matrix given fields specified in <a class="reference internal" href="Options.html#options"><span class="std std-ref">options.json</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>OMEGA structure alone can be searched without any tokens for compartments, covariates, etc.
-If searching Omega submatrices, options for Omega band search should be additionally specified.</p>
+<p>Omega structure alone can be searched without any tokens for compartments, covariates, etc.
+If searching Omega submatrices, options for Omega band/block search must be additionally specified.</p>
 </div>
+<p>Omega structure is encoded by a set of separate genes: one of the genes represents the omega block pattern, another one is for the band width (only applicable to NONMEM models). The pattern is the index of a valid pattern composed by pyDarwin.</p>
+<p>In case of independent omega search, the set is repeated as many times as the number of search blocks in the template.</p>
+<p>Valid patterns are created based on the maximum omega search block length and maximum size of submatrices (specified through <a class="mono reference internal" href="Options.html#max-omega-sub-matrix-options-desc"><span class="std std-ref">max_omega_sub_matrix</span></a>, see <a class="reference internal" href="#omega-submatrices-search-target"><span class="std std-ref">Omega Submatrices Search</span></a> for details) if applicable. For example, for search_block(A, B, C, D, E) and max_omega_sub_matrix = 4, pyDarwin will consider the following 16 patterns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">()</span>
+<span class="p">(</span><span class="n">A</span> <span class="n">B</span> <span class="n">C</span> <span class="n">D</span> <span class="n">E</span><span class="p">)</span>
+<span class="p">(</span><span class="n">A</span> <span class="n">B</span><span class="p">)</span>
+<span class="p">(</span><span class="n">A</span> <span class="n">B</span><span class="p">)</span> <span class="p">(</span><span class="n">C</span> <span class="n">D</span><span class="p">)</span>
+<span class="p">(</span><span class="n">A</span> <span class="n">B</span><span class="p">)</span> <span class="p">(</span><span class="n">C</span> <span class="n">D</span> <span class="n">E</span><span class="p">)</span>
+<span class="p">(</span><span class="n">A</span> <span class="n">B</span><span class="p">)</span> <span class="p">(</span><span class="n">D</span> <span class="n">E</span><span class="p">)</span>
+<span class="p">(</span><span class="n">A</span> <span class="n">B</span> <span class="n">C</span><span class="p">)</span>
+<span class="p">(</span><span class="n">A</span> <span class="n">B</span> <span class="n">C</span><span class="p">)</span> <span class="p">(</span><span class="n">D</span> <span class="n">E</span><span class="p">)</span>
+<span class="p">(</span><span class="n">A</span> <span class="n">B</span> <span class="n">C</span> <span class="n">D</span><span class="p">)</span>
+<span class="p">(</span><span class="n">B</span> <span class="n">C</span><span class="p">)</span>
+<span class="p">(</span><span class="n">B</span> <span class="n">C</span><span class="p">)</span> <span class="p">(</span><span class="n">D</span> <span class="n">E</span><span class="p">)</span>
+<span class="p">(</span><span class="n">B</span> <span class="n">C</span> <span class="n">D</span><span class="p">)</span>
+<span class="p">(</span><span class="n">B</span> <span class="n">C</span> <span class="n">D</span> <span class="n">E</span><span class="p">)</span>
+<span class="p">(</span><span class="n">C</span> <span class="n">D</span><span class="p">)</span>
+<span class="p">(</span><span class="n">C</span> <span class="n">D</span> <span class="n">E</span><span class="p">)</span>
+<span class="p">(</span><span class="n">D</span> <span class="n">E</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here the empty pattern, <code class="docutils literal notranslate"><span class="pre">()</span></code>, means there is no block Omega  (i.e., everything is diagonal), and the variables enclosed by the parenthesis are the ones whose associated covariance matrix (Omega) is block (that is, for each pattern, only those variables whose Omega matrix is block are listed). For NONMEM models without submatrix search, the empty pattern is substituted with an extra value for band width gene (= 0).</p>
+<p>The number of patterns for different combinations of <a class="mono reference internal" href="Options.html#max-omega-search-len-options-desc"><span class="std std-ref">max_omega_search_len</span></a> (whose values listed in the first column) and <a class="mono reference internal" href="Options.html#max-omega-sub-matrix-options-desc"><span class="std std-ref">max_omega_sub_matrix</span></a> (whose values listed in the first row) can be found in the table below.</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">Number of patterns</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+<th class="head"><p>5</p></th>
+<th class="head"><p>6</p></th>
+<th class="head"><p>7</p></th>
+<th class="head"><p>8</p></th>
+<th class="head"><p>9</p></th>
+<th class="head"><p>10</p></th>
+<th class="head"><p>11</p></th>
+<th class="head"><p>12</p></th>
+<th class="head"><p>13</p></th>
+<th class="head"><p>14</p></th>
+<th class="head"><p>15</p></th>
+<th class="head"><p>16</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>6</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>9</p></td>
+<td><p>14</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+<td><p>16</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>14</p></td>
+<td><p>25</p></td>
+<td><p>30</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+<td><p>32</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>22</p></td>
+<td><p>45</p></td>
+<td><p>57</p></td>
+<td><p>62</p></td>
+<td><p>64</p></td>
+<td><p>64</p></td>
+<td><p>64</p></td>
+<td><p>64</p></td>
+<td><p>64</p></td>
+<td><p>64</p></td>
+<td><p>64</p></td>
+<td><p>64</p></td>
+<td><p>64</p></td>
+<td><p>64</p></td>
+<td><p>64</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>35</p></td>
+<td><p>82</p></td>
+<td><p>109</p></td>
+<td><p>121</p></td>
+<td><p>126</p></td>
+<td><p>128</p></td>
+<td><p>128</p></td>
+<td><p>128</p></td>
+<td><p>128</p></td>
+<td><p>128</p></td>
+<td><p>128</p></td>
+<td><p>128</p></td>
+<td><p>128</p></td>
+<td><p>128</p></td>
+<td><p>128</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>56</p></td>
+<td><p>150</p></td>
+<td><p>209</p></td>
+<td><p>237</p></td>
+<td><p>249</p></td>
+<td><p>254</p></td>
+<td><p>256</p></td>
+<td><p>256</p></td>
+<td><p>256</p></td>
+<td><p>256</p></td>
+<td><p>256</p></td>
+<td><p>256</p></td>
+<td><p>256</p></td>
+<td><p>256</p></td>
+<td><p>256</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>90</p></td>
+<td><p>275</p></td>
+<td><p>402</p></td>
+<td><p>465</p></td>
+<td><p>493</p></td>
+<td><p>505</p></td>
+<td><p>510</p></td>
+<td><p>512</p></td>
+<td><p>512</p></td>
+<td><p>512</p></td>
+<td><p>512</p></td>
+<td><p>512</p></td>
+<td><p>512</p></td>
+<td><p>512</p></td>
+<td><p>512</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>145</p></td>
+<td><p>505</p></td>
+<td><p>774</p></td>
+<td><p>913</p></td>
+<td><p>977</p></td>
+<td><p>1005</p></td>
+<td><p>1017</p></td>
+<td><p>1022</p></td>
+<td><p>1024</p></td>
+<td><p>1024</p></td>
+<td><p>1024</p></td>
+<td><p>1024</p></td>
+<td><p>1024</p></td>
+<td><p>1024</p></td>
+<td><p>1024</p></td>
+</tr>
+<tr class="row-even"><td><p>12</p></td>
+<td><p>234</p></td>
+<td><p>928</p></td>
+<td><p>1491</p></td>
+<td><p>1794</p></td>
+<td><p>1937</p></td>
+<td><p>2001</p></td>
+<td><p>2029</p></td>
+<td><p>2041</p></td>
+<td><p>2046</p></td>
+<td><p>2048</p></td>
+<td><p>2048</p></td>
+<td><p>2048</p></td>
+<td><p>2048</p></td>
+<td><p>2048</p></td>
+<td><p>2048</p></td>
+</tr>
+<tr class="row-odd"><td><p>13</p></td>
+<td><p>378</p></td>
+<td><p>1706</p></td>
+<td><p>2873</p></td>
+<td><p>3526</p></td>
+<td><p>3841</p></td>
+<td><p>3985</p></td>
+<td><p>4049</p></td>
+<td><p>4077</p></td>
+<td><p>4089</p></td>
+<td><p>4094</p></td>
+<td><p>4096</p></td>
+<td><p>4096</p></td>
+<td><p>4096</p></td>
+<td><p>4096</p></td>
+<td><p>4096</p></td>
+</tr>
+<tr class="row-even"><td><p>14</p></td>
+<td><p>611</p></td>
+<td><p>3137</p></td>
+<td><p>5537</p></td>
+<td><p>6931</p></td>
+<td><p>7618</p></td>
+<td><p>7937</p></td>
+<td><p>8081</p></td>
+<td><p>8145</p></td>
+<td><p>8173</p></td>
+<td><p>8185</p></td>
+<td><p>8190</p></td>
+<td><p>8192</p></td>
+<td><p>8192</p></td>
+<td><p>8192</p></td>
+<td><p>8192</p></td>
+</tr>
+<tr class="row-odd"><td><p>15</p></td>
+<td><p>988</p></td>
+<td><p>5769</p></td>
+<td><p>10672</p></td>
+<td><p>13625</p></td>
+<td><p>15110</p></td>
+<td><p>15809</p></td>
+<td><p>16129</p></td>
+<td><p>16273</p></td>
+<td><p>16337</p></td>
+<td><p>16365</p></td>
+<td><p>16377</p></td>
+<td><p>16382</p></td>
+<td><p>16384</p></td>
+<td><p>16384</p></td>
+<td><p>16384</p></td>
+</tr>
+<tr class="row-even"><td><p>16</p></td>
+<td><p>1598</p></td>
+<td><p>10610</p></td>
+<td><p>20570</p></td>
+<td><p>26785</p></td>
+<td><p>29971</p></td>
+<td><p>31490</p></td>
+<td><p>32193</p></td>
+<td><p>32513</p></td>
+<td><p>32657</p></td>
+<td><p>32721</p></td>
+<td><p>32749</p></td>
+<td><p>32761</p></td>
+<td><p>32766</p></td>
+<td><p>32768</p></td>
+<td><p>32768</p></td>
+</tr>
+</tbody>
+</table>
+<p>By default, pyDarwin will try to search omega structure for each  search block/band individually. This is only possible if all search blocks are placed in the template. If any search block is found in the tokens, the omega search will be performed uniformly, i.e. all search blocks will have the same pattern.
+Individual omega search will further increase the search space size. It can be turned off by setting <a class="mono reference internal" href="Options.html#individual-omega-search-options-desc"><span class="std std-ref">individual_omega_search</span></a> to <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
+<section id="omega-block-search">
+<span id="omega-block-search-target"></span><h3>Omega Block Search<a class="headerlink" href="#omega-block-search" title="Permalink to this heading">¶</a></h3>
+<p>Omega block search is only applicable to NLME models. It takes a diagonal Omega matrix and searches for a block Omega matrix.</p>
+<p>To enable block search for NLME models,</p>
+<ol class="arabic simple">
+<li><p>Set <a class="mono reference internal" href="Options.html#search-omega-blocks-options-desc"><span class="std std-ref">search_omega_blocks</span></a> to <code class="docutils literal notranslate"><span class="pre">true</span></code> in the <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>.</p></li>
+<li><p>Add one or more <code class="docutils literal notranslate"><span class="pre">#search_block(randomEffectList)</span></code> to the <a class="reference internal" href="#template-file-target"><span class="std std-ref">template file</span></a> and/or the <a class="reference internal" href="#tokens-file-target"><span class="std std-ref">tokens file</span></a>, where <code class="docutils literal notranslate"><span class="pre">randomEffectList</span></code> denotes the list of random effects that one wants to search whether their associated covariance matrix (Omega) is diagonal or block.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Only names, commas, and spaces (including tabs and new lines) are allowed inside the <code class="docutils literal notranslate"><span class="pre">#search_block</span></code>; no comments, no nested braces.</p></li>
+<li><p>Only those random effects having diagonal Omegas are allowed inside the <code class="docutils literal notranslate"><span class="pre">search_block</span></code>; if you put some random effects having <code class="docutils literal notranslate"><span class="pre">block</span></code>/<code class="docutils literal notranslate"><span class="pre">same</span></code>/<code class="docutils literal notranslate"><span class="pre">fixed</span></code> Omega, pyDarwin will halt the search.</p></li>
+<li><p>If there are random effects dependent (<code class="docutils literal notranslate"><span class="pre">same</span></code>) on the ones in the <code class="docutils literal notranslate"><span class="pre">#search_block</span></code>, pyDarwin will halt the search.</p></li>
+<li><p>Random effects present in <code class="docutils literal notranslate"><span class="pre">#search_block</span></code> but absent in the model (i.e., not present in any <code class="docutils literal notranslate"><span class="pre">ranef</span></code> statement) will be ignored.</p></li>
+</ul>
+</div>
+<p>When creating individual models, pyDarwin puts the new <code class="docutils literal notranslate"><span class="pre">ranef</span></code> statement below every <code class="docutils literal notranslate"><span class="pre">#search_block</span></code> and fills it with corresponding Omegas, and then removes the associated random effects from the original <code class="docutils literal notranslate"><span class="pre">ranef</span></code> statements (basically moves the Omegas from original <code class="docutils literal notranslate"><span class="pre">ranef</span></code> statement to the new one). Empty <code class="docutils literal notranslate"><span class="pre">diag</span></code> and <code class="docutils literal notranslate"><span class="pre">ranef</span></code> statements are removed from the model. For example, if a template contains</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ranef</span><span class="p">(</span><span class="n">diag</span><span class="p">(</span><span class="n">nV</span><span class="p">,</span> <span class="n">nCl</span><span class="p">)</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>and the following statement is added to it</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#search_block(nV, nCl))</span>
+</pre></div>
+</div>
+<p>with <code class="docutils literal notranslate"><span class="pre">search_omega_blocks</span></code> set to <code class="docutils literal notranslate"><span class="pre">true</span></code> in the options file, then pyDarwin will create two models with one having</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ranef</span><span class="p">(</span><span class="n">diag</span><span class="p">(</span><span class="n">nV</span><span class="p">,</span> <span class="n">nCl</span><span class="p">)</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>and the other one having</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ranef</span><span class="p">(</span><span class="n">block</span><span class="p">(</span><span class="n">nV</span><span class="p">,</span> <span class="n">nCl</span><span class="p">)</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
 <section id="omega-band-search">
 <h3>Omega Band Search<a class="headerlink" href="#omega-band-search" title="Permalink to this heading">¶</a></h3>
-<p>Omega band search will take a diagonal OMEGA matrix and search for band OMEGA matrices.</p>
+<p>Omega band search is only applicable to NONMEM models. It takes a diagonal OMEGA matrix and searches for band OMEGA matrices.</p>
 <p>Band Omegas will be searched if:</p>
 <ol class="arabic">
 <li><p>The text “; search band” appears on the $OMEGA record in the <a class="reference internal" href="#template-file-target"><span class="std std-ref">template file</span></a>.</p></li>
-<li><p>The following fields have been included in the <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>.</p>
+<li><p>The following fields have been included in the <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="Options.html#search-omega-bands-options-desc"><span class="std std-ref">“search_omega_bands”</span></a>: true</p></li>
 <li><p><a class="reference internal" href="Options.html#max-omega-band-width-options-desc"><span class="std std-ref">“max_omega_band_width”</span></a>: N</p></li>
@@ -533,7 +878,7 @@ p will have a minimum absolute value of 0.000001 to ensure it does not have a va
 be different.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Use <a class="reference internal" href="Options.html#random-seed-options-desc"><span class="std std-ref">“random_seed”</span></a> to ensure values of off diagonal elements are the same across
+<p>Use <a class="mono reference internal" href="Options.html#random-seed-options-desc"><span class="std std-ref">random_seed</span></a> to ensure values of off diagonal elements are the same across
 subsequent searches.</p>
 </div>
 <div class="admonition warning">
@@ -564,18 +909,16 @@ others are to be searched.</p>
 </div>
 </section>
 <section id="omega-submatrices-search">
-<h3>Omega Submatrices Search<a class="headerlink" href="#omega-submatrices-search" title="Permalink to this heading">¶</a></h3>
-<p>OMEGA submatrices permit a wider range of OMEGA structure, and, importantly, the option to estimate fewer off diagonal elements of OMEGA.
-In addition to the options specified above for Omega band search, 2 additional options should be included in the <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>.</p>
-<p>The following fields are required to search for OMEGA submatrices:</p>
+<span id="omega-submatrices-search-target"></span><h3>Omega Submatrices Search<a class="headerlink" href="#omega-submatrices-search" title="Permalink to this heading">¶</a></h3>
+<p>OMEGA submatrices permit a wider range of OMEGA structure, and, importantly, the option to estimate fewer off diagonal elements of OMEGA. In addition to the options specified above for Omega block search (for NLME models) or Omega band search (for NONMEM models), 2 additional options should be included in the <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p><a class="reference internal" href="Options.html#search-omega-sub-matrix-options-desc"><span class="std std-ref">“search_omega_sub_matrix”</span></a>: true</p></li>
 <li><p><a class="reference internal" href="Options.html#max-omega-sub-matrix-options-desc"><span class="std std-ref">“max_omega_sub_matrix”</span></a>: N</p></li>
 </ul>
 </div></blockquote>
-<p>Where N is the maximum size of an OMEGA submatrix, then submatrices will be searched. OMEGA submatrices are intended to be use with OMEGA band search to further expand the options for OMEGA structure. Specifically,</p>
-<p>For the source OMEGA matrix of:</p>
+<p>Where N is the maximum size of an OMEGA submatrix, then submatrices will be searched. OMEGA submatrices are intended to be used with OMEGA block search (for NLME models) or Omega band search (for NONMEM models) to further expand the options for OMEGA structure. Specifically,</p>
+<p>For the source OMEGA matrix of a NONMEM model:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA ;; search band
 0.1
 0.1
@@ -594,7 +937,7 @@ p 0.1
 0 0 p  0.1
 </pre></div>
 </div>
-<p>And with the additional sub matrix search used, this search would also include, for submatrices value of [1,0,1]:</p>
+<p>And with the additional sub matrix search used, this search would also include:</p>
 <ul class="simple">
 <li><p>Width = 1</p></li>
 </ul>
@@ -607,31 +950,13 @@ p  0.1
 </pre></div>
 </div>
 <p>Resulting in one fewer variance parameters to be estimated (covariance of ETA(2) and ETA(3)).</p>
-<p>In pyDarwin, this is converted to a bit string describing whether the next OMEGA row will be include with the current OMEGA row. In the above example,
-the bit string [1,0,1], the 1 in the first position, indicates that the 2nd row will be combined with the first into a single block, but then a new OMEGA block will be created for
-the 3rd row (indicted by the 0 in the 2nd position). The 4th row will be combined into an OMEGA block with the 3rd, indicated by the 1 in the 3rd position.
-The user need only provide the maximum permitted submatrix size in the options file  e.g., <a class="reference internal" href="Options.html#max-omega-sub-matrix-options-desc"><span class="std std-ref">“max_omega_sub_matrix”</span></a>.</p>
-<p>For example, for submatrices values of [1,0,0]:</p>
-<ul class="simple">
-<li><p>Width = 1</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$OMEGA BLOCK(2)
-0.1
-p 0.1
-$OMEGA BLOCK(1)
-0.1
-$OMEGA BLOCK(1)
-0.1
-</pre></div>
-</div>
-<p>As the 3rd row of OMEGA will not be continued into the 4th, despite the band width of 1, defining smaller submatrices will result in removing the covariance between ETA(3) and ETA(4).</p>
 </section>
 </section>
 <section id="pydarwin-outputs">
 <h2>pyDarwin Outputs<a class="headerlink" href="#pydarwin-outputs" title="Permalink to this heading">¶</a></h2>
 <section id="console-output">
 <h3>Console output<a class="headerlink" href="#console-output" title="Permalink to this heading">¶</a></h3>
-<p>After the search command is submitted, <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> first verifies that the following files and executables are available:</p>
+<p>After the search command is submitted, pyDarwin first verifies that the following files and executables are available:</p>
 <ol class="arabic simple">
 <li><p>The template file</p></li>
 <li><p>The tokens file</p></li>
@@ -646,12 +971,12 @@ $OMEGA BLOCK(1)
 <li><p>Project working dir - folder where template, token and options files are located, this is not set by the user</p></li>
 <li><p>Project temp dir - root folder where model file will be found, if the option is not set to remove them</p></li>
 <li><p>Project output dir - folder where all the results files will be put, such as results.csv and Final* files</p></li>
-<li><p>Where intermediate output will be written (e.g., u:/user/example2/outputresults.csv)</p></li>
-<li><p>Where models will be saved (e.g., u:/user/example2/workingmodels.json)</p></li>
+<li><p>Where intermediate output will be written (e.g., u:/user/example2/output/results.csv)</p></li>
+<li><p>Where models will be saved (e.g., u:/user/example2/working/models.json)</p></li>
 <li><p>NMFE??.bat (Windows) or nmfe?? (Linux) file</p></li>
 <li><p>Rscript.exe, if used</p></li>
 </ol>
-<p><code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> provides verbose output about whether individual models have executed successfully.</p>
+<p>pyDarwin provides verbose output about whether individual models have executed successfully.</p>
 <p>A typical line of output might be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">16</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span> <span class="n">Iteration</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Model</span>     <span class="mi">1</span><span class="p">,</span>       <span class="n">Done</span><span class="p">,</span>    <span class="n">fitness</span> <span class="o">=</span> <span class="mf">123.34</span><span class="p">,</span>    <span class="n">message</span> <span class="o">=</span>  <span class="n">No</span> <span class="n">important</span> <span class="n">warnings</span>
 </pre></div>
@@ -661,7 +986,7 @@ $OMEGA BLOCK(1)
 </pre></div>
 </div>
 <p>If there are messages from NONMEM execution, these will also be written to the console, as well as if execution failed, and, if request, if R execution failed.</p>
-<p>If the <a class="reference internal" href="Options.html#remove-temp-dir-options-desc"><span class="std std-ref">“remove_temp_dir”</span></a> is set to false, the NONMEM control file, output file and other key files can be found in {temp_dir}Iteration/generationModel Number for debugging.</p>
+<p>If the <a class="mono reference internal" href="Options.html#remove-temp-dir-options-desc"><span class="std std-ref">remove_temp_dir</span></a> is set to false, the NONMEM control file, output file and other key files can be found in <code class="docutils literal notranslate"><span class="pre">{temp_dir}/Iteration/Model</span> <span class="pre">Number</span></code> for debugging.</p>
 </section>
 <section id="file-output">
 <h3>File output<a class="headerlink" href="#file-output" title="Permalink to this heading">¶</a></h3>

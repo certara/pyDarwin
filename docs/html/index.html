@@ -102,6 +102,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Releases.html#pydarwin-certara-2-0">pyDarwin-Certara 2.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Releases.html#pydarwin-certara-1-1-1">pyDarwin-Certara 1.1.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Releases.html#pydarwin-certara-1-1">pyDarwin-Certara 1.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Releases.html#pydarwin-certara-1-0">pyDarwin-Certara 1.0</a></li>
@@ -134,6 +135,7 @@
 <li class="toctree-l4"><a class="reference internal" href="Usage.html#running-grid-search">Running Grid Search</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="Usage.html#search-info">Search Info</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Usage.html#required-files">Required Files</a><ul>
@@ -146,6 +148,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Usage.html#searching-omega-structure">Searching Omega Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Usage.html#omega-block-search">Omega Block Search</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Usage.html#omega-band-search">Omega Band Search</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Usage.html#omega-submatrices-search">Omega Submatrices Search</a></li>
 </ul>
@@ -202,6 +205,8 @@
 <li class="toctree-l2"><a class="reference internal" href="API.html#algorithms">Algorithms</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.algorithms.exhaustive">exhaustive</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.algorithms.exhaustive.run_exhaustive"><code class="docutils literal notranslate"><span class="pre">run_exhaustive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.algorithms.exhaustive.get_search_space"><code class="docutils literal notranslate"><span class="pre">get_search_space()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.algorithms.exhaustive.get_search_space_size"><code class="docutils literal notranslate"><span class="pre">get_search_space_size()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.algorithms.GA">GA</a><ul>
@@ -220,7 +225,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="API.html#model-classes">Model classes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.Template">darwin.Template</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.Template.Template"><code class="docutils literal notranslate"><span class="pre">Template</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.Template.Template"><code class="docutils literal notranslate"><span class="pre">Template</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.Template.Template.get_search_space_coordinates"><code class="docutils literal notranslate"><span class="pre">Template.get_search_space_coordinates()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.Model">darwin.Model</a><ul>
@@ -243,6 +251,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.ModelResults">darwin.ModelResults</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults"><code class="docutils literal notranslate"><span class="pre">ModelResults</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.get_message_text"><code class="docutils literal notranslate"><span class="pre">ModelResults.get_message_text()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.to_dict"><code class="docutils literal notranslate"><span class="pre">ModelResults.to_dict()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.from_dict"><code class="docutils literal notranslate"><span class="pre">ModelResults.from_dict()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.calc_fitness"><code class="docutils literal notranslate"><span class="pre">ModelResults.calc_fitness()</span></code></a></li>
@@ -252,12 +261,18 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.ModelRun">darwin.ModelRun</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun"><code class="docutils literal notranslate"><span class="pre">ModelRun</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.set_status"><code class="docutils literal notranslate"><span class="pre">ModelRun.set_status()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.init_stem"><code class="docutils literal notranslate"><span class="pre">ModelRun.init_stem()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.is_duplicate"><code class="docutils literal notranslate"><span class="pre">ModelRun.is_duplicate()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.started"><code class="docutils literal notranslate"><span class="pre">ModelRun.started()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.to_dict"><code class="docutils literal notranslate"><span class="pre">ModelRun.to_dict()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.from_dict"><code class="docutils literal notranslate"><span class="pre">ModelRun.from_dict()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.make_control_file"><code class="docutils literal notranslate"><span class="pre">ModelRun.make_control_file()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.check_files_present_impl"><code class="docutils literal notranslate"><span class="pre">ModelRun.check_files_present_impl()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.run_command"><code class="docutils literal notranslate"><span class="pre">ModelRun.run_command()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.run_model"><code class="docutils literal notranslate"><span class="pre">ModelRun.run_model()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.finish"><code class="docutils literal notranslate"><span class="pre">ModelRun.finish()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.keep"><code class="docutils literal notranslate"><span class="pre">ModelRun.keep()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.cleanup"><code class="docutils literal notranslate"><span class="pre">ModelRun.cleanup()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.output_results"><code class="docutils literal notranslate"><span class="pre">ModelRun.output_results()</span></code></a></li>
 </ul>
@@ -265,6 +280,7 @@
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelRun.write_best_model_files"><code class="docutils literal notranslate"><span class="pre">write_best_model_files()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelRun.run_to_json"><code class="docutils literal notranslate"><span class="pre">run_to_json()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelRun.json_to_run"><code class="docutils literal notranslate"><span class="pre">json_to_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelRun.log_run"><code class="docutils literal notranslate"><span class="pre">log_run()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.Population">darwin.Population</a><ul>
@@ -277,6 +293,8 @@
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.Population.Population.run"><code class="docutils literal notranslate"><span class="pre">Population.run()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.Population.init_pop_nums"><code class="docutils literal notranslate"><span class="pre">init_pop_nums()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.Population.get_remaining_model_num"><code class="docutils literal notranslate"><span class="pre">get_remaining_model_num()</span></code></a></li>
 </ul>
 </li>
 </ul>

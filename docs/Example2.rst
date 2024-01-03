@@ -111,7 +111,7 @@ The template file for example 2 is given below:
    $EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 
    $COV UNCOND PRINT=E
 
-Example 2 template file: :download:`text <../examples/user/Example2/template.txt>`
+Example 2 template file: :download:`text <../examples/NONMEM/user/Example2/template.txt>`
 
 *****************
 The Tokens file
@@ -259,7 +259,7 @@ Note again, the use of THETA(parameter identifier), e.g.,
 
 for **ALL** initial estimate token text (THETA, OMEGA, and SIGMA).
 
-Example 2 tokens file: :download:`json <../examples/user/Example2/tokens.json>`
+Example 2 tokens file: :download:`json <../examples/NONMEM/user/Example2/tokens.json>`
 
 *****************
 The Options file
@@ -327,7 +327,7 @@ In either case, the folder names are given in the initial and final output to fa
 Once again, note that remove_run_dir is set to false, so NONMEM model and output files will be preserved in the temp_dir.
 
 
-Example 2 options file: :download:`json <../examples/user/Example2/options.json>`
+Example 2 options file: :download:`json <../examples/NONMEM/user/Example2/options.json>`
 
 
 ******************

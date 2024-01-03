@@ -156,7 +156,7 @@ in JSON, but only text values are permitted).
 Each of these dimensions has two options. Therefore, the total number of candidate models 
 in the search space is the number of permutations: 2^6 = 64. 
 
-In the :download:`template text <../examples/user/Example1/template.txt>`, note the 
+In the :download:`template text <../examples/NONMEM/user/Example1/template.txt>`, note the
 special text in curly brace ({}). These are :ref:`tokens<token>`. Tokens come in sets, as typically 
 multiple text substitutions must be made to result in a syntactically correct NMTRAN control file. For 
 example, if ALAG1 is to be used in the $PK block, a corresponding initial estimate for 
@@ -191,7 +191,7 @@ Variance terms
 Between subject variability is handled similarly, with the "{}" text. Typically, the first tokens in the token sets will be in the $PK, $DES, or $ERROR block and the  
 2nd in $OMEGA, with the *required* ETA(IndexText) after a NONMEM comment (the same as for THETA initial estimates). ERR and EPS are handled similarly, either syntax is permitted.
 
-Example 1 template file: :download:`template file <../examples/user/Example1/template.txt>`
+Example 1 template file: :download:`template file <../examples/NONMEM/user/Example1/template.txt>`
 Example 1 searches a 6 dimensional space. The dimensions correspond to :ref:`token group <token group>`. 
 
 Data file path
@@ -265,7 +265,7 @@ The final template file for Example 1 is given below.
 The Tokens file
 ******************
 
-Example 1 tokens file: :download:`json tokens file <../examples/user/Example1/tokens.json>`
+Example 1 tokens file: :download:`json tokens file <../examples/NONMEM/user/Example1/tokens.json>`
 
 The :ref:`tokens file <tokens_file_target>` provides the :ref:`token key-text pairs<token key-text pair>` that 
 are substituted into the template file. This file uses a `JSON <https://www.json.org/json-en.html>`_ file format. 
@@ -347,7 +347,7 @@ Note again, the **required** parameter identifier as a comment in all initial es
 The Options file
 *****************
 
-Example 1 :ref:`Options file <options file>`  :download:`json options file <../examples/user/Example1/options.json>` 
+Example 1 :ref:`Options file <options file>`  :download:`json options file <../examples/NONMEM/user/Example1/options.json>`
 The options file will likely need to be edited, as the path to nmfe??.bat (Windows) or nmfe?? (Linux) must be provided
 
 The user should provide an appropriate path for :ref:`"nmfe_path"<nmfe_path_options_desc>`. NONMEM version 7.4 and 7.5 are supported. 
@@ -415,7 +415,7 @@ it is only intended to break ties between otherwise identical models.
 The data file
 ====================
 
-Example 1 data file: :download:`dataExample1.csv <../examples/user/Example1/dataExample1.csv>`
+Example 1 data file: :download:`dataExample1.csv <../examples/NONMEM/user/Example1/dataExample1.csv>`
   
 
 ******************

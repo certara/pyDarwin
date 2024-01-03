@@ -15,7 +15,7 @@ whereas in :ref:`Example 4<startpk4>` it was found after the first round of 2 bi
 The template and tokens files are the same as for :ref:`Example 4<startpk4>`. The options file reflects the use of :ref:`Gaussian Process<GP_desc>` 
 and the required option: num_opt_chains. The other change is the population size of 20.
 
-The template file can be downloaded :download:`here <../examples/user/Example5/template.txt>` and the tokens file :download:`here <../examples/user/Example5/tokens.json>`.
+The template file can be downloaded :download:`here <../examples/NONMEM/user/Example5/template.txt>` and the tokens file :download:`here <../examples/NONMEM/user/Example5/tokens.json>`.
 
 As before, to run in the environment used for this example, the directories are set to:
 
@@ -46,7 +46,7 @@ In either case, the folder names are given in the initial and final output to fa
     "random_seed": 11,
     "population_size": 20,
     "num_parallel": 4,
-    "num_generations": ,
+    "num_generations": 8,
 
     "downhill_period": 5,
     "num_niches": 2,
@@ -73,7 +73,7 @@ In either case, the folder names are given in the initial and final output to fa
     "model_run_timeout": 1200
     }
 
-The options file can be downloaded :download:`here <../examples/user/Example6/options.json>`.
+The options file can be downloaded :download:`here <../examples/NONMEM/user/Example5/options.json>`.
 
 ******************************************
 Execute Search

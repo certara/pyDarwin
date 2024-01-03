@@ -204,7 +204,7 @@ are all supported.</p>
 in JSON, but only text values are permitted).</p>
 <p>Each of these dimensions has two options. Therefore, the total number of candidate models
 in the search space is the number of permutations: 2^6 = 64.</p>
-<p>In the <code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">text</span></code>, note the
+<p>In the <a class="reference download internal" download="" href="_downloads/7f248227f528414a4e3e60b6e3ae0b29/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">text</span></code></a>, note the
 special text in curly brace ({}). These are <a class="reference internal" href="Glossary.html#token"><span class="std std-ref">tokens</span></a>. Tokens come in sets, as typically
 multiple text substitutions must be made to result in a syntactically correct NMTRAN control file. For
 example, if ALAG1 is to be used in the $PK block, a corresponding initial estimate for
@@ -229,7 +229,7 @@ is created, this approach would lead to ambiguity. Each initial estimate must be
 <h3>Variance terms<a class="headerlink" href="#variance-terms" title="Permalink to this heading">¶</a></h3>
 <p>Between subject variability is handled similarly, with the “{}” text. Typically, the first tokens in the token sets will be in the $PK, $DES, or $ERROR block and the
 2nd in $OMEGA, with the <em>required</em> ETA(IndexText) after a NONMEM comment (the same as for THETA initial estimates). ERR and EPS are handled similarly, either syntax is permitted.</p>
-<p>Example 1 template file: <code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">file</span></code>
+<p>Example 1 template file: <a class="reference download internal" download="" href="_downloads/7f248227f528414a4e3e60b6e3ae0b29/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">file</span></code></a>
 Example 1 searches a 6 dimensional space. The dimensions correspond to <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>.</p>
 </section>
 <section id="data-file-path">
@@ -296,7 +296,7 @@ $COV UNCOND PRINT=E
 </section>
 <section id="the-tokens-file">
 <span id="tokens-file"></span><h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
-<p>Example 1 tokens file: <code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">tokens</span> <span class="pre">file</span></code></p>
+<p>Example 1 tokens file: <a class="reference download internal" download="" href="_downloads/c1a151e81f10e1309c1ffdf4e7b782b6/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">tokens</span> <span class="pre">file</span></code></a></p>
 <p>The <a class="reference internal" href="Usage.html#tokens-file-target"><span class="std std-ref">tokens file</span></a> provides the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> that
 are substituted into the template file. This file uses a <a class="reference external" href="https://www.json.org/json-en.html">JSON</a> file format.
 Unfortunately, comments are not  permitted in JSON files and so this file is without any annotation. Requirements are that
@@ -369,7 +369,7 @@ The tokens file for Example 1 is given below.</p>
 </section>
 <section id="the-options-file">
 <span id="id1"></span><h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
-<p>Example 1 <a class="reference internal" href="Glossary.html#options-file"><span class="std std-ref">Options file</span></a>  <code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">options</span> <span class="pre">file</span></code>
+<p>Example 1 <a class="reference internal" href="Glossary.html#options-file"><span class="std std-ref">Options file</span></a>  <a class="reference download internal" download="" href="_downloads/9a0890a5daf7daaf901567bd964f8626/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">options</span> <span class="pre">file</span></code></a>
 The options file will likely need to be edited, as the path to nmfe??.bat (Windows) or nmfe?? (Linux) must be provided</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
 <p>Note that, to run in the environment used for this example, the directories are set to:</p>
@@ -424,7 +424,7 @@ it is only intended to break ties between otherwise identical models.</p>
 </section>
 <section id="the-data-file">
 <h3>The data file<a class="headerlink" href="#the-data-file" title="Permalink to this heading">¶</a></h3>
-<p>Example 1 data file: <code class="xref download docutils literal notranslate"><span class="pre">dataExample1.csv</span></code></p>
+<p>Example 1 data file: <a class="reference download internal" download="" href="_downloads/f5a57c691dc6254e25f36145d3af215b/dataExample1.csv"><code class="xref download docutils literal notranslate"><span class="pre">dataExample1.csv</span></code></a></p>
 </section>
 </section>
 <section id="execute-search">

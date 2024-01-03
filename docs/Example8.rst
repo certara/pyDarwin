@@ -11,8 +11,8 @@ with Body Weight (BW) having a power effect on E0, Sex and Race having an expone
 on E0, sigmodicity = 1, and a proportional error model. Additionally, a final downhill search is
 performed.
 
-The template file can be downloaded :download:`here <../examples/user/Example8/template.txt>`
-and the tokens file :download:`here <../examples/user/Example8/tokens.json>`.
+The template file can be downloaded :download:`here <../examples/NONMEM/user/Example8/template.txt>`
+and the tokens file :download:`here <../examples/NONMEM/user/Example8/tokens.json>`.
 
 The options file looks like:
 
@@ -55,7 +55,7 @@ The options file looks like:
 
 
 
-and can be downloaded :download:`here <../examples/user/Example8/options.json>`.
+and can be downloaded :download:`here <../examples/NONMEM/user/Example8/options.json>`.
  
 
 ******************************************

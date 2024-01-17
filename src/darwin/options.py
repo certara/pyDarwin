@@ -130,6 +130,13 @@ class Options:
         self.model_cache_class = opts.get('model_cache', 'darwin.MemoryModelCache')
         self.model_run_man = opts.get('model_run_man', 'darwin.LocalRunManager')
         self.grid_adapter = opts.get('grid_adapter', 'darwin.GenericGridAdapter')
+        self.use_parallel = opts.get('use_parallel', False)
+        if self.use_parallel:
+            self.pnm_file = opts.get('pnm_file', None)
+            if self.pnm_file is None:
+                raise DarwinError('If use_parallel is true, path to pnm file must be provided')
+        else:
+            self.pnm_file = None
 
         self.LOCAL_RUN = self.model_run_man == 'darwin.LocalRunManager'
 

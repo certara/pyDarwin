@@ -5,11 +5,9 @@
     "population_size": 8,
     "num_parallel": 4,
     "crash_value": 99999999,
-
     "random_seed": 11,
     "num_parallel": 2,
-    "num_generations": 6,
-    "population_size": 4,
+    "num_generations": 6, 
     "penalty": {
         "theta": 10,
         "omega": 10,
@@ -24,9 +22,9 @@
     "remove_run_dir": false,
 
     "nmfe_path": "c:/nm74g64/util/nmfe74.bat",
-    "model_run_timeout": 1200,
+    "model_run_timeout": 6000,
     "use_parallel": true,
-    "pnm_file": "c:/nm74g64/util/MPIWINI4aaa.PNM",
+    "pnm_file": "c:/nm74g64/util/MPIWINI4.PNM",
 
     "working_dir": "c:/git/pydarwin/examples/NONMEM/user/mureferencing/working",
     "output_dir": "c:/git/pydarwin/examples/NONMEM/user/mureferencing/output",

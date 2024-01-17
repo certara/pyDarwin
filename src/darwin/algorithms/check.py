@@ -24,13 +24,15 @@ def set_checkout(control_text) -> str:
         if "$EST" in control_str[this_line]:
             if not(ESTfound):
                 control_str[this_line] = "$EST METH=0 MAX=0"
+                ESTfound = True
             else:
                 control_str[this_line] = ";; additional $EST removed"
-            ESTfound = True
             # in the event of multiple lines in the $EST block, need to loop to next block ($ in position 1 of trimmed line)
             trim_string = control_str[this_line + 1].rstrip()
 
             while (this_line + 1) < len(control_str):
+                if "$EST" in control_str[this_line + 1]: # another $EST record
+                    break
                 if len(trim_string) > 0:
                     if trim_string[0] != "$":
                         break
@@ -55,6 +57,7 @@ def run_check(model_template: Template) -> ModelRun:
     :rtype: ModelRun
     """
     # edit control file, replace $EST with $EST METH = 0 MAX=0 PRINT=0
+    # remove any other $EST
     # and remove $COV, keep tables
     model_template.template_text = set_checkout(model_template.template_text)
     codes = get_search_space(model_template)

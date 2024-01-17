@@ -58,6 +58,13 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         log.message(f"NMFE found: {nmfe_path}")
 
+        if options.use_parallel:
+            pnm_path = options.pnm_file
+            if not os.path.exists(pnm_path):
+                log.error(f"PNM file '{pnm_path}' seems to be missing")
+                return False
+            log.message("Paralllel NONMEM will be used")
+            log.message(f"PNM file found: {pnm_path}")
         return True
 
     @staticmethod
@@ -75,7 +82,8 @@ class NMEngineAdapter(ModelEngineAdapter):
                   'IS TOO CLOSE TO AN EIGENVALUE',
                   'F OR DERIVATIVE RETURNED BY PRED IS INFINITE (INF) OR NOT A NUMBER (NAN)',
                   'OCCURS DURING SEARCH FOR ETA AT INITIAL VALUE, ETA=0',
-                  'A ROOT OF THE CHARACTERISTIC EQUATION IS ZERO BECAUSE']
+                  'A ROOT OF THE CHARACTERISTIC EQUATION IS ZERO BECAUSE',
+                  'THE CHARACTERISTIC EQUATION CANNOT BE SOLVED']
 
         lines = _file_to_lines(os.path.join(run.run_dir, "PRDERR"))
 
@@ -93,13 +101,15 @@ class NMEngineAdapter(ModelEngineAdapter):
         warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
                     ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n',
                     ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
-                    ' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n']
+                    ' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n',
+                    ' ONE OR MORE RANDOM VARIABLES ARE DEFINED WITH "IF" STATEMENTS THAT DO NOT\n']
         # really not sure what to do with the mu referencing warning, warning is generated regardless
         # of whether the are time varying covariates
         short_warnings = ['NON-FIXED OMEGA',
                           'NON-FIXED PARAMETER',
                           'NON-FIXED THETA',
-                          'Covars should not be time varying with MU ref']
+                          'Covars should not be time varying with MU ref',
+                          'RANDOM VARIABLES DEFINED WITH IF NOT IF..ELSE']
 
         f_msg = _file_to_lines(os.path.join(run.run_dir, "FMSG"))
 
@@ -218,10 +228,22 @@ class NMEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def get_model_run_commands(run: ModelRun) -> list:
+
+        #fails with full command, problem is exe name. The exe name will be nonmem.exe, but, ,
+        # the xml, .lst etc is written to the correct name, since this is the .mod file name
+        # just the .exe file name is wrong
+        if options['use_parallel']:
+            command = [options['nmfe_path'], run.control_file_name, run.output_file_name,
+                       f"-parafile={options['pnm_file']}", f"-rundir={run.run_dir}" #,
+                    # f"-nmexec={run.executable_file_name}",
+                        ]
+
+        else:
+            command = [options['nmfe_path'], run.control_file_name, run.output_file_name,
+                       f"-nmexec={run.executable_file_name}", f"-rundir={run.run_dir}"]
         return [
             {
-                'command': [options['nmfe_path'], run.control_file_name, run.output_file_name,
-                            f"-nmexec={run.executable_file_name}", f"-rundir={run.run_dir}"],
+                'command': command,
                 'dir': run.run_dir,
                 'timeout': options.model_run_timeout
             }

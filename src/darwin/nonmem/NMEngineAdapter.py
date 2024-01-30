@@ -60,11 +60,15 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         if options.use_parallel:
             pnm_path = options.pnm_file
+
             if not os.path.exists(pnm_path):
                 log.error(f"PNM file '{pnm_path}' seems to be missing")
+
                 return False
-            log.message("Paralllel NONMEM will be used")
+
+            log.message('Parallel NONMEM will be used')
             log.message(f"PNM file found: {pnm_path}")
+
         return True
 
     @staticmethod
@@ -85,7 +89,7 @@ class NMEngineAdapter(ModelEngineAdapter):
                   'A ROOT OF THE CHARACTERISTIC EQUATION IS ZERO BECAUSE',
                   'THE CHARACTERISTIC EQUATION CANNOT BE SOLVED']
 
-        lines = _file_to_lines(os.path.join(run.run_dir, "PRDERR"))
+        lines = _file_to_lines(os.path.join(run.run_dir, 'PRDERR'))
 
         if lines:
             found = False
@@ -103,8 +107,9 @@ class NMEngineAdapter(ModelEngineAdapter):
                     ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
                     ' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n',
                     ' ONE OR MORE RANDOM VARIABLES ARE DEFINED WITH "IF" STATEMENTS THAT DO NOT\n']
+
         # really not sure what to do with the mu referencing warning, warning is generated regardless
-        # of whether the are time varying covariates
+        # of whether there are time varying covariates
         short_warnings = ['NON-FIXED OMEGA',
                           'NON-FIXED PARAMETER',
                           'NON-FIXED THETA',
@@ -118,9 +123,10 @@ class NMEngineAdapter(ModelEngineAdapter):
                 if warning == ' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n':
                     where = f_msg.index(' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n')
                     covar_name = f_msg[where + 1].strip()
-                    warning_message = "With MU ref " + covar_name + " should be constant for indiv"
+                    warning_message = f"With MU ref {covar_name} should be constant for indiv"
                 else:
                     warning_message = short_warning
+
                 nm_translation_message += warning_message
 
         errors = [' AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.\n']
@@ -229,18 +235,17 @@ class NMEngineAdapter(ModelEngineAdapter):
     @staticmethod
     def get_model_run_commands(run: ModelRun) -> list:
 
-        #fails with full command, problem is exe name. The exe name will be nonmem.exe, but, ,
-        # the xml, .lst etc is written to the correct name, since this is the .mod file name
-        # just the .exe file name is wrong
-        if options['use_parallel']:
-            command = [options['nmfe_path'], run.control_file_name, run.output_file_name,
-                       f"-parafile={options['pnm_file']}", f"-rundir={run.run_dir}" #,
-                    # f"-nmexec={run.executable_file_name}",
-                        ]
+        command = [options['nmfe_path'], run.control_file_name, run.output_file_name,
+                   f"-rundir={run.run_dir}"]
 
+        # fails with full command, problem is exe name. The exe name will be nonmem.exe, but,
+        # the xml, .lst etc. is written to the correct name, since this is the .mod file name
+        # just the .exe file name is wrong
+        if options.use_parallel:
+            command.append(f"-parafile={options['pnm_file']}")
         else:
-            command = [options['nmfe_path'], run.control_file_name, run.output_file_name,
-                       f"-nmexec={run.executable_file_name}", f"-rundir={run.run_dir}"]
+            command.append(f"-nmexec={run.executable_file_name}")
+
         return [
             {
                 'command': command,

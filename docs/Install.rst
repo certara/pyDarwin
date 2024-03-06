@@ -46,7 +46,7 @@ pyDarwin may be executed on Linux hosts with Sun Grid Engine (SGE).
 Software Requirements
 -----------------------
 
-- Python 3.10 or 3.11
+- Python 3.10 or 3.11 (Python 3.12 support not yet available)
 - NONMEM >= 7.4.3
 - R >= 4.0.0 (optional)
 

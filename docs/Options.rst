@@ -358,20 +358,24 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _covariance_options_desc:
 
-    * | :opt_name:`covariance` -- *real*: Penalty added to fitness/reward for failing the covariance step (real number). If a successful covariance step 
-        is important, this can be set to a large value (e.g., 100), otherwise, set to 0.
+    * | :opt_name:`covariance` -- *real*: Penalty added to fitness/reward for failing the covariance step. If a successful covariance step is important,
+        this can be set to a large value (e.g., 100), or if a successful covariance step is not at all important, set to 0. Note that if the covariance
+        step is not requested, (and therefore cannot be successful), the penalty is added. If a covariance step is not requested, it is suggested that
+        the covariance penalty be set to 0.
       | *Default*: 100
 
 .. _correlation_options_desc:
 
-    * | :opt_name:`correlation` -- *real*: Penalty added to fitness/reward if any off-diagonal element of the correlation matrix of estimate has absolute 
-        value > 0.95 (real number). This penalty will be added if the covariance step fails or is not requested.
+    * | :opt_name:`correlation` -- *real*: Penalty added to fitness/reward if any off-diagonal element of the correlation matrix of estimate has absolute
+        value > 0.95. This penalty will be added if the covariance step is requested but fails or if the covariance step is not requested (as in these cases,
+        the off-diagonal elements are not available). If a covariance step is not requested, it is suggested that the correlation penalty be set to 0.
       | *Default*: 100
 
 .. _condition_number_options_desc:
 
-    * | :opt_name:`condition_number` -- *real*:  Penalty added if the covariance step fails or is not requested, e.g., PRINT=E is not included in $COV.
-        Additionally, if covariance is successful and the condition number of the covariance matrix is > 1000, then this penalty is added to the fitness/reward.
+    * | :opt_name:`condition_number` -- *real*:  Penalty added to fitness/reward if the covariance step fails or is not requested of if the covariance step
+        is successful and the condition number is greater than 1000. If a covariance step is not requested, it is suggested that the condition_number penalty
+        be set to 0.
       | *Default*: 100
 
 .. _non_influential_tokens_options_desc:

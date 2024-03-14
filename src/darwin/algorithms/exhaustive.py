@@ -1,5 +1,5 @@
 import numpy as np
-import time
+import math
 
 import darwin.GlobalVars as GlobalVars
 
@@ -54,5 +54,7 @@ def get_search_space(template: Template) -> np.ndarray:
     return codes
 
 
-def get_search_space_size(model_template: Template) -> int:
-    return get_search_space(model_template).shape[0]
+def get_search_space_size(template: Template) -> int:
+    num_groups = template.get_search_space_coordinates()
+
+    return math.prod(map(len, num_groups))

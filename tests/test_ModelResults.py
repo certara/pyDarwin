@@ -112,8 +112,8 @@ class ModelResultsTestCase(unittest.TestCase):
                             penalties['correlation'] +
                             penalties['condition_number'] +
                             model.estimated_theta_num * penalties['theta'] +
-                            model.omega_num * penalties['omega'] +
-                            model.sigma_num * penalties['sigma'] +
+                            model.estimated_omega_num * penalties['omega'] +
+                            model.estimated_sigma_num * penalties['sigma'] +
                             model_results.post_run_r_penalty +
                             model_results.post_run_python_penalty)
 

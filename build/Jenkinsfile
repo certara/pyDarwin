@@ -146,7 +146,7 @@ pipeline {
                                     BUILD_VERSION = "${BUILD_VERSION}-pr.${CHANGE_ID}"
                                 }
                                 else {
-                                    BUILD_VERSION = "${BUILD_VERSION}-build.${BUILD_ID}"
+                                    BUILD_VERSION = "${BUILD_VERSION}.dev${BUILD_ID}"
                                 }
                             }
                         }

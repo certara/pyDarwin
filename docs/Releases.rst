@@ -4,6 +4,17 @@
 Releases
 ######################
 
+**********************
+pyDarwin-Certara 2.0.1
+**********************
+
+Issues Corrected
+====================
+
+* Estimated OMEGAS are now used when calculating OMEGA penalty, fixed OMEGAS are ignored.
+* Estimated SIGMAS are now used when calculating SIGMA penalty, fixed SIGMAS are ignored.
+* Unnecessary memory allocation when calculating size of total search space.
+
 
 **********************
 pyDarwin-Certara 2.0

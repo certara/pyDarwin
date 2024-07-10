@@ -1,7 +1,8 @@
 from copy import copy
 import time
 import logging 
-import numpy as np 
+import numpy as np
+import warnings
 
 import darwin.GlobalVars as GlobalVars
 
@@ -17,7 +18,7 @@ from darwin.ModelRun import ModelRun
 
 from .DeapToolbox import DeapToolbox, model_run_to_deap_ind
 
-np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
+warnings.filterwarnings('error', category=DeprecationWarning)
 logger = logging.getLogger(__name__) 
 
 

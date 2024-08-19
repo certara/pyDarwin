@@ -1,9 +1,9 @@
 {
     "author": "Certara",
-    "algorithm": "EX",
+    "algorithm": "MOGA",
     "exhaustive_batch_size": 100,
-    "population_size": 8,
-    "num_parallel": 4,
+    "population_size": 2,
+    "num_parallel": 1,
     "crash_value": 99999999,
 
     "penalty": {
@@ -19,6 +19,6 @@
 
     "remove_run_dir": false,
 
-    "nmfe_path": "c:/nm744/util/nmfe74.bat",
+    "nmfe_path": "c:/nm75g64/util/nmfe75.bat",
     "model_run_timeout": 1200
 }

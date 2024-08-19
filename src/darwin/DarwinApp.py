@@ -32,6 +32,7 @@ from .Population import init_pop_nums
 
 from .algorithms.exhaustive import run_exhaustive, get_search_space_size
 from .algorithms.GA import run_ga
+from .algorithms.MOGA import run_moga
 from .algorithms.PSO import run_pso
 from .algorithms.OPT import run_skopt
 
@@ -213,6 +214,8 @@ class DarwinApp:
             final = run_skopt(model_template)
         elif algorithm == "GA":
             final = run_ga(model_template)
+        elif algorithm == "MOGA":
+            final = run_moga(model_template)
         elif algorithm == "PSO":
             final = run_pso(model_template)
         elif algorithm in ["EX", "EXHAUSTIVE"]:

@@ -35,6 +35,18 @@ _default_GA = {
     'sharing_alpha': 0.1,
     'crossover_operator': 'cxOnePoint'
 }
+_default_MOGA = {
+    'crossover_rate': 0.95,
+    'elitist_num': 4,
+    'mutation_rate': 0.95,
+    'attribute_mutation_probability': 0.1,
+    'mutate': 'flipBit',
+    'niche_penalty': 20,
+    'selection': 'tournament',
+    'selection_size': 2,
+    'sharing_alpha': 0.1,
+    'crossover_operator': 'cxOnePoint'
+}
 
 _default_PSO = {
     "elitist_num": 4,
@@ -188,10 +200,12 @@ class Options:
 
         penalty = opts.get('penalty', {})
         ga = opts.get('GA', {})
+        moga = opts.get('MOGA', {})
         pso = opts.get('PSO', {})
 
         self.penalty = _default_penalty | penalty
         self.GA = _default_GA | ga
+        self.MOGA = _default_MOGA | moga
         self.PSO = _default_PSO | pso
         self.use_saved_models = opts.get('use_saved_models', False)
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
@@ -203,15 +217,16 @@ class Options:
 
         self.crash_value = opts.get('crash_value', 99999999)
 
+        self.isMOGA = self.algorithm == "MOGA"
         self.isGA = self.algorithm == "GA"
         self.isPSO = self.algorithm == "PSO"
 
-        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
             self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)
             self.num_generations = _get_mandatory_option(opts, 'num_generations', self.algorithm)
         if self.algorithm in ["GBRT", "RF", "GP"]:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
-        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
             self.downhill_period = opts.get('downhill_period', -1)
             self.final_downhill_search = opts.get('final_downhill_search', False)
             self.local_2_bit_search = opts.get('local_2_bit_search', False)

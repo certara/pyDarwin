@@ -1,9 +1,8 @@
 {
     "author": "Certara",
-    "algorithm": "MOGA",
-    "exhaustive_batch_size": 100,
-    "population_size": 2,
-    "num_parallel": 1,
+    "algorithm": "EX",
+    "exhaustive_batch_size": 100, 
+    "num_parallel": 4,
     "crash_value": 99999999,
 
     "penalty": {

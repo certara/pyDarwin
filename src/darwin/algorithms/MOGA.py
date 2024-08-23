@@ -18,8 +18,42 @@ from darwin.ModelRun import ModelRun
 
 from .DeapToolbox import DeapToolbox, model_run_to_deap_ind
 
+from pymoo.algorithms.moo.nsga2 import NSGA2
+import matplotlib
+from pymoo.problems import get_problem
+from pymoo.operators.crossover.pntx import TwoPointCrossover
+from pymoo.operators.mutation.bitflip import BitflipMutation
+from pymoo.operators.sampling.rnd import BinaryRandomSampling
+from pymoo.optimize import minimize
+from pymoo.visualization.scatter import Scatter
+from pymoo.core.problem import Problem
+
+import numpy as np
 warnings.filterwarnings('error', category=DeprecationWarning)
-logger = logging.getLogger(__name__) 
+logger = logging.getLogger(__name__)
+
+
+class MogaProblem(Problem):
+    def __init__(self, n_var, modeltemplate):
+        super().__init__(n_var=n_var,   # number of bits
+                         n_obj=2,
+                         n_ieq_constr=0,
+                         xl=np.zeros(n_var, dtype=int),
+                         xu=np.ones(n_var, dtype=int),
+                         # need this to send population and template to evaluate
+                         requires_kwargs=True,
+                         ModelTemplate=modeltemplate
+                         )
+
+    def _evaluate(self, x, out, *args, **kwargs):
+        # will replace the code below with code to run a single generation of models
+        # then population f1 and f2
+        # model template in self.data['ModelTemplate']
+        a = self.data['ModelTemplate']
+        # run a generation here, with current x
+        f1 = np.sum(x, axis=1)
+        f2 = -np.sum(x[:, 1:40], axis=1)
+        out["F"] = [f1, f2]
 
 
 class _MOGARunner:
@@ -69,10 +103,7 @@ class _MOGARunner:
         return True
 
     def run_downhill(self, population: Population):
-        # pop will have the fitnesses without the niche penalty here
-        # add local exhaustive search here??
-        # temp_fitnesses = copy(fitnesses)
-        # downhill with NumNiches best models
+
         log.message(f"Starting downhill generation = {self.generation}  at {time.asctime()}")
 
         best_runs = population.get_best_runs(options.num_niches)
@@ -105,9 +136,24 @@ def run_moga(model_template: Template) -> ModelRun:
     pop_size = options.population_size
     elitist_num = options.MOGA['elitist_num']
     downhill_period = options.downhill_period
-
     runner = _MOGARunner(model_template, pop_size, elitist_num, options.num_generations)
-
+    runner.problem = MogaProblem(n_var=100, modeltemplate=model_template)
+    # send everything needed for search to algorithms as **kwargs
+    # does not (yet) minimiza on the pyDarwin problem, just runs the standard GA
+    # staring below
+    # plan is to move the run_generation code into
+    #
+    runner.algorithm = NSGA2(pop_size=30,
+                      sampling=BinaryRandomSampling(),
+                      crossover=TwoPointCrossover(),
+                      mutation=BitflipMutation(),
+                      eliminate_duplicates=True )
+  # just to be sure that the minimzation runs, this is the simple problem, not the pyDarwin problem minimization
+    res = minimize(runner.problem,
+                   runner.algorithm,
+                   ('n_gen', 10),
+                   seed=1,
+                   verbose=True)
     generations_no_change = 0
 
     # Begin evolution
@@ -144,8 +190,8 @@ def run_moga(model_template: Template) -> ModelRun:
 
     final_moga_run = population.get_best_run()
 
-    log.message(f'Best individual MOGA is {str(final_moga_run.model.model_code.FullBinCode)}'
-                f' with fitness of {final_moga_run.result.fitness:4f}')
+    log.message(f'N non dominated solutions = MOGA is {str(final_moga_run.model.model_code.FullBinCode)}'
+                f'OFVs are:')
 
     if options.final_downhill_search and keep_going():
         population.name = 'FN'

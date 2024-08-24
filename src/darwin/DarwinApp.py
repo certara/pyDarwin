@@ -97,6 +97,9 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Project temp dir: {options.temp_dir}")
     log.message(f"Project output dir: {options.output_dir}")
     log.message(f"Key models dir: {options.key_models_dir}")
+    log.message(f"use_effect_limit: {options.use_effect_limit}")
+    if options.use_effect_limit:
+        log.message(f"effect_limit: {options.effect_limit}")
 
     if not _check_tokens(model_template, adapter):
         return False

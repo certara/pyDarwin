@@ -197,6 +197,9 @@ class Options:
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
         self.saved_models_readonly = opts.get('saved_models_readonly', False) and self.use_saved_models
 
+        self.use_effect_limit = opts.get('use_effect_limit', False)
+        if self.use_effect_limit:
+            self.effect_limit = _get_mandatory_option(opts,"effect_limit")
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)
         self.no_cleanup = opts.get('no_cleanup', False)
@@ -236,6 +239,10 @@ class Options:
         self.use_python = pp_opts.get('use_python', False)
 
         self.r_timeout = int(pp_opts.get('r_timeout', 90))
+
+        if self.use_effect_limit:
+            if self.effect_limit is None:
+                self.effect_limit = _get_mandatory_option(pp_opts, 'effect_limit')
 
         if self.use_r:
             if self.rscript_path is None:

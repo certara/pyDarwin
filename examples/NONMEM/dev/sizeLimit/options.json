@@ -15,7 +15,7 @@
         "crossover_operator": "cxOnePoint"
     },
 
-    "random_seed": 11,
+    "random_seed": 1,
     "population_size": 80,
     "num_parallel": 4,
     "num_generations": 7,
@@ -39,7 +39,7 @@
         "non_influential_tokens": 0.00001
     },
     "use_effect_limit": true,
-    "effect_limit": 8,
+    "effect_limit": 4,
 
     "remove_run_dir": false,
 

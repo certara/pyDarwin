@@ -196,8 +196,12 @@ class Options:
         self.use_saved_models = opts.get('use_saved_models', False)
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
         self.saved_models_readonly = opts.get('saved_models_readonly', False) and self.use_saved_models
+        if (options.engine_adapter != 'nonmem' or options.algorithm != "GA") and self.use_effect_limit:
+            log.message("Can only use effect_limit with GA and NONMEM, setting use_effect_limit to FALSE")
+            self.use_effect_limit = False
+        else:
+            self.use_effect_limit = opts.get('use_effect_limit', False)
 
-        self.use_effect_limit = opts.get('use_effect_limit', False)
         if self.use_effect_limit:
             self.effect_limit = _get_mandatory_option(opts,"effect_limit")
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
@@ -239,10 +243,6 @@ class Options:
         self.use_python = pp_opts.get('use_python', False)
 
         self.r_timeout = int(pp_opts.get('r_timeout', 90))
-
-        if self.use_effect_limit:
-            if self.effect_limit is None:
-                self.effect_limit = _get_mandatory_option(pp_opts, 'effect_limit')
 
         if self.use_r:
             if self.rscript_path is None:

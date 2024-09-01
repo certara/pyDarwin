@@ -92,13 +92,14 @@ class ModelEngineAdapter(ABC):
 
         pass
 
-    def create_new_model(self, template: Template, model_code: ModelCode) -> Model:
+    def create_new_model(self, template: Template, model_code: ModelCode, num_effects=0) -> Model:
         """
         """
 
         model = Model(model_code)
 
-        model.phenotype, model.control, model.non_influential_token_num = self.make_control(template, model_code)
+        model.phenotype, model.control, model.non_influential_token_num = \
+            self.make_control(template, model_code, num_effects)
 
         return model
 

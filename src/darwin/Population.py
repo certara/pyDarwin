@@ -23,7 +23,7 @@ class Population:
     Population of individuals (model runs).
     """
 
-    def __init__(self, template: Template, name, start_number=0, max_number=0, max_iteration=0):
+    def __init__(self, template: Template, name, start_number=0, max_number=0, max_iteration=0, num_effects=0):
         """
         Create an empty population.
 
@@ -34,6 +34,8 @@ class Population:
         :param max_number: Maximum model number of entire **iteration**. Used for formatting model number. Note that
             iteration may contain multiple populations (see exhaustive search).
         :param max_iteration: Maximum iteration number. Used for formatting population name.
+        :param num_effects: number of effect in models, based on effects = token in tokens.json. Need to put num_effects
+        here in order to use it when codes are generated
         """
         try:
             iter_format = '{:0' + str(len(str(max_iteration))) + 'd}'
@@ -51,29 +53,32 @@ class Population:
         self.adapter = get_engine_adapter(options.engine_adapter)
 
         self.model_cache = get_model_cache()
+        self.num_effects = num_effects
 
+    def set_num_effects(self, num_effects=0):
+        self.num_effects.append(num_effects)
     @classmethod
-    def from_codes(cls, template: Template, name, codes, code_converter, start_number=0, max_number=0, max_iteration=0):
+    def from_codes(cls, template: Template, name, codes, code_converter,
+                   start_number=0, max_number=0, max_iteration=0, num_effects=0):
         """
         Create a new population from a set of codes.
         """
-        pop = cls(template, name, start_number, max_number or len(codes), max_iteration)
-
+        pop = cls(template, name, start_number, max_number or len(codes), max_iteration, 6)
         maxes = template.gene_max
         lengths = template.gene_length
-
-        for code in codes:
-            pop.add_model_run(code_converter(code, maxes, lengths))
+        for code, ind_num_effects in zip(codes, num_effects):
+            pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
 
         return pop
 
-    def add_model_run(self, code: ModelCode):
+    def add_model_run(self, code: ModelCode, num_effects=0):
         """
         Create a new ModelRun and append it to *self.runs*.
         If a ModelRun with such code already exists in *self.runs*, the new one will be marked as a duplicate and
         will not be run. If the code is found in the cache, ModelRun will be restored from there and will not be run.
         """
-        model = self.adapter.create_new_model(self.template, code)
+
+        model = self.adapter.create_new_model(self.template, code, num_effects)
 
         genotype = str(model.genotype())
         phenotype = model.phenotype

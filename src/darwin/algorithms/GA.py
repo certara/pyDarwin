@@ -38,13 +38,10 @@ class _GARunner:
         # create an initial population of pop_size individuals (where
         # each individual is a list of bits [0|1])
         self.pop_full_bits = self.toolbox.new_population(pop_size)
- #       self.pop_full_bits = self.toolbox.new_population_limit(pop_size)
-        if options['use_effect_limit']:
+        if options.use_effect_limit:
             self.pop_full_bits, all_num_effects = self.weight_pop_full_bits()
             self.num_effects = all_num_effects
         self.best_for_elitism = self.toolbox.new_population(elitist_num)
-
-
 
     def weight_pop_full_bits(self):
         # recalculate bits with weighted probability to constraint to total effects < effects_limit
@@ -89,7 +86,7 @@ class _GARunner:
         param num_effects: list of number of effects in each set for each group
         param total_effects: total # of effects in all groups
         """
-        # goal is probabilities such that 80% of sample have total effects <= options['effect_limit']
+        # goal is probabilities such that 80% of samples have total effects <= options['effect_limit']
         # get p_per_effect for 80% good samples
         p_per_effect = bisect(self.binom_to_zero, 0, 1, args=max_effects)
         # need total effects or fewer of all groups
@@ -121,9 +118,16 @@ class _GARunner:
         return probs
 
     def binom_to_zero(self, x, max_effects):
+        """
+        param x: value to be tested (x in binomial)
+        param max_effects: p in binomial
+        """
+        # target fraction of samples with < effect_limit hard coded as  0.8
         p = binom.cdf(options['effect_limit'], max_effects, x)
         return p - 0.8
+
     def get_num_effects(self):
+        # calculate the number of effects in each token set in each token group
         num_effects = dict()
         max_effects = 0
         for this_group in self.template.tokens:
@@ -138,7 +142,7 @@ class _GARunner:
                 try:
                     value = int(value)
                 except ValueError:
-                    log.error(f"The final string in set {this_group} should be effects = n where n in a integer")
+                    log.error(f"The final string in token set {this_group} should be effects = n where n in a integer")
                     log.error(f"N effects for this set set to 0")
                     value = 0
                 cur_group_list.append(value)
@@ -148,6 +152,7 @@ class _GARunner:
             max_effects += this_max
 
         return num_effects, max_effects
+
     def run_generation(self):
         self.generation += 1
 

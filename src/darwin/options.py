@@ -141,6 +141,10 @@ class Options:
             self.random_seed = None
 
         try:
+            self.use_effect_limit = opts.get('use_effect_limit', False)
+        except ValueError:
+            self.use_effect_limit = 0
+        try:
             self.num_parallel = int(opts.get('num_parallel', 4))
         except ValueError:
             self.num_parallel = 0

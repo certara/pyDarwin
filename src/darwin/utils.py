@@ -5,11 +5,64 @@ import heapq
 import threading
 import multiprocessing as mp
 import traceback
-import psutil
 
+import numpy as np
+import psutil
+import math
 from darwin.Log import log
 
 from .DarwinError import DarwinError
+
+
+def get_pop_num_effects(tokens):
+    # calculate the number of effects in each token set in each token group
+    num_effects = []
+    for this_ind in tokens:
+        cur_n_effects = 0
+        for this_group in this_ind:
+            effect_token = len(this_group) - 1
+            value = this_group[effect_token ].lower()
+            value = value.replace("effects", "")
+            value = value.replace("effect", "")
+            value = value.replace("=", "")
+            try:
+                value = int(value)
+            except ValueError:
+                value = 0
+            cur_n_effects += value
+        num_effects += [cur_n_effects]
+
+    return num_effects
+
+def convert_full_bin_int(population, gene_max: list, length: list):
+    """
+    Converts a "full binary" (e.g., from GA to integer (used to select token sets))
+
+    :param population: population, including fitness and bits
+    :param gene_max: integer list, maximum number of token sets in that token group
+    :param length: integer list, how long each gene is
+
+    Returns an integer array of which token goes into this model.
+    """
+    phenotype = list()
+    for this_ind in population:
+        this_phenotype = []
+        start = 0
+        for this_num_bits, this_max in zip(length, gene_max):
+            this_gene = this_ind[start:start + this_num_bits] or [0]
+            base_int = int("".join(str(x) for x in this_gene), 2)
+            max_value = 2 ** len(this_gene) - 1  # zero based, max number possible from bit string, 0 based (has the -1)
+            # maximum possible number of indexes that must be skipped to get max values
+            # to fit into fullMax possible values.
+            max_num_dropped = max_value - this_max
+            num_dropped = math.floor(max_num_dropped * (base_int / max_value))
+            full_int_val = base_int - num_dropped
+
+            this_phenotype.append(full_int_val)  # value here???
+
+            start += this_num_bits
+        phenotype.append(this_phenotype)
+    return phenotype
 
 
 def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list, max_depth: int):

@@ -166,7 +166,7 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         control += "\n;; Phenotype: " + phenotype + "\n;; Genotype: " + model_code_str \
                    + "\n;; Num non-influential tokens: " + str(non_influential_token_num) + "\n"
-        if options['use_effect_limit']:
+        if options.use_effect_limit:
             control += "\n;; Number of effects = " + str(num_effects)
 
         return phenotype, control, non_influential_token_num

@@ -66,9 +66,13 @@ class Population:
         pop = cls(template, name, start_number, max_number or len(codes), max_iteration, 6)
         maxes = template.gene_max
         lengths = template.gene_length
-        for code, ind_num_effects in zip(codes, num_effects):
-            pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
-
+        # won't have num_effects if downhill
+        if options.use_effect_limit:
+            for code, ind_num_effects in zip(codes, num_effects):
+                pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
+        else:
+            for code in codes:
+                pop.add_model_run(code_converter(code, maxes, lengths))
         return pop
 
     def add_model_run(self, code: ModelCode, num_effects=0):

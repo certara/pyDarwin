@@ -16,11 +16,11 @@
     },
 
     "random_seed": 1,
-    "population_size": 60,
+    "population_size": 40,
     "num_parallel": 4,
     "num_generations": 10,
 
-    "downhill_period": 2,
+    "downhill_period": 3,
     "num_niches": 2,
     "niche_radius": 2,
     "local_2_bit_search": false,
@@ -37,9 +37,7 @@
         "correlation": 100,
         "condition_number": 100,
         "non_influential_tokens": 0.00001
-    },
-    "use_effect_limit": true,
-    "effect_limit": 4,
+    }, 
 
     "remove_run_dir": false,
 

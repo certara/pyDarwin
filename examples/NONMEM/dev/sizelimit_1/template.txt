@@ -52,26 +52,26 @@ $OMEGA
 $SIGMA   
  {RESERR[2]}
 
-$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 PRINT = 10 
+;;$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 PRINT = 10
+$EST METHOD=0 MAX = 9999 MSFO=MSF1 PRINT = 10
 $COV UNCOND PRINT=E  PRECOND=1 PRECONDS=TOS  MATRIX = R
 
 $TABLE REP ID TIME DV EVID NOPRINT FILE = ORG.DAT ONEHEADER NOAPPEND
-;;  write out num effects, don't need this, just for checking
-
-;; ADVAN {ADVAN[4]}
-;; K23~WT {K23~WT[3]} 
-;; KAETA {KAETA[3]}  
-;; V2~WT {V2~WT[3]}
-;; V2~AGE {V2~AGE[3]} 
-;; V2~SEX {V2~SEX[3]}    
-;; V2~COV2 {V2~COV2[3]}
-;; CL~WT {CL~WT[3]} 
-;; CL~AGE {CL~AGE[3]} 
-;; CL~CRCL {CL~CRCL[3]} 
-;; CL~COV1 {CL~COV1[3]} 
-;; IOVCL {IOVCL[3]}
-;; IOVV {IOVV[3]}
-;; INITCL {INITCL[3]}
-;; ETAD1LAG {ETAD1LAG[4]}
-;; D1LAG {D1LAG[5]}    
-;; RESERR {RESERR[3]}
+;; write out num effects, don't need this, just for checking
+;; {ADVAN[4]}
+;; {K23~WT[3]} 
+;; {KAETA[3]}  
+;; {V2~WT[3]}
+;; {V2~AGE[3]} 
+;; {V2~SEX[3]}    
+;; {V2~COV2[3]}
+;; {CL~WT[3]} 
+;; {CL~AGE[3]} 
+;; {CL~CRCL[3]}
+;; {CL~COV1[3]} 
+;; {IOVCL[3]}
+;; {IOVV[3]}
+;; {INITCL[3]}
+;; {ETAD1LAG[4]}
+;; {D1LAG[5]}    
+;; {RESERR[3]}

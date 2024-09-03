@@ -15,7 +15,13 @@ from .DarwinError import DarwinError
 
 
 def get_pop_num_effects(tokens):
-    # calculate the number of effects in each token set in each token group
+    """
+    calculate the number of effects in each token set in each token group
+    called from Deaptoolbox.get_offspring
+    :param tokens: list of lists of tokens used in each individual (not the full set)
+    :return: an array of the number of effects for each individual.
+    :rtype: integer array
+    """
     num_effects = []
     for this_ind in tokens:
         cur_n_effects = 0
@@ -37,12 +43,12 @@ def get_pop_num_effects(tokens):
 def convert_full_bin_int(population, gene_max: list, length: list):
     """
     Converts a "full binary" (e.g., from GA to integer (used to select token sets))
-
+    modified from the function in ModelCode.py
     :param population: population, including fitness and bits
     :param gene_max: integer list, maximum number of token sets in that token group
     :param length: integer list, how long each gene is
-
-    Returns an integer array of which token goes into this model.
+    :return: an integer array of which token goes into this model.
+    :rtype: integer array
     """
     phenotype = list()
     for this_ind in population:

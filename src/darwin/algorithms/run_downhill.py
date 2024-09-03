@@ -12,6 +12,7 @@ from darwin.Population import Population
 from darwin.ModelCode import ModelCode
 
 
+import darwin.utils as utils
 def _get_distances(x, y) -> list:
     return distance_matrix(x, y)[0]
 
@@ -113,7 +114,6 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
                 test_models.append(test_ind)
 
             niche.runs_finish = len(test_models)
-
         population = Population.from_codes(template, str(generation) + "D" + f'{this_step:02d}',
                                            test_models, ModelCode.from_min_binary)
 

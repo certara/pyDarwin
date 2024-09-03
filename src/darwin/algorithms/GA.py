@@ -127,7 +127,9 @@ class _GARunner:
         return p - 0.8
 
     def get_num_effects(self):
-        # calculate the number of effects in each token set in each token group
+        """
+        calculate the number of effects in each token set in each token group
+        """
         num_effects = dict()
         max_effects = 0
         for this_group in self.template.tokens:
@@ -186,10 +188,12 @@ class _GARunner:
         return True
 
     def run_downhill(self, population: Population):
-        # pop will have the fitnesses without the niche penalty here
-        # add local exhaustive search here??
-        # temp_fitnesses = copy(fitnesses)
-        # downhill with NumNiches best models
+        """
+        pop will have the fitnesses without the niche penalty here
+        add local exhaustive search here??
+        param: Population
+        """
+
         log.message(f"Starting downhill generation = {self.generation}  at {time.asctime()}")
 
         best_runs = population.get_best_runs(options.num_niches)

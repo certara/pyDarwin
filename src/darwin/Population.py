@@ -67,12 +67,29 @@ class Population:
         maxes = template.gene_max
         lengths = template.gene_length
         # won't have num_effects if downhill
-        if options.use_effect_limit:
+        if "D" in str(name) or "S" in str(name) or "F" in str(name):
+            is_downhill = True
+        else:
+            is_downhill = False
+        if options.use_effect_limit and not is_downhill:
             for code, ind_num_effects in zip(codes, num_effects):
                 pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
         else:
+            pop_int_codes = list()
+            for code in codes:
+                temp = code_converter(code, maxes, lengths)
+                pop_int_codes.append(temp.IntCode)
+            n_initial_models = len(codes)
+            tokens = list()
+            for this_ind in pop_int_codes:
+                tokens.append([this_set[gene] for this_set, gene in zip(list(template.tokens.values()), this_ind)])
+            num_effects = utils.get_pop_num_effects(tokens)
+            good_inds = [element <= options.effect_limit for element in num_effects]
+            codes = [element for element, flag in zip(codes, good_inds) if flag]
             for code in codes:
                 pop.add_model_run(code_converter(code, maxes, lengths))
+            log.message(f"{-(len(codes)-n_initial_models)} of {n_initial_models} "
+                        f"models removed in downhill due to number of effects > {options.effect_limit}")
         return pop
 
     def add_model_run(self, code: ModelCode, num_effects=0):

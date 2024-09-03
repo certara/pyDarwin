@@ -52,7 +52,7 @@ class MogaProblem(Problem):
         a = self.data['ModelTemplate']
         # run a generation here, with current x
         # copy x to self
-        self.
+        #self.
         f1 = np.sum(x, axis=1)
         f2 = -np.sum(x[:, 1:40], axis=1)
         out["F"] = [f1, f2]

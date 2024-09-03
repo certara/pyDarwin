@@ -16,7 +16,11 @@
     },
 
     "random_seed": 1,
+<<<<<<< Updated upstream
     "population_size": 30,
+=======
+    "population_size": 80,
+>>>>>>> Stashed changes
     "num_parallel": 4,
     "num_generations": 5,
 

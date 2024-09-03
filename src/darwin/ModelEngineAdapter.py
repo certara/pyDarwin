@@ -92,7 +92,12 @@ class ModelEngineAdapter(ABC):
 
         pass
 
+<<<<<<< Updated upstream
     def create_new_model(self, template: Template, model_code: ModelCode, num_effects=0) -> Model:
+=======
+    def create_new_model(self, template: Template, model_code: ModelCode,
+                         num_effects=0) -> Model:
+>>>>>>> Stashed changes
         """
         """
 

@@ -2,12 +2,18 @@ import random
 from copy import copy
 import time
 import logging
+<<<<<<< Updated upstream
 
+=======
+import numpy
+from scipy.stats import binom
+from scipy.optimize import bisect
+>>>>>>> Stashed changes
 import numpy as np
 import warnings
-
+import re
 import darwin.GlobalVars as GlobalVars
-
+import random
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import keep_going
@@ -16,8 +22,8 @@ from darwin.algorithms.run_downhill import run_downhill
 from darwin.Population import Population
 from darwin.Template import Template
 from darwin.Model import Model
+from darwin.Model import ModelCode
 from darwin.ModelRun import ModelRun
-
 from .DeapToolbox import DeapToolbox, model_run_to_deap_ind
 
 from scipy.stats import binom
@@ -37,7 +43,9 @@ class _GARunner:
         self.num_effects = None
         # create an initial population of pop_size individuals (where
         # each individual is a list of bits [0|1])
+        self.num_effects = None
         self.pop_full_bits = self.toolbox.new_population(pop_size)
+<<<<<<< Updated upstream
         if options.use_effect_limit:
             self.pop_full_bits, all_num_effects = self.weight_pop_full_bits()
             self.num_effects = all_num_effects
@@ -155,15 +163,148 @@ class _GARunner:
 
         return num_effects, max_effects
 
+=======
+        if options['use_effect_limit']:
+            # change p(bits) to make last token set less likely
+            int_genome = self.reweight_bits()
+            # need to convert to bitwise genome
+            all_code = list()
+            for this_ind in range(options['population_size']):
+                this_ind = ModelCode.from_int(int_genome[this_ind], self.template.gene_max, self.template.gene_length)
+                all_code.append(this_ind.FullBinCode)
+            self.pop_full_bits = all_code
+        self.best_for_elitism = self.toolbox.new_population(elitist_num)
+
+    target_prob = 0.8  # hard coded
+
+    def reweight_bits(self):
+        # calculate total effect in tokens
+        # sum will be sum of maximum # in any token set across all token groups
+        # set up array of how many effects in each tokens set
+        # count total of max effect possible
+        max_effects, n_effects = self.get_max_effects()
+        # get probability per group of 1 effect, to be divided amount all with effects > 0
+        all_probs = self.get_all_probs(n_effects, max_effects)
+        # and randomly generate integer genome
+        # new_genome = np.zeros(shape=(options['population_size'], len(self.template.tokens)),dtype=int)
+        n_needed = int(options['population_size']*1.5)
+        count = 0
+        ncols = len(n_effects)
+        test_genome = np.empty(shape=(0, ncols), dtype=int)
+        while n_needed > 0 and count < 10:
+            new_test_genome = self.get_test_genome(n_needed, n_effects, all_probs)
+            test_genome = numpy.append(test_genome, new_test_genome, axis=0)
+            bad_rows, num_effects = self.count_bad(n_effects, test_genome)
+            test_genome = np.delete(test_genome, bad_rows, 0)
+            num_effects = np.delete(num_effects, bad_rows, 0)
+            n_inds, num_cols = test_genome.shape
+            n_needed = int((options['population_size']-n_inds) * 3)  # * 3 in case you only need 1 or 2 more
+            count += 1
+
+        if count >= 9:
+            log.message("Cannot find adequate initial sample for size limit")
+
+        new_genome = test_genome[:options['population_size'], ]
+        num_effects = num_effects[:options['population_size'], ]
+        self.num_effects = num_effects
+        return new_genome
+    def get_test_genome(self, n_needed, n_effects, all_probs):
+        cur_group = 0
+        test_genome = np.zeros(shape=(n_needed, len(self.template.tokens)), dtype=int)
+        for this_group in self.template.tokens:
+            cur_probs = all_probs[this_group]
+            test_genome[..., cur_group] = random.choices(
+                population=range(len(n_effects[this_group])),
+                weights=cur_probs,
+                k=n_needed)
+            cur_group += 1
+
+        return test_genome
+    def count_bad(self, n_effects, new_genome):
+        num_effects = np.zeros(len(new_genome), dtype=int)
+        bad_rows = []
+        for this_ind in range(len(new_genome)):
+            ind_effects = 0
+            cur_group = 0
+            for this_group in n_effects:
+                ind_effects += n_effects[this_group][new_genome[this_ind, cur_group]]
+                cur_group += 1
+            num_effects[this_ind] = int(ind_effects)
+            if ind_effects > options['effect_limit']:
+                bad_rows.append(this_ind)
+        return bad_rows, num_effects
+
+    def get_max_effects(self):
+        max_effects = 0
+        n_effects = dict()
+        for this_group in self.template.tokens:
+            cur_max = -999
+            cur_set = 0
+            n_effects_cur_set = dict()
+            for this_set in self.template.tokens[this_group]:
+                text = this_set[-1].lower()
+                text = re.sub("(?i)effects", "", text)
+                text = re.sub("(?i)effect", "", text)
+                text = re.sub("(?i)=", "", text)
+                val = int(text)
+                n_effects_cur_set[cur_set] = val
+                cur_set += 1
+                if val > cur_max:
+                    cur_max = val
+            max_effects += cur_max
+            n_effects[this_group] = n_effects_cur_set
+        return max_effects, n_effects
+
+    def cumulative_prob(self, p, n):
+        return binom.cdf(options['effect_limit'], n, p) - self.target_prob
+    def get_all_probs(self, n_effects, Max_effects):
+        total_p_for_effects = bisect(self.cumulative_prob, 0, 1, args=Max_effects)
+        total_p_for_zeros = 1 - total_p_for_effects  # rest of probability to be divided among all tokens set with 0 effects
+        # get probability for sets with n_effects > 0
+        # total probablility across entire set wll be prob_per_effect, divided
+        # inversely proportinally to any non-zero effect, and the remaining evenly divided
+        # among the 0's
+        all_probs = dict()
+        for this_group in self.template.tokens:
+            # there is a total of prob_per_effect to disctibute
+            # across all sets where effect_size > 0
+            # sum of probs * number of effects should be prob_per_effect
+            probs = np.zeros(len(n_effects[this_group]))
+            # get total possible effect in this group, sum in n_effect
+            # then divide prob_per_effect among them, with e.g., if 2 effects, only 1/2 of the value that a token
+            # total_effects_this_group = sum(n_effects[this_group])
+            non_zeros = [True if x > 0 else False for x in n_effects[this_group].values()]
+            zeros = [True if x == 0 else False for x in n_effects[this_group].values()]
+            n_non_zero = sum(non_zeros)
+            n_zeros = sum(zeros)
+            n_effects_per_string = [x for x, y in zip(n_effects[this_group].values(), non_zeros) if y]
+            if n_non_zero > 0:
+                p_per_non_zero = total_p_for_effects/sum(n_effects_per_string)
+            else:
+                p_per_non_zero = -999  # there aren't any effect in any sets, so doesn't matter
+
+            probs[non_zeros] = p_per_non_zero/np.array(n_effects_per_string)
+            if n_zeros > 0:
+                probs[zeros] = total_p_for_zeros/n_zeros
+            else:
+                probs[zeros] = -999  # redo non-zeros for all prob
+                p_per_non_zero = 1/sum(n_effects_per_string)
+                probs[non_zeros] = p_per_non_zero / np.array(n_effects_per_string)
+            # normalize all to sum 1
+            sum_prob = sum(probs)
+            probs = probs/sum_prob
+            all_probs[this_group] = probs
+        return all_probs
+>>>>>>> Stashed changes
     def run_generation(self):
         self.generation += 1
-
         if self.generation > self.num_generations or not keep_going():
             return False
 
         log.message(f"Starting generation {self.generation}")
 
         if self.generation > 1:
+            # if use_effect_limit, keep sampling until you have enough with required limit on effects
             self.pop_full_bits = self.toolbox.get_offspring(self.pop_full_bits)
 
             # replace first elitist_num individuals
@@ -173,12 +314,17 @@ class _GARunner:
         self.population = Population.from_codes(self.template, self.generation, self.pop_full_bits,
                                                 ModelCode.from_full_binary, max_iteration=self.num_generations,
                                                 num_effects=self.num_effects)
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         self.population.run()
 
         if not keep_going():
             return False
 
         for ind, run in zip(self.pop_full_bits, self.population.runs):
+
             ind.fitness.values = (run.result.fitness,)
 
         best_runs = self.population.get_best_runs(self.elitist_num)

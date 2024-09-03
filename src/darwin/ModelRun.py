@@ -117,7 +117,7 @@ class ModelRun:
     # nice try
     model_result_class = ModelResults
 
-    def __init__(self, model: Model, model_num, generation, adapter: ModelEngineAdapter):
+    def __init__(self, model: Model, model_num, generation, adapter: ModelEngineAdapter, num_effects):
         """
         :param model_num: Model number, within the generation, Generation + model_num creates a unique "file_stem" that
             is used to name the control file, the executable and the run directory
@@ -126,7 +126,7 @@ class ModelRun:
         :param adapter: an instance of ModelEngineAdapter, may be obtained
             with get_engine_adapter(options.engine_adapter)
         """
-
+        self.num_effects = num_effects
         self.model = model
         self._adapter = adapter
         self.result = self.model_result_class()

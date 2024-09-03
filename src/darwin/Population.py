@@ -98,7 +98,10 @@ class Population:
         If a ModelRun with such code already exists in *self.runs*, the new one will be marked as a duplicate and
         will not be run. If the code is found in the cache, ModelRun will be restored from there and will not be run.
         """
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         model = self.adapter.create_new_model(self.template, code, num_effects)
 
         genotype = str(model.genotype())
@@ -115,6 +118,7 @@ class Population:
 
         if existing_run:
             run = copy(existing_run)
+            run.num_effects = existing_run.num_effects
             run.model_num = self.model_number
             run.file_stem += f'_{run.model_num}'
             run.reference_model_num = existing_run.model_num
@@ -136,7 +140,7 @@ class Population:
                 run1.set_status('not restored')
                 self.model_cache.store_model_run(run1)
         else:
-            run = ModelRun(model, wide_model_num, self.name, self.adapter)
+            run = ModelRun(model, wide_model_num, self.name, self.adapter, num_effects)
 
         run.wide_model_num = wide_model_num
 

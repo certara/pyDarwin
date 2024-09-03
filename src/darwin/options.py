@@ -207,7 +207,7 @@ class Options:
             self.use_effect_limit = opts.get('use_effect_limit', False)
 
         if self.use_effect_limit:
-            self.effect_limit = _get_mandatory_option(opts,"effect_limit")
+            self.effect_limit = _get_mandatory_option(opts, "effect_limit")
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)
         self.no_cleanup = opts.get('no_cleanup', False)

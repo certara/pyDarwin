@@ -12,6 +12,7 @@ from darwin.Template import Template
 from darwin.ModelRun import ModelRun
 import darwin.utils as utils
 
+
 class DeapToolbox:
     def __init__(self, template: Template):
         ga_options = options.GA
@@ -120,50 +121,62 @@ class DeapToolbox:
         # do not copy new fitness to models, models should be just the "real" fitness
         # Select the next generation individuals
         n_pop = 0
-
+        count = 0
         if options.use_effect_limit:
-            while n_pop < options.population_size:
+            while n_pop < options.population_size and count < 100:
                 # why does offspring return 1 more than len(pop_full_bits??)
                 # offspring is list of individuals (fitness and genome)
                 temp = toolbox.select(pop_full_bits, len(pop_full_bits))
+                # Apply crossover and mutation on the offspring
+                for child1, child2 in zip(temp[::2], temp[1::2]):
+                    if random.random() < crossover_probability and len(child1) > 1:
+                        toolbox.mate(child1, child2)
+                for mutant in temp:
+                    # mutate an individual
+                    if random.random() < mutation_probability:
+                        toolbox.mutate(mutant)
+                        del mutant.fitness.values
+                # now check if < effect_limit
                 # need integers, have ints
-                phenotype = utils.convert_full_bin_int(temp, self.gene_max,
-                                                       self.gene_length)
-                all_tokens = list()
-                for this_ind in range(len(temp)):
-                    all_tokens.append([tokens[gene] for tokens, gene in zip(self.tokens.values(), phenotype[this_ind])])
-                num_effects = utils.get_pop_num_effects(all_tokens)
-                good_inds = [element <= options.effect_limit for element in num_effects]
-                temp = [element for element, flag in zip(temp, good_inds) if flag]
                 if n_pop == 0:
                     offspring = temp
                 else:
                     offspring.extend(temp)
+                phenotype = utils.convert_full_bin_int(offspring, self.gene_max,
+                                                       self.gene_length)
+                all_tokens = list()
+                for this_ind in range(len(offspring)):
+                    all_tokens.append([tokens[gene] for tokens, gene in zip(self.tokens.values(), phenotype[this_ind])])
+                num_effects = utils.get_pop_num_effects(all_tokens)
+                good_inds = [element <= options.effect_limit for element in num_effects]
+                offspring = [element for element, flag in zip(temp, good_inds) if flag]
                 n_pop = len(offspring)
             offspring = offspring[:options.population_size]
+            count += 1
         else:
             offspring = toolbox.select(pop_full_bits, len(pop_full_bits))
 
-        # Clone the selected individuals, otherwise will be linked to original, by reference
-        offspring = [toolbox.clone(x) for x in offspring]
+            # Clone the selected individuals, otherwise will be linked to original, by reference
+            offspring = [toolbox.clone(x) for x in offspring]
 
-        # Apply crossover and mutation on the offspring
-        for child1, child2 in zip(offspring[::2], offspring[1::2]):
-            # cross two individuals
-            # don't need to copy child1, child2 back to offspring, done internally by DEAP
-            # from https://deap.readthedocs.io/en/master/examples/ga_onemax.html
-            # "In addition they modify those individuals within the toolbox container,
-            # and we do not need to reassign their results.""
+            # Apply crossover and mutation on the offspring
+            for child1, child2 in zip(offspring[::2], offspring[1::2]):
+                # cross two individuals
+                # don't need to copy child1, child2 back to offspring, done internally by DEAP
+                # from https://deap.readthedocs.io/en/master/examples/ga_onemax.html
+                # "In addition they modify those individuals within the toolbox container,
+                # and we do not need to reassign their results.""
 
-            if random.random() < crossover_probability and len(child1) > 1:
-                toolbox.mate(child1, child2)
+                if random.random() < crossover_probability and len(child1) > 1:
+                    toolbox.mate(child1, child2)
 
-        for mutant in offspring:
-            # mutate an individual
-            if random.random() < mutation_probability:
-                toolbox.mutate(mutant)
-                del mutant.fitness.values
-
+            for mutant in offspring:
+                # mutate an individual
+                if random.random() < mutation_probability:
+                    toolbox.mutate(mutant)
+                    del mutant.fitness.values
+        if count >= 99:
+            log.message(f"Not able to generate population with < {options.effect_limit} effects")
         return offspring
 
 

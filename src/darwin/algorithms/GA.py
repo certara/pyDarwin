@@ -101,7 +101,7 @@ class _GARunner:
             non_zero_sets = [i for i, value in enumerate(num_effects[this_group]) if value > 0]
             n_non_zero_sets = len(non_zero_sets)
             if n_non_zero_sets > 0:
-                #non_zero_slice = tuple(slice(x) for x in non_zero_sets)
+                # non_zero_slice = tuple(slice(x) for x in non_zero_sets)
                 # for each non_zero set, p(1 effect) will equal p_per_effect
                 # so, if 2 effects p_per_effect/2
                 for this_set in non_zero_sets:

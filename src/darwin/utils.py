@@ -27,7 +27,7 @@ def get_pop_num_effects(tokens):
         cur_n_effects = 0
         for this_group in this_ind:
             effect_token = len(this_group) - 1
-            value = this_group[effect_token ].lower()
+            value = this_group[effect_token].lower()
             value = value.replace("effects", "")
             value = value.replace("effect", "")
             value = value.replace("=", "")

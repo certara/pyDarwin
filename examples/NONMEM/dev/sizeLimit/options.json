@@ -4,7 +4,7 @@
 
     "GA": {
         "crossover_rate": 0.95,
-        "elitist_num": 4,
+        "elitist_num": 2,
         "mutation_rate": 0.95,
         "attribute_mutation_probability": 0.1,
         "mutate": "flipBit",
@@ -16,9 +16,9 @@
     },
 
     "random_seed": 1,
-    "population_size": 60,
+    "population_size": 30,
     "num_parallel": 4,
-    "num_generations": 10,
+    "num_generations": 5,
 
     "downhill_period": 2,
     "num_niches": 2,

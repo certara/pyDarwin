@@ -44,6 +44,7 @@ class Population:
             pass
 
         self.name = str(name)
+        self.num_effects = num_effects
         self.runs = []
         self.runs_g = {}
         self.runs_ph = {}
@@ -63,6 +64,7 @@ class Population:
         """
         Create a new population from a set of codes.
         """
+<<<<<<< Updated upstream
         pop = cls(template, name, start_number, max_number or len(codes), max_iteration, 6)
         maxes = template.gene_max
         lengths = template.gene_length
@@ -90,6 +92,18 @@ class Population:
                 pop.add_model_run(code_converter(code, maxes, lengths))
             log.message(f"{-(len(codes)-n_initial_models)} of {n_initial_models} "
                         f"models removed in downhill due to number of effects > {options.effect_limit}")
+=======
+        pop = cls(template, name, start_number, max_number or len(codes), max_iteration, num_effects)
+
+        maxes = template.gene_max
+        lengths = template.gene_length
+        inputs = zip(codes, pop.num_effects)
+        #for code in codes:
+        for code in inputs:
+            pop.add_model_run(code_converter(code[0], maxes, lengths), code[1])
+           # pop.add_model_run(code_converter(code, maxes, lengths), num_effects)
+
+>>>>>>> Stashed changes
         return pop
 
     def add_model_run(self, code: ModelCode, num_effects=0):

@@ -166,8 +166,14 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         control += "\n;; Phenotype: " + phenotype + "\n;; Genotype: " + model_code_str \
                    + "\n;; Num non-influential tokens: " + str(non_influential_token_num) + "\n"
+<<<<<<< Updated upstream
         if options.use_effect_limit:
             control += "\n;; Number of effects = " + str(num_effects)
+=======
+        if options['use_effect_limit']:
+            control += "\n;; Num Effects = " + str(num_effects)
+
+>>>>>>> Stashed changes
 
         return phenotype, control, non_influential_token_num
 

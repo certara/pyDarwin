@@ -23,7 +23,7 @@ class Population:
     Population of individuals (model runs).
     """
 
-    def __init__(self, template: Template, name, start_number=0, max_number=0, max_iteration=0, num_effects=0):
+    def __init__(self, template: Template, name, start_number=0, max_number=0, max_iteration=0):
         """
         Create an empty population.
 
@@ -44,7 +44,6 @@ class Population:
             pass
 
         self.name = str(name)
-        self.num_effects = num_effects
         self.runs = []
         self.runs_g = {}
         self.runs_ph = {}
@@ -54,29 +53,28 @@ class Population:
         self.adapter = get_engine_adapter(options.engine_adapter)
 
         self.model_cache = get_model_cache()
-        self.num_effects = num_effects
 
-    def set_num_effects(self, num_effects=0):
-        self.num_effects.append(num_effects)
+    #def set_num_effects(self, num_effects=0):
+    #    self.num_effects.append(num_effects)
     @classmethod
     def from_codes(cls, template: Template, name, codes, code_converter,
                    start_number=0, max_number=0, max_iteration=0, num_effects=0):
         """
         Create a new population from a set of codes.
+        if not downhill, have already generated good codes
         """
-<<<<<<< Updated upstream
-        pop = cls(template, name, start_number, max_number or len(codes), max_iteration, 6)
+
+        pop = cls(template, name, start_number, max_number or len(codes), max_iteration)
         maxes = template.gene_max
         lengths = template.gene_length
-        # won't have num_effects if downhill
+        # won't have num_effects if downhill, will need to get here??
         if "D" in str(name) or "S" in str(name) or "F" in str(name):
             is_downhill = True
         else:
             is_downhill = False
-        if options.use_effect_limit and not is_downhill:
-            for code, ind_num_effects in zip(codes, num_effects):
-                pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
-        else:
+        # need to generate population of "good" models (i.e., models with < effects_limit) only if
+        # this is downhill AND use_effect_limit otherwise, just return the population
+        if options.use_effect_limit and is_downhill:
             pop_int_codes = list()
             for code in codes:
                 temp = code_converter(code, maxes, lengths)
@@ -88,34 +86,21 @@ class Population:
             num_effects = utils.get_pop_num_effects(tokens)
             good_inds = [element <= options.effect_limit for element in num_effects]
             codes = [element for element, flag in zip(codes, good_inds) if flag]
-            for code in codes:
-                pop.add_model_run(code_converter(code, maxes, lengths))
-            log.message(f"{-(len(codes)-n_initial_models)} of {n_initial_models} "
+            for code, ind_num_effects in zip(codes, num_effects):
+                pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
+            log.message(f"{-(len(codes) - n_initial_models)} of {n_initial_models} "
                         f"models removed in downhill due to number of effects > {options.effect_limit}")
-=======
-        pop = cls(template, name, start_number, max_number or len(codes), max_iteration, num_effects)
-
-        maxes = template.gene_max
-        lengths = template.gene_length
-        inputs = zip(codes, pop.num_effects)
-        #for code in codes:
-        for code in inputs:
-            pop.add_model_run(code_converter(code[0], maxes, lengths), code[1])
-           # pop.add_model_run(code_converter(code, maxes, lengths), num_effects)
-
->>>>>>> Stashed changes
+        else:
+            for code, n_effects in zip(codes, num_effects):
+                pop.add_model_run(code_converter(code, maxes, lengths), n_effects)
         return pop
 
-    def add_model_run(self, code: ModelCode, num_effects=0):
+    def add_model_run(self, code: ModelCode, num_effects):
         """
         Create a new ModelRun and append it to *self.runs*.
         If a ModelRun with such code already exists in *self.runs*, the new one will be marked as a duplicate and
         will not be run. If the code is found in the cache, ModelRun will be restored from there and will not be run.
         """
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
         model = self.adapter.create_new_model(self.template, code, num_effects)
 
         genotype = str(model.genotype())

@@ -22,7 +22,6 @@ from darwin.omega_search import apply_omega_bands, get_bands, get_max_search_blo
 from .utils import match_vars, remove_comments, get_omega_block
 
 
-
 class NMEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
@@ -166,17 +165,10 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         control += "\n;; Phenotype: " + phenotype + "\n;; Genotype: " + model_code_str \
                    + "\n;; Num non-influential tokens: " + str(non_influential_token_num) + "\n"
-<<<<<<< Updated upstream
         if options.use_effect_limit:
             control += "\n;; Number of effects = " + str(num_effects)
-=======
-        if options['use_effect_limit']:
-            control += "\n;; Num Effects = " + str(num_effects)
-
->>>>>>> Stashed changes
 
         return phenotype, control, non_influential_token_num
-
 
     @staticmethod
     def cleanup(run_dir: str, file_stem: str):
@@ -319,7 +311,7 @@ class NMEngineAdapter(ModelEngineAdapter):
                     success = True
 
             # IS COVARIANCE REQUESTED:
-            if 'nm:covariance_status' in last_estimation\
+            if 'nm:covariance_status' in last_estimation \
                     and last_estimation['nm:covariance_status']['@nm:error'] == '0':
 
                 covariance = True
@@ -743,7 +735,7 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
             else:
                 final_control += "\n" + "$OMEGA BLOCK(" + str(block_size) + ") ;; block omega searched for bands\n"
 
-                band_arr.append(f"([{n+1}]{band_start}, {len(band)}: {band_width[omega_idx]})")
+                band_arr.append(f"([{n + 1}]{band_start}, {len(band)}: {band_width[omega_idx]})")
 
             band_start += len(band)
             this_rec = 0

@@ -92,19 +92,12 @@ class ModelEngineAdapter(ABC):
 
         pass
 
-<<<<<<< Updated upstream
-    def create_new_model(self, template: Template, model_code: ModelCode, num_effects=0) -> Model:
-=======
-    def create_new_model(self, template: Template, model_code: ModelCode,
-                         num_effects=0) -> Model:
->>>>>>> Stashed changes
-        """
-        """
+    def create_new_model(self, template: Template, model_code: ModelCode, num_effects) -> Model:
 
-        model = Model(model_code)
+        model = Model(model_code, num_effects)
 
         model.phenotype, model.control, model.non_influential_token_num = \
-            self.make_control(template, model_code, num_effects)
+            self.make_control(template, model_code, model.num_effects)
 
         return model
 

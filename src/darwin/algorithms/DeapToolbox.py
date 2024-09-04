@@ -3,6 +3,7 @@ import random
 import numpy as np
 from scipy.spatial import distance_matrix
 
+from darwin.Log import log
 import deap
 from deap import base, creator, tools
 
@@ -93,13 +94,6 @@ class DeapToolbox:
         to register a generator of filled containers, as individuals or
         population.
 
-            >>> import random
-            >>> random.seed(42)
-            >>> initRepeat(list, random.random, 2) # doctest: +ELLIPSIS,
-            ...                                    # doctest: +NORMALIZE_WHITESPACE
-            [0.6394..., 0.0250...]
-
-        See the :ref:`list-of-floats` and :ref:`population` tutorials for more examples.
         """
         return container(func() for _ in range(n))
 
@@ -127,6 +121,8 @@ class DeapToolbox:
                 # why does offspring return 1 more than len(pop_full_bits??)
                 # offspring is list of individuals (fitness and genome)
                 temp = toolbox.select(pop_full_bits, len(pop_full_bits))
+                # Clone the selected individuals, otherwise will be linked to original, by reference
+                temp = [toolbox.clone(x) for x in temp]
                 # Apply crossover and mutation on the offspring
                 for child1, child2 in zip(temp[::2], temp[1::2]):
                     if random.random() < crossover_probability and len(child1) > 1:
@@ -138,21 +134,25 @@ class DeapToolbox:
                         del mutant.fitness.values
                 # now check if < effect_limit
                 # need integers, have ints
-                if n_pop == 0:
-                    offspring = temp
-                else:
-                    offspring.extend(temp)
-                phenotype = utils.convert_full_bin_int(offspring, self.gene_max,
+                phenotype = utils.convert_full_bin_int(temp, self.gene_max,
                                                        self.gene_length)
                 all_tokens = list()
-                for this_ind in range(len(offspring)):
+                for this_ind in range(len(temp)):
                     all_tokens.append([tokens[gene] for tokens, gene in zip(self.tokens.values(), phenotype[this_ind])])
                 num_effects = utils.get_pop_num_effects(all_tokens)
                 good_inds = [element <= options.effect_limit for element in num_effects]
-                offspring = [element for element, flag in zip(temp, good_inds) if flag]
-                n_pop = len(offspring)
-            offspring = offspring[:options.population_size]
-            count += 1
+                temp = [element for element, flag in zip(temp, good_inds) if flag]
+                if n_pop == 0:
+                    offspring = [toolbox.clone(x) for x in temp]
+                    n_pop = len(offspring)
+                else:
+                    temp = [toolbox.clone(x) for x in temp]
+                    this_new_ind = 0
+                    while n_pop < options.population_size and this_new_ind < len(temp):
+                        offspring.append(temp[this_new_ind])
+                        this_new_ind += 1
+                        n_pop = len(offspring)
+                count += 1
         else:
             offspring = toolbox.select(pop_full_bits, len(pop_full_bits))
 
@@ -176,7 +176,8 @@ class DeapToolbox:
                     toolbox.mutate(mutant)
                     del mutant.fitness.values
         if count >= 99:
-            log.message(f"Not able to generate population with < {options.effect_limit} effects")
+            log.error(f"Not able to generate population with < {options.effect_limit} effects")
+            log.error(f"effect_limit may be too small or search space (with >0 effects) too large")
         return offspring
 
 

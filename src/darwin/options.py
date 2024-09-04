@@ -219,7 +219,9 @@ class Options:
 
         if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
             self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)
+            log.message(f"Population size = {self.population_size}")
             self.num_generations = _get_mandatory_option(opts, 'num_generations', self.algorithm)
+            log.message(f"num_generations = {self.num_generations}")
         if self.algorithm in ["GBRT", "RF", "GP"]:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
         if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:

@@ -136,19 +136,17 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         for niche in niches:
             if niche.done:
                 continue
-
             # pull out fitness from just this niche
             niche_fitnesses = [r.result.fitness for r in runs[niche.runs_start:niche.runs_finish]]
-
-            best_in_niche = get_n_best_index(1, niche_fitnesses)[0]
-
-            new_best_run = runs[niche.runs_start + best_in_niche]
-
-            if new_best_run.result.fitness < niche.best_run.result.fitness:
-                niche.best_run = new_best_run
+            if len(niche_fitnesses) > 0:
+                best_in_niche = get_n_best_index(1, niche_fitnesses)[0]
+                new_best_run = runs[niche.runs_start + best_in_niche]
+                if new_best_run.result.fitness < niche.best_run.result.fitness:
+                    niche.best_run = new_best_run
+                else:
+                    niche.done = True
             else:
                 niche.done = True
-
     if options.local_2_bit_search and keep_going():
         best_niche_fitnesses = [niche.best_run.result.fitness for niche in niches]
         best_niche = get_n_best_index(1, best_niche_fitnesses)[0]

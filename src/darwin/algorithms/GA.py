@@ -12,7 +12,6 @@ import random
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import keep_going
-from darwin.ModelCode import ModelCode
 from darwin.algorithms.run_downhill import run_downhill
 from darwin.Population import Population
 from darwin.Template import Template
@@ -130,6 +129,7 @@ class _GARunner:
     def get_num_effects(self):
         """
         calculate the number of effects in each token set in each token group
+        Note that the num_effect count will include all token sets, including non-influential tokens
         """
         num_effects = dict()
         max_effects = 0
@@ -157,10 +157,12 @@ class _GARunner:
         return num_effects, max_effects
 
     def reweight_bits(self):
-        # calculate total effect in tokens
-        # sum will be sum of maximum # in any token set across all token groups
-        # set up array of how many effects in each tokens set
-        # count total of max effect possible
+        """"
+        calculate total effect in tokens
+        sum will be sum of maximum # in any token set across all token groups
+        set up array of how many effects in each tokens set
+        count total of max effect possible
+        """
         max_effects, n_effects = self.get_max_effects()
         # get probability per group of 1 effect, to be divided amount all with effects > 0
         all_probs = self.get_all_probs(n_effects, max_effects)
@@ -189,6 +191,11 @@ class _GARunner:
         return new_genome
 
     def get_test_genome(self, n_needed, n_effects, all_probs):
+        """"
+         param: n_needed number of bits needed (k in random.choices)
+         param: n_effects number of options to choose from, population sizes in random.choices
+         param: all_probs probability of each options (weight in random.choice)
+        """
         cur_group = 0
         test_genome = np.zeros(shape=(n_needed, len(self.template.tokens)), dtype=int)
         for this_group in self.template.tokens:
@@ -240,12 +247,15 @@ class _GARunner:
         return binom.cdf(options['effect_limit'], n, p) - self.target_prob
 
     def get_all_probs(self, n_effects, Max_effects):
+        """ 
+        get probability for sets with n_effects > 0
+        total probablility across entire set wll be prob_per_effect, divided
+        inversely proportinally to any non-zero effect, and the remaining evenly divided
+        among the 0's
+        """
         total_p_for_effects = bisect(self.cumulative_prob, 0, 1, args=Max_effects)
         total_p_for_zeros = 1 - total_p_for_effects  # rest of probability to be divided among all tokens set with 0 effects
-        # get probability for sets with n_effects > 0
-        # total probablility across entire set wll be prob_per_effect, divided
-        # inversely proportinally to any non-zero effect, and the remaining evenly divided
-        # among the 0's
+
         all_probs = dict()
         for this_group in self.template.tokens:
             # there is a total of prob_per_effect to disctibute
@@ -290,10 +300,13 @@ class _GARunner:
             # replace first elitist_num individuals
             for i in range(self.elitist_num):
                 self.pop_full_bits[i] = copy(self.best_for_elitism[i])
-
+        if options.use_effect_limit:
+            n_effects = self.num_effects
+        else:
+            n_effects = np.ones(len(self.pop_full_bits), dtype=int)*(-99)
         self.population = Population.from_codes(self.template, self.generation, self.pop_full_bits,
                                                 ModelCode.from_full_binary, max_iteration=self.num_generations,
-                                                num_effects=self.num_effects)
+                                                num_effects=n_effects)
 
         self.population.run()
 

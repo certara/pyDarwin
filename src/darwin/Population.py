@@ -1,7 +1,7 @@
 from copy import copy, deepcopy
 from collections import OrderedDict
 import time
-
+import numpy as np
 from darwin.Log import log
 
 import darwin.utils as utils
@@ -58,12 +58,22 @@ class Population:
     #    self.num_effects.append(num_effects)
     @classmethod
     def from_codes(cls, template: Template, name, codes, code_converter,
-                   start_number=0, max_number=0, max_iteration=0, num_effects=0):
+                   start_number=0, max_number=0, max_iteration=0, num_effects=None):
         """
         Create a new population from a set of codes.
         if not downhill, have already generated good codes
+        params: template - model template
+        params: name - generation name
+        params: codes - codes for models
+        params: code_converter - bin, minimal bin or integer
+        params: start_number
+        params: maximum value for each gene
+        params: max_iterations
+        params: num_effects, array of number of effects in each model, can be -99 if not use_effect_limit
         """
 
+        if num_effects is None:
+            num_effects = np.ones(len(codes), dtype=int) * (-99)
         pop = cls(template, name, start_number, max_number or len(codes), max_iteration)
         maxes = template.gene_max
         lengths = template.gene_length

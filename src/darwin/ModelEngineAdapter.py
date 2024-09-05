@@ -92,7 +92,7 @@ class ModelEngineAdapter(ABC):
 
         pass
 
-    def create_new_model(self, template: Template, model_code: ModelCode, num_effects) -> Model:
+    def create_new_model(self, template: Template, model_code: ModelCode, num_effects=0) -> Model:
 
         model = Model(model_code, num_effects)
 

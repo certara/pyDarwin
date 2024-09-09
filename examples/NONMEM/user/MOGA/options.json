@@ -1,6 +1,6 @@
 {
     "author": "Certara",
-    "algorithm": "GA",
+    "algorithm": "MOGA",
 
     "GA": {
         "crossover_rate": 0.95,
@@ -42,13 +42,7 @@
     "remove_run_dir": false,
 
     "nmfe_path": "c:/nm75g64/util/nmfe75.bat",
-    "model_run_timeout": 1200,
+    "model_run_timeout": 1200
 
-    "postprocess": {
-        "use_r": true,
-        "post_run_r_code": "{project_dir}/Cmaxppc.r",
-        "rscript_path": "c:/Program Files/R/R-4.3.0/bin/Rscript.exe",
-        "r_timeout": 120,
-        "use_python": false
-    }
+    
 }

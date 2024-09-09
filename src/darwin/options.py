@@ -217,14 +217,14 @@ class Options:
         self.isGA = self.algorithm == "GA"
         self.isPSO = self.algorithm == "PSO"
 
-        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
             self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)
             log.message(f"Population size = {self.population_size}")
             self.num_generations = _get_mandatory_option(opts, 'num_generations', self.algorithm)
             log.message(f"num_generations = {self.num_generations}")
         if self.algorithm in ["GBRT", "RF", "GP"]:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
-        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
             self.downhill_period = opts.get('downhill_period', -1)
             self.final_downhill_search = opts.get('final_downhill_search', False)
             self.local_2_bit_search = opts.get('local_2_bit_search', False)

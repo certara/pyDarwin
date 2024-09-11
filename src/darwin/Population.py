@@ -23,7 +23,7 @@ class Population:
     Population of individuals (model runs).
     """
 
-    def __init__(self, template: Template, name, start_number=0, max_number=0, max_iteration=0):
+    def __init__(self, template: Template, name, start_number=0, max_number=0, max_iteration=0, num_effects=None):
         """
         Create an empty population.
 
@@ -36,6 +36,7 @@ class Population:
         :param max_iteration: Maximum iteration number. Used for formatting population name.
         :param num_effects: number of effect in models, based on effects = token in tokens.json. Need to put num_effects
         here in order to use it when codes are generated
+
         """
         try:
             iter_format = '{:0' + str(len(str(max_iteration))) + 'd}'
@@ -53,8 +54,9 @@ class Population:
         self.adapter = get_engine_adapter(options.engine_adapter)
 
         self.model_cache = get_model_cache()
+        self.num_effects = num_effects
 
-    #def set_num_effects(self, num_effects=0):
+    # def set_num_effects(self, num_effects=0):
     #    self.num_effects.append(num_effects)
     @classmethod
     def from_codes(cls, template: Template, name, codes, code_converter,
@@ -72,12 +74,10 @@ class Population:
         params: num_effects, array of number of effects in each model, can be -99 if not use_effect_limit
         """
 
-        if num_effects is None:
-            num_effects = np.ones(len(codes), dtype=int) * (-99)
         pop = cls(template, name, start_number, max_number or len(codes), max_iteration)
         maxes = template.gene_max
         lengths = template.gene_length
-        # won't have num_effects if downhill, will need to get here??
+
         if "D" in str(name) or "S" in str(name) or "F" in str(name):
             is_downhill = True
         else:
@@ -101,6 +101,8 @@ class Population:
             log.message(f"{-(len(codes) - n_initial_models)} of {n_initial_models} "
                         f"models removed in downhill due to number of effects > {options.effect_limit}")
         else:
+            if num_effects is None:
+                num_effects = np.ones(len(codes)) * -99
             for code, n_effects in zip(codes, num_effects):
                 pop.add_model_run(code_converter(code, maxes, lengths), n_effects)
         return pop
@@ -119,7 +121,7 @@ class Population:
         self.model_number += 1
 
         run = self.model_cache.find_model_run(genotype=genotype) \
-            or self.model_cache.find_model_run(phenotype=phenotype)
+              or self.model_cache.find_model_run(phenotype=phenotype)
 
         existing_run = self.runs_g.get(genotype, None) or self.runs_ph.get(phenotype, None)
 
@@ -249,13 +251,13 @@ def init_pop_nums(template: Template):
     sn = options.get('ESTIMATED_2BIT_STEPS', 2)
 
     def downhill(n: str):
-        for d in range(1, dn+1):
+        for d in range(1, dn + 1):
             res[f"{n}D{d:02d}"] = x * options.num_niches
         if options.local_2_bit_search:
-            for d in range(1, sn+1):
+            for d in range(1, sn + 1):
                 res[f"{n}S{d:02d}"] = int(x * (x + 1) / 2)
 
-    for i in range(1, options.num_generations+1):
+    for i in range(1, options.num_generations + 1):
         name = iter_format.format(i)
         res[name] = pop_size
 
@@ -279,7 +281,7 @@ def get_remaining_model_num(pop: Population):
     if pop.name in pop_nums:
         names = list(pop_nums.keys())
 
-        for name in names[:names.index(pop.name)+1]:
+        for name in names[:names.index(pop.name) + 1]:
             pop_nums.pop(name)
 
     return sum(pop_nums.values()) + len(pop.runs)

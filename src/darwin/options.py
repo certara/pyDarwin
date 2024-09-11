@@ -208,6 +208,14 @@ class Options:
 
         if self.use_effect_limit:
             self.effect_limit = _get_mandatory_option(opts, "effect_limit")
+            if not isinstance(self.effect_limit, int):
+                log.error(f"effect {self.effect_limit} limit is not an integer, exiting")
+                sys.exit()
+            else:
+                if self.effect_limit <= 0:
+                    log.error(f"effect limit {self.effect_limit} is < 0, exiting")
+                    sys.exit()
+
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)
         self.no_cleanup = opts.get('no_cleanup', False)

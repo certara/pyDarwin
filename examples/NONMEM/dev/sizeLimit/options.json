@@ -20,7 +20,7 @@
     "num_parallel": 4,
     "num_generations": 3,
 
-    "downhill_period": 9999,
+    "downhill_period": 3,
     "num_niches": 2,
     "niche_radius": 2,
     "local_2_bit_search": true,
@@ -38,8 +38,8 @@
         "condition_number": 100,
         "non_influential_tokens": 0.00001
     },
-    "use_effect_limit": true,
-    "effect_limit": 4,
+    "use_effect_limit":true,
+    "effect_limit": 6,
 
     "remove_run_dir": false,
 

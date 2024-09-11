@@ -39,6 +39,7 @@ def get_pop_num_effects(tokens):
 
     return num_effects
 
+
 def convert_full_bin_int(population, gene_max: list, length: list):
     """
     Converts a "full binary" (e.g., from GA to integer (used to select token sets))
@@ -147,13 +148,13 @@ def get_token_parts(token):
 
 
 def remove_file(file_path: str):
-    if os.path.isfile(file_path): 
-        os.unlink(file_path) 
+    if os.path.isfile(file_path):
+        os.unlink(file_path)
 
 
 def remove_dir(file_path: str):
-    if os.path.isdir(file_path): 
-        shutil.rmtree(file_path) 
+    if os.path.isdir(file_path):
+        shutil.rmtree(file_path)
 
 
 def get_n_best_index(n, arr):

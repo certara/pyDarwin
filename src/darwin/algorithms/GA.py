@@ -1,4 +1,5 @@
 import random
+import sys
 from copy import copy
 import time
 import logging
@@ -49,6 +50,10 @@ class _GARunner:
         # full objects
         population = self.pop_full_bits
         num_effects, max_effects = self.get_num_effects()
+        if options.effect_limit >= max_effects:
+            log.error(f"Effect limit ({options.effect_limit}) is greater than the maximum possible effects ({max_effects}")
+            log.error("exiting")
+            sys.exit(0)
         probabilities = self.get_probabilities(num_effects, max_effects)
         all_int_codes = dict()
         cur_ind_num_effects = 9999999
@@ -296,17 +301,16 @@ class _GARunner:
         log.message(f"Starting generation {self.generation}")
 
         if self.generation > 1:
-            self.pop_full_bits = self.toolbox.get_offspring(self.pop_full_bits)
+            self.pop_full_bits, num_effects = self.toolbox.get_offspring(self.pop_full_bits)
             # replace first elitist_num individuals
             for i in range(self.elitist_num):
                 self.pop_full_bits[i] = copy(self.best_for_elitism[i])
-        if options.use_effect_limit:
-            n_effects = self.num_effects
         else:
-            n_effects = np.ones(len(self.pop_full_bits), dtype=int)*(-99)
+            num_effects = None
+
         self.population = Population.from_codes(self.template, self.generation, self.pop_full_bits,
                                                 ModelCode.from_full_binary, max_iteration=self.num_generations,
-                                                num_effects=n_effects)
+                                                num_effects=num_effects)
 
         self.population.run()
 

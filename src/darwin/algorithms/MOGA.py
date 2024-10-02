@@ -127,13 +127,7 @@ class _MOGARunner:
 
 def run_moga(model_template: Template) -> ModelRun:
     """
-    Run the Genetic Algorithm (GA) search, using the DEAP (https://github.com/deap/deap) packages.
-    The template object includes the control file template and all the token groups.
-
-    :param model_template: Template object for the search
-    :type model_template: Template
-    :return: The single best model from the search
-    :rtype: Model
+     Need to edit below, change from trival MOGA problem to run NONMEM
     """
     pop_size = options.population_size
     elitist_num = options.MOGA['elitist_num']

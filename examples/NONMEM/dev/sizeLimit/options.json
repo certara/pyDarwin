@@ -25,7 +25,9 @@
     "niche_radius": 2,
     "local_2_bit_search": true,
     "final_downhill_search": true,
-
+    "grid_search" : true,
+    "grid_search_dim": 4,
+    "final_grid_search": true,
     "crash_value": 99999999,
 
     "penalty": {

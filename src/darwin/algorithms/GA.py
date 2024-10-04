@@ -311,7 +311,6 @@ class _GARunner:
         self.population = Population.from_codes(self.template, self.generation, self.pop_full_bits,
                                                 ModelCode.from_full_binary, max_iteration=self.num_generations,
                                                 num_effects=num_effects)
-
         self.population.run()
 
         if not keep_going():

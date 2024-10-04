@@ -11,8 +11,9 @@ from darwin.ModelRun import ModelRun
 from darwin.Population import Population
 from darwin.ModelCode import ModelCode
 
-
 import darwin.utils as utils
+
+
 def _get_distances(x, y) -> list:
     return distance_matrix(x, y)[0]
 
@@ -84,19 +85,19 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
 
     all_runs = []
 
-    for this_step in range(1, 100):     # up to 99 steps
+    for this_step in range(1, 100):  # up to 99 steps
         if all([n.done for n in niches]):
             break
 
         test_models = []
         niches_this_loop = 0
-
+        all_starts = []  # may need to modify for deleted models if effect_limit is used
         for niche in niches:
             if niche.done:
                 continue
 
             niche.runs_start = len(test_models)
-
+            # need to adjust runs_start for models deleted due > effect_limit
             niches_this_loop += 1
 
             # only need to identify niches, so we can do downhill on the best in each niche
@@ -104,7 +105,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
             best_code = best_run.model.model_code.MinBinCode
 
             log.message(f"code for niche (minimal binary) {niches_this_loop} = {best_code},"
-                        f" fitness = {best_run.result.fitness}")
+                        f" fitness = {best_run.result.fitness}, model #  {generation}")
 
             # will always be minimal binary at this point
             for this_bit in range(len(best_code)):
@@ -114,9 +115,14 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
                 test_models.append(test_ind)
 
             niche.runs_finish = len(test_models)
-        population = Population.from_codes(template, str(generation) + "D" + f'{this_step:02d}',
-                                           test_models, ModelCode.from_min_binary)
+            all_starts.append(niche.runs_start)
+        population, new_starts = Population.from_codes(template, str(generation) + "D" + f'{this_step:02d}',
+                                                       test_models, ModelCode.from_min_binary, all_starts=all_starts)
 
+
+        if options.use_size_limit:
+            for i in options.num_niches:
+                niches[i].runs_start = new_starts[i]
         log.message(f"Starting downhill step {this_step},"
                     f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
 
@@ -185,7 +191,7 @@ def _change_each_bit(source_models: list, radius: int):  # only need upper trian
     list of all MinBinCode and radius"""
 
     models = []
-       
+
     for i in range(len(source_models)):  # only upper triangle
         base_model = source_models[i]
 

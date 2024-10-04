@@ -60,7 +60,7 @@ class Population:
     #    self.num_effects.append(num_effects)
     @classmethod
     def from_codes(cls, template: Template, name, codes, code_converter,
-                   start_number=0, max_number=0, max_iteration=0, num_effects=None):
+                   start_number=0, max_number=0, max_iteration=0, all_starts=None, num_effects=None):
         """
         Create a new population from a set of codes.
         if not downhill, have already generated good codes
@@ -71,6 +71,7 @@ class Population:
         params: start_number
         params: maximum value for each gene
         params: max_iterations
+        params: all_starts, array of starting positions for each niche, when doing downhill, None if not downhill
         params: num_effects, array of number of effects in each model, can be -99 if not use_effect_limit
         """
 
@@ -78,13 +79,15 @@ class Population:
         maxes = template.gene_max
         lengths = template.gene_length
 
-        if "D" in str(name) or "S" in str(name) or "F" in str(name):
+        if "D" in str(name) or "S" in str(name) or "F" in str(name) or "G" in str(name): # G for local grid search
             is_downhill = True
         else:
             is_downhill = False
+
         # need to generate population of "good" models (i.e., models with < effects_limit) only if
         # this is downhill AND use_effect_limit otherwise, just return the population
         if options.use_effect_limit and is_downhill:
+            new_starts = []
             pop_int_codes = list()
             for code in codes:
                 temp = code_converter(code, maxes, lengths)
@@ -95,17 +98,27 @@ class Population:
                 tokens.append([this_set[gene] for this_set, gene in zip(list(template.tokens.values()), this_ind)])
             num_effects = utils.get_pop_num_effects(tokens)
             good_inds = [element <= options.effect_limit for element in num_effects]
+            # adjust new_start, subtract # of elimiated models from all_starts
+            all_starts.append(len(good_inds)) # need the last value here
+            for this_start in range(len(all_starts)):
+                this_niche_good_inds = good_inds[all_starts[this_start]:all_starts[this_start+1]]
+                num_kept = sum(this_niche_good_inds)
+                new_starts[this_start] = num_kept
             codes = [element for element, flag in zip(codes, good_inds) if flag]
             for code, ind_num_effects in zip(codes, num_effects):
                 pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
             log.message(f"{-(len(codes) - n_initial_models)} of {n_initial_models} "
                         f"models removed in downhill due to number of effects > {options.effect_limit}")
         else:
+            new_starts = None
             if num_effects is None:
                 num_effects = np.ones(len(codes)) * -99
             for code, n_effects in zip(codes, num_effects):
                 pop.add_model_run(code_converter(code, maxes, lengths), n_effects)
-        return pop
+        if is_downhill:
+            return [pop, new_starts]
+        else:
+            return pop
 
     def add_model_run(self, code: ModelCode, num_effects):
         """

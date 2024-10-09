@@ -16,9 +16,9 @@
     },
 
     "random_seed": 1, 
-    "population_size": 10,
+    "population_size": 4,
     "num_parallel": 4,
-    "num_generations": 3,
+    "num_generations": 2,
 
     "downhill_period": 1,
     "num_niches": 2,

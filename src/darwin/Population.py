@@ -79,15 +79,22 @@ class Population:
         maxes = template.gene_max
         lengths = template.gene_length
 
-        if "D" in str(name) or "S" in str(name) or "F" in str(name) or "G" in str(name): # G for local grid search
+        if "D" in str(name) or "S" in str(name) or "F" in str(name) or "G" in str(name):  # G for local grid search
             is_downhill = True
         else:
             is_downhill = False
+        if "D" in str(name) or "F" in str(name) or "G" in str(name):  # G for local grid search
+            has_niches = True
+        else:
+            has_niches = False
 
         # need to generate population of "good" models (i.e., models with < effects_limit) only if
         # this is downhill AND use_effect_limit otherwise, just return the population
-        if options.use_effect_limit and is_downhill:
-            new_starts = []
+        if options.use_effect_limit and has_niches:  # search will not have niches, only downhill
+            num_niches = len(all_starts) # may not be the same as i options?? when niches have been eliminated
+            new_starts = np.zeros(num_niches + 1, dtype=int)  # but need one more for new_starts, as there may not be
+                                                              # the full set
+            cum_start = 0
             pop_int_codes = list()
             for code in codes:
                 temp = code_converter(code, maxes, lengths)
@@ -98,12 +105,13 @@ class Population:
                 tokens.append([this_set[gene] for this_set, gene in zip(list(template.tokens.values()), this_ind)])
             num_effects = utils.get_pop_num_effects(tokens)
             good_inds = [element <= options.effect_limit for element in num_effects]
-            # adjust new_start, subtract # of elimiated models from all_starts
-            all_starts.append(len(good_inds)) # need the last value here
-            for this_start in range(len(all_starts)):
+            # adjust new_start, subtract # of eliminated models from all_starts
+            all_starts.append(len(good_inds))  # need the last value here
+            for this_start in range(num_niches):
                 this_niche_good_inds = good_inds[all_starts[this_start]:all_starts[this_start+1]]
                 num_kept = sum(this_niche_good_inds)
-                new_starts[this_start] = num_kept
+                cum_start = cum_start + num_kept
+                new_starts[this_start + 1] = cum_start # first is zero
             codes = [element for element, flag in zip(codes, good_inds) if flag]
             for code, ind_num_effects in zip(codes, num_effects):
                 pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
@@ -115,7 +123,7 @@ class Population:
                 num_effects = np.ones(len(codes)) * -99
             for code, n_effects in zip(codes, num_effects):
                 pop.add_model_run(code_converter(code, maxes, lengths), n_effects)
-        if is_downhill:
+        if has_niches:
             return [pop, new_starts]
         else:
             return pop

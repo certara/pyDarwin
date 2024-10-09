@@ -105,7 +105,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
             best_code = best_run.model.model_code.MinBinCode
 
             log.message(f"code for niche (minimal binary) {niches_this_loop} = {best_code},"
-                        f" fitness = {best_run.result.fitness}, model #  {generation}")
+                        f" fitness = {best_run.result.fitness}, model #  {best_run.file_stem}")
 
             # will always be minimal binary at this point
             for this_bit in range(len(best_code)):
@@ -119,12 +119,15 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         population, new_starts = Population.from_codes(template, str(generation) + "D" + f'{this_step:02d}',
                                                        test_models, ModelCode.from_min_binary, all_starts=all_starts)
 
+        if options.use_effect_limit:
+            for this_niche in range(len(new_starts)-1):
+                niches[this_niche].runs_start = new_starts[this_niche].item()
+                niches[this_niche].runs_finish = new_starts[this_niche+1].item()
 
-        if options.use_size_limit:
-            for i in options.num_niches:
-                niches[i].runs_start = new_starts[i]
         log.message(f"Starting downhill step {this_step},"
                     f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
+        for i in range(1, len(new_starts)):
+            log.message(f"{new_starts[i] - new_starts[i -1]} models in niche {i}")
 
         population.run()
 
@@ -161,7 +164,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         last_best_fitness = run_for_search.result.fitness
 
         log.message(f"Begin local exhaustive 2-bit search, generation = {generation}, step = {this_step}")
-        log.message(f"Model for local exhaustive search = {run_for_search.generation},"
+        log.message(f"Model for local exhaustive search = {run_for_search.file_stem},"
                     f" phenotype = {run_for_search.model.phenotype} model Num = {run_for_search.model_num},"
                     f" fitness = {run_for_search.result.fitness}")
 
@@ -172,7 +175,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         # replace the niche this one came from, to preserve diversity
         if run_for_search.result.fitness < last_best_fitness:
             niches[best_niche].best_run = run_for_search
-
+        log.message(f"2-bit search, best model for step {this_step} = {run_for_search.file_stem}, fitness = {run_for_search.result.fitness}")
     for i in range(len(niches)):
         pop.runs[worst[i]] = niches[i].best_run
 

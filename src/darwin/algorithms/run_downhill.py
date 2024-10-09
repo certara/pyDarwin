@@ -11,7 +11,6 @@ from darwin.ModelRun import ModelRun
 from darwin.Population import Population
 from darwin.ModelCode import ModelCode
 
-import darwin.utils as utils
 
 
 def _get_distances(x, y) -> list:
@@ -164,9 +163,10 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         last_best_fitness = run_for_search.result.fitness
 
         log.message(f"Begin local exhaustive 2-bit search, generation = {generation}, step = {this_step}")
-        log.message(f"Model for local exhaustive search = {run_for_search.file_stem},"
-                    f" phenotype = {run_for_search.model.phenotype} model Num = {run_for_search.model_num},"
-                    f" fitness = {run_for_search.result.fitness}")
+        log.message(f"Model for local exhaustive search = {run_for_search.file_stem}, "
+                    f"fitness = {run_for_search.result.fitness}")
+        log.message(f" phenotype = {run_for_search.model.phenotype}")
+
 
         run_for_search, runs = _full_search(template, run_for_search, generation, return_all)
 

@@ -90,7 +90,7 @@ class Population:
 
         # need to generate population of "good" models (i.e., models with < effects_limit) only if
         # this is downhill AND use_effect_limit otherwise, just return the population
-        if options.use_effect_limit and has_niches:  # search will not have niches, only downhill
+        if options.use_effect_limit and has_niches and all_starts is not None:  # search will not have niches, only downhill
             num_niches = len(all_starts) # may not be the same as i options?? when niches have been eliminated
             new_starts = np.zeros(num_niches + 1, dtype=int)  # but need one more for new_starts, as there may not be
                                                               # the full set

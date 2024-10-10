@@ -79,10 +79,6 @@ class Population:
         maxes = template.gene_max
         lengths = template.gene_length
 
-        if "D" in str(name) or "S" in str(name) or "F" in str(name) or "G" in str(name):  # G for local grid search
-            is_downhill = True
-        else:
-            is_downhill = False
         if "D" in str(name) or "F" in str(name) or "G" in str(name):  # G for local grid search
             has_niches = True
         else:
@@ -117,15 +113,29 @@ class Population:
                 pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
             log.message(f"{-(len(codes) - n_initial_models)} of {n_initial_models} "
                         f"models removed in downhill due to number of effects > {options.effect_limit}")
-        else:
-            new_starts = None
-            if num_effects is None:
-                num_effects = np.ones(len(codes)) * -99
-            for code, n_effects in zip(codes, num_effects):
-                pop.add_model_run(code_converter(code, maxes, lengths), n_effects)
-        if has_niches:
             return [pop, new_starts]
-        else:
+        else: # filtering for num_effects is not needed for ML step, but will be for 2 bit search, not done any other place
+            if options.use_effect_limit:
+                pop_int_codes = list()
+                for code in codes:
+                    temp = code_converter(code, maxes, lengths)
+                    pop_int_codes.append(temp.IntCode)
+                n_initial_models = len(codes)
+                tokens = list()
+                for this_ind in pop_int_codes:
+                    tokens.append([this_set[gene] for this_set, gene in zip(list(template.tokens.values()), this_ind)])
+                num_effects = utils.get_pop_num_effects(tokens)
+                good_inds = [element <= options.effect_limit for element in num_effects]
+                codes = [element for element, flag in zip(codes, good_inds) if flag]
+                for code, ind_num_effects in zip(codes, num_effects):
+                    pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
+                log.message(f"{-(len(codes) - n_initial_models)} of {n_initial_models} "
+                            f"models removed     due to number of effects > {options.effect_limit}")
+            else:
+                if num_effects is None:
+                    num_effects = np.ones(len(codes)) * -99
+                for code, n_effects in zip(codes, num_effects):
+                    pop.add_model_run(code_converter(code, maxes, lengths), n_effects)
             return pop
 
     def add_model_run(self, code: ModelCode, num_effects):

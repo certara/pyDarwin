@@ -246,7 +246,8 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
             all_runs.extend(population.runs)
 
         best = population.get_best_run()
-
+        log.message(f"Model for local exhaustive search = {best.file_stem}, "
+                    f"fitness = {best.result.fitness}")
         current_best_fitness = best.result.fitness
 
         if current_best_fitness < last_best_fitness:

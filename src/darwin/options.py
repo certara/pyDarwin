@@ -141,10 +141,6 @@ class Options:
             self.random_seed = None
 
         try:
-            self.use_effect_limit = opts.get('use_effect_limit', False)
-        except ValueError:
-            self.use_effect_limit = 0
-        try:
             self.num_parallel = int(opts.get('num_parallel', 4))
         except ValueError:
             self.num_parallel = 0
@@ -157,7 +153,7 @@ class Options:
         options_file_parent = pathlib.Path(self.options_file).parent
 
         self.project_name = opts.get('project_name') or options_file_parent.name
-        self.project_stem = re.sub(r'[^\w]', '_', self.project_name)
+        self.project_stem = re.sub(r'\W', '_', self.project_name)
 
         darwin_home = os.environ.get('PYDARWIN_HOME') or os.path.join(pathlib.Path.home(), 'pydarwin')
 
@@ -200,11 +196,15 @@ class Options:
         self.use_saved_models = opts.get('use_saved_models', False)
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
         self.saved_models_readonly = opts.get('saved_models_readonly', False) and self.use_saved_models
-        if (options.engine_adapter != 'nonmem' or options.algorithm != "GA") and self.use_effect_limit:
-            log.message("Can only use effect_limit with GA and NONMEM, setting use_effect_limit to FALSE")
-            self.use_effect_limit = False
-        else:
+
+        try:
             self.use_effect_limit = opts.get('use_effect_limit', False)
+        except ValueError:
+            self.use_effect_limit = False
+
+        if (options.engine_adapter != 'nonmem' or options.algorithm != "GA") and self.use_effect_limit:
+            log.message("Can only use effect_limit with GA and NONMEM, setting to False")
+            self.use_effect_limit = False
 
         if self.use_effect_limit:
             self.effect_limit = _get_mandatory_option(opts, "effect_limit")
@@ -227,9 +227,7 @@ class Options:
 
         if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
             self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)
-            log.message(f"Population size = {self.population_size}")
             self.num_generations = _get_mandatory_option(opts, 'num_generations', self.algorithm)
-            log.message(f"num_generations = {self.num_generations}")
         if self.algorithm in ["GBRT", "RF", "GP"]:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
         if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:

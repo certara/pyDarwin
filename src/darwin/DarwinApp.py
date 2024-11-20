@@ -89,7 +89,13 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Algorithm: {options.algorithm}")
     log.message(f"Engine: {adapter.get_engine_name().upper()}")
 
+    if options.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
+        log.message(f"Population size: {options.population_size}")
+        log.message(f"num_generations: {options.num_generations}")
     log.message(f"random_seed: {options.random_seed}")
+    log.message(f"use_effect_limit: {options.use_effect_limit}")
+    if options.use_effect_limit:
+        log.message(f"effect_limit: {options.effect_limit}")
 
     log.message(f"Project dir: {options.project_dir}")
     log.message(f"Data dir: {options.data_dir}")
@@ -97,9 +103,6 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Project temp dir: {options.temp_dir}")
     log.message(f"Project output dir: {options.output_dir}")
     log.message(f"Key models dir: {options.key_models_dir}")
-    log.message(f"use_effect_limit: {options.use_effect_limit}")
-    if options.use_effect_limit:
-        log.message(f"effect_limit: {options.effect_limit}")
 
     if not _check_tokens(model_template, adapter):
         return False

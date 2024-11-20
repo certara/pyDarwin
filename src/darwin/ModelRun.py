@@ -27,7 +27,7 @@ from .ModelEngineAdapter import ModelEngineAdapter, get_engine_adapter
 from .DarwinError import DarwinError
 
 JSON_ATTRIBUTES = [
-    'model_num', 'generation', 'file_stem',
+    'model_num', 'generation', 'file_stem', 'num_effects',
     'run_dir', 'control_file_name', 'output_file_name', 'executable_file_name',
     'status', 'source'
 ]

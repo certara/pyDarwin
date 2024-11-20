@@ -206,7 +206,7 @@ class ModelRun:
 
         adapter = get_engine_adapter(src['engine_adapter'])
 
-        run = cls(model, src['model_num'], src['generation'], adapter, src['model_num'])
+        run = cls(model, src['model_num'], src['generation'], adapter, src['num_effects'])
 
         run.result = cls.model_result_class.from_dict(src['result'])
 

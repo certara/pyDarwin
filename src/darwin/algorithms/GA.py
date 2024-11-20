@@ -1,10 +1,7 @@
-import random
 import sys
 from copy import copy
 import time
 import logging
-from scipy.stats import binom
-from scipy.optimize import bisect
 import numpy as np
 import warnings
 import re
@@ -173,13 +170,13 @@ class _GARunner:
         all_probs = self.get_all_probs(n_effects, max_effects)
         # and randomly generate integer genome
         # new_genome = np.zeros(shape=(options['population_size'], len(self.template.tokens)),dtype=int)
-        n_needed = int(options['population_size'] * 1.5)
+        n_needed = int(options.population_size * 1.5)
         count = 0
         ncols = len(n_effects)
         test_genome = np.empty(shape=(0, ncols), dtype=int)
         while n_needed > 0 and count < 10:
             new_test_genome = self.get_test_genome(n_needed, n_effects, all_probs)
-            test_genome = numpy.append(test_genome, new_test_genome, axis=0)
+            test_genome = np.append(test_genome, new_test_genome, axis=0)
             bad_rows, num_effects = self.count_bad(n_effects, test_genome)
             test_genome = np.delete(test_genome, bad_rows, 0)
             num_effects = np.delete(num_effects, bad_rows, 0)
@@ -190,8 +187,8 @@ class _GARunner:
         if count >= 9:
             log.message("Cannot find adequate initial sample for size limit")
 
-        new_genome = test_genome[:options['population_size'], ]
-        num_effects = num_effects[:options['population_size'], ]
+        new_genome = test_genome[:options.population_size, ]
+        num_effects = num_effects[:options.population_size, ]
         self.num_effects = num_effects
         return new_genome
 
@@ -213,7 +210,8 @@ class _GARunner:
 
         return test_genome
 
-    def count_bad(self, n_effects, new_genome):
+    @staticmethod
+    def count_bad(n_effects, new_genome):
         num_effects = np.zeros(len(new_genome), dtype=int)
         bad_rows = []
         for this_ind in range(len(new_genome)):

@@ -3,7 +3,10 @@ import numpy as np
 
 from darwin.options import options
 from darwin.utils import get_token_parts, replace_tokens
-
+from darwin.Log import log
+global MUReferenceMessageDone
+MUReferenceMessageDone = False
+AnyMuReference = False
 _var_regex = {}
 
 
@@ -46,8 +49,18 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, ste
     for k, v in var_indices.items():
         # and put into control file
         control = control.replace(stem + "(" + k + ")", stem + "(" + str(v) + ")")
-      #  # and if ETA, look for MU(stem)
+      # and if ETA, look for MU(stem)
         if stem == "ETA":
+            global MUReferenceMessageDone
+            global AnyMuReference
+            if "MU_" in control and MUReferenceMessageDone and not AnyMuReference:
+                log.message(f"Mu Reference variable(s) found for {k}")
+                AnyMuReference = True
+                MUReferenceMessageDone = True
+            if "MU_" in control and not MUReferenceMessageDone:
+                log.message(f"Mu Reference variable(s) found for {k}")
+                AnyMuReference = True
+                MUReferenceMessageDone = True
             control = control.replace("MU" + "(" + k + ")", "MU_" + str(v))
     return control
 

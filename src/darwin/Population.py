@@ -130,7 +130,7 @@ class Population:
                 for code, ind_num_effects in zip(codes, num_effects):
                     pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
                 log.message(f"{-(len(codes) - n_initial_models)} of {n_initial_models} "
-                            f"models removed     due to number of effects > {options.effect_limit}")
+                            f"models removed due to number of effects > {options.effect_limit}")
             else:
                 if num_effects is None:
                     num_effects = np.ones(len(codes)) * -99

@@ -47,14 +47,21 @@ def run_exhaustive(model_template: Template) -> ModelRun:
 
 
 def get_search_space(template: Template) -> np.ndarray:
-    num_groups = template.get_search_space_coordinates()
+    try:
+        num_groups = template.get_search_space_coordinates()
 
-    codes = np.array(np.meshgrid(*num_groups)).T.reshape(-1, len(num_groups))
+        codes = np.array(np.meshgrid(*num_groups)).T.reshape(-1, len(num_groups))
 
-    return codes
+        return codes
+
+    except:
+        return -999
+
+def get_search_space_size(model_template: Template) -> int:
+    space = get_search_space(model_template)
+    if space == -999:
+        return -999
+    else:
+        return space.shape[0]
 
 
-def get_search_space_size(template: Template) -> int:
-    num_groups = template.get_search_space_coordinates()
-
-    return math.prod(map(len, num_groups))

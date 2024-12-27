@@ -637,5 +637,5 @@ def log_run(run: ModelRun):
 
     log.message(
         f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
-        f"    fitness = {fitness_text:>9},    message = {message}"
+        f"    fitness = {fitness_text:>9}, OFV  = {run.result.ofv:>9}, total number of parameters = {run.model.estimated_theta_num+ run.model.estimated_sigma_num+run.model.estimated_omega_num}, message = {message}"
     )

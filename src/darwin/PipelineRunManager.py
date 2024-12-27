@@ -100,7 +100,7 @@ class PipelineRunManager(ModelRunManager):
                 result_file.write(f"{run.generation},{run.wide_model_num},{run.run_dir},{res.ref_run},"
                                   f"{run.status},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
                                   f"{res.ofv},{res.success},{res.covariance},{res.correlation},{model.theta_num},"
-                                  f"{model.omega_num},{model.sigma_num},{res.condition_num},{res.post_run_r_penalty},"
+                                  f"{model.omega_num},{model.sigma_num}, {model.estimated_omega_num+model.estimated_sigma_num+model.estimated_theta_num},{res.condition_num},{res.post_run_r_penalty},"
                                   f"{res.post_run_python_penalty},{message},{err}\n")
 
         log_run(run)

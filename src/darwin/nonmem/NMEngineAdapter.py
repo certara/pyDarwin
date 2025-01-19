@@ -126,29 +126,11 @@ class NMEngineAdapter(ModelEngineAdapter):
         return prd_err, nm_translation_message
 
     @staticmethod
-    def make_control(template: Template, model_code: ModelCode):
-        """
-        Constructs control file from intcode.
-        Ignore last value if self_search_omega_bands.
-        """
-
-        phenotype = OrderedDict(zip(template.tokens.keys(), model_code.IntCode))
-
-        non_influential_tokens = _get_non_inf_tokens(template.tokens, phenotype)
-
-        control = template.template_text
-
-        token_found, control = utils.replace_tokens(template.tokens, control, phenotype, non_influential_tokens,
-                                                    options.TOKEN_NESTING_LIMIT)
-
-        non_influential_token_num = sum(non_influential_tokens)
-
+    def _make_control_impl(self, control: str, template: Template, model_code: ModelCode, phenotype: OrderedDict):
         control = match_vars(control, template.tokens, template.theta_block, phenotype, "THETA")
         control = match_vars(control, template.tokens, template.omega_block, phenotype, "ETA")
         control = match_vars(control, template.tokens, template.sigma_block, phenotype, "EPS")
         control = match_vars(control, template.tokens, template.sigma_block, phenotype, "ERR")
-
-        model_code_str = str(model_code.FullBinCode if (options.isGA or options.isPSO) else model_code.IntCode)
 
         control = re.sub(r'^[^\S\r\n]*', '  ', control, flags=re.RegexFlag.MULTILINE)
         control = re.sub(r'^ {2}(?=\$|$)', '', control, flags=re.RegexFlag.MULTILINE)
@@ -158,14 +140,7 @@ class NMEngineAdapter(ModelEngineAdapter):
         control = re.sub(r'^\s*\$OMEGA(?=(?:\s*;.+\n)?(?:\s+|;.*\n)+(?:\$|\Z))', '; empty $OMEGA',
                          control, flags=re.RegexFlag.MULTILINE)
 
-        phenotype = str(phenotype)
-        phenotype = phenotype.replace('OrderedDict', '')
-        phenotype += bands
-
-        control += "\n;; Phenotype: " + phenotype + "\n;; Genotype: " + model_code_str \
-                   + "\n;; Num non-influential tokens: " + str(non_influential_token_num) + "\n"
-
-        return phenotype, control, non_influential_token_num
+        return control, ";;", bands
 
     @staticmethod
     def cleanup(run_dir: str, file_stem: str):

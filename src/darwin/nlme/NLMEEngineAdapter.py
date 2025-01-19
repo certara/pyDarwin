@@ -188,39 +188,13 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
         return warning, err
 
-    @staticmethod
-    def make_control(template: Template, model_code: ModelCode):
-        """
-        Constructs control file from intcode.
-        Ignore last value if self_search_omega_bands.
-        """
-
-        phenotype = OrderedDict(zip(template.tokens.keys(), model_code.IntCode))
-
-        non_influential_tokens = _get_non_inf_tokens(template.tokens, phenotype)
-
-        control = template.template_text
-
-        token_found, control = utils.replace_tokens(template.tokens, control, phenotype, non_influential_tokens,
-                                                    options.TOKEN_NESTING_LIMIT)
-
-        non_influential_token_num = sum(non_influential_tokens)
-
-        model_code_str = str(model_code.FullBinCode if (options.isGA or options.isPSO) else model_code.IntCode)
-
+    def _make_control_impl(self, control: str, template: Template, model_code: ModelCode, phenotype: OrderedDict):
         control = re.sub(r'^[^\S\r\n]*', '  ', control, flags=re.RegexFlag.MULTILINE)
         control = re.sub(r'^ {2}(?=##|$)', '', control, flags=re.RegexFlag.MULTILINE)
 
         control, bands = apply_omega_bands(control, model_code, template.omega_band_pos, _set_omega_bands, True)
 
-        phenotype = str(phenotype)
-        phenotype = phenotype.replace('OrderedDict', '')
-        phenotype += bands
-
-        control += "\n## Phenotype: " + phenotype + "\n## Genotype: " + model_code_str \
-                   + "\n## Num non-influential tokens: " + str(non_influential_token_num) + "\n"
-
-        return phenotype, control, non_influential_token_num
+        return control, "##", bands
 
     @staticmethod
     def cleanup(run_dir: str, file_stem: str):

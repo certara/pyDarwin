@@ -1,4 +1,5 @@
 import random
+import sys
 
 import numpy as np
 from scipy.spatial import distance_matrix
@@ -69,111 +70,91 @@ class DeapToolbox:
     def new_population(self, pop_size):
         return self.toolbox.population(n=pop_size)
 
-    def get_offspring(self, pop_full_bits):
+    def _get_offspring(self, pop_full_bits):
         toolbox = self.toolbox
 
+        ga_options = options.GA
+
+        crossover_probability = ga_options['crossover_rate']
+        mutation_probability = ga_options['mutation_rate']
+
+        # do not copy new fitness to models, models should be just the "real" fitness
+        # Select the next generation individuals
+        offspring = toolbox.select(pop_full_bits, len(pop_full_bits))
+
+        # Clone the selected individuals, otherwise will be linked to original, by reference
+        offspring = [toolbox.clone(x) for x in offspring]
+
+        # Apply crossover and mutation on the offspring
+        for child1, child2 in zip(offspring[::2], offspring[1::2]):
+            # cross two individuals
+            # don't need to copy child1, child2 back to offspring, done internally by DEAP
+            # from https://deap.readthedocs.io/en/master/examples/ga_onemax.html
+            # "In addition they modify those individuals within the toolbox container,
+            # and we do not need to reassign their results.""
+
+            if random.random() < crossover_probability and len(child1) > 1:
+                toolbox.mate(child1, child2)
+
+        for mutant in offspring:
+            # mutate an individual
+            if random.random() < mutation_probability:
+                toolbox.mutate(mutant)
+                del mutant.fitness.values
+
+        return offspring
+
+    def get_offspring(self, pop_full_bits):
         ga_options = options.GA
 
         sharing_alpha = ga_options['sharing_alpha']
         niche_penalty = ga_options['niche_penalty']
 
-        crossover_probability = ga_options['crossover_rate']
-        mutation_probability = ga_options['mutation_rate']
-
         # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
         # so fitnesses in pop are only used for selection in GA
         _add_sharing_penalty(pop_full_bits, options.niche_radius, sharing_alpha, niche_penalty)
 
-        # do not copy new fitness to models, models should be just the "real" fitness
-        # Select the next generation individuals
-        n_pop = 0
+        if not options.use_effect_limit:
+            return self._get_offspring(pop_full_bits)
 
-        if options.use_effect_limit:
-            count = 0
+        count = 0
+        offspring = []
 
-            while n_pop < options.population_size and count < 100:
-                # why does offspring return 1 more than len(pop_full_bits??)
-                # offspring is list of individuals (fitness and genome)
-                temp = toolbox.select(pop_full_bits, len(pop_full_bits))
+        while len(offspring) < options.population_size and count < 100:
+            # why does offspring return 1 more than len(pop_full_bits??)
+            # offspring is list of individuals (fitness and genome)
+            temp = self._get_offspring(pop_full_bits)
 
-                # Clone the selected individuals, otherwise will be linked to original, by reference
-                temp = [toolbox.clone(x) for x in temp]
-
-                # Apply crossover and mutation on the offspring
-                for child1, child2 in zip(temp[::2], temp[1::2]):
-                    if random.random() < crossover_probability and len(child1) > 1:
-                        toolbox.mate(child1, child2)
-
-                for mutant in temp:
-                    # mutate an individual
-                    if random.random() < mutation_probability:
-                        toolbox.mutate(mutant)
-                        del mutant.fitness.values
-
-                # now check if < effect_limit
-                # need integers,
-                phenotype = utils.convert_full_bin_int(temp, self.gene_max, self.gene_length)
-                all_tokens = list()
-
-                for this_ind in range(len(temp)):
-                    all_tokens.append([tokens[gene] for tokens, gene in zip(self.tokens.values(), phenotype[this_ind])])
-
-                num_effects = utils.get_pop_num_effects(all_tokens)
-                good_inds = [element <= options.effect_limit for element in num_effects]
-                temp = [element for element, flag in zip(temp, good_inds) if flag]
-
-                if n_pop == 0:
-                    offspring = [toolbox.clone(x) for x in temp]
-                    n_pop = len(offspring)
-                else:
-                    temp = [toolbox.clone(x) for x in temp]
-                    this_new_ind = 0
-
-                    while n_pop < options.population_size and this_new_ind < len(temp):
-                        offspring.append(temp[this_new_ind])
-                        this_new_ind += 1
-                        n_pop = len(offspring)
-
-                count += 1
-
-            if count >= 99:
-                log.error(f"Not able to generate population with < {options.effect_limit} effects")
-                log.error(f"effect_limit may be too small or search space (with >0 effects) too large, exiting")
-                sys.exit()
-                # just to check
-        else:
-            offspring = toolbox.select(pop_full_bits, len(pop_full_bits))
-
-            # Clone the selected individuals, otherwise will be linked to original, by reference
-            offspring = [toolbox.clone(x) for x in offspring]
-
-            # Apply crossover and mutation on the offspring
-            for child1, child2 in zip(offspring[::2], offspring[1::2]):
-                # cross two individuals
-                # don't need to copy child1, child2 back to offspring, done internally by DEAP
-                # from https://deap.readthedocs.io/en/master/examples/ga_onemax.html
-                # "In addition they modify those individuals within the toolbox container,
-                # and we do not need to reassign their results.""
-
-                if random.random() < crossover_probability and len(child1) > 1:
-                    toolbox.mate(child1, child2)
-
-            for mutant in offspring:
-                # mutate an individual
-                if random.random() < mutation_probability:
-                    toolbox.mutate(mutant)
-                    del mutant.fitness.values
-
-        num_effects = None
-
-        if options.use_effect_limit:
-            phenotype = utils.convert_full_bin_int(offspring, self.gene_max, self.gene_length)
+            # now check if < effect_limit
+            # need integers,
+            phenotype = utils.convert_full_bin_int(temp, self.gene_max, self.gene_length)
             all_tokens = list()
 
-            for this_ind in range(len(offspring)):
+            for this_ind in range(len(temp)):
                 all_tokens.append([tokens[gene] for tokens, gene in zip(self.tokens.values(), phenotype[this_ind])])
 
             num_effects = utils.get_pop_num_effects(all_tokens)
+            good_individuals = [element <= options.effect_limit for element in num_effects]
+
+            temp = [element for element, flag in zip(temp, good_individuals) if flag]
+
+            offspring.extend(temp[:options.population_size-len(offspring)])
+
+            count += 1
+
+        if count > 99:
+            log.error(f"Not able to generate population with <= {options.effect_limit} effects")
+            log.error(f"effect_limit may be too small or search space (with >0 effects) too large, exiting")
+            sys.exit()
+            # just to check
+
+        phenotype = utils.convert_full_bin_int(offspring, self.gene_max, self.gene_length)
+        all_tokens = list()
+
+        for this_ind in range(len(offspring)):
+            all_tokens.append([tokens[gene] for tokens, gene in zip(self.tokens.values(), phenotype[this_ind])])
+
+        num_effects = utils.get_pop_num_effects(all_tokens)
 
         return offspring, num_effects
 

@@ -56,10 +56,10 @@ class _GARunner:
 
         probabilities = self.get_probabilities(num_effects, max_effects)
 
-        all_int_codes = dict()
+        all_int_codes = {}
 
         for this_ind in range(len(population)):
-            ind_codes_as_int = np.zeros(len(self.template.tokens))
+            ind_codes_as_int = [0] * len(self.template.tokens)
             count = 0
             cur_ind_num_effects = 9999999
 
@@ -69,8 +69,7 @@ class _GARunner:
 
                 for this_group in self.template.tokens:
                     p = probabilities[this_group]
-                    n_strings = len(p)
-                    cur_string = np.random.choice(n_strings, 1, p=p)[0]
+                    cur_string = np.random.choice(len(p), 1, p=p)[0]
                     all_int_codes[this_group] = cur_string
                     ind_codes_as_int[cur_group] = cur_string
                     cur_ind_num_effects += num_effects[this_group][cur_string]
@@ -80,7 +79,7 @@ class _GARunner:
                 count += 1
 
             if count > 99:
-                log(f"unable to find genome with less than or equal to {options.effect_limit}")
+                log.warn(f"unable to find genome with <= {options.effect_limit}")
 
             # once done count number with <= effect_limit effects
             # convert to bits
@@ -98,7 +97,7 @@ class _GARunner:
         param num_effects: list of number of effects in each set for each group
         param total_effects: total # of effects in all groups
         """
-        # goal is probabilities such that 80% of samples have total effects <= options['effect_limit']
+        # goal is probabilities such that 80% of samples have total effects <= effect_limit
         # get p_per_effect for 80% good samples
         p_per_effect = bisect(self.binom_to_zero, 0, 1, args=max_effects)
 
@@ -143,7 +142,7 @@ class _GARunner:
         param max_effects: p in binomial
         """
         # target fraction of samples with < effect_limit hard coded as  0.8
-        p = binom.cdf(options['effect_limit'], max_effects, x)
+        p = binom.cdf(options.effect_limit, max_effects, x)
         return p - 0.8
 
     def get_num_effects(self):

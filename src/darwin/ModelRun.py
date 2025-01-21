@@ -27,7 +27,7 @@ from .ModelEngineAdapter import ModelEngineAdapter, get_engine_adapter
 from .DarwinError import DarwinError
 
 JSON_ATTRIBUTES = [
-    'model_num', 'generation', 'file_stem', 'num_effects',
+    'model_num', 'generation', 'file_stem',
     'run_dir', 'control_file_name', 'output_file_name', 'executable_file_name',
     'status', 'source'
 ]
@@ -117,7 +117,7 @@ class ModelRun:
     # nice try
     model_result_class = ModelResults
 
-    def __init__(self, model: Model, model_num, generation, adapter: ModelEngineAdapter, num_effects):
+    def __init__(self, model: Model, model_num, generation, adapter: ModelEngineAdapter):
         """
         :param model_num: Model number, within the generation, Generation + model_num creates a unique "file_stem" that
             is used to name the control file, the executable and the run directory
@@ -126,7 +126,7 @@ class ModelRun:
         :param adapter: an instance of ModelEngineAdapter, may be obtained
             with get_engine_adapter(options.engine_adapter)
         """
-        self.num_effects = num_effects
+
         self.model = model
         self._adapter = adapter
         self.result = self.model_result_class()
@@ -206,7 +206,7 @@ class ModelRun:
 
         adapter = get_engine_adapter(src['engine_adapter'])
 
-        run = cls(model, src['model_num'], src['generation'], adapter, src['num_effects'])
+        run = cls(model, src['model_num'], src['generation'], adapter)
 
         run.result = cls.model_result_class.from_dict(src['result'])
 

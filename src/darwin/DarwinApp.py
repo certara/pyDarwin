@@ -111,14 +111,12 @@ def init_search(model_template: Template) -> bool:
 
     adapter.init_template(model_template)
 
-
-
     space_size = get_search_space_size(model_template)
-    if space_size == -999:
+
+    if space_size == -1:
         log.message(f"Search space size is too large to calculate")
     else:
         log.message(f"Search space size: {space_size}")
-
 
     init_pop_nums(model_template)
 

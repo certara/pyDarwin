@@ -12,7 +12,6 @@ from darwin.Population import Population
 from darwin.ModelCode import ModelCode
 
 
-
 def _get_distances(x, y) -> list:
     return distance_matrix(x, y)[0]
 
@@ -91,12 +90,14 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         test_models = []
         niches_this_loop = 0
         all_starts = []  # may need to modify for deleted models if effect_limit is used
+
         for niche in niches:
             if niche.done:
                 continue
 
             niche.runs_start = len(test_models)
             # need to adjust runs_start for models deleted due > effect_limit
+
             niches_this_loop += 1
 
             # only need to identify niches, so we can do downhill on the best in each niche
@@ -114,7 +115,9 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
                 test_models.append(test_ind)
 
             niche.runs_finish = len(test_models)
+
             all_starts.append(niche.runs_start)
+
         population, new_starts = Population.from_codes(template, str(generation) + "D" + f'{this_step:02d}',
                                                        test_models, ModelCode.from_min_binary, all_starts=all_starts)
 
@@ -125,8 +128,9 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
 
         log.message(f"Starting downhill step {this_step},"
                     f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
+
         for i in range(1, len(new_starts)):
-            log.message(f"{new_starts[i] - new_starts[i -1]} models in niche {i}")
+            log.message(f"{new_starts[i] - new_starts[i - 1]} models in niche {i}")
 
         population.run()
 
@@ -144,17 +148,21 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         for niche in niches:
             if niche.done:
                 continue
+
             # pull out fitness from just this niche
             niche_fitnesses = [r.result.fitness for r in runs[niche.runs_start:niche.runs_finish]]
+
             if len(niche_fitnesses) > 0:
                 best_in_niche = get_n_best_index(1, niche_fitnesses)[0]
                 new_best_run = runs[niche.runs_start + best_in_niche]
+
                 if new_best_run.result.fitness < niche.best_run.result.fitness:
                     niche.best_run = new_best_run
                 else:
                     niche.done = True
             else:
                 niche.done = True
+
     if options.local_2_bit_search and keep_going():
         best_niche_fitnesses = [niche.best_run.result.fitness for niche in niches]
         best_niche = get_n_best_index(1, best_niche_fitnesses)[0]
@@ -165,8 +173,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         log.message(f"Begin local exhaustive 2-bit search, generation = {generation}, step = {this_step}")
         log.message(f"Model for local exhaustive search = {run_for_search.file_stem}, "
                     f"fitness = {run_for_search.result.fitness}")
-        log.message(f" phenotype = {run_for_search.model.phenotype}")
-
+        log.message(f"phenotype = {run_for_search.model.phenotype}")
 
         run_for_search, runs = _full_search(template, run_for_search, generation, return_all)
 
@@ -175,7 +182,10 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         # replace the niche this one came from, to preserve diversity
         if run_for_search.result.fitness < last_best_fitness:
             niches[best_niche].best_run = run_for_search
-        log.message(f"2-bit search, best model for step {this_step} = {run_for_search.file_stem}, fitness = {run_for_search.result.fitness}")
+
+        log.message(f"2-bit search, best model for step {this_step} = {run_for_search.file_stem}, "
+                    f"fitness = {run_for_search.result.fitness}")
+
     for i in range(len(niches)):
         pop.runs[worst[i]] = niches[i].best_run
 

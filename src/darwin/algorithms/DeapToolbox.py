@@ -69,34 +69,6 @@ class DeapToolbox:
     def new_population(self, pop_size):
         return self.toolbox.population(n=pop_size)
 
-    def new_population_limit(self, pop_size):
-        """
-        :param pop_size: How many models
-        """
-        # the popuation is a individuals
-        # individuall is an array of ints (0|1) + a FitnessMin object
-        # with properties valid (boolean), values (int) weights (tuple, -1) and wvalues (tuple, 0)
-        # fitness objects consiste of
-        #
-        return self.toolbox.population(n=pop_size)
-
-    def initRepeat_limit(container, func, n):
-        """Call the function *func* *n* times and return the results in a
-        container type `container`
-
-        :param container: The type to put in the data from func.
-        :param func: The function that will be called n times to fill the
-                     container.
-        :param n: The number of times to repeat func.
-        :returns: An instance of the container filled with data from func.
-
-        This helper function can be used in conjunction with a Toolbox
-        to register a generator of filled containers, as individuals or
-        population.
-
-        """
-        return container(func() for _ in range(n))
-
     def get_offspring(self, pop_full_bits):
         toolbox = self.toolbox
 
@@ -115,44 +87,60 @@ class DeapToolbox:
         # do not copy new fitness to models, models should be just the "real" fitness
         # Select the next generation individuals
         n_pop = 0
-        count = 0
+
         if options.use_effect_limit:
+            count = 0
+
             while n_pop < options.population_size and count < 100:
                 # why does offspring return 1 more than len(pop_full_bits??)
                 # offspring is list of individuals (fitness and genome)
                 temp = toolbox.select(pop_full_bits, len(pop_full_bits))
+
                 # Clone the selected individuals, otherwise will be linked to original, by reference
                 temp = [toolbox.clone(x) for x in temp]
+
                 # Apply crossover and mutation on the offspring
                 for child1, child2 in zip(temp[::2], temp[1::2]):
                     if random.random() < crossover_probability and len(child1) > 1:
                         toolbox.mate(child1, child2)
+
                 for mutant in temp:
                     # mutate an individual
                     if random.random() < mutation_probability:
                         toolbox.mutate(mutant)
                         del mutant.fitness.values
+
                 # now check if < effect_limit
                 # need integers,
-                phenotype = utils.convert_full_bin_int(temp, self.gene_max,
-                                                       self.gene_length)
+                phenotype = utils.convert_full_bin_int(temp, self.gene_max, self.gene_length)
                 all_tokens = list()
+
                 for this_ind in range(len(temp)):
                     all_tokens.append([tokens[gene] for tokens, gene in zip(self.tokens.values(), phenotype[this_ind])])
+
                 num_effects = utils.get_pop_num_effects(all_tokens)
                 good_inds = [element <= options.effect_limit for element in num_effects]
                 temp = [element for element, flag in zip(temp, good_inds) if flag]
+
                 if n_pop == 0:
                     offspring = [toolbox.clone(x) for x in temp]
                     n_pop = len(offspring)
                 else:
                     temp = [toolbox.clone(x) for x in temp]
                     this_new_ind = 0
+
                     while n_pop < options.population_size and this_new_ind < len(temp):
                         offspring.append(temp[this_new_ind])
                         this_new_ind += 1
                         n_pop = len(offspring)
+
                 count += 1
+
+            if count >= 99:
+                log.error(f"Not able to generate population with < {options.effect_limit} effects")
+                log.error(f"effect_limit may be too small or search space (with >0 effects) too large, exiting")
+                sys.exit()
+                # just to check
         else:
             offspring = toolbox.select(pop_full_bits, len(pop_full_bits))
 
@@ -175,21 +163,18 @@ class DeapToolbox:
                 if random.random() < mutation_probability:
                     toolbox.mutate(mutant)
                     del mutant.fitness.values
-        if count >= 99:
-            log.error(f"Not able to generate population with < {options.effect_limit} effects")
-            log.error(f"effect_limit may be too small or search space (with >0 effects) too large, exiting")
-            sys.exit()
-            # just to check
 
-        phenotype = utils.convert_full_bin_int(offspring, self.gene_max,
-                                               self.gene_length)
-        all_tokens = list()
+        num_effects = None
+
         if options.use_effect_limit:
+            phenotype = utils.convert_full_bin_int(offspring, self.gene_max, self.gene_length)
+            all_tokens = list()
+
             for this_ind in range(len(offspring)):
                 all_tokens.append([tokens[gene] for tokens, gene in zip(self.tokens.values(), phenotype[this_ind])])
+
             num_effects = utils.get_pop_num_effects(all_tokens)
-        else:
-            num_effects = None
+
         return offspring, num_effects
 
 

@@ -23,10 +23,10 @@ class Model:
 
     """
 
-    def __init__(self, code: ModelCode, num_effects=0):
+    def __init__(self, code: ModelCode):
 
         self.model_code = copy(code)
-        self.num_effects = num_effects
+
         self.theta_num = self.estimated_theta_num = 0
         self.omega_num = self.estimated_omega_num = 0
         self.sigma_num = self.estimated_sigma_num = 0

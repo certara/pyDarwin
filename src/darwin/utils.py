@@ -5,7 +5,6 @@ import heapq
 import threading
 import multiprocessing as mp
 import traceback
-import numpy as np
 import psutil
 import math
 from darwin.Log import log
@@ -22,19 +21,24 @@ def get_pop_num_effects(tokens):
     :rtype: integer array
     """
     num_effects = []
+
     for this_ind in tokens:
         cur_n_effects = 0
+
         for this_group in this_ind:
             effect_token = len(this_group) - 1
             value = this_group[effect_token].lower()
             value = value.replace("effects", "")
             value = value.replace("effect", "")
             value = value.replace("=", "")
+
             try:
                 value = int(value)
             except ValueError:
                 value = 0
+
             cur_n_effects += value
+
         num_effects += [cur_n_effects]
 
     return num_effects
@@ -51,13 +55,16 @@ def convert_full_bin_int(population, gene_max: list, length: list):
     :rtype: integer array
     """
     phenotype = list()
+
     for this_ind in population:
         this_phenotype = []
         start = 0
+
         for this_num_bits, this_max in zip(length, gene_max):
             this_gene = this_ind[start:start + this_num_bits] or [0]
             base_int = int("".join(str(x) for x in this_gene), 2)
             max_value = 2 ** len(this_gene) - 1  # zero based, max number possible from bit string, 0 based (has the -1)
+
             # maximum possible number of indexes that must be skipped to get max values
             # to fit into fullMax possible values.
             max_num_dropped = max_value - this_max
@@ -67,7 +74,9 @@ def convert_full_bin_int(population, gene_max: list, length: list):
             this_phenotype.append(full_int_val)  # value here???
 
             start += this_num_bits
+
         phenotype.append(this_phenotype)
+
     return phenotype
 
 

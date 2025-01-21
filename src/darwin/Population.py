@@ -23,7 +23,7 @@ class Population:
     Population of individuals (model runs).
     """
 
-    def __init__(self, template: Template, name, start_number=0, max_number=0, max_iteration=0, num_effects=None):
+    def __init__(self, template: Template, name, start_number=0, max_number=0, max_iteration=0):
         """
         Create an empty population.
 
@@ -34,9 +34,6 @@ class Population:
         :param max_number: Maximum model number of entire **iteration**. Used for formatting model number. Note that
             iteration may contain multiple populations (see exhaustive search).
         :param max_iteration: Maximum iteration number. Used for formatting population name.
-        :param num_effects: number of effect in models, based on effects = token in tokens.json. Need to put num_effects
-        here in order to use it when codes are generated
-
         """
         try:
             iter_format = '{:0' + str(len(str(max_iteration))) + 'd}'
@@ -54,10 +51,7 @@ class Population:
         self.adapter = get_engine_adapter(options.engine_adapter)
 
         self.model_cache = get_model_cache()
-        self.num_effects = num_effects
 
-    # def set_num_effects(self, num_effects=0):
-    #    self.num_effects.append(num_effects)
     @classmethod
     def from_codes(cls, template: Template, name, codes, code_converter,
                    start_number=0, max_number=0, max_iteration=0, all_starts=None, num_effects=None):
@@ -87,55 +81,76 @@ class Population:
         # need to generate population of "good" models (i.e., models with < effects_limit) only if
         # this is downhill AND use_effect_limit otherwise, just return the population
         if options.use_effect_limit and has_niches and all_starts is not None:  # search will not have niches, only downhill
-            num_niches = len(all_starts) # may not be the same as i options?? when niches have been eliminated
+            num_niches = len(all_starts)  # may not be the same as i options?? when niches have been eliminated
             new_starts = np.zeros(num_niches + 1, dtype=int)  # but need one more for new_starts, as there may not be
                                                               # the full set
             cum_start = 0
             pop_int_codes = list()
+
             for code in codes:
                 temp = code_converter(code, maxes, lengths)
                 pop_int_codes.append(temp.IntCode)
+
             n_initial_models = len(codes)
             tokens = list()
+
             for this_ind in pop_int_codes:
                 tokens.append([this_set[gene] for this_set, gene in zip(list(template.tokens.values()), this_ind)])
+
             num_effects = utils.get_pop_num_effects(tokens)
             good_inds = [element <= options.effect_limit for element in num_effects]
+
             # adjust new_start, subtract # of eliminated models from all_starts
             all_starts.append(len(good_inds))  # need the last value here
+
             for this_start in range(num_niches):
                 this_niche_good_inds = good_inds[all_starts[this_start]:all_starts[this_start+1]]
                 num_kept = sum(this_niche_good_inds)
                 cum_start = cum_start + num_kept
-                new_starts[this_start + 1] = cum_start # first is zero
+                new_starts[this_start + 1] = cum_start  # first is zero
+
             codes = [element for element, flag in zip(codes, good_inds) if flag]
+
             for code, ind_num_effects in zip(codes, num_effects):
                 pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
+
             log.message(f"{-(len(codes) - n_initial_models)} of {n_initial_models} "
                         f"models removed in downhill due to number of effects > {options.effect_limit}")
+
             return [pop, new_starts]
-        else: # filtering for num_effects is not needed for ML step, but will be for 2 bit search, not done any other place
+        else:
+            # filtering for num_effects is not needed for ML step,
+            # but will be for 2 bit search, not done any other place
             if options.use_effect_limit:
                 pop_int_codes = list()
+
                 for code in codes:
                     temp = code_converter(code, maxes, lengths)
                     pop_int_codes.append(temp.IntCode)
+
                 n_initial_models = len(codes)
                 tokens = list()
+
                 for this_ind in pop_int_codes:
                     tokens.append([this_set[gene] for this_set, gene in zip(list(template.tokens.values()), this_ind)])
+
                 num_effects = utils.get_pop_num_effects(tokens)
                 good_inds = [element <= options.effect_limit for element in num_effects]
                 codes = [element for element, flag in zip(codes, good_inds) if flag]
+
                 for code, ind_num_effects in zip(codes, num_effects):
                     pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
-                log.message(f"{-(len(codes) - n_initial_models)} of {n_initial_models} "
-                            f"models removed due to number of effects > {options.effect_limit}")
+
+                if n_initial_models - len(codes) > 0:
+                    log.message(f"{n_initial_models - len(codes)} of {n_initial_models} "
+                                f"models removed due to number of effects > {options.effect_limit}")
             else:
                 if num_effects is None:
                     num_effects = np.ones(len(codes)) * -99
+
                 for code, n_effects in zip(codes, num_effects):
                     pop.add_model_run(code_converter(code, maxes, lengths), n_effects)
+
             return pop
 
     def add_model_run(self, code: ModelCode, num_effects):
@@ -160,7 +175,6 @@ class Population:
 
         if existing_run:
             run = copy(existing_run)
-            run.num_effects = existing_run.num_effects
             run.model_num = self.model_number
             run.file_stem += f'_{run.model_num}'
             run.reference_model_num = existing_run.model_num
@@ -182,7 +196,7 @@ class Population:
                 run1.set_status('not restored')
                 self.model_cache.store_model_run(run1)
         else:
-            run = ModelRun(model, wide_model_num, self.name, self.adapter, num_effects)
+            run = ModelRun(model, wide_model_num, self.name, self.adapter)
 
         run.wide_model_num = wide_model_num
 

@@ -54,7 +54,7 @@ class Population:
 
     @classmethod
     def from_codes(cls, template: Template, name, codes, code_converter,
-                   start_number=0, max_number=0, max_iteration=0, all_starts=None, num_effects=None):
+                   start_number=0, max_number=0, max_iteration=0, all_starts=None):
         """
         Create a new population from a set of codes.
         if not downhill, have already generated good codes

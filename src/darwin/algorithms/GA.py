@@ -188,18 +188,15 @@ class _GARunner:
 
         log.message(f"Starting generation {self.generation}")
 
-        num_effects = None
-
         if self.generation > 1:
-            self.pop_full_bits, num_effects = self.toolbox.get_offspring(self.pop_full_bits)
+            self.pop_full_bits = self.toolbox.get_offspring(self.pop_full_bits)
 
             # replace first elitist_num individuals
             for i in range(self.elitist_num):
                 self.pop_full_bits[i] = copy(self.best_for_elitism[i])
 
         self.population = Population.from_codes(self.template, self.generation, self.pop_full_bits,
-                                                ModelCode.from_full_binary, max_iteration=self.num_generations,
-                                                num_effects=num_effects)
+                                                ModelCode.from_full_binary, max_iteration=self.num_generations)
         self.population.run()
 
         if not keep_going():

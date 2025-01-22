@@ -149,15 +149,7 @@ class DeapToolbox:
             sys.exit()
             # just to check
 
-        phenotype = utils.convert_full_bin_int(offspring, self.gene_max, self.gene_length)
-        all_tokens = list()
-
-        for this_ind in range(len(offspring)):
-            all_tokens.append([tokens[gene] for tokens, gene in zip(self.tokens.values(), phenotype[this_ind])])
-
-        num_effects = utils.get_pop_num_effects(all_tokens)
-
-        return offspring, num_effects
+        return offspring
 
 
 def _sharing(distance: float, niche_radius: float, sharing_alpha: float) -> float:

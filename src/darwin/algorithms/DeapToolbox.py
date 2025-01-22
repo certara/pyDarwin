@@ -33,6 +33,7 @@ class DeapToolbox:
 
         if options.random_seed is not None:
             random.seed(options.random_seed)
+            np.random.seed(options.random_seed)
 
         toolbox.register("attr_bool", random.randint, 0, 1)
 

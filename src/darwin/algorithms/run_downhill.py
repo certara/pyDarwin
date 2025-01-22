@@ -123,8 +123,8 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
 
         if options.use_effect_limit:
             for this_niche in range(len(new_starts)-1):
-                niches[this_niche].runs_start = new_starts[this_niche].item()
-                niches[this_niche].runs_finish = new_starts[this_niche+1].item()
+                niches[this_niche].runs_start = new_starts[this_niche]
+                niches[this_niche].runs_finish = new_starts[this_niche+1]
 
         log.message(f"Starting downhill step {this_step},"
                     f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")

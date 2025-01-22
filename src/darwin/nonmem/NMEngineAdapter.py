@@ -125,7 +125,6 @@ class NMEngineAdapter(ModelEngineAdapter):
 
         return prd_err, nm_translation_message
 
-    @staticmethod
     def _make_control_impl(self, control: str, template: Template, model_code: ModelCode, phenotype: OrderedDict):
         control = match_vars(control, template.tokens, template.theta_block, phenotype, "THETA")
         control = match_vars(control, template.tokens, template.omega_block, phenotype, "ETA")

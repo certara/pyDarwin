@@ -111,10 +111,11 @@ class Population:
         has_niches = "D" in str(name) or "F" in str(name) or "G" in str(name)  # G for local grid search
 
         if has_niches and all_starts is not None:  # search will not have niches, only downhill
+            num_niches = len(all_starts)  # may not be the same as i options?? when niches have been eliminated
+
             # adjust new_start, subtract # of eliminated models from all_starts
             all_starts.append(len(good_individuals))  # need the last value here
 
-            num_niches = len(all_starts)  # may not be the same as i options?? when niches have been eliminated
             new_starts = [0] * (num_niches + 1)  # but need one more for new_starts, as there may not be the full set
             cum_start = 0
 

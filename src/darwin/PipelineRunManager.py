@@ -1,4 +1,5 @@
 import os
+import time
 
 from copy import copy
 
@@ -114,5 +115,5 @@ def _copy_to_best(run: ModelRun):
     if run.rerun:
         return
 
-    GlobalVars.TimeToBest = run.finish_time - GlobalVars.start_time
+    GlobalVars.TimeToBest = (run.finish_time or time.time()) - GlobalVars.start_time
     GlobalVars.unique_models_to_best = run.global_num

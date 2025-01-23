@@ -1,7 +1,6 @@
 from copy import copy, deepcopy
 from collections import OrderedDict
 import time
-import numpy as np
 from darwin.Log import log
 
 import darwin.utils as utils
@@ -143,7 +142,7 @@ class Population:
         self.model_number += 1
 
         run = self.model_cache.find_model_run(genotype=genotype) \
-              or self.model_cache.find_model_run(phenotype=phenotype)
+            or self.model_cache.find_model_run(phenotype=phenotype)
 
         existing_run = self.runs_g.get(genotype, None) or self.runs_ph.get(phenotype, None)
 

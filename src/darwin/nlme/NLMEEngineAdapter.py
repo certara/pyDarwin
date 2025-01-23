@@ -189,7 +189,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         return warning, err
 
     @staticmethod
-    def make_control(template: Template, model_code: ModelCode):
+    def make_control(template: Template, model_code: ModelCode, num_effects=0):
         """
         Constructs control file from intcode.
         Ignore last value if self_search_omega_bands.

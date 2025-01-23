@@ -122,7 +122,6 @@ class DeapToolbox:
         offspring = []
 
         while len(offspring) < options.population_size and count < 100:
-            # why does offspring return 1 more than len(pop_full_bits??)
             # offspring is list of individuals (fitness and genome)
             temp = self._get_offspring(pop_full_bits)
 

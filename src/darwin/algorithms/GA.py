@@ -4,9 +4,7 @@ import time
 import logging
 import numpy as np
 import warnings
-import re
 import darwin.GlobalVars as GlobalVars
-import random
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import keep_going
@@ -25,6 +23,151 @@ warnings.filterwarnings('error', category=DeprecationWarning)
 logger = logging.getLogger(__name__)
 
 
+def _binom_to_zero(x, max_effects):
+    """
+    param x: value to be tested (x in binomial)
+    param max_effects: p in binomial
+    """
+    # target fraction of samples with < effect_limit hard coded as 0.8
+    p = binom.cdf(options.effect_limit, max_effects, x)
+
+    return p - 0.8
+
+
+def _get_probabilities(num_effects, max_effects):
+    """
+    param num_effects: list of number of effects in each set for each group
+    param total_effects: total # of effects in all groups
+    """
+    # goal is probabilities such that 80% of samples have total effects <= effect_limit
+    # get p_per_effect for 80% good samples
+    p_per_effect = bisect(_binom_to_zero, 0, 1, args=max_effects)
+
+    # need total effects or fewer of all groups
+    # divide the probability of effects across all groups, non-zero effect set
+    # divided proportional to # of effects, (e.g., if 2 effect, p(that set) = p_per_effect/2
+    # dividing remaining probability among zero effect sets
+    probs = dict()
+
+    for this_group in num_effects:
+        cur_group_probs = np.zeros(len(num_effects[this_group]))
+
+        zero_sets = [i for i, value in enumerate(num_effects[this_group]) if value == 0]
+        non_zero_sets = [i for i, value in enumerate(num_effects[this_group]) if value > 0]
+
+        n_zero_sets = len(zero_sets)  # (x == 0 for x in zero_sets)
+        n_non_zero_sets = len(non_zero_sets)
+
+        # non_zero_slice = tuple(slice(x) for x in non_zero_sets)
+        # for each non_zero set, p(1 effect) will equal p_per_effect
+        # so, if 2 effects p_per_effect/2
+        for this_set in non_zero_sets:
+            cur_group_probs[this_set] = p_per_effect / (n_non_zero_sets * num_effects[this_group][this_set])
+
+        sum_non_zero_prob = sum(cur_group_probs[non_zero_sets])
+
+        if n_zero_sets > 0:
+            zero_prob = (1 - sum_non_zero_prob) / n_zero_sets
+            cur_group_probs[zero_sets] = zero_prob
+
+        # but if all set are non_zero, you're going to get one of them, so scale to sum = 1,
+        # may as well scale, regardless
+        cur_group_probs = cur_group_probs / sum(cur_group_probs)
+
+        # will be integer, need to convert to bits
+        probs[this_group] = cur_group_probs
+
+    return probs
+
+
+def _get_num_effects(tokens: dict):
+    """
+    calculate the number of effects in each token set in each token group
+    Note that the num_effect count will include all token sets, including non-influential tokens
+    """
+    num_effects = dict()
+    max_effects = 0
+
+    for this_group in tokens:
+        this_max = -1
+        cur_group_list = list()
+        effect_token = len(tokens[this_group][0])
+
+        for this_set in tokens[this_group]:
+            value = this_set[effect_token - 1].lower()
+            value = value.replace("effects", "")
+            value = value.replace("effect", "")
+            value = value.replace("=", "")
+
+            try:
+                value = int(value)
+            except ValueError:
+                log.error(f"The final string in token set {this_group} should be effects = n where n in a integer")
+                log.error(f"N effects for this set set to 0")
+                value = 0
+
+            cur_group_list.append(value)
+
+            if value > this_max:
+                this_max = value
+
+        num_effects[this_group] = cur_group_list
+        max_effects += this_max
+
+    return num_effects, max_effects
+
+
+def _weight_pop_full_bits(population, template: Template):
+    # recalculate bits with weighted probability to constraint to total effects < effects_limit
+    # it appears that the pop_full_bits.fitness can be just tuple, not the
+    # full objects
+
+    num_effects, max_effects = _get_num_effects(template.tokens)
+
+    if options.effect_limit >= max_effects:
+        log.error(f"Effect limit ({options.effect_limit}) is greater than the maximum possible effects ({max_effects}")
+        log.error("exiting")
+        sys.exit(0)
+
+    probabilities = _get_probabilities(num_effects, max_effects)
+
+    all_int_codes = {}
+
+    for this_ind in range(len(population)):
+        ind_codes_as_int = [0] * len(template.tokens)
+        count = 0
+        cur_ind_num_effects = 9999999
+
+        while cur_ind_num_effects > options.effect_limit and count < 100:
+            cur_ind_num_effects = 0
+            cur_group = 0
+
+            for this_group in template.tokens:
+                p = probabilities[this_group]
+                cur_string = np.random.choice(len(p), 1, p=p)[0]
+                all_int_codes[this_group] = cur_string
+                ind_codes_as_int[cur_group] = cur_string
+                cur_ind_num_effects += num_effects[this_group][cur_string]
+
+                cur_group += 1
+
+            count += 1
+
+        if count > 99:
+            log.warn(f"unable to find genome with <= {options.effect_limit}")
+
+        # once done count number with <= effect_limit effects
+        # convert to bits
+        # convert dict to simple array
+        bits = ModelCode.from_int(ind_codes_as_int, template.gene_max, template.gene_length).FullBinCode
+
+        # probably can be done with zip and list comprehension?
+        for this_bit, pos in zip(bits, range(len(bits))):
+            population[this_ind][pos] = this_bit  # [[x, pos] for x, pos in zip(bits, range(len(bits)))]
+
+    return population
+
+
 class _GARunner:
     def __init__(self, template: Template, pop_size, elitist_num, num_generations):
         self.generation = 0
@@ -38,148 +181,9 @@ class _GARunner:
         self.pop_full_bits = self.toolbox.new_population(pop_size)
 
         if options.use_effect_limit:
-            self.pop_full_bits = self.weight_pop_full_bits()
+            self.pop_full_bits = _weight_pop_full_bits(self.pop_full_bits, self.template)
 
         self.best_for_elitism = self.toolbox.new_population(elitist_num)
-
-    def weight_pop_full_bits(self):
-        # recalculate bits with weighted probability to constraint to total effects < effects_limit
-        # it appears that the pop_full_bits.fitness can be just tuple, not the
-        # full objects
-        population = self.pop_full_bits
-        num_effects, max_effects = self.get_num_effects()
-
-        if options.effect_limit >= max_effects:
-            log.error(f"Effect limit ({options.effect_limit}) is greater than the maximum possible effects ({max_effects}")
-            log.error("exiting")
-            sys.exit(0)
-
-        probabilities = self.get_probabilities(num_effects, max_effects)
-
-        all_int_codes = {}
-
-        for this_ind in range(len(population)):
-            ind_codes_as_int = [0] * len(self.template.tokens)
-            count = 0
-            cur_ind_num_effects = 9999999
-
-            while cur_ind_num_effects > options.effect_limit and count < 100:
-                cur_ind_num_effects = 0
-                cur_group = 0
-
-                for this_group in self.template.tokens:
-                    p = probabilities[this_group]
-                    cur_string = np.random.choice(len(p), 1, p=p)[0]
-                    all_int_codes[this_group] = cur_string
-                    ind_codes_as_int[cur_group] = cur_string
-                    cur_ind_num_effects += num_effects[this_group][cur_string]
-
-                    cur_group += 1
-
-                count += 1
-
-            if count > 99:
-                log.warn(f"unable to find genome with <= {options.effect_limit}")
-
-            # once done count number with <= effect_limit effects
-            # convert to bits
-            # convert dict to simple array
-            bits = ModelCode.from_int(ind_codes_as_int, self.template.gene_max, self.template.gene_length).FullBinCode
-
-            # probably can be done with zip and list comprehension?
-            for this_bit, pos in zip(bits, range(len(bits))):
-                population[this_ind][pos] = this_bit  # [[x, pos] for x, pos in zip(bits, range(len(bits)))]
-
-        return population
-
-    def get_probabilities(self, num_effects, max_effects):
-        """
-        param num_effects: list of number of effects in each set for each group
-        param total_effects: total # of effects in all groups
-        """
-        # goal is probabilities such that 80% of samples have total effects <= effect_limit
-        # get p_per_effect for 80% good samples
-        p_per_effect = bisect(self.binom_to_zero, 0, 1, args=max_effects)
-
-        # need total effects or fewer of all groups
-        # divide the probability of effects across all groups, non-zero effect set
-        # divided proportional to # of effects, (e.g., if 2 effect, p(that set) = p_per_effect/2
-        # dividing remaining probability among zero effect sets
-        probs = dict()
-
-        for this_group in num_effects:
-            cur_group_probs = np.zeros(len(num_effects[this_group]))
-            zero_sets = [i for i, value in enumerate(num_effects[this_group]) if value == 0]
-            n_zero_sets = len(zero_sets)  # (x == 0 for x in zero_sets)
-            non_zero_sets = [i for i, value in enumerate(num_effects[this_group]) if value > 0]
-            n_non_zero_sets = len(non_zero_sets)
-
-            if n_non_zero_sets > 0:
-                # non_zero_slice = tuple(slice(x) for x in non_zero_sets)
-                # for each non_zero set, p(1 effect) will equal p_per_effect
-                # so, if 2 effects p_per_effect/2
-                for this_set in non_zero_sets:
-                    cur_group_probs[this_set] = p_per_effect / (n_non_zero_sets * num_effects[this_group][this_set])
-
-            sum_non_zero_prob = sum(cur_group_probs[non_zero_sets])
-
-            if n_zero_sets > 0:
-                zero_prob = (1 - sum_non_zero_prob) / n_zero_sets
-                cur_group_probs[zero_sets] = zero_prob
-
-            # but if all set are non_zero, you're going to get one of them, so scale to sum = 1,
-            # may as well scale, regardless
-            cur_group_probs = cur_group_probs / sum(cur_group_probs)
-
-            # will be integer, need to convert to bits
-            probs[this_group] = cur_group_probs
-
-        return probs
-
-    def binom_to_zero(self, x, max_effects):
-        """
-        param x: value to be tested (x in binomial)
-        param max_effects: p in binomial
-        """
-        # target fraction of samples with < effect_limit hard coded as  0.8
-        p = binom.cdf(options.effect_limit, max_effects, x)
-        return p - 0.8
-
-    def get_num_effects(self):
-        """
-        calculate the number of effects in each token set in each token group
-        Note that the num_effect count will include all token sets, including non-influential tokens
-        """
-        num_effects = dict()
-        max_effects = 0
-
-        for this_group in self.template.tokens:
-            this_max = -1
-            cur_group_list = list()
-            effect_token = len(self.template.tokens[this_group][0])
-
-            for this_set in self.template.tokens[this_group]:
-                value = this_set[effect_token - 1].lower()
-                value = value.replace("effects", "")
-                value = value.replace("effect", "")
-                value = value.replace("=", "")
-
-                try:
-                    value = int(value)
-                except ValueError:
-                    log.error(f"The final string in token set {this_group} should be effects = n where n in a integer")
-                    log.error(f"N effects for this set set to 0")
-                    value = 0
-
-                cur_group_list.append(value)
-
-                if value > this_max:
-                    this_max = value
-
-            num_effects[this_group] = cur_group_list
-            max_effects += this_max
-
-        return num_effects, max_effects
 
     def run_generation(self):
         self.generation += 1

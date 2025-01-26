@@ -5,6 +5,7 @@ import logging
 import numpy as np
 import warnings
 import darwin.GlobalVars as GlobalVars
+import darwin.utils as utils
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import keep_going
@@ -88,31 +89,20 @@ def _get_num_effects(tokens: dict):
     num_effects = dict()
     max_effects = 0
 
-    for this_group in tokens:
-        this_max = -1
-        cur_group_list = list()
-        effect_token = len(tokens[this_group][0])
+    for group in tokens:
+        group_effects = list()
 
-        for this_set in tokens[this_group]:
-            value = this_set[effect_token - 1].lower()
-            value = value.replace("effects", "")
-            value = value.replace("effect", "")
-            value = value.replace("=", "")
+        for token_set in tokens[group]:
+            value = utils.get_effects_val(token_set)
 
-            try:
-                value = int(value)
-            except ValueError:
-                log.error(f"The final string in token set {this_group} should be effects = n where n in a integer")
-                log.error(f"N effects for this set set to 0")
+            if value < 0:
+                log.error(f"The final string in token set {group} should be 'effects = n', where n >= 0. n set to 0.")
                 value = 0
 
-            cur_group_list.append(value)
+            group_effects.append(value)
 
-            if value > this_max:
-                this_max = value
-
-        num_effects[this_group] = cur_group_list
-        max_effects += this_max
+        num_effects[group] = group_effects
+        max_effects += max(group_effects)
 
     return num_effects, max_effects
 
@@ -125,7 +115,7 @@ def _weight_pop_full_bits(population, template: Template):
     num_effects, max_effects = _get_num_effects(template.tokens)
 
     if options.effect_limit >= max_effects:
-        log.error(f"Effect limit ({options.effect_limit}) is greater than the maximum possible effects ({max_effects}")
+        log.error(f"Effect limit ({options.effect_limit}) is greater than the maximum possible effects ({max_effects})")
         log.error("exiting")
         sys.exit(0)
 

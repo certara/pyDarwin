@@ -12,34 +12,40 @@ from darwin.Log import log
 from .DarwinError import DarwinError
 
 
-def get_pop_num_effects(tokens):
+def get_effects_val(token_set: list) -> int:
+    value = token_set[-1].lower()
+    value = value.replace("effects", "")
+    value = value.replace("effect", "")
+    value = value.replace("=", "")
+
+    try:
+        value = int(value)
+    except ValueError:
+        value = -1
+
+    return value
+
+
+def get_pop_num_effects(pop: list):
     """
     calculate the number of effects in each token set in each token group
     called from Deaptoolbox.get_offspring
-    :param tokens: list of lists of tokens used in each individual (not the full set)
+    :param pop: list of lists of tokens used in each individual (not the full set)
     :return: an array of the number of effects for each individual.
     :rtype: integer array
     """
     num_effects = []
 
-    for this_ind in tokens:
+    for individual in pop:
         cur_n_effects = 0
 
-        for this_group in this_ind:
-            effect_token = len(this_group) - 1
-            value = this_group[effect_token].lower()
-            value = value.replace("effects", "")
-            value = value.replace("effect", "")
-            value = value.replace("=", "")
+        for token_set in individual:
+            value = get_effects_val(token_set)
 
-            try:
-                value = int(value)
-            except ValueError:
-                value = 0
+            if value > 0:
+                cur_n_effects += value
 
-            cur_n_effects += value
-
-        num_effects += [cur_n_effects]
+        num_effects.append(cur_n_effects)
 
     return num_effects
 

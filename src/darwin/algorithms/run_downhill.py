@@ -89,7 +89,6 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
 
         test_models = []
         niches_this_loop = 0
-        all_starts = []  # may need to modify for deleted models if effect_limit is used
 
         for niche in niches:
             if niche.done:
@@ -116,21 +115,15 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
 
             niche.runs_finish = len(test_models)
 
-            all_starts.append(niche.runs_start)
-
-        population, new_starts = Population.from_codes(template, str(generation) + "D" + f'{this_step:02d}',
-                                                       test_models, ModelCode.from_min_binary, all_starts=all_starts)
-
-        if options.use_effect_limit:
-            for this_niche in range(len(new_starts)-1):
-                niches[this_niche].runs_start = new_starts[this_niche]
-                niches[this_niche].runs_finish = new_starts[this_niche+1]
+        population = Population.from_codes(template, str(generation) + "D" + f"{this_step:02d}",
+                                           test_models, ModelCode.from_min_binary, niches=niches)
 
         log.message(f"Starting downhill step {this_step},"
                     f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
 
-        for i in range(1, len(new_starts)):
-            log.message(f"{new_starts[i] - new_starts[i - 1]} models in niche {i}")
+        for i, niche in enumerate(niches):
+            if not niche.done:
+                log.message(f"{niche.runs_finish - niche.runs_start} models in niche {i+1}")
 
         population.run()
 

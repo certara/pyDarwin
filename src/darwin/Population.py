@@ -17,6 +17,23 @@ from .ModelRunManager import get_run_manager
 from .DarwinError import DarwinError
 
 
+def _trim_niches(niches: list, good_individuals: list):
+    if niches is None:
+        return
+
+    cum_start = 0
+
+    for niche in niches:
+        if niche.done:
+            continue
+
+        niche_size = sum(good_individuals[niche.runs_start:niche.runs_finish])
+
+        niche.runs_start = cum_start
+        cum_start += niche_size
+        niche.runs_finish = cum_start
+
+
 class Population:
     """
     Population of individuals (model runs).
@@ -53,7 +70,7 @@ class Population:
 
     @classmethod
     def from_codes(cls, template: Template, name, codes, code_converter,
-                   start_number=0, max_number=0, max_iteration=0, all_starts=None):
+                   start_number=0, max_number=0, max_iteration=0, niches=None):
         """
         Create a new population from a set of codes.
         if not downhill, have already generated good codes
@@ -64,8 +81,7 @@ class Population:
         params: start_number
         params: maximum value for each gene
         params: max_iterations
-        params: all_starts, array of starting positions for each niche, when doing downhill, None if not downhill
-        params: num_effects, array of number of effects in each model, can be -99 if not use_effect_limit
+        params: niches, array of niches, None if not downhill
         """
 
         pop = cls(template, name, start_number, max_number or len(codes), max_iteration)
@@ -73,15 +89,14 @@ class Population:
         maxes = template.gene_max
         lengths = template.gene_length
 
-        # need to generate population of "good" models (i.e., models with < effects_limit) only if
-        # this is downhill AND use_effect_limit
-        # otherwise, just return the population
-
         if not options.use_effect_limit:
             for code in codes:
                 pop.add_model_run(code_converter(code, maxes, lengths))
 
             return pop
+
+        # need to generate population of "good" models (i.e., models with < effects_limit) only if
+        # this is downhill AND use_effect_limit
 
         pop_int_codes = list()
         tokens = list()
@@ -107,24 +122,7 @@ class Population:
             log.message(f"{n_initial_models - len(codes)} of {n_initial_models} "
                         f"models removed due to number of effects > {options.effect_limit}")
 
-        has_niches = "D" in str(name) or "F" in str(name) or "G" in str(name)  # G for local grid search
-
-        if has_niches and all_starts is not None:  # search will not have niches, only downhill
-            num_niches = len(all_starts)  # may not be the same as i options?? when niches have been eliminated
-
-            # adjust new_start, subtract # of eliminated models from all_starts
-            all_starts.append(len(good_individuals))  # need the last value here
-
-            new_starts = [0] * (num_niches + 1)  # but need one more for new_starts, as there may not be the full set
-            cum_start = 0
-
-            for this_start in range(num_niches):
-                this_niche_good_inds = good_individuals[all_starts[this_start]:all_starts[this_start+1]]
-                num_kept = sum(this_niche_good_inds)
-                cum_start = cum_start + num_kept
-                new_starts[this_start + 1] = cum_start  # first is zero
-
-            return [pop, new_starts]
+        _trim_niches(niches, good_individuals)
 
         return pop
 

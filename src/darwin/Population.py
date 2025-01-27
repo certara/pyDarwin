@@ -95,8 +95,7 @@ class Population:
 
             return pop
 
-        # need to generate population of "good" models (i.e., models with < effects_limit) only if
-        # this is downhill AND use_effect_limit
+        # need to generate population of "good" models (i.e., models with < effects_limit) only if use_effect_limit
 
         pop_int_codes = list()
         tokens = list()
@@ -126,7 +125,7 @@ class Population:
 
         return pop
 
-    def add_model_run(self, code: ModelCode, num_effects=0):
+    def add_model_run(self, code: ModelCode, num_effects=-1):
         """
         Create a new ModelRun and append it to *self.runs*.
         If a ModelRun with such code already exists in *self.runs*, the new one will be marked as a duplicate and

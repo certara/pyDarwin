@@ -60,7 +60,7 @@ class ModelEngineAdapter(ABC):
 
     @staticmethod
     @abstractmethod
-    def make_control(template: Template, model_code: ModelCode, num_effects=0):
+    def make_control(template: Template, model_code: ModelCode):
         """
         Constructs control file from intcode.
         Ignore last value if self_search_omega_bands is specified.
@@ -92,14 +92,26 @@ class ModelEngineAdapter(ABC):
 
         pass
 
-    def create_new_model(self, template: Template, model_code: ModelCode, num_effects=0) -> Model:
+    def create_new_model(self, template: Template, model_code: ModelCode, num_effects=-1) -> Model:
 
         model = Model(model_code)
 
         model.phenotype, model.control, model.non_influential_token_num = \
-            self.make_control(template, model_code, num_effects)
+            self.make_control(template, model_code)
+
+        if num_effects > -1:
+            self.add_comment(f"Number of effects = {num_effects}\n", model.control)
 
         return model
+
+    @staticmethod
+    @abstractmethod
+    def add_comment(comment: str, control: str):
+        """
+        Add a comment to the control
+        """
+
+        pass
 
     @staticmethod
     @abstractmethod

@@ -126,7 +126,7 @@ class NMEngineAdapter(ModelEngineAdapter):
         return prd_err, nm_translation_message
 
     @staticmethod
-    def make_control(template: Template, model_code: ModelCode, num_effects=0):
+    def make_control(template: Template, model_code: ModelCode):
         """
         Constructs control file from intcode.
         Ignore last value if self_search_omega_bands.
@@ -164,11 +164,17 @@ class NMEngineAdapter(ModelEngineAdapter):
         phenotype += bands
 
         control += "\n;; Phenotype: " + phenotype + "\n;; Genotype: " + model_code_str \
-                   + "\n;; Num non-influential tokens: " + str(non_influential_token_num) + "\n"
-        if options.use_effect_limit:
-            control += "\n;; Number of effects = " + str(num_effects)
+                   + f"\n;; Num non-influential tokens: {non_influential_token_num}\n"
 
         return phenotype, control, non_influential_token_num
+
+    @staticmethod
+    def add_comment(comment: str, control: str):
+        """
+        Add a comment to the control
+        """
+
+        control += f";; {comment}"
 
     @staticmethod
     def cleanup(run_dir: str, file_stem: str):

@@ -18,9 +18,6 @@ from .DarwinError import DarwinError
 
 
 def _trim_niches(niches: list, good_individuals: list):
-    if niches is None:
-        return
-
     cum_start = 0
 
     for niche in niches:
@@ -89,13 +86,13 @@ class Population:
         maxes = template.gene_max
         lengths = template.gene_length
 
-        if not options.use_effect_limit:
+        # need to generate population of "good" models (i.e., models with < effects_limit)
+        # only if this is downhill and use_effect_limit
+        if not options.use_effect_limit or not("D" in str(name) or "S" in str(name)):
             for code in codes:
                 pop.add_model_run(code_converter(code, maxes, lengths))
 
             return pop
-
-        # need to generate population of "good" models (i.e., models with < effects_limit) only if use_effect_limit
 
         pop_int_codes = list()
         tokens = list()
@@ -121,7 +118,8 @@ class Population:
             log.message(f"{n_initial_models - len(codes)} of {n_initial_models} "
                         f"models removed due to number of effects > {options.effect_limit}")
 
-        _trim_niches(niches, good_individuals)
+        if niches is not None:
+            _trim_niches(niches, good_individuals)
 
         return pop
 

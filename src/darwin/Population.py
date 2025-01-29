@@ -94,22 +94,12 @@ class Population:
 
             return pop
 
-        pop_int_codes = list()
-        tokens = list()
-
         n_initial_models = len(codes)
 
-        for code in codes:
-            temp = code_converter(code, maxes, lengths)
-            pop_int_codes.append(temp.IntCode)
+        phenotype = [code_converter(code, maxes, lengths).IntCode for code in codes]
 
-        for this_ind in pop_int_codes:
-            tokens.append([this_set[gene] for this_set, gene in zip(list(template.tokens.values()), this_ind)])
-
-        num_effects = utils.get_pop_num_effects(tokens)
-        good_individuals = [element <= options.effect_limit for element in num_effects]
-
-        codes = [element for element, flag in zip(codes, good_individuals) if flag]
+        codes, num_effects, good_individuals = \
+            utils.trim_population(codes, phenotype, template.tokens.values(), options.effect_limit)
 
         for code, ind_num_effects in zip(codes, num_effects):
             pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)

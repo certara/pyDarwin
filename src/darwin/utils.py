@@ -26,7 +26,7 @@ def get_effects_val(token_set: list) -> int:
     return value
 
 
-def get_pop_num_effects(pop: list):
+def _get_pop_num_effects(pop: list):
     """
     calculate the number of effects in each token set in each token group
     called from Deaptoolbox.get_offspring
@@ -48,6 +48,20 @@ def get_pop_num_effects(pop: list):
         num_effects.append(cur_n_effects)
 
     return num_effects
+
+
+def trim_population(population: list, phenotype: list, all_tokens: list, effect_limit: int):
+    tokens = list()
+
+    for this_ind in phenotype:
+        tokens.append([tok_set[gene] for tok_set, gene in zip(all_tokens, this_ind)])
+
+    num_effects = _get_pop_num_effects(tokens)
+    good_individuals = [element <= effect_limit for element in num_effects]
+
+    population = [element for element, flag in zip(population, good_individuals) if flag]
+
+    return population, num_effects, good_individuals
 
 
 def convert_full_bin_int(population, gene_max: list, length: list):

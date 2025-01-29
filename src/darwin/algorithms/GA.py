@@ -81,79 +81,40 @@ def _get_probabilities(num_effects, max_effects):
     return probs
 
 
-def _get_num_effects(tokens: dict):
-    """
-    calculate the number of effects in each token set in each token group
-    Note that the num_effect count will include all token sets, including non-influential tokens
-    """
-    num_effects = dict()
-    max_effects = 0
-
-    for group in tokens:
-        group_effects = list()
-
-        for token_set in tokens[group]:
-            value = utils.get_effects_val(token_set)
-
-            if value < 0:
-                log.error(f"The final string in token set {group} should be 'effects = n', where n >= 0. n set to 0.")
-                value = 0
-
-            group_effects.append(value)
-
-        num_effects[group] = group_effects
-        max_effects += max(group_effects)
-
-    return num_effects, max_effects
-
-
-def _weight_pop_full_bits(population, template: Template):
+def _weight_pop_full_bits(population: list, template: Template):
     # recalculate bits with weighted probability to constraint to total effects < effects_limit
-    # it appears that the pop_full_bits.fitness can be just tuple, not the
-    # full objects
+    # it appears that the pop_full_bits.fitness can be just tuple, not the full objects
 
-    num_effects, max_effects = _get_num_effects(template.tokens)
+    probabilities = _get_probabilities(template.num_effects, template.max_effect)
 
-    if options.effect_limit >= max_effects:
-        log.error(f"Effect limit ({options.effect_limit}) is greater than the maximum possible effects ({max_effects})")
-        log.error("exiting")
-        sys.exit(0)
-
-    probabilities = _get_probabilities(num_effects, max_effects)
-
-    all_int_codes = {}
-
-    for this_ind in range(len(population)):
+    for this_ind in population:
         ind_codes_as_int = [0] * len(template.tokens)
         count = 0
-        cur_ind_num_effects = 9999999
 
-        while cur_ind_num_effects > options.effect_limit and count < 100:
+        while count < 100:
+            count += 1
+
             cur_ind_num_effects = 0
             cur_group = 0
 
             for this_group in template.tokens:
                 p = probabilities[this_group]
                 cur_string = np.random.choice(len(p), 1, p=p)[0]
-                all_int_codes[this_group] = cur_string
                 ind_codes_as_int[cur_group] = cur_string
-                cur_ind_num_effects += num_effects[this_group][cur_string]
+                cur_ind_num_effects += template.num_effects[this_group][cur_string]
 
                 cur_group += 1
 
-            count += 1
+            if cur_ind_num_effects <= options.effect_limit:
+                break
 
         if count > 99:
             log.warn(f"unable to find genome with <= {options.effect_limit}")
 
-        # once done count number with <= effect_limit effects
-        # convert to bits
-        # convert dict to simple array
         bits = ModelCode.from_int(ind_codes_as_int, template.gene_max, template.gene_length).FullBinCode
 
-        # probably can be done with zip and list comprehension?
-        for this_bit, pos in zip(bits, range(len(bits))):
-            population[this_ind][pos] = this_bit  # [[x, pos] for x, pos in zip(bits, range(len(bits)))]
+        for pos, this_bit in enumerate(bits):
+            this_ind[pos] = this_bit
 
     return population
 

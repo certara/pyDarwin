@@ -18,10 +18,11 @@ import darwin.utils as utils
 class DeapToolbox:
     def __init__(self, template: Template):
         ga_options = options.GA
+
         self.tokens = template.tokens
-        num_bits = int(np.sum(template.gene_length))
         self.gene_max = template.gene_max
         self.gene_length = template.gene_length
+
         creator.create("FitnessMin", deap.base.Fitness, weights=(-1.0,))
         creator.create("Individual", list, fitness=creator.FitnessMin)
 
@@ -41,6 +42,8 @@ class DeapToolbox:
         # Structure initializers
         #                         define 'individual' to be an individual
         #                         consisting of 100 'attr_bool' elements ('genes')
+
+        num_bits = int(sum(template.gene_length))
 
         toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, num_bits)
 
@@ -128,15 +131,8 @@ class DeapToolbox:
             # now check if < effect_limit
             # need integers,
             phenotype = utils.convert_full_bin_int(temp, self.gene_max, self.gene_length)
-            all_tokens = list()
 
-            for this_ind in range(len(temp)):
-                all_tokens.append([tokens[gene] for tokens, gene in zip(self.tokens.values(), phenotype[this_ind])])
-
-            num_effects = utils.get_pop_num_effects(all_tokens)
-            good_individuals = [element <= options.effect_limit for element in num_effects]
-
-            temp = [element for element, flag in zip(temp, good_individuals) if flag]
+            temp, aa, bb = utils.trim_population(temp, phenotype, self.tokens.values(), options.effect_limit)
 
             offspring.extend(temp[:options.population_size-len(offspring)])
 

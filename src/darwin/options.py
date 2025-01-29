@@ -41,7 +41,7 @@ _default_MOGA = {
     'mutation_rate': 0.95,
     'attribute_mutation_probability': 0.1,
     'mutate': 'flipBit',
-    'niche_penalty': 20,
+    'niche_penalty': 0,
     'selection': 'tournament',
     'selection_size': 2,
     'sharing_alpha': 0.1,
@@ -185,6 +185,9 @@ class Options:
             or os.path.join(self.working_dir, 'temp')
         self.key_models_dir = utils.apply_aliases(opts.get('key_models_dir'), project_dir_alias) \
             or os.path.join(options.working_dir, 'key_models')
+        if self.algorithm == "MOGA":
+            self.non_dominated_models_dir = utils.apply_aliases(opts.get('non_dominated_models_dir'), project_dir_alias) \
+                              or os.path.join(options.working_dir, 'non_dominated_models')
 
         self.aliases = {
             'project_dir': self.project_dir,
@@ -202,8 +205,10 @@ class Options:
         ga = opts.get('GA', {})
         moga = opts.get('MOGA', {})
         pso = opts.get('PSO', {})
-
-        self.penalty = _default_penalty | penalty
+        if self.algorithm == "MOGA":
+            self.penalty = _default_penalty | penalty
+        else:
+            self.penalty = None  # no penalties in MOGA
         self.GA = _default_GA | ga
         self.MOGA = _default_MOGA | moga
         self.PSO = _default_PSO | pso

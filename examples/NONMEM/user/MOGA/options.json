@@ -1,11 +1,8 @@
 {
     "author": "Certara",
     "algorithm": "MOGA",
-    "random_seed": 11,
-    "downhill_period": 999,
-    "local_2_bit_search": false,
-    "final_downhill_search": false,
-    "population_size": 20,
+    "random_seed": 11,  
+    "population_size": 4,
     "num_generations": 4,
     "num_parallel": 1,
     "crash_value": 99999999,
@@ -20,16 +17,6 @@
         "selection_size": 2,
         "sharing_alpha": 0.1,
         "crossover_operator": "cxOnePoint"
-    },
-    "penalty": {
-        "theta": 10,
-        "omega": 10,
-        "sigma": 10,
-        "convergence": 100,
-        "covariance": 100,
-        "correlation": 100,
-        "condition_number": 100,
-        "non_influential_tokens": 0.00001
     },
     "remove_run_dir": false,
     "nmfe_path": "c:/nm75g64/util/nmfe75.bat",

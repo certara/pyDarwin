@@ -30,6 +30,9 @@ class ModelRunManager(ABC):
         if options.keep_key_models:
             os.makedirs(options.key_models_dir, exist_ok=True)
 
+        if options.algorithm == "MOGA":
+            os.makedirs(options.non_dominated_models_dir, exist_ok=True)
+
     @staticmethod
     def cleanup_folders():
         pass

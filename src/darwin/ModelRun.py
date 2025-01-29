@@ -390,10 +390,11 @@ class ModelRun:
 
         if not failed:
             self.set_status('Finished model run')
-
-            if self._post_run_r() and self._post_run_python() and self._calc_fitness():
+            if options.algorithm == "MOGA" and self._calc_fitness():
                 self.set_status('Done')
-
+            else:
+                if self._post_run_r() and self._post_run_python() and self._calc_fitness():
+                    self.set_status('Done')
     def finish(self):
         if self.rerun:
             return
@@ -634,8 +635,14 @@ def log_run(run: ModelRun):
 
     if len(message) > 200:
         message = message[:200] + '(...)'
-
-    log.message(
+    if options.algorithm == "MOGA":
+        nparms = run.model.estimated_theta_num + run.model.estimated_sigma_num + run.model.estimated_omega_num
+        log.message(
+            f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
+            f" OFV  = {round(run.result.ofv,3):>9}, N(Estimated parameters) = {nparms}, message = {message}"
+        )
+    else:
+        log.message(
         f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
-        f"    fitness = {fitness_text:>9}, OFV  = {run.result.ofv:>9}, total number of parameters = {run.model.estimated_theta_num+ run.model.estimated_sigma_num+run.model.estimated_omega_num}, message = {message}"
+        f"    fitness = {round(fitness_text,3):>9}, OFV  = {round(run.result.ofv,3):>9},  message = {message}"
     )

@@ -41,7 +41,6 @@ _default_MOGA = {
     'mutation_rate': 0.95,
     'attribute_mutation_probability': 0.1,
     'mutate': 'flipBit',
-    'niche_penalty': 0,
     'selection': 'tournament',
     'selection_size': 2,
     'sharing_alpha': 0.1,

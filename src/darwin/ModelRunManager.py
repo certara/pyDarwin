@@ -31,6 +31,7 @@ class ModelRunManager(ABC):
             os.makedirs(options.key_models_dir, exist_ok=True)
 
         if options.algorithm == "MOGA":
+            utils.remove_dir(options.non_dominated_models_dir)
             os.makedirs(options.non_dominated_models_dir, exist_ok=True)
 
     @staticmethod

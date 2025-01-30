@@ -34,7 +34,8 @@ class Model:
         self.non_influential_token_num = 0
 
         self.phenotype = self.control = None
-
+        # can we assign front??
+        self.front = None
     def genotype(self) -> list:
         return self.model_code.IntCode
 

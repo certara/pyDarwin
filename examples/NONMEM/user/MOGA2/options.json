@@ -2,8 +2,8 @@
     "author": "Certara",
     "algorithm": "MOGA",
     "random_seed": 11,  
-    "population_size": 6,
-    "num_generations": 4,
+    "population_size": 40,
+    "num_generations": 8,
     "num_parallel": 1,
     "crash_value": 99999999,
     "MOGA": {

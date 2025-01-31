@@ -4,44 +4,43 @@ $DATA      {data_dir}/dataExample1.csv IGNORE=@
            
 $SUBROUTINE ADVAN2
 $ABBR DERIV2=NO
-$PK      
-  CWTKG = WTKG/70  ;; CENTERED ON ONE 
+$PK
+  CWTKG = WTKG/70  ;; CENTERED ON ONE
   CAGE = AGE/40
-;; thetas out of sequence
+
   TVV2=THETA(2){V2~WT[1]} {V2~GENDER[1]}
-  V2=TVV2*EXP(ETA(2)) 
-  TVCL= THETA(1) {CL~WT[1]}  
-  CL=TVCL*EXP(ETA(1)) 
-  K=CL/V2  
-  TVKA=THETA(3) 
-  KA=TVKA  {KAETA[1]}  
-  S2 	= V2/1000 
+  V2=TVV2*EXP(ETA(2))
+  TVCL= THETA(1) {CL~WT[1]}
+  CL=TVCL*EXP(ETA(1))
+  K=CL/V2
+  TVKA=THETA(3)
+  KA=TVKA  {KAETA[1]}
+  S2 	= V2/1000
   {ALAG[1]}
-$ERROR     
- REP = IREP      
- IPRED =F  
+$ERROR
+ REP = IREP
+ IPRED =F
  IOBS = F {RESERR[1]}
  Y=IOBS
 $THETA  ;; must be one THETA per line.
  (0.001,100)	; THETA(1) CL UNITS =  L/HR
  (0.001,500) 	; THETA(2) V  UNITS = L
- (0.001,2) 	; THETA(3) KA UNITS = 1/HR  
-  
- {V2~WT[2]}   ;;; comment must consist of more than one word
- {V2~GENDER[2]}   ;;; otherwise it's a definition, and it will push you back
- {CL~WT[2]}  
+ (0.001,2) 	; THETA(3) KA UNITS = 1/HR
+
+ {V2~WT[2]}
+ {V2~GENDER[2]}
+ {CL~WT[2]}
  {ALAG[2]}
- 
+
 $OMEGA   ;; must be one ETA/line
   0.2  		; ETA(1) CLEARANCE
 ;; test for comments in blocks
   0.2  	; ETA(2) VOLUME
 ;; optional $OMEGA blocks
-{KAETA[2]}   
-  
-$SIGMA   
+{KAETA[2]}
 
-{RESERR[2]} 
-$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 
+$SIGMA
+
+{RESERR[2]}
+$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1
 $COV UNCOND PRINT=E
- 

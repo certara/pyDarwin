@@ -1,7 +1,5 @@
 import os
 import shutil
-from copy import copy
-import time
 import logging
 import numpy as np
 import warnings
@@ -12,23 +10,18 @@ from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import keep_going
 from darwin.ModelCode import ModelCode
-from darwin.algorithms.run_downhill import run_downhill
-from darwin.Population import Population
 from darwin.Template import Template
 from darwin.Model import Model
 from darwin.ModelRun import ModelRun
 from grapheme import length
 from darwin.Population import Population
-from .DeapToolbox import DeapToolbox, model_run_to_deap_ind
 
 from pymoo.algorithms.moo.nsga2 import NSGA2
-import matplotlib
 from pymoo.problems import get_problem
 from pymoo.operators.crossover.pntx import TwoPointCrossover
 from pymoo.operators.mutation.bitflip import BitflipMutation
 from pymoo.operators.sampling.rnd import BinaryRandomSampling
 from pymoo.optimize import minimize
-from pymoo.visualization.scatter import Scatter
 from pymoo.core.problem import ElementwiseProblem
 
 from pymoo.core.callback import Callback
@@ -57,11 +50,11 @@ class MogaProblem(ElementwiseProblem):
     #
     #     def __init__(self) -> None:
     #         super().__init__()
-    #         self.data["front"] = []
+    #         self.data["rank"] = []
     #
     #     def notify(self, algorithm):
     #         # self.data["front"].append(algorithm.pop.get("F").min())
-    #         self.data["front"].append(algorithm.pop.get("data"))
+    #         self.data["rank"].append(algorithm.pop.get("data"))
 
     def _evaluate(self, x, out, *args, **kwargs):
         # will replace the code below with code to run a single generation of models
@@ -100,13 +93,15 @@ def run_moga(model_template: Template) -> ModelRun:
                                  n_eval=0)  # n_var = num of genome bits
     runner.algorithm = NSGA2(pop_size=pop_size,
                              sampling=BinaryRandomSampling(),
-                             crossover=TwoPointCrossover(),
-                             mutation=BitflipMutation(),
+                             crossover=TwoPointCrossover(prob=options['MOGA']['crossover_rate']),
+                             mutation=BitflipMutation(prob=options['MOGA']['mutation_rate']),
                              eliminate_duplicates=True)
 
-    # prepare the algorithm to solve the specific problem (same arguments as for the minimize function)
-    runner.algorithm.setup(runner.problem, termination=('n_gen', n_gens), seed=1, verbose=False)
+    runner.algorithm.setup(runner.problem, termination=('n_gen', n_gens),
+                           seed=options.random_seed,
+                           verbose=False)
     all_population = None  # all models ever run
+   # moga_results = []
     while runner.algorithm.has_next():
         # ask the algorithm for the next solution to be evaluated
         # all evaluations are in pop
@@ -134,7 +129,17 @@ def run_moga(model_template: Template) -> ModelRun:
             # note, this print (log.message) after each individual because each individual gets defined as a population
             # when in elementwise mode, should be fixed when run parallel??
             # note there is no fitness, should not be on console output
-
+        #     moga_record = {"Generation": runner.algorithm.n_gen,
+        #                   "Individual": ii,
+        #                   "model_files": full_populaton.runs[ii].run_dir,
+        #                   "OFV": full_populaton.runs[ii].result.ofv[0],
+        #                   "NParms": int(full_populaton.runs[ii].result.ofv[1]),
+        #                   "success": full_populaton.runs[ii].result.success,
+        #                   "covariance": full_populaton.runs[ii].result.covariance,
+        #                   "non_dominated": False
+        #                   }
+        #
+        # moga_results.append(moga_record)
         # append full population models to all_population
         if n_gen == 1:
             all_population = full_populaton
@@ -147,7 +152,8 @@ def run_moga(model_template: Template) -> ModelRun:
         # probably will be fixed when run parallel??
         # note that model numbering is different, numnbers are sequenctial, do not reset to 1 with each generation
         # therefore, model number in FullPopulation is incorrect. set to copy temp folder from pop object to FullPopulation
-        # front_results = runner.algorithm.callback.data['front'][0]
+
+        #front_results = runner.algorithm.callback.data['front'][0]
         non_dominated_folder = os.path.join(options.working_dir, "non_dominated_models", str(n_gen))
         os.mkdir(non_dominated_folder)
         log.message("Current Non Dominated models:")
@@ -159,9 +165,12 @@ def run_moga(model_template: Template) -> ModelRun:
             cur_x = [res.X[ii].astype(int)]
             n_front_models += 1
             # find model in original population by genome
+            which_model = 0
             for model in all_population.runs:
                 if all(model.model.model_code.FullBinCode == cur_x[0]):
+                   # moga_record[which_model].Rank = True
                     os.mkdir(os.path.join(non_dominated_folder, str(n_front_models)))
+                    # copy to mogq-results
                     # find source directory by matching genome of FullPopulation and res
                     src_dir = model.run_dir
                     for filename in os.listdir(src_dir):
@@ -174,7 +183,7 @@ def run_moga(model_template: Template) -> ModelRun:
                         str(round(model.result.ofv[0], 4)) + ", NParms = " + \
                         str(int(model.result.ofv[1])))
                     break
-
+                which_model += 1
     res = runner.algorithm.result()
     log.message(f" MOGA best genome = {res.X.astype(int)},\n"
                 f" OFV and # of parameters = {res.F}")

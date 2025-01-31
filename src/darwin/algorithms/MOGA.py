@@ -71,9 +71,11 @@ class MogaProblem(ElementwiseProblem):
         model = run.model
 
         f1 = run.result.ofv
-        f2 = model.estimated_omega_num + model.estimated_theta_num + model.estimated_sigma_num
+        if f1 > (options.crash_value - 0.1):
+            f2 = 999999
+        else:
+            f2 = model.estimated_omega_num + model.estimated_theta_num + model.estimated_sigma_num
         out["F"] = [f1, f2]
-
 
 class _MOGARunner:
     def __init__(self, template: Template, pop_size, num_generations):
@@ -89,7 +91,9 @@ def run_moga(model_template: Template) -> ModelRun:
     n_gens = options.num_generations  # connect with options file
 
     runner = _MOGARunner(model_template, pop_size, options.num_generations)
-    runner.problem = MogaProblem(n_var=n_var, modeltemplate=model_template, generation=1,
+    runner.problem = MogaProblem(n_var=n_var,
+                                 modeltemplate=model_template,
+                                 generation=1,
                                  n_eval=0)  # n_var = num of genome bits
     runner.algorithm = NSGA2(pop_size=pop_size,
                              sampling=BinaryRandomSampling(),

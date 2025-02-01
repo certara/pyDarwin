@@ -4,200 +4,134 @@ import logging
 import numpy as np
 import warnings
 
-import darwin.GlobalVars as GlobalVars
 from darwin import Population
 from darwin.Log import log
 from darwin.options import options
-from darwin.ExecutionManager import keep_going
 from darwin.ModelCode import ModelCode
 from darwin.Template import Template
-from darwin.Model import Model
 from darwin.ModelRun import ModelRun
-from grapheme import length
 from darwin.Population import Population
+from darwin.ModelCache import get_model_cache
 
 from pymoo.algorithms.moo.nsga2 import NSGA2
-from pymoo.problems import get_problem
 from pymoo.operators.crossover.pntx import TwoPointCrossover
 from pymoo.operators.mutation.bitflip import BitflipMutation
 from pymoo.operators.sampling.rnd import BinaryRandomSampling
-from pymoo.optimize import minimize
 from pymoo.core.problem import ElementwiseProblem
-
-from pymoo.core.callback import Callback
-import numpy as np
 
 warnings.filterwarnings('error', category=DeprecationWarning)
 logger = logging.getLogger(__name__)
 
 
+def _get_n_params(run: ModelRun) -> int:
+    model = run.model
+
+    return model.estimated_omega_num + model.estimated_theta_num + model.estimated_sigma_num
+
+
 class MogaProblem(ElementwiseProblem):
-    def __init__(self, n_var, modeltemplate, generation, n_eval):
+    def __init__(self, n_var, run: ModelRun = None):
         super().__init__(n_var=n_var,  # number of bits
                          n_obj=2,
                          n_ieq_constr=0,
                          xl=np.zeros(n_var, dtype=int),
                          xu=np.ones(n_var, dtype=int),
                          # need this to send population and template to evaluate
-                         requires_kwargs=True,
-                         ModelTemplate=modeltemplate
+                         requires_kwargs=True
                          )
-        self.num_generations = options.num_generations
-        self.generation = generation
-        self.n_eval = n_eval
-
-    # class MyCallback(Callback):
-    #
-    #     def __init__(self) -> None:
-    #         super().__init__()
-    #         self.data["rank"] = []
-    #
-    #     def notify(self, algorithm):
-    #         # self.data["front"].append(algorithm.pop.get("F").min())
-    #         self.data["rank"].append(algorithm.pop.get("data"))
+        self.run = run
 
     def _evaluate(self, x, out, *args, **kwargs):
-        # will replace the code below with code to run a single generation of models
-        # then population f1 and f2
-        # model template in self.data['ModelTemplate']
-        a = self.data['ModelTemplate']
-        x_arr = [x.astype(int)]
-        self.population = Population.from_codes(a, self.generation, x_arr,
-                                                ModelCode.from_full_binary,
-                                                start_number=self.n_eval,
-                                                max_iteration=self.num_generations)
-        self.population.run()
-        run = self.population.runs[0]  # append run, run is Modelrun
-        model = run.model
+        f1 = self.run.result.ofv
+        f2 = 999999 if f1 >= options.crash_value else _get_n_params(self.run)
 
-        f1 = run.result.ofv
-        if f1 > (options.crash_value - 0.1):
-            f2 = 999999
-        else:
-            f2 = model.estimated_omega_num + model.estimated_theta_num + model.estimated_sigma_num
         out["F"] = [f1, f2]
 
-class _MOGARunner:
-    def __init__(self, template: Template, pop_size, num_generations):
-        self.generation = 0
-        self.template = template
-        self.population = None
-        self.num_generations = num_generations
+
+def _get_front_runs(res_xx: list, model_cache) -> list:
+    runs = []
+
+    for res_x in res_xx:
+        cur_x = [int(x) for x in res_x.astype(int)]
+        run = model_cache.find_model_run(genotype=str(cur_x))
+
+        if run is None:
+            log.warn(f"Missing a front model: {cur_x}")
+            continue
+
+        runs.append(run)
+
+    return runs
 
 
-def run_moga(model_template: Template) -> ModelRun:
-    n_var = int(np.sum(model_template.gene_length))
+def run_moga(model_template: Template):
+    n_var = sum(model_template.gene_length)
     pop_size = options.population_size  # connect with options file
     n_gens = options.num_generations  # connect with options file
 
-    runner = _MOGARunner(model_template, pop_size, options.num_generations)
-    runner.problem = MogaProblem(n_var=n_var,
-                                 modeltemplate=model_template,
-                                 generation=1,
-                                 n_eval=0)  # n_var = num of genome bits
-    runner.algorithm = NSGA2(pop_size=pop_size,
-                             sampling=BinaryRandomSampling(),
-                             crossover=TwoPointCrossover(prob=options['MOGA']['crossover_rate']),
-                             mutation=BitflipMutation(prob=options['MOGA']['mutation_rate']),
-                             eliminate_duplicates=True)
+    model_cache = get_model_cache()
 
-    runner.algorithm.setup(runner.problem, termination=('n_gen', n_gens),
-                           seed=options.random_seed,
-                           verbose=False)
-    all_population = None  # all models ever run
-   # moga_results = []
-    while runner.algorithm.has_next():
+    problem = MogaProblem(n_var=n_var)
+
+    algorithm = NSGA2(
+        pop_size=pop_size,
+        sampling=BinaryRandomSampling(),
+        crossover=TwoPointCrossover(prob=options['MOGA']['crossover_rate']),
+        mutation=BitflipMutation(prob=options['MOGA']['mutation_rate']),
+        eliminate_duplicates=True
+    )
+
+    algorithm.setup(problem, termination=('n_gen', n_gens), seed=options.random_seed, verbose=False)
+
+    n_gen = 0
+
+    while algorithm.has_next():
+        n_gen += 1
+
         # ask the algorithm for the next solution to be evaluated
-        # all evaluations are in pop
-        pop = runner.algorithm.ask()
+        pop = algorithm.ask()
+
         # construct genome
-        pop_full_bits = []
-        for this_ind in pop:
-            this_genome = []
-            for this_bit in this_ind.X:
-                this_genome.append(int(this_bit))
-            pop_full_bits.append(this_genome)
-        # this is a standard GA/pydarwin population (not a moo population), just to record pareto front and get temp dir
-        full_populaton = Population.from_codes(model_template, runner.algorithm.n_gen, pop_full_bits,
-                                               code_converter=ModelCode.from_full_binary)
-        for ii in range(len(pop)):
-            n_gen = runner.algorithm.n_gen
-            n_eval = runner.algorithm.evaluator.n_eval
-            runner.problem = MogaProblem(n_var=n_var, modeltemplate=model_template, generation=n_gen, n_eval=n_eval)
+        pop_full_bits = [[int(this_bit) for this_bit in this_ind.X] for this_ind in pop]
 
-            runner.algorithm.evaluator.eval(runner.problem, pop[ii])
-            full_populaton.runs[ii].result.ofv = pop[ii].F  # both OFV and Nparms
-            full_populaton.runs[ii].run_dir = runner.problem.population.runs[0].run_dir
-            full_populaton.runs[ii].control_file_name = runner.problem.population.runs[0].control_file_name
-            full_populaton.runs[ii].output_file_name = runner.problem.population.runs[0].output_file_name
-            # note, this print (log.message) after each individual because each individual gets defined as a population
-            # when in elementwise mode, should be fixed when run parallel??
-            # note there is no fitness, should not be on console output
-        #     moga_record = {"Generation": runner.algorithm.n_gen,
-        #                   "Individual": ii,
-        #                   "model_files": full_populaton.runs[ii].run_dir,
-        #                   "OFV": full_populaton.runs[ii].result.ofv[0],
-        #                   "NParms": int(full_populaton.runs[ii].result.ofv[1]),
-        #                   "success": full_populaton.runs[ii].result.success,
-        #                   "covariance": full_populaton.runs[ii].result.covariance,
-        #                   "non_dominated": False
-        #                   }
-        #
-        # moga_results.append(moga_record)
-        # append full population models to all_population
-        if n_gen == 1:
-            all_population = full_populaton
-        else:
-            for this_run in full_populaton.runs:
-                all_population.runs.append(this_run)
-        runner.algorithm.tell(infills=pop)
-        # below will need to be refactored/otherwise improved
-        # extra files in folders are deleted before they can be copied to non_dominated folder,
-        # probably will be fixed when run parallel??
-        # note that model numbering is different, numnbers are sequenctial, do not reset to 1 with each generation
-        # therefore, model number in FullPopulation is incorrect. set to copy temp folder from pop object to FullPopulation
+        population = Population.from_codes(model_template, algorithm.n_gen, pop_full_bits, ModelCode.from_full_binary)
 
-        #front_results = runner.algorithm.callback.data['front'][0]
-        non_dominated_folder = os.path.join(options.working_dir, "non_dominated_models", str(n_gen))
+        population.run()
+
+        for run, moo_ind in zip(population.runs, pop):
+            problem = MogaProblem(n_var=n_var, run=run)
+
+            algorithm.evaluator.eval(problem, moo_ind)
+
+        algorithm.tell(infills=pop)
+
+        non_dominated_folder = os.path.join(options.working_dir, 'non_dominated_models', str(n_gen))
+
         os.mkdir(non_dominated_folder)
-        log.message("Current Non Dominated models:")
-        n_front_models = 0
-        # this resorts the models and accoding to their rank
-        res = runner.algorithm.result()
 
-        for ii in range(len(res.X)):
-            cur_x = [res.X[ii].astype(int)]
+        res = algorithm.result()
+
+        n_front_models = 0
+
+        log.message('Current Non Dominated models:')
+
+        for run in _get_front_runs(res.X, model_cache):
             n_front_models += 1
-            # find model in original population by genome
-            which_model = 0
-            for model in all_population.runs:
-                if all(model.model.model_code.FullBinCode == cur_x[0]):
-                   # moga_record[which_model].Rank = True
-                    os.mkdir(os.path.join(non_dominated_folder, str(n_front_models)))
-                    # copy to mogq-results
-                    # find source directory by matching genome of FullPopulation and res
-                    src_dir = model.run_dir
-                    for filename in os.listdir(src_dir):
-                        src_file = os.path.join(src_dir, filename)
-                        dst_file = os.path.join(non_dominated_folder, str(n_front_models), filename)
-                        if os.path.isfile(src_file):
-                            shutil.copy2(src_file, dst_file)  # MODEL NUMBER IS WRONG ON CONSOLE OUTPUT
-                    log.message(
-                        "Generation " + str(n_gen) + " Pareto Front, Model " + model.control_file_name + ", OFV = " + \
-                        str(round(model.result.ofv[0], 4)) + ", NParms = " + \
-                        str(int(model.result.ofv[1])))
-                    break
-                which_model += 1
-    res = runner.algorithm.result()
+
+            log.message(f"Generation {n_gen} Pareto Front: Model {run.control_file_name}, " +
+                        f"OFV = {run.result.ofv:.4f}, NEP = {_get_n_params(run)}")
+
+            if not os.path.isdir(run.run_dir):
+                continue
+
+            shutil.copytree(run.run_dir, os.path.join(non_dominated_folder, str(n_front_models)), dirs_exist_ok=True)
+
+    res = algorithm.result()
+
     log.message(f" MOGA best genome = {res.X.astype(int)},\n"
                 f" OFV and # of parameters = {res.F}")
-    for ii in range(len(res.X)):
-        cur_x = [res.X[ii].astype(int)]
-        cur_population = Population.from_codes(model_template, n_gen + 1, cur_x,
-                                               ModelCode.from_full_binary)
-        # cur_population.run()
-        cur_run = cur_population.runs[0]
-        # cur_model = cur_run.model
-        cur_run.run_dir = options.output_dir + '\\' + str(ii)
-        cur_run.make_control_file()
-        cur_run.output_results()
+
+    for run in _get_front_runs(res.X, model_cache):
+        run.run_dir = options.output_dir
+        run.make_control_file(cleanup=False)
+        run.output_results()

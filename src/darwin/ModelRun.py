@@ -233,12 +233,13 @@ class ModelRun:
         # if we cannot create run_dir, there's no point to continue
         sys.exit()
 
-    def make_control_file(self):
+    def make_control_file(self, cleanup=True):
         """
         Constructs the control file from the template and the model code.
         """
 
-        self._prepare_run_dir()
+        if cleanup:
+            self._prepare_run_dir()
 
         utils.remove_file(self.control_file_name)
         utils.remove_file(self.output_file_name)
@@ -395,6 +396,7 @@ class ModelRun:
             else:
                 if self._post_run_r() and self._post_run_python() and self._calc_fitness():
                     self.set_status('Done')
+
     def finish(self):
         if self.rerun:
             return
@@ -635,14 +637,15 @@ def log_run(run: ModelRun):
 
     if len(message) > 200:
         message = message[:200] + '(...)'
+
     if options.algorithm == "MOGA":
-        nparms = run.model.estimated_theta_num + run.model.estimated_sigma_num + run.model.estimated_omega_num
+        n_params = run.model.estimated_theta_num + run.model.estimated_sigma_num + run.model.estimated_omega_num
         log.message(
             f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
-            f" OFV  = {round(run.result.ofv,3):>9}, N(Estimated parameters) = {nparms}, message = {message}"
+            f" OFV  = {run.result.ofv:9.3f}, NEP = {n_params:>2}, message = {message}"
         )
     else:
         log.message(
-        f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
-        f"    fitness = {round(fitness_text,3):>9}, OFV  = {round(run.result.ofv,3):>9},  message = {message}"
-    )
+            f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
+            f"    fitness = {fitness_text:>9}, OFV  = {run.result.ofv:9.2f},  message = {message}"
+        )

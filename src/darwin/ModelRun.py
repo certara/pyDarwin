@@ -647,5 +647,5 @@ def log_run(run: ModelRun):
     else:
         log.message(
             f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
-            f"    fitness = {fitness_text:>9}, OFV  = {run.result.ofv:9.2f},  message = {message}"
+            f"    fitness = {fitness_text:>9},  message = {message}"
         )

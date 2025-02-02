@@ -204,10 +204,8 @@ class Options:
         ga = opts.get('GA', {})
         moga = opts.get('MOGA', {})
         pso = opts.get('PSO', {})
-        if self.algorithm == "MOGA":
-            self.penalty = _default_penalty | penalty
-        else:
-            self.penalty = None  # no penalties in MOGA
+
+        self.penalty = _default_penalty | penalty
         self.GA = _default_GA | ga
         self.MOGA = _default_MOGA | moga
         self.PSO = _default_PSO | pso

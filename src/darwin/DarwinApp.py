@@ -65,9 +65,10 @@ def _init_model_results():
     log.message(f"Writing intermediate output to {results_file}")
 
     with open(results_file, "w") as resultsfile:
-        resultsfile.write(f"iteration,model number,run directory,ref run,status,fitness,model,ofv,success,"
-                          f"covariance,correlation,ntheta,nomega,nsigm,total number of parameters, condition num,r penalty,python penalty,"
-                          f"translation messages,runtime errors\n")
+        resultsfile.write('iteration,model number,run directory,ref run,status,fitness,model,ofv,success,'
+                          'covariance,correlation,ntheta,nomega,nsigm,total number of parameters,'
+                          'condition num,r penalty,python penalty,'
+                          'translation messages,runtime errors\n')
 
     GlobalVars.results_file = results_file
 
@@ -215,7 +216,8 @@ class DarwinApp:
         elif algorithm == "GA":
             final = run_ga(model_template)
         elif algorithm == "MOGA":
-            final = run_moga(model_template)
+            run_moga(model_template)
+            final = None
         elif algorithm == "PSO":
             final = run_pso(model_template)
         elif algorithm in ["EX", "EXHAUSTIVE"]:
@@ -236,9 +238,10 @@ class DarwinApp:
             final_output_done = True
             log.message(f"Final output from best model is in {final_result_file}")
 
+        log.message(f"Number of considered models: {GlobalVars.all_models_num}")
+        log.message(f"Number of models that were run during the search: {GlobalVars.run_models_num}")
+
         if final:
-            log.message(f"Number of considered models: {GlobalVars.all_models_num}")
-            log.message(f"Number of models that were run during the search: {GlobalVars.run_models_num}")
             log.message(f"Number of unique models to best model: {GlobalVars.unique_models_to_best}")
             log.message(f"Time to best model: {GlobalVars.TimeToBest / 60:0.1f} minutes")
 

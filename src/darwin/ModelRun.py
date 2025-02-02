@@ -638,7 +638,7 @@ def log_run(run: ModelRun):
     if len(message) > 200:
         message = message[:200] + '(...)'
 
-    if options.algorithm == "MOGA":
+    if options.isMOGA:
         n_params = run.model.estimated_theta_num + run.model.estimated_sigma_num + run.model.estimated_omega_num
         log.message(
             f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"

@@ -177,6 +177,10 @@ class Options:
 
         project_dir_alias = {'project_dir': self.project_dir, 'working_dir': self.working_dir}
 
+        self.isMOGA = self.algorithm == "MOGA"
+        self.isGA = self.algorithm == "GA"
+        self.isPSO = self.algorithm == "PSO"
+
         self.data_dir = utils.apply_aliases(opts.get('data_dir'), project_dir_alias) or self.project_dir
         self.output_dir = utils.apply_aliases(opts.get('output_dir'), project_dir_alias) \
             or os.path.join(self.working_dir, 'output')
@@ -184,9 +188,11 @@ class Options:
             or os.path.join(self.working_dir, 'temp')
         self.key_models_dir = utils.apply_aliases(opts.get('key_models_dir'), project_dir_alias) \
             or os.path.join(options.working_dir, 'key_models')
-        if self.algorithm == "MOGA":
-            self.non_dominated_models_dir = utils.apply_aliases(opts.get('non_dominated_models_dir'), project_dir_alias) \
-                              or os.path.join(options.working_dir, 'non_dominated_models')
+
+        if self.isMOGA:
+            self.non_dominated_models_dir = \
+                utils.apply_aliases(opts.get('non_dominated_models_dir'), project_dir_alias) \
+                or os.path.join(options.working_dir, 'non_dominated_models')
 
         self.aliases = {
             'project_dir': self.project_dir,
@@ -218,10 +224,6 @@ class Options:
         self.no_cleanup = opts.get('no_cleanup', False)
 
         self.crash_value = opts.get('crash_value', 99999999)
-
-        self.isMOGA = self.algorithm == "MOGA"
-        self.isGA = self.algorithm == "GA"
-        self.isPSO = self.algorithm == "PSO"
 
         if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
             self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)

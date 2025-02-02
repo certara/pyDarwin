@@ -49,7 +49,7 @@ class ModelResults:
         Calculates the fitness, based on the model output, and the penalties (from the options file).
         """
 
-        if options.algorithm == "MOGA":
+        if options.isMOGA:
             return self.ofv  # really isn't a fitness for MOGA
 
         penalties = options.penalty

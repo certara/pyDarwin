@@ -84,8 +84,11 @@ def run_moga(model_template: Template):
     algorithm.setup(problem, termination=('n_gen', n_gens), seed=options.random_seed, verbose=False)
 
     n_gen = 0
+    population = Population(model_template, 'blank')
 
     while algorithm.has_next():
+        population.cleanup()
+
         n_gen += 1
 
         # ask the algorithm for the next solution to be evaluated
@@ -124,7 +127,9 @@ def run_moga(model_template: Template):
             if not os.path.isdir(run.run_dir):
                 continue
 
-            shutil.copytree(run.run_dir, os.path.join(non_dominated_folder, str(n_front_models)), dirs_exist_ok=True)
+            shutil.copytree(run.run_dir, os.path.join(non_dominated_folder, run.file_stem), dirs_exist_ok=True)
+
+    population.cleanup()
 
     res = algorithm.result()
 

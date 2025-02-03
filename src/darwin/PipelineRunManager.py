@@ -74,7 +74,7 @@ class PipelineRunManager(ModelRunManager):
             run.finish()
 
             # don't clean up better runs
-            if (not this_one_is_better or not options.keep_key_models) and not options.isMOGA:
+            if not this_one_is_better or not options.keep_key_models:
                 run.cleanup()
 
             model_cache = get_model_cache()
@@ -89,7 +89,7 @@ class PipelineRunManager(ModelRunManager):
         if run.status == 'Restored':
             GlobalVars.unique_models_num += 1
 
-        if this_one_is_better and not options.isMOGA:
+        if this_one_is_better:
             _copy_to_best(run)
             run.cleanup()
 

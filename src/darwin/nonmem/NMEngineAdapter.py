@@ -191,12 +191,18 @@ class NMEngineAdapter(ModelEngineAdapter):
 
             files_to_delete.pop(f'{file_stem}.mod', None)
             files_to_delete.pop(f'{file_stem}.lst', None)
+            files_to_delete.pop(f'{file_stem}.ext', None)
+            files_to_delete.pop(f'{file_stem}.grd', None)
             files_to_delete.pop(f'{file_stem}.xml', None)
             files_to_delete.pop('FMSG', None)
+            files_to_delete.pop('FCON', None)
             files_to_delete.pop('PRDERR', None)
             files_to_delete.pop('FSTREAM', None)
 
             for f in files_to_delete:
+                if re.search(r'^\w\wtab|\.tab$|\.csv$', f):
+                    continue
+
                 try:
                     os.remove(os.path.join(run_dir, f))
                 except OSError:

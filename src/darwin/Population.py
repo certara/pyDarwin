@@ -190,10 +190,6 @@ class Population:
         best_run.keep()
         best_run.cleanup()
 
-    def cleanup(self):
-        for run in self.runs:
-            run.cleanup()
-
 
 def init_pop_nums(template: Template):
     global pop_nums

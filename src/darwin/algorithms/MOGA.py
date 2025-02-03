@@ -84,11 +84,8 @@ def run_moga(model_template: Template):
     algorithm.setup(problem, termination=('n_gen', n_gens), seed=options.random_seed, verbose=False)
 
     n_gen = 0
-    population = Population(model_template, 'blank')
 
     while algorithm.has_next():
-        population.cleanup()
-
         n_gen += 1
 
         # ask the algorithm for the next solution to be evaluated
@@ -114,13 +111,9 @@ def run_moga(model_template: Template):
 
         res = algorithm.result()
 
-        n_front_models = 0
-
         log.message('Current Non Dominated models:')
 
         for run in _get_front_runs(res.X, model_cache):
-            n_front_models += 1
-
             log.message(f"Generation {n_gen} Pareto Front: Model {run.control_file_name}, " +
                         f"OFV = {run.result.ofv:.4f}, NEP = {_get_n_params(run)}")
 
@@ -128,8 +121,6 @@ def run_moga(model_template: Template):
                 continue
 
             shutil.copytree(run.run_dir, os.path.join(non_dominated_folder, run.file_stem), dirs_exist_ok=True)
-
-    population.cleanup()
 
     res = algorithm.result()
 

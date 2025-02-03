@@ -83,7 +83,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
 
     all_runs = []
 
-    for this_step in range(1, 100):     # up to 99 steps
+    for this_step in range(1, 100):  # up to 99 steps
         if all([n.done for n in niches]):
             break
 
@@ -95,6 +95,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
                 continue
 
             niche.runs_start = len(test_models)
+            # need to adjust runs_start for models deleted due > effect_limit
 
             niches_this_loop += 1
 
@@ -103,7 +104,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
             best_code = best_run.model.model_code.MinBinCode
 
             log.message(f"code for niche (minimal binary) {niches_this_loop} = {best_code},"
-                        f" fitness = {best_run.result.fitness}")
+                        f" fitness = {best_run.result.fitness}, model #  {best_run.file_stem}")
 
             # will always be minimal binary at this point
             for this_bit in range(len(best_code)):
@@ -114,11 +115,15 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
 
             niche.runs_finish = len(test_models)
 
-        population = Population.from_codes(template, str(generation) + "D" + f'{this_step:02d}',
-                                           test_models, ModelCode.from_min_binary)
+        population = Population.from_codes(template, str(generation) + "D" + f"{this_step:02d}",
+                                           test_models, ModelCode.from_min_binary, niches=niches)
 
         log.message(f"Starting downhill step {this_step},"
                     f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
+
+        for i, niche in enumerate(niches):
+            if not niche.done:
+                log.message(f"{niche.runs_finish - niche.runs_start} models in niche {i+1}")
 
         population.run()
 
@@ -140,12 +145,14 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
             # pull out fitness from just this niche
             niche_fitnesses = [r.result.fitness for r in runs[niche.runs_start:niche.runs_finish]]
 
-            best_in_niche = get_n_best_index(1, niche_fitnesses)[0]
+            if len(niche_fitnesses) > 0:
+                best_in_niche = get_n_best_index(1, niche_fitnesses)[0]
+                new_best_run = runs[niche.runs_start + best_in_niche]
 
-            new_best_run = runs[niche.runs_start + best_in_niche]
-
-            if new_best_run.result.fitness < niche.best_run.result.fitness:
-                niche.best_run = new_best_run
+                if new_best_run.result.fitness < niche.best_run.result.fitness:
+                    niche.best_run = new_best_run
+                else:
+                    niche.done = True
             else:
                 niche.done = True
 
@@ -157,9 +164,9 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         last_best_fitness = run_for_search.result.fitness
 
         log.message(f"Begin local exhaustive 2-bit search, generation = {generation}, step = {this_step}")
-        log.message(f"Model for local exhaustive search = {run_for_search.generation},"
-                    f" phenotype = {run_for_search.model.phenotype} model Num = {run_for_search.model_num},"
-                    f" fitness = {run_for_search.result.fitness}")
+        log.message(f"Model for local exhaustive search = {run_for_search.file_stem}, "
+                    f"fitness = {run_for_search.result.fitness}")
+        log.message(f"phenotype = {run_for_search.model.phenotype}")
 
         run_for_search, runs = _full_search(template, run_for_search, generation, return_all)
 
@@ -168,6 +175,9 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         # replace the niche this one came from, to preserve diversity
         if run_for_search.result.fitness < last_best_fitness:
             niches[best_niche].best_run = run_for_search
+
+        log.message(f"2-bit search, best model for step {this_step} = {run_for_search.file_stem}, "
+                    f"fitness = {run_for_search.result.fitness}")
 
     for i in range(len(niches)):
         pop.runs[worst[i]] = niches[i].best_run
@@ -187,7 +197,7 @@ def _change_each_bit(source_models: list, radius: int):  # only need upper trian
     list of all MinBinCode and radius"""
 
     models = []
-       
+
     for i in range(len(source_models)):  # only upper triangle
         base_model = source_models[i]
 
@@ -239,7 +249,8 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
             all_runs.extend(population.runs)
 
         best = population.get_best_run()
-
+        log.message(f"Model for local exhaustive search = {best.file_stem}, "
+                    f"fitness = {best.result.fitness}")
         current_best_fitness = best.result.fitness
 
         if current_best_fitness < last_best_fitness:

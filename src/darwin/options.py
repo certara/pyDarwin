@@ -164,7 +164,7 @@ class Options:
         options_file_parent = pathlib.Path(self.options_file).parent
 
         self.project_name = opts.get('project_name') or options_file_parent.name
-        self.project_stem = re.sub(r'[^\w]', '_', self.project_name)
+        self.project_stem = re.sub(r'\W', '_', self.project_name)
 
         darwin_home = os.environ.get('PYDARWIN_HOME') or os.path.join(pathlib.Path.home(), 'pydarwin')
 
@@ -218,6 +218,25 @@ class Options:
         self.use_saved_models = opts.get('use_saved_models', False)
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
         self.saved_models_readonly = opts.get('saved_models_readonly', False) and self.use_saved_models
+
+        try:
+            self.use_effect_limit = opts.get('use_effect_limit', False)
+        except ValueError:
+            self.use_effect_limit = False
+
+        if (options.engine_adapter != 'nonmem' or options.algorithm != "GA") and self.use_effect_limit:
+            log.message("Can only use effect_limit with GA and NONMEM, setting to False")
+            self.use_effect_limit = False
+
+        if self.use_effect_limit:
+            self.effect_limit = _get_mandatory_option(opts, "effect_limit")
+            if not isinstance(self.effect_limit, int):
+                log.error(f"effect {self.effect_limit} limit is not an integer, exiting")
+                sys.exit()
+            else:
+                if self.effect_limit <= 0:
+                    log.error(f"effect limit {self.effect_limit} is < 0, exiting")
+                    sys.exit()
 
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)

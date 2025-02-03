@@ -4,7 +4,7 @@
 
     "GA": {
         "crossover_rate": 0.95,
-        "elitist_num": 2,
+        "elitist_num": 4,
         "mutation_rate": 0.95,
         "attribute_mutation_probability": 0.1,
         "mutate": "flipBit",
@@ -15,16 +15,16 @@
         "crossover_operator": "cxOnePoint"
     },
 
-    "random_seed": 1, 
-    "population_size": 20,
+    "random_seed": 1,
+    "population_size": 40,
     "num_parallel": 4,
-    "num_generations": 4,
+    "num_generations": 10,
 
-    "downhill_period": 2,
+    "downhill_period": 3,
     "num_niches": 2,
     "niche_radius": 2,
-    "local_2_bit_search": true,
-    "final_downhill_search": true,
+    "local_2_bit_search": false,
+    "final_downhill_search": false,
 
     "crash_value": 99999999,
 
@@ -37,9 +37,7 @@
         "correlation": 100,
         "condition_number": 100,
         "non_influential_tokens": 0.00001
-    },
-    "use_effect_limit":true,
-    "effect_limit": 6,
+    }, 
 
     "remove_run_dir": false,
 

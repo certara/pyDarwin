@@ -1,25 +1,122 @@
+import sys
 from copy import copy
 import time
-import logging 
+import logging
 import numpy as np
 import warnings
-
 import darwin.GlobalVars as GlobalVars
-
+import darwin.utils as utils
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import keep_going
-from darwin.ModelCode import ModelCode
 from darwin.algorithms.run_downhill import run_downhill
 from darwin.Population import Population
 from darwin.Template import Template
 from darwin.Model import Model
+from darwin.Model import ModelCode
 from darwin.ModelRun import ModelRun
-
 from .DeapToolbox import DeapToolbox, model_run_to_deap_ind
 
+from scipy.stats import binom
+from scipy.optimize import bisect
+
 warnings.filterwarnings('error', category=DeprecationWarning)
-logger = logging.getLogger(__name__) 
+logger = logging.getLogger(__name__)
+
+
+def _binom_to_zero(x, max_effects):
+    """
+    param x: value to be tested (x in binomial)
+    param max_effects: p in binomial
+    """
+    # target fraction of samples with < effect_limit hard coded as 0.8
+    p = binom.cdf(options.effect_limit, max_effects, x)
+
+    return p - 0.8
+
+
+def _get_probabilities(num_effects, max_effects):
+    """
+    param num_effects: list of number of effects in each set for each group
+    param total_effects: total # of effects in all groups
+    """
+    # goal is probabilities such that 80% of samples have total effects <= effect_limit
+    # get p_per_effect for 80% good samples
+    p_per_effect = bisect(_binom_to_zero, 0, 1, args=max_effects)
+
+    # need total effects or fewer of all groups
+    # divide the probability of effects across all groups, non-zero effect set
+    # divided proportional to # of effects, (e.g., if 2 effect, p(that set) = p_per_effect/2
+    # dividing remaining probability among zero effect sets
+    probs = dict()
+
+    for this_group in num_effects:
+        cur_group_probs = np.zeros(len(num_effects[this_group]))
+
+        zero_sets = [i for i, value in enumerate(num_effects[this_group]) if value == 0]
+        non_zero_sets = [i for i, value in enumerate(num_effects[this_group]) if value > 0]
+
+        n_zero_sets = len(zero_sets)  # (x == 0 for x in zero_sets)
+        n_non_zero_sets = len(non_zero_sets)
+
+        # non_zero_slice = tuple(slice(x) for x in non_zero_sets)
+        # for each non_zero set, p(1 effect) will equal p_per_effect
+        # so, if 2 effects p_per_effect/2
+        for this_set in non_zero_sets:
+            cur_group_probs[this_set] = p_per_effect / (n_non_zero_sets * num_effects[this_group][this_set])
+
+        sum_non_zero_prob = sum(cur_group_probs[non_zero_sets])
+
+        if n_zero_sets > 0:
+            zero_prob = (1 - sum_non_zero_prob) / n_zero_sets
+            cur_group_probs[zero_sets] = zero_prob
+
+        # but if all set are non_zero, you're going to get one of them, so scale to sum = 1,
+        # may as well scale, regardless
+        cur_group_probs = cur_group_probs / sum(cur_group_probs)
+
+        # will be integer, need to convert to bits
+        probs[this_group] = cur_group_probs
+
+    return probs
+
+
+def _weight_pop_full_bits(population: list, template: Template):
+    # recalculate bits with weighted probability to constraint to total effects < effects_limit
+    # it appears that the pop_full_bits.fitness can be just tuple, not the full objects
+
+    probabilities = _get_probabilities(template.num_effects, template.max_effect)
+
+    for this_ind in population:
+        ind_codes_as_int = [0] * len(template.tokens)
+        count = 0
+
+        while count < 100:
+            count += 1
+
+            cur_ind_num_effects = 0
+            cur_group = 0
+
+            for this_group in template.tokens:
+                p = probabilities[this_group]
+                cur_string = np.random.choice(len(p), 1, p=p)[0]
+                ind_codes_as_int[cur_group] = cur_string
+                cur_ind_num_effects += template.num_effects[this_group][cur_string]
+
+                cur_group += 1
+
+            if cur_ind_num_effects <= options.effect_limit:
+                break
+
+        if count > 99:
+            log.warn(f"unable to find genome with <= {options.effect_limit}")
+
+        bits = ModelCode.from_int(ind_codes_as_int, template.gene_max, template.gene_length).FullBinCode
+
+        for pos, this_bit in enumerate(bits):
+            this_ind[pos] = this_bit
+
+    return population
 
 
 class _GARunner:
@@ -30,15 +127,17 @@ class _GARunner:
         self.population = None
         self.num_generations = num_generations
         self.toolbox = DeapToolbox(template)
-
         # create an initial population of pop_size individuals (where
         # each individual is a list of bits [0|1])
         self.pop_full_bits = self.toolbox.new_population(pop_size)
+
+        if options.use_effect_limit:
+            self.pop_full_bits = _weight_pop_full_bits(self.pop_full_bits, self.template)
+
         self.best_for_elitism = self.toolbox.new_population(elitist_num)
 
     def run_generation(self):
         self.generation += 1
-
         if self.generation > self.num_generations or not keep_going():
             return False
 
@@ -53,7 +152,6 @@ class _GARunner:
 
         self.population = Population.from_codes(self.template, self.generation, self.pop_full_bits,
                                                 ModelCode.from_full_binary, max_iteration=self.num_generations)
-
         self.population.run()
 
         if not keep_going():
@@ -69,10 +167,12 @@ class _GARunner:
         return True
 
     def run_downhill(self, population: Population):
-        # pop will have the fitnesses without the niche penalty here
-        # add local exhaustive search here??
-        # temp_fitnesses = copy(fitnesses)
-        # downhill with NumNiches best models
+        """
+        pop will have the fitnesses without the niche penalty here
+        add local exhaustive search here??
+        param: Population
+        """
+
         log.message(f"Starting downhill generation = {self.generation}  at {time.asctime()}")
 
         best_runs = population.get_best_runs(options.num_niches)

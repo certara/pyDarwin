@@ -1,8 +1,10 @@
 import random
+import sys
 
 import numpy as np
 from scipy.spatial import distance_matrix
 
+from darwin.Log import log
 import deap
 from deap import base, creator, tools
 
@@ -10,13 +12,16 @@ from darwin.options import options
 
 from darwin.Template import Template
 from darwin.ModelRun import ModelRun
+import darwin.utils as utils
 
 
 class DeapToolbox:
     def __init__(self, template: Template):
         ga_options = options.GA
 
-        num_bits = int(np.sum(template.gene_length))
+        self.tokens = template.tokens
+        self.gene_max = template.gene_max
+        self.gene_length = template.gene_length
 
         creator.create("FitnessMin", deap.base.Fitness, weights=(-1.0,))
         creator.create("Individual", list, fitness=creator.FitnessMin)
@@ -30,12 +35,15 @@ class DeapToolbox:
 
         if options.random_seed is not None:
             random.seed(options.random_seed)
+            np.random.seed(options.random_seed)
 
         toolbox.register("attr_bool", random.randint, 0, 1)
 
         # Structure initializers
         #                         define 'individual' to be an individual
         #                         consisting of 100 'attr_bool' elements ('genes')
+
+        num_bits = int(sum(template.gene_length))
 
         toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, num_bits)
 
@@ -66,24 +74,18 @@ class DeapToolbox:
     def new_population(self, pop_size):
         return self.toolbox.population(n=pop_size)
 
-    def get_offspring(self, pop_full_bits):
+    def _get_offspring(self, pop_full_bits):
         toolbox = self.toolbox
 
         ga_options = options.GA
 
-        sharing_alpha = ga_options['sharing_alpha']
-        niche_penalty = ga_options['niche_penalty']
-
         crossover_probability = ga_options['crossover_rate']
         mutation_probability = ga_options['mutation_rate']
-
-        # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
-        # so fitnesses in pop are only used for selection in GA
-        _add_sharing_penalty(pop_full_bits, options.niche_radius, sharing_alpha, niche_penalty)
 
         # do not copy new fitness to models, models should be just the "real" fitness
         # Select the next generation individuals
         offspring = toolbox.select(pop_full_bits, len(pop_full_bits))
+
         # Clone the selected individuals, otherwise will be linked to original, by reference
         offspring = [toolbox.clone(x) for x in offspring]
 
@@ -103,6 +105,44 @@ class DeapToolbox:
             if random.random() < mutation_probability:
                 toolbox.mutate(mutant)
                 del mutant.fitness.values
+
+        return offspring
+
+    def get_offspring(self, pop_full_bits):
+        ga_options = options.GA
+
+        sharing_alpha = ga_options['sharing_alpha']
+        niche_penalty = ga_options['niche_penalty']
+
+        # will change the values in pop, but not in fitnesses, need to run downhill from fitness values, not from pop
+        # so fitnesses in pop are only used for selection in GA
+        _add_sharing_penalty(pop_full_bits, options.niche_radius, sharing_alpha, niche_penalty)
+
+        if not options.use_effect_limit:
+            return self._get_offspring(pop_full_bits)
+
+        count = 0
+        offspring = []
+
+        while len(offspring) < options.population_size and count < 100:
+            # offspring is list of individuals (fitness and genome)
+            temp = self._get_offspring(pop_full_bits)
+
+            # now check if < effect_limit
+            # need integers,
+            phenotype = utils.convert_full_bin_int(temp, self.gene_max, self.gene_length)
+
+            temp, aa, bb = utils.trim_population(temp, phenotype, self.tokens.values(), options.effect_limit)
+
+            offspring.extend(temp[:options.population_size-len(offspring)])
+
+            count += 1
+
+        if count > 99:
+            log.error(f"Not able to generate population with <= {options.effect_limit} effects")
+            log.error(f"effect_limit may be too small or search space (with >0 effects) too large, exiting")
+            sys.exit()
+            # just to check
 
         return offspring
 

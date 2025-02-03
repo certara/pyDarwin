@@ -91,7 +91,13 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Algorithm: {options.algorithm}")
     log.message(f"Engine: {adapter.get_engine_name().upper()}")
 
+    if options.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
+        log.message(f"Population size: {options.population_size}")
+        log.message(f"num_generations: {options.num_generations}")
     log.message(f"random_seed: {options.random_seed}")
+    log.message(f"use_effect_limit: {options.use_effect_limit}")
+    if options.use_effect_limit:
+        log.message(f"effect_limit: {options.effect_limit}")
 
     log.message(f"Project dir: {options.project_dir}")
     log.message(f"Data dir: {options.data_dir}")
@@ -108,7 +114,11 @@ def init_search(model_template: Template) -> bool:
     adapter.init_template(model_template)
 
     space_size = get_search_space_size(model_template)
-    log.message(f"Search space size: {space_size}")
+
+    if space_size == -1:
+        log.message(f"Search space size is too large to calculate")
+    else:
+        log.message(f"Search space size: {space_size}")
 
     init_pop_nums(model_template)
 

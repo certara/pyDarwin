@@ -54,7 +54,11 @@ def get_search_space(template: Template) -> np.ndarray:
     return codes
 
 
-def get_search_space_size(template: Template) -> int:
-    num_groups = template.get_search_space_coordinates()
+def get_search_space_size(model_template: Template) -> int:
+    try:
+        space = get_search_space(model_template)
+        return space.shape[0]
+    except:
+        pass
 
-    return math.prod(map(len, num_groups))
+    return -1

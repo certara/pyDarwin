@@ -117,19 +117,16 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
     :type non_influential_tokens: list
     :param max_depth: Maximum depth of nested tokens
     :type max_depth: int
-    :return: Boolean (were any tokens substituted, in which case we need to loop over again)
-             and current control file text
-    :rtype: tuple
+    :return: Modified control file text
+    :rtype: string
     
     """
 
     any_found = True  # keep looping, looking for nested tokens
-    token_found = False  # error check to see if any tokens are present
 
     for _ in range(max_depth):  # levels of nesting
 
         any_found, text = _replace_tokens(tokens, text, phenotype, non_influential_tokens)
-        token_found = token_found or any_found
 
         if not any_found:
             break
@@ -137,7 +134,7 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
     if any_found:
         raise DarwinError(f"There are more than {max_depth} levels of nested tokens.")
 
-    return token_found, text
+    return text
 
 
 def _replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list):

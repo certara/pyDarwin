@@ -16,7 +16,7 @@ Visit [pyDarwin Documentation](https://certara.github.io/pyDarwin/html/index.htm
 
 ## Installation Prerequisites
 
-* Python 3.10 or 3.11 (Python 3.12 support not yet available)
+* Python >= 3.10
 * NONMEM >= 7.4.3
 * R >= 4.0.0 (optional)
 

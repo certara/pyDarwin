@@ -5,6 +5,16 @@ Releases
 ######################
 
 **********************
+pyDarwin-Certara 3.0.0
+**********************
+
+What's New
+====================
+
+* Python 3.12 support.
+* Additional support for `RDarwin <https://certara.github.io/R-Darwin/articles/release_notes.html>`_ .
+
+**********************
 pyDarwin-Certara 2.0.1
 **********************
 

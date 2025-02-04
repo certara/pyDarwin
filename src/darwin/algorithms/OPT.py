@@ -2,7 +2,6 @@ import numpy as np
 import skopt
 import time
 import logging
-import heapq
 import warnings
 from skopt import Optimizer
 

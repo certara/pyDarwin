@@ -7,6 +7,7 @@ import warnings
 from darwin import Population
 from darwin.Log import log
 from darwin.options import options
+from darwin.ExecutionManager import keep_going
 from darwin.ModelCode import ModelCode
 from darwin.Template import Template
 from darwin.ModelRun import ModelRun
@@ -48,12 +49,16 @@ class MogaProblem(ElementwiseProblem):
         out["F"] = [f1, f2]
 
 
-def _get_front_runs(res_xx: list, model_cache) -> list:
+def _get_front_runs(res_xx: list, template: Template, model_cache) -> list:
     runs = []
+
+    maxes = template.gene_max
+    lengths = template.gene_length
 
     for res_x in res_xx:
         cur_x = [int(x) for x in res_x.astype(int)]
-        run = model_cache.find_model_run(genotype=str(cur_x))
+        mc = ModelCode.from_full_binary(cur_x, maxes, lengths)
+        run = model_cache.find_model_run(genotype=str(mc.IntCode))
 
         if run is None:
             log.warn(f"Missing a front model: {cur_x}")
@@ -64,10 +69,10 @@ def _get_front_runs(res_xx: list, model_cache) -> list:
     return runs
 
 
-def run_moga(model_template: Template):
-    n_var = sum(model_template.gene_length)
-    pop_size = options.population_size  # connect with options file
-    n_gens = options.num_generations  # connect with options file
+def run_moga(template: Template):
+    n_var = sum(template.gene_length)
+    pop_size = options.population_size
+    n_gens = options.num_generations
 
     model_cache = get_model_cache()
 
@@ -76,8 +81,8 @@ def run_moga(model_template: Template):
     algorithm = NSGA2(
         pop_size=pop_size,
         sampling=BinaryRandomSampling(),
-        crossover=TwoPointCrossover(prob=options['MOGA']['crossover_rate']),
-        mutation=BitflipMutation(prob=options['MOGA']['mutation_rate']),
+        crossover=TwoPointCrossover(prob=options.MOGA['crossover_rate']),
+        mutation=BitflipMutation(prob=options.MOGA['mutation_rate']),
         eliminate_duplicates=True
     )
 
@@ -85,7 +90,7 @@ def run_moga(model_template: Template):
 
     n_gen = 0
 
-    while algorithm.has_next():
+    while algorithm.has_next() and keep_going():
         n_gen += 1
 
         # ask the algorithm for the next solution to be evaluated
@@ -94,9 +99,12 @@ def run_moga(model_template: Template):
         # construct genome
         pop_full_bits = [[int(this_bit) for this_bit in this_ind.X] for this_ind in pop]
 
-        population = Population.from_codes(model_template, algorithm.n_gen, pop_full_bits, ModelCode.from_full_binary)
+        population = Population.from_codes(template, algorithm.n_gen, pop_full_bits, ModelCode.from_full_binary)
 
         population.run()
+
+        if not keep_going():
+            break
 
         for run, moo_ind in zip(population.runs, pop):
             problem = MogaProblem(n_var=n_var, run=run)
@@ -113,7 +121,7 @@ def run_moga(model_template: Template):
 
         log.message('Current Non Dominated models:')
 
-        for run in _get_front_runs(res.X, model_cache):
+        for run in _get_front_runs(res.X, template, model_cache):
             log.message(f"Generation {n_gen} Pareto Front: Model {run.control_file_name}, " +
                         f"OFV = {run.result.ofv:.4f}, NEP = {_get_n_params(run)}")
 
@@ -122,12 +130,15 @@ def run_moga(model_template: Template):
 
             shutil.copytree(run.run_dir, os.path.join(non_dominated_folder, run.file_stem), dirs_exist_ok=True)
 
+    if not keep_going():
+        return
+
     res = algorithm.result()
 
     log.message(f" MOGA best genome = {res.X.astype(int)},\n"
                 f" OFV and # of parameters = {res.F}")
 
-    for run in _get_front_runs(res.X, model_cache):
+    for run in _get_front_runs(res.X, template, model_cache):
         run.run_dir = options.output_dir
         run.make_control_file(cleanup=False)
         run.output_results()

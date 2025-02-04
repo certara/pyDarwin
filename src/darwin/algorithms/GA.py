@@ -1,11 +1,9 @@
-import sys
 from copy import copy
 import time
 import logging
 import numpy as np
 import warnings
 import darwin.GlobalVars as GlobalVars
-import darwin.utils as utils
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import keep_going

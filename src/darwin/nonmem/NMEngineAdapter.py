@@ -181,10 +181,16 @@ class NMEngineAdapter(ModelEngineAdapter):
             files_to_delete.pop('PRDERR', None)
             files_to_delete.pop('FSTREAM', None)
 
-            for f in files_to_delete:
-                if re.search(r'^\w\wtab|\.tab$|\.csv$', f):
-                    continue
+            if os.path.exists(os.path.join(run_dir, 'FSTREAM')):
+                with open(os.path.join(run_dir, 'FSTREAM'), 'r') as fstream:
+                    text = fstream.read()
 
+                    matches = re.findall(r'^TABL\s+(\S+)', text, flags=re.RegexFlag.MULTILINE)
+
+                    for occ in matches:
+                        files_to_delete.pop(occ, None)
+
+            for f in files_to_delete:
                 try:
                     os.remove(os.path.join(run_dir, f))
                 except OSError:

@@ -301,6 +301,8 @@ class Options:
         # don't rerun if key models are not kept
         self.rerun_key_models = opts.get('rerun_key_models', False) and self.keep_key_models
 
+        self.rerun_front_models = opts.get('rerun_front_models', True)
+
         self.TOKEN_NESTING_LIMIT = opts.get('TOKEN_NESTING_LIMIT', 4)
 
         self.CORRELATION_THRESHOLD = opts.get('CORRELATION_THRESHOLD', 0.95)

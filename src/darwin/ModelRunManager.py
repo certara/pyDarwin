@@ -17,13 +17,12 @@ class ModelRunManager(ABC):
     def init_folders():
         log.message('Preparing project working folder...')
 
-        if not os.path.exists(options.working_dir):
-            os.makedirs(options.working_dir)
+        os.makedirs(options.working_dir, exist_ok=True)
 
         log.message('Preparing project output folder...')
 
-        if not os.path.exists(options.output_dir):
-            os.makedirs(options.output_dir)
+        utils.remove_dir(options.output_dir)
+        os.makedirs(options.output_dir, exist_ok=True)
 
         utils.remove_dir(options.key_models_dir)
 
@@ -71,8 +70,22 @@ def set_run_manager(man):
     _model_run_man = man
 
 
-def get_run_manager():
+def get_run_manager() -> ModelRunManager or None:
     return _model_run_man
+
+
+def rerun_models(models: list):
+    if not models:
+        return
+
+    for r in models:
+        r.rerun = True
+        r.source = 'new'
+        r.reference_model_num = -1
+        r.status = 'Not Started'
+        r.result.ref_run = ''
+
+    get_run_manager().run_all(models)
 
 
 def register_model_run_man(man_name, mrm_class):

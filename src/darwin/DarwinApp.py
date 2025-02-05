@@ -12,7 +12,7 @@ import darwin.utils as utils
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import ExecutionManager
-from darwin.ModelRunManager import get_run_manager
+from darwin.ModelRunManager import get_run_manager, rerun_models
 
 import darwin.MemoryModelCache
 import darwin.ModelRunManager
@@ -264,7 +264,7 @@ class DarwinApp:
 
         log.message(f"Search end time: {time.asctime()}\n")
 
-        if options.keep_key_models:
+        if options.keep_key_models and not options.isMOGA:
             log.message('Key models:')
             for r in GlobalVars.key_models:
                 log_run(r)
@@ -287,21 +287,14 @@ class DarwinApp:
 def _rerun_key_models():
     GlobalVars.best_run = None
 
-    rerun_models = [r for r in GlobalVars.key_models if r.orig_run_dir is not None or r.rerun]
+    reruns = [r for r in GlobalVars.key_models if r.orig_run_dir is not None or r.rerun]
 
-    if not rerun_models:
+    if not reruns:
         return
 
-    for r in rerun_models:
-        r.rerun = True
-        r.source = 'new'
-        r.reference_model_num = -1
-        r.status = 'Not Started'
-        r.result.ref_run = ''
+    log.message('Re-running models...')
 
-    log.message("Re-running models")
-
-    get_run_manager().run_all(rerun_models)
+    rerun_models(reruns)
 
 
 def _has_omega_search(tokens: OrderedDict, pattern: str) -> bool:

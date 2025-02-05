@@ -13,8 +13,10 @@ from darwin.Template import Template
 from darwin.ModelRun import ModelRun
 from darwin.Population import Population
 from darwin.ModelCache import get_model_cache
+from darwin.ModelRunManager import rerun_models
 
 from pymoo.algorithms.moo.nsga2 import NSGA2
+from pymoo.core.result import Result
 from pymoo.operators.crossover.pntx import TwoPointCrossover
 from pymoo.operators.mutation.bitflip import BitflipMutation
 from pymoo.operators.sampling.rnd import BinaryRandomSampling
@@ -49,13 +51,13 @@ class MogaProblem(ElementwiseProblem):
         out["F"] = [f1, f2]
 
 
-def _get_front_runs(res_xx: list, template: Template, model_cache) -> list:
+def _get_front_runs(res: Result, template: Template, model_cache) -> list:
     runs = []
 
     maxes = template.gene_max
     lengths = template.gene_length
 
-    for res_x in res_xx:
+    for res_x in res.X:
         cur_x = [int(x) for x in res_x.astype(int)]
         mc = ModelCode.from_full_binary(cur_x, maxes, lengths)
         run = model_cache.find_model_run(genotype=str(mc.IntCode))
@@ -65,6 +67,18 @@ def _get_front_runs(res_xx: list, template: Template, model_cache) -> list:
             continue
 
         runs.append(run)
+
+    reruns = [run for run in runs if not os.path.isdir(run.run_dir)]
+
+    if reruns:
+        if options.rerun_front_models:
+            log.message('Re-running front models...')
+
+            rerun_models(reruns)
+        else:
+            for run in reruns:
+                run.make_control_file()
+                run.output_results()
 
     return runs
 
@@ -90,6 +104,9 @@ def run_moga(template: Template):
 
     n_gen = 0
 
+    front = []
+    res = Result()
+
     while algorithm.has_next() and keep_going():
         n_gen += 1
 
@@ -113,19 +130,20 @@ def run_moga(template: Template):
 
         algorithm.tell(infills=pop)
 
-        non_dominated_folder = os.path.join(options.working_dir, 'non_dominated_models', str(n_gen))
-
-        os.mkdir(non_dominated_folder)
-
         res = algorithm.result()
+        front = _get_front_runs(res, template, model_cache)
 
         log.message('Current Non Dominated models:')
 
-        for run in _get_front_runs(res.X, template, model_cache):
+        non_dominated_folder = os.path.join(options.non_dominated_models_dir, str(n_gen))
+        os.mkdir(non_dominated_folder)
+
+        for run in front:
             log.message(f"Generation {n_gen} Pareto Front: Model {run.control_file_name}, " +
                         f"OFV = {run.result.ofv:.4f}, NEP = {_get_n_params(run)}")
 
             if not os.path.isdir(run.run_dir):
+                log.warn('is not copied')
                 continue
 
             shutil.copytree(run.run_dir, os.path.join(non_dominated_folder, run.file_stem), dirs_exist_ok=True)
@@ -133,12 +151,10 @@ def run_moga(template: Template):
     if not keep_going():
         return
 
-    res = algorithm.result()
-
     log.message(f" MOGA best genome = {res.X.astype(int)},\n"
                 f" OFV and # of parameters = {res.F}")
 
-    for run in _get_front_runs(res.X, template, model_cache):
+    for run in front:
         run.run_dir = options.output_dir
         run.make_control_file(cleanup=False)
         run.output_results()

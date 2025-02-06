@@ -1,0 +1,88 @@
+{
+    "author": "autopk",
+    "algorithm": "RF",
+    "num_opt_chains": 1,
+    "population_size": 5,
+    "num_parallel": 1,
+    "crash_value": 99999999,
+    "num_generations": 1,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "downhill_period": -1,
+    "local_2_bit_search": true,
+    "final_downhill_search": true,
+    "penalty": {
+        "theta": 0,
+        "omega": 0,
+        "sigma": 0,
+        "convergence": 0,
+        "covariance": 0,
+        "correlation": 0,
+        "condition_number": 0,
+        "non_influential_tokens": 0
+    },
+    "search_radius": 2,
+    "postprocess": {
+        "use_python": true,
+        "post_run_python_code": "/home/kfdw240/code/code/packages/pydarwin_cetera/pyDarwin/examples/NONMEM/dev/dynamic_variables/penalty.py"
+    },
+    "model_space": "oral_small_molecule2",
+    "data_dir": "/home/kfdw240/code/code/packages/pydarwin_cetera/pyDarwin/examples/NONMEM/dev/dynamic_variables",
+    "data_name": "toymodel_data_rate_dose5.csv",
+    "output_dir": "{working_dir}/output",
+    "temp_dir": "{working_dir}/temp",
+    "remove_run_dir": false,
+    "nmfe_path": "/opt/scp/apps/gen-2021a/software/nonmem-standard/7.5.1-foss-2021a/util/nmfe75",
+    "model_run_timeout": 7200,
+    "slurm": {
+        "cores": 40,
+        "mem-per-cpu": 1,
+        "search_time_limit": "0-72:00:00"
+    },
+    "input_cols": "C ID TIME TAD AMT EVID DV II ADDL DOSE DOSEREF DAY",
+    "data_ignore": "IGNORE=@",
+    "s2_transform": "S2 = V2",
+    "DV_log_transform": false,
+    "estimation": [
+        {
+            "method": "SAEM",
+            "ISAMPLE": 2,
+            "NBURN": 10,
+            "NITER": 10,
+            "RANMETHOD": "3S2P",
+            "CTYPE": 3,
+            "CITER": 10,
+            "CALPHA": 0.05,
+            "CINTERVAL": 10,
+            "SEED": 234567,
+            "PRINT": 5,
+            "NOABORT": true,
+            "INTERACTION": true
+        },
+        {
+            "method": "IMP",
+            "ISAMPLE": 10,
+            "EONLY": 1,
+            "NITER": 3,
+            "RANMETHOD": "3S2P",
+            "NOABORT": true,
+            "INTERACTION": true,
+            "PRINT": 1,
+            "MAPITER": 0,
+            "SIGDIGITS": 3,
+            "NSIG": 3,
+            "SIGL": 9
+        }
+    ],
+    "working_dir": "/projects/qcp/QCP_MODELING/OTHER/autoPK/pydarwin_az/pydarwin_debug/1",
+    "random_seed": 0,
+    "file_cleanup": {
+        "keep_ext": true,
+        "keep_shk": true,
+        "named_files_keep": [
+            "param_estimates.csv",
+            "model_param_metrics.csv",
+            "model_complexity.csv"
+        ]
+    }
+}

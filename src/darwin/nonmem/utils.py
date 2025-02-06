@@ -42,9 +42,16 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, ste
     var_indices = _get_var_matches(expanded_var_block.split('\n'), tokens, phenotype, stem)
 
     # add last fixed var value to all
+    value = 1 
     for k, v in var_indices.items():
         # and put into control file
-        control = control.replace(stem + "(" + k + ")", stem + "(" + str(v) + ")")
+        original_stem = stem + "(" + k + ")"
+        if original_stem in control:
+            if stem == "MU":
+                control = control.replace(original_stem, stem + "_" + str(value))
+            else:
+                control = control.replace(original_stem, stem + "(" + str(value) + ")")
+            value = value + 1
 
     return control
 

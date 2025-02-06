@@ -288,6 +288,11 @@ class Options:
 
         self.fuzzy_eta = opts.get('fuzzy_eta', True)
 
+        fc_opts = opts.get('file_cleanup', {})
+        self.keep_shk = fc_opts.get('keep_shk', False)
+        self.keep_ext = fc_opts.get('keep_ext', False)
+        self.named_files_keep = fc_opts.get('named_files_keep', [])
+
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):
             log.error(f"Couldn't find options file '{options_file}', exiting")

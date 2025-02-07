@@ -64,6 +64,59 @@ def _get_niches(runs: list) -> list:
     return [_Niche(run) for run in best_runs]
 
 
+def _do_downhill_step(template: Template, niches: list, generation, step_num: int) -> list:
+    test_models = []
+    niches_this_loop = 0
+
+    for niche in niches:
+        if niche.done:
+            continue
+
+        niche.runs_start = len(test_models)
+        # need to adjust runs_start for models deleted due > effect_limit
+
+        niches_this_loop += 1
+
+        # only need to identify niches, so we can do downhill on the best in each niche
+        best_run = niche.best_run
+        best_code = best_run.model.model_code.MinBinCode
+        best_fit = best_run.result.fitness
+
+        fitness_text = '' if best_fit == options.crash_value else f" fitness = {best_fit:.3f},"
+
+        log.message(f"code for niche (minimal binary) {niches_this_loop} = {best_code},"
+                    f"{fitness_text} model #  {best_run.file_stem}")
+
+        # will always be minimal binary at this point
+        for this_bit in range(len(best_code)):
+            # change this_bit
+            test_ind = copy(best_code)  # deep copy, not reference
+            test_ind[this_bit] = 1 - test_ind[this_bit]
+            test_models.append(test_ind)
+
+        niche.runs_finish = len(test_models)
+
+    population = Population.from_codes(template, str(generation) + "D" + f"{step_num:02d}",
+                                       test_models, ModelCode.from_min_binary, niches=niches)
+
+    log.message(f"Starting downhill step {step_num},"
+                f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
+
+    for i, niche in enumerate(niches):
+        if not niche.done:
+            log.message(f"{niche.runs_finish - niche.runs_start} models in niche {i + 1}")
+
+    population.run()
+
+    return population.runs
+
+
+def do_downhill_step(template: Template, niche_runs: list, generation, step_num: int) -> list:
+    niches = [_Niche(run) for run in niche_runs]
+
+    return _do_downhill_step(template, niches, generation, step_num)
+
+
 def run_downhill(template: Template, pop: Population, return_all: bool = False) -> list:
     """
     Run the downhill step, with full (2 bit) search if requested.
@@ -87,50 +140,10 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         if all([n.done for n in niches]):
             break
 
-        test_models = []
-        niches_this_loop = 0
-
-        for niche in niches:
-            if niche.done:
-                continue
-
-            niche.runs_start = len(test_models)
-            # need to adjust runs_start for models deleted due > effect_limit
-
-            niches_this_loop += 1
-
-            # only need to identify niches, so we can do downhill on the best in each niche
-            best_run = niche.best_run
-            best_code = best_run.model.model_code.MinBinCode
-
-            log.message(f"code for niche (minimal binary) {niches_this_loop} = {best_code},"
-                        f" fitness = {best_run.result.fitness}, model #  {best_run.file_stem}")
-
-            # will always be minimal binary at this point
-            for this_bit in range(len(best_code)):
-                # change this_bit
-                test_ind = copy(best_code)  # deep copy, not reference
-                test_ind[this_bit] = 1 - test_ind[this_bit]
-                test_models.append(test_ind)
-
-            niche.runs_finish = len(test_models)
-
-        population = Population.from_codes(template, str(generation) + "D" + f"{this_step:02d}",
-                                           test_models, ModelCode.from_min_binary, niches=niches)
-
-        log.message(f"Starting downhill step {this_step},"
-                    f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
-
-        for i, niche in enumerate(niches):
-            if not niche.done:
-                log.message(f"{niche.runs_finish - niche.runs_start} models in niche {i+1}")
-
-        population.run()
+        runs = _do_downhill_step(template, niches, generation, this_step)
 
         if not keep_going():
             break
-
-        runs = population.runs
 
         if return_all:
             all_runs.extend(runs)

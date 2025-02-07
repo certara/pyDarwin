@@ -171,7 +171,7 @@ class _GARunner:
         param: Population
         """
 
-        log.message(f"Starting downhill generation = {self.generation}  at {time.asctime()}")
+        log.message(f"Starting downhill generation = {self.generation} at {time.asctime()}")
 
         best_runs = population.get_best_runs(options.num_niches)
 

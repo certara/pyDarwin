@@ -46,7 +46,12 @@ class PipelineRunManager(ModelRunManager):
             originals = {r.model_num: r for r in filter(lambda r: not r.is_duplicate(), runs)}
 
             for run in duplicates:
-                run.result = copy(originals[run.reference_model_num].result)
+                ref_run = originals[run.reference_model_num]
+                run.result = copy(ref_run.result)
+                model = run.model
+                ref_model = ref_run.model
+                model.estimated_theta_num, model.estimated_omega_num, model.estimated_sigma_num = \
+                    ref_model.estimated_theta_num, ref_model.estimated_omega_num, ref_model.estimated_sigma_num
 
         model_cache = get_model_cache()
         model_cache.dump()

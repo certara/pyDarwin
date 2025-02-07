@@ -254,6 +254,9 @@ class Options:
             self.final_downhill_search = opts.get('final_downhill_search', False)
             self.local_2_bit_search = opts.get('local_2_bit_search', False)
 
+            if self.local_2_bit_search and self.isMOGA:
+                log.warn('2-bit search is requested but ignored for MOGA')
+
             if self.downhill_period > 0 or self.final_downhill_search:
                 self.num_niches = opts.get('num_niches', 2)
                 self.niche_radius = float(opts.get('niche_radius', 2.0))

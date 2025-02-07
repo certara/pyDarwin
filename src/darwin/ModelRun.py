@@ -620,11 +620,23 @@ def log_run(run: ModelRun):
 
     step_name = 'Generation' if options.isGA else 'Iteration'
 
-    if run.status.startswith('Twin(') or run.status.startswith('Clone(') or run.status.startswith('Cache('):
-        fitness_text = ''
+    is_clone = run.status.startswith('Twin(') or run.status.startswith('Clone(') or run.status.startswith('Cache(')
+
+    if options.isMOGA:
+        if is_clone:
+            fitness_text = f" OFV =          , NEP =   "
+        else:
+            n_params = run.model.estimated_theta_num + run.model.estimated_sigma_num + run.model.estimated_omega_num
+            ofv_text = f"{res.ofv:.0f}" if res.ofv == options.crash_value else f"{res.ofv:.3f}"
+            fitness_text = f" OFV = {ofv_text:>9}, NEP = {n_params:>2}"
     else:
-        fitness_crashed = res.fitness == options.crash_value
-        fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
+        if is_clone:
+            fitness_text = ''
+        else:
+            fitness_crashed = res.fitness == options.crash_value
+            fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
+
+        fitness_text = f"fitness = {fitness_text:>9}"
 
     status = run.status.rjust(14)
     message = res.get_message_text()
@@ -635,14 +647,7 @@ def log_run(run: ModelRun):
     if len(message) > 200:
         message = message[:200] + '(...)'
 
-    if options.isMOGA:
-        n_params = run.model.estimated_theta_num + run.model.estimated_sigma_num + run.model.estimated_omega_num
-        log.message(
-            f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
-            f" OFV  = {run.result.ofv:9.3f}, NEP = {n_params:>2}, message = {message}"
-        )
-    else:
-        log.message(
-            f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
-            f"    fitness = {fitness_text:>9},  message = {message}"
-        )
+    log.message(
+        f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
+        f"    {fitness_text},  message = {message}"
+    )

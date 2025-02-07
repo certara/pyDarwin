@@ -4,6 +4,7 @@
     "random_seed": 11,  
     "population_size": 40,
     "num_generations": 10,
+    "downhill_period": 5,
     "rerun_front_models": false,
     "MOGA": {
         "crossover_rate": 0.88,

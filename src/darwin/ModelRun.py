@@ -187,6 +187,13 @@ class ModelRun:
         """
         return self.status != 'Not Started'
 
+    def is_unique(self) -> bool:
+        """
+        Whether the run is unique in this search.
+        """
+        status = self.status
+        return not(status.startswith('Twin(') or status.startswith('Clone(') or status.startswith('Cache('))
+
     def to_dict(self):
         """
         Assembles what goes into the JSON file of saved models.
@@ -620,21 +627,21 @@ def log_run(run: ModelRun):
 
     step_name = 'Generation' if options.isGA else 'Iteration'
 
-    is_clone = run.status.startswith('Twin(') or run.status.startswith('Clone(') or run.status.startswith('Cache(')
+    is_unique = run.is_unique()
 
     if options.isMOGA:
-        if is_clone:
-            fitness_text = f" OFV =          , NEP =   "
-        else:
+        if is_unique:
             n_params = run.model.estimated_theta_num + run.model.estimated_sigma_num + run.model.estimated_omega_num
             ofv_text = f"{res.ofv:.0f}" if res.ofv == options.crash_value else f"{res.ofv:.3f}"
             fitness_text = f" OFV = {ofv_text:>9}, NEP = {n_params:>2}"
-    else:
-        if is_clone:
-            fitness_text = ''
         else:
+            fitness_text = f" OFV =          , NEP =   "
+    else:
+        if is_unique:
             fitness_crashed = res.fitness == options.crash_value
             fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
+        else:
+            fitness_text = ''
 
         fitness_text = f"fitness = {fitness_text:>9}"
 

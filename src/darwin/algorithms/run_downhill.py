@@ -64,7 +64,8 @@ def _get_niches(runs: list) -> list:
     return [_Niche(run) for run in best_runs]
 
 
-def _do_downhill_step(template: Template, niches: list, generation, step_num: int) -> list:
+def _get_downhill_population(template: Template, niches: list, generation, step_num: int,
+                             unique_only: bool = False) -> Population:
     test_models = []
     niches_this_loop = 0
 
@@ -99,22 +100,27 @@ def _do_downhill_step(template: Template, niches: list, generation, step_num: in
     population = Population.from_codes(template, str(generation) + "D" + f"{step_num:02d}",
                                        test_models, ModelCode.from_min_binary, niches=niches)
 
-    log.message(f"Starting downhill step {step_num},"
-                f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
+    if unique_only:
+        runs = [run for run in population.runs if run.is_unique()]
 
-    for i, niche in enumerate(niches):
-        if not niche.done:
-            log.message(f"{niche.runs_finish - niche.runs_start} models in niche {i + 1}")
+        population.runs = runs
 
-    population.run()
-
-    return population.runs
+    return population
 
 
-def do_downhill_step(template: Template, niche_runs: list, generation, step_num: int) -> list:
+def do_moga_downhill_step(template: Template, niche_runs: list, generation, step_num: int) -> list:
     niches = [_Niche(run) for run in niche_runs]
 
-    return _do_downhill_step(template, niches, generation, step_num)
+    pop = _get_downhill_population(template, niches, generation, step_num, True)
+
+    if not pop.runs:
+        return []
+
+    log.message(f"Starting downhill step {step_num}, total of {len(pop.runs)} in {len(niches)} niches to be run.")
+
+    pop.run()
+
+    return pop.runs
 
 
 def run_downhill(template: Template, pop: Population, return_all: bool = False) -> list:
@@ -133,14 +139,28 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
     worst = get_n_worst_index(options.num_niches, fitnesses)
 
     niches = _get_niches(pop.runs)
+    niches_num = len(niches)
 
     all_runs = []
 
     for this_step in range(1, 100):  # up to 99 steps
-        if all([n.done for n in niches]):
+        niches_this_loop = sum([n.done for n in niches])
+
+        if niches_this_loop == niches_num:
             break
 
-        runs = _do_downhill_step(template, niches, generation, this_step)
+        population = _get_downhill_population(template, niches, generation, this_step)
+
+        log.message(f"Starting downhill step {this_step},"
+                    f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
+
+        for i, niche in enumerate(niches):
+            if not niche.done:
+                log.message(f"{niche.runs_finish - niche.runs_start} models in niche {i + 1}")
+
+        population.run()
+
+        runs = population.runs
 
         if not keep_going():
             break

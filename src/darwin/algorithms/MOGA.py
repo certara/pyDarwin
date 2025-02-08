@@ -14,7 +14,7 @@ from darwin.ModelRun import ModelRun
 from darwin.Population import Population
 from darwin.ModelCache import get_model_cache
 from darwin.ModelRunManager import rerun_models
-from darwin.algorithms.run_downhill import do_downhill_step
+from darwin.algorithms.run_downhill import do_moga_downhill_step
 
 from pymoo.algorithms.moo.nsga2 import NSGA2
 from pymoo.core.result import Result
@@ -78,6 +78,8 @@ def _get_front_runs(res: Result, template: Template, model_cache) -> list:
 
         runs.append(run)
 
+    runs = sorted(runs, key=lambda r: r.file_stem)
+
     for run in runs:
         x = controls[run.control_file_name]
         x = f"(x{x})" if x > 1 else ''
@@ -98,8 +100,8 @@ def _get_front_runs(res: Result, template: Template, model_cache) -> list:
     return runs
 
 
-def _front_cast(runs: list) -> str:
-    lines = [f"OFV = {run.result.ofv:.4f}, NEP = {_get_n_params(run)}" for run in runs]
+def _front_str(runs: list) -> str:
+    lines = [f"OFV = {run.result.ofv}, NEP = {_get_n_params(run)}" for run in runs]
     return '\n'.join(sorted(lines))
 
 
@@ -126,6 +128,13 @@ class _MOGARunner:
         return self.algorithm.has_next()
 
     def ask_population(self, n_gen: int) -> Population:
+        """
+        Ask a population from the algorithm
+        It saves the moo population in self.pop for subsequent tell
+
+        :param n_gen: current generation number
+        :return: Population
+        """
         self.pop = self.algorithm.ask()
 
         pop_full_bits = [[int(this_bit) for this_bit in this_ind.X] for this_ind in self.pop]
@@ -133,6 +142,15 @@ class _MOGARunner:
         return Population.from_codes(self.template, n_gen, pop_full_bits, ModelCode.from_full_binary)
 
     def tell_runs(self, runs: list) -> list:
+        """
+        Tells the runs to the algorithm
+        It uses self.pop which is only saved by ask_population
+        The downhill step doesn't perform the _ask_, so pop is created from the runs
+
+        :param runs: list of ModelRuns
+        :return: the front as a list of non-duplicated ModelRuns
+        """
+
         pop = self.pop
 
         if pop is None:
@@ -177,7 +195,8 @@ def run_moga(template: Template):
     downhill_period = options.downhill_period
 
     n_gen = 0
-
+    generations_no_change = 0
+    after = ''
     front = []
 
     runner = _MOGARunner(template, options.population_size)
@@ -196,7 +215,11 @@ def run_moga(template: Template):
         if not keep_going():
             break
 
+        before = after
+
         front = runner.tell_runs(population.runs)
+
+        after = _front_str(front)
 
         non_dominated_folder = os.path.join(options.non_dominated_models_dir, str(n_gen))
 
@@ -209,20 +232,28 @@ def run_moga(template: Template):
                 if not keep_going():
                     break
 
-                before = _front_cast(front)
+                before_d = after
 
-                downhill_runs = do_downhill_step(template, front, population.name, this_step)
+                downhill_runs = do_moga_downhill_step(template, front, population.name, this_step)
+
+                if not downhill_runs:
+                    log.warn(f"Downhill step {n_gen}/{this_step} has nothing to add to the search, done with downhill")
+                    break
 
                 front = runner.tell_runs(downhill_runs)
 
-                after = _front_cast(front)
+                after = _front_str(front)
 
-                if before == after:
+                if before_d == after:
                     break
 
             shutil.rmtree(non_dominated_folder)
 
             _copy_front_files(front, non_dominated_folder, n_gen)
+
+        if before == after:
+            generations_no_change += 1
+            log.message(f"No change in non dominated models for {generations_no_change} generations")
 
     if not keep_going():
         return

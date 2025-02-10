@@ -94,6 +94,7 @@ def init_search(model_template: Template) -> bool:
     if options.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
         log.message(f"Population size: {options.population_size}")
         log.message(f"num_generations: {options.num_generations}")
+
     log.message(f"random_seed: {options.random_seed}")
     log.message(f"use_effect_limit: {options.use_effect_limit}")
     if options.use_effect_limit:

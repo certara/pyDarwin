@@ -126,13 +126,13 @@ class ModelEngineAdapter(ABC):
             self.make_control(template, model_code)
 
         if num_effects > -1:
-            self.add_comment(f"Number of effects = {num_effects}\n", model.control)
+            model.control = self.add_comment(f"Number of effects = {num_effects}\n", model.control)
 
         return model
 
     @staticmethod
     @abstractmethod
-    def add_comment(comment: str, control: str):
+    def add_comment(comment: str, control: str) -> str:
         """
         Add a comment to the control
         """

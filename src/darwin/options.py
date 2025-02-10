@@ -247,8 +247,10 @@ class Options:
         if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
             self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)
             self.num_generations = _get_mandatory_option(opts, 'num_generations', self.algorithm)
+
         if self.algorithm in ["GBRT", "RF", "GP"]:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
+
         if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
             self.downhill_period = opts.get('downhill_period', -1)
             self.final_downhill_search = opts.get('final_downhill_search', False)

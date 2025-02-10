@@ -1,0 +1,25 @@
+{
+    "author": "Certara",
+    "algorithm": "MOGA",
+
+    "MOGA": {
+        "crossover_rate": 0.88,
+        "mutation_rate": 0.9
+    },
+
+    "random_seed": 1, 
+    "population_size": 20,
+    "num_parallel": 4,
+    "num_generations": 4,
+
+    "rerun_front_models": false,
+
+    "downhill_period": 2,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "local_2_bit_search": true,
+    "final_downhill_search": true,
+
+    "use_effect_limit": true,
+    "effect_limit": 6
+}

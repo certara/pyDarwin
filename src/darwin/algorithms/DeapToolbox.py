@@ -14,6 +14,8 @@ from darwin.Template import Template
 from darwin.ModelRun import ModelRun
 import darwin.utils as utils
 
+from .effect_limit import WeightedSampler
+
 
 class DeapToolbox:
     def __init__(self, template: Template):
@@ -22,6 +24,13 @@ class DeapToolbox:
         self.tokens = template.tokens
         self.gene_max = template.gene_max
         self.gene_length = template.gene_length
+
+        sampler = WeightedSampler(template)
+
+        def weighted_individual():
+            return creator.Individual(sampler.create_individual())
+
+        num_bits = int(sum(template.gene_length))
 
         creator.create("FitnessMin", deap.base.Fitness, weights=(-1.0,))
         creator.create("Individual", list, fitness=creator.FitnessMin)
@@ -39,13 +48,10 @@ class DeapToolbox:
 
         toolbox.register("attr_bool", random.randint, 0, 1)
 
-        # Structure initializers
-        #                         define 'individual' to be an individual
-        #                         consisting of 100 'attr_bool' elements ('genes')
-
-        num_bits = int(sum(template.gene_length))
-
-        toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, num_bits)
+        if options.use_effect_limit:
+            toolbox.register("individual", weighted_individual)
+        else:
+            toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, num_bits)
 
         # define the population to be a list of individuals
         toolbox.register("population", tools.initRepeat, list, toolbox.individual)

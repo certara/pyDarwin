@@ -144,15 +144,15 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
     all_runs = []
 
     for this_step in range(1, 100):  # up to 99 steps
-        niches_this_loop = sum([n.done for n in niches])
+        niches_left = niches_num - sum([n.done for n in niches])
 
-        if niches_this_loop == niches_num:
+        if niches_left == 0:
             break
 
         population = _get_downhill_population(template, niches, generation, this_step)
 
         log.message(f"Starting downhill step {this_step},"
-                    f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
+                    f" total of {len(population.runs)} in {niches_left} niches to be run.")
 
         for i, niche in enumerate(niches):
             if not niche.done:

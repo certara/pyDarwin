@@ -224,8 +224,8 @@ class Options:
         except ValueError:
             self.use_effect_limit = False
 
-        if (options.engine_adapter != 'nonmem' or options.algorithm != "GA") and self.use_effect_limit:
-            log.message("Can only use effect_limit with GA and NONMEM, setting to False")
+        if (options.engine_adapter != 'nonmem' or options.algorithm not in ['GA', 'MOGA']) and self.use_effect_limit:
+            log.message("Can only use effect_limit with GA/MOGA and NONMEM, setting to False")
             self.use_effect_limit = False
 
         if self.use_effect_limit:

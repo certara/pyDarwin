@@ -7,6 +7,7 @@ import warnings
 from darwin import Population
 from darwin.Log import log
 from darwin.options import options
+import darwin.utils as utils
 from darwin.ExecutionManager import keep_going
 from darwin.ModelCode import ModelCode
 from darwin.Template import Template
@@ -172,6 +173,36 @@ class _MOGARunner:
 
         return _get_front_runs(res, self.template, self.model_cache)
 
+    def run_moga_downhill(self, front: list, generation) -> tuple:
+        after = _front_str(front)
+
+        for this_step in range(1, 100):  # up to 99 steps
+            if not keep_going():
+                break
+
+            before = after
+
+            downhill_runs = do_moga_downhill_step(self.template, front, generation, this_step)
+
+            if not downhill_runs:
+                log.warn(f"Downhill step {generation}/{this_step} has nothing to add to the search, done with downhill")
+                break
+
+            front = self.tell_runs(downhill_runs)
+
+            after = _front_str(front)
+
+            if before == after:
+                break
+
+        non_dominated_folder = os.path.join(options.non_dominated_models_dir, str(generation))
+
+        utils.remove_dir(non_dominated_folder)
+
+        _copy_front_files(front, non_dominated_folder, generation)
+
+        return front, after
+
     def dump_res(self):
         res = self.algorithm.result()
 
@@ -228,32 +259,15 @@ def run_moga(template: Template):
         if downhill_period > 0 and n_gen % downhill_period == 0:
             log.message(f"Starting downhill generation {n_gen}")
 
-            for this_step in range(1, 100):  # up to 99 steps
-                if not keep_going():
-                    break
-
-                before_d = after
-
-                downhill_runs = do_moga_downhill_step(template, front, population.name, this_step)
-
-                if not downhill_runs:
-                    log.warn(f"Downhill step {n_gen}/{this_step} has nothing to add to the search, done with downhill")
-                    break
-
-                front = runner.tell_runs(downhill_runs)
-
-                after = _front_str(front)
-
-                if before_d == after:
-                    break
-
-            shutil.rmtree(non_dominated_folder)
-
-            _copy_front_files(front, non_dominated_folder, n_gen)
+            front, after = runner.run_moga_downhill(front, n_gen)
 
         if before == after:
             generations_no_change += 1
             log.message(f"No change in non dominated models for {generations_no_change} generations")
+
+    if options.final_downhill_search and keep_going():
+        log.message(f"Starting final downhill step")
+        front, after = runner.run_moga_downhill(front, 'FN')
 
     if not keep_going():
         return

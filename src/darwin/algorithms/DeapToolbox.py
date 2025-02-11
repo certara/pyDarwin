@@ -14,7 +14,7 @@ from darwin.Template import Template
 from darwin.ModelRun import ModelRun
 import darwin.utils as utils
 
-from .effect_limit import WeightedSampler
+from .effect_limit import WeightedSampler, trim_population
 
 
 class DeapToolbox:
@@ -138,7 +138,7 @@ class DeapToolbox:
             # need integers,
             phenotype = utils.convert_full_bin_int(temp, self.gene_max, self.gene_length)
 
-            temp, aa, bb = utils.trim_population(temp, phenotype, self.tokens.values(), options.effect_limit)
+            temp, aa, bb = trim_population(temp, phenotype, self.tokens.values(), options.effect_limit)
 
             offspring.extend(temp[:options.population_size-len(offspring)])
 

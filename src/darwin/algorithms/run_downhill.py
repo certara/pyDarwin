@@ -101,31 +101,52 @@ def _get_downhill_population(template: Template, niches: list, generation, step_
                                        test_models, ModelCode.from_min_binary, niches=niches)
 
     if unique_only:
-        runs = [run for run in population.runs if run.is_unique()]
-
-        population.runs = runs
+        population.runs = [run for run in population.runs if run.is_unique()]
 
     return population
 
 
-def _run_local_grid_search(runs: list, template: Template, niches: list, generation, step_num: int) -> list:
+def _get_n_params(run: ModelRun) -> int:
+    model = run.model
+
+    return model.estimated_omega_num + model.estimated_theta_num + model.estimated_sigma_num
+
+
+def _get_better_runs(runs: list, best_run: ModelRun) -> list:
+    u_runs = _unique_runs(runs)
+
+    if options.isMOGA:
+        best_ofv = best_run.result.ofv
+        best_nep = _get_n_params(best_run)
+        better_ofv = sorted([r for r in u_runs if r.result.ofv < best_ofv], key=lambda r: r.result.ofv)
+        better_nep = sorted([r for r in u_runs if _get_n_params(r) < best_nep], key=lambda r: _get_n_params(r))
+
+        better_runs = better_ofv[:options.max_local_grid_search_bits] + better_nep[:options.max_local_grid_search_bits]
+    else:
+        better_runs = [r for r in u_runs if r.result.fitness < best_run.result.fitness]
+
+        better_runs = sorted(better_runs, key=lambda r: r.result.fitness)
+        better_runs = better_runs[:options.max_local_grid_search_bits]
+
+    return better_runs
+
+
+def _run_local_grid_search(runs: list, template: Template, niches: list, generation, step_num: int,
+                           unique_only: bool = False) -> list:
     test_models = []
 
     for niche in niches:
         if niche.done:
             continue
 
-        u_runs = _unique_runs(runs[niche.runs_start:niche.runs_finish])
-        better_runs = [r for r in u_runs if r.result.fitness < niche.best_run.result.fitness]
+        better_runs = _get_better_runs(runs[niche.runs_start:niche.runs_finish], niche.best_run)
 
         if not better_runs:
             niche.done = True
             continue
 
-        better_runs = sorted(better_runs, key=lambda r: r.result.fitness)
-        better_runs = better_runs[:options.max_local_grid_search_bits]
-        flip_bits = sorted(_get_flip_bit(niche.best_run, r) for r in better_runs)
-        perms = [_int_to_bin(c, len(better_runs)) for c in range(2 ** len(better_runs))]
+        flip_bits = sorted(list(set(_get_flip_bit(niche.best_run, r) for r in better_runs)))
+        perms = [_int_to_bin(c, len(flip_bits)) for c in range(2 ** len(flip_bits))]
 
         niche.runs_start = len(test_models)
 
@@ -144,6 +165,9 @@ def _run_local_grid_search(runs: list, template: Template, niches: list, generat
 
     population = Population.from_codes(template, str(generation) + f"D{step_num:02d}G",
                                        test_models, ModelCode.from_min_binary, niches=niches)
+
+    if unique_only:
+        population.runs = [run for run in population.runs if run.is_unique()]
 
     if population.runs:
         niches_left = sum([not n.done for n in niches])
@@ -167,7 +191,12 @@ def do_moga_downhill_step(template: Template, niche_runs: list, generation, step
 
     pop.run()
 
-    return pop.runs
+    runs = pop.runs
+
+    if options.local_grid_search:
+        runs += _run_local_grid_search(runs, template, niches, generation, step_num, True)
+
+    return runs
 
 
 def _unique_runs(runs: list) -> list:

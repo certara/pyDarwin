@@ -4,6 +4,7 @@ import time
 from darwin.Log import log
 
 import darwin.utils as utils
+import algorithms.effect_limit as limits
 import darwin.GlobalVars as GlobalVars
 
 from darwin.options import options
@@ -86,30 +87,34 @@ class Population:
         maxes = template.gene_max
         lengths = template.gene_length
 
-        # need to generate population of "good" models (i.e., models with < effects_limit)
-        # only if this is downhill and use_effect_limit
-        if not options.use_effect_limit or not("D" in str(name) or "S" in str(name)):
+        if not options.use_effect_limit:
             for code in codes:
                 pop.add_model_run(code_converter(code, maxes, lengths))
 
             return pop
 
-        n_initial_models = len(codes)
-
         phenotype = [code_converter(code, maxes, lengths).IntCode for code in codes]
 
-        codes, num_effects, good_individuals = \
-            utils.trim_population(codes, phenotype, template.tokens.values(), options.effect_limit)
+        # trim downhill populations
+        if "D" in str(name) or "S" in str(name):
+            n_initial_models = len(codes)
+
+            codes, num_effects, good_individuals = \
+                limits.trim_population(codes, phenotype, template.tokens.values(), options.effect_limit)
+
+            if n_initial_models > len(codes):
+                log.message(f"{n_initial_models - len(codes)} of {n_initial_models} "
+                            f"models removed due to number of effects > {options.effect_limit}")
+
+            if niches is not None:
+                _trim_niches(niches, good_individuals)
+
+        else:
+            # leave regular populations unchanged even if they don't meet effect limit
+            num_effects = limits.get_pop_num_effects(phenotype, template.tokens.values())
 
         for code, ind_num_effects in zip(codes, num_effects):
             pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
-
-        if n_initial_models > len(codes):
-            log.message(f"{n_initial_models - len(codes)} of {n_initial_models} "
-                        f"models removed due to number of effects > {options.effect_limit}")
-
-        if niches is not None:
-            _trim_niches(niches, good_individuals)
 
         return pop
 

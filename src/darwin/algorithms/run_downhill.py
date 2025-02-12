@@ -101,11 +101,82 @@ def _get_downhill_population(template: Template, niches: list, generation, step_
                                        test_models, ModelCode.from_min_binary, niches=niches)
 
     if unique_only:
-        runs = [run for run in population.runs if run.is_unique()]
-
-        population.runs = runs
+        population.runs = [run for run in population.runs if run.is_unique()]
 
     return population
+
+
+def _get_n_params(run: ModelRun) -> int:
+    model = run.model
+
+    return model.estimated_omega_num + model.estimated_theta_num + model.estimated_sigma_num
+
+
+def _get_better_runs(runs: list, best_run: ModelRun) -> list:
+    u_runs = _unique_runs(runs)
+
+    if options.isMOGA:
+        best_ofv = best_run.result.ofv
+        best_nep = _get_n_params(best_run)
+        better_ofv = sorted([r for r in u_runs if r.result.ofv < best_ofv], key=lambda r: r.result.ofv)
+        better_nep = sorted([r for r in u_runs if _get_n_params(r) < best_nep], key=lambda r: _get_n_params(r))
+
+        better_runs = better_ofv[:options.max_local_grid_search_bits] + better_nep[:options.max_local_grid_search_bits]
+    else:
+        better_runs = [r for r in u_runs if r.result.fitness < best_run.result.fitness]
+
+        better_runs = sorted(better_runs, key=lambda r: r.result.fitness)
+        better_runs = better_runs[:options.max_local_grid_search_bits]
+
+    return better_runs
+
+
+def _run_local_grid_search(runs: list, template: Template, niches: list, generation, step_num: int,
+                           unique_only: bool = False) -> list:
+    test_models = []
+
+    for niche in niches:
+        if niche.done:
+            continue
+
+        better_runs = _get_better_runs(runs[niche.runs_start:niche.runs_finish], niche.best_run)
+
+        if not better_runs:
+            niche.done = True
+            continue
+
+        flip_bits = sorted(list(set(_get_flip_bit(niche.best_run, r) for r in better_runs)))
+        perms = [_int_to_bin(c, len(flip_bits)) for c in range(2 ** len(flip_bits))]
+
+        niche.runs_start = len(test_models)
+
+        for p in perms:
+            new_run = niche.best_run.model.model_code.MinBinCode.copy()
+
+            for i, b in zip(flip_bits, p):
+                new_run[i] = b
+
+            test_models.append(new_run)
+
+        niche.runs_finish = len(test_models)
+
+    if not test_models:
+        return runs
+
+    population = Population.from_codes(template, str(generation) + f"D{step_num:02d}G",
+                                       test_models, ModelCode.from_min_binary, niches=niches)
+
+    if unique_only:
+        population.runs = [run for run in population.runs if run.is_unique()]
+
+    if population.runs:
+        niches_left = sum([not n.done for n in niches])
+
+        log.message(f"Starting local grid search, total of {len(population.runs)} in {niches_left} niches to be run.")
+
+        population.run()
+
+    return population.runs
 
 
 def do_moga_downhill_step(template: Template, niche_runs: list, generation, step_num: int) -> list:
@@ -120,10 +191,34 @@ def do_moga_downhill_step(template: Template, niche_runs: list, generation, step
 
     pop.run()
 
-    return pop.runs
+    runs = pop.runs
+
+    if options.local_grid_search:
+        runs += _run_local_grid_search(runs, template, niches, generation, step_num, True)
+
+    return runs
 
 
-def run_downhill(template: Template, pop: Population, return_all: bool = False) -> list:
+def _unique_runs(runs: list) -> list:
+    return [r for r in runs if not r.is_duplicate()]
+
+
+def _get_flip_bit(r1: ModelRun, r2: ModelRun) -> int or None:
+    c1 = r1.model.model_code.MinBinCode
+    c2 = r2.model.model_code.MinBinCode
+
+    for i in range(len(c1)):
+        if c1[i] != c2[i]:
+            return i
+
+    return None
+
+
+def _int_to_bin(n, length) -> list:
+    return list(map(int, list(bin(n)[2:].rjust(length, "0"))))
+
+
+def run_downhill(template: Template, pop: Population) -> list:
     """
     Run the downhill step, with full (2 bit) search if requested.
     Finds N <= :mono_ref:`num_niches <num_niches_options_desc>` niches in pop and replaces N worst models in pop
@@ -144,15 +239,15 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
     all_runs = []
 
     for this_step in range(1, 100):  # up to 99 steps
-        niches_this_loop = sum([n.done for n in niches])
+        niches_left = niches_num - sum([n.done for n in niches])
 
-        if niches_this_loop == niches_num:
+        if niches_left == 0:
             break
 
         population = _get_downhill_population(template, niches, generation, this_step)
 
         log.message(f"Starting downhill step {this_step},"
-                    f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
+                    f" total of {len(population.runs)} in {niches_left} niches to be run.")
 
         for i, niche in enumerate(niches):
             if not niche.done:
@@ -165,8 +260,11 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
         if not keep_going():
             break
 
-        if return_all:
-            all_runs.extend(runs)
+        if options.local_grid_search:
+            runs = _run_local_grid_search(runs, template, niches, generation, this_step)
+
+            if not keep_going():
+                break
 
         # check, for each niche, whether any in the fitnesses is better
         # if so, that become the source for the next round
@@ -201,7 +299,7 @@ def run_downhill(template: Template, pop: Population, return_all: bool = False) 
                     f"fitness = {run_for_search.result.fitness}")
         log.message(f"phenotype = {run_for_search.model.phenotype}")
 
-        run_for_search, runs = _full_search(template, run_for_search, generation, return_all)
+        run_for_search, runs = _full_search(template, run_for_search, generation)
 
         all_runs.extend(runs)
 
@@ -247,7 +345,7 @@ def _change_each_bit(source_models: list, radius: int):  # only need upper trian
     return models, radius
 
 
-def _full_search(model_template: Template, best_pre: ModelRun, base_generation, return_all: bool = False):
+def _full_search(model_template: Template, best_pre: ModelRun, base_generation):
     """perform 2 bit search (radius should always be 2 bits), will always be called after run_downhill (1 bit search),
     argument is:
     best_pre - base model for search 
@@ -277,9 +375,6 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
 
         if not keep_going():
             break
-
-        if return_all:
-            all_runs.extend(population.runs)
 
         best = population.get_best_run()
         log.message(f"Model for local exhaustive search = {best.file_stem}, "

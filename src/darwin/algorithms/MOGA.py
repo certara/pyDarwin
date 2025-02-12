@@ -7,6 +7,7 @@ import warnings
 from darwin import Population
 from darwin.Log import log
 from darwin.options import options
+import darwin.utils as utils
 from darwin.ExecutionManager import keep_going
 from darwin.ModelCode import ModelCode
 from darwin.Template import Template
@@ -16,12 +17,15 @@ from darwin.ModelCache import get_model_cache
 from darwin.ModelRunManager import rerun_models
 from darwin.algorithms.run_downhill import do_moga_downhill_step
 
+from .effect_limit import WeightedSampler
+
 from pymoo.algorithms.moo.nsga2 import NSGA2
 from pymoo.core.result import Result
 from pymoo.core.population import pop_from_array_or_individual
 from pymoo.operators.crossover.pntx import TwoPointCrossover
 from pymoo.operators.mutation.bitflip import BitflipMutation
 from pymoo.operators.sampling.rnd import BinaryRandomSampling
+from pymoo.core.sampling import Sampling
 from pymoo.core.problem import ElementwiseProblem
 
 warnings.filterwarnings('error', category=DeprecationWarning)
@@ -36,14 +40,16 @@ def _get_n_params(run: ModelRun) -> int:
 
 class MogaProblem(ElementwiseProblem):
     def __init__(self, n_var, run: ModelRun = None):
-        super().__init__(n_var=n_var,  # number of bits
-                         n_obj=2,
-                         n_ieq_constr=0,
-                         xl=np.zeros(n_var, dtype=int),
-                         xu=np.ones(n_var, dtype=int),
-                         # need this to send population and template to evaluate
-                         requires_kwargs=True
-                         )
+        super(MogaProblem, self).__init__(
+            n_var=n_var,  # number of bits
+            n_obj=2,
+            n_ieq_constr=0,
+            xl=np.zeros(n_var, dtype=int),
+            xu=np.ones(n_var, dtype=int),
+            # need this to send population and template to evaluate
+            requires_kwargs=True
+        )
+
         self.run = run
 
     def _evaluate(self, x, out, *args, **kwargs):
@@ -105,6 +111,17 @@ def _front_str(runs: list) -> str:
     return '\n'.join(sorted(lines))
 
 
+class WeightedRandomSampling(Sampling):
+    def __init__(self, template: Template):
+        super(WeightedRandomSampling, self).__init__()
+
+        self.sampler = WeightedSampler(template)
+
+    def _do(self, problem, n_samples, **kwargs):
+        val = np.array([self.sampler.create_individual() for _ in range(n_samples)])
+        return val.astype(bool)
+
+
 class _MOGARunner:
     def __init__(self, template: Template, pop_size: int):
         self.n_var = sum(template.gene_length)
@@ -116,7 +133,7 @@ class _MOGARunner:
 
         self.algorithm = NSGA2(
             pop_size=pop_size,
-            sampling=BinaryRandomSampling(),
+            sampling=WeightedRandomSampling(template) if options.use_effect_limit else BinaryRandomSampling(),
             crossover=TwoPointCrossover(prob=options.MOGA['crossover_rate']),
             mutation=BitflipMutation(prob=options.MOGA['mutation_rate']),
             eliminate_duplicates=True
@@ -172,6 +189,42 @@ class _MOGARunner:
 
         return _get_front_runs(res, self.template, self.model_cache)
 
+    def run_moga_downhill(self, front: list, generation) -> tuple:
+        after = _front_str(front)
+
+        changed = False
+
+        for this_step in range(1, 100):  # up to 99 steps
+            if not keep_going():
+                break
+
+            before = after
+
+            downhill_runs = do_moga_downhill_step(self.template, front, generation, this_step)
+
+            if not keep_going():
+                break
+
+            if not downhill_runs:
+                log.warn(f"Downhill step {generation}/{this_step} has nothing to add to the search, done with downhill")
+                break
+
+            front = self.tell_runs(downhill_runs)
+
+            after = _front_str(front)
+
+            if before == after:
+                break
+
+            changed = True
+
+        if changed:
+            non_dominated_folder = os.path.join(options.non_dominated_models_dir, str(generation))
+
+            _copy_front_files(front, non_dominated_folder)
+
+        return front, after
+
     def dump_res(self):
         res = self.algorithm.result()
 
@@ -179,7 +232,8 @@ class _MOGARunner:
                     f" OFV and # of parameters =\n{res.F}")
 
 
-def _copy_front_files(front: list, non_dominated_folder: str, n_gen: int):
+def _copy_front_files(front: list, non_dominated_folder: str):
+    utils.remove_dir(non_dominated_folder)
     os.mkdir(non_dominated_folder)
 
     for run in front:
@@ -223,37 +277,20 @@ def run_moga(template: Template):
 
         non_dominated_folder = os.path.join(options.non_dominated_models_dir, str(n_gen))
 
-        _copy_front_files(front, non_dominated_folder, n_gen)
+        _copy_front_files(front, non_dominated_folder)
 
         if downhill_period > 0 and n_gen % downhill_period == 0:
             log.message(f"Starting downhill generation {n_gen}")
 
-            for this_step in range(1, 100):  # up to 99 steps
-                if not keep_going():
-                    break
-
-                before_d = after
-
-                downhill_runs = do_moga_downhill_step(template, front, population.name, this_step)
-
-                if not downhill_runs:
-                    log.warn(f"Downhill step {n_gen}/{this_step} has nothing to add to the search, done with downhill")
-                    break
-
-                front = runner.tell_runs(downhill_runs)
-
-                after = _front_str(front)
-
-                if before_d == after:
-                    break
-
-            shutil.rmtree(non_dominated_folder)
-
-            _copy_front_files(front, non_dominated_folder, n_gen)
+            front, after = runner.run_moga_downhill(front, n_gen)
 
         if before == after:
             generations_no_change += 1
             log.message(f"No change in non dominated models for {generations_no_change} generations")
+
+    if options.final_downhill_search and keep_going():
+        log.message(f"Starting final downhill step")
+        front, after = runner.run_moga_downhill(front, 'FN')
 
     if not keep_going():
         return

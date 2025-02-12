@@ -142,12 +142,12 @@ class NMEngineAdapter(ModelEngineAdapter):
         return control, ";;", bands
 
     @staticmethod
-    def add_comment(comment: str, control: str):
+    def add_comment(comment: str, control: str) -> str:
         """
         Add a comment to the control
         """
 
-        control += f";; {comment}"
+        return control + f";; {comment}"
 
     @staticmethod
     def cleanup(run_dir: str, file_stem: str):

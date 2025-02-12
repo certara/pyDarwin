@@ -244,6 +244,9 @@ class Options:
             self.final_downhill_search = opts.get('final_downhill_search', False)
             self.local_2_bit_search = opts.get('local_2_bit_search', False)
 
+            self.local_grid_search = opts.get('local_grid_search', False)
+            self.max_local_grid_search_bits = opts.get('max_local_grid_search_bits', 5)
+
             if self.local_2_bit_search and self.isMOGA:
                 log.warn('2-bit search is requested but ignored for MOGA')
 

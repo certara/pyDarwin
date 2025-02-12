@@ -122,9 +122,6 @@ def _run_local_grid_search(runs: list, template: Template, niches: list, generat
             niche.done = True
             continue
 
-        if len(better_runs) == 1:
-            continue
-
         better_runs = sorted(better_runs, key=lambda r: r.result.fitness)
         better_runs = better_runs[:options.max_local_grid_search_bits]
         flip_bits = sorted(_get_flip_bit(niche.best_run, r) for r in better_runs)

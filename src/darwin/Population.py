@@ -4,7 +4,7 @@ import time
 from darwin.Log import log
 
 import darwin.utils as utils
-import algorithms.effect_limit as limits
+import darwin.algorithms.effect_limit as limits
 import darwin.GlobalVars as GlobalVars
 
 from darwin.options import options

@@ -113,8 +113,6 @@ def post_process(run_dir):
     # # Get lst file
     # lst = read_lst(run_dir)
     
-    # Get data length
-    data_length = get_data_length(control)
 
     # Get penalty weights
     logger.debug("Get penalty weights")
@@ -165,6 +163,10 @@ def post_process(run_dir):
     penalty_weights["penalty_score_sum"] = model_complexity_penalty_score + param_estimate_penalty_score
 
     if use_scaling_factor:
+        
+        # Get data length
+        data_length = get_data_length(control)
+
         # Calculate scaling factor
         scaling_factor = data_length / 2500
         penalty_weights["total_penalty_score"] = penalty_weights["penalty_score_sum"] * scaling_factor

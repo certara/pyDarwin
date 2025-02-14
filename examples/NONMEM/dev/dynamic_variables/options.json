@@ -2,15 +2,15 @@
     "author": "autopk",
     "algorithm": "RF",
     "num_opt_chains": 1,
-    "population_size": 5,
-    "num_parallel": 1,
+    "population_size": 10,
+    "num_parallel": 10,
     "crash_value": 99999999,
-    "num_generations": 1,
+    "num_generations": 2,
     "num_niches": 2,
     "niche_radius": 2,
     "downhill_period": -1,
-    "local_2_bit_search": true,
-    "final_downhill_search": true,
+    "local_2_bit_search": false,
+    "final_downhill_search": false,
     "penalty": {
         "theta": 0,
         "omega": 0,
@@ -21,28 +21,29 @@
         "condition_number": 0,
         "non_influential_tokens": 0
     },
-    "search_radius": 2,
+    "duplicate_models": false,
+    "slurm_submit_version": "pyd_search_v2.sh",
     "postprocess": {
         "use_python": true,
-        "post_run_python_code": "/home/kfdw240/code/code/packages/pydarwin_cetera/pyDarwin/examples/NONMEM/dev/dynamic_variables/penalty.py"
+        "post_run_python_code": "/home/kfdw240/code/code/packages/pydarwin_cetera2/pyDarwin/examples/NONMEM/dev/dynamic_variables/penalty.py"
     },
-    "model_space": "oral_small_molecule2",
-    "data_dir": "/home/kfdw240/code/code/packages/pydarwin_cetera/pyDarwin/examples/NONMEM/dev/dynamic_variables",
-    "data_name": "toymodel_data_rate_dose5.csv",
+    "model_space": "ex",
+    "data_dir": "/home/kfdw240/code/code/packages/pydarwin_cetera2/pyDarwin/examples/NONMEM/dev/dynamic_variables",
+    "data_name": "sdtab_NM_0_01_s.csv",
     "output_dir": "{working_dir}/output",
     "temp_dir": "{working_dir}/temp",
     "remove_run_dir": false,
     "nmfe_path": "/opt/scp/apps/gen-2021a/software/nonmem-standard/7.5.1-foss-2021a/util/nmfe75",
-    "model_run_timeout": 7200,
+    "model_run_timeout": 15000,
     "slurm": {
         "cores": 40,
         "mem-per-cpu": 1,
         "search_time_limit": "0-72:00:00"
     },
-    "input_cols": "C ID TIME TAD AMT EVID DV II ADDL DOSE DOSEREF DAY",
-    "data_ignore": "IGNORE=@",
     "s2_transform": "S2 = V2",
-    "DV_log_transform": false,
+    "DV_log_transform": true,
+    "input_cols": "ID TIME DOSE IPRED1 AMT MDV IWRES1 IRES1 CWRES1 NPDE1 DV PRED1 RES1 WRES1 DOSEREF",
+    "data_ignore": "IGNORE=@",
     "estimation": [
         {
             "method": "SAEM",
@@ -61,9 +62,9 @@
         },
         {
             "method": "IMP",
-            "ISAMPLE": 10,
+            "ISAMPLE": 5,
             "EONLY": 1,
-            "NITER": 3,
+            "NITER": 5,
             "RANMETHOD": "3S2P",
             "NOABORT": true,
             "INTERACTION": true,
@@ -74,15 +75,13 @@
             "SIGL": 9
         }
     ],
-    "working_dir": "/projects/qcp/QCP_MODELING/OTHER/autoPK/pydarwin_az/pydarwin_debug/1",
-    "random_seed": 0,
+    "working_dir": "/home/kfdw240/code/code/packages/pydarwin_cetera2/pyDarwin/pydarwin_debug_out/2",
     "file_cleanup": {
-        "keep_ext": true,
         "keep_shk": true,
+        "keep_ext": true,
         "named_files_keep": [
-            "param_estimates.csv",
-            "model_param_metrics.csv",
-            "model_complexity.csv"
+            "model_complexity.csv",
+            "param_estimates.csv"
         ]
     }
 }

@@ -249,8 +249,8 @@ class DarwinApp:
             final_output_done = True
             log.message(f"Final output from best model is in {final_result_file}")
 
-            log.message(f"Number of considered models: {GlobalVars.all_models_num}")
-            log.message(f"Number of models that were run during the search: {GlobalVars.run_models_num}")
+        log.message(f"Number of considered models: {GlobalVars.all_models_num}")
+        log.message(f"Number of models that were run during the search: {GlobalVars.run_models_num}")
 
         if final:
             log.message(f"Number of unique models to best model: {GlobalVars.unique_models_to_best}")

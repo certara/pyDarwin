@@ -90,28 +90,34 @@ class NMEngineAdapter(ModelEngineAdapter):
             if not found:  # only write this once, if nothing is found
                 prd_err += f"Unidentified error in PRDERR for model run {run.generation}, {run.model_num}\n"
 
+        mu_warning = ' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n'
+
         warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
                     ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n',
                     ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
-                    ' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n']
+                    mu_warning]
+
         # really not sure what to do with the mu referencing warning, warning is generated regardless
-        # of whether the are time varying covariates
+        # of whether there are time varying covariates
         short_warnings = ['NON-FIXED OMEGA',
                           'NON-FIXED PARAMETER',
                           'NON-FIXED THETA',
-                          'Covars should not be time varying with MU ref']
+                          'Covariates should not be time varying with MU ref']
 
         f_msg = _file_to_lines(os.path.join(run.run_dir, "FMSG"))
 
         for warning, short_warning in zip(warnings, short_warnings):
-            if warning in f_msg:
-                if warning == ' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n':
-                    where = f_msg.index(' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n')
-                    covar_name = f_msg[where + 1].strip()
-                    warning_message = "With MU ref " + covar_name + " should be constant for indiv"
-                else:
-                    warning_message = short_warning
-                nm_translation_message += warning_message
+            if warning not in f_msg:
+                continue
+
+            if warning == mu_warning:
+                where = f_msg.index(mu_warning)
+                covar_name = f_msg[where + 1].strip()
+                warning_message = f"With MU ref {covar_name} should be constant for individuals"
+            else:
+                warning_message = short_warning
+
+            nm_translation_message += warning_message
 
         errors = [' AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.\n']
 

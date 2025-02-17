@@ -6,10 +6,46 @@ import threading
 import multiprocessing as mp
 import traceback
 import psutil
-
+import math
 from darwin.Log import log
 
 from .DarwinError import DarwinError
+
+
+def convert_full_bin_int(population, gene_max: list, length: list):
+    """
+    Converts a "full binary" (e.g., from GA to integer (used to select token sets))
+    modified from the function in ModelCode.py
+    :param population: population, including fitness and bits
+    :param gene_max: integer list, maximum number of token sets in that token group
+    :param length: integer list, how long each gene is
+    :return: an integer array of which token goes into this model.
+    :rtype: integer array
+    """
+    phenotype = list()
+
+    for this_ind in population:
+        this_phenotype = []
+        start = 0
+
+        for this_num_bits, this_max in zip(length, gene_max):
+            this_gene = this_ind[start:start + this_num_bits] or [0]
+            base_int = int("".join(str(x) for x in this_gene), 2)
+            max_value = 2 ** len(this_gene) - 1  # zero based, max number possible from bit string, 0 based (has the -1)
+
+            # maximum possible number of indexes that must be skipped to get max values
+            # to fit into fullMax possible values.
+            max_num_dropped = max_value - this_max
+            num_dropped = math.floor(max_num_dropped * (base_int / max_value))
+            full_int_val = base_int - num_dropped
+
+            this_phenotype.append(full_int_val)  # value here???
+
+            start += this_num_bits
+
+        phenotype.append(this_phenotype)
+
+    return phenotype
 
 
 def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list, max_depth: int):
@@ -29,19 +65,16 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
     :type non_influential_tokens: list
     :param max_depth: Maximum depth of nested tokens
     :type max_depth: int
-    :return: Boolean (were any tokens substituted, in which case we need to loop over again)
-             and current control file text
-    :rtype: tuple
+    :return: Modified control file text
+    :rtype: string
     
     """
 
     any_found = True  # keep looping, looking for nested tokens
-    token_found = False  # error check to see if any tokens are present
 
     for _ in range(max_depth):  # levels of nesting
 
         any_found, text = _replace_tokens(tokens, text, phenotype, non_influential_tokens)
-        token_found = token_found or any_found
 
         if not any_found:
             break
@@ -49,7 +82,7 @@ def replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tok
     if any_found:
         raise DarwinError(f"There are more than {max_depth} levels of nested tokens.")
 
-    return token_found, text
+    return text
 
 
 def _replace_tokens(tokens: dict, text: str, phenotype: dict, non_influential_tokens: list):
@@ -89,13 +122,13 @@ def get_token_parts(token):
 
 
 def remove_file(file_path: str):
-    if os.path.isfile(file_path): 
-        os.unlink(file_path) 
+    if os.path.isfile(file_path):
+        os.unlink(file_path)
 
 
 def remove_dir(file_path: str):
-    if os.path.isdir(file_path): 
-        shutil.rmtree(file_path) 
+    if os.path.isdir(file_path):
+        shutil.rmtree(file_path)
 
 
 def get_n_best_index(n, arr):

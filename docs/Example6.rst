@@ -9,7 +9,7 @@ Example 6: PK Model, DMAG by RF with post-run Python code
 Example 6 is again the same data and search as Example 4 and 5, but using the :ref:`Random Forest<RF_desc>` search algorithm and python code for 
 post run PPC penalty calculation.
    
-The template file can be downloaded :download:`here <../examples/user/Example6/template.txt>` and the tokens file :download:`here <../examples/user/Example6/tokens.json>`.
+The template file can be downloaded :download:`here <../examples/NONMEM/user/Example6/template.txt>` and the tokens file :download:`here <../examples/NONMEM/user/Example6/tokens.json>`.
 
 As before, to run in the environment used for this example, the directories are set to:
 
@@ -74,7 +74,7 @@ The options file looks like:
     }
 
 
-and can be downloaded :download:`here <../examples/user/Example6/options.json>`.
+and can be downloaded :download:`here <../examples/NONMEM/user/Example6/options.json>`.
  
 
 ******************************************

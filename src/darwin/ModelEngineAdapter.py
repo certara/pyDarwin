@@ -1,5 +1,10 @@
 from abc import ABC, abstractmethod
 
+from collections import OrderedDict
+
+import darwin.utils as utils
+from darwin.options import options
+
 from .Template import Template
 from .ModelCode import ModelCode
 from .Model import Model
@@ -58,15 +63,36 @@ class ModelEngineAdapter(ABC):
 
         pass
 
-    @staticmethod
     @abstractmethod
-    def make_control(template: Template, model_code: ModelCode):
+    def _make_control_impl(self, control: str, template: Template, model_code: ModelCode, phenotype: OrderedDict):
+        pass
+
+    def make_control(self, template: Template, model_code: ModelCode):
         """
         Constructs control file from intcode.
-        Ignore last value if self_search_omega_bands is specified.
         """
 
-        pass
+        phenotype = OrderedDict(zip(template.tokens.keys(), model_code.IntCode))
+
+        non_inf_tokens = [True] * len(template.tokens)
+
+        control = utils.replace_tokens(template.tokens, template.template_text, phenotype, non_inf_tokens,
+                                       options.TOKEN_NESTING_LIMIT)
+
+        non_influential_token_num = sum(non_inf_tokens)
+
+        model_code_str = str(model_code.FullBinCode if (options.isGA or options.isPSO) else model_code.IntCode)
+
+        control, comment_mark, bands = self._make_control_impl(control, template, model_code, phenotype)
+
+        phenotype = str(OrderedDict((k, v) for (k, v), inf in zip(phenotype.items(), non_inf_tokens) if not inf))
+        phenotype = phenotype.replace('OrderedDict', '')
+        phenotype += bands
+
+        control += f"\n{comment_mark} Phenotype: " + phenotype + f"\n{comment_mark} Genotype: " + model_code_str \
+                   + f"\n{comment_mark} Num non-influential tokens: " + str(non_influential_token_num) + "\n"
+
+        return phenotype, control, non_influential_token_num
 
     @staticmethod
     @abstractmethod
@@ -92,15 +118,26 @@ class ModelEngineAdapter(ABC):
 
         pass
 
-    def create_new_model(self, template: Template, model_code: ModelCode) -> Model:
-        """
-        """
+    def create_new_model(self, template: Template, model_code: ModelCode, num_effects=-1) -> Model:
 
         model = Model(model_code)
 
-        model.phenotype, model.control, model.non_influential_token_num = self.make_control(template, model_code)
+        model.phenotype, model.control, model.non_influential_token_num = \
+            self.make_control(template, model_code)
+
+        if num_effects > -1:
+            model.control = self.add_comment(f"Number of effects = {num_effects}\n", model.control)
 
         return model
+
+    @staticmethod
+    @abstractmethod
+    def add_comment(comment: str, control: str) -> str:
+        """
+        Add a comment to the control
+        """
+
+        pass
 
     @staticmethod
     @abstractmethod

@@ -146,7 +146,7 @@ The Template file
     $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
   
 
-Example 4 template file: :download:`text <../examples/user/Example4/template.txt>`
+Example 4 template file: :download:`text <../examples/NONMEM/user/Example4/template.txt>`
 
 ****************
 The Tokens file
@@ -345,7 +345,7 @@ Note again, the use of THETA(parameter identifier), e.g.,
 for **ALL** initial estimate token text (THETA, OMEGA, and SIGMA).
 
 
-Example 4 tokens file: :download:`json <../examples/user/Example4/tokens.json>`
+Example 4 tokens file: :download:`json <../examples/NONMEM/user/Example4/tokens.json>`
 
 *****************
 The Options file
@@ -431,7 +431,7 @@ In either case, the folder names are given in the initial and final output to fa
     }
 
 
-Example 4 options file: :download:`json <../examples/user/Example4/options.json>`
+Example 4 options file: :download:`json <../examples/NONMEM/user/Example4/options.json>`
 
 ******************************************
 Execute Search

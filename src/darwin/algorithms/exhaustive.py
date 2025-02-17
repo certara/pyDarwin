@@ -1,5 +1,5 @@
 import numpy as np
-import time
+import math
 
 import darwin.GlobalVars as GlobalVars
 
@@ -58,8 +58,10 @@ def get_search_space(template: Template) -> np.ndarray:
         return -999
 
 def get_search_space_size(model_template: Template) -> int:
-    space = get_search_space(model_template)
-    if space == -999:
-        return -999
-    else:
+    try:
+        space = get_search_space(model_template)
         return space.shape[0]
+    except:
+        pass
+
+    return -1

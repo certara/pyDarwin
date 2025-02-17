@@ -1,0 +1,25 @@
+{
+  "author": "Certara",
+  "algorithm": "EX",
+  "exhaustive_batch_size": 500,
+  "num_parallel": 4,
+  "crash_value": 99999999,
+  "random_seed": 11,
+  "penalty": {
+    "theta": 10,
+    "omega": 10,
+    "sigma": 10,
+    "convergence": 100,
+    "covariance": 100,
+    "correlation": 100,
+    "condition_number": 100,
+    "non_influential_tokens": 0.00001
+  },
+  "search_omega_bands": true,
+  "max_omega_band_width": 1,
+  "search_omega_sub_matrix": true,
+  "max_omega_sub_matrix": 2,
+  "remove_run_dir": false,
+  "nmfe_path": "c:/nm74g64/util/nmfe74.bat",
+  "model_run_timeout": 1200
+}

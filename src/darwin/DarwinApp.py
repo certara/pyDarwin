@@ -12,7 +12,7 @@ import darwin.utils as utils
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import ExecutionManager
-from darwin.ModelRunManager import get_run_manager
+from darwin.ModelRunManager import get_run_manager, rerun_models
 
 import darwin.MemoryModelCache
 import darwin.ModelRunManager
@@ -32,6 +32,7 @@ from .Population import init_pop_nums
 
 from .algorithms.exhaustive import run_exhaustive, get_search_space_size
 from .algorithms.GA import run_ga
+from .algorithms.MOGA import run_moga
 from .algorithms.PSO import run_pso
 from .algorithms.OPT import run_skopt
 
@@ -64,9 +65,10 @@ def _init_model_results():
     log.message(f"Writing intermediate output to {results_file}")
 
     with open(results_file, "w") as resultsfile:
-        resultsfile.write(f"iteration,model number,run directory,ref run,status,fitness,model,ofv,success,"
-                          f"covariance,correlation,ntheta,nomega,nsigm,condition num,r penalty,python penalty,"
-                          f"translation messages,runtime errors\n")
+        resultsfile.write('iteration,model number,run directory,ref run,status,fitness,model,ofv,success,'
+                          'covariance,correlation,ntheta,nomega,nsigm,total number of parameters,'
+                          'condition num,r penalty,python penalty,'
+                          'translation messages,runtime errors\n')
 
     GlobalVars.results_file = results_file
 
@@ -89,7 +91,14 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Algorithm: {options.algorithm}")
     log.message(f"Engine: {adapter.get_engine_name().upper()}")
 
+    if options.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
+        log.message(f"Population size: {options.population_size}")
+        log.message(f"num_generations: {options.num_generations}")
+
     log.message(f"random_seed: {options.random_seed}")
+    log.message(f"use_effect_limit: {options.use_effect_limit}")
+    if options.use_effect_limit:
+        log.message(f"effect_limit: {options.effect_limit}")
 
     log.message(f"Project dir: {options.project_dir}")
     log.message(f"Data dir: {options.data_dir}")
@@ -106,7 +115,8 @@ def init_search(model_template: Template) -> bool:
     adapter.init_template(model_template)
 
     space_size = get_search_space_size(model_template)
-    if space_size == -999:
+
+    if space_size == -1:
         log.message(f"Search space size is too large to calculate")
     else:
         log.message(f"Search space size: {space_size}")
@@ -117,7 +127,7 @@ def init_search(model_template: Template) -> bool:
 
 
 def _init_app(options_file: str, folder: str = None):
-    log.message("Running pyDarwin v2.0.0")
+    log.message("Running pyDarwin v3.0.0")
     _reset_global_vars()
 
     file_checker.reset()
@@ -216,6 +226,9 @@ class DarwinApp:
             final = run_skopt(model_template)
         elif algorithm == "GA":
             final = run_ga(model_template)
+        elif algorithm == "MOGA":
+            run_moga(model_template)
+            final = None
         elif algorithm == "PSO":
             final = run_pso(model_template)
         elif algorithm in ["EX", "EXHAUSTIVE"]:
@@ -236,9 +249,10 @@ class DarwinApp:
             final_output_done = True
             log.message(f"Final output from best model is in {final_result_file}")
 
-        if final:
             log.message(f"Number of considered models: {GlobalVars.all_models_num}")
             log.message(f"Number of models that were run during the search: {GlobalVars.run_models_num}")
+
+        if final:
             log.message(f"Number of unique models to best model: {GlobalVars.unique_models_to_best}")
             log.message(f"Time to best model: {GlobalVars.TimeToBest / 60:0.1f} minutes")
 
@@ -251,7 +265,7 @@ class DarwinApp:
 
         log.message(f"Search end time: {time.asctime()}\n")
 
-        if options.keep_key_models:
+        if options.keep_key_models and not options.isMOGA:
             log.message('Key models:')
             for r in GlobalVars.key_models:
                 log_run(r)
@@ -274,21 +288,14 @@ class DarwinApp:
 def _rerun_key_models():
     GlobalVars.best_run = None
 
-    rerun_models = [r for r in GlobalVars.key_models if r.orig_run_dir is not None or r.rerun]
+    reruns = [r for r in GlobalVars.key_models if r.orig_run_dir is not None or r.rerun]
 
-    if not rerun_models:
+    if not reruns:
         return
 
-    for r in rerun_models:
-        r.rerun = True
-        r.source = 'new'
-        r.reference_model_num = -1
-        r.status = 'Not Started'
-        r.result.ref_run = ''
+    log.message('Re-running models...')
 
-    log.message("Re-running models")
-
-    get_run_manager().run_all(rerun_models)
+    rerun_models(reruns)
 
 
 def _has_omega_search(tokens: OrderedDict, pattern: str) -> bool:

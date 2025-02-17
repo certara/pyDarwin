@@ -1,24 +1,24 @@
 from copy import copy
 import time
-import logging 
-import numpy as np 
+import logging
+import warnings
 
 import darwin.GlobalVars as GlobalVars
 
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import keep_going
-from darwin.ModelCode import ModelCode
 from darwin.algorithms.run_downhill import run_downhill
 from darwin.Population import Population
 from darwin.Template import Template
 from darwin.Model import Model
+from darwin.Model import ModelCode
 from darwin.ModelRun import ModelRun
 
 from .DeapToolbox import DeapToolbox, model_run_to_deap_ind
 
-np.warnings.filterwarnings('error', category=np.VisibleDeprecationWarning)
-logger = logging.getLogger(__name__) 
+warnings.filterwarnings('error', category=DeprecationWarning)
+logger = logging.getLogger(__name__)
 
 
 class _GARunner:
@@ -29,7 +29,6 @@ class _GARunner:
         self.population = None
         self.num_generations = num_generations
         self.toolbox = DeapToolbox(template)
-
         # create an initial population of pop_size individuals (where
         # each individual is a list of bits [0|1])
         self.pop_full_bits = self.toolbox.new_population(pop_size)
@@ -37,7 +36,6 @@ class _GARunner:
 
     def run_generation(self):
         self.generation += 1
-
         if self.generation > self.num_generations or not keep_going():
             return False
 
@@ -52,7 +50,6 @@ class _GARunner:
 
         self.population = Population.from_codes(self.template, self.generation, self.pop_full_bits,
                                                 ModelCode.from_full_binary, max_iteration=self.num_generations)
-
         self.population.run()
 
         if not keep_going():
@@ -68,11 +65,13 @@ class _GARunner:
         return True
 
     def run_downhill(self, population: Population):
-        # pop will have the fitnesses without the niche penalty here
-        # add local exhaustive search here??
-        # temp_fitnesses = copy(fitnesses)
-        # downhill with NumNiches best models
-        log.message(f"Starting downhill generation = {self.generation}  at {time.asctime()}")
+        """
+        pop will have the fitnesses without the niche penalty here
+        add local exhaustive search here??
+        param: Population
+        """
+
+        log.message(f"Starting downhill generation = {self.generation} at {time.asctime()}")
 
         best_runs = population.get_best_runs(options.num_niches)
 

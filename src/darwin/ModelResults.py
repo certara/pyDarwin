@@ -49,6 +49,9 @@ class ModelResults:
         Calculates the fitness, based on the model output, and the penalties (from the options file).
         """
 
+        if options.isMOGA:
+            return self.ofv  # really isn't a fitness for MOGA
+
         penalties = options.penalty
 
         fitness = self.ofv
@@ -70,8 +73,8 @@ class ModelResults:
                 fitness += penalties['condition_number']
 
         fitness += model.estimated_theta_num * penalties['theta']
-        fitness += model.omega_num * penalties['omega']
-        fitness += model.sigma_num * penalties['sigma']
+        fitness += model.estimated_omega_num * penalties['omega']
+        fitness += model.estimated_sigma_num * penalties['sigma']
 
         fitness += self.post_run_r_penalty
         fitness += self.post_run_python_penalty

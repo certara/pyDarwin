@@ -57,8 +57,7 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, ste
     # one instance of token for each theta present, so they can be counted
     # may be empty list ([]), but each element must contain '{??[N]}
 
-    any_found, expanded_var_block = replace_tokens(tokens, '\n'.join(var_block), phenotype, [],
-                                                   options.TOKEN_NESTING_LIMIT)
+    expanded_var_block = replace_tokens(tokens, '\n'.join(var_block), phenotype, [], options.TOKEN_NESTING_LIMIT)
 
     # then look at each token, get THETA(alpha) from non-THETA block tokens
     var_indices = _get_var_matches(expanded_var_block.split('\n'), tokens, phenotype, stem)

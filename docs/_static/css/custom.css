@@ -85,8 +85,14 @@ a:visited {
     text-decoration: none;
 }
 
-.mono, .mono-ref {
+.mono {
     font-family: monospace;
+}
+
+.opt-name {
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 105%;
 }
 
 .rst-content dl dt {

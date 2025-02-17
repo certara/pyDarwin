@@ -1,10 +1,10 @@
 from copy import copy, deepcopy
 from collections import OrderedDict
 import time
-
 from darwin.Log import log
 
 import darwin.utils as utils
+import darwin.algorithms.effect_limit as limits
 import darwin.GlobalVars as GlobalVars
 
 from darwin.options import options
@@ -16,6 +16,20 @@ from .ModelCache import get_model_cache
 from .ModelEngineAdapter import get_engine_adapter
 from .ModelRunManager import get_run_manager
 from .DarwinError import DarwinError
+
+
+def _trim_niches(niches: list, good_individuals: list):
+    cum_start = 0
+
+    for niche in niches:
+        if niche.done:
+            continue
+
+        niche_size = sum(good_individuals[niche.runs_start:niche.runs_finish])
+
+        niche.runs_start = cum_start
+        cum_start += niche_size
+        niche.runs_finish = cum_start
 
 
 class Population:
@@ -53,27 +67,64 @@ class Population:
         self.model_cache = get_model_cache()
 
     @classmethod
-    def from_codes(cls, template: Template, name, codes, code_converter, start_number=0, max_number=0, max_iteration=0):
+    def from_codes(cls, template: Template, name, codes, code_converter,
+                   start_number=0, max_number=0, max_iteration=0, niches=None):
         """
         Create a new population from a set of codes.
+        if not downhill, have already generated good codes
+        params: template - model template
+        params: name - generation name
+        params: codes - codes for models
+        params: code_converter - bin, minimal bin or integer
+        params: start_number
+        params: maximum value for each gene
+        params: max_iterations
+        params: niches, array of niches, None if not downhill
         """
+
         pop = cls(template, name, start_number, max_number or len(codes), max_iteration)
 
         maxes = template.gene_max
         lengths = template.gene_length
 
-        for code in codes:
-            pop.add_model_run(code_converter(code, maxes, lengths))
+        if not options.use_effect_limit:
+            for code in codes:
+                pop.add_model_run(code_converter(code, maxes, lengths))
+
+            return pop
+
+        phenotype = [code_converter(code, maxes, lengths).IntCode for code in codes]
+
+        # trim downhill populations
+        if "D" in str(name) or "S" in str(name):
+            n_initial_models = len(codes)
+
+            codes, num_effects, good_individuals = \
+                limits.trim_population(codes, phenotype, template.tokens.values(), options.effect_limit)
+
+            if n_initial_models > len(codes):
+                log.message(f"{n_initial_models - len(codes)} of {n_initial_models} "
+                            f"models removed due to number of effects > {options.effect_limit}")
+
+            if niches is not None:
+                _trim_niches(niches, good_individuals)
+
+        else:
+            # leave regular populations unchanged even if they don't meet effect limit
+            num_effects = limits.get_pop_num_effects(phenotype, template.tokens.values())
+
+        for code, ind_num_effects in zip(codes, num_effects):
+            pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
 
         return pop
 
-    def add_model_run(self, code: ModelCode):
+    def add_model_run(self, code: ModelCode, num_effects=-1):
         """
         Create a new ModelRun and append it to *self.runs*.
         If a ModelRun with such code already exists in *self.runs*, the new one will be marked as a duplicate and
         will not be run. If the code is found in the cache, ModelRun will be restored from there and will not be run.
         """
-        model = self.adapter.create_new_model(self.template, code)
+        model = self.adapter.create_new_model(self.template, code, num_effects)
 
         genotype = str(model.genotype())
         phenotype = model.phenotype
@@ -210,13 +261,13 @@ def init_pop_nums(template: Template):
     sn = options.get('ESTIMATED_2BIT_STEPS', 2)
 
     def downhill(n: str):
-        for d in range(1, dn+1):
+        for d in range(1, dn + 1):
             res[f"{n}D{d:02d}"] = x * options.num_niches
         if options.local_2_bit_search:
-            for d in range(1, sn+1):
+            for d in range(1, sn + 1):
                 res[f"{n}S{d:02d}"] = int(x * (x + 1) / 2)
 
-    for i in range(1, options.num_generations+1):
+    for i in range(1, options.num_generations + 1):
         name = iter_format.format(i)
         res[name] = pop_size
 
@@ -240,7 +291,7 @@ def get_remaining_model_num(pop: Population):
     if pop.name in pop_nums:
         names = list(pop_nums.keys())
 
-        for name in names[:names.index(pop.name)+1]:
+        for name in names[:names.index(pop.name) + 1]:
             pop_nums.pop(name)
 
     return sum(pop_nums.values()) + len(pop.runs)

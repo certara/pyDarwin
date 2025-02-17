@@ -35,6 +35,17 @@ _default_GA = {
     'sharing_alpha': 0.1,
     'crossover_operator': 'cxOnePoint'
 }
+_default_MOGA = {
+    'crossover_rate': 0.95,
+    'elitist_num': 4,
+    'mutation_rate': 0.95,
+    'attribute_mutation_probability': 0.1,
+    'mutate': 'flipBit',
+    'selection': 'tournament',
+    'selection_size': 2,
+    'sharing_alpha': 0.1,
+    'crossover_operator': 'cxOnePoint'
+}
 
 _default_PSO = {
     "elitist_num": 4,
@@ -153,7 +164,7 @@ class Options:
         options_file_parent = pathlib.Path(self.options_file).parent
 
         self.project_name = opts.get('project_name') or options_file_parent.name
-        self.project_stem = re.sub(r'[^\w]', '_', self.project_name)
+        self.project_stem = re.sub(r'\W', '_', self.project_name)
 
         darwin_home = os.environ.get('PYDARWIN_HOME') or os.path.join(pathlib.Path.home(), 'pydarwin')
 
@@ -166,6 +177,10 @@ class Options:
 
         project_dir_alias = {'project_dir': self.project_dir, 'working_dir': self.working_dir}
 
+        self.isMOGA = self.algorithm == "MOGA"
+        self.isGA = self.algorithm == "GA"
+        self.isPSO = self.algorithm == "PSO"
+
         self.data_dir = utils.apply_aliases(opts.get('data_dir'), project_dir_alias) or self.project_dir
         self.output_dir = utils.apply_aliases(opts.get('output_dir'), project_dir_alias) \
             or os.path.join(self.working_dir, 'output')
@@ -173,6 +188,11 @@ class Options:
             or os.path.join(self.working_dir, 'temp')
         self.key_models_dir = utils.apply_aliases(opts.get('key_models_dir'), project_dir_alias) \
             or os.path.join(options.working_dir, 'key_models')
+
+        if self.isMOGA:
+            self.non_dominated_models_dir = \
+                utils.apply_aliases(opts.get('non_dominated_models_dir'), project_dir_alias) \
+                or os.path.join(options.working_dir, 'non_dominated_models')
 
         self.aliases = {
             'project_dir': self.project_dir,
@@ -188,14 +208,23 @@ class Options:
 
         penalty = opts.get('penalty', {})
         ga = opts.get('GA', {})
+        moga = opts.get('MOGA', {})
         pso = opts.get('PSO', {})
 
         self.penalty = _default_penalty | penalty
         self.GA = _default_GA | ga
+        self.MOGA = _default_MOGA | moga
         self.PSO = _default_PSO | pso
         self.use_saved_models = opts.get('use_saved_models', False)
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
         self.saved_models_readonly = opts.get('saved_models_readonly', False) and self.use_saved_models
+
+        self.effect_limit = opts.get('effect_limit', -1)
+        self.use_effect_limit = self.effect_limit > 0
+
+        if (options.engine_adapter != 'nonmem' or options.algorithm not in ['GA', 'MOGA']) and self.use_effect_limit:
+            log.warn('Can only use effect_limit with GA/MOGA and NONMEM, turned off')
+            self.use_effect_limit = False
 
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)
@@ -203,18 +232,23 @@ class Options:
 
         self.crash_value = opts.get('crash_value', 99999999)
 
-        self.isGA = self.algorithm == "GA"
-        self.isPSO = self.algorithm == "PSO"
-
-        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
             self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)
             self.num_generations = _get_mandatory_option(opts, 'num_generations', self.algorithm)
+
         if self.algorithm in ["GBRT", "RF", "GP"]:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
-        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP"]:
+
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
             self.downhill_period = opts.get('downhill_period', -1)
             self.final_downhill_search = opts.get('final_downhill_search', False)
             self.local_2_bit_search = opts.get('local_2_bit_search', False)
+
+            self.local_grid_search = opts.get('local_grid_search', False)
+            self.max_local_grid_search_bits = opts.get('max_local_grid_search_bits', 5)
+
+            if self.local_2_bit_search and self.isMOGA:
+                log.warn('2-bit search is requested but ignored for MOGA')
 
             if self.downhill_period > 0 or self.final_downhill_search:
                 self.num_niches = opts.get('num_niches', 2)
@@ -262,6 +296,8 @@ class Options:
 
         # don't rerun if key models are not kept
         self.rerun_key_models = opts.get('rerun_key_models', False) and self.keep_key_models
+
+        self.rerun_front_models = opts.get('rerun_front_models', True)
 
         self.TOKEN_NESTING_LIMIT = opts.get('TOKEN_NESTING_LIMIT', 4)
 

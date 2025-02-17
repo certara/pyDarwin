@@ -187,6 +187,13 @@ class ModelRun:
         """
         return self.status != 'Not Started'
 
+    def is_unique(self) -> bool:
+        """
+        Whether the run is unique in this search.
+        """
+        status = self.status
+        return not(status.startswith('Twin(') or status.startswith('Clone(') or status.startswith('Cache('))
+
     def to_dict(self):
         """
         Assembles what goes into the JSON file of saved models.
@@ -233,12 +240,13 @@ class ModelRun:
         # if we cannot create run_dir, there's no point to continue
         sys.exit()
 
-    def make_control_file(self):
+    def make_control_file(self, cleanup=True):
         """
         Constructs the control file from the template and the model code.
         """
 
-        self._prepare_run_dir()
+        if cleanup:
+            self._prepare_run_dir()
 
         utils.remove_file(self.control_file_name)
         utils.remove_file(self.output_file_name)
@@ -390,8 +398,7 @@ class ModelRun:
 
         if not failed:
             self.set_status('Finished model run')
-
-            if self._post_run_r() and self._post_run_python() and self._calc_fitness():
+            if (options.isMOGA or self._post_run_r() and self._post_run_python()) and self._calc_fitness():
                 self.set_status('Done')
 
     def finish(self):
@@ -620,11 +627,23 @@ def log_run(run: ModelRun):
 
     step_name = 'Generation' if options.isGA else 'Iteration'
 
-    if run.status.startswith('Twin(') or run.status.startswith('Clone(') or run.status.startswith('Cache('):
-        fitness_text = ''
+    is_unique = run.is_unique()
+
+    if options.isMOGA:
+        if is_unique:
+            n_params = run.model.estimated_theta_num + run.model.estimated_sigma_num + run.model.estimated_omega_num
+            ofv_text = f"{res.ofv:.0f}" if res.ofv == options.crash_value else f"{res.ofv:.3f}"
+            fitness_text = f" OFV = {ofv_text:>9}, NEP = {n_params:>2}"
+        else:
+            fitness_text = f" OFV =          , NEP =   "
     else:
-        fitness_crashed = res.fitness == options.crash_value
-        fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
+        if is_unique:
+            fitness_crashed = res.fitness == options.crash_value
+            fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
+        else:
+            fitness_text = ''
+
+        fitness_text = f"fitness = {fitness_text:>9}"
 
     status = run.status.rjust(14)
     message = res.get_message_text()
@@ -637,5 +656,5 @@ def log_run(run: ModelRun):
 
     log.message(
         f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
-        f"    fitness = {fitness_text:>9},    message = {message}"
+        f"    {fitness_text},  message = {message}"
     )

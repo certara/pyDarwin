@@ -1,0 +1,13 @@
+{
+    "author": "Certara",
+    "algorithm": "MOGA",
+    "random_seed": 11,  
+    "population_size": 6,
+    "num_generations": 4,
+    "downhill_period": 2,
+    "rerun_front_models": false,
+    "MOGA": {
+        "crossover_rate": 0.88,
+        "mutation_rate": 0.9
+    }
+} 

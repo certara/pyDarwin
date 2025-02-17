@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; pyDarwin 1.1.1 documentation</title>
+  <title>Index &mdash; pyDarwin 3.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -92,6 +92,7 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -267,6 +268,8 @@
         <li><a href="API.html#darwin.ModelCache.ModelCache.find_model_run">(darwin.ModelCache.ModelCache method)</a>
 </li>
       </ul></li>
+      <li><a href="API.html#darwin.ModelRun.ModelRun.finish">finish() (darwin.ModelRun.ModelRun method)</a>
+</li>
       <li><a href="API.html#darwin.Population.Population.from_codes">from_codes() (darwin.Population.Population class method)</a>
 </li>
   </ul></td>
@@ -295,11 +298,21 @@
 </li>
       <li><a href="API.html#darwin.Population.Population.get_best_run">get_best_run() (darwin.Population.Population method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.Population.Population.get_best_runs">get_best_runs() (darwin.Population.Population method)</a>
 </li>
+      <li><a href="API.html#darwin.ModelResults.ModelResults.get_message_text">get_message_text() (darwin.ModelResults.ModelResults method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.ModelCache.get_model_cache">get_model_cache() (in module darwin.ModelCache)</a>
+</li>
+      <li><a href="API.html#darwin.Population.get_remaining_model_num">get_remaining_model_num() (in module darwin.Population)</a>
+</li>
+      <li><a href="API.html#darwin.algorithms.exhaustive.get_search_space">get_search_space() (in module darwin.algorithms.exhaustive)</a>
+</li>
+      <li><a href="API.html#darwin.Template.Template.get_search_space_coordinates">get_search_space_coordinates() (darwin.Template.Template method)</a>
+</li>
+      <li><a href="API.html#darwin.algorithms.exhaustive.get_search_space_size">get_search_space_size() (in module darwin.algorithms.exhaustive)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -307,6 +320,12 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.Population.init_pop_nums">init_pop_nums() (in module darwin.Population)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.ModelRun.ModelRun.init_stem">init_stem() (darwin.ModelRun.ModelRun method)</a>
+</li>
       <li><a href="API.html#darwin.ModelRun.ModelRun.is_duplicate">is_duplicate() (darwin.ModelRun.ModelRun method)</a>
 </li>
   </ul></td>
@@ -316,6 +335,14 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.ModelRun.json_to_run">json_to_run() (in module darwin.ModelRun)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.ModelRun.ModelRun.keep">keep() (darwin.ModelRun.ModelRun method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -330,11 +357,17 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.ModelRun.log_run">log_run() (in module darwin.ModelRun)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.ModelRun.ModelRun.make_control_file">make_control_file() (darwin.ModelRun.ModelRun method)</a>
+</li>
       <li><a href="API.html#darwin.MemoryModelCache.MemoryModelCache">MemoryModelCache (class in darwin.MemoryModelCache)</a>
 </li>
       <li><a href="API.html#darwin.Model.Model">Model (class in darwin.Model)</a>
@@ -408,6 +441,8 @@
 </li>
       <li><a href="API.html#darwin.Population.Population.run">run() (darwin.Population.Population method)</a>
 </li>
+      <li><a href="API.html#darwin.ModelRun.ModelRun.run_command">run_command() (darwin.ModelRun.ModelRun method)</a>
+</li>
       <li><a href="API.html#darwin.algorithms.run_downhill.run_downhill">run_downhill() (in module darwin.algorithms.run_downhill)</a>
 </li>
       <li><a href="API.html#darwin.algorithms.exhaustive.run_exhaustive">run_exhaustive() (in module darwin.algorithms.exhaustive)</a>
@@ -434,10 +469,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API.html#darwin.ModelCache.set_model_cache">set_model_cache() (in module darwin.ModelCache)</a>
 </li>
-      <li><a href="API.html#darwin.ModelRun.ModelRun.started">started() (darwin.ModelRun.ModelRun method)</a>
+      <li><a href="API.html#darwin.ModelRun.ModelRun.set_status">set_status() (darwin.ModelRun.ModelRun method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API.html#darwin.ModelRun.ModelRun.started">started() (darwin.ModelRun.ModelRun method)</a>
+</li>
       <li><a href="API.html#darwin.MemoryModelCache.MemoryModelCache.store_model_run">store_model_run() (darwin.MemoryModelCache.MemoryModelCache method)</a>
 
       <ul>
@@ -480,7 +517,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Mark Sale.</p>
+    <p>&#169; Copyright 2024, Mark Sale, Certara.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

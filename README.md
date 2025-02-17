@@ -39,7 +39,7 @@ Next, use `pip` to install the `pyDarwin` package from the Certara managed `PyPi
 
 ### Development Version
 
-`pip install pyDarwin-Certara --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-develop-local/simple --extra-index-url https://pypi.python.org/simple/`
+`pip install pyDarwin-Certara --pre --upgrade --force-reinstall --index-url https://certara.jfrog.io/artifactory/api/pypi/certara-pypi-develop-local/simple --extra-index-url https://pypi.python.org/simple/`
 
 ## Usage
 

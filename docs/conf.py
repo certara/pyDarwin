@@ -13,17 +13,18 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../src'))
+sys.path.append(os.path.abspath('.'))
 
 import sphinx_rtd_theme
 
 # -- Project information -----------------------------------------------------
 
 project = 'pyDarwin'
-copyright = '2023, Mark Sale'
+copyright = '2024, Mark Sale, Certara'
 author = 'Mark Sale'
 
 # The full version, including alpha/beta/rc tags
-release = '1.1.1'
+release = '3.0.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -34,7 +35,7 @@ html_show_sourcelink = False
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx_tabs.tabs'] 
+extensions = ['sphinx.ext.autodoc', 'sphinx_tabs.tabs', 'mono_ref'] 
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -1,7 +1,89 @@
+.. include:: .special.rst
 
 ######################
 Releases
 ######################
+
+**********************
+pyDarwin-Certara 3.0.0
+**********************
+
+What's New
+====================
+
+* Python 3.12 support.
+* Additional support for `RDarwin <https://certara.github.io/R-Darwin/articles/release_notes.html>`_ .
+
+**********************
+pyDarwin-Certara 2.0.1
+**********************
+
+Issues Corrected
+====================
+
+* Estimated OMEGAS are now used when calculating OMEGA penalty, fixed OMEGAS are ignored.
+* Estimated SIGMAS are now used when calculating SIGMA penalty, fixed SIGMAS are ignored.
+* Unnecessary memory allocation when calculating size of total search space.
+
+
+**********************
+pyDarwin-Certara 2.0
+**********************
+
+What's New
+====================
+
+* Added NLME Engine support, including :ref:`Omega Block Search <omega_block_search_target>`.
+
+* Introduced :mono_ref:`{darwin_cmd} <darwin_cmd_alias>` alias for Linux Grid runs.
+
+* Introduced :mono_ref:`search_info <search_info>` command.
+
+* Introduced estimations of number of models and remaining time. The former is shown in the beginning of the search as well as in the ``search_info`` output (except for Exhaustive search), the latter -- in the beginning of every but first iteration.
+  Those may be not too accurate since they assume a certain amount of Downhill Search iterations (if it is requested) and that a model run time is on average the same (which is not always the case due to duplicates that sometimes make up a large part of the iteration).
+
+* Added tokens consistency check before running the search.
+
+* Added NONMEM license expiration error to the visible errors.
+
+* Updated and renamed columns in **results.csv**.
+
+* Introduced new model statuses:
+
+    - Clone -- a sibling with the same genotype
+
+    - Twin -- a sibling with the same phenotype
+
+    - Restored -- a model run picked from the cache, when the cache was loaded form a file and the model was picked for the first time
+
+    - Cache -- a model run picked from the cache in all other cases
+
+* Improved :ref:`Omega Structure Search <omega_search_usage_target>`, e.g.:
+
+    - added :ref:`individual omega structure search <individual_omega_search_options_desc>`
+
+    - increased number of possible omega block patterns
+
+    - reduced number of model runs by adding the omega structure to the model phenotype, detecting twins, and looking for duplicates in model cache by phenotype
+
+* Introduced key models retention: best models from every iteration :ref:`can be saved <keep_key_models_options_desc>` with all the necessary output in a :ref:`separate folder <key_models_dir_options_desc>` for further analysis.
+
+* Changed :ref:`Final Downhill <final_downhill_search_options_desc>` and :ref:`2-bit search <Local Two bit Search>` iteration names.
+
+* Removed unnecessary 0 generation from :ref:`Genetic Algorithm <GA_desc>`.
+
+* Reorganized examples folder, added NONMEM and :mono:`NLME subfolders`.
+
+* If :mono_ref:`random_seed <random_seed_options_desc>` is not set in the options file it will be initialized with a random number.
+
+* :mono_ref:`working_dir <working_dir_options_desc>` must be an absolute path.
+
+Issues Fixed
+====================
+
+* Removed commas and new lines from translation and runtime messages so they won't break CSV structure anymore.
+
+* Corrected calculation of 'Number of unique models to best model'.
 
 
 **********************

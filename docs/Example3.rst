@@ -114,7 +114,7 @@ The Template file
 
    $COV UNCOND PRINT = E
 
-Example 3 template file: :download:`text <../examples/user/Example3/template.txt>`
+Example 3 template file: :download:`text <../examples/NONMEM/user/Example3/template.txt>`
 
 ****************
 The Tokens file
@@ -275,7 +275,7 @@ Note again, the use of THETA(parameter identifier), e.g.,
 for **ALL** initial estimate token text (THETA, OMEGA, and SIGMA).
 
 
-Example 3 tokens file: :download:`json <../examples/user/Example3/tokens.json>`
+Example 3 tokens file: :download:`json <../examples/NONMEM/user/Example3/tokens.json>`
 
 *****************
 The Options file
@@ -335,7 +335,7 @@ In either case, the folder names are given in the initial and final output to fa
     "model_run_timeout": 9600
    }
 
-Example 3 options file: :download:`json <../examples/user/Example3/options.json>`
+Example 3 options file: :download:`json <../examples/NONMEM/user/Example3/options.json>`
 
 
 ******************************************

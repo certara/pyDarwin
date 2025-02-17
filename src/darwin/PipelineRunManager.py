@@ -1,4 +1,5 @@
 import os
+import time
 
 from copy import copy
 
@@ -45,7 +46,12 @@ class PipelineRunManager(ModelRunManager):
             originals = {r.model_num: r for r in filter(lambda r: not r.is_duplicate(), runs)}
 
             for run in duplicates:
-                run.result = copy(originals[run.reference_model_num].result)
+                ref_run = originals[run.reference_model_num]
+                run.result = copy(ref_run.result)
+                model = run.model
+                ref_model = ref_run.model
+                model.estimated_theta_num, model.estimated_omega_num, model.estimated_sigma_num = \
+                    ref_model.estimated_theta_num, ref_model.estimated_omega_num, ref_model.estimated_sigma_num
 
         model_cache = get_model_cache()
         model_cache.dump()
@@ -91,6 +97,7 @@ class PipelineRunManager(ModelRunManager):
 
         if this_one_is_better:
             _copy_to_best(run)
+            run.cleanup()
 
         if not run.rerun:
             message = cleanup_message(res.messages)
@@ -100,7 +107,7 @@ class PipelineRunManager(ModelRunManager):
                 result_file.write(f"{run.generation},{run.wide_model_num},{run.run_dir},{res.ref_run},"
                                   f"{run.status},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
                                   f"{res.ofv},{res.success},{res.covariance},{res.correlation},{model.theta_num},"
-                                  f"{model.omega_num},{model.sigma_num},{res.condition_num},{res.post_run_r_penalty},"
+                                  f"{model.omega_num},{model.sigma_num}, {model.estimated_omega_num+model.estimated_sigma_num+model.estimated_theta_num},{res.condition_num},{res.post_run_r_penalty},"
                                   f"{res.post_run_python_penalty},{message},{err}\n")
 
         log_run(run)
@@ -114,5 +121,5 @@ def _copy_to_best(run: ModelRun):
     if run.rerun:
         return
 
-    GlobalVars.TimeToBest = run.finish_time - GlobalVars.start_time
+    GlobalVars.TimeToBest = (run.finish_time or time.time()) - GlobalVars.start_time
     GlobalVars.unique_models_to_best = run.global_num

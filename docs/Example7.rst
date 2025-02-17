@@ -8,8 +8,8 @@ Example 7: PK Model, Exhaustive Omega Search
 
 Example 7 uses `dataExample1.csv` for an Exhaustive search of omega structures across candidate models.
    
-The template file can be downloaded :download:`here <../examples/user/Example7/template.txt>` and the
-tokens file :download:`here <../examples/user/Example7/tokens.json>`.
+The template file can be downloaded :download:`here <../examples/NONMEM/user/Example7/template.txt>` and the
+tokens file :download:`here <../examples/NONMEM/user/Example7/tokens.json>`.
 
 It is recommended that the user set the directories to something appropriate for their environment. If directories are not set, 
 the default is:
@@ -51,7 +51,7 @@ The options file looks like:
     }
 
 
-and can be downloaded :download:`here <../examples/user/Example7/options.json>`.
+and can be downloaded :download:`here <../examples/NONMEM/user/Example7/options.json>`.
 
 Note the usage of additional options for omega search: :ref:`"search_omega_bands"<search_omega_bands_options_desc>`,
 :ref:`"max_omega_sub_matrix"<max_omega_sub_matrix_options_desc>`, :ref:`"search_omega_sub_matrix"<search_omega_sub_matrix_options_desc>`,

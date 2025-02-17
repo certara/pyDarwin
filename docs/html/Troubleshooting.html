@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Troubleshooting &mdash; pyDarwin 1.1.1 documentation</title>
+  <title>Troubleshooting &mdash; pyDarwin 3.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -58,6 +58,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Troubleshooting</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#error-messages">Error Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#post-run-code">Post Run Code</a></li>
 </ul>
 </li>
 </ul>
@@ -143,6 +144,20 @@ or a file in a folder is open, <code class="docutils literal notranslate"><span 
 If it is opened in an application that “locks” it, e.g., Excel, an exception will occur. The workaround is to
 copy the file to another file (e.g., <code class="docutils literal notranslate"><span class="pre">cp</span> <span class="pre">results.csv</span> <span class="pre">results1.csv</span></code>), then open the copied file.</p>
 </section>
+<section id="post-run-code">
+<h2>Post Run Code<a class="headerlink" href="#post-run-code" title="Permalink to this heading">¶</a></h2>
+<p><strong>FCON overwritten when using post run R code</strong></p>
+<p>pyDarwin reads the FCON file to obtain the OMEGA structure and number of estimated OMEGAs. If you do another run in
+the same folder, the FCON file will be overwritten. If using post run R code, it is suggested to add something similar
+to below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">dir</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;simFolder&quot;</span><span class="p">)</span>
+<span class="n">setwd</span><span class="p">(</span><span class="s2">&quot;simFolder&quot;</span><span class="p">)</span>
+<span class="n">writelines</span><span class="p">(</span><span class="s2">&quot;myNewControl.mod&quot;</span><span class="p">,</span> <span class="n">mymyNewControl</span><span class="p">)</span>
+<span class="n">shell</span><span class="p">(</span><span class="s2">&quot;nmfe75 myNewControl.mod myNewControl.lst&quot;</span><span class="p">)</span>
+<span class="n">setwd</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -155,7 +170,7 @@ copy the file to another file (e.g., <code class="docutils literal notranslate">
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Mark Sale.</p>
+    <p>&#169; Copyright 2024, Mark Sale, Certara.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

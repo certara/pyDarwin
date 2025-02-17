@@ -98,6 +98,22 @@ pyDarwin opens and closes the :file:`results.csv` file with each model completed
 If it is opened in an application that "locks" it, e.g., Excel, an exception will occur. The workaround is to 
 copy the file to another file (e.g., ``cp results.csv results1.csv``), then open the copied file.
 
+*******************
+Post Run Code
+*******************
 
+**FCON overwritten when using post run R code**
+
+pyDarwin reads the FCON file to obtain the OMEGA structure and number of estimated OMEGAs. If you do another run in
+the same folder, the FCON file will be overwritten. If using post run R code, it is suggested to add something similar
+to below:
+
+::
+
+    dir.create("simFolder")
+    setwd("simFolder")
+    writelines("myNewControl.mod", mymyNewControl)
+    shell("nmfe75 myNewControl.mod myNewControl.lst")
+    setwd("..")
 
   

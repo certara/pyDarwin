@@ -1,0 +1,77 @@
+$PROBLEM    2 compartment fitting
+$INPUT       ID TIME AMT {D1LAG[1]} DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
+
+$DATA      {data_dir}/dataWithPeriod.csv IGNORE=@
+           
+$SUBROUTINE {ADVAN[1]} 
+$PK      
+  CWTKGONE = WT/81  ;; WEIGHT CENTERED ON ONE
+  CWTKGZERO = WT-81 ;; WEIGHT CENTERED ON ZERO
+  CAGE = AGE/60     ;; AGE CENTERED ON ONE
+  CCRCL = CRCL/85.6 ;; CRCL CENTERD ON ONE
+  CCOV1 = COV1-15.4 ;; COVARIATE 1 CENTERED ON ZERO
+  {IOVV[1]}  
+  TVV2=THETA(1) {V2~WT[1]} {V2~SEX[1]} {V2~AGE[1]} {V2~COV2[1]}  *EXP(IOVV)
+  V2=TVV2*EXP(ETA(2))   
+  {IOVCL[1]}
+  TVCL= {INITCL[1]} {CL~WT[1]} {CL~AGE[1]} {CL~CRCL[1]} {CL~COV1[1]} *EXP(IOVCL)
+  CL=TVCL*EXP(ETA(1)) 
+   
+  K=CL/V2      
+  {ADVAN[2]}  
+  {D1LAG[2]}    
+  TVKA=THETA(2) 
+  KA=TVKA  {KAETA[1]}    
+  S2 = V2 
+$ERROR     	
+ REP = IREP      
+ IPRED =F  
+ IOBS = F {RESERR[1]}
+ Y=IOBS
+$THETA      
+ (0.001,100) 	; THETA(1) V  UNITS = L
+ (0.001, 10) 	; THETA(2) KA UNITS = 1/HR    
+ {INITCL[2]}	; THETA(INITCL) CL UNITS =  L/HR
+ {ADVAN[3]}   
+ {V2~WT[2]}   
+ {V2~SEX[2]}   
+ {V2~AGE[2]} 
+ {V2~COV2[2]}
+ {CL~WT[2]} 
+ {CL~AGE[2]} 
+ {CL~CRCL[2]}
+ {CL~COV1[2]}
+ {D1LAG[3]}
+$OMEGA    
+ 0.1  		; ETA(1) CLEARANCE 
+ 0.4  		; ETA(2) VOLUME  
+{KAETA[2]}  
+{D1LAG[4]} 
+{IOVCL[2]}
+{IOVV[2]}
+$SIGMA   
+ {RESERR[2]}
+
+$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 PRINT = 10
+;;$EST METHOD=0 MAX = 9999 MSFO=MSF1 PRINT = 10
+$COV UNCOND PRINT=E  PRECOND=1 PRECONDS=TOS  MATRIX = R
+
+$TABLE REP ID TIME DV EVID NOPRINT FILE = ORG.DAT ONEHEADER NOAPPEND
+;; write out num effects, don't need this, just for checking
+;; {ADVAN[4]}
+;; {K23~WT[3]} 
+;; {KAETA[3]}  
+;; {V2~WT[3]}
+;; {V2~AGE[3]} 
+;; {V2~SEX[3]}    
+;; {V2~COV2[3]}
+;; {CL~WT[3]} 
+;; {CL~AGE[3]} 
+;; {CL~CRCL[3]}
+;; {CL~COV1[3]} 
+;; {IOVCL[3]}
+;; {IOVV[3]}
+;; {INITCL[3]}
+;; {ETAD1LAG[4]}
+;; {D1LAG[5]}    
+;; {RESERR[3]}

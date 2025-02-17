@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Glossary &mdash; pyDarwin 1.1.1 documentation</title>
+  <title>Glossary &mdash; pyDarwin 3.0.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
@@ -231,18 +231,18 @@ all possible models:</p>
 groups. While more than one level of nested tokens is permitted, the logic of constructing them quickly becomes very complicated.</p>
 <p>The full example is given in <a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">example 4</span></a>.</p>
 <p id="nmfe-path"><strong>nmfe_path:</strong>
-The path to nmfe??.bat (Windows) or just nmfe?? (Linux). Must be provided in the <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">nmfe_path</span></a>. Only NONMEM 7.4 and 7.5 are supported.</p>
+The path to nmfe??.bat (Windows) or just nmfe?? (Linux). Must be provided in the <a class="mono reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">nmfe_path</span></a>. Only NONMEM 7.4 and 7.5 are supported.</p>
 <p id="options-file"><strong>Options File:</strong> Specifies <a class="reference internal" href="Options.html#options"><span class="std std-ref">the options</span></a> for the search, including the algorithm, the <a class="reference internal" href="#fitness"><span class="std std-ref">fitness/reward criteria</span></a>, the population size, the number
 of iterations/generations and whether the downhill search is to be executed.</p>
 <div class="line-block" id="output-directory">
 <div class="line"><strong>Output Directory:</strong> Folder in which all the results files, such as <code class="docutils literal notranslate"><span class="pre">results.csv</span></code> and Final <code class="docutils literal notranslate"><span class="pre">.mod</span></code> and <code class="docutils literal notranslate"><span class="pre">.lst</span></code> files are saved. Default value is
-‘<a class="reference internal" href="#working-directory"><span class="std std-ref">{working directory}</span></a>/output’.</div>
+‘<a class="mono reference internal" href="#working-directory"><span class="std std-ref">{working directory}</span></a>/output’.</div>
 <div class="line">A reasonable value <code class="docutils literal notranslate"><span class="pre">{project_dir}/output</span></code> may be used if you want to version control the project and the results.</div>
 </div>
 <p id="phenotype"><strong>Phenotype:</strong> The integer string representation for any model.</p>
 <p id="project-directory"><strong>Project Directory</strong> - Folder where the template, token, and options files are located (and maybe datasets, see <a class="reference internal" href="#data-directory"><span class="std std-ref">Data Directory</span></a>).
 Can be provided as an argument for <code class="docutils literal notranslate"><span class="pre">run_search_in_folder</span></code> or determined by path to <code class="file docutils literal notranslate"><span class="pre">options.json</span></code> (as parent folder). This cannot be set in options file.</p>
-<p id="pydarwin-home"><strong>pyDarwin home</strong> Default location for every project’s <a class="reference internal" href="#working-directory"><span class="std std-ref">{working_dir}</span></a>. Usually is set to <code class="docutils literal notranslate"><span class="pre">&lt;user</span> <span class="pre">home</span> <span class="pre">dir&gt;/pydarwin</span></code>. Can be relocated using <a class="reference internal" href="Options.html#pydarwin-home-env-var"><span class="std std-ref">PYDARWIN_HOME</span></a>.</p>
+<p id="pydarwin-home"><strong>pyDarwin home</strong> Default location for every project’s <a class="mono reference internal" href="#working-directory"><span class="std std-ref">{working_dir}</span></a>. Usually is set to <code class="docutils literal notranslate"><span class="pre">&lt;user</span> <span class="pre">home</span> <span class="pre">dir&gt;/pydarwin</span></code>. Can be relocated using <a class="reference internal" href="Options.html#pydarwin-home-env-var"><span class="std std-ref">PYDARWIN_HOME</span></a>.</p>
 <p id="reward"><strong>Reward:</strong> A number representing the overall “goodness” of the candidate, the sum of -2LL and the user-defined penalties. Called “fitness” in GA.</p>
 <p id="rf"><strong>RF - Random Forest:</strong> <a class="reference external" href="https://en.wikipedia.org/wiki/Random_forests">Random Forest</a> consists of splitting the search space (based on the “goodness” of each model, in this case), thus continuously dividing the
 search space into “good” and “bad” regions. As before, the initial divisions are random, but become increasingly well-informed as real values for the fitness/reward of models are
@@ -250,7 +250,7 @@ included.</p>
 <p id="scikit-optimized"><strong>scikit-optimize:</strong> <a class="reference external" href="https://scikit-optimize.github.io/stable/">Optimization package</a>
 The python package that includes <a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Algorithms.html#rf-desc"><span class="std std-ref">RF</span></a>, and <a class="reference internal" href="Algorithms.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>.</p>
 <p id="temp-dir"><strong>temp_dir:</strong> Folder where all iterations/runs are performed, i.e., where all NONMEM files are written.
-Default value is ‘<a class="reference internal" href="#working-directory"><span class="std std-ref">{working_dir}</span></a>/temp’. May be deleted after search finished/stopped, if <a class="reference internal" href="Options.html#remove-temp-dir-options-desc"><span class="std std-ref">remove_temp_dir</span></a> is set to true.</p>
+Default value is ‘<a class="mono reference internal" href="#working-directory"><span class="std std-ref">{working_dir}</span></a>/temp’. May be deleted after search finished/stopped, if <a class="mono reference internal" href="Options.html#remove-temp-dir-options-desc"><span class="std std-ref">remove_temp_dir</span></a> is set to true.</p>
 <p id="template"><strong>Template:</strong> A text string, saved in the <a class="reference internal" href="Usage.html#template-file-target"><span class="std std-ref">template file</span></a> that forms the basis for the models to be run. The template file is similar to a NONMEM control file, but with <a class="reference internal" href="#token"><span class="std std-ref">tokens</span></a>
 that are replaced by text strings specified in the <a class="reference internal" href="Usage.html#tokens-file-target"><span class="std std-ref">tokens file</span></a>.</p>
 <p id="token"><strong>Token:</strong> A token is a text string that appears in the <a class="reference internal" href="Usage.html#template-file-target"><span class="std std-ref">Template</span></a>.  The format of the string is {<a class="reference internal" href="#token-stem"><span class="std std-ref">token stem</span></a> [index]}, where <em>token stem</em> identifies the <a class="reference internal" href="#token-group"><span class="std std-ref">token group</span></a> and index identifies which <a class="reference internal" href="#token-key-text-pair"><span class="std std-ref">token key-text pair</span></a> within the <a class="reference internal" href="#token-set"><span class="std std-ref">token set</span></a> is to be substituted.</p>
@@ -327,8 +327,8 @@ In the json code file for tokens:</p>
 An algorithm used in <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">GA</span></a> when there are two or more “parents”. The one with the highest fitness (lowest penalized -2LL) wins and enters into the next
 generation.</p>
 <p id="working-directory"><strong>Working directory</strong> Folder where all project’s intermediate files are created, such as models.json (model run cache), messages.txt (log file), interim model files, and stop files.
-It is also a default location of output and temp folders. Can be set with <a class="reference internal" href="Options.html#working-dir-options-desc"><span class="std std-ref">working_dir</span></a> option.
-By default, it is set to ‘<a class="reference internal" href="#pydarwin-home"><span class="std std-ref">&lt;pyDarwin home&gt;</span></a>/<a class="reference internal" href="Options.html#project-stem-alias"><span class="std std-ref">{project_stem}</span></a>’.</p>
+It is also a default location of output and temp folders. Can be set with <a class="mono reference internal" href="Options.html#working-dir-options-desc"><span class="std std-ref">working_dir</span></a> option.
+By default, it is set to ‘<a class="mono reference internal" href="#pydarwin-home"><span class="std std-ref">&lt;pyDarwin home&gt;</span></a>/<a class="mono reference internal" href="Options.html#project-stem-alias"><span class="std std-ref">{project_stem}</span></a>’.</p>
 </section>
 
 
@@ -342,7 +342,7 @@ By default, it is set to ‘<a class="reference internal" href="#pydarwin-home">
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Mark Sale.</p>
+    <p>&#169; Copyright 2024, Mark Sale, Certara.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -72,15 +72,15 @@ def _get_front_runs(res: Result, template: Template, model_cache) -> list:
         mc = ModelCode.from_full_binary(cur_x, maxes, lengths)
         run = model_cache.find_model_run(genotype=str(mc.IntCode))
 
+        if run is None:
+            log.warn(f"Missing a front model: {cur_x}")
+            continue
+
         if run.control_file_name in controls:
             controls[run.control_file_name] += 1
             continue
 
         controls[run.control_file_name] = 1
-
-        if run is None:
-            log.warn(f"Missing a front model: {cur_x}")
-            continue
 
         runs.append(run)
 

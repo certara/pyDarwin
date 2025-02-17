@@ -6,26 +6,18 @@ from darwin.utils import get_token_parts, replace_tokens
 from darwin.Log import log
 
 MUReferenceMessageDone = False
-AnyMuReference = False
 
 _var_regex = {}
 
 
 def _do_mu_ref(control: str, k: str, v: str) -> str:
     global MUReferenceMessageDone
-    global AnyMuReference
 
-    if "MU_" in control and MUReferenceMessageDone and not AnyMuReference:
+    if 'MU_' in control and not MUReferenceMessageDone:
         log.message(f"Mu Reference variable(s) found for {k}")
-        AnyMuReference = True
         MUReferenceMessageDone = True
 
-    if "MU_" in control and not MUReferenceMessageDone:
-        log.message(f"Mu Reference variable(s) found for {k}")
-        AnyMuReference = True
-        MUReferenceMessageDone = True
-
-    return control.replace("MU" + "(" + k + ")", "MU_" + str(v))
+    return control.replace(f"MU({k})", f"MU_{v}")
 
 
 def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, stem: str) -> str:

@@ -183,6 +183,12 @@ class ModelEngineAdapter(ABC):
         pass
 
 
+def get_model_phenotype(template: Template, model_code: ModelCode) -> str:
+    res = get_engine_adapter(options.engine_adapter).make_control(template, model_code)
+
+    return res[0]
+
+
 def register_engine_adapter(name: str, engine):
     global _ENGINES
 

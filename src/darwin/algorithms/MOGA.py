@@ -16,6 +16,7 @@ from darwin.Population import Population
 from darwin.ModelCache import get_model_cache
 from darwin.ModelRunManager import rerun_models
 from darwin.algorithms.run_downhill import do_moga_downhill_step
+from darwin.ModelEngineAdapter import get_model_phenotype
 
 from .effect_limit import WeightedSampler
 
@@ -70,7 +71,8 @@ def _get_front_runs(res: Result, template: Template, model_cache) -> list:
     for res_x in res.X:
         cur_x = [int(x) for x in res_x.astype(int)]
         mc = ModelCode.from_full_binary(cur_x, maxes, lengths)
-        run = model_cache.find_model_run(genotype=str(mc.IntCode))
+        run = model_cache.find_model_run(genotype=str(mc.IntCode)) \
+            or model_cache.find_model_run(phenotype=get_model_phenotype(template, mc))
 
         if run is None:
             log.warn(f"Missing a front model: {cur_x}")

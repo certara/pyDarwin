@@ -157,9 +157,7 @@ class Population:
             run.init_stem(wide_model_num, self.name)
 
             if not run.status.startswith('Cache('):
-                run1 = deepcopy(run)
-                run1.set_status('not restored')
-                self.model_cache.store_model_run(run1)
+                self.model_cache.update_model_run_status(run, 'not restored')
         else:
             run = ModelRun(model, wide_model_num, self.name, self.adapter)
 

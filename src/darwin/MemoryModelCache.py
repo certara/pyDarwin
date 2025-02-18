@@ -60,6 +60,15 @@ class MemoryModelCache(ModelCache):
             if run.model.phenotype not in self.phenotypes:
                 self.phenotypes[run.model.phenotype] = run
 
+    def update_model_run_status(self, run: ModelRun, status: str):
+        with self._lock_all_runs:
+            genotype = str(run.model.genotype())
+
+            crun = self.all_runs[genotype] or self.phenotypes[run.model.phenotype]
+
+            if crun is not None:
+                crun.set_status(status)
+
     def find_model_run(self, **kwargs) -> ModelRun:
         if 'genotype' in kwargs:
             return deepcopy(self.all_runs.get(kwargs['genotype']))

@@ -35,26 +35,25 @@ _default_GA = {
     'sharing_alpha': 0.1,
     'crossover_operator': 'cxOnePoint'
 }
+
 _default_MOGA = {
+    'objectives': 2,
+    'partitions': 12,
+    'constraints': 0,
+    'crossover': 'single',
     'crossover_rate': 0.95,
-    'elitist_num': 4,
     'mutation_rate': 0.95,
-    'attribute_mutation_probability': 0.1,
-    'mutate': 'flipBit',
-    'selection': 'tournament',
-    'selection_size': 2,
-    'sharing_alpha': 0.1,
-    'crossover_operator': 'cxOnePoint'
+    'attribute_mutation_probability': 0.1
 }
 
 _default_PSO = {
-    "elitist_num": 4,
-    "cognitive": 0.5,
-    "social": 0.5,
-    "inertia": 0.4,
-    "neighbor_num": 20,  # must check if < pop_size
-    "p_norm": 2,
-    "break_on_no_change": 5
+    'elitist_num': 4,
+    'cognitive': 0.5,
+    'social': 0.5,
+    'inertia': 0.4,
+    'neighbor_num': 20,  # must check if < pop_size
+    'p_norm': 2,
+    'break_on_no_change': 5
 }
 
 

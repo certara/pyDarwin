@@ -21,13 +21,15 @@ from darwin.ModelEngineAdapter import get_model_phenotype
 from .effect_limit import WeightedSampler
 
 from pymoo.algorithms.moo.nsga2 import NSGA2
+from pymoo.algorithms.moo.nsga3 import NSGA3
 from pymoo.core.result import Result
 from pymoo.core.population import pop_from_array_or_individual
-from pymoo.operators.crossover.pntx import TwoPointCrossover
+from pymoo.operators.crossover.pntx import SinglePointCrossover, TwoPointCrossover
 from pymoo.operators.mutation.bitflip import BitflipMutation
 from pymoo.operators.sampling.rnd import BinaryRandomSampling
 from pymoo.core.sampling import Sampling
 from pymoo.core.problem import ElementwiseProblem
+from pymoo.util.ref_dirs import get_reference_directions
 
 warnings.filterwarnings('error', category=DeprecationWarning)
 logger = logging.getLogger(__name__)
@@ -40,24 +42,40 @@ def _get_n_params(run: ModelRun) -> int:
 
 
 class MogaProblem(ElementwiseProblem):
-    def __init__(self, n_var, run: ModelRun = None):
+    n_var = 0
+    n_obj = 2
+    n_constr = 0
+
+    def __init__(self, run: ModelRun = None):
         super(MogaProblem, self).__init__(
-            n_var=n_var,  # number of bits
-            n_obj=2,
-            n_ieq_constr=0,
-            xl=np.zeros(n_var, dtype=int),
-            xu=np.ones(n_var, dtype=int),
+            n_var=self.n_var,  # number of bits
+            n_obj=self.n_obj,
+            n_constr=self.n_constr,
+            xl=np.zeros(self.n_var, dtype=int),
+            xu=np.ones(self.n_var, dtype=int),
             # need this to send population and template to evaluate
             requires_kwargs=True
         )
 
         self.run = run
+        self.three_obj = self.n_obj == 3
 
     def _evaluate(self, x, out, *args, **kwargs):
         f1 = self.run.result.ofv
         f2 = 999999 if f1 >= options.crash_value else _get_n_params(self.run)
 
         out["F"] = [f1, f2]
+
+        if self.three_obj:
+            f3 = self.run.result.post_run_r_penalty
+
+            out["F"].append(f3)
+
+            g1 = f1 - 999999
+            g2 = 0.1-f2
+            g3 = f3 - 999999
+
+            out["G"] = [g1, g2, g3]
 
 
 def _get_front_runs(res: Result, template: Template, model_cache) -> list:
@@ -126,39 +144,57 @@ class WeightedRandomSampling(Sampling):
 
 class _MOGARunner:
     def __init__(self, template: Template, pop_size: int):
-        self.n_var = sum(template.gene_length)
         self.template = template
         self.model_cache = get_model_cache()
         self.pop = None
 
-        problem = MogaProblem(n_var=self.n_var)
+        opts = options.MOGA
 
-        self.algorithm = NSGA2(
-            pop_size=pop_size,
-            sampling=WeightedRandomSampling(template) if options.use_effect_limit else BinaryRandomSampling(),
-            crossover=TwoPointCrossover(prob=options.MOGA['crossover_rate']),
-            mutation=BitflipMutation(prob=options.MOGA['mutation_rate']),
-            eliminate_duplicates=True
-        )
+        n_obj = opts['objectives']
+
+        if n_obj != 3:
+            n_obj = 2
+
+        MogaProblem.n_var = sum(template.gene_length)
+        MogaProblem.n_obj = n_obj
+        MogaProblem.n_constr = opts['constraints']
+        problem = MogaProblem()
+
+        kwargs = {
+            'pop_size': pop_size,
+            'sampling': WeightedRandomSampling(template) if options.use_effect_limit else BinaryRandomSampling(),
+            'crossover': SinglePointCrossover(prob=opts['crossover_rate']) if opts['crossover'] == 'single'
+            else TwoPointCrossover(prob=opts['crossover_rate']),
+            'mutation': BitflipMutation(prob=opts['mutation_rate'], prob_var=opts['attribute_mutation_probability']),
+            'eliminate_duplicates': True
+        }
+
+        if n_obj == 3:
+            kwargs['ref_dirs'] = get_reference_directions('das-dennis', 3, n_partitions=opts['partitions'])
+            self.algorithm = NSGA3(**kwargs)
+        else:
+            self.algorithm = NSGA2(**kwargs)
 
         self.algorithm.setup(problem, seed=options.random_seed, verbose=False)
 
     def has_next(self) -> bool:
         return self.algorithm.has_next()
 
-    def ask_population(self, n_gen: int) -> Population:
+    def ask_population(self, n_gen: int, n_gens: int) -> Population:
         """
         Ask a population from the algorithm
         It saves the moo population in self.pop for subsequent tell
 
         :param n_gen: current generation number
+        :param n_gens: max generation number
         :return: Population
         """
         self.pop = self.algorithm.ask()
 
         pop_full_bits = [[int(this_bit) for this_bit in this_ind.X] for this_ind in self.pop]
 
-        return Population.from_codes(self.template, n_gen, pop_full_bits, ModelCode.from_full_binary)
+        return Population.from_codes(self.template, n_gen, pop_full_bits, ModelCode.from_full_binary,
+                                     max_iteration=n_gens)
 
     def tell_runs(self, runs: list) -> list:
         """
@@ -177,7 +213,7 @@ class _MOGARunner:
             self.pop = pop = pop_from_array_or_individual(infills)
 
         for run, moo_ind in zip(runs, pop):
-            problem = MogaProblem(n_var=self.n_var, run=run)
+            problem = MogaProblem(run)
 
             self.algorithm.evaluator.eval(problem, moo_ind)
 
@@ -264,7 +300,7 @@ def run_moga(template: Template):
 
         n_gen += 1
 
-        population = runner.ask_population(n_gen)
+        population = runner.ask_population(n_gen, n_gens)
 
         population.run()
 
@@ -289,6 +325,8 @@ def run_moga(template: Template):
         if before == after:
             generations_no_change += 1
             log.message(f"No change in non dominated models for {generations_no_change} generations")
+        else:
+            generations_no_change = 0
 
     if options.final_downhill_search and keep_going():
         log.message(f"Starting final downhill step")

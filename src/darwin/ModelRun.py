@@ -398,7 +398,7 @@ class ModelRun:
 
         if not failed:
             self.set_status('Finished model run')
-            if (options.isMOGA or self._post_run_r() and self._post_run_python()) and self._calc_fitness():
+            if (self._post_run_r() and self._post_run_python()) and self._calc_fitness():
                 self.set_status('Done')
 
     def finish(self):

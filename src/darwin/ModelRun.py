@@ -7,7 +7,6 @@ import glob
 from os.path import isfile
 
 import json
-import shlex
 
 import subprocess
 from subprocess import TimeoutExpired, Popen
@@ -153,6 +152,7 @@ class ModelRun:
         self.better = False
 
         self.reference_model_num = -1
+        self.ref_run = ''
 
         self.global_num = None
         self.finish_time = None
@@ -398,7 +398,9 @@ class ModelRun:
 
         if not failed:
             self.set_status('Finished model run')
-            if (options.isMOGA or self._post_run_r() and self._post_run_python()) and self._calc_fitness():
+
+            if (not self.result.can_postprocess() or self._post_run_r() and self._post_run_python()) \
+                    and self._calc_fitness():
                 self.set_status('Done')
 
     def finish(self):
@@ -445,18 +447,6 @@ class ModelRun:
 
         self._adapter.cleanup(self.run_dir, self.file_stem)
 
-    def _decode_r_stdout(self, r_stdout):
-        res = self.result
-
-        new_val = r_stdout.decode("utf-8").replace("[1]", "").strip()
-        # comes back a single string, need to parse by ""
-        val = shlex.split(new_val)
-        # penalty is always first, but may be addition /r/n in array? get the last?
-        num_vals = len(val)
-
-        res.post_run_r_penalty = float(val[0])
-        res.post_run_r_text = val[num_vals - 1]
-
     def _post_run_r(self):
         """
         Runs R code specified in the file options['postRunCode'], return penalty from R code.
@@ -502,11 +492,7 @@ class ModelRun:
 
             return False
         else:
-            self._decode_r_stdout(r_process.stdout)
-
-            with open(os.path.join(self.run_dir, self.output_file_name), "a") as f:
-                f.write(f"Post run R code Penalty = {str(res.post_run_r_penalty)}\n")
-                f.write(f"Post run R code text = {str(res.post_run_r_text)}\n")
+            self.result.decode_r_stdout(r_process.stdout, os.path.join(self.run_dir, self.output_file_name))
 
         return True
 
@@ -519,9 +505,7 @@ class ModelRun:
         try:
             res.post_run_python_penalty, res.post_run_python_text = _python_post_process(self.run_dir)
 
-            with open(os.path.join(self.run_dir, self.output_file_name), "a") as f:
-                f.write(f"Post run Python code Penalty = {str(res.post_run_python_penalty)}\n")
-                f.write(f"Post run Python code text = {str(res.post_run_python_text)}\n")
+            res.dump_python_pp(os.path.join(self.run_dir, self.output_file_name))
 
             self.set_status('Done post process Python')
 
@@ -563,7 +547,6 @@ class ModelRun:
 
         with open(os.path.join(self.run_dir, self.output_file_name), "a") as output:
             res = self.result
-            model = self.model
 
             if self.status == 'Restored':
                 output.write(f"Restored run\n")
@@ -572,9 +555,9 @@ class ModelRun:
             output.write(f"covariance = {res.covariance}\n")
             output.write(f"correlation = {res.correlation}\n")
             output.write(f"Condition # = {res.condition_num}\n")
-            output.write(f"Num Non fixed THETAs = {model.estimated_theta_num}\n")
-            output.write(f"Num Non fixed OMEGAs = {model.estimated_omega_num}\n")
-            output.write(f"Num Non fixed SIGMAs = {model.estimated_sigma_num}\n")
+            output.write(f"Num Non fixed THETAs = {res.estimated_theta_num}\n")
+            output.write(f"Num Non fixed OMEGAs = {res.estimated_omega_num}\n")
+            output.write(f"Num Non fixed SIGMAs = {res.estimated_sigma_num}\n")
             output.write(f"Original run directory = {self.orig_run_dir or self.run_dir}\n")
 
 
@@ -627,26 +610,10 @@ def log_run(run: ModelRun):
 
     step_name = 'Generation' if options.isGA else 'Iteration'
 
-    is_unique = run.is_unique()
-
-    if options.isMOGA:
-        if is_unique:
-            n_params = run.model.estimated_theta_num + run.model.estimated_sigma_num + run.model.estimated_omega_num
-            ofv_text = f"{res.ofv:.0f}" if res.ofv == options.crash_value else f"{res.ofv:.3f}"
-            fitness_text = f" OFV = {ofv_text:>9}, NEP = {n_params:>2}"
-        else:
-            fitness_text = f" OFV =          , NEP =   "
-    else:
-        if is_unique:
-            fitness_crashed = res.fitness == options.crash_value
-            fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
-        else:
-            fitness_text = ''
-
-        fitness_text = f"fitness = {fitness_text:>9}"
+    fitness_text = res.to_str(run.is_unique())
 
     status = run.status.rjust(14)
-    message = res.get_message_text()
+    message = res.get_message_text(run.ref_run)
     prd_err_text = ', error = ' + res.errors if res.errors else ''
     message += prd_err_text
     message = re.sub(r'\n', '  ', message, flags=re.RegexFlag.MULTILINE)

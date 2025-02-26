@@ -148,7 +148,7 @@ class Population:
         elif run:
             if run.generation != self.name or run.model_num != self.model_number:
                 run.result.messages = str(run.result.messages)
-                run.result.ref_run = run.file_stem
+                run.ref_run = run.file_stem
 
             if run.status != 'Restored':
                 run.set_status(f"Cache({run.generation}-{run.model_num})")

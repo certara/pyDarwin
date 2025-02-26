@@ -26,6 +26,7 @@ from darwin.ModelEngineAdapter import get_engine_adapter, ModelEngineAdapter
 
 from .Template import Template
 from .ModelRun import ModelRun, write_best_model_files, file_checker, log_run
+from .ModelResults import MOGAModelResults, MOGA3ModelResults
 from .ModelCache import set_model_cache, create_model_cache
 from .DarwinError import DarwinError
 from .Population import init_pop_nums
@@ -64,11 +65,22 @@ def _init_model_results():
 
     log.message(f"Writing intermediate output to {results_file}")
 
+    header = 'iteration,model number,run directory,ref run,status,ntheta,nomega,nsigm,model,'
+
+    if options.isMOGA:
+        if options.isMOGA3:
+            ModelRun.model_result_class = MOGA3ModelResults
+            header += 'f1,f2,f3,ofv'
+        else:
+            ModelRun.model_result_class = MOGAModelResults
+            header += 'ofv,NEP'
+    else:
+        header += 'fitness,ofv,r penalty,python penalty'
+
+    header += ',condition num,success,covariance,correlation,translation messages,runtime errors'
+
     with open(results_file, "w") as resultsfile:
-        resultsfile.write('iteration,model number,run directory,ref run,status,fitness,model,ofv,success,'
-                          'covariance,correlation,ntheta,nomega,nsigm,total number of parameters,'
-                          'condition num,r penalty,python penalty,'
-                          'translation messages,runtime errors\n')
+        resultsfile.write(f"{header}\n")
 
     GlobalVars.results_file = results_file
 

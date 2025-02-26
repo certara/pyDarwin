@@ -459,14 +459,15 @@ class NMEngineAdapter(ModelEngineAdapter):
             sigma_num += vals_this_block
 
         model = run.model
+        res = run.result
 
         model.theta_num = theta_num
         model.omega_num = omega_num
         model.sigma_num = sigma_num
 
-        model.estimated_theta_num = estimated_theta
-        model.estimated_omega_num = estimated_omega
-        model.estimated_sigma_num = estimated_sigma
+        res.estimated_theta_num = estimated_theta
+        res.estimated_omega_num = estimated_omega
+        res.estimated_sigma_num = estimated_sigma
 
         return True
 

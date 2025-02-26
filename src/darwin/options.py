@@ -176,9 +176,9 @@ class Options:
 
         project_dir_alias = {'project_dir': self.project_dir, 'working_dir': self.working_dir}
 
-        self.isMOGA = self.algorithm == "MOGA"
-        self.isGA = self.algorithm == "GA"
-        self.isPSO = self.algorithm == "PSO"
+        self.isMOGA = self.algorithm == 'MOGA'
+        self.isGA = self.algorithm == 'GA'
+        self.isPSO = self.algorithm == 'PSO'
 
         self.data_dir = utils.apply_aliases(opts.get('data_dir'), project_dir_alias) or self.project_dir
         self.output_dir = utils.apply_aliases(opts.get('output_dir'), project_dir_alias) \
@@ -217,6 +217,8 @@ class Options:
         self.use_saved_models = opts.get('use_saved_models', False)
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
         self.saved_models_readonly = opts.get('saved_models_readonly', False) and self.use_saved_models
+
+        self.isMOGA3 = self.isMOGA and self.MOGA['objectives'] == 3
 
         self.effect_limit = opts.get('effect_limit', -1)
         self.use_effect_limit = self.effect_limit > 0

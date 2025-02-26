@@ -83,7 +83,7 @@ def rerun_models(models: list):
         r.source = 'new'
         r.reference_model_num = -1
         r.status = 'Not Started'
-        r.result.ref_run = ''
+        r.ref_run = ''
 
     get_run_manager().run_all(models)
 

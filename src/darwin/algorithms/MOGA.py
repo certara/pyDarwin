@@ -36,9 +36,9 @@ logger = logging.getLogger(__name__)
 
 
 def _get_n_params(run: ModelRun) -> int:
-    model = run.model
+    res = run.result
 
-    return model.estimated_omega_num + model.estimated_theta_num + model.estimated_sigma_num
+    return res.estimated_omega_num + res.estimated_theta_num + res.estimated_sigma_num
 
 
 class MogaProblem(ElementwiseProblem):
@@ -47,12 +47,12 @@ class MogaProblem(ElementwiseProblem):
     n_constr = 0
 
     def __init__(self, run: ModelRun = None):
-        super(MogaProblem, self).__init__(
+        super().__init__(
             n_var=self.n_var,  # number of bits
             n_obj=self.n_obj,
             n_constr=self.n_constr,
-            xl=np.zeros(self.n_var, dtype=int),
-            xu=np.ones(self.n_var, dtype=int),
+            xl=[0] * self.n_var,
+            xu=[1] * self.n_var,
             # need this to send population and template to evaluate
             requires_kwargs=True
         )
@@ -61,21 +61,14 @@ class MogaProblem(ElementwiseProblem):
         self.three_obj = self.n_obj == 3
 
     def _evaluate(self, x, out, *args, **kwargs):
-        f1 = self.run.result.ofv
-        f2 = 999999 if f1 >= options.crash_value else _get_n_params(self.run)
-
-        out["F"] = [f1, f2]
-
         if self.three_obj:
-            f3 = self.run.result.post_run_r_penalty
+            out['F'] = self.run.result.f if self.run.result.success else [options.crash_value] * self.n_obj
+            out['G'] = self.run.result.g or [0] * self.n_constr if self.run.result.success else [1000] * self.n_constr
+        else:
+            f1 = self.run.result.ofv
+            f2 = 999999 if f1 >= options.crash_value else _get_n_params(self.run)
 
-            out["F"].append(f3)
-
-            g1 = f1 - 999999
-            g2 = 0.1-f2
-            g3 = f3 - 999999
-
-            out["G"] = [g1, g2, g3]
+            out['F'] = [f1, f2]
 
 
 def _get_front_runs(res: Result, template: Template, model_cache) -> list:
@@ -108,8 +101,9 @@ def _get_front_runs(res: Result, template: Template, model_cache) -> list:
 
     for run in runs:
         x = controls[run.control_file_name]
-        x = f"(x{x})" if x > 1 else ''
-        log.message(f"Model {run.control_file_name}, OFV = {run.result.ofv:.4f}, NEP = {_get_n_params(run)} {x}")
+        x = f" (x{x})" if x > 1 else ''
+        res_text = run.result.to_str()
+        log.message(f"Model {run.control_file_name}, {res_text}{x}")
 
     reruns = [run for run in runs if not os.path.isdir(run.run_dir)]
 
@@ -127,7 +121,7 @@ def _get_front_runs(res: Result, template: Template, model_cache) -> list:
 
 
 def _front_str(runs: list) -> str:
-    lines = [f"OFV = {run.result.ofv}, NEP = {_get_n_params(run)}" for run in runs]
+    lines = [str(run.model.model_code.FullBinCode) for run in runs]
     return '\n'.join(sorted(lines))
 
 

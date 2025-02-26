@@ -7,6 +7,7 @@ import multiprocessing as mp
 import traceback
 import psutil
 import math
+
 from darwin.Log import log
 
 from .DarwinError import DarwinError
@@ -420,10 +421,3 @@ def format_time(t: float, fuzzy_eta: bool = False) -> str:
         return f"{t:.1f} min."
 
     return res
-
-
-def cleanup_message(message: str) -> str:
-    message = re.sub(r',', '', message, flags=re.RegexFlag.MULTILINE)
-    message = re.sub(r'\n', '  ', message, flags=re.RegexFlag.MULTILINE)
-
-    return message

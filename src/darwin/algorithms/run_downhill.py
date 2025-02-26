@@ -107,21 +107,36 @@ def _get_downhill_population(template: Template, niches: list, generation, step_
 
 
 def _get_n_params(run: ModelRun) -> int:
-    model = run.model
+    res = run.result
 
-    return model.estimated_omega_num + model.estimated_theta_num + model.estimated_sigma_num
+    return res.estimated_omega_num + res.estimated_theta_num + res.estimated_sigma_num
 
 
 def _get_better_runs(runs: list, best_run: ModelRun) -> list:
     u_runs = _unique_runs(runs)
 
     if options.isMOGA:
-        best_ofv = best_run.result.ofv
-        best_nep = _get_n_params(best_run)
-        better_ofv = sorted([r for r in u_runs if r.result.ofv < best_ofv], key=lambda r: r.result.ofv)
-        better_nep = sorted([r for r in u_runs if _get_n_params(r) < best_nep], key=lambda r: _get_n_params(r))
+        if options.isMOGA3:
+            best_f1 = best_run.result.f[0]
+            best_f2 = best_run.result.f[1]
+            best_f3 = best_run.result.f[2]
 
-        better_runs = better_ofv[:options.max_local_grid_search_bits] + better_nep[:options.max_local_grid_search_bits]
+            better_f1 = sorted([r for r in u_runs if r.result.f[0] < best_f1], key=lambda r: r.result.f[0])
+            better_f2 = sorted([r for r in u_runs if r.result.f[1] < best_f2], key=lambda r: r.result.f[1])
+            better_f3 = sorted([r for r in u_runs if r.result.f[2] < best_f3], key=lambda r: r.result.f[2])
+
+            better_runs = better_f1[:options.max_local_grid_search_bits] \
+                + better_f2[:options.max_local_grid_search_bits] \
+                + better_f3[:options.max_local_grid_search_bits]
+        else:
+            best_ofv = best_run.result.ofv
+            best_nep = _get_n_params(best_run)
+
+            better_ofv = sorted([r for r in u_runs if r.result.ofv < best_ofv], key=lambda r: r.result.ofv)
+            better_nep = sorted([r for r in u_runs if _get_n_params(r) < best_nep], key=lambda r: _get_n_params(r))
+
+            better_runs = better_ofv[:options.max_local_grid_search_bits] \
+                + better_nep[:options.max_local_grid_search_bits]
     else:
         better_runs = [r for r in u_runs if r.result.fitness < best_run.result.fitness]
 

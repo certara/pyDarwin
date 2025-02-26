@@ -1,0 +1,29 @@
+{
+    "author": "Certara",
+    "algorithm": "MOGA",
+
+    "MOGA": {
+        "objectives": 3,
+        "constraints": 3,
+        "crossover_rate": 0.95,
+        "mutation_rate": 0.95
+    },
+
+    "population_size": 20,
+    "num_generations": 7,
+
+    "downhill_period": 5,
+    "local_grid_search": true,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "local_2_bit_search": true,
+    "final_downhill_search": true,
+
+    "rerun_front_models": false,
+
+    "postprocess": {
+        "use_r": true,
+        "post_run_r_code": "{project_dir}/Cmaxppc.r",
+        "rscript_path": "c:/Program Files/R/R-4.3.0/bin/Rscript.exe"
+    }
+}

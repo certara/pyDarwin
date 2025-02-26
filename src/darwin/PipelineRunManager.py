@@ -13,7 +13,7 @@ from .ModelCache import get_model_cache
 from .ModelRunManager import ModelRunManager
 
 import darwin.GlobalVars as GlobalVars
-from darwin.utils import Pipeline, cleanup_message
+from darwin.utils import Pipeline
 from darwin.ExecutionManager import keep_going, interrupted
 
 
@@ -48,10 +48,6 @@ class PipelineRunManager(ModelRunManager):
             for run in duplicates:
                 ref_run = originals[run.reference_model_num]
                 run.result = copy(ref_run.result)
-                model = run.model
-                ref_model = ref_run.model
-                model.estimated_theta_num, model.estimated_omega_num, model.estimated_sigma_num = \
-                    ref_model.estimated_theta_num, ref_model.estimated_omega_num, ref_model.estimated_sigma_num
 
         model_cache = get_model_cache()
         model_cache.dump()
@@ -100,15 +96,13 @@ class PipelineRunManager(ModelRunManager):
             run.cleanup()
 
         if not run.rerun:
-            message = cleanup_message(res.messages)
-            err = cleanup_message(res.errors)
-
             with open(GlobalVars.results_file, "a") as result_file:
-                result_file.write(f"{run.generation},{run.wide_model_num},{run.run_dir},{res.ref_run},"
-                                  f"{run.status},{res.fitness:.6f},{''.join(map(str, model.model_code.IntCode))},"
-                                  f"{res.ofv},{res.success},{res.covariance},{res.correlation},{model.theta_num},"
-                                  f"{model.omega_num},{model.sigma_num}, {model.estimated_omega_num+model.estimated_sigma_num+model.estimated_theta_num},{res.condition_num},{res.post_run_r_penalty},"
-                                  f"{res.post_run_python_penalty},{message},{err}\n")
+                res_str = res.get_results_str()
+
+                result_file.write(f"{run.generation},{run.wide_model_num},{run.run_dir},{run.ref_run},{run.status},"
+                                  f"{model.theta_num},{model.omega_num},{model.sigma_num},"
+                                  f"{''.join(map(str, model.model_code.IntCode))},"
+                                  f"{res_str}\n")
 
         log_run(run)
 

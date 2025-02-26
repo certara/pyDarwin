@@ -25,7 +25,7 @@ class DeapToolbox:
         self.gene_max = template.gene_max
         self.gene_length = template.gene_length
 
-        sampler = WeightedSampler(template)
+        sampler = WeightedSampler(template) if options.use_effect_limit else None
 
         def weighted_individual():
             return creator.Individual(sampler.create_individual())

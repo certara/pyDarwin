@@ -41,7 +41,7 @@ class BaseModelResults:
     def decode_r_stdout(self, r_stdout, file_path: str):
         pass
 
-    def dump_python_pp(self, file_path: str):
+    def handle_python_pp_result(self, pp_res: tuple, file_path: str):
         pass
 
     def get_results_str(self):
@@ -127,7 +127,9 @@ class ModelResults(BaseModelResults):
             f.write(f"Post run R code Penalty = {str(self.post_run_r_penalty)}\n")
             f.write(f"Post run R code text = {str(self.post_run_r_text)}\n")
 
-    def dump_python_pp(self, file_path: str):
+    def handle_python_pp_result(self, pp_res: tuple, file_path: str):
+        (self.post_run_python_penalty, self.post_run_python_text) = pp_res
+
         with open(file_path, "a") as f:
             f.write(f"Post run Python code Penalty = {str(self.post_run_python_penalty)}\n")
             f.write(f"Post run Python code text = {str(self.post_run_python_text)}\n")
@@ -198,7 +200,12 @@ class MOGA3ModelResults(BaseModelResults):
             f.write(f"F: {self.f}\n")
             f.write(f"G: {self.g}\n")
 
-    def dump_python_pp(self, file_path: str):
+    def handle_python_pp_result(self, pp_res: tuple, file_path: str):
+        (self.f, self.g) = pp_res
+
+        if not self.f:
+            self.f = [options.crash_value] * 3
+
         with open(file_path, "a") as f:
             f.write(f"F: {self.f}\n")
             f.write(f"G: {self.g}\n")

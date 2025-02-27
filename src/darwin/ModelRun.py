@@ -32,7 +32,7 @@ JSON_ATTRIBUTES = [
 ]
 
 
-def _dummy(run_dir: str):
+def _dummy(run):
     return 0, ""
 
 
@@ -399,9 +399,16 @@ class ModelRun:
         if not failed:
             self.set_status('Finished model run')
 
-            if (not self.result.can_postprocess() or self._post_run_r() and self._post_run_python()) \
-                    and self._calc_fitness():
-                self.set_status('Done')
+            engine = self._adapter
+
+            if engine.read_model(self) and engine.read_results(self):
+                if not self.result.can_postprocess() or self._post_run_r() and self._post_run_python():
+                    try:
+                        self.result.calc_fitness(self.model)
+                    except:
+                        traceback.print_exc()
+
+                    self.set_status('Done')
 
     def finish(self):
         if self.rerun:
@@ -503,9 +510,9 @@ class ModelRun:
         res = self.result
 
         try:
-            res.post_run_python_penalty, res.post_run_python_text = _python_post_process(self.run_dir)
+            pp_res = _python_post_process(self)
 
-            res.dump_python_pp(os.path.join(self.run_dir, self.output_file_name))
+            res.handle_python_pp_result(pp_res, os.path.join(self.run_dir, self.output_file_name))
 
             self.set_status('Done post process Python')
 
@@ -520,23 +527,6 @@ class ModelRun:
                 f.write(traceback.format_exc())
 
             return False
-
-        return True
-
-    def _calc_fitness(self):
-        """
-        Calculates the fitness, based on the model output and the penalties.
-        Need to look in output file for parameter at boundary and parameter non-positive.
-        """
-
-        try:
-            engine = self._adapter
-
-            if engine.read_model(self) and engine.read_results(self):
-                self.result.calc_fitness(self.model)
-
-        except:
-            traceback.print_exc()
 
         return True
 
@@ -563,11 +553,19 @@ class ModelRun:
 
 def _import_python_postprocessing(path: str):
     import importlib.util
-    spec = importlib.util.spec_from_file_location("postprocessing.module", path)
+    spec = importlib.util.spec_from_file_location('postprocessing.module', path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
 
-    return module.post_process
+    pp2 = module.__dict__.get('post_process2')
+
+    if pp2 is not None and callable(pp2):
+        return pp2
+
+    def pp(run: ModelRun):
+        return module.post_process(run.run_dir)
+
+    return pp
 
 
 def write_best_model_files(control_path: str, result_path: str) -> bool:

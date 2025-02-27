@@ -117,7 +117,7 @@ class NMEngineAdapter(ModelEngineAdapter):
             else:
                 warning_message = short_warning
 
-            nm_translation_message += warning_message
+            nm_translation_message += ', ' + warning_message
 
         errors = [' AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.\n']
 
@@ -132,8 +132,7 @@ class NMEngineAdapter(ModelEngineAdapter):
 
                 break
 
-        if nm_translation_message.strip() == ",":
-            nm_translation_message = ''
+        nm_translation_message = re.sub(r'^,\s*', '', nm_translation_message, flags=re.RegexFlag.MULTILINE)
 
         # try to sort relevant message?
         # key are

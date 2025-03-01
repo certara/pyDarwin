@@ -68,6 +68,8 @@ class MemoryModelCache(ModelCache):
 
             if crun is not None:
                 crun.set_status(status)
+                crun.run_dir = run.run_dir
+                crun.model = run.model
 
     def find_model_run(self, **kwargs) -> ModelRun:
         if 'genotype' in kwargs:

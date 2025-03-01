@@ -31,7 +31,7 @@ from pymoo.core.sampling import Sampling
 from pymoo.core.problem import ElementwiseProblem
 from pymoo.util.ref_dirs import get_reference_directions
 
-warnings.filterwarnings('error', category=DeprecationWarning)
+warnings.filterwarnings('ignore', category=DeprecationWarning)
 logger = logging.getLogger(__name__)
 
 

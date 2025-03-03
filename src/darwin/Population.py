@@ -142,7 +142,8 @@ class Population:
             run = copy(existing_run)
             run.model_num = self.model_number
             run.file_stem += f'_{run.model_num}'
-            run.reference_model_num = existing_run.model_num
+            run.reference_model_num = existing_run.reference_model_num if existing_run.reference_model_num > -1 \
+                else existing_run.model_num
             clone = 'Clone' if str(existing_run.model.genotype()) == genotype else 'Twin'
             run.status = f'{clone}({run.reference_model_num})'
         elif run:

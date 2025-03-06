@@ -2,8 +2,8 @@
     "author": "autopk",
     "algorithm": "RF",
     "num_opt_chains": 1,
-    "population_size": 10,
-    "num_parallel": 10,
+    "population_size": 4,
+    "num_parallel": 1,
     "crash_value": 99999999,
     "num_generations": 2,
     "num_niches": 2,
@@ -36,7 +36,7 @@
     "nmfe_path": "/opt/scp/apps/gen-2021a/software/nonmem-standard/7.5.1-foss-2021a/util/nmfe75",
     "model_run_timeout": 15000,
     "slurm": {
-        "cores": 40,
+        "cores": 10,
         "mem-per-cpu": 1,
         "search_time_limit": "0-72:00:00"
     },

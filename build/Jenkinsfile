@@ -251,7 +251,11 @@ pipeline {
                     )
                     labelledShell label: 'twine upload', script: """
                         cd ${WORKSPACE}/
+                        . venv/bin/activate
+                        pip install --upgrade twine
+                        twine check dist/*
                         twine upload -r local dist/*
+                        deactivate
                     """
                 }
             }

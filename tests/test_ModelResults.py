@@ -88,9 +88,9 @@ class ModelResultsTestCase(unittest.TestCase):
         model_results = ModelResults()
         model_results.ofv = 500
         model.non_influential_token_num = 2
-        model.estimated_theta_num = 3
-        model.estimated_omega_num = 1
-        model.estimated_sigma_num = 4
+        model_results.estimated_theta_num = 3
+        model_results.estimated_omega_num = 1
+        model_results.estimated_sigma_num = 4
 
         penalties = {
             'non_influential_tokens': 1,
@@ -105,7 +105,6 @@ class ModelResultsTestCase(unittest.TestCase):
         options.penalty = penalties
         # Call the calc_fitness() method
         fitness = model_results.calc_fitness(model)
-
         # Expected fitness value
         expected_fitness = (
                 model_results.ofv +
@@ -114,9 +113,9 @@ class ModelResultsTestCase(unittest.TestCase):
                 penalties['covariance'] +
                 penalties['correlation'] +
                 penalties['condition_number'] +
-                model.estimated_theta_num * penalties['theta'] +
-                model.estimated_omega_num * penalties['omega'] +
-                model.estimated_sigma_num * penalties['sigma'] +
+                model_results.estimated_theta_num * penalties['theta'] +
+                model_results.estimated_omega_num * penalties['omega'] +
+                model_results.estimated_sigma_num * penalties['sigma'] +
                 model_results.post_run_r_penalty +
                 model_results.post_run_python_penalty
         )

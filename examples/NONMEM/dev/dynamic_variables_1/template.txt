@@ -1,0 +1,103 @@
+$PROBLEM PK MODEL ORAL ADMINISTRATION
+
+     ; NUMBER OF COMPARTMENTS        : 1 OR 2 OR 3
+     ;
+     ; ABSORPTION                    : FIRST-ORDER (option of LAG TIME), ZERO-ORDER OR ZERO-ORDER FOLLOWED BY FIRST-ORDER
+     ;
+     ; ELIMINATION                   : FIRST-ORDER
+     ;
+     ; INTERINDIVIDUAL VARIABILITY   : ESTIMATE in all parameters or fixed in some of them to 15% CV.
+     ;
+     ; RESIDUAL ERROR FOR PLASMA OBS : PROPORTIONAL, ADDITIVE OR COMBINED
+
+
+$INPUT ID TIME DOSE IPRED1 AMT MDV IWRES1 IRES1 CWRES1 NPDE1 DV PRED1 RES1 WRES1 DOSEREF {ZERO_ORDER_ABS[1]}
+
+$DATA {data_dir}/synth_data10.csv
+IGNORE=@
+
+$SUBROUTINE ADVAN5
+
+$MODEL
+NCOMP={ODE[1]}
+
+
+$PK
+; Parameter definition
+
+  TVCL=EXP(THETA(CL))    ; CL
+  TVV2= EXP(THETA(V2))   ; V2
+  TVKA=EXP(THETA(KA))    ; KA
+  {ODE[2]}
+
+
+
+; MU Referencing
+    MU(CL)  = LOG(TVCL) + {DOSE_COV_CL[1]}    ; CL
+    MU(V2)  = LOG(TVV2) + {DOSE_COV_V2[1]}    ; V2
+    MU(KA)  = LOG(TVKA) + {DOSE_COV_KA[1]}    ; KA
+    {ODE[3]}
+
+
+; Parameter transformations
+    CL   = EXP(MU(CL) + ETA(CL))  ; CL
+    V2    = EXP(MU(V2) + ETA(V2)) ; V2
+    KA   = EXP(MU(KA) + ETA(KA))  ; KA
+    {ODE[4]}
+
+   {ZERO_ORDER_ABS[4]}
+   {ZERO_ORDER_ABS[5]}
+
+
+; Assigning expressions to match ADVAN5 parameterization
+    {ZERO_ORDER_ABS[6]}
+    RATE_CONSTANT(CENTRAL, ELIMINATION) = CL/V2
+    {ODE[5]}
+
+    F1 = 1   ; INPUT1
+    DATA_SCALING(CENTRAL) = V2 ; CP   
+
+$ERROR
+  CP = AMT_COMPARTMENT(CENTRAL)/DATA_SCALING(CENTRAL)
+ IPRED = 0.0001
+ W=1
+  IF(F.GT.0.0001) IPRED = LOG(CP)
+  IF(F.GT.0.0001) W=SQRT((THETA(prop_error)**2/(F+0.00001)**2) + THETA(add_error)**2) ; error model
+  IRES = DV - IPRED
+  IWRES = IRES/W
+  Y = IPRED + W*EPS(1)
+
+$THETA
+; Model parameters
+   (2.5)       ; CL ; L/h ; LOG
+    7         ; V2 ; L ; LOG
+  {DOSE_COV_CL[2]}
+  {DOSE_COV_V2[2]}
+  {DOSE_COV_KA[2]}
+  {ZERO_ORDER_ABS[7]}
+; Error model parameters
+  {ERRORFIX[1]}
+; Additional model parameters
+  {ODE[6]}
+ {ZERO_ORDER_ABS[8]}
+ {ZERO_ORDER_ABS[9]}
+
+
+
+$OMEGA ;; search band
+ 0.1  ;  CL ; LOG
+ 0.1  ;  V2 ; LOG
+{ZERO_ORDER_ABS[10]}
+{ODE[7]}
+{ZERO_ORDER_ABS[11]}
+{ZERO_ORDER_ABS[12]}
+
+
+$SIGMA
+    1 FIX
+
+
+$ESTIMATION method = SAEM ISAMPLE = 2 NBURN = 10 NITER = 10 RANMETHOD = 3S2P CTYPE = 3 CITER = 10 CALPHA = 0.05 CINTERVAL = 10 SEED = 234567 PRINT = 5 NOABORT INTERACTION
+$ESTIMATION method = IMP ISAMPLE = 10 EONLY = 1 NITER = 5 RANMETHOD = 3S2P NOABORT INTERACTION PRINT = 1 MAPITER = 0 SIGDIGITS = 3 NSIG = 3 SIGL = 9
+
+$COVARIANCE UNCONDITIONAL MATRIX=R PRINT = E

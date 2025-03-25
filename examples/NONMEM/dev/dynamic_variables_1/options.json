@@ -1,0 +1,20 @@
+{
+    "author": "autopk",
+    "engine_adapter": "nonmem.dyn_var",
+    "algorithm": "GA",
+    "population_size": 10,
+    "num_parallel": 4,
+    "num_generations": 2,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "model_run_timeout": 7200,
+    "random_seed": 0,
+    "file_cleanup": {
+        "keep_ext": true,
+        "keep_shk": true,
+        "named_files_keep": [
+            "model_complexity.csv",
+            "param_estimates.csv"
+        ]
+    }
+}

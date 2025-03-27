@@ -17,6 +17,5 @@
     "local_2_bit_search": true,
     "final_downhill_search": true,
 
-    "use_effect_limit":true,
     "effect_limit": 6
 }

@@ -38,7 +38,7 @@
         "condition_number": 100,
         "non_influential_tokens": 0.00001
     },
-    "use_effect_limit":true,
+
     "effect_limit": 6,
 
     "remove_run_dir": false,

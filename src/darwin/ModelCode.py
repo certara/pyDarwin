@@ -60,9 +60,8 @@ class ModelCode:
         res = cls()
 
         # numpy.int32 is not JSON serializable - converting to python int
-        int_code = [int(x) for x in code]
+        res.IntCode = [int(x) for x in code]
 
-        res.IntCode = int_code
         res._convert_int_min_bin(length)
         res._convert_int_full_bin(gene_max, length)
 
@@ -134,10 +133,10 @@ class ModelCode:
             max_value = (2 ** this_length) - 1  # zero based
             max_num_added = max_value - this_max  # max is zero based
 
-            num_added = 0
+            if this_max == 0:
+                continue
 
-            if this_max != 0:
-                num_added = math.floor(max_num_added * (baseInt / (max_value - max_num_added)))
+            num_added = math.floor(max_num_added * (baseInt / (max_value - max_num_added)))
 
             full_int_val = baseInt + num_added
             full_bin_val = _int_to_bin(full_int_val, this_length)
@@ -178,15 +177,16 @@ class ModelCode:
         Converts an integer array to "minimal binary" (e.g., used for downhill, just the integer value converted
         to binary - doesn't fill in the entire n bit array).
         """
-        full_results = []
+        res = []
         cur_gene = 0
 
         for this_length in length:
             this_gene = self.IntCode[cur_gene]
-            full_results.extend(_int_to_bin(this_gene, this_length))
             cur_gene += 1
+            if this_length > 0:
+                res.extend(_int_to_bin(this_gene, this_length))
 
-        self.MinBinCode = full_results
+        self.MinBinCode = res
 
 
 def _int_to_bin(n, length):

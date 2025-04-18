@@ -309,6 +309,8 @@ class Options:
         self.keep_extensions = opts.get('keep_extensions', [])
         self.keep_files = opts.get('keep_files', [])
 
+        self.skip_running = opts.get('skip_running', False)
+
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):
             log.error(f"Couldn't find options file '{options_file}', exiting")

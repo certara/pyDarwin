@@ -376,7 +376,7 @@ class ModelRun:
 
         GlobalVars.run_models_num += 1
 
-        commands = self._adapter.get_model_run_commands(self)
+        commands = self._adapter.get_model_run_commands(self) if not options.skip_running else []
 
         cmd_count = 0
         failed = False
@@ -401,7 +401,7 @@ class ModelRun:
 
             engine = self._adapter
 
-            if engine.read_model(self) and engine.read_results(self):
+            if engine.read_model(self) and engine.read_results(self) or options.skip_running:
                 if not self.result.can_postprocess() or self._post_run_r() and self._post_run_python():
                     try:
                         self.result.calc_fitness(self.model)

@@ -81,6 +81,15 @@ class ModelResults(BaseModelResults):
         Calculates the fitness, based on the model output, and the penalties (from the options file).
         """
 
+        if options.skip_running:
+            fitness = 0
+            fitness += self.post_run_r_penalty
+            fitness += self.post_run_python_penalty
+
+            self.fitness = fitness
+
+            return fitness
+
         penalties = options.penalty
 
         fitness = self.ofv

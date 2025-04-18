@@ -306,6 +306,9 @@ class Options:
 
         self.fuzzy_eta = opts.get('fuzzy_eta', True)
 
+        self.keep_extensions = opts.get('keep_extensions', [])
+        self.keep_files = opts.get('keep_files', [])
+
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):
             log.error(f"Couldn't find options file '{options_file}', exiting")

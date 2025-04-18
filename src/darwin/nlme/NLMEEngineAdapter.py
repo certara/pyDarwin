@@ -220,12 +220,14 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         else:
             files_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
-            files_to_delete.pop(f'{file_stem}.mmdl', None)
-            files_to_delete.pop(f'{file_stem}_out.txt', None)
+            files = ['log.txt', 'out.txt', 'err1.txt', 'err2.txt', 'nlme7engine.log',
+                     'TDL5Warnings.log', 'integration_errors.txt', 'fort.27', f'{file_stem}_out.txt']
 
-            for file in ['log.txt', 'out.txt', 'err1.txt', 'err2.txt',
-                         'nlme7engine.log', 'TDL5Warnings.log', 'integration_errors.txt', 'fort.27']:
+            for file in options.keep_files + files:
                 files_to_delete.pop(file, None)
+
+            for ext in options.keep_extensions + ['mmdl']:
+                files_to_delete.pop(f'{file_stem}.{ext}', None)
 
             for f in files_to_delete:
                 if re.search(r'^(err|out)\d+$|^sim-.*|^data\w+\.txt$', f):

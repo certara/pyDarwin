@@ -188,15 +188,11 @@ class NMEngineAdapter(ModelEngineAdapter):
 
             files_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
-            files_to_delete.pop(f'{file_stem}.mod', None)
-            files_to_delete.pop(f'{file_stem}.lst', None)
-            files_to_delete.pop(f'{file_stem}.ext', None)
-            files_to_delete.pop(f'{file_stem}.grd', None)
-            files_to_delete.pop(f'{file_stem}.xml', None)
-            files_to_delete.pop('FMSG', None)
-            files_to_delete.pop('FCON', None)
-            files_to_delete.pop('PRDERR', None)
-            files_to_delete.pop('FSTREAM', None)
+            for file in options.keep_files + ['FMSG', 'FCON', 'PRDERR', 'FSTREAM']:
+                files_to_delete.pop(file, None)
+
+            for ext in options.keep_extensions + ['mod', 'lst', 'ext', 'grd', 'xml']:
+                files_to_delete.pop(f'{file_stem}.{ext}', None)
 
             if os.path.exists(os.path.join(run_dir, 'FSTREAM')):
                 with open(os.path.join(run_dir, 'FSTREAM'), 'r') as fstream:

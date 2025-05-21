@@ -117,7 +117,11 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Project working dir: {options.working_dir}")
     log.message(f"Project temp dir: {options.temp_dir}")
     log.message(f"Project output dir: {options.output_dir}")
-    log.message(f"Key models dir: {options.key_models_dir}")
+
+    if options.algorithm == 'MOGA':
+        log.message(f"Non-dominated models dir: {options.non_dominated_models_dir}")
+    else:
+        log.message(f"Key models dir: {options.key_models_dir}")
 
     if not _check_tokens(model_template, adapter):
         return False

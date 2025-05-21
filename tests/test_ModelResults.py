@@ -103,6 +103,7 @@ class ModelResultsTestCase(unittest.TestCase):
             'sigma': 8
         }
         options.penalty = penalties
+        options.skip_running = False
         # Call the calc_fitness() method
         fitness = model_results.calc_fitness(model)
         # Expected fitness value

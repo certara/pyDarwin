@@ -46,6 +46,9 @@ class NMEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def init_engine():
+        if options.skip_running:
+            return True
+
         nmfe_path = options.get('nmfe_path', None)
 
         if not nmfe_path:

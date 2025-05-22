@@ -43,6 +43,9 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def init_engine():
+        if options.skip_running:
+            return True
+
         nlme_dir = options.get('nlme_dir', None)
 
         rscript_path = options.rscript_path

@@ -85,8 +85,9 @@ class ModelEngineAdapter(ABC):
 
         control, comment_mark, bands = self._make_control_impl(control, template, model_code, phenotype)
 
-        phenotype = str(OrderedDict((k, v) for (k, v), inf in zip(phenotype.items(), non_inf_tokens) if not inf))
-        phenotype = phenotype.replace('OrderedDict', '')
+        phenotype = [f"('{k}', {v})" for (k, v), inf in zip(phenotype.items(), non_inf_tokens) if not inf]
+        phenotype = '([' + ', '.join(phenotype) + '])'
+
         phenotype += bands
 
         control += f"\n{comment_mark} Phenotype: " + phenotype + f"\n{comment_mark} Genotype: " + model_code_str \

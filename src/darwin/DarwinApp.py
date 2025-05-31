@@ -128,6 +128,9 @@ def init_search(model_template: Template) -> bool:
         log.message(f"Population size: {options.population_size}")
         log.message(f"num_generations: {options.num_generations}")
 
+    if options.isMOGA:
+        log.message(f"Number of objectives: {options.MOGA['objectives']}")
+
     log.message(f"random_seed: {options.random_seed}")
     log.message(f"use_effect_limit: {options.use_effect_limit}")
     if options.use_effect_limit:
@@ -139,7 +142,7 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Project temp dir: {options.temp_dir}")
     log.message(f"Project output dir: {options.output_dir}")
 
-    if options.algorithm == 'MOGA' or options.algorithm == 'MOGA3':
+    if options.isMOGA:
         log.message(f"Non-dominated models dir: {options.non_dominated_models_dir}")
     else:
         log.message(f"Key models dir: {options.key_models_dir}")

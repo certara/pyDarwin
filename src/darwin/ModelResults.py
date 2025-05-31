@@ -188,10 +188,11 @@ class MOGAModelResults(BaseModelResults):
 
 class MOGA3ModelResults(BaseModelResults):
     JSON_ATTRIBUTES = BaseModelResults.JSON_ATTRIBUTES + ['f', 'g']
+    n_obj = 3
 
     def __init__(self):
         super().__init__()
-        self.f = [options.crash_value] * 3
+        self.f = [options.crash_value] * self.n_obj
         self.g = []
 
     def decode_r_stdout(self, r_stdout, file_path: str):
@@ -213,7 +214,7 @@ class MOGA3ModelResults(BaseModelResults):
         (self.f, self.g) = pp_res
 
         if not self.f:
-            self.f = [options.crash_value] * 3
+            self.f = [options.crash_value] * self.n_obj
 
         with open(file_path, "a") as f:
             f.write(f"F: {self.f}\n")
@@ -221,20 +222,19 @@ class MOGA3ModelResults(BaseModelResults):
 
     def to_str(self, is_unique: bool = True) -> str:
         if is_unique:
-            f1 = _format_ofv(self.f[0])
-            f2 = _format_ofv(self.f[1])
-            f3 = _format_ofv(self.f[2])
-
-            return f" f1 = {f1:>9}, f2 = {f2:>9}, f3 = {f3:>9}"
+            f = [_format_ofv(v) for v in self.f]
+            f = [f" f{i+1} = {v:>9}" for i, v in enumerate(f)]
         else:
-            return f" f1 =          , f2 =          , f3 =          "
+            f = [f" f{i} =          " for i in range(1, len(self.f)+1)]
+
+        return ','.join(f)
 
     def get_results_str(self):
         message = _cleanup_message(self.messages)
         err = _cleanup_message(self.errors)
-        f1 = _format_ofv(self.f[0], 6)
-        f2 = _format_ofv(self.f[1], 6)
-        f3 = _format_ofv(self.f[2], 6)
 
-        return f"{f1},{f2},{f3},{self.ofv}," \
+        f = [_format_ofv(v, 6) for v in self.f]
+        f_str = ','.join(f)
+
+        return f"{f_str},{self.ofv}," \
             f"{self.condition_num},{self.success},{self.covariance},{self.correlation},{message},{err}"

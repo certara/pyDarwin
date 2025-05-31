@@ -1,6 +1,6 @@
 {
     "author": "Certara",
-    "algorithm": "MOGA",
+    "algorithm": "MOGA3",
 
     "MOGA": {
         "objectives": 3,

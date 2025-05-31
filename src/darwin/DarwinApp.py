@@ -69,8 +69,26 @@ def _init_model_results():
 
     if options.isMOGA:
         if options.isMOGA3:
+            n_obj = options.MOGA['objectives']
+            names = options.MOGA['names']
+            ln = len(names)
+
+            MOGA3ModelResults.n_obj = n_obj
             ModelRun.model_result_class = MOGA3ModelResults
-            header += 'f1,f2,f3,ofv'
+
+            if ln != n_obj:
+                if ln == 0:
+                    log.message('Using generic objective names')
+                else:
+                    log.warn(f"{ln} names provided for {n_obj} objectives. Using generic names.")
+
+                names = [f"f{n}" for n in range(1, n_obj+1)]
+
+            else:
+                names = [f"{name}(f{i+1})" for i, name in enumerate(names)]
+
+            header += ','.join(names)
+            header += ',ofv'
         else:
             ModelRun.model_result_class = MOGAModelResults
             header += 'ofv,NEP'
@@ -103,7 +121,10 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Algorithm: {options.algorithm}")
     log.message(f"Engine: {adapter.get_engine_name().upper()}")
 
-    if options.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
+    if options.skip_running:
+        log.warn('Skipping model runs')
+
+    if options.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA", "MOGA3"]:
         log.message(f"Population size: {options.population_size}")
         log.message(f"num_generations: {options.num_generations}")
 
@@ -118,7 +139,7 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Project temp dir: {options.temp_dir}")
     log.message(f"Project output dir: {options.output_dir}")
 
-    if options.algorithm == 'MOGA':
+    if options.algorithm == 'MOGA' or options.algorithm == 'MOGA3':
         log.message(f"Non-dominated models dir: {options.non_dominated_models_dir}")
     else:
         log.message(f"Key models dir: {options.key_models_dir}")
@@ -242,7 +263,7 @@ class DarwinApp:
             final = run_skopt(model_template)
         elif algorithm == "GA":
             final = run_ga(model_template)
-        elif algorithm == "MOGA":
+        elif algorithm == "MOGA" or algorithm == "MOGA3":
             run_moga(model_template)
             final = None
         elif algorithm == "PSO":

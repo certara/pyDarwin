@@ -58,10 +58,9 @@ class MogaProblem(ElementwiseProblem):
         )
 
         self.run = run
-        self.three_obj = self.n_obj == 3
 
     def _evaluate(self, x, out, *args, **kwargs):
-        if self.three_obj:
+        if options.isMOGA3:
             out['F'] = self.run.result.f if self.run.result.success else [options.crash_value] * self.n_obj
             out['G'] = self.run.result.g or [0] * self.n_constr if self.run.result.success else [1000] * self.n_constr
         else:
@@ -146,9 +145,6 @@ class _MOGARunner:
 
         n_obj = opts['objectives']
 
-        if n_obj != 3:
-            n_obj = 2
-
         MogaProblem.n_var = sum(template.gene_length)
         MogaProblem.n_obj = n_obj
         MogaProblem.n_constr = opts['constraints']
@@ -163,8 +159,8 @@ class _MOGARunner:
             'eliminate_duplicates': True
         }
 
-        if n_obj == 3:
-            kwargs['ref_dirs'] = get_reference_directions('das-dennis', 3, n_partitions=opts['partitions'])
+        if options.isMOGA3:
+            kwargs['ref_dirs'] = get_reference_directions('das-dennis', n_obj, n_partitions=opts['partitions'])
             self.algorithm = NSGA3(**kwargs)
         else:
             self.algorithm = NSGA2(**kwargs)

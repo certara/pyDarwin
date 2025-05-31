@@ -38,8 +38,9 @@ _default_GA = {
 
 _default_MOGA = {
     'objectives': 2,
-    'partitions': 12,
+    'names': [],
     'constraints': 0,
+    'partitions': 12,
     'crossover': 'single',
     'crossover_rate': 0.95,
     'mutation_rate': 0.95,
@@ -176,7 +177,8 @@ class Options:
 
         project_dir_alias = {'project_dir': self.project_dir, 'working_dir': self.working_dir}
 
-        self.isMOGA = self.algorithm == 'MOGA'
+        self.isMOGA = self.algorithm == 'MOGA' or self.algorithm == 'MOGA3'
+        self.isMOGA3 = self.algorithm == 'MOGA3'
         self.isGA = self.algorithm == 'GA'
         self.isPSO = self.algorithm == 'PSO'
 
@@ -218,13 +220,11 @@ class Options:
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
         self.saved_models_readonly = opts.get('saved_models_readonly', False) and self.use_saved_models
 
-        self.isMOGA3 = self.isMOGA and self.MOGA['objectives'] == 3
-
         self.effect_limit = opts.get('effect_limit', -1)
         self.use_effect_limit = self.effect_limit > 0
 
-        if (options.engine_adapter != 'nonmem' or options.algorithm not in ['GA', 'MOGA']) and self.use_effect_limit:
-            log.warn('Can only use effect_limit with GA/MOGA and NONMEM, turned off')
+        if (options.engine_adapter != 'nonmem' or options.algorithm not in ['GA', 'MOGA', 'MOGA3']) and self.use_effect_limit:
+            log.warn('Can only use effect_limit with GA/MOGA/MOGA3 and NONMEM, turned off')
             self.use_effect_limit = False
 
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
@@ -233,14 +233,14 @@ class Options:
 
         self.crash_value = opts.get('crash_value', 99999999)
 
-        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA", "MOGA3"]:
             self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)
             self.num_generations = _get_mandatory_option(opts, 'num_generations', self.algorithm)
 
         if self.algorithm in ["GBRT", "RF", "GP"]:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
 
-        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA", "MOGA3"]:
             self.downhill_period = opts.get('downhill_period', -1)
             self.final_downhill_search = opts.get('final_downhill_search', False)
             self.local_2_bit_search = opts.get('local_2_bit_search', False)
@@ -249,7 +249,7 @@ class Options:
             self.max_local_grid_search_bits = opts.get('max_local_grid_search_bits', 5)
 
             if self.local_2_bit_search and self.isMOGA:
-                log.warn('2-bit search is requested but ignored for MOGA')
+                log.warn('2-bit search is requested but ignored for MOGA algorithms')
 
             if self.downhill_period > 0 or self.final_downhill_search:
                 self.num_niches = opts.get('num_niches', 2)

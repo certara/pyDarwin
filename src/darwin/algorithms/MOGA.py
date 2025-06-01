@@ -143,7 +143,7 @@ class _MOGARunner:
 
         opts = options.MOGA
 
-        n_obj = opts['objectives']
+        n_obj = opts['objectives'] if options.isMOGA3 else 2
 
         MogaProblem.n_var = sum(template.gene_length)
         MogaProblem.n_obj = n_obj

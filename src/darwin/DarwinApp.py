@@ -128,7 +128,7 @@ def init_search(model_template: Template) -> bool:
         log.message(f"Population size: {options.population_size}")
         log.message(f"num_generations: {options.num_generations}")
 
-    if options.isMOGA:
+    if options.isMOGA3:
         log.message(f"Number of objectives: {options.MOGA['objectives']}")
 
     log.message(f"random_seed: {options.random_seed}")

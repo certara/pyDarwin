@@ -37,7 +37,7 @@ _default_GA = {
 }
 
 _default_MOGA = {
-    'objectives': 2,
+    'objectives': 3,
     'names': [],
     'constraints': 0,
     'partitions': 12,

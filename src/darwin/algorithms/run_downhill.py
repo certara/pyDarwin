@@ -117,17 +117,12 @@ def _get_better_runs(runs: list, best_run: ModelRun) -> list:
 
     if options.isMOGA:
         if options.isMOGA3:
-            best_f1 = best_run.result.f[0]
-            best_f2 = best_run.result.f[1]
-            best_f3 = best_run.result.f[2]
+            best_f = best_run.result.f
+            better_runs = []
 
-            better_f1 = sorted([r for r in u_runs if r.result.f[0] < best_f1], key=lambda r: r.result.f[0])
-            better_f2 = sorted([r for r in u_runs if r.result.f[1] < best_f2], key=lambda r: r.result.f[1])
-            better_f3 = sorted([r for r in u_runs if r.result.f[2] < best_f3], key=lambda r: r.result.f[2])
-
-            better_runs = better_f1[:options.max_local_grid_search_bits] \
-                + better_f2[:options.max_local_grid_search_bits] \
-                + better_f3[:options.max_local_grid_search_bits]
+            for i in range(len(best_f)):
+                better = sorted([r for r in u_runs if r.result.f[i] < best_f[i]], key=lambda r: r.result.f[i])
+                better_runs.extend(better[:options.max_local_grid_search_bits])
         else:
             best_ofv = best_run.result.ofv
             best_nep = _get_n_params(best_run)

@@ -34,6 +34,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 
         :ref:`"MOGA" <MOGA_options_desc>`: {
             :ref:`"objectives" <objectives_options_desc>`: 3,
+            :ref:`"names" <objective_names_options_desc>`: ["objective 1", "objective 2", "objective 3"],
             :ref:`"constraints" <constraints_options_desc>`: 0,
             :ref:`"partitions" <partitions_options_desc>`: 6,
             :ref:`"crossover" <crossover_options_desc>`: "single",
@@ -171,7 +172,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _algorithm_options_desc:
 
-* :opt_name:`algorithm` :sup:`required` -- *string*: One of :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`, :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`, :ref:`PSO<PSO_desc>`.
+* :opt_name:`algorithm` :sup:`required` -- *string*: One of :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`, :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`, :ref:`PSO<PSO_desc>`, :ref:`MOGA<MOGA_desc>`, :ref:`MOGA3<MOGA3_desc>`.
 
 .. _GA_options_desc:
 
@@ -236,36 +237,40 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _MOGA_options_desc:
 
-* :opt_name:`MOGA` -- *JSON*: Options specific to MOGA. Ignored for all other algorithms.
+* :opt_name:`MOGA` -- *JSON*: Options specific to MOGA and MOGA3. Ignored for all other algorithms.
 
 .. _objectives_options_desc:
 
-    * | :opt_name:`objectives` -- *positive int*: Number of objectives. Can be either 2 or 3.
-
-      * If set to 2, NSGA-II is used with predetermined objectives OFV and Number of Estimated Parameters (NEP). Postprocessing is ignored.
-      * If set to 3, NSGA-III is used, objectives must be provided by :ref:`postprocessing <postprocess_options_desc>` (either R or Python).
-
-      | *Default*: 2
+    * | :opt_name:`objectives` -- *positive int*: Number of objectives. Objectives must be provided by :ref:`postprocessing <postprocess_options_desc>` (either R or Python).
+      | Applicable only for MOGA3. For MOGA this option is ignored, 2 objectives are used.
+      | *Default*: 3
 
 .. _constraints_options_desc:
 
-    * | :opt_name:`constraints` -- *positive int*: Number of constraints, 0 to 3. See https://pymoo.org/constraints/index.html
+    * | :opt_name:`constraints` -- *positive int*: Number of constraints. See https://pymoo.org/constraints/index.html
       | Constraints must be provided by :ref:`postprocessing <postprocess_options_desc>` (either R or Python).
-      | Ignored for NSGA-II.
+      | Applicable only for MOGA3, ignored for MOGA.
       | *Default*: 0
 
 .. note::
-   For NSGA-III the postprocessing script must return 2 lists: the first list contains objectives, the second -- constraints. If there are no constraints, the second list must be empty.
+   For MOGA3 the postprocessing script must return 2 lists: the first list contains objectives, the second -- constraints. If there are no constraints, the second list must be empty.
+
+.. _objective_names_options_desc:
+
+    * | :opt_name:`names` -- *list of strings*: List of names of the objectives. Must be the size of :ref:`objectives<objectives_options_desc>`. If empty or of a different size, generic names will be used.
+      | The names are used only in results.csv.
+      | Applicable only for MOGA3, ignored for MOGA.
+      | *Default*: 3
 
 .. _partitions_options_desc:
 
-    * | :opt_name:`partitions` -- *positive int*: number of partitions. See https://pymoo.org/misc/reference_directions.html
-      | Ignored for NSGA-II.
+    * | :opt_name:`partitions` -- *positive int*: Number of partitions. See https://pymoo.org/misc/reference_directions.html
+      | Applicable only for MOGA3, ignored for MOGA.
       | *Default*: 12
 
 .. _crossover_options_desc:
 
-    * | :opt_name:`crossover` -- *string*: Crossover algorithm for MOGA. When set to single, SinglePointCrossover is used. Otherwise TwoPointCrossover. See https://pymoo.org/operators/crossover.html#Point-Crossover
+    * | :opt_name:`crossover` -- *string*: Crossover algorithm for MOGA. When set to single, SinglePointCrossover is used. Otherwise, TwoPointCrossover. See https://pymoo.org/operators/crossover.html#Point-Crossover
       | *Default*: ``"single"``
 
 .. _PSO_options_desc:
@@ -444,13 +449,13 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _effect_limit_options_desc:
 
-* | :opt_name:`effect_limit` -- *int*: Limits number of effects. Something extra has to be done in order to make it work. If < 1, effect limit is turned off.
-  | Applicable only for NONMEM and GA/MOGA.
+* | :opt_name:`effect_limit` -- *int*: Limits :ref:`number of effects<Number of effects>`. If < 1, effect limit is turned off.
+  | Applicable only for NONMEM GA/MOGA/MOGA3 searches.
   | *Default*: -1
 
 .. _downhill_period_options_desc:
 
-* | :opt_name:`downhill_period` -- *int*: How often to run the downhill step. If < 1, no periodic downhill search will be performed.
+* | :opt_name:`downhill_period` -- *int*: How often to run the :ref:`downhill step<Local One bit Search>`. If < 1, no periodic downhill search will be performed.
   | *Default*: -1
 
 .. _num_niches_options_desc:
@@ -470,7 +475,7 @@ Here is the list of all available options. Note that many of the options have de
 
 * | :opt_name:`local_2_bit_search` -- *boolean*: Whether to perform the :ref:`two bit local search<Local Two bit Search>`.
     The two bit local search substantially increases the robustness of the search. All downhill local searches are done starting from :ref:`num_niches models<num_niches_options_desc>`.
-  | Ignored for MOGA.
+  | Ignored for MOGA and MOGA3.
   | *Default*: ``false``
 
 .. _final_downhill_search_options_desc:
@@ -481,11 +486,29 @@ Here is the list of all available options. Note that many of the options have de
 .. _local_grid_search_options_desc:
 
 * | :opt_name:`local_grid_search` -- *boolean*: Whether to perform a local grid search during downhill.
+  | At each downhill step, after local 1-bit search iteration, in every niche:
+
+  * up to N = :ref:`max_local_grid_search_bits<max_local_grid_search_bits_options_desc>` models better than the best model in the niche are determined; N can be less than that if fewer better models are found
+  * if no better models found, the niche is done, otherwise
+  * for each better model, the first bit that is different to the best model is found
+  * those bits are then flipped in all possible ways (2^N permutations)
+  * resulting 2^N models replace original models in the niche (the best model in the niche is still the same)
+  * new niche models are run
+  * new best model is determined, local 1-bit search is repeated for the niches that are not done yet
+
+  | The same is true for MOGA and MOGA3, except:
+
+  * niches best models = front models
+  * the 1-bit iterations continue until the front is unchanged (since there is no best model per se)
+  * better runs are found by every objective, which makes it up to 2^(:ref:`objectives<objectives_options_desc>` * :ref:`max_local_grid_search_bits<max_local_grid_search_bits_options_desc>`) new models per niche; this can get out of control pretty fast: with 8 niches, 3 objectives and 5 bits you might get up to 8*2^15=262144 models
+  * only unique runs are added to the updated niche to not oversaturate the algorithm
+
+
   | *Default*: ``false``
 
 .. _max_local_grid_search_bits_options_desc:
 
-* | :opt_name:`max_local_grid_search_bits` -- *positive int*: ????????????????????????????????????????????????????????????????
+* | :opt_name:`max_local_grid_search_bits` -- *positive int*: How many bits to flip.
   | *Default*: 5
 
 .. _nmfe_path_options_desc:
@@ -519,7 +542,7 @@ Here is the list of all available options. Note that many of the options have de
 
     * | :opt_name:`post_run_r_code` :sup:`required` -- *string*: Path to R file (.r extension) to be run after each NONMEM execution.
       | Required if ``use_r`` is set to ``true``.
-      | The script is run in the :ref:`run directory <model_run_dir>`. It must return either a vector, containing a penalty value and a text (will be added to the output file), or, for NSGA-III, :ref:`2 vectors<objectives_options_desc>`.
+      | The script is run in the :ref:`run directory <model_run_dir>`. It must return either a vector, containing a penalty value and a text (will be added to the output file), or, for :ref:`MOGA3<MOGA3_desc>`, :ref:`2 vectors<objectives_options_desc>`.
       | Available aliases are: :ref:`all common aliases<common_aliases>`.
 
 .. _r_timeout_options_desc:
@@ -536,8 +559,11 @@ Here is the list of all available options. Note that many of the options have de
 
     * | :opt_name:`post_run_python_code` :sup:`required` -- *string*: Path to python code file (.py extension) to be run after each NONMEM execution.
       | Required if ``use_python`` is set to ``true``.
-      | The script must contain either ``post_process2`` or ``post_process`` function (when it has both, ``post_process2`` is used). ``post_process2`` takes a ``ModelRun`` as an argument, ``post_process`` takes a run directory. Both of them must return a tuple containing either a penalty value and some text (will be added to the output file) or, for NSGA-III, :ref:`2 lists<objectives_options_desc>`.
+      | The script must contain either ``post_process2`` or ``post_process`` function (when it has both, ``post_process2`` is used). ``post_process2`` takes a ``ModelRun`` as an argument, ``post_process`` takes a run directory. Both of them must return a tuple containing either a penalty value and some text (will be added to the output file) or, for :ref:`MOGA3<MOGA3_desc>`, :ref:`2 lists<objectives_options_desc>`.
       | Available aliases are: :ref:`all common aliases<common_aliases>`.
+
+.. note::
+   Postprocessing is not used for MOGA.
 
 .. _use_saved_models_options_desc:
 

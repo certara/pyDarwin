@@ -147,7 +147,7 @@ class _MOGARunner:
 
         MogaProblem.n_var = sum(template.gene_length)
         MogaProblem.n_obj = n_obj
-        MogaProblem.n_constr = opts['constraints']
+        MogaProblem.n_constr = opts['constraints'] if options.isMOGA3 else 0
         problem = MogaProblem()
 
         kwargs = {

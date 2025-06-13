@@ -36,14 +36,25 @@ _default_GA = {
     'crossover_operator': 'cxOnePoint'
 }
 
+_default_MOGA = {
+    'objectives': 3,
+    'names': [],
+    'constraints': 0,
+    'partitions': 12,
+    'crossover': 'single',
+    'crossover_rate': 0.95,
+    'mutation_rate': 0.95,
+    'attribute_mutation_probability': 0.1
+}
+
 _default_PSO = {
-    "elitist_num": 4,
-    "cognitive": 0.5,
-    "social": 0.5,
-    "inertia": 0.4,
-    "neighbor_num": 20,  # must check if < pop_size
-    "p_norm": 2,
-    "break_on_no_change": 5
+    'elitist_num': 4,
+    'cognitive': 0.5,
+    'social': 0.5,
+    'inertia': 0.4,
+    'neighbor_num': 20,  # must check if < pop_size
+    'p_norm': 2,
+    'break_on_no_change': 5
 }
 
 
@@ -166,6 +177,11 @@ class Options:
 
         project_dir_alias = {'project_dir': self.project_dir, 'working_dir': self.working_dir}
 
+        self.isMOGA = self.algorithm == 'MOGA' or self.algorithm == 'MOGA3'
+        self.isMOGA3 = self.algorithm == 'MOGA3'
+        self.isGA = self.algorithm == 'GA'
+        self.isPSO = self.algorithm == 'PSO'
+
         self.data_dir = utils.apply_aliases(opts.get('data_dir'), project_dir_alias) or self.project_dir
         self.output_dir = utils.apply_aliases(opts.get('output_dir'), project_dir_alias) \
             or os.path.join(self.working_dir, 'output')
@@ -173,6 +189,11 @@ class Options:
             or os.path.join(self.working_dir, 'temp')
         self.key_models_dir = utils.apply_aliases(opts.get('key_models_dir'), project_dir_alias) \
             or os.path.join(options.working_dir, 'key_models')
+
+        if self.isMOGA:
+            self.non_dominated_models_dir = \
+                utils.apply_aliases(opts.get('non_dominated_models_dir'), project_dir_alias) \
+                or os.path.join(options.working_dir, 'non_dominated_models')
 
         self.aliases = {
             'project_dir': self.project_dir,
@@ -188,33 +209,23 @@ class Options:
 
         penalty = opts.get('penalty', {})
         ga = opts.get('GA', {})
+        moga = opts.get('MOGA', {})
         pso = opts.get('PSO', {})
 
         self.penalty = _default_penalty | penalty
         self.GA = _default_GA | ga
+        self.MOGA = _default_MOGA | moga
         self.PSO = _default_PSO | pso
         self.use_saved_models = opts.get('use_saved_models', False)
         self.saved_models_file = utils.apply_aliases(opts.get('saved_models_file'), self.aliases)
         self.saved_models_readonly = opts.get('saved_models_readonly', False) and self.use_saved_models
 
-        try:
-            self.use_effect_limit = opts.get('use_effect_limit', False)
-        except ValueError:
-            self.use_effect_limit = False
+        self.effect_limit = opts.get('effect_limit', -1)
+        self.use_effect_limit = self.effect_limit > 0
 
-        if (options.engine_adapter != 'nonmem' or options.algorithm != "GA") and self.use_effect_limit:
-            log.message("Can only use effect_limit with GA and NONMEM, setting to False")
+        if (options.engine_adapter != 'nonmem' or options.algorithm not in ['GA', 'MOGA', 'MOGA3']) and self.use_effect_limit:
+            log.warn('Can only use effect_limit with GA/MOGA/MOGA3 and NONMEM, turned off')
             self.use_effect_limit = False
-
-        if self.use_effect_limit:
-            self.effect_limit = _get_mandatory_option(opts, "effect_limit")
-            if not isinstance(self.effect_limit, int):
-                log.error(f"effect {self.effect_limit} limit is not an integer, exiting")
-                sys.exit()
-            else:
-                if self.effect_limit <= 0:
-                    log.error(f"effect limit {self.effect_limit} is < 0, exiting")
-                    sys.exit()
 
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)
@@ -222,18 +233,23 @@ class Options:
 
         self.crash_value = opts.get('crash_value', 99999999)
 
-        self.isGA = self.algorithm == "GA"
-        self.isPSO = self.algorithm == "PSO"
-
-        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA", "MOGA3"]:
             self.population_size = _get_mandatory_option(opts, 'population_size', self.algorithm)
             self.num_generations = _get_mandatory_option(opts, 'num_generations', self.algorithm)
+
         if self.algorithm in ["GBRT", "RF", "GP"]:
             self.num_opt_chains = _get_mandatory_option(opts, 'num_opt_chains', self.algorithm)
-        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
+
+        if self.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA", "MOGA3"]:
             self.downhill_period = opts.get('downhill_period', -1)
             self.final_downhill_search = opts.get('final_downhill_search', False)
             self.local_2_bit_search = opts.get('local_2_bit_search', False)
+
+            self.local_grid_search = opts.get('local_grid_search', False)
+            self.max_local_grid_search_bits = opts.get('max_local_grid_search_bits', 5)
+
+            if self.local_2_bit_search and self.isMOGA:
+                log.warn('2-bit search is requested but ignored for MOGA algorithms')
 
             if self.downhill_period > 0 or self.final_downhill_search:
                 self.num_niches = opts.get('num_niches', 2)
@@ -282,16 +298,18 @@ class Options:
         # don't rerun if key models are not kept
         self.rerun_key_models = opts.get('rerun_key_models', False) and self.keep_key_models
 
+        self.rerun_front_models = opts.get('rerun_front_models', True)
+
         self.TOKEN_NESTING_LIMIT = opts.get('TOKEN_NESTING_LIMIT', 4)
 
         self.CORRELATION_THRESHOLD = opts.get('CORRELATION_THRESHOLD', 0.95)
 
         self.fuzzy_eta = opts.get('fuzzy_eta', True)
 
-        fc_opts = opts.get('file_cleanup', {})
-        self.keep_shk = fc_opts.get('keep_shk', False)
-        self.keep_ext = fc_opts.get('keep_ext', False)
-        self.named_files_keep = fc_opts.get('named_files_keep', [])
+        self.keep_extensions = opts.get('keep_extensions', [])
+        self.keep_files = opts.get('keep_files', [])
+
+        self.skip_running = opts.get('skip_running', False)
 
     def initialize(self, options_file, folder=None):
         if not os.path.exists(options_file):

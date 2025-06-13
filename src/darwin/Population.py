@@ -4,6 +4,7 @@ import time
 from darwin.Log import log
 
 import darwin.utils as utils
+import darwin.algorithms.effect_limit as limits
 import darwin.GlobalVars as GlobalVars
 
 from darwin.options import options
@@ -86,30 +87,34 @@ class Population:
         maxes = template.gene_max
         lengths = template.gene_length
 
-        # need to generate population of "good" models (i.e., models with < effects_limit)
-        # only if this is downhill and use_effect_limit
-        if not options.use_effect_limit or not("D" in str(name) or "S" in str(name)):
+        if not options.use_effect_limit:
             for code in codes:
                 pop.add_model_run(code_converter(code, maxes, lengths))
 
             return pop
 
-        n_initial_models = len(codes)
-
         phenotype = [code_converter(code, maxes, lengths).IntCode for code in codes]
 
-        codes, num_effects, good_individuals = \
-            utils.trim_population(codes, phenotype, template.tokens.values(), options.effect_limit)
+        # trim downhill populations
+        if "D" in str(name) or "S" in str(name):
+            n_initial_models = len(codes)
+
+            codes, num_effects, good_individuals = \
+                limits.trim_population(codes, phenotype, template.tokens.values(), options.effect_limit)
+
+            if n_initial_models > len(codes):
+                log.message(f"{n_initial_models - len(codes)} of {n_initial_models} "
+                            f"models removed due to number of effects > {options.effect_limit}")
+
+            if niches is not None:
+                _trim_niches(niches, good_individuals)
+
+        else:
+            # leave regular populations unchanged even if they don't meet effect limit
+            num_effects = limits.get_pop_num_effects(phenotype, template.tokens.values())
 
         for code, ind_num_effects in zip(codes, num_effects):
             pop.add_model_run(code_converter(code, maxes, lengths), ind_num_effects)
-
-        if n_initial_models > len(codes):
-            log.message(f"{n_initial_models - len(codes)} of {n_initial_models} "
-                        f"models removed due to number of effects > {options.effect_limit}")
-
-        if niches is not None:
-            _trim_niches(niches, good_individuals)
 
         return pop
 
@@ -137,24 +142,24 @@ class Population:
             run = copy(existing_run)
             run.model_num = self.model_number
             run.file_stem += f'_{run.model_num}'
-            run.reference_model_num = existing_run.model_num
+            run.reference_model_num = existing_run.reference_model_num if existing_run.reference_model_num > -1 \
+                else existing_run.model_num
             clone = 'Clone' if str(existing_run.model.genotype()) == genotype else 'Twin'
             run.status = f'{clone}({run.reference_model_num})'
         elif run:
             if run.generation != self.name or run.model_num != self.model_number:
                 run.result.messages = str(run.result.messages)
-                run.result.ref_run = run.file_stem
+                run.ref_run = run.file_stem
 
             if run.status != 'Restored':
                 run.set_status(f"Cache({run.generation}-{run.model_num})")
 
             run.orig_run_dir = run.run_dir
             run.init_stem(wide_model_num, self.name)
+            run.model = model
 
             if not run.status.startswith('Cache('):
-                run1 = deepcopy(run)
-                run1.set_status('not restored')
-                self.model_cache.store_model_run(run1)
+                self.model_cache.update_model_run_status(run, 'not restored')
         else:
             run = ModelRun(model, wide_model_num, self.name, self.adapter)
 

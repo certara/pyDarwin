@@ -32,6 +32,17 @@ applicable given algorithm selection and execution environment e.g., GA and grid
             :ref:`"niche_penalty" <niche_penalty_options_desc>`: 20
         },
 
+        :ref:`"MOGA" <MOGA_options_desc>`: {
+            :ref:`"objectives" <objectives_options_desc>`: 3,
+            :ref:`"names" <objective_names_options_desc>`: ["objective 1", "objective 2", "objective 3"],
+            :ref:`"constraints" <constraints_options_desc>`: 0,
+            :ref:`"partitions" <partitions_options_desc>`: 6,
+            :ref:`"crossover" <crossover_options_desc>`: "single",
+            :ref:`"crossover_rate" <crossover_rate_options_desc>`: 0.95,
+            :ref:`"mutation_rate" <mutation_rate_options_desc>`: 0.95,
+            :ref:`"attribute_mutation_probability" <attribute_mutation_probability_options_desc>`: 0.1
+        },
+
         :ref:`"PSO" <PSO_options_desc>`: {
             :ref:`"inertia" <inertia_options_desc>`: 0.4,
             :ref:`"cognitive" <cognitive_options_desc>`: 0.5,
@@ -71,11 +82,16 @@ applicable given algorithm selection and execution environment e.g., GA and grid
             :ref:`"non_influential_tokens" <non_influential_tokens_options_desc>`: 0.00001
         },
 
+        :ref:`"effect_limit" <effect_limit_options_desc>`: 6,
+
         :ref:`"downhill_period" <downhill_period_options_desc>`: 2,
         :ref:`"num_niches" <num_niches_options_desc>`: 2,
         :ref:`"niche_radius" <niche_radius_options_desc>`: 2,
         :ref:`"local_2_bit_search" <local_2_bit_search_options_desc>`: true,
         :ref:`"final_downhill_search" <final_downhill_search_options_desc>`: true,
+
+        :ref:`"local_grid_search" <local_grid_search_options_desc>`: true,
+        :ref:`"max_local_grid_search_bits" <max_local_grid_search_bits_options_desc>`: 3,
 
         :ref:`"nmfe_path" <nmfe_path_options_desc>`: "/opt/nm751/util/nmfe75",
         :ref:`"model_run_timeout" <model_run_timeout_options_desc>`: 1200,
@@ -97,8 +113,13 @@ applicable given algorithm selection and execution environment e.g., GA and grid
         :ref:`"keep_best_models" <keep_best_models_options_desc>`: true,
         :ref:`"rerun_key_models" <rerun_key_models_options_desc>`: false,
 
+        :ref:`"rerun_front_models" <rerun_front_models_options_desc>`: false,
+
         :ref:`"remove_run_dir" <remove_run_dir_options_desc>`: false,
         :ref:`"remove_temp_dir" <remove_temp_dir_options_desc>`: true,
+
+        :ref:`"keep_files" <keep_files_options_desc>`: ["dmp.txt", "posthoc.csv"],
+        :ref:`"keep_extensions" <keep_extensions_options_desc>`: ["shk", "coi", "cor", "cov"],
 
         :ref:`"use_system_options" <use_system_options_options_desc>`: true,
 
@@ -106,6 +127,8 @@ applicable given algorithm selection and execution environment e.g., GA and grid
         :ref:`"model_run_man" <model_run_man_options_desc>`: "darwin.GridRunManager",
         :ref:`"grid_adapter" <grid_adapter_options_desc>`: "darwin.GenericGridAdapter",
         :ref:`"engine_adapter" <engine_adapter_options_desc>`: "nonmem",
+
+        :ref:`"skip_running" <skip_running_options_desc>`: false,
 
         :ref:`"rscript_path" <rscript_path_options_desc>`: "C:/Program Files/R/R-4.3.1/bin/Rscript.exe",
         :ref:`"nlme_dir" <nlme_dir_options_desc>`: "C:/Program Files/Certara/NLME_Engine",
@@ -117,6 +140,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
         :ref:`"output_dir" <output_dir_options_desc>`: "{project_dir}/output",
         :ref:`"temp_dir" <temp_dir_options_desc>`: "{working_dir}/temp",
         :ref:`"key_models_dir" <key_models_dir_options_desc>`: "{working_dir}/key_models",
+        :ref:`"non_dominated_models_dir" <non_dominated_models_dir_options_desc>`: "{working_dir}/non_dominated_models",
 
         :ref:`"generic_grid_adapter" <generic_grid_adapter_options_desc>`: {
             :ref:`"python_path" <python_path_options_desc>`: "~/darwin/venv/bin/python",
@@ -148,7 +172,7 @@ Here is the list of all available options. Note that many of the options have de
 
 .. _algorithm_options_desc:
 
-* :opt_name:`algorithm` :sup:`required` -- *string*: One of :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`, :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`, :ref:`PSO<PSO_desc>`.
+* :opt_name:`algorithm` :sup:`required` -- *string*: One of :ref:`EX<EX_desc>`, :ref:`GA<GA_desc>`, :ref:`GP<GP_desc>`, :ref:`RF<RF_desc>`, :ref:`GBRT<GBRT_desc>`, :ref:`PSO<PSO_desc>`, :ref:`MOGA<MOGA_desc>`, :ref:`MOGA3<MOGA3_desc>`.
 
 .. _GA_options_desc:
 
@@ -210,6 +234,44 @@ Here is the list of all available options. Note that many of the options have de
         penalty is to maintain diversity of models, to avoid premature convergence of the search by penalizing when models are too 
         similar to other models in the current generation.
       | *Default*: 20
+
+.. _MOGA_options_desc:
+
+* :opt_name:`MOGA` -- *JSON*: Options specific to MOGA and MOGA3. Ignored for all other algorithms.
+
+.. _objectives_options_desc:
+
+    * | :opt_name:`objectives` -- *positive int*: Number of objectives. Objectives must be provided by :ref:`postprocessing <postprocess_options_desc>` (either R or Python).
+      | Applicable only for MOGA3. For MOGA this option is ignored, 2 objectives are used.
+      | *Default*: 3
+
+.. _constraints_options_desc:
+
+    * | :opt_name:`constraints` -- *positive int*: Number of constraints. See https://pymoo.org/constraints/index.html
+      | Constraints must be provided by :ref:`postprocessing <postprocess_options_desc>` (either R or Python).
+      | Applicable only for MOGA3, ignored for MOGA.
+      | *Default*: 0
+
+.. note::
+   For MOGA3 the postprocessing script must return 2 lists: the first list contains objectives, the second -- constraints. If there are no constraints, the second list must be empty.
+
+.. _objective_names_options_desc:
+
+    * | :opt_name:`names` -- *list of strings*: List of names of the objectives. Must be the size of :ref:`objectives<objectives_options_desc>`. If empty or of a different size, generic names will be used.
+      | The names are used only in results.csv.
+      | Applicable only for MOGA3, ignored for MOGA.
+      | *Default*: 3
+
+.. _partitions_options_desc:
+
+    * | :opt_name:`partitions` -- *positive int*: Number of partitions. See https://pymoo.org/misc/reference_directions.html
+      | Applicable only for MOGA3, ignored for MOGA.
+      | *Default*: 12
+
+.. _crossover_options_desc:
+
+    * | :opt_name:`crossover` -- *string*: Crossover algorithm for MOGA. When set to single, SinglePointCrossover is used. Otherwise, TwoPointCrossover. See https://pymoo.org/operators/crossover.html#Point-Crossover
+      | *Default*: ``"single"``
 
 .. _PSO_options_desc:
 
@@ -385,9 +447,15 @@ Here is the list of all available options. Note that many of the options have de
         than the same model without the non-influential token(s) to break a tie.
       | *Default*: 0.00001
 
+.. _effect_limit_options_desc:
+
+* | :opt_name:`effect_limit` -- *int*: Limits :ref:`number of effects<Number of effects>`. If < 1, effect limit is turned off.
+  | Applicable only for NONMEM GA/MOGA/MOGA3 searches.
+  | *Default*: -1
+
 .. _downhill_period_options_desc:
 
-* | :opt_name:`downhill_period` -- *int*: How often to run the downhill step. If < 1, no periodic downhill search will be performed.
+* | :opt_name:`downhill_period` -- *int*: How often to run the :ref:`downhill step<Local One bit Search>`. If < 1, no periodic downhill search will be performed.
   | *Default*: -1
 
 .. _num_niches_options_desc:
@@ -407,12 +475,41 @@ Here is the list of all available options. Note that many of the options have de
 
 * | :opt_name:`local_2_bit_search` -- *boolean*: Whether to perform the :ref:`two bit local search<Local Two bit Search>`.
     The two bit local search substantially increases the robustness of the search. All downhill local searches are done starting from :ref:`num_niches models<num_niches_options_desc>`.
+  | Ignored for MOGA and MOGA3.
   | *Default*: ``false``
 
 .. _final_downhill_search_options_desc:
 
 * | :opt_name:`final_downhill_search` -- *boolean*: Whether to perform a :ref:`local search<Local Search>` (1 and 2 bit) at the end of the global search.
   | *Default*: ``false``
+
+.. _local_grid_search_options_desc:
+
+* | :opt_name:`local_grid_search` -- *boolean*: Whether to perform a local grid search during downhill.
+  | At each downhill step, after local 1-bit search iteration, in every niche:
+
+  * up to N = :ref:`max_local_grid_search_bits<max_local_grid_search_bits_options_desc>` models better than the best model in the niche are determined; N can be less than that if fewer better models are found
+  * if no better models found, the niche is done, otherwise
+  * for each better model, the first bit that is different to the best model is found
+  * those bits are then flipped in all possible ways (2^N permutations)
+  * resulting 2^N models replace original models in the niche (the best model in the niche is still the same)
+  * new niche models are run
+  * new best model is determined, local 1-bit search is repeated for the niches that are not done yet
+
+  | The same is true for MOGA and MOGA3, except:
+
+  * niches best models = front models
+  * the 1-bit iterations continue until the front is unchanged (since there is no best model per se)
+  * better runs are found by every objective, which makes it up to 2^(:ref:`objectives<objectives_options_desc>` * :ref:`max_local_grid_search_bits<max_local_grid_search_bits_options_desc>`) new models per niche; this can get out of control pretty fast: with 8 niches, 3 objectives and 5 bits you might get up to 8*2^15=262144 models
+  * only unique runs are added to the updated niche to not oversaturate the algorithm
+
+
+  | *Default*: ``false``
+
+.. _max_local_grid_search_bits_options_desc:
+
+* | :opt_name:`max_local_grid_search_bits` -- *positive int*: How many bits to flip.
+  | *Default*: 5
 
 .. _nmfe_path_options_desc:
 
@@ -445,6 +542,7 @@ Here is the list of all available options. Note that many of the options have de
 
     * | :opt_name:`post_run_r_code` :sup:`required` -- *string*: Path to R file (.r extension) to be run after each NONMEM execution.
       | Required if ``use_r`` is set to ``true``.
+      | The script is run in the :ref:`run directory <model_run_dir>`. It must return either a vector, containing a penalty value and a text (will be added to the output file), or, for :ref:`MOGA3<MOGA3_desc>`, :ref:`2 vectors<objectives_options_desc>`.
       | Available aliases are: :ref:`all common aliases<common_aliases>`.
 
 .. _r_timeout_options_desc:
@@ -461,7 +559,11 @@ Here is the list of all available options. Note that many of the options have de
 
     * | :opt_name:`post_run_python_code` :sup:`required` -- *string*: Path to python code file (.py extension) to be run after each NONMEM execution.
       | Required if ``use_python`` is set to ``true``.
+      | The script must contain either ``post_process2`` or ``post_process`` function (when it has both, ``post_process2`` is used). ``post_process2`` takes a ``ModelRun`` as an argument, ``post_process`` takes a run directory. Both of them must return a tuple containing either a penalty value and some text (will be added to the output file) or, for :ref:`MOGA3<MOGA3_desc>`, :ref:`2 lists<objectives_options_desc>`.
       | Available aliases are: :ref:`all common aliases<common_aliases>`.
+
+.. note::
+   Postprocessing is not used for MOGA.
 
 .. _use_saved_models_options_desc:
 
@@ -515,6 +617,11 @@ Here is the list of all available options. Note that many of the options have de
 .. note::
   | ``rerun_key_models`` doesn't have effect if none of ``keep_key_models``/``keep_best_models`` is ``true``.
 
+.. _rerun_front_models_options_desc:
+
+* | :opt_name:`rerun_front_models` -- *boolean*: Same to :ref:`rerun_key_models <rerun_key_models_options_desc>`, but for non-dominated models.
+  | *Default*: ``true``
+
 .. _remove_run_dir_options_desc:
 
 * | :opt_name:`remove_run_dir` -- *boolean*: If ``true``, will delete the entire model :ref:`run directory <model_run_dir>`, otherwise - only unnecessary files inside it.
@@ -524,6 +631,14 @@ Here is the list of all available options. Note that many of the options have de
 
 * | :opt_name:`remove_temp_dir` -- *boolean*: Whether to delete entire :mono_ref:`temp_dir <temp_dir_options_desc>` after the search is finished or stopped. Doesn't have any effect when search is :ref:`run on a grid <grid_execution>`.
   | *Default*: ``false``
+
+.. _keep_files_options_desc:
+
+* | :opt_name:`keep_files` -- *list of strings*: Keep files with exact names when cleaning up run directories.
+
+.. _keep_extensions_options_desc:
+
+* | :opt_name:`keep_extensions` -- *list of strings*: Keep ``{run_name}.{ext}`` when cleaning up run directories, where ``{ext}`` is one of the list items.
 
 .. _use_system_options_options_desc:
 
@@ -555,6 +670,11 @@ Here is the list of all available options. Note that many of the options have de
 * | :opt_name:`engine_adapter` -- *string*: ModelEngineAdapter subclass to be used.
   | Currently ``nonmem`` and ``nlme`` are available.
   | *Default*: ``nonmem``
+
+.. _skip_running_options_desc:
+
+* | :opt_name:`skip_running` -- *boolean*: If set, no actual NM/NLME runs will be performed, pyDarwin will create a control file and proceed to postprocessing. OFV in this case will be a sum of R and Python postprocessing penalties.
+  | *Default*: ``false``
 
 .. _rscript_path_options_desc:
 
@@ -607,6 +727,12 @@ Here is the list of all available options. Note that many of the options have de
 
 * | :opt_name:`key_models_dir` -- *string*: Directory where key/best models will be saved.
   | *Default*: ``{working_dir}/key_modlels``
+  | Available aliases are: :mono_ref:`{project_dir}<project_dir_alias>`, :mono_ref:`{working_dir}<working_dir_alias>`.
+
+.. _non_dominated_models_dir_options_desc:
+
+* | :opt_name:`non_dominated_models_dir` -- *string*: Directory where non-dominated models will be saved.
+  | *Default*: ``{working_dir}/non_dominated_models``
   | Available aliases are: :mono_ref:`{project_dir}<project_dir_alias>`, :mono_ref:`{working_dir}<working_dir_alias>`.
 
 .. _generic_grid_adapter_options_desc:

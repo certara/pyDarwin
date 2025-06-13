@@ -473,7 +473,7 @@ def run_pso(model_template: Template) -> ModelRun:
     :rtype: Model
     """
     pop_size = options.population_size
-    num_bits = int(np.sum(model_template.gene_length))
+    num_bits = sum(model_template.gene_length)
 
     pso_options = {'c1': options.PSO['cognitive'],
                    'c2': options.PSO['social'],

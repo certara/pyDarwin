@@ -7,7 +7,6 @@ import glob
 from os.path import isfile
 
 import json
-import shlex
 
 import subprocess
 from subprocess import TimeoutExpired, Popen
@@ -33,7 +32,7 @@ JSON_ATTRIBUTES = [
 ]
 
 
-def _dummy(run_dir: str):
+def _dummy(run):
     return 0, ""
 
 
@@ -153,6 +152,7 @@ class ModelRun:
         self.better = False
 
         self.reference_model_num = -1
+        self.ref_run = ''
 
         self.global_num = None
         self.finish_time = None
@@ -186,6 +186,13 @@ class ModelRun:
         Whether the run has been started.
         """
         return self.status != 'Not Started'
+
+    def is_unique(self) -> bool:
+        """
+        Whether the run is unique in this search.
+        """
+        status = self.status
+        return not(status.startswith('Twin(') or status.startswith('Clone(') or status.startswith('Cache('))
 
     def to_dict(self):
         """
@@ -233,12 +240,13 @@ class ModelRun:
         # if we cannot create run_dir, there's no point to continue
         sys.exit()
 
-    def make_control_file(self):
+    def make_control_file(self, cleanup=True):
         """
         Constructs the control file from the template and the model code.
         """
 
-        self._prepare_run_dir()
+        if cleanup:
+            self._prepare_run_dir()
 
         utils.remove_file(self.control_file_name)
         utils.remove_file(self.output_file_name)
@@ -368,7 +376,7 @@ class ModelRun:
 
         GlobalVars.run_models_num += 1
 
-        commands = self._adapter.get_model_run_commands(self)
+        commands = self._adapter.get_model_run_commands(self) if not options.skip_running else []
 
         cmd_count = 0
         failed = False
@@ -391,8 +399,16 @@ class ModelRun:
         if not failed:
             self.set_status('Finished model run')
 
-            if self._post_run_r() and self._post_run_python() and self._calc_fitness():
-                self.set_status('Done')
+            engine = self._adapter
+
+            if engine.read_model(self) and engine.read_results(self) or options.skip_running:
+                if not self.result.can_postprocess() or self._post_run_r() and self._post_run_python():
+                    try:
+                        self.result.calc_fitness(self.model)
+                    except:
+                        traceback.print_exc()
+
+                    self.set_status('Done')
 
     def finish(self):
         if self.rerun:
@@ -437,18 +453,6 @@ class ModelRun:
             return
 
         self._adapter.cleanup(self.run_dir, self.file_stem)
-
-    def _decode_r_stdout(self, r_stdout):
-        res = self.result
-
-        new_val = r_stdout.decode("utf-8").replace("[1]", "").strip()
-        # comes back a single string, need to parse by ""
-        val = shlex.split(new_val)
-        # penalty is always first, but may be addition /r/n in array? get the last?
-        num_vals = len(val)
-
-        res.post_run_r_penalty = float(val[0])
-        res.post_run_r_text = val[num_vals - 1]
 
     def _post_run_r(self):
         """
@@ -495,11 +499,7 @@ class ModelRun:
 
             return False
         else:
-            self._decode_r_stdout(r_process.stdout)
-
-            with open(os.path.join(self.run_dir, self.output_file_name), "a") as f:
-                f.write(f"Post run R code Penalty = {str(res.post_run_r_penalty)}\n")
-                f.write(f"Post run R code text = {str(res.post_run_r_text)}\n")
+            self.result.decode_r_stdout(r_process.stdout, os.path.join(self.run_dir, self.output_file_name))
 
         return True
 
@@ -510,11 +510,9 @@ class ModelRun:
         res = self.result
 
         try:
-            res.post_run_python_penalty, res.post_run_python_text = _python_post_process(self.run_dir)
+            pp_res = _python_post_process(self)
 
-            with open(os.path.join(self.run_dir, self.output_file_name), "a") as f:
-                f.write(f"Post run Python code Penalty = {str(res.post_run_python_penalty)}\n")
-                f.write(f"Post run Python code text = {str(res.post_run_python_text)}\n")
+            res.handle_python_pp_result(pp_res, os.path.join(self.run_dir, self.output_file_name))
 
             self.set_status('Done post process Python')
 
@@ -532,23 +530,6 @@ class ModelRun:
 
         return True
 
-    def _calc_fitness(self):
-        """
-        Calculates the fitness, based on the model output and the penalties.
-        Need to look in output file for parameter at boundary and parameter non-positive.
-        """
-
-        try:
-            engine = self._adapter
-
-            if engine.read_model(self) and engine.read_results(self):
-                self.result.calc_fitness(self.model)
-
-        except:
-            traceback.print_exc()
-
-        return True
-
     def output_results(self):
         """
         Prints results to output (.lst) file.
@@ -556,7 +537,6 @@ class ModelRun:
 
         with open(os.path.join(self.run_dir, self.output_file_name), "a") as output:
             res = self.result
-            model = self.model
 
             if self.status == 'Restored':
                 output.write(f"Restored run\n")
@@ -565,19 +545,27 @@ class ModelRun:
             output.write(f"covariance = {res.covariance}\n")
             output.write(f"correlation = {res.correlation}\n")
             output.write(f"Condition # = {res.condition_num}\n")
-            output.write(f"Num Non fixed THETAs = {model.estimated_theta_num}\n")
-            output.write(f"Num Non fixed OMEGAs = {model.estimated_omega_num}\n")
-            output.write(f"Num Non fixed SIGMAs = {model.estimated_sigma_num}\n")
+            output.write(f"Num Non fixed THETAs = {res.estimated_theta_num}\n")
+            output.write(f"Num Non fixed OMEGAs = {res.estimated_omega_num}\n")
+            output.write(f"Num Non fixed SIGMAs = {res.estimated_sigma_num}\n")
             output.write(f"Original run directory = {self.orig_run_dir or self.run_dir}\n")
 
 
 def _import_python_postprocessing(path: str):
     import importlib.util
-    spec = importlib.util.spec_from_file_location("postprocessing.module", path)
+    spec = importlib.util.spec_from_file_location('postprocessing.module', path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
 
-    return module.post_process
+    pp2 = module.__dict__.get('post_process2')
+
+    if pp2 is not None and callable(pp2):
+        return pp2
+
+    def pp(run: ModelRun):
+        return module.post_process(run.run_dir)
+
+    return pp
 
 
 def write_best_model_files(control_path: str, result_path: str) -> bool:
@@ -620,14 +608,10 @@ def log_run(run: ModelRun):
 
     step_name = 'Generation' if options.isGA else 'Iteration'
 
-    if run.status.startswith('Twin(') or run.status.startswith('Clone(') or run.status.startswith('Cache('):
-        fitness_text = ''
-    else:
-        fitness_crashed = res.fitness == options.crash_value
-        fitness_text = f"{res.fitness:.0f}" if fitness_crashed else f"{res.fitness:.3f}"
+    fitness_text = res.to_str(run.is_unique())
 
     status = run.status.rjust(14)
-    message = res.get_message_text()
+    message = res.get_message_text(run.ref_run)
     prd_err_text = ', error = ' + res.errors if res.errors else ''
     message += prd_err_text
     message = re.sub(r'\n', '  ', message, flags=re.RegexFlag.MULTILINE)
@@ -637,5 +621,5 @@ def log_run(run: ModelRun):
 
     log.message(
         f"{step_name} = {run.generation:>5}, Model {run.model_num:5}, {status},"
-        f"    fitness = {fitness_text:>9},    message = {message}"
+        f"    {fitness_text},  message = {message}"
     )

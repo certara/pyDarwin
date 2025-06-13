@@ -7,61 +7,10 @@ import multiprocessing as mp
 import traceback
 import psutil
 import math
+
 from darwin.Log import log
 
 from .DarwinError import DarwinError
-
-
-def get_effects_val(token_set: list) -> int:
-    value = token_set[-1].lower()
-    value = value.replace("effects", "")
-    value = value.replace("effect", "")
-    value = value.replace("=", "")
-
-    try:
-        value = int(value)
-    except ValueError:
-        value = -1
-
-    return value
-
-
-def _get_pop_num_effects(pop: list):
-    """
-    calculate the number of effects in each token set in each token group
-    called from Deaptoolbox.get_offspring
-    :param pop: list of lists of tokens used in each individual (not the full set)
-    :return: an array of the number of effects for each individual.
-    :rtype: integer array
-    """
-    num_effects = []
-
-    for individual in pop:
-        cur_n_effects = 0
-
-        for token_set in individual:
-            value = get_effects_val(token_set)
-
-            if value > 0:
-                cur_n_effects += value
-
-        num_effects.append(cur_n_effects)
-
-    return num_effects
-
-
-def trim_population(population: list, phenotype: list, all_tokens: list, effect_limit: int):
-    tokens = list()
-
-    for this_ind in phenotype:
-        tokens.append([tok_set[gene] for tok_set, gene in zip(all_tokens, this_ind)])
-
-    num_effects = _get_pop_num_effects(tokens)
-    good_individuals = [element <= effect_limit for element in num_effects]
-
-    population = [element for element, flag in zip(population, good_individuals) if flag]
-
-    return population, num_effects, good_individuals
 
 
 def convert_full_bin_int(population, gene_max: list, length: list):
@@ -472,10 +421,3 @@ def format_time(t: float, fuzzy_eta: bool = False) -> str:
         return f"{t:.1f} min."
 
     return res
-
-
-def cleanup_message(message: str) -> str:
-    message = re.sub(r',', '', message, flags=re.RegexFlag.MULTILINE)
-    message = re.sub(r'\n', '  ', message, flags=re.RegexFlag.MULTILINE)
-
-    return message

@@ -91,6 +91,7 @@ def extract_rhs_array(data: list) -> list:
     res = []
 
     for d in data:
+        d = re.sub(r'enable\s*=\s*c\s*\(.*?\)', '', d, flags=re.RegexFlag.MULTILINE)
         val = re.findall(r'(?:=|<-)\s*c\((.*?)\)', d, flags=re.RegexFlag.MULTILINE | re.RegexFlag.DOTALL)
 
         for values in val:

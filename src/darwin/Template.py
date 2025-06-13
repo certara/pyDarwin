@@ -4,41 +4,8 @@ import math
 import collections
 
 from darwin.Log import log
-import darwin.utils as utils
 from darwin.options import options
 from darwin.omega_search import get_omega_block_masks
-
-
-def _get_num_effects(tokens: dict):
-    """
-    calculate the number of effects in each token set in each token group
-    Note that the num_effect count will include all token sets, including non-influential tokens
-    """
-    num_effects = dict()
-    max_effects = 0
-
-    if options.use_effect_limit:
-        for group in tokens:
-            group_effects = list()
-
-            for token_set in tokens[group]:
-                value = utils.get_effects_val(token_set)
-
-                if value < 0:
-                    log.error(f"The final string in token set {group} should be 'effects = n', where n >= 0. n set to 0.")
-                    value = 0
-
-                group_effects.append(value)
-
-            num_effects[group] = group_effects
-            max_effects += max(group_effects)
-
-        if options.effect_limit >= max_effects:
-            log.error(f"Effect limit ({options.effect_limit}) is greater than the maximum possible effects ({max_effects})")
-            log.error("exiting")
-            sys.exit(0)
-
-    return num_effects, max_effects
 
 
 class Template:
@@ -103,8 +70,6 @@ class Template:
         self.omega_band_pos = None
 
         self.template_text = options.apply_aliases(self.template_text)
-
-        self.num_effects, self.max_effect = _get_num_effects(self.tokens)
 
     def _get_gene_length(self):
         """ argument is the token sets, returns maximum value of token sets and number of bits"""

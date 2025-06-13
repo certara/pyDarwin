@@ -85,8 +85,9 @@ class ModelEngineAdapter(ABC):
 
         control, comment_mark, bands = self._make_control_impl(control, template, model_code, phenotype)
 
-        phenotype = str(OrderedDict((k, v) for (k, v), inf in zip(phenotype.items(), non_inf_tokens) if not inf))
-        phenotype = phenotype.replace('OrderedDict', '')
+        phenotype = [f"('{k}', {v})" for (k, v), inf in zip(phenotype.items(), non_inf_tokens) if not inf]
+        phenotype = '([' + ', '.join(phenotype) + '])'
+
         phenotype += bands
 
         control += f"\n{comment_mark} Phenotype: " + phenotype + f"\n{comment_mark} Genotype: " + model_code_str \
@@ -126,13 +127,13 @@ class ModelEngineAdapter(ABC):
             self.make_control(template, model_code)
 
         if num_effects > -1:
-            self.add_comment(f"Number of effects = {num_effects}\n", model.control)
+            model.control = self.add_comment(f"Number of effects = {num_effects}\n", model.control)
 
         return model
 
     @staticmethod
     @abstractmethod
-    def add_comment(comment: str, control: str):
+    def add_comment(comment: str, control: str) -> str:
         """
         Add a comment to the control
         """
@@ -181,6 +182,12 @@ class ModelEngineAdapter(ABC):
         """
 
         pass
+
+
+def get_model_phenotype(template: Template, model_code: ModelCode) -> str:
+    res = get_engine_adapter(options.engine_adapter).make_control(template, model_code)
+
+    return res[0]
 
 
 def register_engine_adapter(name: str, engine):

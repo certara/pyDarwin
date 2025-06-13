@@ -32,9 +32,9 @@ class NMEngineAdapter(ModelEngineAdapter):
     def init_template(template: Template):
         template_text = template.template_text
 
-        template.theta_block = _get_variable_block(template_text, "$THETA")
-        template.omega_block = _get_variable_block(template_text, "$OMEGA")
-        template.sigma_block = _get_variable_block(template_text, "$SIGMA")
+        template.theta_block = get_variable_block(template_text, "$THETA")
+        template.omega_block = get_variable_block(template_text, "$OMEGA")
+        template.sigma_block = get_variable_block(template_text, "$SIGMA")
 
         _check_for_prior(template_text)
         _check_for_multiple_probs(template_text)
@@ -601,7 +601,7 @@ def _not_empty_line(line: str) -> bool:
     return line and remove_comments(line) != ''
 
 
-def _get_variable_block(template_text, key) -> list:
+def get_variable_block(template_text, key) -> list:
     code = _get_full_block(template_text, key)
 
     lines = list(filter(_not_empty_line, code))
@@ -659,7 +659,7 @@ def _check_for_multiple_probs(template_text: str):
 
     all_lines = remove_comments(template_text)
 
-    prob_lines = re.findall(r"\$PROB", all_lines)  #
+    prob_lines = re.findall(r"\$PROB", all_lines)
 
     if len(prob_lines) > 1:
         log.error(f"Search Omega bands is not supported with multiple $PROBs, exiting")
@@ -761,3 +761,6 @@ def set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
 
 def register():
     register_engine_adapter('nonmem', NMEngineAdapter())
+
+
+register()

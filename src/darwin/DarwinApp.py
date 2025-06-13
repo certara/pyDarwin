@@ -39,9 +39,6 @@ from .algorithms.OPT import run_skopt
 
 search_exp = r'\{[^\[\n]+\[\s*\d+\s*]\s*}'
 
-darwin.nonmem.NMEngineAdapter.register()
-darwin.nlme.NLMEEngineAdapter.register()
-
 
 def go_to_folder(folder: str, create: bool = False) -> bool:
     if not os.path.isdir(folder):
@@ -355,7 +352,7 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
     final gene in genome is omega band width, values 0 to max omega size -1
     """
 
-    if options.engine_adapter == 'nonmem':
+    if options.engine_adapter.startswith('nonmem'):
         options.search_omega_blocks = options.get('search_omega_bands', False)
 
         if options.search_omega_blocks and options.random_seed is None:
@@ -367,7 +364,7 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
             log.warn('max_omega_band_width must be at least 1, omitting omega band width search')
             options.search_omega_blocks = False
 
-    elif options.engine_adapter == 'nlme':
+    elif options.engine_adapter.startswith('nlme'):
         options.search_omega_blocks = options.get('search_omega_blocks', False)
         options.max_omega_band_width = None
 

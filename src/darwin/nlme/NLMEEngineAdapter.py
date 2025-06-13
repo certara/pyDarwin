@@ -812,3 +812,6 @@ def _set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
 
 def register():
     register_engine_adapter('nlme', NLMEEngineAdapter())
+
+
+register()

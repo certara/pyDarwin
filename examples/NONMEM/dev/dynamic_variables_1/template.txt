@@ -69,8 +69,8 @@ $ERROR
 
 $THETA
 ; Model parameters
-   (2.5)       ; CL ; L/h ; LOG
-    7         ; V2 ; L ; LOG
+   (2.5)       ; THETA(CL),  L/h  LOG
+    7         ; THETA(V2),  L  LOG
   {DOSE_COV_CL[2]}
   {DOSE_COV_V2[2]}
   {DOSE_COV_KA[2]}
@@ -85,8 +85,8 @@ $THETA
 
 
 $OMEGA ;; search band
- 0.1  ;  CL ; LOG
- 0.1  ;  V2 ; LOG
+ 0.1  ;  ETA(CL),  LOG
+ 0.1  ;  ETA(V2),  LOG
 {ZERO_ORDER_ABS[10]}
 {ODE[7]}
 {ZERO_ORDER_ABS[11]}

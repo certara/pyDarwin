@@ -26,8 +26,6 @@ class DVNMEngineAdapter(NMEngineAdapter):
         DVNMEngineAdapter.pk_block = get_variable_block(template.template_text, '$PK')
 
     def _make_control_impl(self, control: str, template: Template, model_code: ModelCode, phenotype: OrderedDict):
-        control = match_vars(control, template.tokens, self.pk_block, phenotype, 'MU')
-
         # Get compartment info
         num_cpt_key = 'NUMBER_COMPARTMENTS'
         assert control.count(num_cpt_key) == 1  # Check keyword only used once

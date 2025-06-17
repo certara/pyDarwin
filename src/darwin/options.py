@@ -128,7 +128,7 @@ class Options:
         return utils.apply_aliases(text, self.aliases)
 
     def _init_options(self, options_file: str, folder):
-        opts = json.loads(open(options_file, 'r').read())
+        opts = json.loads(open(options_file, 'r', encoding='utf-8').read())
 
         if opts.get('use_system_options', True):
             opts = _load_system_options(opts)

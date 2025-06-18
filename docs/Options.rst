@@ -260,7 +260,6 @@ Here is the list of all available options. Note that many of the options have de
     * | :opt_name:`names` -- *list of strings*: List of names of the objectives. Must be the size of :ref:`objectives<objectives_options_desc>`. If empty or of a different size, generic names will be used.
       | The names are used only in results.csv.
       | Applicable only for MOGA3, ignored for MOGA.
-      | *Default*: 3
 
 .. _partitions_options_desc:
 

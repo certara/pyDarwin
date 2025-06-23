@@ -665,17 +665,13 @@ def _get_values(ranefs: list, searched_omegas: set) -> dict:
         same_omegas = dict.fromkeys(om_same)
         del same_omegas['']
 
-        i = -1
-
         for name, same, block, fix in zip(om_descr, om_same, om_blocks, om_fix):
-            i += 1
+            if name not in searched_omegas:
+                continue
 
             if name in same_omegas:
                 raise DarwinError(f"Omega search cannot be performed for '{name}'"
                                   f" due to dependent omega structure (same): {ranef}")
-
-            if name not in searched_omegas:
-                continue
 
             if same != '' or block or fix:
                 raise DarwinError(f"Omega search cannot be performed for '{name}': {ranef}")

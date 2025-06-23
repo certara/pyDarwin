@@ -241,7 +241,7 @@ class NMEngineAdapter(ModelEngineAdapter):
     def read_data_file_name(control_file_name: str) -> list:
         datalines = []
 
-        with open(control_file_name, "r") as f:
+        with open(control_file_name, "r", encoding='utf-8') as f:
             for ln in f:
                 if ln.strip().startswith("$DATA"):
                     line = ln.strip()

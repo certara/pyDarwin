@@ -92,7 +92,7 @@ class MemoryModelCache(ModelCache):
 
             if models_list.is_file():
                 try:
-                    with open(models_list) as json_file:
+                    with open(models_list, encoding='utf-8') as json_file:
                         loaded_runs = json.load(json_file)
 
                     all_runs = OrderedDict(
@@ -128,7 +128,7 @@ class MemoryModelCache(ModelCache):
 
                 if not options.saved_models_readonly:
                     try:
-                        with open(models_list, 'w'):
+                        with open(models_list, 'w', encoding='utf-8'):
                             self.file = models_list
                     except OSError:
                         log.error(f"Cannot create '{models_list}'")

@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 import darwin.GlobalVars as GlobalVars
 
@@ -11,6 +10,7 @@ from darwin.Template import Template
 from darwin.ModelRun import ModelRun
 from darwin.ModelCode import ModelCode
 from darwin.Population import Population
+from darwin.DarwinError import DarwinError
 
 
 def run_exhaustive(model_template: Template) -> ModelRun:
@@ -58,6 +58,8 @@ def get_search_space_size(model_template: Template) -> int:
     try:
         space = get_search_space(model_template)
         return space.shape[0]
+    except DarwinError:
+        raise
     except:
         pass
 

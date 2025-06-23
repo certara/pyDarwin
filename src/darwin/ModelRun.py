@@ -251,7 +251,7 @@ class ModelRun:
         utils.remove_file(self.control_file_name)
         utils.remove_file(self.output_file_name)
 
-        with open(os.path.join(self.run_dir, self.control_file_name), 'w+') as f:
+        with open(os.path.join(self.run_dir, self.control_file_name), 'w+', encoding='utf-8') as f:
             f.write(self.model.control)
             f.flush()
 
@@ -580,7 +580,7 @@ def write_best_model_files(control_path: str, result_path: str) -> bool:
         return False
 
     try:
-        with open(control_path, 'w') as control:
+        with open(control_path, 'w', encoding='utf-8') as control:
             control.write(GlobalVars.best_run.model.control)
 
         with open(result_path, 'w') as result:

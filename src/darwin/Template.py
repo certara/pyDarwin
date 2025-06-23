@@ -6,6 +6,7 @@ import collections
 from darwin.Log import log
 from darwin.options import options
 from darwin.omega_search import get_omega_block_masks
+from darwin.DarwinError import DarwinError
 
 
 class Template:
@@ -31,7 +32,7 @@ class Template:
         """
 
         try:
-            self.template_text = open(template_file, 'r').read()
+            self.template_text = open(template_file, 'r', encoding='utf-8').read()
 
             log.message(f"Template file found at {template_file}")
         except Exception as error:
@@ -40,7 +41,7 @@ class Template:
             sys.exit()
 
         try:
-            self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r').read()))
+            self.tokens = collections.OrderedDict(json.loads(open(tokens_file, 'r', encoding='utf-8').read()))
 
             for key, val in self.tokens.items():
                 if type(val) == dict:
@@ -101,7 +102,6 @@ class Template:
                 num_groups.append(list(range(len(get_omega_block_masks(i)))))
 
         if not num_groups:
-            log.error('The search space is empty - exiting')
-            exit('The search space is empty')
+            raise DarwinError('The search space is empty')
 
         return num_groups

@@ -335,7 +335,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
     def read_data_file_name(control_file_name: str) -> list:
         datalines = []
 
-        with open(control_file_name, "r") as f:
+        with open(control_file_name, "r", encoding='utf-8') as f:
             text = f.read()
             match = re.search(r'##[^\S\n]*DATA1[^\S\n]+(.*)$', text)
 
@@ -426,7 +426,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         if not os.path.exists(path):
             return False
 
-        with open(path, "r") as file:
+        with open(path, "r", encoding='utf-8') as file:
             model_text = file.read()
 
         mdl = _get_mdl(model_text)

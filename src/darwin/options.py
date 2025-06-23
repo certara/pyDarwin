@@ -103,7 +103,7 @@ def _load_system_options(opts: dict) -> dict:
 
         log.message(f'Loading system options: {global_opts_file}')
 
-        global_opts = json.loads(open(global_opts_file, 'r').read())
+        global_opts = json.loads(open(global_opts_file, 'r', encoding='utf-8').read())
 
         for x, y in global_opts.items():
             if type(y) == dict:

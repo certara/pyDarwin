@@ -232,6 +232,20 @@ class NLMEEngineAdapter(ModelEngineAdapter):
             for ext in options.keep_extensions + ['mmdl']:
                 files_to_delete.pop(f'{file_stem}.{ext}', None)
 
+            mmdl_file = os.path.join(run_dir, f'{file_stem}.mmdl')
+
+            if os.path.exists(mmdl_file):
+                with open(mmdl_file, 'r', encoding='utf-8') as mmdl:
+                    text = mmdl.read()
+
+                    tables = extract_multiline_block(text, 'TABLES')
+
+                    matches = re.findall(r'^\s*(?:table|simtbl)\s*\(.*?file\s*=\s*"([^"]+)"', tables,
+                                         flags=re.RegexFlag.MULTILINE)
+
+                    for occ in matches:
+                        files_to_delete.pop(occ, None)
+
             for f in files_to_delete:
                 if re.search(r'^(err|out)\d+$|^sim-.*|^data\w+\.txt$', f):
                     continue

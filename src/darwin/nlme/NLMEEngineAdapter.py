@@ -223,7 +223,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         else:
             files_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
-            files = ['log.txt', 'out.txt', 'err1.txt', 'err2.txt', 'nlme7engine.log',
+            files = ['log.txt', 'out.txt', 'err1.txt', 'err2.txt', 'nlme7engine.log', 'dmp.txt', 'posthoc.csv',
                      'TDL5Warnings.log', 'integration_errors.txt', 'fort.27', f'{file_stem}_out.txt']
 
             for file in options.keep_files + files:

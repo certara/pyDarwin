@@ -194,7 +194,7 @@ class NMEngineAdapter(ModelEngineAdapter):
             for file in options.keep_files + ['FMSG', 'FCON', 'PRDERR', 'FSTREAM']:
                 files_to_delete.pop(file, None)
 
-            for ext in options.keep_extensions + ['mod', 'lst', 'ext', 'grd', 'xml']:
+            for ext in options.keep_extensions + ['mod', 'lst', 'ext', 'grd', 'xml', 'cor', 'cov', 'coi', 'phi', 'shk']:
                 files_to_delete.pop(f'{file_stem}.{ext}', None)
 
             if os.path.exists(os.path.join(run_dir, 'FSTREAM')):

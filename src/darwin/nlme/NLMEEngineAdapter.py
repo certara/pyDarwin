@@ -164,7 +164,8 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         ]
 
         # check NLME stderr first
-        err = _find_error(stderr, [r'Model not suitable for QRPEM analysis'])
+        err = _find_error(stderr, [r'Model not suitable for QRPEM analysis',
+                                   r'^Current engine is not applicable without random effects.$'])
         if err != '':
             run.set_status('Invalid model')
             return warning, err

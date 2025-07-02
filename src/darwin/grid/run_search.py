@@ -3,6 +3,7 @@ import os
 
 from darwin.options import options
 import darwin.utils as utils
+from .run_search_in_folder import run_grid_search_in_folder
 
 
 def _run_grid_search(template_file: str, tokens_file: str, options_file: str):
@@ -29,4 +30,7 @@ def _run_grid_search(template_file: str, tokens_file: str, options_file: str):
 
 
 if __name__ == '__main__':
-    _run_grid_search(sys.argv[1], sys.argv[2], sys.argv[3])
+    if len(sys.argv) == 2:
+        run_grid_search_in_folder(sys.argv[1])
+    else:
+        _run_grid_search(sys.argv[1], sys.argv[2], sys.argv[3])

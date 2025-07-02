@@ -5,7 +5,7 @@ from darwin.options import options
 import darwin.utils as utils
 
 
-def _run_grid_search(folder: str):
+def run_grid_search_in_folder(folder: str):
     os.chdir(folder)
 
     options.initialize('options.json', folder)
@@ -31,4 +31,4 @@ def _run_grid_search(folder: str):
 
 
 if __name__ == '__main__':
-    _run_grid_search(sys.argv[1])
+    run_grid_search_in_folder(sys.argv[1])

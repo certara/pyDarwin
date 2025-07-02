@@ -3,6 +3,7 @@ import sys
 from .Template import Template
 from .ModelRun import ModelRun
 from .DarwinApp import DarwinApp
+from .run_search_in_folder import run_search_in_folder
 
 
 def run_search(template_file: str, tokens_file: str, options_file: str) -> ModelRun:
@@ -22,4 +23,7 @@ def run_search(template_file: str, tokens_file: str, options_file: str) -> Model
 
 
 if __name__ == '__main__':
-    run_search(sys.argv[1], sys.argv[2], sys.argv[3])
+    if len(sys.argv) == 2:
+        run_search_in_folder(sys.argv[1])
+    else:
+        run_search(sys.argv[1], sys.argv[2], sys.argv[3])

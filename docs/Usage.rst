@@ -114,7 +114,7 @@ With either case, you need to setup :ref:`grid settings<generic_grid_adapter_opt
             "poll_command": "qstat -s z",
             "delete_command": "qdel {project_stem}-*",
             "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
-            "submit_search_command": "qsub -b y -wd {project_dir} -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_stem}'"
+            "submit_search_command": "qsub -b y -wd {project_dir} -o {project_stem}.out -e {project_stem}.err -N '{project_stem}'"
         },
 
   .. group-tab:: Slurm
@@ -146,7 +146,7 @@ With either case, you need to setup :ref:`grid settings<generic_grid_adapter_opt
             "poll_command": "qstat -a | grep \"\\b [CE]  \"",
             "delete_command": "qdel {job_ids}",
             "submit_command": "jsub -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name} --",
-            "submit_search_command": "jsub -d {project_dir} -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_stem}' --"
+            "submit_search_command": "jsub -d {project_dir} -o {project_stem}.out -e {project_stem}.err -N '{project_stem}' --"
         },
 
   .. group-tab:: LSF
@@ -162,7 +162,7 @@ With either case, you need to setup :ref:`grid settings<generic_grid_adapter_opt
             "poll_command": "bjobs -d",
             "delete_command": "bkill -J {project_stem}-*",
             "submit_command": "bsub -n 1 -q standard -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -J {job_name}",
-            "submit_search_command": "bsub -q standard -cwd {project_dir} -o {project_stem}_out.txt -e {project_stem}_err.txt -J '{project_stem}'"
+            "submit_search_command": "bsub -q standard -cwd {project_dir} -o {project_stem}.out -e {project_stem}.err -J '{project_stem}'"
         },
 
 
@@ -209,7 +209,7 @@ you'll need to load the corresponding module first. You can achieve that with a 
 
         #!/bin/bash
 
-        module load pydarwin/3.0.0
+        module load pydarwin/3.1.0
         python "$@"
 
 Use the script as :mono_ref:`python_path <python_path_options_desc>`:

@@ -228,7 +228,7 @@ class NLMEEngineAdapter(ModelEngineAdapter):
                 with open(mmdl_file, 'r', encoding='utf-8') as mmdl:
                     text = mmdl.read()
 
-                    tables = extract_multiline_block(text, 'TABLES')
+                    tables = extract_multiline_block(text, 'TABLES') or ''
 
                     matches = re.findall(r'^\s*(?:table|simtbl)\s*\(.*?file\s*=\s*"([^"]+)"', tables,
                                          flags=re.RegexFlag.MULTILINE)

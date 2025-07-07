@@ -6,6 +6,8 @@ import darwin.utils as utils
 
 
 def run_grid_search_in_folder(folder: str):
+    folder = os.path.abspath(folder)
+
     os.chdir(folder)
 
     options.initialize('options.json', folder)

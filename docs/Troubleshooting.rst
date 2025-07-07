@@ -3,11 +3,11 @@
 Troubleshooting
 ################
 
+.. _installation_troubleshooting:
+
 ******************
 Installation
 ******************
-
-.. _installation_troubleshooting:
 
 **SSL: CERTIFICATE_VERIFY_FAILED**
 
@@ -117,3 +117,10 @@ to below:
     setwd("..")
 
   
+
+.. _troubleshooting_grid_search:
+
+*******************
+Grid Execution
+*******************
+

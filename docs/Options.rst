@@ -737,11 +737,13 @@ Here is the list of all available options. Note that many of the options have de
 .. _generic_grid_adapter_options_desc:
 
 * | :opt_name:`generic_grid_adapter` -- *JSON*: These settings are necessary only when you use ``darwin.GridRunManager`` as :mono_ref:`model_run_man <model_run_man_options_desc>`.
+  | Examples for different workload managers can be found :ref:`here<generic_grid_adapter_examples>`
   | For local runs this entire section is ignored.
 
 .. _python_path_options_desc:
 
-    * :opt_name:`python_path` :sup:`required` -- *string*: Path to your Python interpreter, preferably to the instance of the interpreter located in :ref:`virtual environment<install_python_venv>` where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.
+    * | :opt_name:`python_path` :sup:`required` -- *string*: Path to your Python interpreter, preferably to the instance of the interpreter located in :ref:`virtual environment<install_python_venv>` where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.
+      | Alternatively it may be set to a :ref:`custom script<customizing_python_script>`.
 
 .. _submit_command_options_desc:
 

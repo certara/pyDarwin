@@ -17,13 +17,13 @@ Execution Overview
 Running search on local machine
 ================================
 
-The :ref:`darwin.run_search <darwin.run_search>` function executes the candidate search for the optimal population model.
+The :mono_ref:`darwin.run_search <darwin.run_search>` executes the search for the optimal population model.
 
 .. code:: python
     
     python -m darwin.run_search <template_path> <tokens_path> <options_path>
 
-To execute, call the ``darwin.run_search`` function and provide the paths to the following files as arguments:
+The aguments are the paths to the following files:
 
 1. :ref:`Template file <template_file_target>` (e.g., template.txt) - basic shell for NONMEM control files
 2. :ref:`Tokens file <tokens_file_target>` (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension
@@ -33,16 +33,18 @@ See :ref:`Required Files <startRequiredFiles>` for additional details.
 
 .. _usage_run_search_in_folder:
 
-Alternatively, you may execute the :mono_ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` function, 
-specifying the path to the folder containing the ``template.txt``, ``tokens.json``, and ``options.json`` files
-as a single argument:
+Alternatively, you can execute :mono_ref:`darwin.run_search <darwin.run_search>` or :mono_ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>` with 
+a single argument specifying the path to the folder containing the ``template.txt``, ``tokens.json``, and ``options.json`` files:
 
 .. code:: python
     
+    python -m darwin.run_search <folder_path>
+
     python -m darwin.run_search_in_folder <folder_path>
 
+
 .. note::
-    Files must be named as ``template.txt``, ``tokens.json``, and ``options.json`` when using :mono_ref:`darwin.run_search_in_folder <darwin.run_search_in_folder>`.
+    Files must be named as ``template.txt``, ``tokens.json``, and ``options.json`` when using the folder argument.
 
 
 .. _stop_search:
@@ -63,7 +65,7 @@ A running search can be stopped using following command:
    Don't force-stop GP during the :ref:`ask stage<GP_ask_tell>`. Either wait for it to finish (``Done asking`` in the console output and/or :file:`messages.txt`) or stop without ``-f`` flag.
 
 .. note::
-   models.json will contain all model runs finished before interruption.
+   :ref:`models.json` will contain all model runs finished before interruption.
 
 
 .. _grid_execution:
@@ -78,6 +80,7 @@ The following requirements should be met in order to execute pyDarwin on Linux G
 * Your search project must be available for all grid nodes as well.
 * You should be familiar with your grid controller commands (e.g., how to submit a job, query finished jobs, and delete jobs).
 * You should be familiar with regular expressions e.g., for usage in ``"submit_job_id_re"`` and ``"poll_job_id_re"`` fields in ``options.json``.
+* :mono_ref:`model_run_man <model_run_man_options_desc>` must be set to ``darwin.GridRunManager``.
 
 .. note::
     If all grid nodes share the same file system, you can simply deploy pyDarwin in your home directory (always use virtual environment!).
@@ -87,18 +90,88 @@ There are two ways to utilize grids for search in pyDarwin:
 1. Run search :ref:`locally <local_execution>`, submit individual model runs to the grid (local search, grid model runs).
 2. Submit search :ref:`to the grid <running_grid_search>`, as well as all the model runs (grid search, grid model runs).
 
-In both cases you need to setup grid settings in your ``options.json``.
-
-With either case, you can :ref:`stop the search <stop_search>` using ``darwin.stop_search``. Just keep in mind that in the second case, it may not be very responsive (due to load/IO latency/grid deployment details), so be patient.
-
 .. note::
     Although it’s possible to submit a "local search with local model runs" to the grid, this is not suggested.
+
+In both cases you can :ref:`stop the search <stop_search>` using ``darwin.stop_search``. Just keep in mind that in the second case, it may not be very responsive (due to load/IO latency/grid deployment details), so be patient.
+
+.. _generic_grid_adapter_examples:
+
+With either case, you need to setup :ref:`grid settings<generic_grid_adapter_options_desc>` in your ``options.json``. Below are examples for different workload managers:
+
+.. tabs::
+
+  .. group-tab:: SGE
+
+    ..  code-block:: json
+
+        "model_run_man": "darwin.GridRunManager",
+        "generic_grid_adapter": {
+            "python_path": "~/darwin/venv/bin/python",
+            "submit_job_id_re": "Your job (\\w+) \\(\".+?\"\\) has been submitted",
+            "poll_job_id_re": "^\\s+(\\w+)",
+            "poll_interval": 10,
+            "poll_command": "qstat -s z",
+            "delete_command": "qdel {project_stem}-*",
+            "submit_command": "qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}",
+            "submit_search_command": "qsub -b y -wd {project_dir} -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_stem}'"
+        },
+
+  .. group-tab:: Slurm
+
+    ..  code-block:: json
+
+        "model_run_man": "darwin.GridRunManager",
+        "generic_grid_adapter": {
+            "python_path": "~/darwin/venv/bin/python",
+            "submit_job_id_re": "Submitted batch job (\\d+)",
+            "poll_job_id_re": "^(\\d+)",
+            "poll_interval": 10,
+            "poll_command": "squeue -t CD,CA,F,ST,TO --noheader --format=%i",
+            "delete_command": "scancel {job_ids}",
+            "submit_command": "sbatch --job-name {job_name} --output {results_dir}/{run_name}.out --error {results_dir}/{run_name}.err --wrap {darwin_cmd}",
+            "submit_search_command": "sbatch -D {project_dir} --job-name '{project_name}' --output {project_stem}.out --error {project_stem}.err --wrap '{darwin_cmd}'"
+        },
+
+  .. group-tab:: jsub-Torque
+
+    ..  code-block:: json
+
+        "model_run_man": "darwin.GridRunManager",
+        "generic_grid_adapter": {
+            "python_path": "~/darwin/venv/bin/python",
+            "submit_job_id_re": "^(\\d+)\\.",
+            "poll_job_id_re": "^(\\d+)\\.",
+            "poll_interval": 10,
+            "poll_command": "qstat -a | grep \"\\b [CE]  \"",
+            "delete_command": "qdel {job_ids}",
+            "submit_command": "jsub -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name} --",
+            "submit_search_command": "jsub -d {project_dir} -o {project_stem}_out.txt -e {project_stem}_err.txt -N '{project_stem}' --"
+        },
+
+  .. group-tab:: LSF
+
+    ..  code-block:: json
+
+        "model_run_man": "darwin.GridRunManager",
+        "generic_grid_adapter": {
+            "python_path": "~/darwin/venv/bin/python",
+            "submit_job_id_re": "Job \\<(\\d+)\\> is submitted",
+            "poll_job_id_re": "^(\\d+)",
+            "poll_interval": 20,
+            "poll_command": "bjobs -d",
+            "delete_command": "bkill -J {project_stem}-*",
+            "submit_command": "bsub -n 1 -q standard -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -J {job_name}",
+            "submit_search_command": "bsub -q standard -cwd {project_dir} -o {project_stem}_out.txt -e {project_stem}_err.txt -J '{project_stem}'"
+        },
 
 
 .. _running_grid_search:
 
 Running Grid Search
 ---------------------
+
+You can send the search itself to the grid.
 
 .. code:: python
     
@@ -109,11 +182,42 @@ Or alternatively, run grid search in folder:
 
 .. code:: python
     
+    python -m darwin.grid.run_search <folder_path>
+
     python -m darwin.grid.run_search_in_folder <folder_path>
 
-.. note::
-    You must ensure that :mono_ref:`submit_search_command <submit_search_command_options_desc>` has been set up correctly in options.json, in addition to other grid settings.
 
+A few things to do before that:
+
+* Ensure that :mono_ref:`submit_search_command <submit_search_command_options_desc>` has been set up correctly in options.json, in addition to other grid settings.
+* Make sure your search job won't be killed by time-out. The search can take days in some cases, so either set the timeout explicitly in ``submit_search_command`` or ask your grid administrator for help.
+* Try running the search locally before sending it to the grid: it's easier to :ref:`troubleshoot<troubleshooting_grid_search>` when you have console output.
+
+
+.. _customizing_python_script:
+
+Customizing Python Environment
+-----------------------------------
+
+In some cases you may need to perform additional actions before you call pyDarwin. For example, if you use `modules <https://www.google.com/search?q=module+HPC>`_, 
+you'll need to load the corresponding module first. You can achieve that with a simple script:
+
+    .. code-block:: bash
+
+        #!/bin/bash
+
+        module load pydarwin/3.0.0
+        python "$@"
+
+Use the script as :mono_ref:`python_path <python_path_options_desc>`:
+
+    ..  code-block:: json
+
+        "generic_grid_adapter": {
+            "python_path": "~/darwin/run_pydarwin.sh",
+        },
+
+This should work for both the model runs and the search (``submit_command`` and ``submit_search_command``).
 
 .. _search_info:
 
@@ -734,6 +838,8 @@ Messages.txt
 
 The messages.txt file will be found in the working directory. This file's content is the same as the console output.
 
+
+.. _models.json:
 
 models.json
 --------------

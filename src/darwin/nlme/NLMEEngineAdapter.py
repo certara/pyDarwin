@@ -78,17 +78,6 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         os.environ['INSTALLDIR'] = nlme_dir
         os.environ['NLMEGCCDir64'] = gcc_dir
 
-        lic_file = options.get('nlme_license', None)
-
-        if lic_file is not None:
-            if not os.path.exists(lic_file):
-                log.error(f"TDL license file '{lic_file}' seems to be missing")
-                return False
-
-            log.message(f"Using TDL license file: {lic_file}")
-
-            os.environ['PhoenixLicenseFile'] = lic_file
-
         return True
 
     @staticmethod

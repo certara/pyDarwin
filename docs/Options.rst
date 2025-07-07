@@ -133,7 +133,6 @@ applicable given algorithm selection and execution environment e.g., GA and grid
         :ref:`"rscript_path" <rscript_path_options_desc>`: "C:/Program Files/R/R-4.3.1/bin/Rscript.exe",
         :ref:`"nlme_dir" <nlme_dir_options_desc>`: "C:/Program Files/Certara/NLME_Engine",
         :ref:`"gcc_dir" <gcc_dir_options_desc>`: "C:/Program Files/Certara/mingw64",
-        :ref:`"nlme_license" <nlme_license_options_desc>`: "c:/workspace/lservrc",
 
         :ref:`"working_dir" <working_dir_options_desc>`: "~/darwin/Ex1",
         :ref:`"data_dir" <data_dir_options_desc>`: "{project_dir}/data",
@@ -689,10 +688,6 @@ Here is the list of all available options. Note that many of the options have de
 
 * | :opt_name:`gcc_dir` :sup:`required` -- *string*: Absolute path to GCC root directory.
   | Required if ``engine_adapter`` is set to ``nlme``.
-
-.. _nlme_license_options_desc:
-
-* | :opt_name:`nlme_license` -- *string*: Absolute path NLME license file.
 
 .. _working_dir_options_desc:
 

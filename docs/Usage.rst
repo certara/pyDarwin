@@ -79,7 +79,7 @@ The following requirements should be met in order to execute pyDarwin on Linux G
 * You must make pyDarwin installation available for all grid nodes. 
 * Your search project must be available for all grid nodes as well.
 * You should be familiar with your grid controller commands (e.g., how to submit a job, query finished jobs, and delete jobs).
-* You should be familiar with regular expressions e.g., for usage in ``"submit_job_id_re"`` and ``"poll_job_id_re"`` fields in ``options.json``.
+* You should be familiar with regular expressions e.g., for usage in ``submit_job_id_re`` and ``poll_job_id_re`` fields in ``options.json``.
 * :mono_ref:`model_run_man <model_run_man_options_desc>` must be set to ``darwin.GridRunManager``.
 
 .. note::

@@ -23,7 +23,7 @@ The :mono_ref:`darwin.run_search <darwin.run_search>` executes the search for th
     
     python -m darwin.run_search <template_path> <tokens_path> <options_path>
 
-The aguments are the paths to the following files:
+The arguments are the paths to the following files:
 
 1. :ref:`Template file <template_file_target>` (e.g., template.txt) - basic shell for NONMEM control files
 2. :ref:`Tokens file <tokens_file_target>` (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension
@@ -52,7 +52,7 @@ a single argument specifying the path to the folder containing the ``template.tx
 Stopping Execution
 =========================
 
-A running search can be stopped using following command:
+A running search can be stopped using the following command:
 
 .. code:: python
     
@@ -202,7 +202,7 @@ A few things to do before that:
 Customizing Python Environment
 -----------------------------------
 
-In some cases you may need to perform additional actions before you call pyDarwin. For example, if you use `modules <https://www.google.com/search?q=module+HPC>`_, 
+In some cases, you may need to perform additional actions before you call pyDarwin. For example, if you use `modules <https://www.google.com/search?q=module+HPC>`_, 
 you'll need to load the corresponding module first. You can achieve that with a simple script:
 
     .. code-block:: bash
@@ -639,10 +639,10 @@ Band Omegas will be searched if:
 
     * :ref:`"max_omega_band_width" <max_omega_band_width_options_desc>`: N
 
-    Where N is an positive integer.
+    Where N is a positive integer.
 
 .. warning::
-    The $OMEGA must appear on a separate line, e.g,. `$OMEGA 0.1 0.1 0.1 ; search band`
+    The $OMEGA must appear on a separate line, e.g., `$OMEGA 0.1 0.1 0.1 ; search band`
     is not permitted.
 
 

@@ -72,23 +72,6 @@ Failing to do so will result in ``pyDarwin`` not finding an appropriate initial 
 To ensure valid results, all folders that ``pyDarwin`` uses (output dir, temp dir, and working dir) are removed prior to start. If one of those folders,
 or a file in a folder is open, ``pyDarwin`` will be unable to remove it.
 
-.. _can't access messages.txt:
-
-
-**can't access messages.txt**
-
-::
-   
-   Exception has occurred: PermissionError (note: full exception trace is shown but execution is paused at: <module>)
-   [WinError 32] The process cannot access the file because it is being used by another process: 'c:\\pydarwin\\Example6\\messages.txt'
-
-This error occurs when ``run_search`` is called from python in Visual Studio Code without the "if __name__ == '__main__': " `syntax <https://stackoverflow.com/questions/419163/what-does-if-name-main-do>`_. 
-
-::
-   
-   "if __name__ == '__main__': "
-
-isn't used to call ``run_search``, it tries to reopen messages.txt and fails.
 
 .. _can't open r:
 
@@ -106,7 +89,7 @@ Post Run Code
 
 pyDarwin reads the FCON file to obtain the OMEGA structure and number of estimated OMEGAs. If you do another run in
 the same folder, the FCON file will be overwritten. If using post run R code, it is suggested to add something similar
-to below:
+to the following:
 
 ::
 
@@ -214,7 +197,7 @@ The search job can fail due to different reasons. Here we address two most commo
   error reason          1:      07/07/2025 15:29:36 [51162:2714234]: error: can't chdir to example: No such file or directory
   scheduling info:            (Collecting of scheduler job information is turned off)
 
-Here you can see the job wasn't enqueued due to invalid working directory.
+Here you can see the job wasn't enqueued due to an invalid working directory.
 When a job is stuck in this state, you can examine it with ``qstat -j``.
 
 .. note::

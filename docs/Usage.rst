@@ -186,6 +186,9 @@ Or alternatively, run grid search in folder:
 
     python -m darwin.grid.run_search_in_folder <folder_path>
 
+.. note::
+    Files must be named as ``template.txt``, ``tokens.json``, and ``options.json`` when using the folder argument.
+
 .. warning::
    Prior to pyDarwin 3.1.0 either ``.`` or absolute path must be used as ``folder_path``.
 

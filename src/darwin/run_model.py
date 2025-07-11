@@ -13,7 +13,7 @@ from .ModelRun import ModelRun, run_to_json, json_to_run
 
 
 def _run_model(run: ModelRun) -> ModelRun:
-    run.result = run.model_result_class()
+    run.result = run.get_model_results_class()()
 
     run.run_model()
 

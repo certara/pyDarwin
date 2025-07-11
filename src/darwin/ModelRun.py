@@ -21,7 +21,7 @@ import darwin.utils as utils
 import darwin.GlobalVars as GlobalVars
 
 from .Model import Model
-from .ModelResults import ModelResults
+from .ModelResults import ModelResults, MOGA3ModelResults, MOGAModelResults
 from .ModelEngineAdapter import ModelEngineAdapter, get_engine_adapter
 from .DarwinError import DarwinError
 
@@ -156,6 +156,19 @@ class ModelRun:
 
         self.global_num = None
         self.finish_time = None
+
+    @staticmethod
+    def get_model_results_class():
+        res = ModelResults
+
+        if options.isMOGA:
+            if options.isMOGA3:
+                MOGA3ModelResults.n_obj = options.MOGA['objectives']
+                res = MOGA3ModelResults
+            else:
+                res = MOGAModelResults
+
+        return res
 
     def set_status(self, status: str):
         if self.status == 'Invalid model':

@@ -54,10 +54,16 @@ def get_search_space(template: Template) -> np.ndarray:
     return codes
 
 
-def get_search_space_size(model_template: Template) -> int:
+def get_search_space_size(template: Template) -> int:
     try:
-        space = get_search_space(model_template)
-        return space.shape[0]
+        num_groups = template.get_search_space_coordinates()
+
+        size = 1
+
+        for x in num_groups:
+            size *= len(x)
+
+        return size
     except DarwinError:
         raise
     except:

@@ -52,21 +52,3 @@ def get_search_space(template: Template) -> np.ndarray:
     codes = np.array(np.meshgrid(*num_groups)).T.reshape(-1, len(num_groups))
 
     return codes
-
-
-def get_search_space_size(template: Template) -> int:
-    try:
-        num_groups = template.get_search_space_coordinates()
-
-        size = 1
-
-        for x in num_groups:
-            size *= len(x)
-
-        return size
-    except DarwinError:
-        raise
-    except:
-        pass
-
-    return -1

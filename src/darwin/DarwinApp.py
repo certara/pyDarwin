@@ -31,7 +31,7 @@ from .ModelCache import set_model_cache, create_model_cache
 from .DarwinError import DarwinError
 from .Population import init_pop_nums
 
-from .algorithms.exhaustive import run_exhaustive, get_search_space_size
+from .algorithms.exhaustive import run_exhaustive
 from .algorithms.GA import run_ga
 from .algorithms.MOGA import run_moga
 from .algorithms.PSO import run_pso
@@ -151,7 +151,7 @@ def init_search(model_template: Template) -> bool:
 
     adapter.init_template(model_template)
 
-    space_size = get_search_space_size(model_template)
+    space_size = model_template.get_search_space_size()
 
     if space_size == -1:
         log.message(f"Search space size is too large to calculate")

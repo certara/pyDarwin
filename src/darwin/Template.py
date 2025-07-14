@@ -105,3 +105,20 @@ class Template:
             raise DarwinError('The search space is empty')
 
         return num_groups
+
+    def get_search_space_size(self) -> int:
+        try:
+            num_groups = self.get_search_space_coordinates()
+
+            size = 1
+
+            for x in num_groups:
+                size *= len(x)
+
+            return size
+        except DarwinError:
+            raise
+        except:
+            pass
+
+        return -1

@@ -108,6 +108,8 @@ def run_ga(model_template: Template) -> ModelRun:
 
     generations_no_change = 0
 
+    overall_best_fitness = options.crash_value
+
     # Begin evolution
     while runner.run_generation():
         population = runner.population
@@ -121,12 +123,6 @@ def run_ga(model_template: Template) -> ModelRun:
         log.message(f"Current generation best genome = {best_run.model.model_code.FullBinCode},"
                     f" best fitness = {best_fitness:.4f}")
 
-        best_run_overall = GlobalVars.best_run or best_run
-        overall_best_fitness = best_run_overall.result.fitness
-
-        log.message(f"Best overall fitness = {best_run_overall.result.fitness:4f},"
-                    f" iteration {best_run_overall.generation}, model {best_run_overall.model_num}")
-
         if best_fitness < overall_best_fitness:
             generations_no_change = 0
             log.message(f"Better fitness found, generation = {runner.generation},"
@@ -135,6 +131,13 @@ def run_ga(model_template: Template) -> ModelRun:
             generations_no_change += 1
             log.message(f"No change in fitness for {generations_no_change} generations,"
                         f" best fitness = {overall_best_fitness:.4f}")
+
+        best_run_overall = GlobalVars.best_run or best_run
+
+        log.message(f"Best overall fitness = {best_run_overall.result.fitness:4f},"
+                    f" iteration {best_run_overall.generation}, model {best_run_overall.model_num}")
+
+        overall_best_fitness = best_run_overall.result.fitness
 
     log.message(f"-- End of GA component at {time.asctime()} --")
 

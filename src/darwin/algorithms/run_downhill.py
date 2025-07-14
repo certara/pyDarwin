@@ -8,7 +8,7 @@ from darwin.ExecutionManager import keep_going
 
 from darwin.Template import Template
 from darwin.ModelRun import ModelRun
-from darwin.Population import Population
+from darwin.Population import Population, get_best_run
 from darwin.ModelCode import ModelCode
 
 
@@ -17,9 +17,10 @@ def _get_distances(x, y) -> list:
 
 
 class _Niche:
-    def __init__(self, best_run: ModelRun):
+    def __init__(self, best_run: ModelRun, start: int = None, finish: int = None):
         self.best_run = best_run
-        self.runs_start = self.runs_finish = None
+        self.runs_start = start
+        self.runs_finish = finish
         self.done = False
 
 
@@ -305,9 +306,6 @@ def run_downhill(template: Template, pop: Population) -> list:
         last_best_fitness = run_for_search.result.fitness
 
         log.message(f"Begin local exhaustive 2-bit search, generation = {generation}, step = {this_step}")
-        log.message(f"Model for local exhaustive search = {run_for_search.file_stem}, "
-                    f"fitness = {run_for_search.result.fitness}")
-        log.message(f"phenotype = {run_for_search.model.phenotype}")
 
         run_for_search, runs = _full_search(template, run_for_search, generation)
 
@@ -355,26 +353,29 @@ def _change_each_bit(source_models: list, radius: int):  # only need upper trian
     return models, radius
 
 
-def _full_search(model_template: Template, best_pre: ModelRun, base_generation):
+def _full_search(model_template: Template, initial_best: ModelRun, base_generation):
     """perform 2 bit search (radius should always be 2 bits), will always be called after run_downhill (1 bit search),
     argument is:
     best_pre - base model for search 
     Output:
     single best model """
-    this_step = 1
-    best_pre_fitness = best_pre.result.fitness
-    last_best_fitness = best_pre_fitness
-    current_best_fitness = best_pre_fitness
-    overall_best_run = best_pre
-    current_best_model = best_pre.model.model_code.MinBinCode
+
+    overall_best = initial_best
 
     all_runs = []
 
-    while current_best_fitness < last_best_fitness or this_step == 1:  # run at least once
+    this_step = 1
+
+    while True:
         full_generation = str(base_generation) + f"S{this_step:02d}"
-        last_best_fitness = current_best_fitness
+
+        # start with just one, then call recursively for each radius
+        test_models = [overall_best.model.model_code.MinBinCode]
+
         radius = 1
-        test_models = [current_best_model]  # start with just one, then call recursively for each radius
+
+        log.message(f"Model for local exhaustive search = {overall_best.file_stem}, "
+                    f"fitness = {overall_best.result.fitness}")
 
         while radius <= 2:
             test_models, radius = _change_each_bit(test_models, radius)
@@ -386,17 +387,24 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation):
         if not keep_going():
             break
 
-        best = population.get_best_run()
-        log.message(f"Model for local exhaustive search = {best.file_stem}, "
-                    f"fitness = {best.result.fitness}")
-        current_best_fitness = best.result.fitness
+        runs = population.runs
 
-        if current_best_fitness < last_best_fitness:
-            current_best_model = best.model.model_code.MinBinCode
+        if options.local_grid_search:
+            niche = _Niche(overall_best, 0, len(population.runs))
+            runs = _run_local_grid_search(population.runs, model_template, [niche], full_generation, this_step)
 
-        if current_best_fitness < overall_best_run.result.fitness:
-            overall_best_run = copy(best)
+            if not keep_going():
+                break
+
+        best = get_best_run(runs)
+
+        best_fitness = best.result.fitness
+
+        if best_fitness < overall_best.result.fitness:
+            overall_best = copy(best)
+        else:
+            break
 
         this_step += 1
 
-    return overall_best_run, all_runs
+    return overall_best, all_runs

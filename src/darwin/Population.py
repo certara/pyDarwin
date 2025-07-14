@@ -178,11 +178,8 @@ class Population:
         """
         Get the best run (the run with the least fitness among entire population).
         """
-        fitnesses = [r.result.fitness for r in self.runs]
 
-        best = utils.get_n_best_index(1, fitnesses)[0]
-
-        return self.runs[best]
+        return get_best_run(self.runs)
 
     def get_best_runs(self, n: int) -> list:
         """
@@ -295,3 +292,14 @@ def get_remaining_model_num(pop: Population):
             pop_nums.pop(name)
 
     return sum(pop_nums.values()) + len(pop.runs)
+
+
+def get_best_run(runs: list) -> ModelRun:
+    """
+    Get the best run (the run with the least fitness among the list).
+    """
+    fitnesses = [r.result.fitness for r in runs]
+
+    best = utils.get_n_best_index(1, fitnesses)[0]
+
+    return runs[best]

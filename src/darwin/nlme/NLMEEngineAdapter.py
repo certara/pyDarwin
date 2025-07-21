@@ -145,7 +145,8 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         patterns2 = [
             r'Fatal error:.+$',
             r'^Execution failed due to integration error.$',
-            r'^Model not suitable for QRPEM analysis$'
+            r'^Model not suitable for QRPEM analysis$',
+            r'^Error: Next time (?:.+?) is less than current time (?:.+?)\. \(Was reset intended\?\)'
         ]
 
         patterns7 = [

@@ -156,7 +156,7 @@ class Population:
 
             run.orig_run_dir = run.run_dir
             run.init_stem(wide_model_num, self.name)
-            run.model = model
+            run.model.control = model.control
 
             if not run.status.startswith('Cache('):
                 self.model_cache.update_model_run_status(run, 'not restored')

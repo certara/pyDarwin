@@ -1,24 +1,22 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Usage &mdash; pyDarwin 3.0.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>Usage &mdash; pyDarwin 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/documentation_options.js?v=dd1205ac"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/tabs.js?v=3030b3cb"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -31,11 +29,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> pyDarwin
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyDarwin
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -57,6 +59,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#stopping-execution">Stopping Execution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#execution-on-linux-grids">Execution on Linux Grids</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#running-grid-search">Running Grid Search</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#customizing-python-environment">Customizing Python Environment</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#search-info">Search Info</a></li>
@@ -99,6 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLME.html">NLME integration</a></li>
 </ul>
 
         </div>
@@ -114,7 +118,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Usage</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -125,37 +129,38 @@
            <div itemprop="articleBody">
              
   <section id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h1>
+<h1>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h1>
 <p id="execution">Darwin may be executed locally, on Linux Grids, or as a combination of both (e.g., execute NONMEM models on grids and run search locally).</p>
 <section id="execution-overview">
-<h2>Execution Overview<a class="headerlink" href="#execution-overview" title="Permalink to this heading">¶</a></h2>
+<h2>Execution Overview<a class="headerlink" href="#execution-overview" title="Link to this heading">¶</a></h2>
 <section id="running-search-on-local-machine">
-<span id="local-execution"></span><h3>Running search on local machine<a class="headerlink" href="#running-search-on-local-machine" title="Permalink to this heading">¶</a></h3>
-<p>The <a class="reference internal" href="API.html#darwin-run-search"><span class="std std-ref">darwin.run_search</span></a> function executes the candidate search for the optimal population model.</p>
+<span id="local-execution"></span><h3>Running search on local machine<a class="headerlink" href="#running-search-on-local-machine" title="Link to this heading">¶</a></h3>
+<p>The <a class="mono reference internal" href="API.html#darwin-run-search"><span class="std std-ref">darwin.run_search</span></a> executes the search for the optimal population model.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">run_search</span> <span class="o">&lt;</span><span class="n">template_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">tokens_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">options_path</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<p>To execute, call the <code class="docutils literal notranslate"><span class="pre">darwin.run_search</span></code> function and provide the paths to the following files as arguments:</p>
+<p>The arguments are the paths to the following files:</p>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="#template-file-target"><span class="std std-ref">Template file</span></a> (e.g., template.txt) - basic shell for NONMEM control files</p></li>
 <li><p><a class="reference internal" href="#tokens-file-target"><span class="std std-ref">Tokens file</span></a> (e.g., tokens.json) - json file describing the dimensions of the search space and the options in each dimension</p></li>
 <li><p><a class="reference internal" href="#options-file-target"><span class="std std-ref">Options file</span></a> (e.g., options.json) - json file describing algorithm, run options, and post-run penalty code configurations.</p></li>
 </ol>
 <p>See <a class="reference internal" href="#startrequiredfiles"><span class="std std-ref">Required Files</span></a> for additional details.</p>
-<p id="usage-run-search-in-folder">Alternatively, you may execute the <a class="mono reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a> function,
-specifying the path to the folder containing the <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">options.json</span></code> files
-as a single argument:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">run_search_in_folder</span> <span class="o">&lt;</span><span class="n">folder_path</span><span class="o">&gt;</span>
+<p id="usage-run-search-in-folder">Alternatively, you can execute <a class="mono reference internal" href="API.html#darwin-run-search"><span class="std std-ref">darwin.run_search</span></a> or <a class="mono reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a> with
+a single argument specifying the path to the folder containing the <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">options.json</span></code> files:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">run_search</span> <span class="o">&lt;</span><span class="n">folder_path</span><span class="o">&gt;</span>
+
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">run_search_in_folder</span> <span class="o">&lt;</span><span class="n">folder_path</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Files must be named as <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">options.json</span></code> when using <a class="mono reference internal" href="API.html#darwin-run-search-in-folder"><span class="std std-ref">darwin.run_search_in_folder</span></a>.</p>
+<p>Files must be named as <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">options.json</span></code> when using the folder argument.</p>
 </div>
 </section>
 <section id="stopping-execution">
-<span id="stop-search"></span><h3>Stopping Execution<a class="headerlink" href="#stopping-execution" title="Permalink to this heading">¶</a></h3>
-<p>A running search can be stopped using following command:</p>
+<span id="stop-search"></span><h3>Stopping Execution<a class="headerlink" href="#stopping-execution" title="Link to this heading">¶</a></h3>
+<p>A running search can be stopped using the following command:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">stop_search</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="p">]</span> <span class="o">&lt;</span><span class="n">project</span> <span class="nb">dir</span><span class="o">&gt;|&lt;</span><span class="n">options</span> <span class="n">file</span><span class="o">&gt;</span>
 </pre></div>
 </div>
@@ -169,18 +174,19 @@ as a single argument:</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>models.json will contain all model runs finished before interruption.</p>
+<p><a class="reference internal" href="#models-json"><span class="std std-ref">models.json</span></a> will contain all model runs finished before interruption.</p>
 </div>
 </section>
 <section id="execution-on-linux-grids">
-<span id="grid-execution"></span><h3>Execution on Linux Grids<a class="headerlink" href="#execution-on-linux-grids" title="Permalink to this heading">¶</a></h3>
+<span id="grid-execution"></span><h3>Execution on Linux Grids<a class="headerlink" href="#execution-on-linux-grids" title="Link to this heading">¶</a></h3>
 <p>The following requirements should be met in order to execute pyDarwin on Linux Grids.</p>
 <ul class="simple">
 <li><p>You must have access to the grid system (e.g., you are able to connect to the system via terminal session).</p></li>
 <li><p>You must make pyDarwin installation available for all grid nodes.</p></li>
 <li><p>Your search project must be available for all grid nodes as well.</p></li>
 <li><p>You should be familiar with your grid controller commands (e.g., how to submit a job, query finished jobs, and delete jobs).</p></li>
-<li><p>You should be familiar with regular expressions e.g., for usage in <code class="docutils literal notranslate"><span class="pre">&quot;submit_job_id_re&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;poll_job_id_re&quot;</span></code> fields in <code class="docutils literal notranslate"><span class="pre">options.json</span></code>.</p></li>
+<li><p>You should be familiar with regular expressions e.g., for usage in <code class="docutils literal notranslate"><span class="pre">submit_job_id_re</span></code> and <code class="docutils literal notranslate"><span class="pre">poll_job_id_re</span></code> fields in <code class="docutils literal notranslate"><span class="pre">options.json</span></code>.</p></li>
+<li><p><a class="mono reference internal" href="Options.html#model-run-man-options-desc"><span class="std std-ref">model_run_man</span></a> must be set to <code class="docutils literal notranslate"><span class="pre">darwin.GridRunManager</span></code>.</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -191,29 +197,118 @@ as a single argument:</p>
 <li><p>Run search <a class="reference internal" href="#local-execution"><span class="std std-ref">locally</span></a>, submit individual model runs to the grid (local search, grid model runs).</p></li>
 <li><p>Submit search <a class="reference internal" href="#running-grid-search"><span class="std std-ref">to the grid</span></a>, as well as all the model runs (grid search, grid model runs).</p></li>
 </ol>
-<p>In both cases you need to setup grid settings in your <code class="docutils literal notranslate"><span class="pre">options.json</span></code>.</p>
-<p>With either case, you can <a class="reference internal" href="#stop-search"><span class="std std-ref">stop the search</span></a> using <code class="docutils literal notranslate"><span class="pre">darwin.stop_search</span></code>. Just keep in mind that in the second case, it may not be very responsive (due to load/IO latency/grid deployment details), so be patient.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Although it’s possible to submit a “local search with local model runs” to the grid, this is not suggested.</p>
 </div>
+<p>In both cases you can <a class="reference internal" href="#stop-search"><span class="std std-ref">stop the search</span></a> using <code class="docutils literal notranslate"><span class="pre">darwin.stop_search</span></code>. Just keep in mind that in the second case, it may not be very responsive (due to load/IO latency/grid deployment details), so be patient.</p>
+<p id="generic-grid-adapter-examples">With either case, you need to setup <a class="reference internal" href="Options.html#generic-grid-adapter-options-desc"><span class="std std-ref">grid settings</span></a> in your <code class="docutils literal notranslate"><span class="pre">options.json</span></code>. Below are examples for different workload managers:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-U0dF" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-U0dF" name="U0dF" role="tab" tabindex="0">SGE</button><button aria-controls="panel-0-U2x1cm0=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-U2x1cm0=" name="U2x1cm0=" role="tab" tabindex="-1">Slurm</button><button aria-controls="panel-0-anN1Yi1Ub3JxdWU=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-anN1Yi1Ub3JxdWU=" name="anN1Yi1Ub3JxdWU=" role="tab" tabindex="-1">jsub-Torque</button><button aria-controls="panel-0-TFNG" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-TFNG" name="TFNG" role="tab" tabindex="-1">LSF</button></div><div aria-labelledby="tab-0-U0dF" class="sphinx-tabs-panel group-tab" id="panel-0-U0dF" name="U0dF" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;model_run_man&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.GridRunManager&quot;</span><span class="p">,</span>
+<span class="nt">&quot;generic_grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;python_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/venv/bin/python&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Your job (\\w+) \\(\&quot;.+?\&quot;\\) has been submitted&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^\\s+(\\w+)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qstat -s z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;delete_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qdel {project_stem}-*&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_search_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qsub -b y -wd {project_dir} -o {project_stem}.out -e {project_stem}.err -N &#39;{project_stem}&#39;&quot;</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-U2x1cm0=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-U2x1cm0=" name="U2x1cm0=" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;model_run_man&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.GridRunManager&quot;</span><span class="p">,</span>
+<span class="nt">&quot;generic_grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;python_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/venv/bin/python&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Submitted batch job (\\d+)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^(\\d+)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;squeue -t CD,CA,F,ST,TO --noheader --format=%i&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;delete_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;scancel {job_ids}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sbatch --job-name {job_name} --output {results_dir}/{run_name}.out --error {results_dir}/{run_name}.err --wrap {darwin_cmd}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_search_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sbatch -D {project_dir} --job-name &#39;{project_name}&#39; --output {project_stem}.out --error {project_stem}.err --wrap &#39;{darwin_cmd}&#39;&quot;</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-anN1Yi1Ub3JxdWU=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-anN1Yi1Ub3JxdWU=" name="anN1Yi1Ub3JxdWU=" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;model_run_man&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.GridRunManager&quot;</span><span class="p">,</span>
+<span class="nt">&quot;generic_grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;python_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/venv/bin/python&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^(\\d+)\\.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^(\\d+)\\.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qstat -a | grep \&quot;\\b [CE]  \&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;delete_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qdel {job_ids}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jsub -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name} --&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_search_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jsub -d {project_dir} -o {project_stem}.out -e {project_stem}.err -N &#39;{project_stem}&#39; --&quot;</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-TFNG" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-TFNG" name="TFNG" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;model_run_man&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.GridRunManager&quot;</span><span class="p">,</span>
+<span class="nt">&quot;generic_grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;python_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/venv/bin/python&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Job \\&lt;(\\d+)\\&gt; is submitted&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^(\\d+)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;poll_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bjobs -d&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;delete_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bkill -J {project_stem}-*&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bsub -n 1 -q standard -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -J {job_name}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;submit_search_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bsub -q standard -cwd {project_dir} -o {project_stem}.out -e {project_stem}.err -J &#39;{project_stem}&#39;&quot;</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+</div></div>
 <section id="running-grid-search">
-<span id="id1"></span><h4>Running Grid Search<a class="headerlink" href="#running-grid-search" title="Permalink to this heading">¶</a></h4>
+<span id="id1"></span><h4>Running Grid Search<a class="headerlink" href="#running-grid-search" title="Link to this heading">¶</a></h4>
+<p>You can send the search itself to the grid.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">run_search</span> <span class="o">&lt;</span><span class="n">template_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">tokens_path</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">options_path</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>Or alternatively, run grid search in folder:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">run_search_in_folder</span> <span class="o">&lt;</span><span class="n">folder_path</span><span class="o">&gt;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">run_search</span> <span class="o">&lt;</span><span class="n">folder_path</span><span class="o">&gt;</span>
+
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">run_search_in_folder</span> <span class="o">&lt;</span><span class="n">folder_path</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You must ensure that <a class="mono reference internal" href="Options.html#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a> has been set up correctly in options.json, in addition to other grid settings.</p>
+<p>Files must be named as <code class="docutils literal notranslate"><span class="pre">template.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code>, and <code class="docutils literal notranslate"><span class="pre">options.json</span></code> when using the folder argument.</p>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Prior to pyDarwin 3.1.0 either <code class="docutils literal notranslate"><span class="pre">.</span></code> or absolute path must be used as <code class="docutils literal notranslate"><span class="pre">folder_path</span></code>.</p>
+</div>
+<p>A few things to do before that:</p>
+<ul class="simple">
+<li><p>Ensure that <a class="mono reference internal" href="Options.html#submit-search-command-options-desc"><span class="std std-ref">submit_search_command</span></a> has been set up correctly in options.json, in addition to other grid settings.</p></li>
+<li><p>Make sure your search job won’t be killed by time-out. The search can take days in some cases, so either set the timeout explicitly in <code class="docutils literal notranslate"><span class="pre">submit_search_command</span></code> or ask your grid administrator for help.</p></li>
+<li><p>Try running the search locally before sending it to the grid: it’s easier to <a class="reference internal" href="Troubleshooting.html#troubleshooting-grid-search"><span class="std std-ref">troubleshoot</span></a> when you have console output.</p></li>
+</ul>
+</section>
+<section id="customizing-python-environment">
+<span id="customizing-python-script"></span><h4>Customizing Python Environment<a class="headerlink" href="#customizing-python-environment" title="Link to this heading">¶</a></h4>
+<p>In some cases, you may need to perform additional actions before you call pyDarwin. For example, if you use <a class="reference external" href="https://www.google.com/search?q=module+HPC">modules</a>,
+you’ll need to load the corresponding module first. You can achieve that with a simple script:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+module<span class="w"> </span>load<span class="w"> </span>pydarwin/3.1.0
+python<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Use the script as <a class="mono reference internal" href="Options.html#python-path-options-desc"><span class="std std-ref">python_path</span></a>:</p>
+<blockquote>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;generic_grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;python_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/run_pydarwin.sh&quot;</span><span class="p">,</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This should work for both the model runs and the search (<code class="docutils literal notranslate"><span class="pre">submit_command</span></code> and <code class="docutils literal notranslate"><span class="pre">submit_search_command</span></code>).</p>
 </section>
 </section>
 <section id="search-info">
-<span id="id2"></span><h3>Search Info<a class="headerlink" href="#search-info" title="Permalink to this heading">¶</a></h3>
+<span id="id2"></span><h3>Search Info<a class="headerlink" href="#search-info" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">darwin</span><span class="o">.</span><span class="n">search_info</span> <span class="o">&lt;</span><span class="n">folder_path</span><span class="o">&gt;</span>
 </pre></div>
 </div>
@@ -239,7 +334,7 @@ as a single argument:</p>
 </section>
 </section>
 <section id="required-files">
-<span id="startrequiredfiles"></span><h2>Required Files<a class="headerlink" href="#required-files" title="Permalink to this heading">¶</a></h2>
+<span id="startrequiredfiles"></span><h2>Required Files<a class="headerlink" href="#required-files" title="Link to this heading">¶</a></h2>
 <p>The same 3 files are required for any search, whether <a class="reference internal" href="Algorithms.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">GA</span></a>,
 <a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Algorithms.html#rf-desc"><span class="std std-ref">RF</span></a>, <a class="reference internal" href="Algorithms.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>, or <a class="reference internal" href="Algorithms.html#ex-desc"><span class="std std-ref">PSO</span></a>. Which algorithm is used is defined in the
 <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>. The template file serves as a framework and looks similar to a
@@ -247,7 +342,7 @@ NONMEM/NMTRAN control file. The tokens file specifies the range of “features�
 file specifies the algorithm, the fitness function, any R or Python code to be executed after the NONMEM execution,
 and other options related to execution. See <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a>.</p>
 <section id="template-file">
-<span id="template-file-target"></span><h3>Template File<a class="headerlink" href="#template-file" title="Permalink to this heading">¶</a></h3>
+<span id="template-file-target"></span><h3>Template File<a class="headerlink" href="#template-file" title="Link to this heading">¶</a></h3>
 <p>The template file is a plain ASCII text file. This file is the framework for the construction of the NONMEM
 control files. Typically, the structure will be quite similar to a NONMEM control file, with the usual
 blocks, e.g., $PROB, $INPUT, $DATA, $SUBS, $PK, $ERROR, $THETA, $OMEGA, $SIGMA, $EST. However, this format is
@@ -321,7 +416,7 @@ algorithm can parse the resulting file and correctly calculate the appropriate T
 THETA index (e.g., THETA(ADVAN) is the token stem is ADVAN). Additional characters (e.g., ADVANA, ADVANB) can be added if multiple THETA text indices are needed.
 Note that the permitted syntax for residual error is EPS() or ERR().</p>
 <section id="special-notes-on-structure-of-theta-omega-sigma">
-<h4>Special notes on structure of $THETA/$OMEGA/$SIGMA:<a class="headerlink" href="#special-notes-on-structure-of-theta-omega-sigma" title="Permalink to this heading">¶</a></h4>
+<h4>Special notes on structure of $THETA/$OMEGA/$SIGMA:<a class="headerlink" href="#special-notes-on-structure-of-theta-omega-sigma" title="Link to this heading">¶</a></h4>
 <p>Parameter initial estimate blocks require special treatment. A template file will typically include 2 types of initial estimates:</p>
 <ol class="arabic simple">
 <li><p>Fixed initial estimates - Initial estimates that are not searched, but will be copied from the template into <strong>ALL</strong> control files. These are the typical $THETA estimates, e.g.: (0,1)  ; THETA(1) Clearance.</p></li>
@@ -392,7 +487,7 @@ $OMEGA
 </section>
 </section>
 <section id="tokens-file">
-<span id="tokens-file-target"></span><h3>Tokens File<a class="headerlink" href="#tokens-file" title="Permalink to this heading">¶</a></h3>
+<span id="tokens-file-target"></span><h3>Tokens File<a class="headerlink" href="#tokens-file" title="Link to this heading">¶</a></h3>
 <p>The tokens file provides a dictionary (as a JSON file) of token key-text pairs. The highest level of the dictionary is the <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>. Token groups are
 defined by a unique <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a>. The token stem also typically serves as the key in the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs.</span></a> The token stem is
 a text string that corresponds to the token key that appears in the <a class="reference internal" href="Glossary.html#template"><span class="std std-ref">template file</span></a>.
@@ -450,14 +545,14 @@ THETA. Note that NONMEM assigns THETAs by sequence of appearance in $THETA. Give
 is created, this approach would lead to ambiguity. Each initial estimate must be on a new line and include the THETA (or ETA or EPS) + parameter identifier.</p>
 </section>
 <section id="options-file">
-<span id="options-file-target"></span><h3>Options File<a class="headerlink" href="#options-file" title="Permalink to this heading">¶</a></h3>
+<span id="options-file-target"></span><h3>Options File<a class="headerlink" href="#options-file" title="Link to this heading">¶</a></h3>
 <p>A JSON file with key-value pairs specifying various options for executing pyDarwin. While some fields are mandatory, some are
 algorithm-specific, while others are only relevant for execution on Linux Grids.</p>
 <p>See <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a> for details.</p>
 </section>
 </section>
 <section id="searching-omega-structure">
-<span id="omega-search-usage-target"></span><h2>Searching Omega Structure<a class="headerlink" href="#searching-omega-structure" title="Permalink to this heading">¶</a></h2>
+<span id="omega-search-usage-target"></span><h2>Searching Omega Structure<a class="headerlink" href="#searching-omega-structure" title="Link to this heading">¶</a></h2>
 <p>In addition to specifying relations inside the <a class="reference internal" href="#template-file-target"><span class="std std-ref">template file</span></a> and <a class="reference internal" href="#tokens-file-target"><span class="std std-ref">tokens file</span></a> to define
 the search space, you may also search for different structures of the omega matrix given fields specified in <a class="reference internal" href="Options.html#options"><span class="std std-ref">options.json</span></a>.</p>
 <div class="admonition note">
@@ -488,8 +583,8 @@ If searching Omega submatrices, options for Omega band/block search must be addi
 </div>
 <p>Here the empty pattern, <code class="docutils literal notranslate"><span class="pre">()</span></code>, means there is no block Omega  (i.e., everything is diagonal), and the variables enclosed by the parenthesis are the ones whose associated covariance matrix (Omega) is block (that is, for each pattern, only those variables whose Omega matrix is block are listed). For NONMEM models without submatrix search, the empty pattern is substituted with an extra value for band width gene (= 0).</p>
 <p>The number of patterns for different combinations of <a class="mono reference internal" href="Options.html#max-omega-search-len-options-desc"><span class="std std-ref">max_omega_search_len</span></a> (whose values listed in the first column) and <a class="mono reference internal" href="Options.html#max-omega-sub-matrix-options-desc"><span class="std std-ref">max_omega_sub_matrix</span></a> (whose values listed in the first row) can be found in the table below.</p>
-<table class="docutils align-default" id="id3">
-<caption><span class="caption-text">Number of patterns</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-default" id="id4">
+<caption><span class="caption-text">Number of patterns</span><a class="headerlink" href="#id4" title="Link to this table">¶</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"></th>
 <th class="head"><p>2</p></th>
@@ -770,7 +865,7 @@ If searching Omega submatrices, options for Omega band/block search must be addi
 <p>By default, pyDarwin will try to search omega structure for each  search block/band individually. This is only possible if all search blocks are placed in the template. If any search block is found in the tokens, the omega search will be performed uniformly, i.e. all search blocks will have the same pattern.
 Individual omega search will further increase the search space size. It can be turned off by setting <a class="mono reference internal" href="Options.html#individual-omega-search-options-desc"><span class="std std-ref">individual_omega_search</span></a> to <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
 <section id="omega-block-search">
-<span id="omega-block-search-target"></span><h3>Omega Block Search<a class="headerlink" href="#omega-block-search" title="Permalink to this heading">¶</a></h3>
+<span id="omega-block-search-target"></span><h3>Omega Block Search<a class="headerlink" href="#omega-block-search" title="Link to this heading">¶</a></h3>
 <p>Omega block search is only applicable to NLME models. It takes a diagonal Omega matrix and searches for a block Omega matrix.</p>
 <p>To enable block search for NLME models,</p>
 <ol class="arabic simple">
@@ -804,7 +899,7 @@ Individual omega search will further increase the search space size. It can be t
 </div>
 </section>
 <section id="omega-band-search">
-<h3>Omega Band Search<a class="headerlink" href="#omega-band-search" title="Permalink to this heading">¶</a></h3>
+<h3>Omega Band Search<a class="headerlink" href="#omega-band-search" title="Link to this heading">¶</a></h3>
 <p>Omega band search is only applicable to NONMEM models. It takes a diagonal OMEGA matrix and searches for band OMEGA matrices.</p>
 <p>Band Omegas will be searched if:</p>
 <ol class="arabic">
@@ -814,12 +909,12 @@ Individual omega search will further increase the search space size. It can be t
 <li><p><a class="reference internal" href="Options.html#search-omega-bands-options-desc"><span class="std std-ref">“search_omega_bands”</span></a>: true</p></li>
 <li><p><a class="reference internal" href="Options.html#max-omega-band-width-options-desc"><span class="std std-ref">“max_omega_band_width”</span></a>: N</p></li>
 </ul>
-<p>Where N is an positive integer.</p>
+<p>Where N is a positive integer.</p>
 </li>
 </ol>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The $OMEGA must appear on a separate line, e.g,. <cite>$OMEGA 0.1 0.1 0.1 ; search band</cite>
+<p>The $OMEGA must appear on a separate line, e.g., <cite>$OMEGA 0.1 0.1 0.1 ; search band</cite>
 is not permitted.</p>
 </div>
 <p>For example, if the Omega matrix specified in the template file is:</p>
@@ -909,7 +1004,7 @@ others are to be searched.</p>
 </div>
 </section>
 <section id="omega-submatrices-search">
-<span id="omega-submatrices-search-target"></span><h3>Omega Submatrices Search<a class="headerlink" href="#omega-submatrices-search" title="Permalink to this heading">¶</a></h3>
+<span id="omega-submatrices-search-target"></span><h3>Omega Submatrices Search<a class="headerlink" href="#omega-submatrices-search" title="Link to this heading">¶</a></h3>
 <p>OMEGA submatrices permit a wider range of OMEGA structure, and, importantly, the option to estimate fewer off diagonal elements of OMEGA. In addition to the options specified above for Omega block search (for NLME models) or Omega band search (for NONMEM models), 2 additional options should be included in the <a class="reference internal" href="#options-file-target"><span class="std std-ref">options file</span></a>:</p>
 <blockquote>
 <div><ul class="simple">
@@ -953,9 +1048,9 @@ p  0.1
 </section>
 </section>
 <section id="pydarwin-outputs">
-<h2>pyDarwin Outputs<a class="headerlink" href="#pydarwin-outputs" title="Permalink to this heading">¶</a></h2>
+<h2>pyDarwin Outputs<a class="headerlink" href="#pydarwin-outputs" title="Link to this heading">¶</a></h2>
 <section id="console-output">
-<h3>Console output<a class="headerlink" href="#console-output" title="Permalink to this heading">¶</a></h3>
+<h3>Console output<a class="headerlink" href="#console-output" title="Link to this heading">¶</a></h3>
 <p>After the search command is submitted, pyDarwin first verifies that the following files and executables are available:</p>
 <ol class="arabic simple">
 <li><p>The template file</p></li>
@@ -989,36 +1084,36 @@ p  0.1
 <p>If the <a class="mono reference internal" href="Options.html#remove-temp-dir-options-desc"><span class="std std-ref">remove_temp_dir</span></a> is set to false, the NONMEM control file, output file and other key files can be found in <code class="docutils literal notranslate"><span class="pre">{temp_dir}/Iteration/Model</span> <span class="pre">Number</span></code> for debugging.</p>
 </section>
 <section id="file-output">
-<h3>File output<a class="headerlink" href="#file-output" title="Permalink to this heading">¶</a></h3>
+<h3>File output<a class="headerlink" href="#file-output" title="Link to this heading">¶</a></h3>
 <p>The file output from pyDarwin is generated in real time. That is, as soon as a model is finished, the results are written to the results.csv and models.json files. Similarly,
 messages (what appears on the console output) are written continuously to the messages.txt file.</p>
 <section id="messages-txt">
-<h4>Messages.txt<a class="headerlink" href="#messages-txt" title="Permalink to this heading">¶</a></h4>
+<h4>Messages.txt<a class="headerlink" href="#messages-txt" title="Link to this heading">¶</a></h4>
 <p>The messages.txt file will be found in the working directory. This file’s content is the same as the console output.</p>
 </section>
 <section id="models-json">
-<h4>models.json<a class="headerlink" href="#models-json" title="Permalink to this heading">¶</a></h4>
+<span id="id3"></span><h4>models.json<a class="headerlink" href="#models-json" title="Link to this heading">¶</a></h4>
 <p>The models.json will contain the key output from all models that are run. This is not a very user-friendly file, as it is fairly complex json. The primary (maybe only) use
 for this file is if a search is interrupted, it can be restarted, and the contents of this file read in, rather than rerunning all the models. If the goal is to make simple diagnostics
 of the search progress, the results.csv file is likely more useful.</p>
 </section>
 <section id="results-csv">
-<h4>results.csv<a class="headerlink" href="#results-csv" title="Permalink to this heading">¶</a></h4>
+<h4>results.csv<a class="headerlink" href="#results-csv" title="Link to this heading">¶</a></h4>
 <p>The results.csv file contains key information about all models that are run in a more user-friendly format. This file can be used to make plots to monitor progress of the search
 or to identify models that had unexpected results (crashes).</p>
 </section>
 </section>
 <section id="file-structure-and-naming">
-<h3>File Structure and Naming<a class="headerlink" href="#file-structure-and-naming" title="Permalink to this heading">¶</a></h3>
+<h3>File Structure and Naming<a class="headerlink" href="#file-structure-and-naming" title="Link to this heading">¶</a></h3>
 <p>NONMEM control, executable, and output file naming:</p>
 <section id="saving-nonmem-outputs">
-<h4>Saving NONMEM outputs<a class="headerlink" href="#saving-nonmem-outputs" title="Permalink to this heading">¶</a></h4>
+<h4>Saving NONMEM outputs<a class="headerlink" href="#saving-nonmem-outputs" title="Link to this heading">¶</a></h4>
 <p>NONMEM generates a great deal of file output. For a search of perhaps up to 10,000 models, this can become an issue for disc space.
 By default, key NONMEM output files are retained. Most temporary files (e.g., FDATA, FCON) and the temp_dir are always removed to save disc space.
 In addition, the data file(s) are not copied to the run directory, but all models use the same copy of the data file(s).</p>
 </section>
 <section id="model-folder-naming">
-<h4>Model/folder naming<a class="headerlink" href="#model-folder-naming" title="Permalink to this heading">¶</a></h4>
+<h4>Model/folder naming<a class="headerlink" href="#model-folder-naming" title="Link to this heading">¶</a></h4>
 <p>A model stem is generated from the current generation/iteration and model number of the form NM_generation_model_num. For example, if this is iteration 2, model 3, the model stem would be
 NM_2_3. For the 1 bit downhill, the model stem is NM_generationDdownhillstep_modelnum, and for the 2 bit local search the model stem is NM_generationSdownhillstepSearchStep_modelnum. Final downhill
 model stem is NM_FNDDownhillStep_ModelNum. This model stem is then used to name the .exe file, the .mod file, the .lst file, etc. This results in unique names for all models in the search. Models
@@ -1043,7 +1138,7 @@ are also frequently duplicated. Duplicated files are not rerun, and so those wil
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Mark Sale, Certara.</p>
+    <p>&#169; Copyright 2025, Mark Sale, Certara.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

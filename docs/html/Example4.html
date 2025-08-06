@@ -1,24 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example 4: PK Model, DMAG by GA with post-run R code &mdash; pyDarwin 3.0.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>Example 4: PK Model, DMAG by GA with post-run R code &mdash; pyDarwin 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/documentation_options.js?v=dd1205ac"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -29,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> pyDarwin
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyDarwin
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLME.html">NLME integration</a></li>
 </ul>
 
         </div>
@@ -70,7 +71,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Example 4: PK Model, DMAG by GA with post-run R code</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -81,7 +82,7 @@
            <div itemprop="articleBody">
              
   <section id="example-4-pk-model-dmag-by-ga-with-post-run-r-code">
-<span id="startpk4"></span><h1>Example 4: PK Model, DMAG by GA with post-run R code<a class="headerlink" href="#example-4-pk-model-dmag-by-ga-with-post-run-r-code" title="Permalink to this heading">¶</a></h1>
+<span id="startpk4"></span><h1>Example 4: PK Model, DMAG by GA with post-run R code<a class="headerlink" href="#example-4-pk-model-dmag-by-ga-with-post-run-r-code" title="Link to this heading">¶</a></h1>
 <p>Example 4 uses a dataset simulated from the following <a class="reference external" href="https://www.nimh.nih.gov/funding/clinical-research/practical/catie#:~:text=The%20NIMH%2Dfunded%20Clinical%20Antipsychotic,medications%20used%20to%20treat%20schizophrenia">CATIE study</a> ,
 courtesy of <a class="reference external" href="https:/pharmacy.buffalo.edu/content/pharmacy/faculty-staff/faculty-profile.html?ubit=robertbi">Dr. Rob Bies</a> .
 This search again uses <a class="reference internal" href="Glossary.html#nested-tokens"><span class="std std-ref">nested tokens</span></a>, as it searches whether K32 is a function of Weight, and 1 vs 2 vs 3 compartments.
@@ -136,7 +137,7 @@ penalty value can be any real value - including negative, but typically would be
 <p>Be sure to set <code class="docutils literal notranslate"><span class="pre">&quot;use_r&quot;:</span> <span class="pre">true</span></code> to use R for post processing. Additionally, include the path to the R code (<code class="docutils literal notranslate"><span class="pre">&quot;post_run_r_code&quot;</span></code>), the path to Rscript.exe (<code class="docutils literal notranslate"><span class="pre">&quot;r_script_path&quot;</span></code>), and the timeout (<code class="docutils literal notranslate"><span class="pre">&quot;r_timeout&quot;</span></code>), after which the R session will be terminated if not
 complete and the <a class="reference internal" href="Glossary.html#crash-value"><span class="std std-ref">crash_value</span></a> added as the penalty.</p>
 <section id="the-template-file">
-<h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
+<h2>The Template file<a class="headerlink" href="#the-template-file" title="Link to this heading">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT {D1LAG[1]} DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
 
@@ -208,7 +209,7 @@ $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
 <p>Example 4 template file: <a class="reference download internal" download="" href="_downloads/6883e4596b34b3b57cf0b0169ae72f30/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
 </section>
 <section id="the-tokens-file">
-<h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
+<h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Link to this heading">¶</a></h2>
 <p>Nothing new in the tokens file, we see again an example of nested tokens:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s2">&quot;ADVAN&quot;</span><span class="p">:</span> <span class="p">[</span>
@@ -397,7 +398,7 @@ $TABLE REP ID TIME IOBS EVID  NOAPPEND NOPRINT FILE = SIM.DAT ONEHEADER NOAPPEND
 <p>Example 4 tokens file: <a class="reference download internal" download="" href="_downloads/510c9b8465a775a5828463746fc5632a/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 <section id="the-options-file">
-<h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
+<h2>The Options file<a class="headerlink" href="#the-options-file" title="Link to this heading">¶</a></h2>
 <p>The algorithm selection in the options file is <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">GA</span></a>.</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
 <p>Note that, to run in the environment used for this example, the directories are set to:</p>
@@ -471,7 +472,7 @@ the default is:</p>
 <p>Example 4 options file: <a class="reference download internal" download="" href="_downloads/b05a30f00e0224edc0d19d0af2523cd3/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 <section id="execute-search">
-<h2>Execute Search<a class="headerlink" href="#execute-search" title="Permalink to this heading">¶</a></h2>
+<h2>Execute Search<a class="headerlink" href="#execute-search" title="Link to this heading">¶</a></h2>
 <p>Usage details for starting a search in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> can be found <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here</span></a>.</p>
 <p>See <a class="reference internal" href="Examples.html#examples-target"><span class="std std-ref">“Examples”</span></a> for additional details about accessing example files.</p>
 <p>The search space contains 1.66 million possible models, and searches for the following:</p>
@@ -668,7 +669,7 @@ token(s).</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Mark Sale, Certara.</p>
+    <p>&#169; Copyright 2025, Mark Sale, Certara.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

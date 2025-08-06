@@ -1,24 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyDarwin 3.0.0 &mdash; pyDarwin 3.0.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>pyDarwin 3.1.0 &mdash; pyDarwin 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/documentation_options.js?v=dd1205ac"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -30,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="#" class="icon icon-home"> pyDarwin
+
+          
+          
+          <a href="#" class="icon icon-home">
+            pyDarwin
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -56,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLME.html">NLME integration</a></li>
 </ul>
 
         </div>
@@ -71,8 +72,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">pyDarwin 3.0.0</li>
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pyDarwin 3.1.0</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -82,7 +83,7 @@
            <div itemprop="articleBody">
              
   <section id="releaseversion">
-<h1>pyDarwin 3.0.0<a class="headerlink" href="#releaseversion" title="Permalink to this heading">¶</a></h1>
+<h1>pyDarwin 3.1.0<a class="headerlink" href="#releaseversion" title="Link to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">About:</span></p>
 <ul>
@@ -102,6 +103,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Releases.html#pydarwin-certara-3-1-0">pyDarwin-Certara 3.1.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Releases.html#pydarwin-certara-3-0-0">pyDarwin-Certara 3.0.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Releases.html#pydarwin-certara-2-0-1">pyDarwin-Certara 2.0.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Releases.html#pydarwin-certara-2-0">pyDarwin-Certara 2.0</a></li>
@@ -135,6 +137,7 @@
 <li class="toctree-l3"><a class="reference internal" href="Usage.html#stopping-execution">Stopping Execution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Usage.html#execution-on-linux-grids">Execution on Linux Grids</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="Usage.html#running-grid-search">Running Grid Search</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Usage.html#customizing-python-environment">Customizing Python Environment</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="Usage.html#search-info">Search Info</a></li>
@@ -208,7 +211,6 @@
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.algorithms.exhaustive">exhaustive</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.algorithms.exhaustive.run_exhaustive"><code class="docutils literal notranslate"><span class="pre">run_exhaustive()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.algorithms.exhaustive.get_search_space"><code class="docutils literal notranslate"><span class="pre">get_search_space()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.algorithms.exhaustive.get_search_space_size"><code class="docutils literal notranslate"><span class="pre">get_search_space_size()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.algorithms.GA">GA</a><ul>
@@ -220,6 +222,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.algorithms.run_downhill">downhill</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.algorithms.run_downhill.do_moga_downhill_step"><code class="docutils literal notranslate"><span class="pre">do_moga_downhill_step()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.algorithms.run_downhill.run_downhill"><code class="docutils literal notranslate"><span class="pre">run_downhill()</span></code></a></li>
 </ul>
 </li>
@@ -229,6 +232,7 @@
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.Template">darwin.Template</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.Template.Template"><code class="docutils literal notranslate"><span class="pre">Template</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.Template.Template.get_search_space_coordinates"><code class="docutils literal notranslate"><span class="pre">Template.get_search_space_coordinates()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.Template.Template.get_search_space_size"><code class="docutils literal notranslate"><span class="pre">Template.get_search_space_size()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -252,21 +256,52 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.ModelResults">darwin.ModelResults</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelResults.BaseModelResults"><code class="docutils literal notranslate"><span class="pre">BaseModelResults</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.BaseModelResults.JSON_ATTRIBUTES"><code class="docutils literal notranslate"><span class="pre">BaseModelResults.JSON_ATTRIBUTES</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.BaseModelResults.calc_fitness"><code class="docutils literal notranslate"><span class="pre">BaseModelResults.calc_fitness()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.BaseModelResults.can_postprocess"><code class="docutils literal notranslate"><span class="pre">BaseModelResults.can_postprocess()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.BaseModelResults.decode_r_stdout"><code class="docutils literal notranslate"><span class="pre">BaseModelResults.decode_r_stdout()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.BaseModelResults.handle_python_pp_result"><code class="docutils literal notranslate"><span class="pre">BaseModelResults.handle_python_pp_result()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.BaseModelResults.get_results_str"><code class="docutils literal notranslate"><span class="pre">BaseModelResults.get_results_str()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.BaseModelResults.get_message_text"><code class="docutils literal notranslate"><span class="pre">BaseModelResults.get_message_text()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.BaseModelResults.to_dict"><code class="docutils literal notranslate"><span class="pre">BaseModelResults.to_dict()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.BaseModelResults.from_dict"><code class="docutils literal notranslate"><span class="pre">BaseModelResults.from_dict()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults"><code class="docutils literal notranslate"><span class="pre">ModelResults</span></code></a><ul>
-<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.get_message_text"><code class="docutils literal notranslate"><span class="pre">ModelResults.get_message_text()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.to_dict"><code class="docutils literal notranslate"><span class="pre">ModelResults.to_dict()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.from_dict"><code class="docutils literal notranslate"><span class="pre">ModelResults.from_dict()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.JSON_ATTRIBUTES"><code class="docutils literal notranslate"><span class="pre">ModelResults.JSON_ATTRIBUTES</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.calc_fitness"><code class="docutils literal notranslate"><span class="pre">ModelResults.calc_fitness()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.decode_r_stdout"><code class="docutils literal notranslate"><span class="pre">ModelResults.decode_r_stdout()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.handle_python_pp_result"><code class="docutils literal notranslate"><span class="pre">ModelResults.handle_python_pp_result()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.to_str"><code class="docutils literal notranslate"><span class="pre">ModelResults.to_str()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.ModelResults.get_results_str"><code class="docutils literal notranslate"><span class="pre">ModelResults.get_results_str()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelResults.MOGAModelResults"><code class="docutils literal notranslate"><span class="pre">MOGAModelResults</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.MOGAModelResults.can_postprocess"><code class="docutils literal notranslate"><span class="pre">MOGAModelResults.can_postprocess()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.MOGAModelResults.to_str"><code class="docutils literal notranslate"><span class="pre">MOGAModelResults.to_str()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.MOGAModelResults.get_results_str"><code class="docutils literal notranslate"><span class="pre">MOGAModelResults.get_results_str()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelResults.MOGA3ModelResults"><code class="docutils literal notranslate"><span class="pre">MOGA3ModelResults</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.MOGA3ModelResults.JSON_ATTRIBUTES"><code class="docutils literal notranslate"><span class="pre">MOGA3ModelResults.JSON_ATTRIBUTES</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.MOGA3ModelResults.n_obj"><code class="docutils literal notranslate"><span class="pre">MOGA3ModelResults.n_obj</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.MOGA3ModelResults.decode_r_stdout"><code class="docutils literal notranslate"><span class="pre">MOGA3ModelResults.decode_r_stdout()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.MOGA3ModelResults.handle_python_pp_result"><code class="docutils literal notranslate"><span class="pre">MOGA3ModelResults.handle_python_pp_result()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.MOGA3ModelResults.to_str"><code class="docutils literal notranslate"><span class="pre">MOGA3ModelResults.to_str()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelResults.MOGA3ModelResults.get_results_str"><code class="docutils literal notranslate"><span class="pre">MOGA3ModelResults.get_results_str()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.ModelRun">darwin.ModelRun</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun"><code class="docutils literal notranslate"><span class="pre">ModelRun</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.get_model_results_class"><code class="docutils literal notranslate"><span class="pre">ModelRun.get_model_results_class()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.set_status"><code class="docutils literal notranslate"><span class="pre">ModelRun.set_status()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.init_stem"><code class="docutils literal notranslate"><span class="pre">ModelRun.init_stem()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.is_duplicate"><code class="docutils literal notranslate"><span class="pre">ModelRun.is_duplicate()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.started"><code class="docutils literal notranslate"><span class="pre">ModelRun.started()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.is_unique"><code class="docutils literal notranslate"><span class="pre">ModelRun.is_unique()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.to_dict"><code class="docutils literal notranslate"><span class="pre">ModelRun.to_dict()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.from_dict"><code class="docutils literal notranslate"><span class="pre">ModelRun.from_dict()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelRun.ModelRun.make_control_file"><code class="docutils literal notranslate"><span class="pre">ModelRun.make_control_file()</span></code></a></li>
@@ -305,6 +340,7 @@
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.ModelCache">darwin.ModelCache</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache"><code class="docutils literal notranslate"><span class="pre">ModelCache</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.store_model_run"><code class="docutils literal notranslate"><span class="pre">ModelCache.store_model_run()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.update_model_run_status"><code class="docutils literal notranslate"><span class="pre">ModelCache.update_model_run_status()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.find_model_run"><code class="docutils literal notranslate"><span class="pre">ModelCache.find_model_run()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.load"><code class="docutils literal notranslate"><span class="pre">ModelCache.load()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.dump"><code class="docutils literal notranslate"><span class="pre">ModelCache.dump()</span></code></a></li>
@@ -320,6 +356,7 @@
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.MemoryModelCache">darwin.MemoryModelCache</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache.store_model_run"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache.store_model_run()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache.update_model_run_status"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache.update_model_run_status()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache.find_model_run"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache.find_model_run()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache.load"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache.load()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache.dump"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache.dump()</span></code></a></li>
@@ -342,13 +379,147 @@
 <li class="toctree-l2"><a class="reference internal" href="Troubleshooting.html#installation">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Troubleshooting.html#error-messages">Error Messages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Troubleshooting.html#post-run-code">Post Run Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Troubleshooting.html#grid-execution">Grid Execution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="NLME.html">NLME integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#basic-model-structure-and-statements">Basic Model Structure and Statements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#statements">Statements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#blocks">Blocks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#comments">Comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#variables">Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#predefined-variables">Predefined Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#assignment-statements">Assignment Statements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#parameter-declarations">Parameter Declarations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#stparm">stparm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#fixef">fixef</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#ranef">ranef</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#fixed-effects">Fixed Effects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#random-effects">Random Effects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#log-normal-distribution">Log-Normal Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#normal-distribution">Normal Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#bounds">Bounds</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#covariates">Covariates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#covariate">covariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#fcovariate">fcovariate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#interpolate">interpolate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#continuous-covariates">Continuous Covariates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#categorical-covariates">Categorical Covariates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#occasion-covariates-and-inter-occasion-variability-iov">Occasion Covariates and Inter-Occasion Variability (IOV)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#time-varying-covariates">Time-Varying Covariates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#structural-model-definition">Structural Model Definition</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#deriv">deriv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#compartment-models">Compartment Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#cfmicro">cfMicro</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#cfmacro-and-cfmacro1">cfMacro and cfMacro1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#micro-constants-vs-macro-constants">Micro-Constants vs. Macro-Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#dosepoint">dosepoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#urinecpt">urinecpt</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#observation-and-error-models">Observation and Error Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#observe">observe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#error">error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#error-models">Error Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#bql-handling">BQL Handling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#finding-extrema-peak-function-and-alternative-methods">Finding Extrema (peak function and alternative methods)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#table-output">Table Output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#delays">Delays</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#delay">delay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#gammadelay">gammaDelay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#delayinfcpt">delayInfCpt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#transit">transit</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#built-in-functions">Built-In Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#built-in-mathematical-functions">Built-In Mathematical Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#link-and-inverse-link-functions">Link and Inverse Link Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#if-and-ternary-operator">if and Ternary Operator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#logical-operators">Logical Operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#sleep">sleep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#statistical-distribution-functions">Statistical Distribution Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#additional-statements-and-features">Additional Statements and Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#secondary-parameters">Secondary Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#data-mapping-column-definitions">Data Mapping (Column Definitions)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#sequence">sequence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#real-and-double">real and double</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#model-generation-guidelines">Model Generation Guidelines</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#id1">Model Generation Guidelines</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#modeling-complex-absorption-schemes">Modeling Complex Absorption Schemes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#a-simultaneous-parallel-absorption-zero-order-and-first-order">A. Simultaneous (Parallel) Absorption (Zero-Order and First-Order)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#b-sequential-absorption-zero-order-followed-by-first-order-zofo">B. Sequential Absorption (Zero-Order followed by First-Order - ZOFO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#c-splitting-a-single-dose-into-different-administration-profiles-e-g-bolus-infusion">C. Splitting a Single Dose into Different Administration Profiles (e.g., Bolus + Infusion)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#d-parallel-absorption-with-independent-lag-times">D. Parallel Absorption with Independent Lag Times</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#modeling-multiple-elimination-pathways">Modeling Multiple Elimination Pathways</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#introduction-to-metamodels">Introduction to Metamodels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#the-metamodel-concept">The Metamodel Concept</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#metamodel-structure">Metamodel Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#metamodel-blocks">Metamodel Blocks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#execution-control-and-output">Execution Control and Output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#estargs-estimation-engine-arguments">##ESTARGS: Estimation Engine Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#simargs-simulation-arguments">##SIMARGS: Simulation Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#tables-defining-output-tables">##TABLES: Defining Output Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#linking-data-to-the-model">Linking Data to the Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#data-mapping-map-and-coldef">Data Mapping: ##MAP and ##COLDEF</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NLME.html#the-map-block"><strong>The ##MAP Block</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="NLME.html#the-coldef-block"><strong>The ##COLDEF Block</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#advanced-dosing-and-a-complete-example">Advanced Dosing and a Complete Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#dosing-cycle">##DOSING CYCLE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#complete-metamodel-example">Complete Metamodel Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#automated-model-search-with-pydarwin">Automated Model Search with pyDarwin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#the-metamodel-as-a-template-file">The Metamodel as a Template File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#the-tokens-json-file">The tokens.json File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#directory-shortcuts-in-templates">Directory Shortcuts in Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#the-pydarwin-execution-options-file">The pyDarwin Execution Options File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#pydarwin-best-practices">pyDarwin Best Practices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#the-golden-rules-of-metamodel-templates-for-pydarwin">The Golden Rules of Metamodel Templates for pyDarwin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NLME.html#automated-search-of-omega-structure">Automated Search of Omega Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NLME.html#searching-omega-structure-in-nlme-models">Searching Omega Structure in NLME Models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NLME.html#basic-omega-block-search"><strong>Basic Omega Block Search</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="NLME.html#advanced-search-with-submatrices"><strong>Advanced Search with Submatrices</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 </section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">¶</a></h1>
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
@@ -366,7 +537,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Mark Sale, Certara.</p>
+    <p>&#169; Copyright 2025, Mark Sale, Certara.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

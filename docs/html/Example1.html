@@ -1,24 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example 1: PK Model, Trivial Exhaustive Search &mdash; pyDarwin 3.0.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>Example 1: PK Model, Trivial Exhaustive Search &mdash; pyDarwin 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/documentation_options.js?v=dd1205ac"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -29,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> pyDarwin
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyDarwin
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLME.html">NLME integration</a></li>
 </ul>
 
         </div>
@@ -70,7 +71,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Example 1: PK Model, Trivial Exhaustive Search</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -81,7 +82,7 @@
            <div itemprop="articleBody">
              
   <section id="example-1-pk-model-trivial-exhaustive-search">
-<span id="startpk1"></span><h1>Example 1: PK Model, Trivial Exhaustive Search<a class="headerlink" href="#example-1-pk-model-trivial-exhaustive-search" title="Permalink to this heading">¶</a></h1>
+<span id="startpk1"></span><h1>Example 1: PK Model, Trivial Exhaustive Search<a class="headerlink" href="#example-1-pk-model-trivial-exhaustive-search" title="Link to this heading">¶</a></h1>
 <p>This first model is quite simple, the search space consists of 6 dimensions, each with 2 options. Thus, the total number of candidate models is
 2^6 = 64 models. As the search space is very small, we’ll perform an exhaustive search. See <a class="reference internal" href="Algorithms.html#the-algorithms"><span class="std std-ref">details</span></a> on algorithm selection.</p>
 <p>As is the usual practice in pop-PK model selection, the first step will be exploratory data analysis. This serves at least two purposes: to validate the dataset
@@ -137,7 +138,7 @@ path or starting with <a class="reference internal" href="Glossary.html#data-dir
 after the path is expanded with {data_dir}.</p>
 </div>
 <section id="the-template-file">
-<span id="template-file"></span><h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
+<span id="template-file"></span><h2>The Template file<a class="headerlink" href="#the-template-file" title="Link to this heading">¶</a></h2>
 <p>The initial simple model can then be edited by adding tokens. This first example will include covariates, residual error, and one structural feature.
 Each token group is identified by a <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a>, e.g., “V2~WT” for the dimension of the
 relationship between weight and a volume of distribution. Each token group includes
@@ -152,7 +153,7 @@ relationship between weight and a volume of distribution. Each token group inclu
 <li><p>Residual error model (“RESERR”) - additive or combined additive and proportional</p></li>
 </ol>
 <section id="covariate-effects">
-<h3>Covariate effects<a class="headerlink" href="#covariate-effects" title="Permalink to this heading">¶</a></h3>
+<h3>Covariate effects<a class="headerlink" href="#covariate-effects" title="Link to this heading">¶</a></h3>
 <p>For the effect of Weight on Volume, we’ve chosen the <a class="reference internal" href="Glossary.html#token-stem"><span class="std std-ref">token stem</span></a> of “V2~WT”. Two tokens will be required for this <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a>. The first will
 add the relationship to the definition of TVV2 in the $PK block and the 2nd will provide an initial estimate in the $THETA block for the estimated
 THETA. Note that the index for THETA for this feature cannot be defined until the model is constructed. Only then can the number and sequence of the added THETAs be
@@ -184,7 +185,7 @@ be defined:</p>
 <p>The 2nd token for the initial estimate for THETA(V2~WT) will be similar. The token text options will be:</p>
 <ol class="arabic simple">
 <li><p>“”</p></li>
-<li><p>”  (-4,0.8,4) \t; THETA(V2~WT) POWER volume ~WT “</p></li>
+<li><p>“  (-4,0.8,4) \t; THETA(V2~WT) POWER volume ~WT “</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$THETA  ;; must be one THETA per line.
 (0.001,100) ; THETA(1) CL UNITS =  L/HR
@@ -226,14 +227,14 @@ is created, this approach would lead to ambiguity. Each initial estimate must be
 <p>Other covariate effects are coded similarly.</p>
 </section>
 <section id="variance-terms">
-<h3>Variance terms<a class="headerlink" href="#variance-terms" title="Permalink to this heading">¶</a></h3>
+<h3>Variance terms<a class="headerlink" href="#variance-terms" title="Link to this heading">¶</a></h3>
 <p>Between subject variability is handled similarly, with the “{}” text. Typically, the first tokens in the token sets will be in the $PK, $DES, or $ERROR block and the
 2nd in $OMEGA, with the <em>required</em> ETA(IndexText) after a NONMEM comment (the same as for THETA initial estimates). ERR and EPS are handled similarly, either syntax is permitted.</p>
 <p>Example 1 template file: <a class="reference download internal" download="" href="_downloads/7f248227f528414a4e3e60b6e3ae0b29/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">template</span> <span class="pre">file</span></code></a>
 Example 1 searches a 6 dimensional space. The dimensions correspond to <a class="reference internal" href="Glossary.html#token-group"><span class="std std-ref">token group</span></a>.</p>
 </section>
 <section id="data-file-path">
-<h3>Data file path<a class="headerlink" href="#data-file-path" title="Permalink to this heading">¶</a></h3>
+<h3>Data file path<a class="headerlink" href="#data-file-path" title="Link to this heading">¶</a></h3>
 <p>Typically, the NMTRAN data file will be in the <a class="reference internal" href="Glossary.html#working-directory"><span class="std std-ref">working directory</span></a>. As the models are run in a directory two levels down
 (home directory/generation/model). The path to the dataset can be given as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$DATA {data_dir}/data.csv
@@ -242,7 +243,7 @@ Example 1 searches a 6 dimensional space. The dimensions correspond to <a class=
 <p>Alternatively (and possibly preferred), the full path can be given.</p>
 </section>
 <section id="final-template-file">
-<h3>Final template file<a class="headerlink" href="#final-template-file" title="Permalink to this heading">¶</a></h3>
+<h3>Final template file<a class="headerlink" href="#final-template-file" title="Link to this heading">¶</a></h3>
 <p>As the search space is small (and the run time is fast), we’ll perform an exhaustive search.
 The final template file for Example 1 is given below.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
@@ -295,7 +296,7 @@ $COV UNCOND PRINT=E
 </section>
 </section>
 <section id="the-tokens-file">
-<span id="tokens-file"></span><h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
+<span id="tokens-file"></span><h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Link to this heading">¶</a></h2>
 <p>Example 1 tokens file: <a class="reference download internal" download="" href="_downloads/c1a151e81f10e1309c1ffdf4e7b782b6/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">tokens</span> <span class="pre">file</span></code></a></p>
 <p>The <a class="reference internal" href="Usage.html#tokens-file-target"><span class="std std-ref">tokens file</span></a> provides the <a class="reference internal" href="Glossary.html#token-key-text-pair"><span class="std std-ref">token key-text pairs</span></a> that
 are substituted into the template file. This file uses a <a class="reference external" href="https://www.json.org/json-en.html">JSON</a> file format.
@@ -368,7 +369,7 @@ The tokens file for Example 1 is given below.</p>
 </div>
 </section>
 <section id="the-options-file">
-<span id="id1"></span><h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
+<span id="id1"></span><h2>The Options file<a class="headerlink" href="#the-options-file" title="Link to this heading">¶</a></h2>
 <p>Example 1 <a class="reference internal" href="Glossary.html#options-file"><span class="std std-ref">Options file</span></a>  <a class="reference download internal" download="" href="_downloads/9a0890a5daf7daaf901567bd964f8626/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span> <span class="pre">options</span> <span class="pre">file</span></code></a>
 The options file will likely need to be edited, as the path to nmfe??.bat (Windows) or nmfe?? (Linux) must be provided</p>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
@@ -413,7 +414,7 @@ the default is:</p>
 </pre></div>
 </div>
 <section id="penalties">
-<h3>Penalties<a class="headerlink" href="#penalties" title="Permalink to this heading">¶</a></h3>
+<h3>Penalties<a class="headerlink" href="#penalties" title="Link to this heading">¶</a></h3>
 <p>The base value for the “fitness” (for GA) or “reward/cost” for other algorithms is the -2LL value from the NONMEM output. Typically, penalties for increased complexity are added to this. If one
 parameter is added, and the models are nested, a value of 3.84 points per parameter corresponds to p&lt; 0.05. We’ll use 10 points for each estimated parameter. Generally, a model that converges
 and has a successful covariance step is viewed as “better” than a model that doesn’t. Therefore, to capture this, we’ll add 100 points for failing to converge, failing a covariance step,
@@ -423,12 +424,12 @@ The non_influential_tokens penalty is added if any tokens selected for this mode
 it is only intended to break ties between otherwise identical models.</p>
 </section>
 <section id="the-data-file">
-<h3>The data file<a class="headerlink" href="#the-data-file" title="Permalink to this heading">¶</a></h3>
+<h3>The data file<a class="headerlink" href="#the-data-file" title="Link to this heading">¶</a></h3>
 <p>Example 1 data file: <a class="reference download internal" download="" href="_downloads/f5a57c691dc6254e25f36145d3af215b/dataExample1.csv"><code class="xref download docutils literal notranslate"><span class="pre">dataExample1.csv</span></code></a></p>
 </section>
 </section>
 <section id="execute-search">
-<h2>Execute Search<a class="headerlink" href="#execute-search" title="Permalink to this heading">¶</a></h2>
+<h2>Execute Search<a class="headerlink" href="#execute-search" title="Link to this heading">¶</a></h2>
 <p>Usage details for starting a search in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> can be found <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here</span></a>.</p>
 <p>See <a class="reference internal" href="Examples.html#examples-target"><span class="std std-ref">“Examples”</span></a> for additional details about accessing example files.</p>
 <p>Initialization of the run should generate output similar to this:</p>
@@ -488,7 +489,7 @@ At the end of the run, the output should look like:</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Mark Sale, Certara.</p>
+    <p>&#169; Copyright 2025, Mark Sale, Certara.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

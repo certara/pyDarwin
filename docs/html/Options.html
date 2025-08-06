@@ -1,26 +1,23 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Options List &mdash; pyDarwin 3.0.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>Options List &mdash; pyDarwin 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
-        <script src="_static/tabs.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="_static/documentation_options.js?v=dd1205ac"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="_static/tabs.js?v=3030b3cb"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -33,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> pyDarwin
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyDarwin
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -77,6 +78,7 @@
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLME.html">NLME integration</a></li>
 </ul>
 
         </div>
@@ -92,7 +94,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Options List</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -103,7 +105,7 @@
            <div itemprop="articleBody">
              
   <section id="options-list">
-<span id="options"></span><h1>Options List<a class="headerlink" href="#options-list" title="Permalink to this heading">¶</a></h1>
+<span id="options"></span><h1>Options List<a class="headerlink" href="#options-list" title="Link to this heading">¶</a></h1>
 <p>Note that the options are saved to a JSON file. JSON supports string, numeric, and boolean (true|false).
 String options must be in quotes. See <a class="reference external" href="https://www.json.org/">JSON</a> for details.</p>
 <p>Below is an example JSON file that demonstrates every possible option. Note, some settings are only
@@ -125,6 +127,17 @@ applicable given algorithm selection and execution environment e.g., GA and grid
         <a class="reference internal" href="#mutate-options-desc"><span class="std std-ref">&quot;mutate&quot;</span></a>: &quot;flipBit&quot;,
         <a class="reference internal" href="#attribute-mutation-probability-options-desc"><span class="std std-ref">&quot;attribute_mutation_probability&quot;</span></a>: 0.1,
         <a class="reference internal" href="#niche-penalty-options-desc"><span class="std std-ref">&quot;niche_penalty&quot;</span></a>: 20
+    },
+
+    <a class="reference internal" href="#moga-options-desc"><span class="std std-ref">&quot;MOGA&quot;</span></a>: {
+        <a class="reference internal" href="#objectives-options-desc"><span class="std std-ref">&quot;objectives&quot;</span></a>: 3,
+        <a class="reference internal" href="#objective-names-options-desc"><span class="std std-ref">&quot;names&quot;</span></a>: [&quot;objective 1&quot;, &quot;objective 2&quot;, &quot;objective 3&quot;],
+        <a class="reference internal" href="#constraints-options-desc"><span class="std std-ref">&quot;constraints&quot;</span></a>: 0,
+        <a class="reference internal" href="#partitions-options-desc"><span class="std std-ref">&quot;partitions&quot;</span></a>: 6,
+        <a class="reference internal" href="#crossover-options-desc"><span class="std std-ref">&quot;crossover&quot;</span></a>: &quot;single&quot;,
+        <a class="reference internal" href="#crossover-rate-options-desc"><span class="std std-ref">&quot;crossover_rate&quot;</span></a>: 0.95,
+        <a class="reference internal" href="#mutation-rate-options-desc"><span class="std std-ref">&quot;mutation_rate&quot;</span></a>: 0.95,
+        <a class="reference internal" href="#attribute-mutation-probability-options-desc"><span class="std std-ref">&quot;attribute_mutation_probability&quot;</span></a>: 0.1
     },
 
     <a class="reference internal" href="#pso-options-desc"><span class="std std-ref">&quot;PSO&quot;</span></a>: {
@@ -166,11 +179,16 @@ applicable given algorithm selection and execution environment e.g., GA and grid
         <a class="reference internal" href="#non-influential-tokens-options-desc"><span class="std std-ref">&quot;non_influential_tokens&quot;</span></a>: 0.00001
     },
 
+    <a class="reference internal" href="#effect-limit-options-desc"><span class="std std-ref">&quot;effect_limit&quot;</span></a>: 6,
+
     <a class="reference internal" href="#downhill-period-options-desc"><span class="std std-ref">&quot;downhill_period&quot;</span></a>: 2,
     <a class="reference internal" href="#num-niches-options-desc"><span class="std std-ref">&quot;num_niches&quot;</span></a>: 2,
     <a class="reference internal" href="#niche-radius-options-desc"><span class="std std-ref">&quot;niche_radius&quot;</span></a>: 2,
     <a class="reference internal" href="#local-2-bit-search-options-desc"><span class="std std-ref">&quot;local_2_bit_search&quot;</span></a>: true,
     <a class="reference internal" href="#final-downhill-search-options-desc"><span class="std std-ref">&quot;final_downhill_search&quot;</span></a>: true,
+
+    <a class="reference internal" href="#local-grid-search-options-desc"><span class="std std-ref">&quot;local_grid_search&quot;</span></a>: true,
+    <a class="reference internal" href="#max-local-grid-search-bits-options-desc"><span class="std std-ref">&quot;max_local_grid_search_bits&quot;</span></a>: 3,
 
     <a class="reference internal" href="#nmfe-path-options-desc"><span class="std std-ref">&quot;nmfe_path&quot;</span></a>: &quot;/opt/nm751/util/nmfe75&quot;,
     <a class="reference internal" href="#model-run-timeout-options-desc"><span class="std std-ref">&quot;model_run_timeout&quot;</span></a>: 1200,
@@ -192,8 +210,13 @@ applicable given algorithm selection and execution environment e.g., GA and grid
     <a class="reference internal" href="#keep-best-models-options-desc"><span class="std std-ref">&quot;keep_best_models&quot;</span></a>: true,
     <a class="reference internal" href="#rerun-key-models-options-desc"><span class="std std-ref">&quot;rerun_key_models&quot;</span></a>: false,
 
+    <a class="reference internal" href="#rerun-front-models-options-desc"><span class="std std-ref">&quot;rerun_front_models&quot;</span></a>: false,
+
     <a class="reference internal" href="#remove-run-dir-options-desc"><span class="std std-ref">&quot;remove_run_dir&quot;</span></a>: false,
     <a class="reference internal" href="#remove-temp-dir-options-desc"><span class="std std-ref">&quot;remove_temp_dir&quot;</span></a>: true,
+
+    <a class="reference internal" href="#keep-files-options-desc"><span class="std std-ref">&quot;keep_files&quot;</span></a>: [&quot;dmp.txt&quot;, &quot;posthoc.csv&quot;],
+    <a class="reference internal" href="#keep-extensions-options-desc"><span class="std std-ref">&quot;keep_extensions&quot;</span></a>: [&quot;shk&quot;, &quot;coi&quot;, &quot;cor&quot;, &quot;cov&quot;],
 
     <a class="reference internal" href="#use-system-options-options-desc"><span class="std std-ref">&quot;use_system_options&quot;</span></a>: true,
 
@@ -202,16 +225,18 @@ applicable given algorithm selection and execution environment e.g., GA and grid
     <a class="reference internal" href="#grid-adapter-options-desc"><span class="std std-ref">&quot;grid_adapter&quot;</span></a>: &quot;darwin.GenericGridAdapter&quot;,
     <a class="reference internal" href="#engine-adapter-options-desc"><span class="std std-ref">&quot;engine_adapter&quot;</span></a>: &quot;nonmem&quot;,
 
+    <a class="reference internal" href="#skip-running-options-desc"><span class="std std-ref">&quot;skip_running&quot;</span></a>: false,
+
     <a class="reference internal" href="#rscript-path-options-desc"><span class="std std-ref">&quot;rscript_path&quot;</span></a>: &quot;C:/Program Files/R/R-4.3.1/bin/Rscript.exe&quot;,
     <a class="reference internal" href="#nlme-dir-options-desc"><span class="std std-ref">&quot;nlme_dir&quot;</span></a>: &quot;C:/Program Files/Certara/NLME_Engine&quot;,
     <a class="reference internal" href="#gcc-dir-options-desc"><span class="std std-ref">&quot;gcc_dir&quot;</span></a>: &quot;C:/Program Files/Certara/mingw64&quot;,
-    <a class="reference internal" href="#nlme-license-options-desc"><span class="std std-ref">&quot;nlme_license&quot;</span></a>: &quot;c:/workspace/lservrc&quot;,
 
     <a class="reference internal" href="#working-dir-options-desc"><span class="std std-ref">&quot;working_dir&quot;</span></a>: &quot;~/darwin/Ex1&quot;,
     <a class="reference internal" href="#data-dir-options-desc"><span class="std std-ref">&quot;data_dir&quot;</span></a>: &quot;{project_dir}/data&quot;,
     <a class="reference internal" href="#output-dir-options-desc"><span class="std std-ref">&quot;output_dir&quot;</span></a>: &quot;{project_dir}/output&quot;,
     <a class="reference internal" href="#temp-dir-options-desc"><span class="std std-ref">&quot;temp_dir&quot;</span></a>: &quot;{working_dir}/temp&quot;,
     <a class="reference internal" href="#key-models-dir-options-desc"><span class="std std-ref">&quot;key_models_dir&quot;</span></a>: &quot;{working_dir}/key_models&quot;,
+    <a class="reference internal" href="#non-dominated-models-dir-options-desc"><span class="std std-ref">&quot;non_dominated_models_dir&quot;</span></a>: &quot;{working_dir}/non_dominated_models&quot;,
 
     <a class="reference internal" href="#generic-grid-adapter-options-desc"><span class="std std-ref">&quot;generic_grid_adapter&quot;</span></a>: {
         <a class="reference internal" href="#python-path-options-desc"><span class="std std-ref">&quot;python_path&quot;</span></a>: &quot;~/darwin/venv/bin/python&quot;,
@@ -225,7 +250,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
     }
 }</pre>
 <section id="description">
-<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
+<h2>Description<a class="headerlink" href="#description" title="Link to this heading">¶</a></h2>
 <p>Here is the list of all available options. Note that many of the options have default values and are not required to be specified directly in the options file.</p>
 <ul id="author-options-desc">
 <li><div class="line-block">
@@ -242,7 +267,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 </li>
 </ul>
 <ul class="simple" id="algorithm-options-desc">
-<li><p><span class="opt-name">algorithm</span> <sup>required</sup> – <em>string</em>: One of <a class="reference internal" href="Algorithms.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">GA</span></a>, <a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Algorithms.html#rf-desc"><span class="std std-ref">RF</span></a>, <a class="reference internal" href="Algorithms.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>, <a class="reference internal" href="Algorithms.html#pso-desc"><span class="std std-ref">PSO</span></a>.</p></li>
+<li><p><span class="opt-name">algorithm</span> <sup>required</sup> – <em>string</em>: One of <a class="reference internal" href="Algorithms.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">GA</span></a>, <a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Algorithms.html#rf-desc"><span class="std std-ref">RF</span></a>, <a class="reference internal" href="Algorithms.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>, <a class="reference internal" href="Algorithms.html#pso-desc"><span class="std std-ref">PSO</span></a>, <span class="xref std std-ref">MOGA</span>, <span class="xref std std-ref">MOGA3</span>.</p></li>
 </ul>
 <ul class="simple" id="ga-options-desc">
 <li><p><span class="opt-name">GA</span> – <em>JSON</em>: Options specific to GA. Ignored for all other algorithms.</p></li>
@@ -340,6 +365,63 @@ for all other models in the generation for which the Mikowski distance is less t
 penalty is to maintain diversity of models, to avoid premature convergence of the search by penalizing when models are too
 similar to other models in the current generation.</div>
 <div class="line"><em>Default</em>: 20</div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<ul class="simple" id="moga-options-desc">
+<li><p><span class="opt-name">MOGA</span> – <em>JSON</em>: Options specific to MOGA and MOGA3. Ignored for all other algorithms.</p></li>
+</ul>
+<blockquote id="objectives-options-desc">
+<div><ul>
+<li><div class="line-block">
+<div class="line"><span class="opt-name">objectives</span> – <em>positive int</em>: Number of objectives. Objectives must be provided by <a class="reference internal" href="#postprocess-options-desc"><span class="std std-ref">postprocessing</span></a> (either R or Python).</div>
+<div class="line">Applicable only for MOGA3. For MOGA this option is ignored, 2 objectives are used.</div>
+<div class="line"><em>Default</em>: 3</div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<blockquote id="constraints-options-desc">
+<div><ul>
+<li><div class="line-block">
+<div class="line"><span class="opt-name">constraints</span> – <em>positive int</em>: Number of constraints. See <a class="reference external" href="https://pymoo.org/constraints/index.html">https://pymoo.org/constraints/index.html</a></div>
+<div class="line">Constraints must be provided by <a class="reference internal" href="#postprocess-options-desc"><span class="std std-ref">postprocessing</span></a> (either R or Python).</div>
+<div class="line">Applicable only for MOGA3, ignored for MOGA.</div>
+<div class="line"><em>Default</em>: 0</div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For MOGA3 the postprocessing script must return 2 lists: the first list contains objectives, the second – constraints. If there are no constraints, the second list must be empty.</p>
+</div>
+<blockquote id="objective-names-options-desc">
+<div><ul>
+<li><div class="line-block">
+<div class="line"><span class="opt-name">names</span> – <em>list of strings</em>: List of names of the objectives. Must be the size of <a class="reference internal" href="#objectives-options-desc"><span class="std std-ref">objectives</span></a>. If empty or of a different size, generic names will be used.</div>
+<div class="line">The names are used only in results.csv.</div>
+<div class="line">Applicable only for MOGA3, ignored for MOGA.</div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<blockquote id="partitions-options-desc">
+<div><ul>
+<li><div class="line-block">
+<div class="line"><span class="opt-name">partitions</span> – <em>positive int</em>: Number of partitions. See <a class="reference external" href="https://pymoo.org/misc/reference_directions.html">https://pymoo.org/misc/reference_directions.html</a></div>
+<div class="line">Applicable only for MOGA3, ignored for MOGA.</div>
+<div class="line"><em>Default</em>: 12</div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<blockquote id="crossover-options-desc">
+<div><ul>
+<li><div class="line-block">
+<div class="line"><span class="opt-name">crossover</span> – <em>string</em>: Crossover algorithm for MOGA. When set to single, SinglePointCrossover is used. Otherwise, TwoPointCrossover. See <a class="reference external" href="https://pymoo.org/operators/crossover.html#Point-Crossover">https://pymoo.org/operators/crossover.html#Point-Crossover</a></div>
+<div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">&quot;single&quot;</span></code></div>
 </div>
 </li>
 </ul>
@@ -600,9 +682,17 @@ than the same model without the non-influential token(s) to break a tie.</div>
 </li>
 </ul>
 </div></blockquote>
+<ul id="effect-limit-options-desc">
+<li><div class="line-block">
+<div class="line"><span class="opt-name">effect_limit</span> – <em>int</em>: Limits <a class="reference internal" href="Glossary.html#number-of-effects"><span class="std std-ref">number of effects</span></a>. If &lt; 1, effect limit is turned off.</div>
+<div class="line">Applicable only for NONMEM GA/MOGA/MOGA3 searches.</div>
+<div class="line"><em>Default</em>: -1</div>
+</div>
+</li>
+</ul>
 <ul id="downhill-period-options-desc">
 <li><div class="line-block">
-<div class="line"><span class="opt-name">downhill_period</span> – <em>int</em>: How often to run the downhill step. If &lt; 1, no periodic downhill search will be performed.</div>
+<div class="line"><span class="opt-name">downhill_period</span> – <em>int</em>: How often to run the <a class="reference internal" href="Glossary.html#local-one-bit-search"><span class="std std-ref">downhill step</span></a>. If &lt; 1, no periodic downhill search will be performed.</div>
 <div class="line"><em>Default</em>: -1</div>
 </div>
 </li>
@@ -628,6 +718,7 @@ downhill step for all algorithms, except <a class="reference internal" href="Alg
 <li><div class="line-block">
 <div class="line"><span class="opt-name">local_2_bit_search</span> – <em>boolean</em>: Whether to perform the <a class="reference internal" href="Glossary.html#local-two-bit-search"><span class="std std-ref">two bit local search</span></a>.
 The two bit local search substantially increases the robustness of the search. All downhill local searches are done starting from <a class="reference internal" href="#num-niches-options-desc"><span class="std std-ref">num_niches models</span></a>.</div>
+<div class="line">Ignored for MOGA and MOGA3.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
 </div>
 </li>
@@ -636,6 +727,41 @@ The two bit local search substantially increases the robustness of the search. A
 <li><div class="line-block">
 <div class="line"><span class="opt-name">final_downhill_search</span> – <em>boolean</em>: Whether to perform a <a class="reference internal" href="Glossary.html#local-search"><span class="std std-ref">local search</span></a> (1 and 2 bit) at the end of the global search.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
+</div>
+</li>
+</ul>
+<ul id="local-grid-search-options-desc">
+<li><div class="line-block">
+<div class="line"><span class="opt-name">local_grid_search</span> – <em>boolean</em>: Whether to perform a local grid search during downhill.</div>
+<div class="line">At each downhill step, after local 1-bit search iteration, in every niche:</div>
+</div>
+<ul class="simple">
+<li><p>up to N = <a class="reference internal" href="#max-local-grid-search-bits-options-desc"><span class="std std-ref">max_local_grid_search_bits</span></a> models better than the best model in the niche are determined; N can be less than that if fewer better models are found</p></li>
+<li><p>if no better models found, the niche is done, otherwise</p></li>
+<li><p>for each better model, the first bit that is different to the best model is found</p></li>
+<li><p>those bits are then flipped in all possible ways (2^N permutations)</p></li>
+<li><p>resulting 2^N models replace original models in the niche (the best model in the niche is still the same)</p></li>
+<li><p>new niche models are run</p></li>
+<li><p>new best model is determined, local 1-bit search is repeated for the niches that are not done yet</p></li>
+</ul>
+<div class="line-block">
+<div class="line">The same is true for MOGA and MOGA3, except:</div>
+</div>
+<ul class="simple">
+<li><p>niches best models = front models</p></li>
+<li><p>the 1-bit iterations continue until the front is unchanged (since there is no best model per se)</p></li>
+<li><p>better runs are found by every objective, which makes it up to 2^(<a class="reference internal" href="#objectives-options-desc"><span class="std std-ref">objectives</span></a> * <a class="reference internal" href="#max-local-grid-search-bits-options-desc"><span class="std std-ref">max_local_grid_search_bits</span></a>) new models per niche; this can get out of control pretty fast: with 8 niches, 3 objectives and 5 bits you might get up to 8*2^15=262144 models</p></li>
+<li><p>only unique runs are added to the updated niche to not oversaturate the algorithm</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
+</div>
+</li>
+</ul>
+<ul id="max-local-grid-search-bits-options-desc">
+<li><div class="line-block">
+<div class="line"><span class="opt-name">max_local_grid_search_bits</span> – <em>positive int</em>: How many bits to flip.</div>
+<div class="line"><em>Default</em>: 5</div>
 </div>
 </li>
 </ul>
@@ -682,6 +808,7 @@ The two bit local search substantially increases the robustness of the search. A
 <li><div class="line-block">
 <div class="line"><span class="opt-name">post_run_r_code</span> <sup>required</sup> – <em>string</em>: Path to R file (.r extension) to be run after each NONMEM execution.</div>
 <div class="line">Required if <code class="docutils literal notranslate"><span class="pre">use_r</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</div>
+<div class="line">The script is run in the <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">run directory</span></a>. It must return either a vector, containing a penalty value and a text (will be added to the output file), or, for <span class="xref std std-ref">MOGA3</span>, <a class="reference internal" href="#objectives-options-desc"><span class="std std-ref">2 vectors</span></a>.</div>
 <div class="line">Available aliases are: <a class="reference internal" href="#common-aliases"><span class="std std-ref">all common aliases</span></a>.</div>
 </div>
 </li>
@@ -710,11 +837,16 @@ The two bit local search substantially increases the robustness of the search. A
 <li><div class="line-block">
 <div class="line"><span class="opt-name">post_run_python_code</span> <sup>required</sup> – <em>string</em>: Path to python code file (.py extension) to be run after each NONMEM execution.</div>
 <div class="line">Required if <code class="docutils literal notranslate"><span class="pre">use_python</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</div>
+<div class="line">The script must contain either <code class="docutils literal notranslate"><span class="pre">post_process2</span></code> or <code class="docutils literal notranslate"><span class="pre">post_process</span></code> function (when it has both, <code class="docutils literal notranslate"><span class="pre">post_process2</span></code> is used). <code class="docutils literal notranslate"><span class="pre">post_process2</span></code> takes a <code class="docutils literal notranslate"><span class="pre">ModelRun</span></code> as an argument, <code class="docutils literal notranslate"><span class="pre">post_process</span></code> takes a run directory. Both of them must return a tuple containing either a penalty value and some text (will be added to the output file) or, for <span class="xref std std-ref">MOGA3</span>, <a class="reference internal" href="#objectives-options-desc"><span class="std std-ref">2 lists</span></a>.</div>
 <div class="line">Available aliases are: <a class="reference internal" href="#common-aliases"><span class="std std-ref">all common aliases</span></a>.</div>
 </div>
 </li>
 </ul>
 </div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Postprocessing is not used for MOGA.</p>
+</div>
 <ul id="use-saved-models-options-desc">
 <li><div class="line-block">
 <div class="line"><span class="opt-name">use_saved_models</span> – <em>boolean</em>: Whether to restore saved <a class="reference internal" href="API.html#api-model-cache"><span class="std std-ref">Model Cache</span></a> from file. The file is specified with <code class="docutils literal notranslate"><span class="pre">saved_models_file</span></code>.</div>
@@ -788,6 +920,13 @@ The two bit local search substantially increases the robustness of the search. A
 <div class="line"><code class="docutils literal notranslate"><span class="pre">rerun_key_models</span></code> doesn’t have effect if none of <code class="docutils literal notranslate"><span class="pre">keep_key_models</span></code>/<code class="docutils literal notranslate"><span class="pre">keep_best_models</span></code> is <code class="docutils literal notranslate"><span class="pre">true</span></code>.</div>
 </div>
 </div>
+<ul id="rerun-front-models-options-desc">
+<li><div class="line-block">
+<div class="line"><span class="opt-name">rerun_front_models</span> – <em>boolean</em>: Same to <a class="reference internal" href="#rerun-key-models-options-desc"><span class="std std-ref">rerun_key_models</span></a>, but for non-dominated models.</div>
+<div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">true</span></code></div>
+</div>
+</li>
+</ul>
 <ul id="remove-run-dir-options-desc">
 <li><div class="line-block">
 <div class="line"><span class="opt-name">remove_run_dir</span> – <em>boolean</em>: If <code class="docutils literal notranslate"><span class="pre">true</span></code>, will delete the entire model <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">run directory</span></a>, otherwise - only unnecessary files inside it.</div>
@@ -799,6 +938,18 @@ The two bit local search substantially increases the robustness of the search. A
 <li><div class="line-block">
 <div class="line"><span class="opt-name">remove_temp_dir</span> – <em>boolean</em>: Whether to delete entire <a class="mono reference internal" href="#temp-dir-options-desc"><span class="std std-ref">temp_dir</span></a> after the search is finished or stopped. Doesn’t have any effect when search is <a class="reference internal" href="Usage.html#grid-execution"><span class="std std-ref">run on a grid</span></a>.</div>
 <div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
+</div>
+</li>
+</ul>
+<ul id="keep-files-options-desc">
+<li><div class="line-block">
+<div class="line"><span class="opt-name">keep_files</span> – <em>list of strings</em>: Keep files with exact names when cleaning up run directories.</div>
+</div>
+</li>
+</ul>
+<ul id="keep-extensions-options-desc">
+<li><div class="line-block">
+<div class="line"><span class="opt-name">keep_extensions</span> – <em>list of strings</em>: Keep <code class="docutils literal notranslate"><span class="pre">{run_name}.{ext}</span></code> when cleaning up run directories, where <code class="docutils literal notranslate"><span class="pre">{ext}</span></code> is one of the list items.</div>
 </div>
 </li>
 </ul>
@@ -843,6 +994,13 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </div>
 </li>
 </ul>
+<ul id="skip-running-options-desc">
+<li><div class="line-block">
+<div class="line"><span class="opt-name">skip_running</span> – <em>boolean</em>: If set, no actual NM/NLME runs will be performed, pyDarwin will create a control file and proceed to postprocessing. OFV in this case will be a sum of R and Python postprocessing penalties.</div>
+<div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">false</span></code></div>
+</div>
+</li>
+</ul>
 <ul id="rscript-path-options-desc">
 <li><div class="line-block">
 <div class="line"><span class="opt-name">rscript_path</span> <sup>required</sup> – <em>string</em>: Absolute path to Rscript.exe.</div>
@@ -861,12 +1019,6 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <li><div class="line-block">
 <div class="line"><span class="opt-name">gcc_dir</span> <sup>required</sup> – <em>string</em>: Absolute path to GCC root directory.</div>
 <div class="line">Required if <code class="docutils literal notranslate"><span class="pre">engine_adapter</span></code> is set to <code class="docutils literal notranslate"><span class="pre">nlme</span></code>.</div>
-</div>
-</li>
-</ul>
-<ul id="nlme-license-options-desc">
-<li><div class="line-block">
-<div class="line"><span class="opt-name">nlme_license</span> – <em>string</em>: Absolute path NLME license file.</div>
 </div>
 </li>
 </ul>
@@ -914,16 +1066,29 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </div>
 </li>
 </ul>
+<ul id="non-dominated-models-dir-options-desc">
+<li><div class="line-block">
+<div class="line"><span class="opt-name">non_dominated_models_dir</span> – <em>string</em>: Directory where non-dominated models will be saved.</div>
+<div class="line"><em>Default</em>: <code class="docutils literal notranslate"><span class="pre">{working_dir}/non_dominated_models</span></code></div>
+<div class="line">Available aliases are: <a class="mono reference internal" href="#project-dir-alias"><span class="std std-ref">{project_dir}</span></a>, <a class="mono reference internal" href="#working-dir-alias"><span class="std std-ref">{working_dir}</span></a>.</div>
+</div>
+</li>
+</ul>
 <ul id="generic-grid-adapter-options-desc">
 <li><div class="line-block">
 <div class="line"><span class="opt-name">generic_grid_adapter</span> – <em>JSON</em>: These settings are necessary only when you use <code class="docutils literal notranslate"><span class="pre">darwin.GridRunManager</span></code> as <a class="mono reference internal" href="#model-run-man-options-desc"><span class="std std-ref">model_run_man</span></a>.</div>
+<div class="line">Examples for different workload managers can be found <a class="reference internal" href="Usage.html#generic-grid-adapter-examples"><span class="std std-ref">here</span></a></div>
 <div class="line">For local runs this entire section is ignored.</div>
 </div>
 </li>
 </ul>
 <blockquote id="python-path-options-desc">
-<div><ul class="simple">
-<li><p><span class="opt-name">python_path</span> <sup>required</sup> – <em>string</em>: Path to your Python interpreter, preferably to the instance of the interpreter located in <a class="reference internal" href="Install.html#install-python-venv"><span class="std std-ref">virtual environment</span></a> where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.</p></li>
+<div><ul>
+<li><div class="line-block">
+<div class="line"><span class="opt-name">python_path</span> <sup>required</sup> – <em>string</em>: Path to your Python interpreter, preferably to the instance of the interpreter located in <a class="reference internal" href="Install.html#install-python-venv"><span class="std std-ref">virtual environment</span></a> where pyDarwin is deployed. The path must be available to all grid nodes that run jobs.</div>
+<div class="line">Alternatively it may be set to a <a class="reference internal" href="Usage.html#customizing-python-script"><span class="std std-ref">custom script</span></a>.</div>
+</div>
+</li>
 </ul>
 </div></blockquote>
 <blockquote id="submit-command-options-desc">
@@ -998,7 +1163,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </div></blockquote>
 </section>
 <section id="aliases">
-<h2>Aliases<a class="headerlink" href="#aliases" title="Permalink to this heading">¶</a></h2>
+<h2>Aliases<a class="headerlink" href="#aliases" title="Link to this heading">¶</a></h2>
 <div class="line-block">
 <div class="line">An alias is essentially a substitute text for some keyword. Their main purpose is to unify and to simplify configuration of various projects through different environments.</div>
 </div>
@@ -1006,7 +1171,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 <div class="line">We encourage you to become familiar with them and to use them instead of explicit values, e.g., paths to your projects and their internals.</div>
 </div>
 <section id="common-aliases">
-<span id="id1"></span><h3>Common aliases<a class="headerlink" href="#common-aliases" title="Permalink to this heading">¶</a></h3>
+<span id="id1"></span><h3>Common aliases<a class="headerlink" href="#common-aliases" title="Link to this heading">¶</a></h3>
 <div class="line-block">
 <div class="line">These aliases are applicable to several different options, so it’s easier to refer to them as a group.</div>
 <div class="line">They also can be used in <a class="reference internal" href="Usage.html#template-file-target"><span class="std std-ref">templates</span></a>.</div>
@@ -1105,9 +1270,9 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </div></blockquote>
 </section>
 <section id="grid-job-aliases">
-<h3>Grid job aliases<a class="headerlink" href="#grid-job-aliases" title="Permalink to this heading">¶</a></h3>
+<h3>Grid job aliases<a class="headerlink" href="#grid-job-aliases" title="Link to this heading">¶</a></h3>
 <section id="job-submit-aliases">
-<span id="id2"></span><h4>Job submit aliases<a class="headerlink" href="#job-submit-aliases" title="Permalink to this heading">¶</a></h4>
+<span id="id2"></span><h4>Job submit aliases<a class="headerlink" href="#job-submit-aliases" title="Link to this heading">¶</a></h4>
 <p>These aliases are only applicable to <a class="mono reference internal" href="#submit-command-options-desc"><span class="std std-ref">submit_command</span></a>.</p>
 <blockquote id="results-dir-alias">
 <div><ul class="simple">
@@ -1162,7 +1327,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </div>
 </section>
 <section id="job-delete-poll-aliases">
-<h4>Job delete/poll aliases<a class="headerlink" href="#job-delete-poll-aliases" title="Permalink to this heading">¶</a></h4>
+<h4>Job delete/poll aliases<a class="headerlink" href="#job-delete-poll-aliases" title="Link to this heading">¶</a></h4>
 <blockquote id="job-ids-alias">
 <div><ul>
 <li><div class="line-block">
@@ -1176,10 +1341,10 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </section>
 </section>
 <section id="environment-variables">
-<h2>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">¶</a></h2>
+<h2>Environment variables<a class="headerlink" href="#environment-variables" title="Link to this heading">¶</a></h2>
 <p>There are a few environment variables that you may want to set in order to facilitate <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> ease of use.</p>
 <section id="pydarwin-home">
-<span id="pydarwin-home-env-var"></span><h3>PYDARWIN_HOME<a class="headerlink" href="#pydarwin-home" title="Permalink to this heading">¶</a></h3>
+<span id="pydarwin-home-env-var"></span><h3>PYDARWIN_HOME<a class="headerlink" href="#pydarwin-home" title="Link to this heading">¶</a></h3>
 <p>This environment variable allows you to change <a class="reference internal" href="Glossary.html#pydarwin-home"><span class="std std-ref">pyDarwin home</span></a> to an arbitrary <strong>existing</strong> directory.</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-Y21kLmV4ZQ==" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tab" tabindex="0">cmd.exe</button><button aria-controls="panel-0-YmFzaA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-YmFzaA==" name="YmFzaA==" role="tab" tabindex="-1">bash</button></div><div aria-labelledby="tab-0-Y21kLmV4ZQ==" class="sphinx-tabs-panel group-tab" id="panel-0-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="nv">PYDARWIN_HOME</span><span class="p">=</span>C:\workspace\pydarwin
@@ -1195,7 +1360,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </div>
 </section>
 <section id="pydarwin-options">
-<span id="pydarwin-options-env-var"></span><h3>PYDARWIN_OPTIONS<a class="headerlink" href="#pydarwin-options" title="Permalink to this heading">¶</a></h3>
+<span id="pydarwin-options-env-var"></span><h3>PYDARWIN_OPTIONS<a class="headerlink" href="#pydarwin-options" title="Link to this heading">¶</a></h3>
 <p>This environment variable allows you to <a class="reference internal" href="#settings-override"><span class="std std-ref">override settings</span></a>.</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-Y21kLmV4ZQ==" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-1-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tab" tabindex="0">cmd.exe</button><button aria-controls="panel-1-YmFzaA==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-1-YmFzaA==" name="YmFzaA==" role="tab" tabindex="-1">bash</button></div><div aria-labelledby="tab-1-Y21kLmV4ZQ==" class="sphinx-tabs-panel group-tab" id="panel-1-Y21kLmV4ZQ==" name="Y21kLmV4ZQ==" role="tabpanel" tabindex="0"><div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="nv">PYDARWIN_OPTIONS</span><span class="p">=</span>C:\workspace\darwin\system_options.json
@@ -1208,7 +1373,7 @@ and <a class="reference internal" href="API.html#darwin.MemoryModelCache.AsyncMe
 </section>
 </section>
 <section id="settings-override">
-<span id="id3"></span><h2>Settings override<a class="headerlink" href="#settings-override" title="Permalink to this heading">¶</a></h2>
+<span id="id3"></span><h2>Settings override<a class="headerlink" href="#settings-override" title="Link to this heading">¶</a></h2>
 <p>At some point you may start running your projects in different environments. It may become quite annoying to edit <code class="docutils literal notranslate"><span class="pre">nmfe_path</span></code> and <code class="docutils literal notranslate"><span class="pre">rscript_path</span></code> every time you copy the project back and forth between Windows and Linux.</p>
 <p>To avoid this, you can create a separate options file for every environment (even every user if you wish) and place all the environment-specific settings inside this file. Then, you can just set PYDARWIN_OPTIONS to the path of that file, and every setting from that file will override corresponding settings in any options.json of any project you run in that environment.
 Overriding can be switched off by <a class="mono reference internal" href="#use-system-options-options-desc"><span class="std std-ref">use_system_options</span></a> set to <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
@@ -1310,7 +1475,7 @@ Overriding can be switched off by <a class="mono reference internal" href="#use-
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Mark Sale, Certara.</p>
+    <p>&#169; Copyright 2025, Mark Sale, Certara.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

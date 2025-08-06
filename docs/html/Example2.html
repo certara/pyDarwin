@@ -1,24 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example 2: PK Model 2, Simulation model by GP with Python code &mdash; pyDarwin 3.0.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>Example 2: PK Model 2, Simulation model by GP with Python code &mdash; pyDarwin 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/documentation_options.js?v=dd1205ac"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -29,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> pyDarwin
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyDarwin
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,6 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLME.html">NLME integration</a></li>
 </ul>
 
         </div>
@@ -70,7 +71,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Example 2: PK Model 2, Simulation model by GP with Python code</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -81,7 +82,7 @@
            <div itemprop="articleBody">
              
   <section id="example-2-pk-model-2-simulation-model-by-gp-with-python-code">
-<span id="startpk2"></span><h1>Example 2: PK Model 2, Simulation model by GP with Python code<a class="headerlink" href="#example-2-pk-model-2-simulation-model-by-gp-with-python-code" title="Permalink to this heading">¶</a></h1>
+<span id="startpk2"></span><h1>Example 2: PK Model 2, Simulation model by GP with Python code<a class="headerlink" href="#example-2-pk-model-2-simulation-model-by-gp-with-python-code" title="Link to this heading">¶</a></h1>
 <p>Example 2 is also a simple search. The search space contains 12,960 models, 10 dimensions. The dimensions are:</p>
 <table class="docutils align-default">
 <thead>
@@ -185,7 +186,7 @@ number &lt; 1000, so all of these penalties will be 100. As there are nested tok
 tokens, the penalty for non-influential tokens will be set to 0.00001. This small penalty is only to insure that in a tournament selection, the model that
 does not have non-influential tokens will be selected.</p>
 <section id="the-template-file">
-<span id="gp-ask-tell"></span><h2>The Template file<a class="headerlink" href="#the-template-file" title="Permalink to this heading">¶</a></h2>
+<h2>The Template file<a class="headerlink" href="#the-template-file" title="Link to this heading">¶</a></h2>
 <p>The template file for example 2 is given below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$PROBLEM    2 compartment fitting
 $INPUT       ID TIME AMT DV WTKG GENDER AGE {D1LAG[1]}
@@ -241,7 +242,7 @@ $COV UNCOND PRINT=E
 <p>Example 2 template file: <a class="reference download internal" download="" href="_downloads/72b917253efa84bfd7234b3cae093c06/template.txt"><code class="xref download docutils literal notranslate"><span class="pre">text</span></code></a></p>
 </section>
 <section id="the-tokens-file">
-<h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Permalink to this heading">¶</a></h2>
+<h2>The Tokens file<a class="headerlink" href="#the-tokens-file" title="Link to this heading">¶</a></h2>
 <p>Notes:</p>
 <ol class="arabic simple" id="example2-nested-tokens">
 <li><p>The example includes nested tokens. The K23~WT token group is nested within the ADVAN token group and the ETAD1LAG token group is nested within the D1LAG group.</p></li>
@@ -375,7 +376,7 @@ $COV UNCOND PRINT=E
 <p>Example 2 tokens file: <a class="reference download internal" download="" href="_downloads/351430980a389528889752031fe70c69/tokens.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 <section id="the-options-file">
-<h2>The Options file<a class="headerlink" href="#the-options-file" title="Permalink to this heading">¶</a></h2>
+<h2>The Options file<a class="headerlink" href="#the-options-file" title="Link to this heading">¶</a></h2>
 <p>The user should provide an appropriate path for <a class="reference internal" href="Options.html#nmfe-path-options-desc"><span class="std std-ref">“nmfe_path”</span></a>. NONMEM version 7.4 and 7.5 are supported.</p>
 <p>Note that, to run in the environment used for this example, the directories are set to:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;u:/pyDarwin/example2/working&quot;</span><span class="p">,</span>
@@ -429,11 +430,11 @@ the default is:</p>
 <p>Example 2 options file: <a class="reference download internal" download="" href="_downloads/c9bbf4d23123b521c1d974be67e284de/options.json"><code class="xref download docutils literal notranslate"><span class="pre">json</span></code></a></p>
 </section>
 <section id="execute-search">
-<h2>Execute Search<a class="headerlink" href="#execute-search" title="Permalink to this heading">¶</a></h2>
+<h2>Execute Search<a class="headerlink" href="#execute-search" title="Link to this heading">¶</a></h2>
 <p>Usage details for starting a search in <code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> can be found <a class="reference internal" href="Usage.html#execution"><span class="std std-ref">here</span></a>.</p>
 <p>See <a class="reference internal" href="Examples.html#examples-target"><span class="std std-ref">“Examples”</span></a> for additional details about accessing example files.</p>
 <section id="notes-on-gaussian-process-performance">
-<h3>Notes on Gaussian Process performance<a class="headerlink" href="#notes-on-gaussian-process-performance" title="Permalink to this heading">¶</a></h3>
+<span id="gp-ask-tell"></span><h3>Notes on Gaussian Process performance<a class="headerlink" href="#notes-on-gaussian-process-performance" title="Link to this heading">¶</a></h3>
 <p>Gaussian Process is an approach in <a class="reference external" href="https://proceedings.neurips.cc/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf">Bayesian Optimization</a>
 (<a class="reference external" href="https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html#sphx-glr-auto-examples-bayesian-optimization-py">scikit-optimize</a>) where the samples are drawn from
 a Gaussian Process. There are reasons to believe that this approach should be the most efficient (fewer reward evaluations to convergence), other than downhill search.
@@ -519,7 +520,7 @@ be more appropriate.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Mark Sale, Certara.</p>
+    <p>&#169; Copyright 2025, Mark Sale, Certara.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

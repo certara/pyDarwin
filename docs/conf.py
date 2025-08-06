@@ -20,11 +20,11 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'pyDarwin'
-copyright = '2024, Mark Sale, Certara'
+copyright = '2025, Mark Sale, Certara'
 author = 'Mark Sale'
 
 # The full version, including alpha/beta/rc tags
-release = '3.0.0'
+release = '3.1.0'
 
 
 # -- General configuration ---------------------------------------------------

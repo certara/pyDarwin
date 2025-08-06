@@ -1,25 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Algorithms &mdash; pyDarwin 3.0.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <title>Algorithms &mdash; pyDarwin 3.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="_static/documentation_options.js?v=dd1205ac"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -32,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> pyDarwin
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyDarwin
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -66,6 +66,7 @@
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLME.html">NLME integration</a></li>
 </ul>
 
         </div>
@@ -81,7 +82,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Algorithms</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -92,7 +93,7 @@
            <div itemprop="articleBody">
              
   <section id="algorithms">
-<span id="the-algorithms"></span><h1>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this heading">¶</a></h1>
+<span id="the-algorithms"></span><h1>Algorithms<a class="headerlink" href="#algorithms" title="Link to this heading">¶</a></h1>
 <p>For problems with larger search spaces, and greater number of model evaluations, <a class="reference internal" href="#ga-desc"><span class="std std-ref">Genetic algorithm</span></a> or <a class="reference internal" href="#rf-desc"><span class="std std-ref">Random Forest</span></a> may
 be more appropriate.</p>
 <p>Below is a list of recommendations for algorithm selection.</p>
@@ -104,12 +105,12 @@ be more appropriate.</p>
 </ul>
 </div></blockquote>
 <section id="exhaustive-search">
-<span id="ex-desc"></span><h2>Exhaustive Search<a class="headerlink" href="#exhaustive-search" title="Permalink to this heading">¶</a></h2>
+<span id="ex-desc"></span><h2>Exhaustive Search<a class="headerlink" href="#exhaustive-search" title="Link to this heading">¶</a></h2>
 <p>The exhaustive search algorithm is simple to understand. The search space is initially represented as a string of integers - one for each dimension. To facilitate the search,
 this integer string is coded into a “minimal binary”. Since all candidate models are executed in an exhaustive search, this algorithm is best suited for small search spaces.</p>
 </section>
 <section id="genetic-algorithm">
-<span id="ga-desc"></span><h2>Genetic Algorithm<a class="headerlink" href="#genetic-algorithm" title="Permalink to this heading">¶</a></h2>
+<span id="ga-desc"></span><h2>Genetic Algorithm<a class="headerlink" href="#genetic-algorithm" title="Link to this heading">¶</a></h2>
 <p>Genetic Algorithm (GA) is a reproduction of the mathematics of evolution/survival of the fittest. A more detailed discussion <a class="reference external" href="https://en.wikipedia.org/wiki/Genetic_algorithm">on GA can be found here</a>, and
 a very readable (but somewhat dated) reference is Genetic Algorithms in Search, Optimization and Machine Learning 13th ed. Edition by David Goldberg. Details of the options (not all of which are available in pyDarwin)
 can be found <a class="reference external" href="https://deap.readthedocs.io/en/master/">here</a>.
@@ -138,24 +139,24 @@ The next generations is created by randomly selecting sets of parent candidates 
 Once the sets of parents are selected, they undergo crossover and mutation, and a new generation is created. This process is repeated until no further improvement is seen.</p>
 </section>
 <section id="gaussian-process">
-<span id="gp-desc"></span><h2>Gaussian Process<a class="headerlink" href="#gaussian-process" title="Permalink to this heading">¶</a></h2>
+<span id="gp-desc"></span><h2>Gaussian Process<a class="headerlink" href="#gaussian-process" title="Link to this heading">¶</a></h2>
 <p>Gaussian Process is one of the two options used in <a class="reference external" href="https://en.wikipedia.org/wiki/Bayesian_optimization#">Bayesian Optimization</a>. The Gaussian Process specifies the form of the prior and posterior distribution.
 Initially the distribution is random, as is the case for all the global search algorithms. Once some models have been run, the distribution can be updated (the “ask” step) and new, more informative samples can be
 generated (the “tell” step).</p>
 </section>
 <section id="random-forest">
-<span id="rf-desc"></span><h2>Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this heading">¶</a></h2>
+<span id="rf-desc"></span><h2>Random Forest<a class="headerlink" href="#random-forest" title="Link to this heading">¶</a></h2>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Random_forests">Random Forest</a> consists of splitting the search space (based on the “goodness” of each model in this case), thus continuously dividing the
 search space into “good” and “bad” regions. As before, the initial divisions are random, but become increasingly well-informed as real values for the fitness/reward of models are
 included.</p>
 </section>
 <section id="gradient-boosted-random-tree">
-<span id="gbrt-desc"></span><h2>Gradient Boosted Random Tree<a class="headerlink" href="#gradient-boosted-random-tree" title="Permalink to this heading">¶</a></h2>
+<span id="gbrt-desc"></span><h2>Gradient Boosted Random Tree<a class="headerlink" href="#gradient-boosted-random-tree" title="Link to this heading">¶</a></h2>
 <p><a class="reference external" href="https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad">Gradient Boosted Random Tree</a>
 is similar to Random Forest, but may increase the precision of the tree building by progressively building the tree and calculating a gradient of the reward/fitness with respect to each decision.</p>
 </section>
 <section id="particle-swarm-optimization-pso">
-<span id="pso-desc"></span><h2>Particle Swarm Optimization (PSO)<a class="headerlink" href="#particle-swarm-optimization-pso" title="Permalink to this heading">¶</a></h2>
+<span id="pso-desc"></span><h2>Particle Swarm Optimization (PSO)<a class="headerlink" href="#particle-swarm-optimization-pso" title="Link to this heading">¶</a></h2>
 <p>Particle swarm optimization (PSO <a class="footnote-reference brackets" href="#f4" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>) is another approach to optimization that, like Genetic Algorithm,
 attempts to reproduce a natural optimization process. In the case of PSO, the natural process is the
 swarm behavior of birds and fish, although the specifics of the relationship to bird and fish behavior
@@ -180,7 +181,7 @@ The topology defines the region of the swarm whereby individual particles (model
 The “star” topology is the only implementation currently available in pyDarwin. The star topology permits particles (i.e., models) to coordinate with a set of nearest neighbors in a
 sort of star shape, up to the number of neighbors specified in <a class="reference internal" href="Options.html#neighbor-num-options-desc"><span class="std std-ref">neighbor_number</span></a>.</p>
 <aside class="footnote-list brackets">
-<aside class="footnote brackets" id="f4" role="note">
+<aside class="footnote brackets" id="f4" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">1</a><span class="fn-bracket">]</span></span>
 <p>J Kennedy and R.C. Eberhart. 1995  Particle Swarm Optimization. Proceedings of the IEEE International Joint Conference on Neural Networks, 4:1942-1948</p>
 </aside>
@@ -199,7 +200,7 @@ sort of star shape, up to the number of neighbors specified in <a class="referen
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, Mark Sale, Certara.</p>
+    <p>&#169; Copyright 2025, Mark Sale, Certara.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

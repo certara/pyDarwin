@@ -5,6 +5,23 @@ Releases
 ######################
 
 **********************
+pyDarwin-Certara 3.1.0
+**********************
+
+What's New
+====================
+
+* Single Subject Support
+* Multi-Objective Optimization in GA (MOGA)
+* Mu referenceing model sytnax support
+* New effect limit option provides a method to limit the number of 'effects' in a given candidate model
+
+Issues Corrected
+====================
+
+* pyDarwin now uses identical models from cache as expected
+
+**********************
 pyDarwin-Certara 3.0.0
 **********************
 

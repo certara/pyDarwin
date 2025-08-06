@@ -3,13 +3,13 @@
 NLME integration
 ===============================================
 
+.. _nlme_model_structure:
+
 Basic Model Structure and Statements
 ------------------------------------------------------------------------
 
-A PML model defines the structure of a
-pharmacokinetic/pharmacodynamic model. The basic structure consists of a
-main block enclosed in curly braces, typically named ``test()``,
-containing statements that define the model's components.
+A PML model defines the structure of a pharmacokinetic/pharmacodynamic model. The basic structure consists of a
+main block enclosed in curly braces, typically named ``test()``, containing statements that define the model's components.
 
 The fundamental structure of a PML model is:
 
@@ -19,20 +19,14 @@ The fundamental structure of a PML model is:
      // Statements defining the model
    }
 
--  ``modelName()``: The name of the model (e.g., ``test``,
-   ``oneCompartmentModel``). The parentheses ``()`` are *required*.
-   While any valid name can be used, ``test()`` is a common convention
-   for simple models.
--  ``{ ... }``: Curly braces define the *model block*. All model
-   statements must be within this block.
--  Statements within the block define the model's components (e.g.,
-   parameters, equations, error models). Statement order is generally
-   *not* important, except within ``sequence`` blocks and for assignment
-   statements.
+-  ``modelName()``: The name of the model (e.g., ``test``, ``oneCompartmentModel``). The parentheses ``()`` are *required*.
+   While any valid name can be used, ``test()`` is a common convention for simple models.
+-  ``{ ... }``: Curly braces define the *model block*. All model statements must be within this block.
+-  Statements within the block define the model's components (e.g., parameters, equations, error models). Statement order is generally
+   *not* important, except within ``sequence`` blocks and for assignment statements.
 
-**Keywords:** model, structure, test, block, curly braces, main block
 
-**See also:** Statements, Blocks, Comments, Variables
+.. _nlme_model_structure_statements:
 
 Statements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -45,29 +39,26 @@ can span multiple lines, and semicolons are optional separators.
    including:
 
    -  Assignment statements (e.g., ``C = A1 / V``)
-   -  Declaration statements (e.g., ``stparm``, ``fixef``, ``ranef``,
-      ``covariate``, ``error``)
-   -  Control flow statements (within ``sequence`` blocks: ``if``,
-      ``while``, ``sleep``)
-   -  Model component statements (e.g., ``deriv``, ``observe``,
-      ``multi``, ``LL``, ``dosepoint``, ``cfMicro``)
+   -  Declaration statements (e.g., ``stparm``, ``fixef``, ``ranef``, ``covariate``, ``error``)
+   -  Control flow statements (within ``sequence`` blocks: ``if``, ``while``, ``sleep``)
+   -  Model component statements (e.g., ``deriv``, ``observe``, ``multi``, ``LL``, ``dosepoint``, ``cfMicro``)
 
 -  **Order:** In general, the order of statements *does not matter* in
    PML, *except*:
 
-   -  Within ``sequence`` blocks, where statements are executed
-      sequentially.
-   -  For assignment statements, where the order of assignments to the
-      *same* variable matters.
+   -  Within ``sequence`` blocks, where statements are executed sequentially.
+   -  For assignment statements, where the order of assignments to the *same* variable matters.
    -  When defining micro constants before ``cfMicro``
 
--  **Semicolons:** Semicolons (``;``) are optional separators between
-   statements. They can improve readability but are not required.
+-  **Semicolons:** Semicolons (``;``) are optional separators between statements. They can improve readability but are not required.
 -  **Line Boundaries:** Statements can span multiple lines.
 
 **Keywords:** statement, assignment, declaration, semicolon, order
 
-**See also:** Basic PML Model Structure, Blocks, Variables, Assignment Statements
+**See also:** :ref:`PML Model Structure<nlme_model_structure>`, :ref:`Blocks<nlme_model_structure_blocks>`, :ref:`Variables<nlme_model_structure_variables>`, :ref:`Assignment Statements<nlme_model_structure_assignment_statements>`
+
+
+.. _nlme_model_structure_blocks:
 
 Blocks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -99,7 +90,10 @@ case of ``sequence`` blocks, to define a specific execution order.
 
 **Keywords:** block, curly braces, sequence, scope
 
-**See also:** Basic PML Model Structure, Statements, sequence block
+**See also:** :ref:`PML Model Structure<nlme_model_structure>`, :ref:`Statements<nlme_model_structure_statements>`, :mono_ref:`sequence<nlme_sequence>`
+
+
+.. _nlme_model_structure_comments:
 
 Comments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -140,7 +134,10 @@ valid C-style multi-line comment. \*/ fixef(tvk = c(0,1,2)) }
 
 **Keywords:** comment, documentation, #, /\* \*/, //
 
-**See also:** Basic PML Model Structure
+**See also:** :ref:`PML Model Structure<nlme_model_structure>`
+
+
+.. _nlme_model_structure_variables:
 
 Variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -181,7 +178,10 @@ can be declared explicitly or defined through assignment.
 
 **Keywords:** variable, declaration, assignment, scope, real, double, declared, functional
 
-**See also:** Statements, Assignment Statements, Declaration Statements, stparm, fixef, ranef, deriv, real
+**See also:** :ref:`Statements<nlme_model_structure_statements>`, :ref:`Assignment Statements<nlme_model_structure_assignment_statements>`, :mono_ref:`stparm<nlme_stparm>`, :mono_ref:`fixef<nlme_fixef>`, :mono_ref:`ranef<nlme_ranef>`, :mono_ref:`deriv<nlme_deriv>`, :mono_ref:`real<nlme_real>`
+
+
+.. _nlme_model_structure_predefined_variables:
 
 Predefined Variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -197,7 +197,10 @@ Predefined Variables
 
 **Keywords:** predefined variables, t, time, built-in variables
 
-**See also:** Variables, Time-Based Models, ``deriv`` Statement
+**See also:** :ref:`Variables<nlme_model_structure_variables>`, :mono_ref:`deriv<nlme_deriv>`
+
+
+.. _nlme_model_structure_assignment_statements:
 
 Assignment Statements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -237,18 +240,21 @@ defined by top-level assignment are considered continuously calculated.
 
 **Keywords:** assignment, =, equation, expression, continuous
 
-**See also:** Variables, Statements
+**See also:** :ref:`Variables<nlme_model_structure_variables>`, :ref:`Statements<nlme_model_structure_statements>`
 
-Parameter Declarations (stparm, fixef, ranef)
+
+.. _nlme_parameter_declarations:
+
+Parameter Declarations
 ------------------------------------------------------------------------
+
+.. _nlme_stparm:
 
 stparm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``stparm`` statement defines structural parameters in
-the model, which are the core parameters describing the
-pharmacokinetic/pharmacodynamic processes. ``stparm`` statements can
-include fixed effects, random effects, and covariate effects.
+The ``stparm`` statement defines structural parameters in the model, which are the core parameters describing the
+pharmacokinetic/pharmacodynamic processes. ``stparm`` statements can include fixed effects, random effects, and covariate effects.
 
 -  **Purpose:** Defines structural parameters and their relationships to
    fixed effects, random effects, and covariates.
@@ -302,9 +308,10 @@ include fixed effects, random effects, and covariate effects.
 
 **Keywords:** structural parameter, stparm, parameter, population, fixed effect, random effect, covariate, IIV
 
-**See also:** ``fixef`` Statement, ``ranef`` Statement,
-Covariates, Fixed Effects, Random Effects, Log-Normal Distribution, ``if`` and Ternary Operator
+**See also:** :mono_ref:`fixef<nlme_fixef>`, :mono_ref:`ranef<nlme_ranef>`, :ref:`Covariates<nlme_covariates>`, :ref:`Fixed Effects<nlme_fixed_effects>`, :ref:`Random Effects<nlme_random_effects>`, :ref:`Log-Normal Distribution<nlme_log_normal_distribution>`, :ref:`if and Ternary Operator<nlme_if_and_ternary_operator>`
 
+
+.. _nlme_fixef:
 
 fixef
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -353,8 +360,10 @@ covariate search.
 
 **Keywords:** fixed effect, fixef, population parameter, typical value, initial estimate, bounds, enable
 
-**See also:** ``stparm`` Statement, ``ranef`` Statement, Covariates, Fixed Effects, Bounds, Covariate Search
+**See also:** :mono_ref:`stparm<nlme_stparm>`, :mono_ref:`ranef<nlme_ranef>`, :ref:`Covariates<nlme_covariates>`, :ref:`Fixed Effects<nlme_fixed_effects>`, :ref:`Bounds<nlme_bounds>`
 
+
+.. _nlme_ranef:
 
 ranef
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -417,8 +426,10 @@ variance-covariance structure of the random effects.
 
 **Keywords:** random effect, ranef, inter-individual variability, IIV, variance, covariance, omega, diag, block, same
 
-**See also:** ``stparm`` Statement, ``fixef`` Statement, Random Effects, Variance, Covariance, Inter-Individual Variability
+**See also:** :mono_ref:`stparm<nlme_stparm>`, :mono_ref:`fixef<nlme_fixef>`, :ref:`Random Effects<nlme_random_effects>`, Variance, Covariance, Inter-Individual Variability
 
+
+.. _nlme_fixed_effects:
 
 Fixed Effects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -431,8 +442,10 @@ assumed to be constant across all individuals.
 
 **Keywords:** fixed effect, population parameter, typical value, theta, fixef
 
-**See also:** ``fixef`` Statement, ``stparm`` Statement, Random Effects
+**See also:** :mono_ref:`fixef<nlme_fixef>`, :mono_ref:`stparm<nlme_stparm>`, :ref:`Random Effects<nlme_random_effects>`
 
+
+.. _nlme_random_effects:
 
 Random Effects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -446,15 +459,15 @@ variance-covariance matrix.
 
 **Keywords:** random effect, inter-individual variability, IIV, eta, ranef, variance, covariance
 
-**See also:** ``ranef`` Statement, ``stparm`` Statement, Fixed Effects, Variance, Covariance, Inter-Individual Variability
+**See also:** :mono_ref:`ranef<nlme_ranef>`, :mono_ref:`stparm<nlme_stparm>`, :ref:`Fixed Effects<nlme_fixed_effects>`, Variance, Covariance, Inter-Individual Variability
 
 
-Log-Normal Distribution (in Parameter Definitions)
+.. _nlme_log_normal_distribution:
+
+Log-Normal Distribution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The log-normal distribution is commonly used for parameters
-that must be positive (e.g., clearance, volume). It's implemented in
-``stparm`` using the ``exp()`` function.
+The log-normal distribution is commonly used for parameters that must be positive (e.g., clearance, volume). It's implemented in ``stparm`` using the ``exp()`` function.
 
 -  **Syntax:** ``parameter = tvParameter * exp(nParameter)``
 
@@ -479,10 +492,12 @@ that must be positive (e.g., clearance, volume). It's implemented in
 
 **Keywords:** log-normal, distribution, positive parameter, stparm, exp
 
-**See also:** ``stparm`` Statement, Fixed Effects, Random Effects, Normal Distribution
+**See also:** :mono_ref:`stparm<nlme_stparm>`, :ref:`Fixed Effects<nlme_fixed_effects>`, :ref:`Random Effects<nlme_random_effects>`, :ref:`Normal Distribution<nlme_normal_distribution>`
 
 
-Normal Distribution (in Parameter Definitions)
+.. _nlme_normal_distribution:
+
+Normal Distribution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The normal distribution can be used for parameters that can
@@ -500,16 +515,16 @@ take on both positive and negative values.
 
 **Keywords:** normal, distribution, stparm, additive
 
-**See also:** ``stparm`` statement, Log-Normal Distribution
+**See also:** :mono_ref:`stparm<nlme_stparm>`, :ref:`Log-Normal Distribution<nlme_log_normal_distribution>`
 
 
-Bounds (in fixef statements)
+.. _nlme_bounds:
+
+Bounds
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Bounds (lower and upper limits) can be specified for fixed
-effects within the ``fixef`` statement. This constrains the parameter
-values during estimation, preventing them from taking on unrealistic
-values.
+Bounds (lower and upper limits) can be specified for fixed effects within the ``fixef`` statement. This constrains the parameter
+values during estimation, preventing them from taking on unrealistic values.
 
 -  **Syntax:**
    ``fixef(parameter = c([lower bound],[ initial estimate],[ upper bound]))``
@@ -525,14 +540,13 @@ values.
 
 **Keywords:** bounds, fixef, lower bound, upper bound, parameter constraints
 
-**See also:** ``fixef`` statement
+**See also:** :mono_ref:`fixef<nlme_fixef>`
 
+
+.. _nlme_covariates:
 
 Covariates
 ------------------------------------------------------------------------
-
-Covariates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Covariates are variables that can influence the model's
 parameters or outcomes. They represent characteristics of the
@@ -575,10 +589,9 @@ time-varying.
 
 **Keywords:** covariate, independent variable, predictor, time-varying, categorical, continuous, occasional, fcovariate, covariate, input, data mapping
 
-**See also:** ``covariate`` Statement, ``fcovariate`` Statement,
-``interpolate`` Statement, ``stparm`` Statement, Continuous Covariates,
-Categorical Covariates, Occasional Covariates, Time-Varying Covariates, Data Mapping
+**See also:** :mono_ref:`covariate<nlme_covariate>`, :mono_ref:`fcovariate<nlme_fcovariate>`, :mono_ref:`interpolate<nlme_interpolate>`, :mono_ref:`stparm<nlme_stparm>`, :ref:`Continuous Covariates<nlme_continuous_covariates>`, :ref:`Categorical Covariates<nlme_categorical_covariates>`, :ref:`Occasional Covariates<nlme_occasion_covariates_and_iov>`, :ref:`Time-Varying Covariates<nlme_time_varying_covariates>`, :ref:`Data Mapping<nlme_data_mapping>`
 
+.. _nlme_covariate:
 
 covariate
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -611,9 +624,9 @@ encountered.
 
 **Keywords:** covariate, backward extrapolation, time-varying covariate
 
-**See also:** Covariates, ``fcovariate`` Statement,
-``interpolate`` Statement, Time-Varying Covariates, Categorical Covariates, Occasional Covariates
+**See also:** :ref:`Covariates<nlme_covariates>`, :mono_ref:`fcovariate<nlme_fcovariate>`, :mono_ref:`interpolate<nlme_interpolate>`, :ref:`Time-Varying Covariates<nlme_time_varying_covariates>`, :ref:`Categorical Covariates<nlme_categorical_covariates>`, :ref:`Occasional Covariates<nlme_occasion_covariates_and_iov>`
 
+.. _nlme_fcovariate:
 
 fcovariate
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -651,9 +664,9 @@ through the structure of your dataset and control stream.
 
 **Keywords:** fcovariate, forward extrapolation, time-varying covariate, occasion covariate
 
-**See also:** Covariates, ``covariate`` Statement, ``interpolate``
-Statement, Time-Varying Covariates, Occasional Covariates, Categorical Covariates
+**See also:** :ref:`Covariates<nlme_covariates>`, :mono_ref:`covariate<nlme_covariate>`, :mono_ref:`interpolate<nlme_interpolate>`, :ref:`Time-Varying Covariates<nlme_time_varying_covariates>`, :ref:`Occasional Covariates<nlme_occasion_covariates_and_iov>`, :ref:`Categorical Covariates<nlme_categorical_covariates>`
 
+.. _nlme_interpolate:
 
 interpolate
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -687,8 +700,9 @@ typically pre-process your data to create interpolated values if needed.
 
 **Keywords:** interpolate, covariate, linear interpolation, time-varying covariate, continuous covariate
 
-**See also:** Covariates, ``covariate`` Statement, ``fcovariate`` Statement, Time-Varying Covariates, Continuous Covariates
+**See also:** :ref:`Covariates<nlme_covariates>`, :mono_ref:`covariate<nlme_covariate>`, :mono_ref:`fcovariate<nlme_fcovariate>`, :ref:`Time-Varying Covariates<nlme_time_varying_covariates>`, :ref:`Continuous Covariates<nlme_continuous_covariates>`
 
+.. _nlme_continuous_covariates:
 
 Continuous Covariates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -716,8 +730,10 @@ individual.
 
 **Keywords:** continuous covariate, covariate, numerical, time-varying
 
-**See also:** Covariates, ``covariate`` Statement, ``fcovariate`` Statement, ``interpolate`` Statement, ``stparm`` Statement, Data Mapping
+**See also:** :ref:`Covariates<nlme_covariates>`, :mono_ref:`covariate<nlme_covariate>`, :mono_ref:`fcovariate<nlme_fcovariate>`, :mono_ref:`interpolate<nlme_interpolate>`, :mono_ref:`stparm<nlme_stparm>`, :ref:`Data Mapping<nlme_data_mapping>`
 
+
+.. _nlme_categorical_covariates:
 
 Categorical Covariates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -798,8 +814,10 @@ NONMEM (using abbreviated code):
 
 **Keywords:** categorical covariate, covariate, discrete, categories, dummy variable, indicator variable, time-varying, data mapping
 
-**See also:** Covariates, ``covariate`` Statement, ``fcovariate`` Statement, ``stparm`` Statement, Fixed Effects, Data Mapping, Dummy Variables, ``if`` and Ternary Operator
+**See also:** :ref:`Covariates<nlme_covariates>`, :mono_ref:`covariate<nlme_covariate>`, :mono_ref:`fcovariate<nlme_fcovariate>`, :mono_ref:`stparm<nlme_stparm>`, :ref:`Fixed Effects<nlme_fixed_effects>`, :ref:`Data Mapping<nlme_data_mapping>`, Dummy Variables, :ref:`if and Ternary Operator<nlme_if_and_ternary_operator>`
 
+
+.. _nlme_occasion_covariates_and_iov:
 
 Occasion Covariates and Inter-Occasion Variability (IOV)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -897,8 +915,10 @@ in the random effects structure.
 
 **Keywords:** occasion covariate, IOV, inter-occasion variability, fcovariate, random effects, fixed effects, within-subject variability
 
-**See also:** ``fcovariate`` Statement, Random Effects, ``ranef`` Statement, Fixed Effects, ``stparm`` Statement, Inter-Individual Variability
+**See also:** :mono_ref:`fcovariate<nlme_fcovariate>`, :ref:`Random Effects<nlme_random_effects>`, :mono_ref:`ranef<nlme_ranef>`, :ref:`Fixed Effects<nlme_fixed_effects>`, :mono_ref:`stparm<nlme_stparm>`, Inter-Individual Variability
 
+
+.. _nlme_time_varying_covariates:
 
 Time-Varying Covariates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -939,11 +959,16 @@ occasional) can be time-varying.
 
 **Keywords:** time-varying covariate, covariate, fcovariate, covariate, changing covariate, dynamic covariate
 
-**See also:** Covariates, ``covariate`` Statement, ``fcovariate`` Statement, ``interpolate`` Statement, Continuous Covariates, Categorical Covariates, Occasional Covariates
+**See also:** :ref:`Covariates<nlme_covariates>`, :mono_ref:`covariate<nlme_covariate>`, :mono_ref:`fcovariate<nlme_fcovariate>`, :mono_ref:`interpolate<nlme_interpolate>`, :ref:`Continuous Covariates<nlme_continuous_covariates>`, :ref:`Categorical Covariates<nlme_categorical_covariates>`, :ref:`Occasional Covariates<nlme_occasion_covariates_and_iov>`
 
+
+
+.. _nlme_structural_model_definition:
 
 Structural Model Definition
 ------------------------------------------------------------------------
+
+.. _nlme_deriv:
 
 deriv
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -967,7 +992,7 @@ with ``deriv`` statements are inherently time-based.
 -  **Time-Based Models:** If a model contains *any* ``deriv`` statement,
    it is considered a *time-based model*, and the built-in variable
    ``t`` (representing time) is automatically available.
--  **State variable modification** Variables on the left side of deriv
+-  **State variable modification:** Variables on the left side of deriv
    statements can be modified when the model is stopped
 -  **Multiple deriv statements:** A model will typically have
    multiple ``deriv`` statements, one for each compartment or state
@@ -993,8 +1018,10 @@ NONMEM code:
 
 **Keywords:** deriv, differential equation, ODE, integrator, state variable, time-based model, dynamic model
 
-**See also:** Time-Based Models, Compartment Models, ``dosepoint`` Statement, ``urinecpt`` Statement, State Variables
+**See also:** :ref:`Compartment Models<nlme_compartment_models>`, :mono_ref:`dosepoint<nlme_dosepoint>`, :mono_ref:`urinecpt<nlme_urinecpt>`
 
+
+.. _nlme_compartment_models:
 
 Compartment Models
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1004,15 +1031,10 @@ model where the body is represented as a series of interconnected
 compartments. Drug movement between compartments is described by
 differential equations.
 
--  **Compartments:** Represent theoretical spaces where the drug
-   distributes (e.g., central compartment, peripheral compartment,
-   absorption compartment).
--  **Differential Equations:** Describe the rate of change of the amount
-   of drug in each compartment.
--  **Parameters:** Define the rates of transfer between compartments and
-   elimination from the body (e.g., clearance, volume, rate constants).
--  **Implementation in PML:** Compartment models can be implemented
-   using:
+-  **Compartments:** Represent theoretical spaces where the drug distributes (e.g., central compartment, peripheral compartment, absorption compartment).
+-  **Differential Equations:** Describe the rate of change of the amount of drug in each compartment.
+-  **Parameters:** Define the rates of transfer between compartments and elimination from the body (e.g., clearance, volume, rate constants).
+-  **Implementation in PML:** Compartment models can be implemented using:
 
    -  ``deriv`` statements (for custom models or when flexibility is
       needed).
@@ -1021,8 +1043,10 @@ differential equations.
 
 **Keywords:** compartment model, compartment, differential equation, PK model, ADVAN
 
-**See also:** ``deriv`` Statement, ``cfMicro`` Statement, ``cfMacro`` Statement, Time-Based Models, Pharmacokinetics
+**See also:** :mono_ref:`deriv<nlme_deriv>`, :mono_ref:`cfMicro<nlme_cfmicro>`, :mono_ref:`cfMacro<nlme_cfmacro>`, Pharmacokinetics
 
+
+.. _nlme_cfmicro:
 
 cfMicro
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1131,47 +1155,37 @@ changes **continuously** over time. This happens in two main scenarios:
 
 **Keywords:** cfMicro, closed-form solution, compartment model, micro-constants, ``deriv``, time-varying covariate, ODE solver
 
-**See also:** ``deriv`` Statement, Compartment Models, ``covariate`` Statement, ``interpolate`` Statement, ``fcovariate`` Statement, Time-Varying Covariates
+**See also:** :mono_ref:`deriv<nlme_deriv>`, :ref:`Compartment Models<nlme_compartment_models>`, :mono_ref:`covariate<nlme_covariate>`, :mono_ref:`interpolate<nlme_interpolate>`, :mono_ref:`fcovariate<nlme_fcovariate>`, :ref:`Time-Varying Covariates<nlme_time_varying_covariates>`
 
+
+.. _nlme_cfmacro:
 
 cfMacro and cfMacro1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``cfMacro`` and ``cfMacro1`` statements provide
-closed-form solutions for standard compartment models, parameterized
-using *macro-constants* (coefficients and exponents of exponential
-terms). ``cfMacro`` offers more options, including a stripping dose.
+The ``cfMacro`` and ``cfMacro1`` statements provide closed-form solutions for standard compartment models, parameterized
+using *macro-constants* (coefficients and exponents of exponential terms). ``cfMacro`` offers more options, including a stripping dose.
 
--  **Purpose:** To define a standard compartment model without
-   explicitly writing out the differential equations, using a
-   macro-constant parameterization.
+-  **Purpose:** To define a standard compartment model without explicitly writing out the differential equations, using a macro-constant parameterization.
 -  **cfMacro Syntax:**
    ``cfMacro(A, C, DoseVar, A, Alpha, [B, Beta], [C, Gamma], [strip=StripVar], [first=(Aa=Ka)])``
 
-   -  ``A``: The amount in the central compartment (cannot be referred
-      to elsewhere in the model).
+   -  ``A``: The amount in the central compartment (cannot be referred to elsewhere in the model).
    -  ``C``: The *concentration* variable in the model.
-   -  ``DoseVar``: A variable to record the initial bolus dose (needed
-      for ``idosevar``).
+   -  ``DoseVar``: A variable to record the initial bolus dose (needed for ``idosevar``).
    -  ``A``, ``Alpha``: Macro-constants for the first exponential term.
-   -  ``B``, ``Beta``: (Optional) Macro-constants for the second
-      exponential term (two-compartment model).
-   -  ``C``, ``Gamma``: (Optional) Macro-constants for the third
-      exponential term (three-compartment model).
-   -  ``strip=StripVar``: (Optional) Specifies a covariate
-      (``StripVar``) to provide a "stripping dose" for simulations.
-   -  ``first = (Aa = Ka)``: (Optional) Specifies the first order
-      absorption
+   -  ``B``, ``Beta``: (Optional) Macro-constants for the second exponential term (two-compartment model).
+   -  ``C``, ``Gamma``: (Optional) Macro-constants for the third exponential term (three-compartment model).
+   -  ``strip=StripVar``: (Optional) Specifies a covariate (``StripVar``) to provide a "stripping dose" for simulations.
+   -  ``first = (Aa = Ka)``: (Optional) Specifies the first order absorption
 
 -  **cfMacro1 Syntax:**
    ``cfMacro1(A, Alpha, [B, Beta], [C, Gamma], [first=(Aa=Ka)])``
 
    -  Simplified version of ``cfMacro``.
    -  ``A``: Amount in the central compartment.
-   -  ``Alpha``, ``B``, ``Beta``, ``C``, ``Gamma``: Macro-constants. The
-      response to bolus dose is predefined
-   -  ``first = (Aa = Ka)``: (Optional) Specifies the first order
-      absorption
+   -  ``Alpha``, ``B``, ``Beta``, ``C``, ``Gamma``: Macro-constants. The response to bolus dose is predefined
+   -  ``first = (Aa = Ka)``: (Optional) Specifies the first order absorption
 
 -  **Stripping Dose:** The ``strip`` option in ``cfMacro`` allows you to
    specify a covariate that provides a "stripping dose" value. This is
@@ -1194,7 +1208,7 @@ terms). ``cfMacro`` offers more options, including a stripping dose.
 
 **Keywords:** cfMacro, cfMacro1, closed-form solution, compartment model, macro-constants, A, Alpha, B, Beta, C, Gamma, stripping dose
 
-**See also:** Compartment Models, ``deriv`` Statement, ``cfMicro`` Statement, Macro-Constants, Closed-Form Solutions, Pharmacokinetics
+**See also:** :ref:`Compartment Models<nlme_compartment_models>`, :mono_ref:`deriv<nlme_deriv>`, :mono_ref:`cfMicro<nlme_cfmicro>`, Pharmacokinetics
 
 
 .. _title-micro-constants-vs-macro-constants:
@@ -1229,50 +1243,40 @@ exponents of exponential terms). ``cfMicro`` uses micro-constants, while
 
 **Keywords:** micro-constants, macro-constants, Ke, K12, K21, A, Alpha, B, Beta, C, Gamma, parameterization, cfMicro, cfMacro
 
-**See also:** ``cfMicro`` Statement, ``cfMacro`` Statement, ``cfMacro1`` Statement, Compartment Models, Pharmacokinetics
+**See also:** :mono_ref:`cfMicro<nlme_cfmicro>`, :mono_ref:`cfMacro<nlme_cfmacro>`, :mono_ref:`cfMacro1<nlme_cfmacro>`, :ref:`Compartment Models<nlme_compartment_models>`, Pharmacokinetics
 
+
+.. _nlme_dosepoint:
 
 dosepoint
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``dosepoint`` statement specifies a compartment that
-can receive doses (either bolus or infusion). It also allows for options
-like lag time, infusion duration/rate, bioavailability, and actions
-performed before/after dosing.
+The ``dosepoint`` statement specifies a compartment that can receive doses (either bolus or infusion). It also allows for options
+like lag time, infusion duration/rate, bioavailability, and actions performed before/after dosing.
 
 -  **Purpose:** To define where doses are administered in the model.
 
 -  **Syntax:**
    ``dosepoint(compartmentName [, tlag = expr][, duration = expr][, rate = expr][, bioavail = expr][, dobefore = sequenceStmt][, doafter = sequenceStmt][, split][, idosevar = variableName][, infdosevar = variableName][, infratevar = variableName])``
 
-   -  ``compartmentName``: The name of the compartment receiving the
-      dose.
+   -  ``compartmentName``: The name of the compartment receiving the dose.
    -  ``tlag = expr``: (Optional) Time delay before dose delivery.
    -  ``duration = expr``: (Optional) Duration of a zero-order infusion.
-   -  ``rate = expr``: (Optional) Rate of a zero-order infusion. Cannot
-      be used with ``duration``.
+   -  ``rate = expr``: (Optional) Rate of a zero-order infusion. Cannot be used with ``duration``.
    -  ``bioavail = expr``: (Optional) Bioavailability fraction (0 to 1).
-   -  ``dobefore = sequenceStmt``: (Optional) ``sequence`` block
-      executed *before* dose delivery.
-   -  ``doafter = sequenceStmt``: (Optional) ``sequence`` block executed
-      *after* dose delivery (or infusion completion).
+   -  ``dobefore = sequenceStmt``: (Optional) ``sequence`` block executed *before* dose delivery.
+   -  ``doafter = sequenceStmt``: (Optional) ``sequence`` block executed *after* dose delivery (or infusion completion).
    -  ``split``: (Optional, rarely used) For UI compatibility.
-   -  ``idosevar = variableName``: (Optional) Captures the value of the
-      *first bolus dose*.
-   -  ``infdosevar = variableName``: Captures the value of the first
-      infusion dose.
-   -  ``infratevar = variableName``: (Optional) Captures the *infusion
-      rate* of the *first infusion dose*.
+   -  ``idosevar = variableName``: (Optional) Captures the value of the *first bolus dose*.
+   -  ``infdosevar = variableName``: Captures the value of the first infusion dose.
+   -  ``infratevar = variableName``: (Optional) Captures the *infusion rate* of the *first infusion dose*.
 
 -  **Bolus vs. Infusion:**
 
-   -  If neither ``duration`` nor ``rate`` is specified, the dose is
-      treated as a bolus (instantaneous).
-   -  If ``duration`` or ``rate`` is specified, the dose is treated as a
-      zero-order infusion.
+   -  If neither ``duration`` nor ``rate`` is specified, the dose is treated as a bolus (instantaneous).
+   -  If ``duration`` or ``rate`` is specified, the dose is treated as a zero-order infusion.
 
--  **Multiple dosepoints:** It is allowed to have several ``dosepoint``
-   statements.
+-  **Multiple dosepoints:** It is allowed to have several ``dosepoint`` statements.
 
 -  **dosepoint1 and dosepoint2:**
 
@@ -1282,31 +1286,24 @@ performed before/after dosing.
       a ``dosepoint`` or ``dosepoint1`` defined. This is used for models
       where a single dose is split into multiple administration profiles
       (e.g., part bolus, part infusion).
-   -  ``split`` argument: When using ``dosepoint`` and
-      ``dosepoint2`` on the same compartment to split a single dose
-      amount from your data, you **must** add the ``split`` argument to
-      the first ``dosepoint`` statement. This tells the system that the
-      ``dose()`` and ``dose2()`` mappings in the column definition file
-      will both point to the *same data column* (e.g., ``AMT``).
+   -  ``split`` argument: When using ``dosepoint`` and ``dosepoint2`` on the same compartment to split a single dose
+      amount from your data, you **must** add the ``split`` argument to the first ``dosepoint`` statement. This tells the system that the
+      ``dose()`` and ``dose2()`` mappings in the column definition file will both point to the *same data column* (e.g., ``AMT``).
 
-      -  Without ``split``: The system would expect ``dose()`` and
-         ``dose2()`` to map to two *different* amount columns (e.g.,
-         ``AMT1``, ``AMT2``).
-      -  With ``split``: ``dosepoint(Aa, bioavail=0.5, split)`` and
-         ``dosepoint2(Aa, bioavail=0.5, ...)`` can both be sourced from
-         a single ``AMT`` column.
+.. _nlme_split:
 
--  **Advanced Usage: Modeling with Multiple Dosepoints** A powerful
-   feature of PML is the ability to use multiple ``dosepoint``
-   statements to model complex absorption. If two or more ``dosepoint``
-   statements exist, a single dose amount (``AMT``) from the input data
-   can be programmatically split between them using the ``bioavail``
-   option. The sum of the bioavailability fractions across all active
-   pathways for a given dose should typically equal 1. This is the
-   foundation for modeling the parallel and sequential absorption
-   schemes used for advanced drug formulations.
+.. note::
+      -  Without ``split``: The system would expect ``dose()`` and ``dose2()`` to map to two *different* amount columns (e.g., ``AMT1``, ``AMT2``).
+      -  With ``split``: ``dosepoint(Aa, bioavail=0.5, split)`` and ``dosepoint2(Aa, bioavail=0.5, ...)`` can both be sourced from a single ``AMT`` column.
 
-   **See "Modeling Complex Absorption Schemes" for detailed examples.**
+**Advanced Usage: Modeling with Multiple Dosepoints**
+
+A powerful feature of PML is the ability to use multiple ``dosepoint`` statements to model complex absorption. If two or more ``dosepoint``
+statements exist, a single dose amount (``AMT``) from the input data can be programmatically split between them using the ``bioavail``
+option. The sum of the bioavailability fractions across all active pathways for a given dose should typically equal 1. This is the
+foundation for modeling the parallel and sequential absorption schemes used for advanced drug formulations.
+
+See :ref:`Modeling Complex Absorption Schemes<nlme_modeling_complex_absorption_schemes>` for detailed examples.
 
 **Example (Bolus dose with lag time):**
 
@@ -1337,8 +1334,10 @@ infusions). \* ``tlag``: Similar to NONMEM's ``ALAG`` \* ``bioavail``: Similar t
 
 **Keywords:** dosepoint, dose, dosing, bolus, infusion, tlag, duration, rate, bioavail, dobefore, doafter, idosevar, infdosevar, infratevar, split, dosepoint1, dosepoint2
 
-**See also:** Dosing, Bolus Dose, Infusion, Lag Time, Bioavailability, ``sequence`` Block, Compartment Models
+**See also:** :mono_ref:`sequence<nlme_sequence>`, :ref:`Compartment Models<nlme_compartment_models>`, Bioavailability
 
+
+.. _nlme_urinecpt:
 
 urinecpt
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1376,11 +1375,15 @@ contribution is handled appropriately (often by not including it in the objectiv
 
 **Keywords:** urinecpt, elimination compartment, excretion, steady-state
 
-**See also:** ``deriv`` Statement, Compartment Models, Elimination, Steady State
+**See also:** :mono_ref:`deriv<nlme_deriv>`, :ref:`Compartment Models<nlme_compartment_models>`, Elimination, Steady State
 
+
+.. _nlme_observation_and_error_models:
 
 Observation and Error Models
 ------------------------------------------------------------------------
+
+.. _nlme_observe:
 
 observe
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1440,8 +1443,7 @@ handles below-quantification-limit (BQL) data.
          ``C * (1 + CEps)`` is a common approximation. ``C * exp(CEps)``
          is a log-additive form, ensuring positivity.
 
-   -  **Combined Additive and Proportional:** PML provides two main ways
-      to express this:
+   -  **Combined Additive and Proportional:** PML provides two main ways to express this:
 
       -  ``additiveMultiplicative`` **(Built-in Form)**:
          ``observe(CObs = C + CEps * sqrt(1 + C^2 * (EMultStdev / sigma())^2))     error(CEps = ...) // Define CEps as usual``
@@ -1506,8 +1508,9 @@ custom likelihood using the ``LL`` statement. NONMEM's ``Y = F*EXP(EPS(1)) + EPS
 
 **Keywords:** observe, observation, error model, residual error, additive, proportional, combined, additiveMultiplicative, bql, censored data, M3 method
 
-**See also:** ``error`` Statement, Error Models, BQL Handling, ``LL`` Statement, Data Mapping, ``additiveMultiplicative``
+**See also:** :mono_ref:`error<nlme_error>`, :ref:`Error Models<nlme_error_models>`, :ref:`BQL Handling<nlme_bql_handling>`, ``LL``, :ref:`Data Mapping<nlme_data_mapping>`, ``additiveMultiplicative``
 
+.. _nlme_error:
 
 error
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1578,8 +1581,10 @@ PML's ``error``.
 
 **Keywords:** error, residual error, error variable, epsilon, standard deviation, freeze
 
-**See also:** ``observe`` Statement, Error Models, Residual Error
+**See also:** :mono_ref:`observe<nlme_observe>`, :ref:`Error Models<nlme_error_models>`, Residual Error
 
+
+.. _nlme_error_models:
 
 Error Models
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1626,8 +1631,9 @@ additive, proportional, combined, and power.
 
 **Keywords:** error model, residual error, additive, proportional, combined, additiveMultiplicative, log-additive, power
 
-**See also:** ``observe`` Statement, ``error`` Statement, Residual Error, ``additiveMultiplicative``
+**See also:** :mono_ref:`observe<nlme_observe>`, :mono_ref:`error<nlme_error>`, Residual Error, ``additiveMultiplicative``
 
+.. _nlme_bql_handling:
 
 BQL Handling
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1702,7 +1708,7 @@ the M3 method within the ``observe`` statement.
 
 **Keywords:** BQL, below quantification limit, censored data, M3 method, observe, bql, CObsBQL, LOQ
 
-**See also:** ``observe`` Statement, Error Models, Censored Data, Data Mapping
+**See also:** :mono_ref:`observe<nlme_observe>`, :ref:`Error Models<nlme_error_models>`, :ref:`Data Mapping<nlme_data_mapping>`, Censored Data
 
 
 Finding Extrema (peak function and alternative methods)
@@ -1995,53 +2001,42 @@ This defines two tables:
 **Keywords:** table, output, results, csv, data, time points, dosepoints, covariates, observations, ``seq``
 
 
+.. _nlme_delays:
+
 Delays
 ------------------------------------------------------------------------
 
-delay Function
+.. _nlme_delay:
+
+delay
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``delay`` function introduces a time delay into a
-model. It can represent either a discrete delay (all signal mediators
-have the same delay) or a distributed delay (delay times follow a
-distribution), modeling processes with a time lag.
+The ``delay`` function introduces a time delay into a model. It can represent either a discrete delay (all signal mediators
+have the same delay) or a distributed delay (delay times follow a distribution), modeling processes with a time lag.
 
--  **Purpose:** To model time delays, either discrete or distributed, in
-   a dynamic system.
+-  **Purpose:** To model time delays, either discrete or distributed, in a dynamic system.
 -  **Syntax:**
    ``delay(S, MeanDelayTime [, shape = ShapeParam][, hist = HistExpression][, dist = NameOfDistribution])``
 
-   -  ``S``: The signal (expression) to be delayed. *Cannot directly
-      depend on dose-related inputs*.
+   -  ``S``: The signal (expression) to be delayed. *Cannot directly depend on dose-related inputs*.
    -  ``MeanDelayTime``: The mean delay time.
-   -  ``shape = ShapeParam``: (Optional) Shape parameter for the
-      distribution (distributed delay). Interpretation depends on
-      ``dist``:
+   -  ``shape = ShapeParam``: (Optional) Shape parameter for the distribution (distributed delay). Interpretation depends on ``dist``:
 
-      -  ``dist = Gamma`` or ``dist = Weibull``: ``ShapeParam`` is the
-         shape parameter *minus 1*. Must be non-negative.
-      -  ``dist = InverseGaussian``: ``ShapeParam`` is the shape
-         parameter itself.
+      -  ``dist = Gamma`` or ``dist = Weibull``: ``ShapeParam`` is the shape parameter *minus 1*. Must be non-negative.
+      -  ``dist = InverseGaussian``: ``ShapeParam`` is the shape parameter itself.
 
-   -  ``hist = HistExpression``: (Optional) The value of ``S`` *before*
-      time 0 (the "history function"). If not provided, ``S`` is assumed
-      to be 0 before time 0.
-   -  ``dist = NameOfDistribution``: (Optional) The distribution:
-      ``Gamma`` (default), ``Weibull``, or ``InverseGaussian``.
+   -  ``hist = HistExpression``: (Optional) The value of ``S`` *before* time 0 (the "history function"). If not provided, ``S`` is assumed to be 0 before time 0.
+   -  ``dist = NameOfDistribution``: (Optional) The distribution: ``Gamma`` (default), ``Weibull``, or ``InverseGaussian``.
 
 -  **Discrete vs. Distributed Delay:**
 
-   -  If ``shape`` is *not* provided, a *discrete* delay is used:
-      ``S(t - MeanDelayTime)``.
-   -  If ``shape`` *is* provided, a *distributed* delay is used
-      (convolution of ``S`` with the distribution's PDF).
+   -  If ``shape`` is *not* provided, a *discrete* delay is used: ``S(t - MeanDelayTime)``.
+   -  If ``shape`` *is* provided, a *distributed* delay is used (convolution of ``S`` with the distribution's PDF).
 
 -  **Limitations:**
 
-   -  Cannot be used with closed-form solutions (``cfMicro``,
-      ``cfMacro``) or matrix exponentiation.
-   -  ``S`` cannot directly depend on dose-related inputs. Use
-      ``delayInfCpt`` for absorption delays.
+   -  Cannot be used with closed-form solutions (``cfMicro``, ``cfMacro``) or matrix exponentiation.
+   -  ``S`` cannot directly depend on dose-related inputs. Use ``delayInfCpt`` for absorption delays.
    -  Should be used sparingly
 
 **Example (Discrete Delay):**
@@ -2062,10 +2057,12 @@ coding in NONMEM using differential equations or user-defined subroutines.
 
 **Keywords:** delay, delay function, discrete delay, distributed delay, time delay, DDE, delay differential equation, gamma, Weibull, inverse Gaussian, hist
 
-**See also:** Time Delays, Distributed Delays, ``gammaDelay`` Function, ``delayInfCpt`` Statement, Differential Equations
+**See also:** :mono_ref:`gammaDelay<nlme_gammadelay>`, :mono_ref:`delayInfCpt<nlme_delayinfcpt>`, Differential Equations, Time Delays, Distributed Delays
 
 
-gammaDelay Function
+.. _nlme_gammadelay:
+
+gammaDelay
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``gammaDelay`` function models a gamma-distributed
@@ -2112,8 +2109,10 @@ compartments, which approximates a gamma distribution.
 
 **Keywords:** gammaDelay, distributed delay, gamma distribution, approximation, ODE approximation, shape parameter
 
-**See also:** ``delay`` Function, Distributed Delays, Gamma Distribution, ODE Approximation
+**See also:** :mono_ref:`delay<nlme_delay>`, Distributed Delays, Gamma Distribution, ODE Approximation
 
+
+.. _nlme_delayinfcpt:
 
 delayInfCpt
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2178,7 +2177,8 @@ gamma delay):**
 
 **Keywords:** delayInfCpt, absorption delay, distributed delay, compartment, dosepoint, inflow, outflow, gamma, Weibull, inverse Gaussian
 
-**See also:** Absorption Delay, Distributed Delays, ``delay`` Function, ``gammaDelay`` Function, ``dosepoint`` Statement, Compartment Models
+**See also:** :mono_ref:`delay<nlme_delay>`, :mono_ref:`gammaDelay<nlme_gammadelay>`, :mono_ref:`dosepoint<nlme_dosepoint>`, :ref:`Compartment Models<nlme_compartment_models>`, Absorption Delay, Distributed Delays
+
 
 transit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2210,8 +2210,10 @@ them in NONMEM, but it handles the underlying equations more implicitly.
 
 **Keywords:** transit compartment, absorption
 
-**See also:** Compartment Models
+**See also:** :ref:`Compartment Models<nlme_compartment_models>`
 
+
+.. _nlme_built_in_functions:
 
 Built-In Functions
 ------------------------------------------------------------------------
@@ -2255,15 +2257,13 @@ functions operate on double-precision floating-point numbers.
 
 **Keywords:** mathematical functions, sqrt, exp, log, log10, pow, abs, min, max, mod, sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, asinh, acosh, atanh
 
-**See also:** Expressions, ``stparm`` Statement, ``deriv`` Statement
+**See also:** :mono_ref:`stparm<nlme_stparm>`, :mono_ref:`deriv<nlme_deriv>`
 
 
 Link and Inverse Link Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Link and inverse link functions transform variables, often
-to constrain them to a specific range (e.g., probabilities between 0 and
-1). They are important for modeling categorical/ordinal data.
+Link and inverse link functions transform variables, often to constrain them to a specific range (e.g., probabilities between 0 and 1). They are important for modeling categorical/ordinal data.
 
 -  **Purpose:** To relate a linear predictor (which can be any real
    number) to a parameter that has constraints (e.g., a probability).
@@ -2285,8 +2285,10 @@ to constrain them to a specific range (e.g., probabilities between 0 and
 
 **Keywords:** link function, inverse link function, ilogit, logit, probit, iprobit, iloglog, icloglog, logistic regression, categorical data
 
-**See also:** ``multi`` Statement, ``LL`` Statement, Categorical Data, Ordinal Data, Logistic Regression
+**See also:** ``multi``, ``LL``, Categorical Data, Ordinal Data, Logistic Regression
 
+
+.. _nlme_if_and_ternary_operator:
 
 if and Ternary Operator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2358,7 +2360,7 @@ This is equivalent to: If Sex equal to 1 then Cl = tvCl \* exp(nClPeriod2 + nCl)
 
 **Keywords:** if, else, ternary operator, conditional logic, sequence
 
-**See also:** ``sequence`` Block, Expressions, Logical Operators
+**See also:** ``sequence``, Expressions, Logical Operators
 
 
 Logical Operators
@@ -2407,10 +2409,12 @@ on whether they are used inside or outside a ``sequence`` block.
 
 **Keywords:** logical operators, comparison operators, ==, !=, >, <, >=, <=, and, or, not
 
-**See also:** ``if`` and Ternary Operator, ``sequence`` Block, Expressions
+**See also:** :ref:`if and Ternary Operator<nlme_if_and_ternary_operator>`, :mono_ref:`sequence<nlme_sequence>`
 
 
-sleep Function
+.. _nlme_sleep:
+
+sleep
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``sleep`` function, used *within* a ``sequence`` block,
@@ -2440,15 +2444,13 @@ action code.
 
 **Keywords:** sleep, sequence, time delay, action code
 
-**See also:** ``sequence`` Block, Time Delays, Action Code
+**See also:** :mono_ref:`sequence<nlme_sequence>`, Time Delays, Action Code
 
 
 Statistical Distribution Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PML provides functions for calculating the PDF, CDF, log
-PDF, and log CDF of several common statistical distributions, often used
-within the ``LL`` statement.
+PML provides functions for calculating the PDF, CDF, log PDF, and log CDF of several common statistical distributions, often used within the ``LL`` statement.
 
 -  **Normal Distribution:**
 
@@ -2508,7 +2510,7 @@ PDF, cumulative distribution function, CDF, log-likelihood, lnorm, lphi,
 phi, dweibull, ldweibull, pweibull, lpweibull, dinvgauss, ldinvgauss,
 pinvgauss, lpinvgauss
 
-**See also:** Probability Distributions, ``LL`` Statement, Likelihood
+**See also:** Probability Distributions, ``LL``, Likelihood
 
 
 Additional Statements and Features
@@ -2564,15 +2566,15 @@ They are not directly estimated but are derived. They **cannot** depend directly
 
 **Keywords:** secondary parameter, derived parameter, calculated parameter, secondary, fixed effects
 
-**See also:** Parameters, ``stparm`` Statement, Fixed Effects, Calculated Values
+**See also:** :mono_ref:`stparm<nlme_stparm>`, :ref:`Fixed Effects<nlme_fixed_effects>`
 
+
+.. _nlme_data_mapping:
 
 Data Mapping (Column Definitions)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Data mapping links columns in your input dataset to
-variables and contexts within your PML model. This is done *outside* the
-PML code, using a column definition file or interface.
+Data mapping links columns in your input dataset to variables and contexts within your PML model. This is done *outside* the PML code, using a column definition file or interface.
 
 -  **Purpose:** To tell the execution engine how to interpret the data
    in your input file.
@@ -2615,9 +2617,7 @@ PML code, using a column definition file or interface.
       Example: ``dvid(TYPE)``. Used with conditional observation mapping.
    -  ``table(...)``: (Not for input, defines output tables).
 
--  **Conditional Mapping:** Use conditional logic in mappings to handle
-   rows differently (e.g., based on ``CMT``, ``DVID``). Map the same
-   data column to different variables, depending on context.
+-  **Conditional Mapping:** Use conditional logic in mappings to handle rows differently (e.g., based on ``CMT``, ``DVID``). Map the same data column to different variables, depending on context.
 
 **Example (Conceptual Column Mappings - PK/PD, Multiple Doses, BQL):**
 
@@ -2641,15 +2641,14 @@ PML code, using a column definition file or interface.
    rate(AaInfRate <- RATE)     // Infusion rate
    dvid(TYPE) // DVID for distinguishing PK/PD observations
 
-**Keywords:** data mapping, column mapping, input data, dataset, id,
-time, obs, amt, evid, rate, covariate, censor, loq, dvid, dose, addl,
-ii, table, ss, reset, date
+**Keywords:** data mapping, column mapping, input data, dataset, id, time, obs, amt, evid, rate, covariate, censor, loq, dvid, dose, addl, ii, table, ss, reset, date, Input Data, Conditional Mapping
 
-**See also:** Input Data, ``observe`` Statement, ``dosepoint``
-Statement, Covariates, BQL Handling, Conditional Mapping
+**See also:** :mono_ref:`observe<nlme_observe>`, :mono_ref:`dosepoint<nlme_dosepoint>`, :ref:`Covariates<nlme_covariates>`, :ref:`BQL Handling<nlme_bql_handling>`
 
 
-sequence Block
+.. _nlme_sequence:
+
+sequence
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``sequence`` block allows for *sequential* execution of
@@ -2723,8 +2722,10 @@ initialization, time-dependent actions, and discontinuous events.
 **Keywords:** sequence, action code, sequential execution, sleep, if,
 else, while, initialization, time-dependent actions
 
-**See also:** Statements, Blocks, ``sleep`` Function, ``if`` and Ternary Operator, Time-Based Models, Action Code, ``real`` Statement
+**See also:** :ref:`Statements<nlme_model_structure_statements>`, :ref:`Blocks<nlme_model_structure_blocks>`, :mono_ref:`sleep<nlme_sleep>`, :ref:`if and Ternary Operator<nlme_if_and_ternary_operator>`, :mono_ref:`real<nlme_real>`
 
+
+.. _nlme_real:
 
 real and double
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2755,7 +2756,7 @@ as double-precision floating-point numbers *modifiable* within
 
 **Keywords:** real, double, variable declaration, sequence, modifiable variable
 
-**See also:** Variables, ``sequence`` Block, Assignment Statements
+**See also:** :ref:`Variables<nlme_model_structure_variables>`, :mono_ref:`sequence<nlme_sequence>`, :ref:`Assignment Statements<nlme_model_structure_assignment_statements>`
 
 
 Model Generation Guidelines
@@ -2854,15 +2855,12 @@ identifiability.
 4. **Error Model Specification:**
 
    -  ``error``: Define error variables and their *numeric* standard deviations.
-   -  ``observe``: Link predictions to observations, specify error model (additive, proportional, combined, power,
-      log-additive). Includes *one* error variable.
+   -  ``observe``: Link predictions to observations, specify error model (additive, proportional, combined, power, log-additive). Includes *one* error variable.
    -  ``LL``: For custom likelihoods.
    -  Use prescribed error variable names (like ``CEps``)
    -  Select an error model appropriate for your data.
-   -  "**Standard Deviation vs. Variance:** Ensure the value provided in
-      the ``error`` statement is the *standard deviation*, not the
-      variance. If translating from NONMEM, remember to take the square
-      root of the ``$SIGMA`` value (if it represents variance)."
+   -  "**Standard Deviation vs. Variance:** Ensure the value provided in the ``error`` statement is the *standard deviation*, not the
+      variance. If translating from NONMEM, remember to take the square root of the ``$SIGMA`` value (if it represents variance)."
 
 5. **Initialization:**
 
@@ -2947,17 +2945,10 @@ identifiability.
 **Keywords:** best practices, checklist, troubleshooting, model generation, PML, common pitfalls, validation, syntax, ordering,
 parameterization, structural parameters, covariates, centering, error models
 
-**See also:**
+**See also:** :ref:`PML Model Structure<nlme_model_structure>`, :ref:`Parameter Declarations<nlme_parameter_declarations>`, :ref:`Covariates<nlme_covariates>`, :ref:`Structural Model Definition<nlme_structural_model_definition>`, :ref:`Observation and Error Models<nlme_observation_and_error_models>`, :ref:`Delays<nlme_delays>`, :ref:`Built-In Functions<nlme_built_in_functions>`, :ref:`Data Mapping<nlme_data_mapping>`
 
--  Basic Model Structure and Statements
--  Parameter Declarations
--  Covariates
--  Structural Model Definition
--  Observation and Error Models
--  Delays
--  Built-In Functions
--  Data Mapping
 
+.. _nlme_modeling_complex_absorption_schemes:
 
 Modeling Complex Absorption Schemes
 ------------------------------------------------------------------------
@@ -3156,10 +3147,9 @@ can start after its own unique delay.
        stparm(Tlag_FO = tvTlag_FO * exp(nTlag_FO))
        stparm(Tlag_ZO = tvTlag_ZO * exp(nTlag_ZO))
 
-**Keywords:** absorption, parallel absorption, sequential absorption,
-dose splitting, dual absorption, ZOFO, lag time, tlag, duration, bioavail
+**Keywords:** absorption, parallel absorption, sequential absorption, dose splitting, dual absorption, ZOFO, lag time, tlag, duration, bioavail
 
-**See also:** ``dosepoint`` Statement, ``split``, ``bioavail``, ``duration``, ``tlag``
+**See also:** :mono_ref:`dosepoint<nlme_dosepoint>`, :mono_ref:`split<nlme_split>`, :mono_ref:`bioavail<nlme_dosepoint>`, :mono_ref:`duration<nlme_dosepoint>`, :mono_ref:`tlag<nlme_dosepoint>`
 
 
 Modeling Multiple Elimination Pathways
@@ -3229,11 +3219,13 @@ mixed-order elimination. Note the two separate subtraction terms in the
 
 **Keywords:** elimination, clearance, Michaelis-Menten, mixed-order, parallel pathways, deriv, Vmax, Km, Hill
 
-**See also:** ``deriv`` Statement, Compartment Models, Michaelis-Menten Kinetics
+**See also:** :mono_ref:`deriv<nlme_deriv>`, :ref:`Compartment Models<nlme_compartment_models>`, Michaelis-Menten Kinetics
 
 
 Introduction to Metamodels
 ------------------------------------------------------------------------
+
+.. _nlme_metamodel_concept:
 
 The Metamodel Concept
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3279,11 +3271,13 @@ comments, and ``/* ... */`` for multi-line comments.
 
 **Keywords:** metamodel, .mmdl, container, PML, RsNLME, Phoenix NLME, NONMEM control file
 
-**See also:** Metamodel Blocks, PML Model Structure
+**See also:** :ref:`Metamodel Blocks<nlme_metamodel_blocks>`, :ref:`PML Model Structure<nlme_model_structure>`
 
 
 Metamodel Structure
 ------------------------------------------------------------------------
+
+.. _nlme_metamodel_blocks:
 
 Metamodel Blocks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3305,6 +3299,8 @@ within a ``.mmdl`` file.
    -  ``##Description``: Provides a text description of the model's purpose. This is used by external tools like Pirana for display.
    -  ``##Based on``: Indicates the filename of a parent or reference metamodel, used by Pirana to construct model development trees.
    -  These three blocks are optional and are not used by the NLME engine during estimation.
+
+.. _nlme_data:
 
 -  ``##DATA``
 
@@ -3328,6 +3324,8 @@ within a ``.mmdl`` file.
          test() {
            // PML statements go here
          }
+
+.. _nlme_map:
 
 -  ``##MAP``
 
@@ -3423,15 +3421,15 @@ within a ``.mmdl`` file.
    -  **Example Syntax:**
       ``##TABLES table(file="conc_vs_time.csv", time(seq(0, 24, 0.5)), C, V)``
 
-**Keywords:** ##Author, ##Description, ##Based on, ##DATA, ##MAP,
-##COLDEF, ##MODEL, ##ESTARGS, ##SIMARGS, ##TABLES, ##DOSING CYCLE,
-block, metamodel structure
+**Keywords:** ##Author, ##Description, ##Based on, ##DATA, ##MAP, ##COLDEF, ##MODEL, ##ESTARGS, ##SIMARGS, ##TABLES, ##DOSING CYCLE, block, metamodel structure
 
-**See also:** The Metamodel Concept, PML Model Structure.
+**See also:** :ref:`The Metamodel Concept<nlme_metamodel_concept>`, :ref:`PML Model Structure<nlme_model_structure>`.
 
 
 Execution Control and Output
 ------------------------------------------------------------------------
+
+.. _nlme_estargs:
 
 ##ESTARGS: Estimation Engine Arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3516,8 +3514,10 @@ A full list of available arguments can be found in the
 
 **Keywords:** ##ESTARGS, engine arguments, method, numIterations, stdErr, QRPEM, FOCE, Laplacian
 
-**See also:** Metamodel Blocks, ##SIMARGS, ##TABLES
+**See also:** :ref:`Metamodel Blocks<nlme_metamodel_blocks>`, :ref:`##SIMARGS<nlme_simargs>`, :ref:`##TABLES<nlme_tables>`
 
+
+.. _nlme_simargs:
 
 ##SIMARGS: Simulation Arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3569,8 +3569,10 @@ then uses those final estimates to run a reproducible simulation.
 
 **Keywords:** ##SIMARGS, simulation, numReplicates, seed
 
-**See also:** Metamodel Blocks, ##ESTARGS: Estimation Engine Arguments, ##TABLES: Defining Output Tables
+**See also:** :ref:`Metamodel Blocks<nlme_metamodel_blocks>`, :ref:`##ESTARGS<nlme_estargs>`, :ref:`##TABLES<nlme_tables>`
 
+
+.. _nlme_tables:
 
 ##TABLES: Defining Output Tables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3682,7 +3684,7 @@ common syntax structure composed of several parts:
 
 **Keywords:** ##TABLES, table, simtbl, output, file, time, dose, covr, obs, specvar, mode, keep
 
-**See also:** Metamodel Blocks, ##ESTARGS: Estimation Engine Arguments, ##SIMARGS: Simulation Arguments
+**See also:** :ref:`Metamodel Blocks<nlme_metamodel_blocks>`, :ref:`##ESTARGS<nlme_estargs>`, :ref:`##SIMARGS<nlme_simargs>`
 
 
 Linking Data to the Model
@@ -3799,11 +3801,13 @@ the ``##COLDEF`` definition may take precedence.
 
 **Keywords:** ##MAP, ##COLDEF, mapping, id, time, rate, duration, SS, ADDL, II, MDV, Reset, categorical covariate
 
-**See also:** Metamodel Blocks, ##DATA, ##DOSING CYCLE
+**See also:** :ref:`Metamodel Blocks<nlme_metamodel_blocks>`, :ref:`##DATA<nlme_data>`, :ref:`##DOSING CYCLE<nlme_dosing_cycle>`
 
 
 Advanced Dosing and a Complete Example
 ------------------------------------------------------------------------
+
+.. _nlme_dosing_cycle:
 
 ##DOSING CYCLE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3913,11 +3917,13 @@ This example brings together all the concepts into a single
 
 **Keywords:** example, metamodel, .mmdl, complete
 
-**See also:** Metamodel Blocks, ##MAP: Data Mapping, PML Model Structure
+**See also:** :ref:`Metamodel Blocks<nlme_metamodel_blocks>`, :ref:`##MAP<nlme_map>`, :ref:`PML Model Structure<nlme_model_structure>`
 
 
 Automated Model Search with pyDarwin
 ------------------------------------------------------------------------
+
+.. _nlme_metamodel_as_template:
 
 The Metamodel as a Template File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4014,19 +4020,16 @@ NLME engine.
 
 **Keywords:** template, token, placeholder, metamodel, pyDarwin, syntax, {TOKEN[index]}
 
-**See also:** Introduction to pyDarwin Integration, The tokens.json File
+**See also:** :ref:`The tokens.json File<nlme_tokensjson>`
 
 
-.. _title-the-tokensjson-file-defining-the-search-space:
+.. _nlme_tokensjson:
 
-The tokens.json File: Defining the Search Space
+The tokens.json File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``tokens.json`` file is a required companion to the
-metamodel template. It is a JSON-formatted text file that defines all
-the possible code snippets that can be substituted into the tokens in
-the template. The structure of this file dictates the dimensions and
-options of the model search.
+The ``tokens.json`` file is a required companion to the metamodel template. It is a JSON-formatted text file that defines all the possible code snippets
+that can be substituted into the tokens in the template. The structure of this file dictates the dimensions and options of the model search.
 
 **File Structure:** The ``tokens.json`` file has a specific structure:
 
@@ -4147,7 +4150,7 @@ the model fit.
 
 **Keywords:** tokens.json, JSON, key, search space, array of arrays, options, pyDarwin
 
-**See also:** Introduction to pyDarwin Integration, The Metamodel as a Template File
+**See also:** :ref:`The Metamodel as a Template File<nlme_metamodel_as_template>`
 
 
 Directory Shortcuts in Templates
@@ -4182,37 +4185,26 @@ problem by parameterizing the paths.
 
 **Keywords:** data_dir, work_dir, output_dir, directory shortcut, path, parameterization, portable
 
-**See also:** The Metamodel as a Template File, ##DATA Block, ##TABLES Block
+**See also:** :ref:`The Metamodel as a Template File<nlme_metamodel_as_template>`, :ref:`##DATA<nlme_data>`, :ref:`##TABLES<nlme_tables>`
 
+
+.. _nlme_options:
 
 The pyDarwin Execution Options File
 ------------------------------------------------------------------------
 
-To execute a ``pyDarwin`` search with the NLME engine, the
-``options.json`` file must specify the correct ``engine_adapter`` and
-provide the paths to the NLME installation and its required compiler.
-Other core options control the search algorithm, the degree of
-parallelism, and the penalties applied to model fitness scores.
+To execute a ``pyDarwin`` search with the NLME engine, the :mono_ref:`options.json<options_file_target>` file must specify the correct ``engine_adapter`` and provide
+the paths to the NLME installation and its required compiler. :ref:`Other core options<Options>` control the search algorithm, the degree of parallelism, and the penalties applied to model fitness scores.
 
-The following options form the fundamental configuration
-for any ``pyDarwin`` run that uses the NLME engine.
+The following options form the fundamental configuration for any ``pyDarwin`` run that uses the NLME engine:
 
--  ``engine_adapter``: **(Required)** This critical option tells
-   ``pyDarwin`` which modeling engine to use. For NLME, it must be set
-   to ``"nlme"``.
+- | :mono_ref:`engine_adapter<engine_adapter_options_desc>` :sup:`required`: For NLME, it must be set to ``"nlme"``.
 
-   -  **Example:** ``"engine_adapter": "nlme"``
+- | :mono_ref:`nlme_dir<nlme_dir_options_desc>` :sup:`required`: The absolute path to the NLME Engine installation directory.
+  | Example: ``"nlme_dir": "C:/Program Files/Certara/NLME_Engine"``
 
--  ``nlme_dir``: **(Required)** The absolute file path to the NLME
-   Engine installation directory.
-
-   -  **Example:**
-      ``"nlme_dir": "C:/Program Files/Certara/NLME_Engine"``
-
--  ``gcc_dir``: **(Required)** The absolute file path to the root
-   directory of the GCC compiler used by the NLME Engine.
-
-   -  **Example:** ``"gcc_dir": "C:/Program Files/Certara/mingw64"``
+- | :mono_ref:`gcc_dir<gcc_dir_options_desc>` :sup:`required`: The absolute path to the root directory of the GCC compiler used by the NLME Engine.
+  | Example: ``"gcc_dir": "C:/Program Files/Certara/mingw64"``
 
 
 pyDarwin Best Practices
@@ -4297,7 +4289,7 @@ inside the comment.
 
 **Keywords:** golden rules, best practices, checklist, template, syntax, ##DATA, ##MAP, comments, tokens, pyDarwin, formatting
 
-**See also:** The Metamodel as a Template File, Introduction to pyDarwin Integration
+**See also:** :ref:`The Metamodel as a Template File<nlme_metamodel_as_template>`
 
 
 Automated Search of Omega Structure
@@ -4459,4 +4451,4 @@ in the ``#search_block`` and the ``max_omega_sub_matrix`` setting.
 block, diag, search_omega_sub_matrix, max_omega_sub_matrix, pyDarwin,
 NLME, variance-covariance
 
-**See also:** The options.json File, The Metamodel as a Template File, ranef
+**See also:** :ref:`The Metamodel as a Template File<nlme_metamodel_as_template>`, :ref:`The options.json File<nlme_options>`, :mono_ref:`ranef<nlme_ranef>`

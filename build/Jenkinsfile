@@ -48,7 +48,7 @@ pipeline {
             }
             steps {
                 container('certara-python') {
-                    office365ConnectorSend color: "#ffff00", message: "Production Release Build ${BUILD_ID} deploy approval requested", webhookUrl: "${DEPLOYMENT_HOOK}"
+                    office365ConnectorSend color: "#ffff00", message: "Production Build ${BUILD_ID} deploy approval requested", webhookUrl: "${DEPLOYMENT_HOOK}"
                 }
             }
         }
@@ -77,7 +77,7 @@ pipeline {
             }
             post {
                 success {
-                    office365ConnectorSend color: "#008000", message: "Production Release Build ${BUILD_ID} deploy approved by ${SUBMITTER_APPROVER}", webhookUrl: "${DEPLOYMENT_HOOK}"
+                    office365ConnectorSend color: "#008000", message: "Production Build ${BUILD_ID} deploy approved by ${SUBMITTER_APPROVER}", webhookUrl: "${DEPLOYMENT_HOOK}"
                 }
             }
         }
@@ -260,7 +260,7 @@ pipeline {
                 }
             }
         }
-        stage('Release Artifact Promotion') {
+        stage('Artifact Promotion') {
             when {
                 tag pattern: "[0-9]+.[0-9]+.[0-9]+", comparator: "REGEXP"
             }
@@ -268,7 +268,11 @@ pipeline {
                 container('certara-python') {
                     labelledShell label: 'twine upload', script: """
                         cd ${WORKSPACE}/
+                        . venv/bin/activate
+                        pip install --upgrade twine
+                        twine check dist/*
                         twine upload -r public dist/*
+                        deactivate
                     """
                 }
             }

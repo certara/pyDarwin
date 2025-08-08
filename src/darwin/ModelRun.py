@@ -224,7 +224,7 @@ class ModelRun:
     def from_dict(cls, src):
         model = Model.from_dict(src['model'])
 
-        adapter = get_engine_adapter(src['engine_adapter'])
+        adapter = get_engine_adapter(src.get('engine_adapter', options.engine_adapter))
 
         run = cls(model, src['model_num'], src['generation'], adapter)
 
@@ -415,6 +415,9 @@ class ModelRun:
             engine = self._adapter
 
             if engine.read_model(self) and engine.read_results(self) or options.skip_running:
+                if options.skip_running:
+                    self.result.success = True
+
                 if not self.result.can_postprocess() or self._post_run_r() and self._post_run_python():
                     try:
                         self.result.calc_fitness(self.model)

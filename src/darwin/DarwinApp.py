@@ -15,6 +15,7 @@ from darwin.ExecutionManager import ExecutionManager
 from darwin.ModelRunManager import get_run_manager, rerun_models
 
 import darwin.MemoryModelCache
+import darwin.SQLiteModelCache
 import darwin.ModelRunManager
 import darwin.LocalRunManager
 import darwin.grid.GridRunManager
@@ -200,6 +201,7 @@ def _init_app(options_file: str, folder: str = None):
     log.message(f"Using {options.model_cache_class}")
 
     darwin.MemoryModelCache.register()
+    darwin.SQLiteModelCache.register()
 
     _init_model_results()
 

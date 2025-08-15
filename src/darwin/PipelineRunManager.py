@@ -88,7 +88,7 @@ class PipelineRunManager(ModelRunManager):
         res = run.result
         model = run.model
 
-        if run.status == 'Restored':
+        if run.cold:
             GlobalVars.unique_models_num += 1
 
         if this_one_is_better:

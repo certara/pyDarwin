@@ -157,6 +157,8 @@ class ModelRun:
         self.global_num = None
         self.finish_time = None
 
+        self.cold = False
+
     @staticmethod
     def get_model_results_class():
         res = ModelResults
@@ -554,8 +556,9 @@ class ModelRun:
         with open(os.path.join(self.run_dir, self.output_file_name), "a") as output:
             res = self.result
 
-            if self.status == 'Restored':
+            if self.cold:
                 output.write(f"Restored run\n")
+
             output.write(f"OFV = {res.ofv}\n")
             output.write(f"success = {res.success}\n")
             output.write(f"covariance = {res.covariance}\n")

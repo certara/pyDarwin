@@ -60,25 +60,24 @@ class MemoryModelCache(ModelCache):
             if run.model.phenotype not in self.phenotypes:
                 self.phenotypes[run.model.phenotype] = run
 
-    def update_model_run_status(self, run: ModelRun, status: str):
+    def warm_up(self, run: ModelRun):
         with self._lock_all_runs:
             genotype = str(run.model.genotype())
 
-            crun = self.all_runs[genotype] or self.phenotypes[run.model.phenotype]
+            crun = self.all_runs.get(genotype, None) or self.phenotypes.get(run.model.phenotype, None)
 
             if crun is not None:
-                crun.set_status(status)
+                crun.cold = False
                 crun.run_dir = run.run_dir
-                crun.model = run.model
+                crun.model.control = run.model.control
 
     def find_model_run(self, **kwargs) -> ModelRun:
-        if 'genotype' in kwargs:
-            return deepcopy(self.all_runs.get(kwargs['genotype']))
-
-        if 'phenotype' in kwargs:
+        if 'model_code' in kwargs:
+            return deepcopy(self.all_runs.get(str(kwargs['model_code'].IntCode)))
+        elif 'phenotype' in kwargs:
             return deepcopy(self.phenotypes.get(kwargs['phenotype']))
 
-        raise DarwinError('Expected genotype or phenotype')
+        raise DarwinError('Expected model_code or phenotype')
 
     def load(self):
         """
@@ -104,6 +103,7 @@ class MemoryModelCache(ModelCache):
 
                     for r in all_runs.values():
                         r.status = 'Restored'
+                        r.cold = True
 
                         if r.model.phenotype in phenotypes:
                             continue

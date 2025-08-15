@@ -131,7 +131,7 @@ class Population:
 
         self.model_number += 1
 
-        run = self.model_cache.find_model_run(genotype=genotype) \
+        run = self.model_cache.find_model_run(model_code=model.model_code) \
             or self.model_cache.find_model_run(phenotype=phenotype)
 
         existing_run = self.runs_g.get(genotype, None) or self.runs_ph.get(phenotype, None)
@@ -151,15 +151,15 @@ class Population:
                 run.result.messages = str(run.result.messages)
                 run.ref_run = run.file_stem
 
-            if run.status != 'Restored':
+            if not run.cold:
                 run.set_status(f"Cache({run.generation}-{run.model_num})")
 
             run.orig_run_dir = run.run_dir
             run.init_stem(wide_model_num, self.name)
             run.model.control = model.control
 
-            if not run.status.startswith('Cache('):
-                self.model_cache.update_model_run_status(run, 'not restored')
+            if run.cold:
+                self.model_cache.warm_up(run)
         else:
             run = ModelRun(model, wide_model_num, self.name, self.adapter)
 
@@ -229,7 +229,7 @@ class Population:
         if options.keep_best_models and not best_run.better:
             return
 
-        if best_run.status == 'Restored' or best_run.status.startswith('Cache('):
+        if best_run.cold or best_run.status.startswith('Cache('):
             best_run.make_control_file()
             best_run.output_results()
 

@@ -19,9 +19,9 @@ class ModelCache(ABC):
         pass
 
     @abstractmethod
-    def update_model_run_status(self, run: ModelRun, status: str):
+    def warm_up(self, run: ModelRun):
         """
-        Update status of cached model run.
+        Warm up the run if it's in the cache.
         *run* is not added to the cache, just used for search by genotype or phenotype.
         """
         pass
@@ -33,14 +33,6 @@ class ModelCache(ABC):
         """
         pass
 
-    @abstractmethod
-    def load(self):
-        """
-        Load the cache from a saved state.
-        """
-        pass
-
-    @abstractmethod
     def dump(self):
         """
         Dump the cache to a saved state.

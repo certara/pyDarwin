@@ -81,7 +81,7 @@ def _get_front_runs(res: Result, template: Template, model_cache) -> list:
     for res_x in res.X:
         cur_x = [int(x) for x in res_x.astype(int)]
         mc = ModelCode.from_full_binary(cur_x, maxes, lengths)
-        run = model_cache.find_model_run(genotype=str(mc.IntCode)) \
+        run = model_cache.find_model_run(model_code=mc) \
             or model_cache.find_model_run(phenotype=get_model_phenotype(template, mc))
 
         if run is None:

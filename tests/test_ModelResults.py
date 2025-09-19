@@ -32,7 +32,7 @@ class ModelResultsTestCase(unittest.TestCase):
 
     def test_to_dict(self):
         model_results = ModelResults()
-        model_results.ofv =  500
+        model_results.ofv = 500
 
         expected_dict = {
             'fitness': model_results.fitness,
@@ -46,7 +46,10 @@ class ModelResultsTestCase(unittest.TestCase):
             'post_run_python_text': model_results.post_run_python_text,
             'post_run_python_penalty': model_results.post_run_python_penalty,
             'messages': model_results.messages,
-            'errors': model_results.errors
+            'errors': model_results.errors,
+            'estimated_theta_num': model_results.estimated_theta_num,
+            'estimated_omega_num': model_results.estimated_omega_num,
+            'estimated_sigma_num': model_results.estimated_sigma_num
         }
         self.assertEqual(model_results.to_dict(), expected_dict)
 
@@ -83,12 +86,12 @@ class ModelResultsTestCase(unittest.TestCase):
         code = 'model code'
         model = Model(code)
         model_results = ModelResults()
-        model_results.ofv =  500
+        model_results.ofv = 500
         model.non_influential_token_num = 2
-        model.estimated_theta_num = 3
-        model.omega_num = 1
-        model.sigma_num = 4
-        # Set values for penalties
+        model_results.estimated_theta_num = 3
+        model_results.estimated_omega_num = 1
+        model_results.estimated_sigma_num = 4
+
         penalties = {
             'non_influential_tokens': 1,
             'convergence': 2,
@@ -100,23 +103,23 @@ class ModelResultsTestCase(unittest.TestCase):
             'sigma': 8
         }
         options.penalty = penalties
-
+        options.skip_running = False
         # Call the calc_fitness() method
         fitness = model_results.calc_fitness(model)
-
         # Expected fitness value
-        expected_fitness = (model_results.ofv +
-                            model.non_influential_token_num * penalties['non_influential_tokens'] +
-                            penalties['convergence'] +
-                            penalties['covariance'] +
-                            penalties['correlation'] +
-                            penalties['condition_number'] +
-                            model.estimated_theta_num * penalties['theta'] +
-                            model.estimated_omega_num * penalties['omega'] +
-                            model.estimated_sigma_num * penalties['sigma'] +
-                            model_results.post_run_r_penalty +
-                            model_results.post_run_python_penalty)
-
+        expected_fitness = (
+                model_results.ofv +
+                model.non_influential_token_num * penalties['non_influential_tokens'] +
+                penalties['convergence'] +
+                penalties['covariance'] +
+                penalties['correlation'] +
+                penalties['condition_number'] +
+                model_results.estimated_theta_num * penalties['theta'] +
+                model_results.estimated_omega_num * penalties['omega'] +
+                model_results.estimated_sigma_num * penalties['sigma'] +
+                model_results.post_run_r_penalty +
+                model_results.post_run_python_penalty
+        )
         # Check if the calculated fitness value matches the expected fitness value
         self.assertEqual(fitness, expected_fitness)
 

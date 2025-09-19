@@ -2,7 +2,6 @@ import numpy as np
 import skopt
 import time
 import logging
-import heapq
 import warnings
 from skopt import Optimizer
 
@@ -122,7 +121,7 @@ def run_skopt(model_template: Template) -> ModelRun:
 
             log.message(f"Starting downhill, iteration = {iteration}")
 
-            downhill_runs = run_downhill(model_template, population, return_all=False)
+            downhill_runs = run_downhill(model_template, population)
 
             if not keep_going():
                 break

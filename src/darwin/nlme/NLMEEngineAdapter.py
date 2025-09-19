@@ -43,6 +43,9 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def init_engine():
+        if options.skip_running:
+            return True
+
         nlme_dir = options.get('nlme_dir', None)
 
         rscript_path = options.rscript_path
@@ -197,12 +200,12 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         return control, "##", bands
 
     @staticmethod
-    def add_comment(comment: str, control: str):
+    def add_comment(comment: str, control: str) -> str:
         """
         Add a comment to the control
         """
 
-        control += f"## {comment}"
+        return control + f"## {comment}"
 
     @staticmethod
     def cleanup(run_dir: str, file_stem: str):
@@ -220,12 +223,14 @@ class NLMEEngineAdapter(ModelEngineAdapter):
         else:
             files_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
-            files_to_delete.pop(f'{file_stem}.mmdl', None)
-            files_to_delete.pop(f'{file_stem}_out.txt', None)
+            files = ['log.txt', 'out.txt', 'err1.txt', 'err2.txt', 'nlme7engine.log',
+                     'TDL5Warnings.log', 'integration_errors.txt', 'fort.27', f'{file_stem}_out.txt']
 
-            for file in ['log.txt', 'out.txt', 'err1.txt', 'err2.txt',
-                         'nlme7engine.log', 'TDL5Warnings.log', 'integration_errors.txt', 'fort.27']:
+            for file in options.keep_files + files:
                 files_to_delete.pop(file, None)
+
+            for ext in options.keep_extensions + ['mmdl']:
+                files_to_delete.pop(f'{file_stem}.{ext}', None)
 
             for f in files_to_delete:
                 if re.search(r'^(err|out)\d+$|^sim-.*|^data\w+\.txt$', f):
@@ -460,14 +465,15 @@ class NLMEEngineAdapter(ModelEngineAdapter):
             estimated_sigma -= (si_fix[i])
 
         model = run.model
+        res = run.result
 
         model.theta_num = theta_num
         model.omega_num = omega_num
         model.sigma_num = sigma_num
 
-        model.estimated_theta_num = estimated_theta
-        model.estimated_omega_num = estimated_omega
-        model.estimated_sigma_num = estimated_sigma
+        res.estimated_theta_num = estimated_theta
+        res.estimated_omega_num = estimated_omega
+        res.estimated_sigma_num = estimated_sigma
 
         return True
 
@@ -806,3 +812,6 @@ def _set_omega_bands(control: str, band_width: list, mask_idx: list) -> tuple:
 
 def register():
     register_engine_adapter('nlme', NLMEEngineAdapter())
+
+
+register()

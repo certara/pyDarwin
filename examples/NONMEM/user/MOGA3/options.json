@@ -1,0 +1,29 @@
+{
+    "author": "Certara",
+    "algorithm": "MOGA3",
+
+    "MOGA": {
+        "objectives": 3,
+        "constraints": 2,
+        "partitions": 6,
+        "crossover_rate": 0.95,
+        "mutation_rate": 0.95
+    },
+
+    "random_seed": 1,
+    "population_size": 30,
+    "num_parallel": 4,
+    "num_generations": 7,
+
+    "downhill_period": 0,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "final_downhill_search": true,
+
+    "rerun_front_models": false,
+
+    "postprocess": {
+        "use_python": true,
+        "post_run_python_code": "{project_dir}/CmaxPPC.py"
+    }
+}

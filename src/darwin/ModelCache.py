@@ -19,6 +19,14 @@ class ModelCache(ABC):
         pass
 
     @abstractmethod
+    def update_model_run_status(self, run: ModelRun, status: str):
+        """
+        Update status of cached model run.
+        *run* is not added to the cache, just used for search by genotype or phenotype.
+        """
+        pass
+
+    @abstractmethod
     def find_model_run(self, **kwargs) -> ModelRun:
         """
         Find a run by parameters. Actual parameters depend on implementation.

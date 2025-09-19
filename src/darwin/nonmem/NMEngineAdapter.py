@@ -4,7 +4,6 @@ import re
 import glob
 import xmltodict
 import numpy as np
-import itertools
 
 from collections import OrderedDict
 
@@ -33,10 +32,9 @@ class NMEngineAdapter(ModelEngineAdapter):
     def init_template(template: Template):
         template_text = template.template_text
 
-        template.theta_block = _get_variable_block(template_text, "$THETA")
-        template.omega_block = _get_variable_block(template_text, "$OMEGA")
-        template.sigma_block = _get_variable_block(template_text, "$SIGMA")
-        template.pk_block = _get_variable_block(template_text, "$PK")
+        template.theta_block = get_variable_block(template_text, "$THETA")
+        template.omega_block = get_variable_block(template_text, "$OMEGA")
+        template.sigma_block = get_variable_block(template_text, "$SIGMA")
 
         _check_for_prior(template_text)
         _check_for_multiple_probs(template_text)
@@ -48,6 +46,9 @@ class NMEngineAdapter(ModelEngineAdapter):
 
     @staticmethod
     def init_engine():
+        if options.skip_running:
+            return True
+
         nmfe_path = options.get('nmfe_path', None)
 
         if not nmfe_path:
@@ -92,16 +93,34 @@ class NMEngineAdapter(ModelEngineAdapter):
             if not found:  # only write this once, if nothing is found
                 prd_err += f"Unidentified error in PRDERR for model run {run.generation}, {run.model_num}\n"
 
+        mu_warning = ' (MU_WARNING 26) DATA ITEM(S) USED IN DEFINITION OF MU_(S) SHOULD BE CONSTANT FOR INDIV. REC.:\n'
+
         warnings = [' (WARNING  31) $OMEGA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
                     ' (WARNING  41) NON-FIXED PARAMETER ESTIMATES CORRESPONDING TO UNUSED\n',
-                    ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n']
-        short_warnings = ['NON-FIXED OMEGA', 'NON-FIXED PARAMETER', 'NON-FIXED THETA']
+                    ' (WARNING  40) $THETA INCLUDES A NON-FIXED INITIAL ESTIMATE CORRESPONDING TO\n',
+                    mu_warning]
+
+        # really not sure what to do with the mu referencing warning, warning is generated regardless
+        # of whether there are time varying covariates
+        short_warnings = ['NON-FIXED OMEGA',
+                          'NON-FIXED PARAMETER',
+                          'NON-FIXED THETA',
+                          'Covariates should not be time varying with MU ref']
 
         f_msg = _file_to_lines(os.path.join(run.run_dir, "FMSG"))
 
         for warning, short_warning in zip(warnings, short_warnings):
-            if warning in f_msg:
-                nm_translation_message += short_warning
+            if warning not in f_msg:
+                continue
+
+            if warning == mu_warning:
+                where = f_msg.index(mu_warning)
+                covar_name = f_msg[where + 1].strip()
+                warning_message = f"With MU ref {covar_name} should be constant for individuals"
+            else:
+                warning_message = short_warning
+
+            nm_translation_message += ', ' + warning_message
 
         errors = [' AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.\n']
 
@@ -116,8 +135,7 @@ class NMEngineAdapter(ModelEngineAdapter):
 
                 break
 
-        if nm_translation_message.strip() == ",":
-            nm_translation_message = ''
+        nm_translation_message = re.sub(r'^,\s*', '', nm_translation_message, flags=re.RegexFlag.MULTILINE)
 
         # try to sort relevant message?
         # key are
@@ -132,27 +150,7 @@ class NMEngineAdapter(ModelEngineAdapter):
         control = match_vars(control, template.tokens, template.omega_block, phenotype, "ETA")
         control = match_vars(control, template.tokens, template.sigma_block, phenotype, "EPS")
         control = match_vars(control, template.tokens, template.sigma_block, phenotype, "ERR")
-        control = match_vars(control, template.tokens, template.pk_block, phenotype, "MU")
-        
-        # Get compartment info
-        num_cpt_key = "NUMBER_COMPARTMENTS"
-        assert control.count(num_cpt_key) == 1 # Check keyword only used once
-        cpt_info = get_cpt_info(control)
 
-        # Get maps for dynamic variables
-        rate_constant_map = get_rate_constants(cpt_info)
-        c_mass_map = get_c_mass_map(cpt_info)
-        s_scale_map = get_s_scale_map(cpt_info)
-
-        # Update compartment count and dynamic variables
-        control = control.replace(num_cpt_key, str(len(cpt_info)-1)) # -1 for elimination cmt
-        for key, value in rate_constant_map.items():
-            control = control.replace(key, value)
-        for key, value in c_mass_map.items():
-            control = control.replace(key, value)
-        for key, value in s_scale_map.items():
-            control = control.replace(key, value)
-    
         control = re.sub(r'^[^\S\r\n]*', '  ', control, flags=re.RegexFlag.MULTILINE)
         control = re.sub(r'^ {2}(?=\$|$)', '', control, flags=re.RegexFlag.MULTILINE)
 
@@ -164,12 +162,12 @@ class NMEngineAdapter(ModelEngineAdapter):
         return control, ";;", bands
 
     @staticmethod
-    def add_comment(comment: str, control: str):
+    def add_comment(comment: str, control: str) -> str:
         """
         Add a comment to the control
         """
 
-        control += f";; {comment}"
+        return control + f";; {comment}"
 
     @staticmethod
     def cleanup(run_dir: str, file_stem: str):
@@ -193,20 +191,20 @@ class NMEngineAdapter(ModelEngineAdapter):
 
             files_to_delete = dict.fromkeys(glob.glob('*', root_dir=run_dir))
 
-            # Set default files to keep
-            files_to_delete.pop(f'{file_stem}.mod', None)
-            files_to_delete.pop(f'{file_stem}.lst', None)
-            files_to_delete.pop(f'{file_stem}.xml', None)
-            files_to_delete.pop('FMSG', None)
-            files_to_delete.pop('PRDERR', None)
-            files_to_delete.pop('FSTREAM', None)
+            for file in options.keep_files + ['FMSG', 'FCON', 'PRDERR', 'FSTREAM']:
+                files_to_delete.pop(file, None)
 
-            if options.keep_ext:
-                files_to_delete.pop(f'{file_stem}.ext', None)
-            if options.keep_shk:
-                files_to_delete.pop(f'{file_stem}.shk', None)
-            for f in options.named_files_keep:
-                files_to_delete.pop(f, None)
+            for ext in options.keep_extensions + ['mod', 'lst', 'ext', 'grd', 'xml']:
+                files_to_delete.pop(f'{file_stem}.{ext}', None)
+
+            if os.path.exists(os.path.join(run_dir, 'FSTREAM')):
+                with open(os.path.join(run_dir, 'FSTREAM'), 'r') as fstream:
+                    text = fstream.read()
+
+                    matches = re.findall(r'^TABL\s+(\S+)', text, flags=re.RegexFlag.MULTILINE)
+
+                    for occ in matches:
+                        files_to_delete.pop(occ, None)
 
             for f in files_to_delete:
                 try:
@@ -459,14 +457,15 @@ class NMEngineAdapter(ModelEngineAdapter):
             sigma_num += vals_this_block
 
         model = run.model
+        res = run.result
 
         model.theta_num = theta_num
         model.omega_num = omega_num
         model.sigma_num = sigma_num
 
-        model.estimated_theta_num = estimated_theta
-        model.estimated_omega_num = estimated_omega
-        model.estimated_sigma_num = estimated_sigma
+        res.estimated_theta_num = estimated_theta
+        res.estimated_omega_num = estimated_omega
+        res.estimated_sigma_num = estimated_sigma
 
         return True
 
@@ -602,7 +601,7 @@ def _not_empty_line(line: str) -> bool:
     return line and remove_comments(line) != ''
 
 
-def _get_variable_block(template_text, key) -> list:
+def get_variable_block(template_text, key) -> list:
     code = _get_full_block(template_text, key)
 
     lines = list(filter(_not_empty_line, code))
@@ -660,7 +659,7 @@ def _check_for_multiple_probs(template_text: str):
 
     all_lines = remove_comments(template_text)
 
-    prob_lines = re.findall(r"\$PROB", all_lines)  #
+    prob_lines = re.findall(r"\$PROB", all_lines)
 
     if len(prob_lines) > 1:
         log.error(f"Search Omega bands is not supported with multiple $PROBs, exiting")
@@ -764,112 +763,4 @@ def register():
     register_engine_adapter('nonmem', NMEngineAdapter())
 
 
-
-def get_cpt_info(control):
-    """
-    Extracts compartment information from a given NONMEM control string.
-    Args:
-        control (str): The control string for NONMEM file
-    Returns:
-        list: A list of dictionaries, each containing the index ('i') and 
-              compartment name ('cpt'). The list includes an additional 
-              dictionary for 'ELIMINATION' with index 0.
-    """
-
-    
-    control_lines = control.split("\n")
-    control_lines = [x.strip() for x in control_lines if x != ""]
-    comp_lines = [x for x in control_lines if  "comp=(" in x.lower().replace(" ", "")]
-    
-    # Extract compartment info
-    cpt_info_list = []
-    for i, cpt in enumerate(comp_lines):
-        cpt = cpt.split("(")[1]
-        cpt = cpt.split(",")[0]
-        cpt = cpt.replace(")", "")
-        cpt = cpt.strip()
-        cpt_info = {
-            "i": i+1,
-            "cpt": cpt
-        }
-        cpt_info_list.append(cpt_info)
-    
-    # Add elimination
-    cpt_info_list.append({
-        "i":  0,
-        "cpt": "ELIMINATION"
-        })
-
-    return cpt_info_list
-
-
-def get_rate_constants(cpt_info):
-    """
-    Generate a map of rate constants based on compartment information.
-    Args:
-        cpt_info (list of dict): A list of dictionaries where each dictionary contains
-                                 information about a compartment. Each dictionary must
-                                 have the keys 'i' (compartment index) and 'cpt' (compartment name).
-    Returns:
-        dict: A dictionary where the keys are rate constant identifiers in the format
-              "RATE_CONSTANT(cpt1, cpt2)" and the values are rate constant values in the
-              format "k{i}T{j}".
-    """
-
-    
-    cpt_combinations = list(itertools.product(cpt_info, cpt_info))    
-    rate_constant_map = {}
-    for pair in cpt_combinations:
-        if pair[0]["i"] != pair[1]["i"]:
-            # print()
-            # print(pair)
-            rate_constant_key = f"RATE_CONSTANT({pair[0]['cpt']}, {pair[1]['cpt']})"
-            rate_constant_value = f"k{pair[0]['i']}T{pair[1]['i']}"
-            rate_constant_map[rate_constant_key] = rate_constant_value
-            
-    return rate_constant_map 
-
-
-def get_c_mass_map(cpt_info):
-    """
-    Generate a mapping of compartment mass keys to their corresponding values.
-    This function takes a list of compartment information dictionaries and creates
-    a mapping where the keys are formatted as "AMT_COMPARTMENT({cpt})" and the values
-    are formatted as "A({i})".
-    Args:
-        cpt_info (list of dict): A list of dictionaries containing compartment information.
-            Each dictionary should have the keys 'cpt' and 'i'.
-    Returns:
-        dict: A dictionary mapping compartment mass keys to their corresponding values.
-    """
-    
-
-    c_mass_map = {}
-
-    for row in cpt_info:
-        c_mass_key = f"AMT_COMPARTMENT({row['cpt']})"
-        c_mass_value = f"A({row['i']})"
-        c_mass_map[c_mass_key] = c_mass_value
-
-    return c_mass_map
-
-def get_s_scale_map(cpt_info):
-    """
-    Generates a mapping of scaling keys to scaling values based on the provided component information.
-    Args:
-        cpt_info (list of dict): A list of dictionaries where each dictionary contains information about a component.
-            Each dictionary is expected to have the keys 'cpt' and 'i'.
-    Returns:
-        dict: A dictionary where the keys are formatted as "DATA_SCALING({cpt})" and the values are formatted as "S{i}".
-    """
-    
-
-    s_scale_map = {}
-
-    for row in cpt_info:
-        s_scale_key= f"DATA_SCALING({row['cpt']})"
-        s_scale_value = f"S{row['i']}"
-        s_scale_map[s_scale_key] = s_scale_value
-
-    return s_scale_map   
-
+register()

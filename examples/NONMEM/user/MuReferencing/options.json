@@ -1,0 +1,8 @@
+{
+    "author": "Certara",
+    "algorithm": "EX",
+    "exhaustive_batch_size": 10,
+    "num_parallel": 4,
+    "remove_run_dir": false,
+    "nmfe_path": "c:/nm74g64/util/nmfe74.bat"
+}

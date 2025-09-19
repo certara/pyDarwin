@@ -1,0 +1,21 @@
+{
+    "author": "Certara",
+    "algorithm": "GA",
+
+    "GA": {
+        "elitist_num": 2
+    },
+
+    "random_seed": 1, 
+    "population_size": 20,
+    "num_generations": 4,
+
+    "downhill_period": 2,
+    "num_niches": 2,
+    "niche_radius": 2,
+    "local_grid_search":true,
+    "local_2_bit_search": true,
+    "final_downhill_search": true,
+
+    "effect_limit": 6
+}

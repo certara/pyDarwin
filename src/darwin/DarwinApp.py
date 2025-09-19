@@ -12,13 +12,14 @@ import darwin.utils as utils
 from darwin.Log import log
 from darwin.options import options
 from darwin.ExecutionManager import ExecutionManager
-from darwin.ModelRunManager import get_run_manager
+from darwin.ModelRunManager import get_run_manager, rerun_models
 
 import darwin.MemoryModelCache
 import darwin.ModelRunManager
 import darwin.LocalRunManager
 import darwin.grid.GridRunManager
 import darwin.nonmem.NMEngineAdapter
+import darwin.nonmem.DVNMEngineAdapter
 import darwin.nlme.NLMEEngineAdapter
 from darwin.omega_search import get_omega_block_masks
 
@@ -26,19 +27,18 @@ from darwin.ModelEngineAdapter import get_engine_adapter, ModelEngineAdapter
 
 from .Template import Template
 from .ModelRun import ModelRun, write_best_model_files, file_checker, log_run
+from .ModelResults import MOGAModelResults, MOGA3ModelResults
 from .ModelCache import set_model_cache, create_model_cache
 from .DarwinError import DarwinError
 from .Population import init_pop_nums
 
 from .algorithms.exhaustive import run_exhaustive, get_search_space_size
 from .algorithms.GA import run_ga
+from .algorithms.MOGA import run_moga
 from .algorithms.PSO import run_pso
 from .algorithms.OPT import run_skopt
 
 search_exp = r'\{[^\[\n]+\[\s*\d+\s*]\s*}'
-
-darwin.nonmem.NMEngineAdapter.register()
-darwin.nlme.NLMEEngineAdapter.register()
 
 
 def go_to_folder(folder: str, create: bool = False) -> bool:
@@ -63,10 +63,40 @@ def _init_model_results():
 
     log.message(f"Writing intermediate output to {results_file}")
 
+    header = 'iteration,model number,run directory,ref run,status,ntheta,nomega,nsigm,model,'
+
+    if options.isMOGA:
+        if options.isMOGA3:
+            n_obj = options.MOGA['objectives']
+            names = options.MOGA['names']
+            ln = len(names)
+
+            MOGA3ModelResults.n_obj = n_obj
+            ModelRun.model_result_class = MOGA3ModelResults
+
+            if ln != n_obj:
+                if ln == 0:
+                    log.message('Using generic objective names')
+                else:
+                    log.warn(f"{ln} names provided for {n_obj} objectives. Using generic names.")
+
+                names = [f"f{n}" for n in range(1, n_obj+1)]
+
+            else:
+                names = [f"{name}(f{i+1})" for i, name in enumerate(names)]
+
+            header += ','.join(names)
+            header += ',ofv'
+        else:
+            ModelRun.model_result_class = MOGAModelResults
+            header += 'ofv,NEP'
+    else:
+        header += 'fitness,ofv,r penalty,python penalty'
+
+    header += ',condition num,success,covariance,correlation,translation messages,runtime errors'
+
     with open(results_file, "w") as resultsfile:
-        resultsfile.write(f"iteration,model number,run directory,ref run,status,fitness,model,ofv,success,"
-                          f"covariance,correlation,ntheta,nomega,nsigm,condition num,r penalty,python penalty,"
-                          f"translation messages,runtime errors\n")
+        resultsfile.write(f"{header}\n")
 
     GlobalVars.results_file = results_file
 
@@ -89,9 +119,16 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Algorithm: {options.algorithm}")
     log.message(f"Engine: {adapter.get_engine_name().upper()}")
 
-    if options.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA"]:
+    if options.skip_running:
+        log.warn('Skipping model runs')
+
+    if options.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA", "MOGA3"]:
         log.message(f"Population size: {options.population_size}")
         log.message(f"num_generations: {options.num_generations}")
+
+    if options.isMOGA3:
+        log.message(f"Number of objectives: {options.MOGA['objectives']}")
+
     log.message(f"random_seed: {options.random_seed}")
     log.message(f"use_effect_limit: {options.use_effect_limit}")
     if options.use_effect_limit:
@@ -102,7 +139,11 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Project working dir: {options.working_dir}")
     log.message(f"Project temp dir: {options.temp_dir}")
     log.message(f"Project output dir: {options.output_dir}")
-    log.message(f"Key models dir: {options.key_models_dir}")
+
+    if options.isMOGA:
+        log.message(f"Non-dominated models dir: {options.non_dominated_models_dir}")
+    else:
+        log.message(f"Key models dir: {options.key_models_dir}")
 
     if not _check_tokens(model_template, adapter):
         return False
@@ -223,6 +264,9 @@ class DarwinApp:
             final = run_skopt(model_template)
         elif algorithm == "GA":
             final = run_ga(model_template)
+        elif algorithm == "MOGA" or algorithm == "MOGA3":
+            run_moga(model_template)
+            final = None
         elif algorithm == "PSO":
             final = run_pso(model_template)
         elif algorithm in ["EX", "EXHAUSTIVE"]:
@@ -243,9 +287,10 @@ class DarwinApp:
             final_output_done = True
             log.message(f"Final output from best model is in {final_result_file}")
 
+        log.message(f"Number of considered models: {GlobalVars.all_models_num}")
+        log.message(f"Number of models that were run during the search: {GlobalVars.run_models_num}")
+
         if final:
-            log.message(f"Number of considered models: {GlobalVars.all_models_num}")
-            log.message(f"Number of models that were run during the search: {GlobalVars.run_models_num}")
             log.message(f"Number of unique models to best model: {GlobalVars.unique_models_to_best}")
             log.message(f"Time to best model: {GlobalVars.TimeToBest / 60:0.1f} minutes")
 
@@ -258,7 +303,7 @@ class DarwinApp:
 
         log.message(f"Search end time: {time.asctime()}\n")
 
-        if options.keep_key_models:
+        if options.keep_key_models and not options.isMOGA:
             log.message('Key models:')
             for r in GlobalVars.key_models:
                 log_run(r)
@@ -281,21 +326,14 @@ class DarwinApp:
 def _rerun_key_models():
     GlobalVars.best_run = None
 
-    rerun_models = [r for r in GlobalVars.key_models if r.orig_run_dir is not None or r.rerun]
+    reruns = [r for r in GlobalVars.key_models if r.orig_run_dir is not None or r.rerun]
 
-    if not rerun_models:
+    if not reruns:
         return
 
-    for r in rerun_models:
-        r.rerun = True
-        r.source = 'new'
-        r.reference_model_num = -1
-        r.status = 'Not Started'
-        r.result.ref_run = ''
+    log.message('Re-running models...')
 
-    log.message("Re-running models")
-
-    get_run_manager().run_all(rerun_models)
+    rerun_models(reruns)
 
 
 def _has_omega_search(tokens: OrderedDict, pattern: str) -> bool:
@@ -315,7 +353,7 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
     final gene in genome is omega band width, values 0 to max omega size -1
     """
 
-    if options.engine_adapter == 'nonmem':
+    if options.engine_adapter.startswith('nonmem'):
         options.search_omega_blocks = options.get('search_omega_bands', False)
 
         if options.search_omega_blocks and options.random_seed is None:
@@ -327,7 +365,7 @@ def _init_omega_search(template: darwin.Template, adapter: darwin.ModelEngineAda
             log.warn('max_omega_band_width must be at least 1, omitting omega band width search')
             options.search_omega_blocks = False
 
-    elif options.engine_adapter == 'nlme':
+    elif options.engine_adapter.startswith('nlme'):
         options.search_omega_blocks = options.get('search_omega_blocks', False)
         options.max_omega_band_width = None
 

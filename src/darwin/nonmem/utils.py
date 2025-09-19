@@ -3,8 +3,21 @@ import numpy as np
 
 from darwin.options import options
 from darwin.utils import get_token_parts, replace_tokens
+from darwin.Log import log
+
+MUReferenceMessageDone = False
 
 _var_regex = {}
+
+
+def _do_mu_ref(control: str, k: str, v: str) -> str:
+    global MUReferenceMessageDone
+
+    if 'MU_' in control and not MUReferenceMessageDone:
+        log.message(f"Mu Reference variable(s) found for {k}")
+        MUReferenceMessageDone = True
+
+    return control.replace(f"MU({k})", f"MU_{v}")
 
 
 def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, stem: str) -> str:
@@ -42,16 +55,13 @@ def match_vars(control: str, tokens: dict, var_block: list, phenotype: dict, ste
     var_indices = _get_var_matches(expanded_var_block.split('\n'), tokens, phenotype, stem)
 
     # add last fixed var value to all
-    value = 1 
     for k, v in var_indices.items():
         # and put into control file
-        original_stem = stem + "(" + k + ")"
-        if original_stem in control:
-            if stem == "MU":
-                control = control.replace(original_stem, stem + "_" + str(value))
-            else:
-                control = control.replace(original_stem, stem + "(" + str(value) + ")")
-            value = value + 1
+        control = control.replace(f"{stem}({k})", f"{stem}({v})")
+
+        # and if ETA, look for MU(stem)
+        if stem == 'ETA':
+            control = _do_mu_ref(control, k, v)
 
     return control
 

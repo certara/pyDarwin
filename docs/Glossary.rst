@@ -33,7 +33,6 @@ it contains spaces.
 **DEAP:** Distributed Evolutionary Algorithms in Python `DEAP github <https://github.com/DEAP/deap>`_. DEAP is a python package that includes several evolutionary algorithms, 
 including the Genetic Algorithm - the GA option in the :ref:`options file<options file>`.
 
- 
 .. _fitness:
 
 **fitness:** A number representing the overall "goodness" of the candidate. Called fitness in GA. 
@@ -41,15 +40,16 @@ In other algorithms, it is called "reward" or "cost", or sometimes "loss functio
 
 .. _full binary:
 
-| **full binary**: The full binary is a representation of a specific model coded such that all possible values of the bit string are permitted. In general, this will result in 
-  redundancy of the matching of bit strings with the :ref:`integer representation<integer representation>`. For example, if a given :ref:`token group<token group>` included 3 
-  :ref:`token sets<token set>`, two bits would be required (one bit can only specify two options). Two bits have 4 possible values, while only 3 are needed. Therefore, some duplication 
-  of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Managing this redundancy is handled internally by pyDarwin. The full binary is used only by :ref:`Genetic algorithm<GA>`.
-| The minimal binary contrasts with the :ref:`full binary <full binary>`.
+**full binary:** The full binary is a representation of a specific model coded such that all possible values of the bit string are permitted. In general, this will result in 
+redundancy of the matching of bit strings with the :ref:`integer representation<integer representation>`. For example, if a given :ref:`token group<token group>` included 3 
+:ref:`token sets<token set>`, two bits would be required (one bit can only specify two options). Two bits have 4 possible values, while only 3 are needed. Therefore, some duplication 
+of the matching of the full binary [(0,0),(0,1),(1,0) and (1,1)] to the integer representation [1,2,3] is required. Managing this redundancy is handled internally by pyDarwin. The full binary is used only by :ref:`Genetic algorithm<GA>`.
+
+The minimal binary contrasts with the :ref:`full binary <full binary>`.
 
 .. _GA:
 
-**GA - Genetic Algorithm:** An unsupervised search algorithm that mimics the mathematics 
+**GA -- Genetic Algorithm:** An unsupervised search algorithm that mimics the mathematics 
 of 'survival of the fittest'. A population of candidates is generated randomly, and the "fitness" 
 of each candidate is evaluated. A subsequent population of candidates is then generated using the 
 present generation as "parents", with selection a function of fitness (i.e., the more 
@@ -60,13 +60,13 @@ no further improvement is seen. In pyDarwin, GA is implemented using the :ref:`D
 
 .. _GBRT:
 
-**GBRT - Gradient Boosted Random Tree:** `Similar to Random Forests <https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad>`_ ,
+**GBRT -- Gradient Boosted Random Tree:** `Similar to Random Forests <https://towardsdatascience.com/decision-trees-random-forests-and-gradient-boosting-whats-the-difference-ae435cbb67ad>`_ ,
 Gradient Boosted Random Trees use `Gradient Boosting <https://en.wikipedia.org/wiki/Gradient_boosting>`_ for optimization and 
 may increase the precision of the tree building by progressively building the tree, and calculating a gradient of the reward/fitness with respect to each decision. 
 
 .. _GP:
 
-**GP - Gaussian Process (Bayesian optimization)**
+**GP -- Gaussian Process (Bayesian optimization):**
 Gaussian Process is implemented in the scikit-optimize package and described `here. <https://scikit-optimize.github.io/stable/auto_examples/bayesian-optimization.html>`_  
 GP is well-suited to the problem of model selection, as (according to `Wikipedia <https://en.wikipedia.org/wiki/Bayesian_optimization>`_)
 it is well-suited to black box function with expensive reward calculations. Indeed, experience to date suggests that GP, along with :ref:`GA <GA>`, are the most robust and 
@@ -88,6 +88,8 @@ is managed internally by ``pyDarwin``, and in the case of :ref:`Genetic algorith
 Then each bit in that bit string is 'flipped'. So, a search with 30 bits will generate 30 models in each iteration of the 1 bit search. 
 This process is continued, searching on the best model from the previous step until improvement no longer occurs.
 
+For :ref:`MOGA<MOGA_desc>` and :ref:`MOGA3<MOGA3_desc>` the flip is performed for every objective, that gives :ref:`objectives<objectives_options_desc>` times more models in every iteration. Only unique models (not seen before) are added to the iteration to not oversaturate the algorithm. Iterations continue until the front is unchanged.
+
 .. _Local Two bit Search: 
 
 **Local Two bit Search:** The 2 bit local search is like the :ref:`1 bit local search<Local One bit Search>` except that every 2 bit change of the :ref:`minimal binary representation<minimal binary>` 
@@ -105,14 +107,14 @@ First a 1 bit local search :ref:`Local One bit Search<Local One bit Search>` (al
 .. _minimal binary:
 
 **Minimal Binary**: The minimal binary is one of three representations of a model phenotype. The minimal binary is simply a binary that has some possible values removed to avoid duplications. For example, 
-if the search space includes a dimension for 1, 2, or 3 compartments, 2 bits will be needed to code this. With the required 2 bits, some redundancy is unavoidable. So, the mapping might be::
+if the search space includes a dimension for 1, 2, or 3 compartments, 2 bits will be needed to code this. With the required 2 bits, some redundancy is unavoidable. So, the mapping might be ::
 
    [0,0] -> 1
    [0,1] -> 2
    [1,0] -> 2
    [1,1] -> 3
 
-with 2 bit strings mapped to a value of 2. In the minimal binary, the mapping is simply::
+with 2 bit strings mapped to a value of 2. In the minimal binary, the mapping is simply ::
 
   [0,0] -> 1
   [0,1] -> 2
@@ -122,6 +124,14 @@ and a bit string of [1,1] isn't permitted. This eliminates running the same mode
 
 
 The minimal binary contrasts with the :ref:`full binary <full binary>`.
+
+.. _MOGA:
+
+**MOGA -- Multi-Objecive Genetic Algorithm:**
+
+.. _MOGA3:
+
+**MOGA3 -- Custom Multi-Objecive Genetic Algorithm:**
 
 .. _Niche Penalty:
 
@@ -136,6 +146,57 @@ to avoid premature convergence of the search, by penalizing when models are too 
 **Niche Radius:** The niche radius is used to define how similar pairs of models are. This is used to select models for the :ref:`Local search<Local Search>`, as requested, and to calculate the sharing penalty for 
 :ref:`Genetic Algorithm<GA_desc>`.
 
+.. _Number of effects:
+
+**Number of effects** is defined in the token sets. Each token set must include an additional final token that defines the number of effects for that token set. This token must be the final token in the token set. E.g., for a token set defining the relationship between K23 and WT, with a power model having 1 effect (one additional THETA estimated), and no relationship having 0 effects, the token set would be ::
+
+  "K23~WT": [
+    ["*CWTKGONE**THETA(K23~WT)",
+    "(0,0.1) \t; THETA(K23~WT) K23~WT",
+    " effects = 1"
+    ],
+    ["",
+    "",
+    " effects = 0"
+    ]
+  ],
+
+In general, this final token need not be included in the template.txt file, but it may be included if desired, if it is commented out in the code, e.g., ::
+
+  $EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 PRINT = 10 
+  $COV UNCOND PRINT=E  PRECOND=1 PRECONDS=TOS  MATRIX = R
+  $TABLE REP ID TIME DV EVID NOPRINT FILE = ORG.DAT ONEHEADER NOAPPEND
+  ;;number of K32 {K23~WT[3]}
+
+which would generate control file text of ::
+
+  $EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 PRINT = 10 
+  $COV UNCOND PRINT=E  PRECOND=1 PRECONDS=TOS  MATRIX = R
+  $TABLE REP ID TIME DV EVID NOPRINT FILE = ORG.DAT ONEHEADER NOAPPEND
+  ;;number of K32 effects = 1
+
+and ::
+
+  $EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 PRINT = 10 
+  $COV UNCOND PRINT=E  PRECOND=1 PRECONDS=TOS  MATRIX = R
+  $TABLE REP ID TIME DV EVID NOPRINT FILE = ORG.DAT ONEHEADER NOAPPEND
+  ;;number of K32 effects = 0
+
+respectively, for these token sets.
+
+The number of effects can be larger than 1. For example, if an Emax relationship between parameters and covariates is to be tested, two THETAs will be added, then the number of effects may be 2, e.g., ::
+
+  "K23~WT": [
+    ["*CWTKGONE * THETA(K23~WTmax)/ CWTKGONE + THETA(K23~WT50)/",",
+    "(0,0.5) \t; THETA(K23~WTmax) K23~WT max effect" \n(0,1) \t; THETA(K23~WT) K23~WT50 50% effect",
+    " effects = 2"
+    ],
+    ["",
+    "",
+    " effects = 0"
+    ]
+  ],
+
 .. _Parameter sorting:
 
 **Parameter sorting:** The tokens are first merged into the template file. In this merged file, the parameters in the searched text are indexed only with 
@@ -144,7 +205,7 @@ number and sequence of searched THETA/OMEGA/SIGMA values in the control file can
 merged template are:
 
 Fixed parameter initial estimates should be placed before the searched parameter initial estimates. For example,
-the following is not recommended (although it may work).
+the following is not recommended (although it may work). ::
 
    $THETA
    (0,1)  ; THETA(1) Clearance
@@ -164,7 +225,7 @@ becomes impenetrable). For example, assume that the search is to contain one com
 (ADVAN2) and two compartment (ADVAN4), and if ADVAN4 is selected, search whether K23 and K32 are functions of weight. K23 is not a parameter of a one compartment model. One option would be to simply write out 
 all possible models:
 
-1 compartment::
+1 compartment ::
 
    ["ADVAN2 ;; advan2",
 	   ";; PK 1 compartment ",
@@ -172,7 +233,7 @@ all possible models:
 	],
 
 
-2 compartment - without K23~weight::
+2 compartment -- without K23~weight ::
 
    ["ADVAN4 ;; advan4",
 	   "K23=THETA(ADVANA)\n  K32=THETA(ADVANB)",
@@ -180,7 +241,7 @@ all possible models:
 	],
 
 
-2 compartment - with K23~weight::
+2 compartment -- with K23~weight ::
 
   ["ADVAN4 ;; advan4",
      "K23=THETA(ADVANA)*CWT**THETA(K23~WT)\n  K32=THETA(ADVANB)*CWT**THETA(K23~WT)",
@@ -192,7 +253,7 @@ all possible models:
 
 An alternative is to have one token group for a number of compartments:
 
-1 compartment vs 2 compartment, and have the K32~WT nested within the ADVAN4::
+1 compartment vs 2 compartment, and have the K32~WT nested within the ADVAN4 ::
 
    ["ADVAN2 ;; advan2",
 	    ";; PK 1 compartment ",
@@ -204,7 +265,7 @@ An alternative is to have one token group for a number of compartments:
 	    "(0.001,0.02)  \t ; THETA(ADVANA) K23 \n (0.001,0.3) \t ; THETA(ADVANB) K32 \n{K23~WT[2]} \t ; init for K23~WT "
    ],
 
-and another token set (nested within the ADVAN token set) for K23 and K32~WT::
+and another token set (nested within the ADVAN token set) for K23 and K32~WT ::
 
    [
 		["",
@@ -260,7 +321,7 @@ Can be provided as an argument for ``run_search_in_folder`` or determined by pat
 
 .. _RF:
 
-**RF - Random Forest:** `Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consists of splitting the search space (based on the "goodness" of each model, in this case), thus continuously dividing the 
+**RF -- Random Forest:** `Random Forest <https://en.wikipedia.org/wiki/Random_forests>`_ consists of splitting the search space (based on the "goodness" of each model, in this case), thus continuously dividing the 
 search space into "good" and "bad" regions. As before, the initial divisions are random, but become increasingly well-informed as real values for the fitness/reward of models are 
 included.
 
@@ -304,13 +365,13 @@ into the template file.
 pairs are very analogous to JSON key-value pairs, except that only text values are permitted. For each 
 token key-text pair, the text {:ref:`token stem <token stem>` [n]} in the :ref:`template <template>` is replaced 
 by the corresponding values in the token key-text pair. Note that the token key is surrounded by curly braces in the template file. 
-For example, if the :ref:`template <template>` contains these two tokens::
+For example, if the :ref:`template <template>` contains these two tokens ::
 
    {ALAG[1]}
 
 in the $PK block 
 
-and::
+and ::
 
    {ALAG[2]}
 
@@ -319,7 +380,7 @@ N is the index of the token within the token set. While indices to token can be 
 that they start at 1 and be numbered sequentially through the template file. The ALAG :ref:`token group <token group>` 
 would be required in the tokens files. Exactly one :ref:`token set <token set>` would 
 be selected (by the search algorithm) for substitution into the template file. If the first 
-token set is selected, and this token set contains the following token key-text pairs::
+token set is selected, and this token set contains the following token key-text pairs ::
 
    ALAG[1] -> "ALAG1=THETA(ALAG)"
 

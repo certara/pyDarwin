@@ -1,5 +1,6 @@
 {
     "author": "autopk",
+    "engine_adapter": "nonmem.dyn_var",
     "algorithm": "RF",
     "num_opt_chains": 1,
     "population_size": 4,
@@ -25,10 +26,10 @@
     "slurm_submit_version": "pyd_search_v2.sh",
     "postprocess": {
         "use_python": true,
-        "post_run_python_code": "/home/kfdw240/code/code/packages/pydarwin_cetera2/pyDarwin/examples/NONMEM/dev/dynamic_variables/penalty.py"
+        "post_run_python_code": "/home/kfdw240/code/code/packages/pydarwin_cetera3/pyDarwin/examples/NONMEM/dev/dynamic_variables/penalty.py"
     },
     "model_space": "ex",
-    "data_dir": "/home/kfdw240/code/code/packages/pydarwin_cetera2/pyDarwin/examples/NONMEM/dev/dynamic_variables",
+    "data_dir": "/home/kfdw240/code/code/packages/pydarwin_cetera3/pyDarwin/examples/NONMEM/dev/dynamic_variables",
     "data_name": "sdtab_NM_0_01_s.csv",
     "output_dir": "{working_dir}/output",
     "temp_dir": "{working_dir}/temp",
@@ -75,7 +76,7 @@
             "SIGL": 9
         }
     ],
-    "working_dir": "/home/kfdw240/code/code/packages/pydarwin_cetera2/pyDarwin/pydarwin_debug_out/2",
+    "working_dir": "/home/kfdw240/code/code/packages/pydarwin_cetera3/pyDarwin/pydarwin_debug_out/1",
     "file_cleanup": {
         "keep_shk": true,
         "keep_ext": true,

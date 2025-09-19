@@ -1,5 +1,8 @@
 from copy import copy
 from scipy.spatial import distance_matrix
+import numpy as np
+import pandas as pd
+import itertools
 
 from darwin.Log import log
 from darwin.options import options
@@ -63,172 +66,7 @@ def _get_niches(runs: list) -> list:
 
     return [_Niche(run) for run in best_runs]
 
-
-def _get_downhill_population(template: Template, niches: list, generation, step_num: int,
-                             unique_only: bool = False) -> Population:
-    test_models = []
-    niches_this_loop = 0
-
-    for niche in niches:
-        if niche.done:
-            continue
-
-        niche.runs_start = len(test_models)
-        # need to adjust runs_start for models deleted due > effect_limit
-
-        niches_this_loop += 1
-
-        # only need to identify niches, so we can do downhill on the best in each niche
-        best_run = niche.best_run
-        best_code = best_run.model.model_code.MinBinCode
-        best_fit = best_run.result.fitness
-
-        fitness_text = '' if best_fit == options.crash_value else f" fitness = {best_fit:.3f},"
-
-        log.message(f"code for niche (minimal binary) {niches_this_loop} = {best_code},"
-                    f"{fitness_text} model #  {best_run.file_stem}")
-
-        # will always be minimal binary at this point
-        for this_bit in range(len(best_code)):
-            # change this_bit
-            test_ind = copy(best_code)  # deep copy, not reference
-            test_ind[this_bit] = 1 - test_ind[this_bit]
-            test_models.append(test_ind)
-
-        niche.runs_finish = len(test_models)
-
-    population = Population.from_codes(template, str(generation) + "D" + f"{step_num:02d}",
-                                       test_models, ModelCode.from_min_binary, niches=niches)
-
-    if unique_only:
-        population.runs = [run for run in population.runs if run.is_unique()]
-
-    return population
-
-
-def _get_n_params(run: ModelRun) -> int:
-    res = run.result
-
-    return res.estimated_omega_num + res.estimated_theta_num + res.estimated_sigma_num
-
-
-def _get_better_runs(runs: list, best_run: ModelRun) -> list:
-    u_runs = _unique_runs(runs)
-
-    if options.isMOGA:
-        if options.isMOGA3:
-            best_f = best_run.result.f
-            better_runs = []
-
-            for i in range(len(best_f)):
-                better = sorted([r for r in u_runs if r.result.f[i] < best_f[i]], key=lambda r: r.result.f[i])
-                better_runs.extend(better[:options.max_local_grid_search_bits])
-        else:
-            best_ofv = best_run.result.ofv
-            best_nep = _get_n_params(best_run)
-
-            better_ofv = sorted([r for r in u_runs if r.result.ofv < best_ofv], key=lambda r: r.result.ofv)
-            better_nep = sorted([r for r in u_runs if _get_n_params(r) < best_nep], key=lambda r: _get_n_params(r))
-
-            better_runs = better_ofv[:options.max_local_grid_search_bits] \
-                + better_nep[:options.max_local_grid_search_bits]
-    else:
-        better_runs = [r for r in u_runs if r.result.fitness < best_run.result.fitness]
-
-        better_runs = sorted(better_runs, key=lambda r: r.result.fitness)
-        better_runs = better_runs[:options.max_local_grid_search_bits]
-
-    return better_runs
-
-
-def _run_local_grid_search(runs: list, template: Template, niches: list, generation, step_num: int,
-                           unique_only: bool = False) -> list:
-    test_models = []
-
-    for niche in niches:
-        if niche.done:
-            continue
-
-        better_runs = _get_better_runs(runs[niche.runs_start:niche.runs_finish], niche.best_run)
-
-        if not better_runs:
-            niche.done = True
-            continue
-
-        flip_bits = sorted(list(set(_get_flip_bit(niche.best_run, r) for r in better_runs)))
-        perms = [_int_to_bin(c, len(flip_bits)) for c in range(2 ** len(flip_bits))]
-
-        niche.runs_start = len(test_models)
-
-        for p in perms:
-            new_run = niche.best_run.model.model_code.MinBinCode.copy()
-
-            for i, b in zip(flip_bits, p):
-                new_run[i] = b
-
-            test_models.append(new_run)
-
-        niche.runs_finish = len(test_models)
-
-    if not test_models:
-        return runs
-
-    population = Population.from_codes(template, str(generation) + f"D{step_num:02d}G",
-                                       test_models, ModelCode.from_min_binary, niches=niches)
-
-    if unique_only:
-        population.runs = [run for run in population.runs if run.is_unique()]
-
-    if population.runs:
-        niches_left = sum([not n.done for n in niches])
-
-        log.message(f"Starting local grid search, total of {len(population.runs)} in {niches_left} niches to be run.")
-
-        population.run()
-
-    return population.runs
-
-
-def do_moga_downhill_step(template: Template, niche_runs: list, generation, step_num: int) -> list:
-    niches = [_Niche(run) for run in niche_runs]
-
-    pop = _get_downhill_population(template, niches, generation, step_num, True)
-
-    if not pop.runs:
-        return []
-
-    log.message(f"Starting downhill step {step_num}, total of {len(pop.runs)} in {len(niches)} niches to be run.")
-
-    pop.run()
-
-    runs = pop.runs
-
-    if options.local_grid_search:
-        runs += _run_local_grid_search(runs, template, niches, generation, step_num, True)
-
-    return runs
-
-
-def _unique_runs(runs: list) -> list:
-    return [r for r in runs if not r.is_duplicate()]
-
-
-def _get_flip_bit(r1: ModelRun, r2: ModelRun) -> int or None:
-    c1 = r1.model.model_code.MinBinCode
-    c2 = r2.model.model_code.MinBinCode
-
-    for i in range(len(c1)):
-        if c1[i] != c2[i]:
-            return i
-
-    return None
-
-
-def _int_to_bin(n, length) -> list:
-    return list(map(int, list(bin(n)[2:].rjust(length, "0"))))
-
-
-def run_downhill(template: Template, pop: Population) -> list:
+def run_downhill(template: Template, pop: Population, tokens_map, active_models, return_all: bool = False) -> list:
     """
     Run the downhill step, with full (2 bit) search if requested.
     Finds N <= :mono_ref:`num_niches <num_niches_options_desc>` niches in pop and replaces N worst models in pop
@@ -244,37 +82,69 @@ def run_downhill(template: Template, pop: Population) -> list:
     worst = get_n_worst_index(options.num_niches, fitnesses)
 
     niches = _get_niches(pop.runs)
-    niches_num = len(niches)
 
     all_runs = []
 
-    for this_step in range(1, 100):  # up to 99 steps
-        niches_left = niches_num - sum([n.done for n in niches])
-
-        if niches_left == 0:
+    for this_step in range(1, 100):     # up to 99 steps
+        if all([n.done for n in niches]):
             break
 
-        population = _get_downhill_population(template, niches, generation, this_step)
+        # test_models_n = []
+        test_models = []
+        niches_this_loop = 0
+
+        for niche in niches:
+            if niche.done:
+                continue
+            
+            test_models_n = []
+            niche.runs_start = len(test_models)
+
+            niches_this_loop += 1
+
+            # only need to identify niches, so we can do downhill on the best in each niche
+            best_run = niche.best_run
+            best_code = best_run.model.model_code.MinBinCode
+
+            log.message(f"code for niche (minimal binary) {niches_this_loop} = {best_code},"
+                        f" fitness = {best_run.result.fitness}")
+
+            # NOTE This appears to be where models for the 1st downhill step are generated. 
+            # FND
+            # TODO add filtter here
+            # This is where the models to test are found
+            # will always be minimal binary at this point
+
+            for this_bit in range(len(best_code)):
+                # change this_bit
+                test_ind = copy(best_code)  # deep copy, not reference
+                test_ind[this_bit] = 1 - test_ind[this_bit]
+                test_models_n.append(test_ind)
+            
+            log.message(f"Downhill step: {this_step}, niche: {niches_this_loop}, number of models pre-filter: {len(test_models_n)}")
+            # TODO add code to filter binaries here
+            out = filter_active_models(test_models_n, active_models, template, tokens_map)
+            test_models_n = out["binary_codes"]
+            active_models = out["active_models"]
+            log.message(f"Downhill step: {this_step}, niche: {niches_this_loop}, number of downhill post-filter: {len(test_models_n)}")
+            test_models.extend(test_models_n)
+            niche.runs_finish = len(test_models)
+        
+        population = Population.from_codes(template, str(generation) + "D" + f'{this_step:02d}',
+                                           test_models, ModelCode.from_min_binary)
 
         log.message(f"Starting downhill step {this_step},"
-                    f" total of {len(population.runs)} in {niches_left} niches to be run.")
-
-        for i, niche in enumerate(niches):
-            if not niche.done:
-                log.message(f"{niche.runs_finish - niche.runs_start} models in niche {i + 1}")
+                    f" total of {len(population.runs)} in {niches_this_loop} niches to be run.")
 
         population.run()
-
-        runs = population.runs
 
         if not keep_going():
             break
 
-        if options.local_grid_search:
-            runs = _run_local_grid_search(runs, template, niches, generation, this_step)
+        runs = population.runs
 
-            if not keep_going():
-                break
+        if return_all:
+            all_runs.extend(runs)
 
         # check, for each niche, whether any in the fitnesses is better
         # if so, that become the source for the next round
@@ -286,14 +156,12 @@ def run_downhill(template: Template, pop: Population) -> list:
             # pull out fitness from just this niche
             niche_fitnesses = [r.result.fitness for r in runs[niche.runs_start:niche.runs_finish]]
 
-            if len(niche_fitnesses) > 0:
-                best_in_niche = get_n_best_index(1, niche_fitnesses)[0]
-                new_best_run = runs[niche.runs_start + best_in_niche]
+            best_in_niche = get_n_best_index(1, niche_fitnesses)[0]
 
-                if new_best_run.result.fitness < niche.best_run.result.fitness:
-                    niche.best_run = new_best_run
-                else:
-                    niche.done = True
+            new_best_run = runs[niche.runs_start + best_in_niche]
+
+            if new_best_run.result.fitness < niche.best_run.result.fitness:
+                niche.best_run = new_best_run
             else:
                 niche.done = True
 
@@ -305,11 +173,22 @@ def run_downhill(template: Template, pop: Population) -> list:
         last_best_fitness = run_for_search.result.fitness
 
         log.message(f"Begin local exhaustive 2-bit search, generation = {generation}, step = {this_step}")
-        log.message(f"Model for local exhaustive search = {run_for_search.file_stem}, "
-                    f"fitness = {run_for_search.result.fitness}")
-        log.message(f"phenotype = {run_for_search.model.phenotype}")
+        log.message(f"Model for local exhaustive search = {run_for_search.generation},"
+                    f" phenotype = {run_for_search.model.phenotype} model Num = {run_for_search.model_num},"
+                    f" fitness = {run_for_search.result.fitness}")
 
-        run_for_search, runs = _full_search(template, run_for_search, generation)
+        if "search_radius" in options._options:
+            search_radius = options._options["search_radius"]
+        else:
+            search_radius = 2
+        if "duplicate_models" in options._options:
+            duplicate_models = options._options["duplicate_models"]
+        else:
+            duplicate_models = False
+
+        run_for_search, runs, active_models = _full_search(
+            template, run_for_search, generation, template, tokens_map, 
+            active_models, search_radius, duplicate_models, return_all)
 
         all_runs.extend(runs)
 
@@ -317,13 +196,86 @@ def run_downhill(template: Template, pop: Population) -> list:
         if run_for_search.result.fitness < last_best_fitness:
             niches[best_niche].best_run = run_for_search
 
-        log.message(f"2-bit search, best model for step {this_step} = {run_for_search.file_stem}, "
-                    f"fitness = {run_for_search.result.fitness}")
-
     for i in range(len(niches)):
         pop.runs[worst[i]] = niches[i].best_run
 
-    return all_runs
+    return all_runs, active_models
+
+
+def _change_each_bit2(source_models: list, radius: int):  # only need upper triangle, add start row here
+
+    models = []
+
+    # bitLength = 3
+    # test = map(lambda b: n ^ (1 << b), range(bitLength))
+
+    # bits = 8
+    # flip_bits = 2 ** np.arange(bits)
+    # np.bitwise_xor.outer(source_models, flip_bits) 
+
+    for i, base_model in enumerate(source_models):
+
+        # print("i", i)
+        # print("base_model", base_model)
+
+        base_model_neighbors = []
+
+        models_r = [base_model]
+
+        count = 1
+        for bm in models_r:
+
+            if count > radius:
+                break
+
+            for pos, val in enumerate(bm):
+                new_val = val^1
+                new_model = bm.copy()
+                new_model[pos] = new_val
+                models_r.append(new_model)
+
+
+            count += 1
+            base_model_neighbors.extend(models_r)
+
+        models.extend(base_model_neighbors)
+
+
+    models = np.unique(np.array(models), axis=0)
+
+    return models.tolist()
+
+
+def _change_each_bit3(source_models: list):  # only need upper triangle, add start row here
+
+    models = []
+
+    # bitLength = 3
+    # test = map(lambda b: n ^ (1 << b), range(bitLength))
+
+    # bits = 8
+    # flip_bits = 2 ** np.arange(bits)
+    # np.bitwise_xor.outer(source_models, flip_bits) 
+
+    for i, base_model in enumerate(source_models):
+
+        # print("i", i)
+        # print("base_model", base_model)
+
+        base_model_neighbors = [base_model]
+
+        for pos, val in enumerate(base_model):
+            new_val = val^1
+            new_model = base_model.copy()
+            new_model[pos] = new_val
+            base_model_neighbors.append(new_model)
+
+        models.extend(base_model_neighbors)
+
+
+    models = np.unique(np.array(models), axis=0)
+
+    return models.tolist()
 
 
 def _change_each_bit(source_models: list, radius: int):  # only need upper triangle, add start row here
@@ -338,7 +290,7 @@ def _change_each_bit(source_models: list, radius: int):  # only need upper trian
     list of all MinBinCode and radius"""
 
     models = []
-
+       
     for i in range(len(source_models)):  # only upper triangle
         base_model = source_models[i]
 
@@ -355,7 +307,7 @@ def _change_each_bit(source_models: list, radius: int):  # only need upper trian
     return models, radius
 
 
-def _full_search(model_template: Template, best_pre: ModelRun, base_generation):
+def _full_search(model_template: Template, best_pre: ModelRun, base_generation, template, tokens_map, active_models, search_radius, duplicate_models,  return_all: bool = False):
     """perform 2 bit search (radius should always be 2 bits), will always be called after run_downhill (1 bit search),
     argument is:
     best_pre - base model for search 
@@ -367,6 +319,16 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation):
     current_best_fitness = best_pre_fitness
     overall_best_run = best_pre
     current_best_model = best_pre.model.model_code.MinBinCode
+    current_best_model_int = best_pre.model.model_code.IntCode
+    # best_pre.model.model_code.IntCode
+
+    # # Generate masked code
+    # active_tokens = collect_active_tokens(current_best_model_int, template.tokens.keys(), tokens_map)
+    # # active_tokens_list.append(active_tokens)
+    # active_tokens_np = np.vstack([active_tokens])
+
+    # # Generate masked code
+    # masked_codes = generate_masked_model_codes(current_best_model_int, active_tokens_np)
 
     all_runs = []
 
@@ -374,10 +336,43 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation):
         full_generation = str(base_generation) + f"S{this_step:02d}"
         last_best_fitness = current_best_fitness
         radius = 1
+
         test_models = [current_best_model]  # start with just one, then call recursively for each radius
 
-        while radius <= 2:
-            test_models, radius = _change_each_bit(test_models, radius)
+
+        if duplicate_models:
+            # Generate masked code for best model
+            active_tokens = collect_active_tokens(current_best_model_int, template.tokens.keys(), tokens_map)
+            masked_codes = generate_masked_model_codes(current_best_model_int, np.vstack([active_tokens]))
+            duplicate_models = get_duplicate_models(masked_codes[0], model_template.get_search_space_coordinates())
+            duplicate_models = [list((x)) for x in duplicate_models]
+            duplicate_models = np.array(duplicate_models).astype(int).tolist()
+            maxes = template.gene_max
+            lengths = template.gene_length
+            duplicate_model_codes = [ModelCode.from_int(x, maxes, lengths) for x in duplicate_models]
+            duplicate_bin_codes = [x.MinBinCode for x in duplicate_model_codes]
+            test_models.extend(duplicate_bin_codes)
+
+        # search_radius = 2
+        radius = 1
+        while radius <= search_radius:
+            test_models = _change_each_bit3(test_models)
+            radius += 1
+
+
+        # # NOTE Want to edit radius to something larger if I can filter models
+        # while radius <= search_radius:
+        #     test_models, radius = _change_each_bit(test_models, radius)
+
+
+        # NOTE this is where the models can be filtered
+        # Want to filter test_models in a similar fashion to how previously done in local search
+
+        log.message(f"Downhill step: {this_step} number of downhill models pre-filter: {len(test_models)}")
+        out = filter_active_models(test_models, active_models, template, tokens_map)
+        test_models = out["binary_codes"]
+        active_models = out["active_models"]
+        log.message(f"Downhill step: {this_step} number of downhill models post-filter: {len(test_models)}")
 
         population = Population.from_codes(model_template, full_generation, test_models, ModelCode.from_min_binary)
 
@@ -386,17 +381,151 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation):
         if not keep_going():
             break
 
-        best = population.get_best_run()
-        log.message(f"Model for local exhaustive search = {best.file_stem}, "
-                    f"fitness = {best.result.fitness}")
-        current_best_fitness = best.result.fitness
+        if return_all:
+            all_runs.extend(population.runs)
 
+        best = population.get_best_run()
+
+        current_best_fitness = best.result.fitness
+        
         if current_best_fitness < last_best_fitness:
             current_best_model = best.model.model_code.MinBinCode
+            current_best_model_int = best.model.model_code.IntCode
 
         if current_best_fitness < overall_best_run.result.fitness:
             overall_best_run = copy(best)
 
         this_step += 1
 
-    return overall_best_run, all_runs
+    return overall_best_run, all_runs, active_models
+
+
+def get_duplicate_models(code_masked, search_cooridinates):
+
+
+    # Get variables
+    masked_variables = [pos for pos, char in enumerate(code_masked) if char == "*"]
+
+    # Get token values for masked variables
+    masked_variable_values = {}
+    for mv in masked_variables:
+        masked_variable_values[mv] = search_cooridinates[mv]
+        token_vals = search_cooridinates[mv]
+    
+    # Get all equivelent variable sets
+    token_vals = list(masked_variable_values.values())
+    all_token_val_combinations = list(itertools.product(*token_vals))
+
+    # Generate all equivlent model codes
+    equivalent_model_codes = []
+    for token_val_combo in all_token_val_combinations:
+
+        model_code = list(code_masked)
+
+        for i, v in enumerate(token_val_combo):
+            token_pos = masked_variables[i]
+            token_val = v
+            model_code[token_pos] = str(token_val)
+        
+        equivalent_model_codes.append("".join(model_code))
+
+    return equivalent_model_codes
+
+
+def collect_active_tokens(model_code, keys, tokens_map):
+
+        # # DEBUG CODE
+        # if model_code == "10001111122100110":
+        #     pass
+        
+        active_tokens = np.zeros(len(keys)).astype(int)
+
+        # If model code isn't null
+        if model_code == model_code:
+            active_tokens = np.zeros(len(keys)).astype(int)
+            active_token_set = set()
+            active_token_set.update(tokens_map["template"])
+            # print(active_token_set)
+            
+            for t_pos, t_value in enumerate(model_code):
+                
+                # print("t_pos", t_pos, "t_value", t_value)
+                # Look up active tokens from the token map
+                active_i = tokens_map["tokens"][t_pos][int(t_value)]
+                # print(active_i)
+                active_token_set.update(active_i)
+                
+            # Convert active_token_set to active tokens_vector
+            for token_pos in active_token_set:
+                active_tokens[token_pos] = 1
+            
+        return active_tokens
+
+def generate_masked_model_codes(codes, active_tokens_np):
+
+    # Create masked model codes
+    codes = np.array(codes).astype(int)
+    codes_masked = np.where(active_tokens_np==0, "*", codes)
+    codes_masked_str = codes_masked.astype(str)
+    codes_masked_str = np.char.replace(codes_masked_str, '.0', '')
+    codes_masked_str = np.char.replace(codes_masked_str, 'nan', '*')
+    codes_masked_str = ["".join(x) for x in codes_masked_str]
+
+    return codes_masked_str
+
+
+def filter_active_models(test_models, active_models, template, tokens_map):
+
+    # Loop through each binary model code
+    maxes = template.gene_max
+    lengths = template.gene_length
+    active_tokens_list = []
+    int_codes  = [] 
+    for code in test_models:
+
+        # Convert binary model code to int code
+        code_full = ModelCode.from_min_binary(code, maxes, lengths)
+        int_code = code_full.IntCode
+        int_codes.append(int_code)
+
+        # Get active tokens
+        active_tokens = collect_active_tokens(int_code, template.tokens.keys(), tokens_map)
+        active_tokens_list.append(active_tokens)
+        active_tokens_np = np.vstack(active_tokens_list)
+
+    # Generate masked code
+    masked_codes = generate_masked_model_codes(int_codes, active_tokens_np)
+
+    # Drop duplicate codes in set
+    # Need to find positon of duplicates in masked codes
+    # Then drop duplicates in test models list
+    df = pd.DataFrame()
+    df["masked_codes"] = masked_codes
+    df["int_codes"] = int_codes
+    df["binary_codes"] = test_models
+    df = df.reset_index()
+    df_unique = df.drop_duplicates("masked_codes")
+
+    # Get list of unique model positions
+    unique_model_pos = list(df_unique.index)
+
+    # Get unique models in group
+    test_models_unique = df_unique["binary_codes"]
+    # test_models_unique = np.array(test_models)[unique_model_pos].tolist()
+
+    # Get models which havn't been run yet
+    # Get positions of unique suggested model codes
+    new_pos = [x[0] for x in enumerate(list(df_unique["masked_codes"])) if x[1] not in active_models]
+
+    # Create list of unique model codes which haven't been run
+    df_new = df_unique.iloc[new_pos]
+    # test_models_new = np.array(test_models_unique)[new_pos].tolist()
+    # masked_codes_new = np.array(list(df_unique["masked_codes"]))[new_pos].tolist()
+
+    # # Add suggested models to active_models list
+    active_models.extend(list(df_new["masked_codes"]))
+
+    return {
+        "binary_codes": list(df_new["binary_codes"]), 
+        "active_models": active_models}
+

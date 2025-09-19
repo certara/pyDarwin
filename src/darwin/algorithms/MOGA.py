@@ -15,7 +15,7 @@ from darwin.ModelRun import ModelRun
 from darwin.Population import Population
 from darwin.ModelCache import get_model_cache
 from darwin.ModelRunManager import rerun_models
-from darwin.algorithms.run_downhill import do_moga_downhill_step
+# from darwin.algorithms.run_downhill import do_moga_downhill_step
 from darwin.ModelEngineAdapter import get_model_phenotype
 
 from .effect_limit import WeightedSampler

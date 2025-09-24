@@ -9,8 +9,8 @@ System Requirements
 Windows
 ^^^^^^^^
 
-- Windows 10
-- Windows Server 2018/2019
+- Windows 10, 11
+- Windows Server 2019
 
 Linux
 ^^^^^^^^
@@ -41,12 +41,13 @@ Minimum and recommended requirements:
 Grid Computing Requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-pyDarwin may be executed on Linux hosts with Sun Grid Engine (SGE).
+pyDarwin may be executed on Linux hosts with Sun Grid Engine (SGE), or Slurm.
  
 Software Requirements
 -----------------------
 
-- Python >= 3.10
+- Python 3.10, 3.11, 3.12
+- NLME-Engine >= 24.9
 - NONMEM >= 7.4.3
 - R >= 4.0.0 (optional)
 
@@ -55,8 +56,11 @@ Install pyDarwin
 
 .. _install_python_venv:
 
-Before installing ``pyDarwin``, we recommend creating a python virtual environment to maintain isolation of package dependencies. From the 
-command line, type:
+Before installing ``pyDarwin``, you may optionally create a python virtual environment to maintain isolation of package
+dependencies. This is recommended as a best practice, but is not required. If you only use Python for pyDarwin and do not
+plan to install other Python packages, you can skip this step and install pyDarwin directly to your system's site library.
+
+To create a virtual environment, from the command line, type:
 
 .. code:: python
 
@@ -68,7 +72,9 @@ command line, type:
 
 .. _install_pyDarwin:
 
-Both the development version and released version of ``pyDarwin`` are available to install via ``pip`` from Certara's managed PyPi repository. 
+Both the development version and released version of ``pyDarwin`` are available to install via ``pip`` from Certara's managed PyPi repository.
+
+Installation commands:
 
 .. tabs::
 

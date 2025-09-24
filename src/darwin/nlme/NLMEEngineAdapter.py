@@ -374,11 +374,6 @@ class NLMEEngineAdapter(ModelEngineAdapter):
             rc = re.search(r'"returnCode" = c\((\d+)', text, flags=re.RegexFlag.MULTILINE)
             success = (rc is not None and int(rc.group(1)) in [1, 2, 3])
 
-            ll = re.search(r'"logLik" = c\(([^,]+)\)', text, flags=re.RegexFlag.MULTILINE)
-
-            if ll is not None:
-                ofv = float(ll.group(1)) * -2
-
             covariance = re.search(r'"Covariance" = matrix', text, flags=re.RegexFlag.MULTILINE) is not None
 
             cor = re.search(r'"Correlation" = matrix\(\s*as\.numeric\(c\(([^)]+)\)\)', text,
@@ -413,8 +408,13 @@ class NLMEEngineAdapter(ModelEngineAdapter):
 
                 if match is not None:
                     condition_num = float(match.group(1).strip())
+
+                ll = re.search(r'^LogLikelihood =\s+(\S+)$', text, flags=re.RegexFlag.MULTILINE)
+
+                if ll is not None:
+                    ofv = float(ll.group(1)) * -2
         except:
-            pass
+                pass
 
         res.success = success
         res.ofv = ofv

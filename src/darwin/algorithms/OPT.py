@@ -18,7 +18,7 @@ from darwin.ExecutionManager import keep_going
 import darwin.GlobalVars as GlobalVars
 
 from darwin.ModelCode import ModelCode
-from darwin.algorithms.run_downhill2 import run_downhill
+from darwin.algorithms.run_downhill import run_downhill
 from darwin.Template import Template
 from darwin.Model import Model
 from darwin.ModelRun import ModelRun
@@ -71,7 +71,6 @@ def _ask_models(opts: list, n_points: int) -> list:
 
 
 def get_tokens_map(template, tokens):
-        # TODO only deals with one level of nesting currently
         
         # Map tokens active in base template
         tokens_map = {}
@@ -90,6 +89,8 @@ def get_tokens_map(template, tokens):
             t_value_map = {}
             
             for i, value in enumerate(tokens[t_value]):
+                # print()
+                # print(i, value)
                 t_value_list = []
                 
                 value_str = " ".join(value)
@@ -109,37 +110,42 @@ def get_tokens_map(template, tokens):
         return tokens_map
 
 
-def collect_active_tokens(model_code, keys, tokens_map):
-
-    # TODO update algorithm to run for model spaces with n nesting levels
-
-        # # DEBUG CODE
-        # if model_code == "10001111122100110":
-        #     pass
-        
-        active_tokens = np.zeros(len(keys)).astype(int)
-
-        # If model code isn't null
-        if model_code == model_code:
-            active_tokens = np.zeros(len(keys)).astype(int)
-            active_token_set = set()
-            active_token_set.update(tokens_map["template"])
-            # print(active_token_set)
-            
-            # Add while loop to keep checking through until done
-            for t_pos, t_value in enumerate(model_code):
-                
-                # print("t_pos", t_pos, "t_value", t_value)
-                # Look up active tokens from the token map
-                active_i = tokens_map["tokens"][t_pos][int(t_value)]
-                # print(active_i)
-                active_token_set.update(active_i)
-                
-            # Convert active_token_set to active tokens_vector
-            for token_pos in active_token_set:
-                active_tokens[token_pos] = 1
-            
-        return active_tokens
+def collect_active_tokens(feature_code, tokens, template):
+    active_features = set(template)
+    queue = list(template)
+    # logger.debug("queue: %s", queue)
+  
+    # Iteratively activate dependencies
+    while queue:
+        # Get 1st item in queue
+        # logger.debug("queue while: %s", queue)
+        feature = queue.pop(0)
+        # logger.debug("feature: %s", feature)
+  
+        # Get the value of this feature from the model code
+        feature_val = feature_code[feature]
+        # logger.debug("feature val: %s", feature_val)
+  
+        # Get activated features
+        features_mentioned = tokens[feature][int(feature_val)]
+        # logger.debug("activated features: %s", features_mentioned)
+  
+        if len(features_mentioned) > 0:
+            for fm in features_mentioned:
+                # logger.debug("fm: %s", fm)
+                if fm not in active_features:
+                    # logger.debug("NOT IN")
+                    active_features.add(fm)
+                    queue.append(fm)
+  
+    # Convert active_features to list of zeroes
+    active_tokens = np.zeros(len(feature_code))
+    logger.debug("active_tokens: %s", active_tokens)
+  
+    for token_pos in active_features:
+        active_tokens[token_pos] = 1
+  
+    return active_tokens.astype(int)
 
 
 def get_duplicate_models(code_masked, search_cooridinates):
@@ -257,7 +263,7 @@ def run_skopt(model_template: Template) -> ModelRun:
                     suggested_initial = random_opt.ask(options.population_size)
 
                 # Get active suggested tokens
-                active_tokens = [collect_active_tokens(x, model_template.tokens.keys(), tokens_map) for x in suggested_initial]
+                active_tokens = [collect_active_tokens(x, tokens_map["tokens"], tokens_map["template"]) for x in suggested_initial]
                 active_tokens_np = np.vstack(active_tokens)
 
                 # codes_masked_str = generate_masked_model_codes(suggested_initial, active_tokens_np)

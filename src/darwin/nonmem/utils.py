@@ -97,6 +97,9 @@ def _get_var_names(row: str, var_type: str) -> list:
 
     res = [m for t in [x.groups() for x in regex.finditer(row)] for m in t if m is not None]
 
+    # Filter out any variable name containing 'LOG'
+    res = [v for v in res if 'LOG' not in v]
+
     return res
 
 
@@ -127,6 +130,10 @@ def _get_var_matches(expanded_block: list, tokens: dict, full_phenotype: dict, v
             continue
 
         variables = _get_var_names(row, var_type)
+        
+        # Make units work w/ mu ref
+        if len(variables) > 1:
+            variables = variables[:1]
 
         for var in variables:
             if var and var not in var_matches:

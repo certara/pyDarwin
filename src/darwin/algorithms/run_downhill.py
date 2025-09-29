@@ -32,6 +32,7 @@ def _get_niches(runs: list) -> list:
     argument is pop - list of full models
     return value is list of models, of length num_niches
     """
+    # TODO update distance measure to consider active codes
 
     crash_value = options.crash_value
 
@@ -65,6 +66,145 @@ def _get_niches(runs: list) -> list:
             break
 
     return [_Niche(run) for run in best_runs]
+
+
+def collect_active_tokens(feature_code, tokens, template):
+    active_features = set(template)
+    queue = list(template)
+    # logger.debug("queue: %s", queue)
+  
+    # Iteratively activate dependencies
+    while queue:
+        # Get 1st item in queue
+        # logger.debug("queue while: %s", queue)
+        feature = queue.pop(0)
+        # logger.debug("feature: %s", feature)
+  
+        # Get the value of this feature from the model code
+        feature_val = feature_code[feature]
+        # logger.debug("feature val: %s", feature_val)
+  
+        # Get activated features
+        features_mentioned = tokens[feature][int(feature_val)]
+        # logger.debug("activated features: %s", features_mentioned)
+  
+        if len(features_mentioned) > 0:
+            for fm in features_mentioned:
+                # logger.debug("fm: %s", fm)
+                if fm not in active_features:
+                    # logger.debug("NOT IN")
+                    active_features.add(fm)
+                    queue.append(fm)
+  
+    # Convert active_features to list of zeroes
+    active_tokens = np.zeros(len(feature_code))
+    # logger.debug("active_tokens: %s", active_tokens)
+  
+    for token_pos in active_features:
+        active_tokens[token_pos] = 1
+  
+    return active_tokens.astype(int)
+
+
+def get_duplicate_models(code_masked, search_cooridinates):
+
+
+    # Get variables
+    masked_variables = [pos for pos, char in enumerate(code_masked) if char == "*"]
+
+    # Get token values for masked variables
+    masked_variable_values = {}
+    for mv in masked_variables:
+        masked_variable_values[mv] = search_cooridinates[mv]
+        token_vals = search_cooridinates[mv]
+    
+    # Get all equivelent variable sets
+    token_vals = list(masked_variable_values.values())
+    all_token_val_combinations = list(itertools.product(*token_vals))
+
+    # Generate all equivlent model codes
+    equivalent_model_codes = []
+    for token_val_combo in all_token_val_combinations:
+
+        model_code = list(code_masked)
+
+        for i, v in enumerate(token_val_combo):
+            token_pos = masked_variables[i]
+            token_val = v
+            model_code[token_pos] = str(token_val)
+        
+        equivalent_model_codes.append("".join(model_code))
+
+    return equivalent_model_codes
+
+def generate_masked_model_codes(codes, active_tokens_np):
+
+    # Create masked model codes
+    codes = np.array(codes).astype(int)
+    codes_masked = np.where(active_tokens_np==0, "*", codes)
+    codes_masked_str = codes_masked.astype(str)
+    codes_masked_str = np.char.replace(codes_masked_str, '.0', '')
+    codes_masked_str = np.char.replace(codes_masked_str, 'nan', '*')
+    codes_masked_str = ["".join(x) for x in codes_masked_str]
+
+    return codes_masked_str
+
+
+def filter_active_models(test_models, active_models, template, tokens_map):
+
+    # Loop through each binary model code
+    maxes = template.gene_max
+    lengths = template.gene_length
+    active_tokens_list = []
+    int_codes  = [] 
+    for code in test_models:
+
+        # Convert binary model code to int code
+        code_full = ModelCode.from_min_binary(code, maxes, lengths)
+        int_code = code_full.IntCode
+        int_codes.append(int_code)
+
+        # Get active tokens
+        active_tokens = collect_active_tokens(int_code, tokens_map["tokens"], tokens_map["template"])
+        active_tokens_list.append(active_tokens)
+        active_tokens_np = np.vstack(active_tokens_list)
+
+    # Generate masked code
+    masked_codes = generate_masked_model_codes(int_codes, active_tokens_np)
+
+    # Drop duplicate codes in set
+    # Need to find positon of duplicates in masked codes
+    # Then drop duplicates in test models list
+    df = pd.DataFrame()
+    df["masked_codes"] = masked_codes
+    df["int_codes"] = int_codes
+    df["binary_codes"] = test_models
+    df = df.reset_index()
+    df_unique = df.drop_duplicates("masked_codes")
+
+    # Get list of unique model positions
+    unique_model_pos = list(df_unique.index)
+
+    # Get unique models in group
+    test_models_unique = df_unique["binary_codes"]
+    # test_models_unique = np.array(test_models)[unique_model_pos].tolist()
+
+    # Get models which havn't been run yet
+    # Get positions of unique suggested model codes
+    new_pos = [x[0] for x in enumerate(list(df_unique["masked_codes"])) if x[1] not in active_models]
+
+    # Create list of unique model codes which haven't been run
+    df_new = df_unique.iloc[new_pos]
+    # test_models_new = np.array(test_models_unique)[new_pos].tolist()
+    # masked_codes_new = np.array(list(df_unique["masked_codes"]))[new_pos].tolist()
+
+    # # Add suggested models to active_models list
+    active_models.extend(list(df_new["masked_codes"]))
+
+    return {
+        "binary_codes": list(df_new["binary_codes"]), 
+        "active_models": active_models}
+
 
 def run_downhill(template: Template, pop: Population, tokens_map, active_models, return_all: bool = False) -> list:
     """
@@ -335,7 +475,7 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
     while current_best_fitness < last_best_fitness or this_step == 1:  # run at least once
         full_generation = str(base_generation) + f"S{this_step:02d}"
         last_best_fitness = current_best_fitness
-        radius = 1
+        radius = 2
 
         test_models = [current_best_model]  # start with just one, then call recursively for each radius
 
@@ -356,7 +496,7 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation, 
         # search_radius = 2
         radius = 1
         while radius <= search_radius:
-            test_models = _change_each_bit3(test_models)
+            test_models = _change_each_bit(test_models, radius)
             radius += 1
 
 
@@ -430,102 +570,3 @@ def get_duplicate_models(code_masked, search_cooridinates):
         equivalent_model_codes.append("".join(model_code))
 
     return equivalent_model_codes
-
-
-def collect_active_tokens(model_code, keys, tokens_map):
-
-        # # DEBUG CODE
-        # if model_code == "10001111122100110":
-        #     pass
-        
-        active_tokens = np.zeros(len(keys)).astype(int)
-
-        # If model code isn't null
-        if model_code == model_code:
-            active_tokens = np.zeros(len(keys)).astype(int)
-            active_token_set = set()
-            active_token_set.update(tokens_map["template"])
-            # print(active_token_set)
-            
-            for t_pos, t_value in enumerate(model_code):
-                
-                # print("t_pos", t_pos, "t_value", t_value)
-                # Look up active tokens from the token map
-                active_i = tokens_map["tokens"][t_pos][int(t_value)]
-                # print(active_i)
-                active_token_set.update(active_i)
-                
-            # Convert active_token_set to active tokens_vector
-            for token_pos in active_token_set:
-                active_tokens[token_pos] = 1
-            
-        return active_tokens
-
-def generate_masked_model_codes(codes, active_tokens_np):
-
-    # Create masked model codes
-    codes = np.array(codes).astype(int)
-    codes_masked = np.where(active_tokens_np==0, "*", codes)
-    codes_masked_str = codes_masked.astype(str)
-    codes_masked_str = np.char.replace(codes_masked_str, '.0', '')
-    codes_masked_str = np.char.replace(codes_masked_str, 'nan', '*')
-    codes_masked_str = ["".join(x) for x in codes_masked_str]
-
-    return codes_masked_str
-
-
-def filter_active_models(test_models, active_models, template, tokens_map):
-
-    # Loop through each binary model code
-    maxes = template.gene_max
-    lengths = template.gene_length
-    active_tokens_list = []
-    int_codes  = [] 
-    for code in test_models:
-
-        # Convert binary model code to int code
-        code_full = ModelCode.from_min_binary(code, maxes, lengths)
-        int_code = code_full.IntCode
-        int_codes.append(int_code)
-
-        # Get active tokens
-        active_tokens = collect_active_tokens(int_code, template.tokens.keys(), tokens_map)
-        active_tokens_list.append(active_tokens)
-        active_tokens_np = np.vstack(active_tokens_list)
-
-    # Generate masked code
-    masked_codes = generate_masked_model_codes(int_codes, active_tokens_np)
-
-    # Drop duplicate codes in set
-    # Need to find positon of duplicates in masked codes
-    # Then drop duplicates in test models list
-    df = pd.DataFrame()
-    df["masked_codes"] = masked_codes
-    df["int_codes"] = int_codes
-    df["binary_codes"] = test_models
-    df = df.reset_index()
-    df_unique = df.drop_duplicates("masked_codes")
-
-    # Get list of unique model positions
-    unique_model_pos = list(df_unique.index)
-
-    # Get unique models in group
-    test_models_unique = df_unique["binary_codes"]
-    # test_models_unique = np.array(test_models)[unique_model_pos].tolist()
-
-    # Get models which havn't been run yet
-    # Get positions of unique suggested model codes
-    new_pos = [x[0] for x in enumerate(list(df_unique["masked_codes"])) if x[1] not in active_models]
-
-    # Create list of unique model codes which haven't been run
-    df_new = df_unique.iloc[new_pos]
-    # test_models_new = np.array(test_models_unique)[new_pos].tolist()
-    # masked_codes_new = np.array(list(df_unique["masked_codes"]))[new_pos].tolist()
-
-    # # Add suggested models to active_models list
-    active_models.extend(list(df_new["masked_codes"]))
-
-    return {
-        "binary_codes": list(df_new["binary_codes"]), 
-        "active_models": active_models}
-

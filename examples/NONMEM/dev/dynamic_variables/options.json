@@ -3,14 +3,14 @@
     "engine_adapter": "nonmem.dyn_var",
     "algorithm": "RF",
     "num_opt_chains": 1,
-    "population_size": 4,
-    "num_parallel": 1,
+    "population_size": 10,
+    "num_parallel": 4,
     "crash_value": 99999999,
-    "num_generations": 2,
+    "num_generations": 1,
     "num_niches": 2,
     "niche_radius": 2,
     "downhill_period": -1,
-    "local_2_bit_search": false,
+    "local_2_bit_search": true,
     "final_downhill_search": false,
     "penalty": {
         "theta": 0,
@@ -76,7 +76,7 @@
             "SIGL": 9
         }
     ],
-    "working_dir": "/home/kfdw240/code/code/packages/pydarwin_cetera3/pyDarwin/pydarwin_debug_out/1",
+    "working_dir": "/home/kfdw240/code/code/packages/pydarwin_cetera3/pyDarwin/pydarwin_debug_out/2",
     "file_cleanup": {
         "keep_shk": true,
         "keep_ext": true,

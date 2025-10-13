@@ -1,0 +1,7 @@
+{
+	"DataDir": "{data_dir}",
+	"Dose":  {DOSE[1]},
+	"nSubs": {nSubs[1]},
+	"nSites": {nSites[1]},
+	"nSamples": 10
+}

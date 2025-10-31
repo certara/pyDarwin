@@ -71,6 +71,9 @@ class MogaProblem(ElementwiseProblem):
 
 
 def _get_front_runs(res: Result, template: Template, model_cache) -> list:
+    if res.X is None:
+        return []
+
     runs = []
 
     maxes = template.gene_max

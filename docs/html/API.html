@@ -9,7 +9,7 @@
   <title>API &mdash; pyDarwin 3.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
 
   
       <script src="_static/documentation_options.js?v=dd1205ac"></script>
@@ -776,9 +776,9 @@ by <a class="reference internal" href="Options.html#saved-models-readonly-option
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.ModelCache.ModelCache.update_model_run_status">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_model_run_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.ModelCache.update_model_run_status" title="Link to this definition">¶</a></dt>
-<dd><p>Update status of cached model run.
+<dt class="sig sig-object py" id="darwin.ModelCache.ModelCache.warm_up">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">warm_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.ModelCache.warm_up" title="Link to this definition">¶</a></dt>
+<dd><p>Warm up the run if it’s in the cache.
 <em>run</em> is not added to the cache, just used for search by genotype or phenotype.</p>
 </dd></dl>
 
@@ -789,14 +789,8 @@ by <a class="reference internal" href="Options.html#saved-models-readonly-option
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.ModelCache.ModelCache.load">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.ModelCache.load" title="Link to this definition">¶</a></dt>
-<dd><p>Load the cache from a saved state.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="darwin.ModelCache.ModelCache.dump">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.ModelCache.dump" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#darwin.ModelCache.ModelCache.dump" title="Link to this definition">¶</a></dt>
 <dd><p>Dump the cache to a saved state.</p>
 </dd></dl>
 
@@ -847,9 +841,9 @@ by <a class="reference internal" href="Options.html#saved-models-readonly-option
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="darwin.MemoryModelCache.MemoryModelCache.update_model_run_status">
-<span class="sig-name descname"><span class="pre">update_model_run_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.MemoryModelCache.MemoryModelCache.update_model_run_status" title="Link to this definition">¶</a></dt>
-<dd><p>Update status of cached model run.
+<dt class="sig sig-object py" id="darwin.MemoryModelCache.MemoryModelCache.warm_up">
+<span class="sig-name descname"><span class="pre">warm_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#darwin.ModelRun.ModelRun" title="darwin.ModelRun.ModelRun"><span class="pre">ModelRun</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#darwin.MemoryModelCache.MemoryModelCache.warm_up" title="Link to this definition">¶</a></dt>
+<dd><p>Warm up the run if it’s in the cache.
 <em>run</em> is not added to the cache, just used for search by genotype or phenotype.</p>
 </dd></dl>
 

@@ -9,7 +9,7 @@
   <title>pyDarwin 3.1.0 &mdash; pyDarwin 3.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
 
   
       <script src="_static/documentation_options.js?v=dd1205ac"></script>
@@ -95,6 +95,7 @@
 <li class="toctree-l2"><a class="reference internal" href="Algorithms.html#random-forest">Random Forest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Algorithms.html#gradient-boosted-random-tree">Gradient Boosted Random Tree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Algorithms.html#particle-swarm-optimization-pso">Particle Swarm Optimization (PSO)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Algorithms.html#multi-objective-optimization">Multi-Objective Optimization</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a><ul>
@@ -340,9 +341,8 @@
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.ModelCache">darwin.ModelCache</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache"><code class="docutils literal notranslate"><span class="pre">ModelCache</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.store_model_run"><code class="docutils literal notranslate"><span class="pre">ModelCache.store_model_run()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.update_model_run_status"><code class="docutils literal notranslate"><span class="pre">ModelCache.update_model_run_status()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.warm_up"><code class="docutils literal notranslate"><span class="pre">ModelCache.warm_up()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.find_model_run"><code class="docutils literal notranslate"><span class="pre">ModelCache.find_model_run()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.load"><code class="docutils literal notranslate"><span class="pre">ModelCache.load()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.dump"><code class="docutils literal notranslate"><span class="pre">ModelCache.dump()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.ModelCache.ModelCache.finalize"><code class="docutils literal notranslate"><span class="pre">ModelCache.finalize()</span></code></a></li>
 </ul>
@@ -356,7 +356,7 @@
 <li class="toctree-l3"><a class="reference internal" href="API.html#module-darwin.MemoryModelCache">darwin.MemoryModelCache</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache</span></code></a><ul>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache.store_model_run"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache.store_model_run()</span></code></a></li>
-<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache.update_model_run_status"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache.update_model_run_status()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache.warm_up"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache.warm_up()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache.find_model_run"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache.find_model_run()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache.load"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache.load()</span></code></a></li>
 <li class="toctree-l5"><a class="reference internal" href="API.html#darwin.MemoryModelCache.MemoryModelCache.dump"><code class="docutils literal notranslate"><span class="pre">MemoryModelCache.dump()</span></code></a></li>

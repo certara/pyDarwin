@@ -9,7 +9,7 @@
   <title>Glossary &mdash; pyDarwin 3.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
 
   
       <script src="_static/documentation_options.js?v=dd1205ac"></script>
@@ -131,7 +131,7 @@ is managed internally by <code class="docutils literal notranslate"><span class=
 <p id="local-one-bit-search"><strong>Local One bit Search:</strong> In 1 bit local search, first the <a class="reference internal" href="#minimal-binary"><span class="std std-ref">minimal binary representation</span></a> of the model(s) to be searched are generated.
 Then each bit in that bit string is ‘flipped’. So, a search with 30 bits will generate 30 models in each iteration of the 1 bit search.
 This process is continued, searching on the best model from the previous step until improvement no longer occurs.</p>
-<p>For <span class="xref std std-ref">MOGA</span> and <span class="xref std std-ref">MOGA3</span> the flip is performed for every objective, that gives <a class="reference internal" href="Options.html#objectives-options-desc"><span class="std std-ref">objectives</span></a> times more models in every iteration. Only unique models (not seen before) are added to the iteration to not oversaturate the algorithm. Iterations continue until the front is unchanged.</p>
+<p>For <a class="reference internal" href="Algorithms.html#moga-desc"><span class="std std-ref">MOGA</span></a> and <a class="reference internal" href="Algorithms.html#moga3-desc"><span class="std std-ref">MOGA3</span></a> the flip is performed for every objective, that gives <a class="reference internal" href="Options.html#objectives-options-desc"><span class="std std-ref">objectives</span></a> times more models in every iteration. Only unique models (not seen before) are added to the iteration to not oversaturate the algorithm. Iterations continue until the front is unchanged.</p>
 <p id="local-two-bit-search"><strong>Local Two bit Search:</strong> The 2 bit local search is like the <a class="reference internal" href="#local-one-bit-search"><span class="std std-ref">1 bit local search</span></a> except that every 2 bit change of the <a class="reference internal" href="#minimal-binary"><span class="std std-ref">minimal binary representation</span></a>
 is generated in each step, and all 2 bit change combinations are generated and run.
 This results in a much larger number of models to search, (N^2+n)/2. This process is again repeated until no further improvement occurs.</p>

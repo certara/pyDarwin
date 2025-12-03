@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
-      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
 
   
       <script src="_static/documentation_options.js?v=dd1205ac"></script>
@@ -267,7 +267,7 @@ applicable given algorithm selection and execution environment e.g., GA and grid
 </li>
 </ul>
 <ul class="simple" id="algorithm-options-desc">
-<li><p><span class="opt-name">algorithm</span> <sup>required</sup> – <em>string</em>: One of <a class="reference internal" href="Algorithms.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">GA</span></a>, <a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Algorithms.html#rf-desc"><span class="std std-ref">RF</span></a>, <a class="reference internal" href="Algorithms.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>, <a class="reference internal" href="Algorithms.html#pso-desc"><span class="std std-ref">PSO</span></a>, <span class="xref std std-ref">MOGA</span>, <span class="xref std std-ref">MOGA3</span>.</p></li>
+<li><p><span class="opt-name">algorithm</span> <sup>required</sup> – <em>string</em>: One of <a class="reference internal" href="Algorithms.html#ex-desc"><span class="std std-ref">EX</span></a>, <a class="reference internal" href="Algorithms.html#ga-desc"><span class="std std-ref">GA</span></a>, <a class="reference internal" href="Algorithms.html#gp-desc"><span class="std std-ref">GP</span></a>, <a class="reference internal" href="Algorithms.html#rf-desc"><span class="std std-ref">RF</span></a>, <a class="reference internal" href="Algorithms.html#gbrt-desc"><span class="std std-ref">GBRT</span></a>, <a class="reference internal" href="Algorithms.html#pso-desc"><span class="std std-ref">PSO</span></a>, <a class="reference internal" href="Algorithms.html#moga-desc"><span class="std std-ref">MOGA</span></a>, <a class="reference internal" href="Algorithms.html#moga3-desc"><span class="std std-ref">MOGA3</span></a>.</p></li>
 </ul>
 <ul class="simple" id="ga-options-desc">
 <li><p><span class="opt-name">GA</span> – <em>JSON</em>: Options specific to GA. Ignored for all other algorithms.</p></li>
@@ -808,7 +808,7 @@ The two bit local search substantially increases the robustness of the search. A
 <li><div class="line-block">
 <div class="line"><span class="opt-name">post_run_r_code</span> <sup>required</sup> – <em>string</em>: Path to R file (.r extension) to be run after each NONMEM execution.</div>
 <div class="line">Required if <code class="docutils literal notranslate"><span class="pre">use_r</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</div>
-<div class="line">The script is run in the <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">run directory</span></a>. It must return either a vector, containing a penalty value and a text (will be added to the output file), or, for <span class="xref std std-ref">MOGA3</span>, <a class="reference internal" href="#objectives-options-desc"><span class="std std-ref">2 vectors</span></a>.</div>
+<div class="line">The script is run in the <a class="reference internal" href="API.html#model-run-dir"><span class="std std-ref">run directory</span></a>. It must return either a vector, containing a penalty value and a text (will be added to the output file), or, for <a class="reference internal" href="Algorithms.html#moga3-desc"><span class="std std-ref">MOGA3</span></a>, <a class="reference internal" href="#objectives-options-desc"><span class="std std-ref">2 vectors</span></a>.</div>
 <div class="line">Available aliases are: <a class="reference internal" href="#common-aliases"><span class="std std-ref">all common aliases</span></a>.</div>
 </div>
 </li>
@@ -837,7 +837,7 @@ The two bit local search substantially increases the robustness of the search. A
 <li><div class="line-block">
 <div class="line"><span class="opt-name">post_run_python_code</span> <sup>required</sup> – <em>string</em>: Path to python code file (.py extension) to be run after each NONMEM execution.</div>
 <div class="line">Required if <code class="docutils literal notranslate"><span class="pre">use_python</span></code> is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</div>
-<div class="line">The script must contain either <code class="docutils literal notranslate"><span class="pre">post_process2</span></code> or <code class="docutils literal notranslate"><span class="pre">post_process</span></code> function (when it has both, <code class="docutils literal notranslate"><span class="pre">post_process2</span></code> is used). <code class="docutils literal notranslate"><span class="pre">post_process2</span></code> takes a <code class="docutils literal notranslate"><span class="pre">ModelRun</span></code> as an argument, <code class="docutils literal notranslate"><span class="pre">post_process</span></code> takes a run directory. Both of them must return a tuple containing either a penalty value and some text (will be added to the output file) or, for <span class="xref std std-ref">MOGA3</span>, <a class="reference internal" href="#objectives-options-desc"><span class="std std-ref">2 lists</span></a>.</div>
+<div class="line">The script must contain either <code class="docutils literal notranslate"><span class="pre">post_process2</span></code> or <code class="docutils literal notranslate"><span class="pre">post_process</span></code> function (when it has both, <code class="docutils literal notranslate"><span class="pre">post_process2</span></code> is used). <code class="docutils literal notranslate"><span class="pre">post_process2</span></code> takes a <code class="docutils literal notranslate"><span class="pre">ModelRun</span></code> as an argument, <code class="docutils literal notranslate"><span class="pre">post_process</span></code> takes a run directory. Both of them must return a tuple containing either a penalty value and some text (will be added to the output file) or, for <a class="reference internal" href="Algorithms.html#moga3-desc"><span class="std std-ref">MOGA3</span></a>, <a class="reference internal" href="#objectives-options-desc"><span class="std std-ref">2 lists</span></a>.</div>
 <div class="line">Available aliases are: <a class="reference internal" href="#common-aliases"><span class="std std-ref">all common aliases</span></a>.</div>
 </div>
 </li>

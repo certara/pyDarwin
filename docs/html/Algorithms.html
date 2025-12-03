@@ -9,7 +9,7 @@
   <title>Algorithms &mdash; pyDarwin 3.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=06cb746d" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
 
   
       <script src="_static/documentation_options.js?v=dd1205ac"></script>
@@ -52,6 +52,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#random-forest">Random Forest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gradient-boosted-random-tree">Gradient Boosted Random Tree</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#particle-swarm-optimization-pso">Particle Swarm Optimization (PSO)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multi-objective-optimization">Multi-Objective Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#moga-nsga-ii">MOGA (NSGA-II)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#moga3-nsga-iii">MOGA3 (NSGA-III)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
@@ -180,12 +185,98 @@ but also each bird/fish moving somewhat independently.</p>
 The topology defines the region of the swarm whereby individual particles (models in this case) exchange information and thereby act in coordination.
 The “star” topology is the only implementation currently available in pyDarwin. The star topology permits particles (i.e., models) to coordinate with a set of nearest neighbors in a
 sort of star shape, up to the number of neighbors specified in <a class="reference internal" href="Options.html#neighbor-num-options-desc"><span class="std std-ref">neighbor_number</span></a>.</p>
+</section>
+<section id="multi-objective-optimization">
+<span id="moo-desc"></span><h2>Multi-Objective Optimization<a class="headerlink" href="#multi-objective-optimization" title="Link to this heading">¶</a></h2>
+<p>Many model selection problems involve several competing objectives that cannot be reduced to a single scalar value without
+introducing arbitrary penalty terms. Multi-objective optimization (MOO <a class="footnote-reference brackets" href="#f5" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>) addresses this by optimizing multiple criteria
+simultaneously and identifying a set of non-dominated models that form a Pareto front. A model on the Pareto front cannot be
+improved in one objective (for example, objective function value) without worsening at least one other objective (such as model
+parsimony or bias in a clinically relevant prediction).</p>
+<p>In the context of PopPK model selection, typical objectives include goodness-of-fit (e.g., OFV = minus two times the log-likelihood),
+the number of estimated parameters (parsimony), and bias in exposure metrics of interest. Rather than producing a single “best” model,
+MOO algorithms in pyDarwin generate a manageable set of non-dominated models that quantify the trade-offs between these objectives.
+This set is then presented to the user, who selects one or more preferred models based on both numerical criteria and subjective
+considerations such as biological plausibility and diagnostic plots. A detailed case study of applying pyDarwin to PopPK model
+selection using these methods is provided in <a class="footnote-reference brackets" href="#f8" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>.</p>
+<p>pyDarwin implements multi-objective optimization using genetic algorithms. The currently available algorithms are
+MOGA (based on NSGA-II <a class="footnote-reference brackets" href="#f6" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>) and MOGA3 (based on NSGA-III <a class="footnote-reference brackets" href="#f7" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>), described in more detail below. These algorithms are configured
+through the <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a> (for example, via the <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> option and user-specified objective definitions).</p>
+<section id="moga-nsga-ii">
+<span id="moga-desc"></span><h3>MOGA (NSGA-II)<a class="headerlink" href="#moga-nsga-ii" title="Link to this heading">¶</a></h3>
+<p>MOGA in pyDarwin is based on the Non-dominated Sorting Genetic Algorithm II (NSGA-II <a class="footnote-reference brackets" href="#f6" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>). Like the single-objective
+<a class="reference internal" href="#ga-desc"><span class="std std-ref">Genetic Algorithm</span></a>, it represents each candidate model as a chromosome constructed from the <a class="reference internal" href="Glossary.html#template"><span class="std std-ref">template file</span></a>
+and <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a>, and evolves a population of models over multiple generations. However, instead of optimizing a
+single fitness value, NSGA-II ranks models based on multiple objectives and maintains an approximation to the Pareto front at each
+generation.</p>
+<p>In a typical PopPK application, MOGA is used to simultaneously optimize objective function value (OFV) and the number of estimated
+parameters. As generations progress, the front of non-dominated models moves toward regions with better fit and greater parsimony,
+making the trade-off between these objectives explicit. A local downhill search step can optionally be combined with the MOGA search,
+using a scalar aggregation of the objectives to refine individual models. This combination can identify additional non-dominated
+models and may find models with lower OFV at similar levels of parsimony, though it may also highlight models that are more prone to
+convergence issues or over-parameterization.</p>
+<p>MOGA is selected by setting the <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> option to <code class="docutils literal notranslate"><span class="pre">MOGA</span></code> in the <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a>. For this algorithm, the
+objectives are fixed to objective function value (OFV) and number of estimated parameters (NEP); users cannot change or extend this
+objective set. If users wish to define custom objective functions (with two or more objectives), they should instead select the
+<code class="docutils literal notranslate"><span class="pre">MOGA3</span></code> algorithm, and use the provided R or Python post-run code to compute and return those objective values explicitly. In all
+cases, pyDarwin returns the resulting set of non-dominated models on the final Pareto front for further evaluation.</p>
+<figure class="align-center" id="id10">
+<a class="reference internal image-reference" href="_images/moga2.png"><img alt="Example MOGA (NSGA-II) two-objective Pareto front" src="_images/moga2.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Example Pareto front from a MOGA (NSGA-II) search, illustrating the trade-off between objective function value (OFV) and
+number of estimated parameters (NEP).</span><a class="headerlink" href="#id10" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="moga3-nsga-iii">
+<span id="moga3-desc"></span><h3>MOGA3 (NSGA-III)<a class="headerlink" href="#moga3-nsga-iii" title="Link to this heading">¶</a></h3>
+<p>MOGA3 is based on the Non-dominated Sorting Genetic Algorithm III (NSGA-III <a class="footnote-reference brackets" href="#f7" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>), an evolutionary algorithm designed for problems
+with three or more objectives. NSGA-III extends NSGA-II by using a reference-point-based non-dominated sorting approach to maintain
+diversity along a high-dimensional Pareto front. As with other algorithms in pyDarwin, each candidate model is generated from the
+<a class="reference internal" href="Glossary.html#template"><span class="std std-ref">template file</span></a> and <a class="reference internal" href="Glossary.html#token-set"><span class="std std-ref">token set</span></a> and evaluated to obtain the user-defined objectives.</p>
+<p>In PopPK model selection, MOGA3 is particularly useful when the user wishes to balance goodness-of-fit, parsimony, and a clinically
+relevant prediction metric. For example, objectives might include OFV, total number of estimated parameters, and bias in a steady-state
+trough concentration for a key analyte. The resulting Pareto front typically contains models that are better in different respects:
+some are more parsimonious, some provide a better fit, and others reduce bias in the clinically important exposure metric.</p>
+<p>By exploring these trade-offs, MOGA3 can identify models that perform better on one or more objectives than models obtained with a
+traditional single-objective or stepwise approach. As with other algorithms, the final choice among non-dominated models is made by
+the pharmacometrician, based on the objectives of the analysis, biological plausibility, and examination of diagnostic graphics.</p>
+<figure class="align-center" id="id11">
+<a class="reference internal image-reference" href="_images/moga3.png"><img alt="Example MOGA3 (NSGA-III) three-objective Pareto front" src="_images/moga3.png" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Example MOGA3 (NSGA-III) Pareto front for three objectives: <span class="math notranslate nohighlight">\(f_1\)</span> (OFV), <span class="math notranslate nohighlight">\(f_2\)</span> (NEP), and <span class="math notranslate nohighlight">\(f_3\)</span>, a penalty based
+on the difference in <span class="math notranslate nohighlight">\(C_{\max}\)</span> between observed and simulated data, where lower values of <span class="math notranslate nohighlight">\(f_3\)</span> indicate better
+agreement (parity) between observed and simulated exposure.</span><a class="headerlink" href="#id11" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="f4" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">1</a><span class="fn-bracket">]</span></span>
-<p>J Kennedy and R.C. Eberhart. 1995  Particle Swarm Optimization. Proceedings of the IEEE International Joint Conference on Neural Networks, 4:1942-1948</p>
+<p>J. Kennedy and R.C. Eberhart. 1995. Particle Swarm Optimization.
+Proceedings of the IEEE International Joint Conference on Neural Networks, 4:1942-1948.</p>
+</aside>
+<aside class="footnote brackets" id="f5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">2</a><span class="fn-bracket">]</span></span>
+<p>Kochenderfer, M. and T. Wheeler. 2019. Algorithms for Optimization. The MIT Press.</p>
+</aside>
+<aside class="footnote brackets" id="f6" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id8">2</a>)</span>
+<p>Deb, K., A. Pratap, S. Agarwal and T. Meyarivan. 2002. A fast and elitist multiobjective genetic algorithm: NSGA-II. IEEE Transactions on Evolutionary Computation, 6(2):182-197.</p>
+</aside>
+<aside class="footnote brackets" id="f7" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id7">1</a>,<a role="doc-backlink" href="#id9">2</a>)</span>
+<p>Deb, K. and H. Jain. 2014. An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point-Based Nondominated Sorting Approach, Part I: Solving Problems With Box Constraints. IEEE Transactions on Evolutionary Computation, 18(4):577-601.</p>
+</aside>
+<aside class="footnote brackets" id="f8" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<p>Li, X., M. Sale, K. Nieforth, J. Craig, F. Wang, D. Solit, K. Feng, M. Hu, R. Bies and L. Zhao. 2024. pyDarwin machine learning algorithms application and comparison in nonlinear mixed-effect model selection and optimization. J Pharmacokinet Pharmacodyn, 51(6):785–796.</p>
 </aside>
 </aside>
+</section>
 </section>
 </section>
 

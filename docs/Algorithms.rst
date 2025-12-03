@@ -117,5 +117,98 @@ The "star" topology is the only implementation currently available in pyDarwin. 
 sort of star shape, up to the number of neighbors specified in :ref:`neighbor_number <neighbor_num_options_desc>`.
 
 
-.. [#f4] J Kennedy and R.C. Eberhart. 1995  Particle Swarm Optimization. Proceedings of the IEEE International Joint Conference on Neural Networks, 4:1942-1948
+.. _MOO_desc:
+
+****************************
+Multi-Objective Optimization
+****************************
+
+Many model selection problems involve several competing objectives that cannot be reduced to a single scalar value without
+introducing arbitrary penalty terms. Multi-objective optimization (MOO [#f5]_) addresses this by optimizing multiple criteria
+simultaneously and identifying a set of non-dominated models that form a Pareto front. A model on the Pareto front cannot be
+improved in one objective (for example, objective function value) without worsening at least one other objective (such as model
+parsimony or bias in a clinically relevant prediction).
+
+In the context of PopPK model selection, typical objectives include goodness-of-fit (e.g., OFV = minus two times the log-likelihood),
+the number of estimated parameters (parsimony), and bias in exposure metrics of interest. Rather than producing a single "best" model,
+MOO algorithms in pyDarwin generate a manageable set of non-dominated models that quantify the trade-offs between these objectives.
+This set is then presented to the user, who selects one or more preferred models based on both numerical criteria and subjective
+considerations such as biological plausibility and diagnostic plots. A detailed case study of applying pyDarwin to PopPK model
+selection using these methods is provided in [#f8]_.
+
+pyDarwin implements multi-objective optimization using genetic algorithms. The currently available algorithms are
+MOGA (based on NSGA-II [#f6]_) and MOGA3 (based on NSGA-III [#f7]_), described in more detail below. These algorithms are configured
+through the :ref:`Options List<Options>` (for example, via the ``algorithm`` option and user-specified objective definitions).
+
+.. _MOGA_desc:
+
+MOGA (NSGA-II)
+==============
+
+MOGA in pyDarwin is based on the Non-dominated Sorting Genetic Algorithm II (NSGA-II [#f6]_). Like the single-objective
+:ref:`Genetic Algorithm<GA_desc>`, it represents each candidate model as a chromosome constructed from the :ref:`template file<template>`
+and :ref:`token set<token set>`, and evolves a population of models over multiple generations. However, instead of optimizing a
+single fitness value, NSGA-II ranks models based on multiple objectives and maintains an approximation to the Pareto front at each
+generation.
+
+In a typical PopPK application, MOGA is used to simultaneously optimize objective function value (OFV) and the number of estimated
+parameters. As generations progress, the front of non-dominated models moves toward regions with better fit and greater parsimony,
+making the trade-off between these objectives explicit. A local downhill search step can optionally be combined with the MOGA search,
+using a scalar aggregation of the objectives to refine individual models. This combination can identify additional non-dominated
+models and may find models with lower OFV at similar levels of parsimony, though it may also highlight models that are more prone to
+convergence issues or over-parameterization.
+
+MOGA is selected by setting the ``algorithm`` option to ``MOGA`` in the :ref:`Options List<Options>`. For this algorithm, the
+objectives are fixed to objective function value (OFV) and number of estimated parameters (NEP); users cannot change or extend this
+objective set. If users wish to define custom objective functions (with two or more objectives), they should instead select the
+``MOGA3`` algorithm, and use the provided R or Python post-run code to compute and return those objective values explicitly. In all
+cases, pyDarwin returns the resulting set of non-dominated models on the final Pareto front for further evaluation.
+
+.. figure:: moga2.png
+   :alt: Example MOGA (NSGA-II) two-objective Pareto front
+   :align: center
+   :width: 80%
+
+   Example Pareto front from a MOGA (NSGA-II) search, illustrating the trade-off between objective function value (OFV) and
+   number of estimated parameters (NEP).
+
+.. _MOGA3_desc:
+
+MOGA3 (NSGA-III)
+================
+
+MOGA3 is based on the Non-dominated Sorting Genetic Algorithm III (NSGA-III [#f7]_), an evolutionary algorithm designed for problems
+with three or more objectives. NSGA-III extends NSGA-II by using a reference-point-based non-dominated sorting approach to maintain
+diversity along a high-dimensional Pareto front. As with other algorithms in pyDarwin, each candidate model is generated from the
+:ref:`template file<template>` and :ref:`token set<token set>` and evaluated to obtain the user-defined objectives.
+
+In PopPK model selection, MOGA3 is particularly useful when the user wishes to balance goodness-of-fit, parsimony, and a clinically
+relevant prediction metric. For example, objectives might include OFV, total number of estimated parameters, and bias in a steady-state
+trough concentration for a key analyte. The resulting Pareto front typically contains models that are better in different respects:
+some are more parsimonious, some provide a better fit, and others reduce bias in the clinically important exposure metric.
+
+By exploring these trade-offs, MOGA3 can identify models that perform better on one or more objectives than models obtained with a
+traditional single-objective or stepwise approach. As with other algorithms, the final choice among non-dominated models is made by
+the pharmacometrician, based on the objectives of the analysis, biological plausibility, and examination of diagnostic graphics.
+
+.. figure:: moga3.png
+   :alt: Example MOGA3 (NSGA-III) three-objective Pareto front
+   :align: center
+   :width: 80%
+
+   Example MOGA3 (NSGA-III) Pareto front for three objectives: :math:`f_1` (OFV), :math:`f_2` (NEP), and :math:`f_3`, a penalty based
+   on the difference in :math:`C_{\max}` between observed and simulated data, where lower values of :math:`f_3` indicate better
+   agreement (parity) between observed and simulated exposure.
+
+
+.. [#f4] J. Kennedy and R.C. Eberhart. 1995. Particle Swarm Optimization.
+   Proceedings of the IEEE International Joint Conference on Neural Networks, 4:1942-1948.
+
+.. [#f5] Kochenderfer, M. and T. Wheeler. 2019. Algorithms for Optimization. The MIT Press.
+
+.. [#f6] Deb, K., A. Pratap, S. Agarwal and T. Meyarivan. 2002. A fast and elitist multiobjective genetic algorithm: NSGA-II. IEEE Transactions on Evolutionary Computation, 6(2):182-197.
+
+.. [#f7] Deb, K. and H. Jain. 2014. An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point-Based Nondominated Sorting Approach, Part I: Solving Problems With Box Constraints. IEEE Transactions on Evolutionary Computation, 18(4):577-601.
+
+.. [#f8] Li, X., M. Sale, K. Nieforth, J. Craig, F. Wang, D. Solit, K. Feng, M. Hu, R. Bies and L. Zhao. 2024. pyDarwin machine learning algorithms application and comparison in nonlinear mixed-effect model selection and optimization. J Pharmacokinet Pharmacodyn, 51(6):785–796.
 

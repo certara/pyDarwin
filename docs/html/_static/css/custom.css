@@ -1,6 +1,19 @@
-h1, h2, h3 {
-    font-size: 125%;
+h1 {
+    font-size: 180%;
     color: #415364;
+    margin-top: 1.4em;
+}
+
+h2 {
+    font-size: 150%;
+    color: #5d6670;
+    margin-top: 1.2em;
+}
+
+h3 {
+    font-size: 130%;
+    color: #7a828b;
+    margin-top: 1.0em;
 }
 
 .wy-nav-content {
@@ -98,6 +111,17 @@ a:visited {
 .rst-content dl dt {
     font-weight: 200;
     margin-bottom: 12px;
+}
+
+/* Tidy footnote back-reference markers like "(1, 2)" in the footnote list */
+.footnote .backrefs {
+    font-size: 80%;
+    color: #9b9b9b;
+    margin-left: 0.25em;
+}
+
+.footnote .backrefs a {
+    text-decoration: none;
 }
 
 @media screen and (max-width: 950px){

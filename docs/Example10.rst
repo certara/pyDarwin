@@ -1,9 +1,11 @@
-.. _moga3-label:
+.. _startmoga10:
 
-MOGA3
-======
+###########################################################
+Example 10: MOGA3
+###########################################################
 MOGA3 requires user defined code. The template.txt and tokens.json files are identical to those used for other single 
-objective algorithms. 
+objective algorithms. For additional background on general principles of MOGA3 post-processing and user-defined R/Python code,
+see :ref:`MOGA3 post-processing <moga3_postprocessing>`.
 
 
 

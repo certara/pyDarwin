@@ -23,6 +23,10 @@ organized into folders with all required files available for execution.
 * :ref:`Example 7: PK Model, Exhaustive Omega Search <startpk7>`.
 
 * :ref:`Example 8: Emax Model, PSO <startpd8>`.
+ 
+* :ref:`Example 9: MOGA <moga-label>`.
+
+* :ref:`Example 10: MOGA3 <moga3-label>`.
 
 .. _examples_target:
 

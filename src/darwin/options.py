@@ -223,9 +223,9 @@ class Options:
         self.effect_limit = opts.get('effect_limit', -1)
         self.use_effect_limit = self.effect_limit > 0
 
-        if (options.engine_adapter != 'nonmem' or options.algorithm not in ['GA', 'MOGA', 'MOGA3']) and self.use_effect_limit:
-            log.warn('Can only use effect_limit with GA/MOGA/MOGA3 and NONMEM, turned off')
-            self.use_effect_limit = False
+        #if (options.engine_adapter != 'nonmem' or options.algorithm not in ['GA', 'MOGA', 'MOGA3']) and self.use_effect_limit:
+        #    log.warn('Can only use effect_limit with GA/MOGA/MOGA3 and NONMEM, turned off')
+        #    self.use_effect_limit = False
 
         self.remove_temp_dir = opts.get('remove_temp_dir', False)
         self.remove_run_dir = opts.get('remove_run_dir', False)

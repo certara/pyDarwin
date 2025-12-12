@@ -1,5 +1,10 @@
-General Principles
-===================
+:orphan:
+
+.. _general_principles:
+.. _moga3_postprocessing:
+
+MOGA3 Post-processing
+======================
 In all cases, the post processing code is called from the directory where NONMEM or NLME has run, and before
 any files are removed. Therefore, all output from NONMEM (i.e, $TABLE files, .ext, .xml, .phi etc) file and 
 all NLME (i.e. dmp.txt, err?, nlme?engine.log, tables etc) will be available in the working directory for R 
@@ -131,3 +136,5 @@ the run path as a argument, e.g.,
     
 
 or use your favorite IDE, with the NLME run folder as the working directory.
+
+

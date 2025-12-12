@@ -1,7 +1,8 @@
-.. _moga-label:
+.. _startmoga9:
 
-MOGA
-====
+###########################################################
+Example 9: MOGA
+###########################################################
 The MOGA option, specified in the options.json file directs pyDarwin to use the NSGA-II algorithm for selecting 
 non-dominated models. No user defined code is required or accepted. Two objectives are used, the OFV and the 
 total number of parameters (esimtated thetas, omega elements and, for NONMEM, sigma). The template.txt and 

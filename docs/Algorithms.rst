@@ -117,6 +117,7 @@ The "star" topology is the only implementation currently available in pyDarwin. 
 sort of star shape, up to the number of neighbors specified in :ref:`neighbor_number <neighbor_num_options_desc>`.
 
 
+.. _moo-label:
 .. _MOO_desc:
 
 ****************************
@@ -136,9 +137,36 @@ This set is then presented to the user, who selects one or more preferred models
 considerations such as biological plausibility and diagnostic plots. A detailed case study of applying pyDarwin to PopPK model
 selection using these methods is provided in [#f8]_.
 
+Imagine you are deciding what car to buy. You have two objectives: you would like it to be fast (measured as lap time around the
+Nürburgring track) and inexpensive (measured as cost). In addition to these numerical (objective) criteria, you also have subjective
+criteria such as comfort and how fun the car is to drive. The subjective criteria cannot easily be captured numerically, and even for
+the objective criteria it can be difficult to combine them into a single scalar "goodness" value using penalties, for example:
+
+.. math::
+
+    Car \enspace \textit{"goodness"}  = Nürburgring \enspace   time \enspace (seconds) + \frac{Cost}{500}
+
+In this example the penalty on cost is cost divided by 500. The value 500 is subjective and somewhat arbitrary; another person would
+likely choose a different value, and you might choose a different value after your yearly bonus. If that penalty changes after an
+optimization has been run, the optimization would need to be repeated. Multi-objective optimization avoids this arbitrariness by
+optimizing several objectives simultaneously and presenting a set of "non-dominated" (Pareto optimal) solutions to the user. For each
+solution on the Pareto front there is no other solution that is better in every objective, and dominated solutions (worse in all
+objectives than some other solution) can be discarded.
+
+The MOO results visualize the trade-offs between the objectives, allowing users to revisit and discuss preferred solutions as
+preferences change. A representative plot for the trade-off between two objectives (speed and cost) is depicted below for car
+performance and cost:
+
+.. image:: ParetoFrontCars.jpeg
+   :alt: Car performance vs cost
+   :width: 700px
+   :align: center
+
 pyDarwin implements multi-objective optimization using genetic algorithms. The currently available algorithms are
-MOGA (based on NSGA-II [#f6]_) and MOGA3 (based on NSGA-III [#f7]_), described in more detail below. These algorithms are configured
-through the :ref:`Options List<Options>` (for example, via the ``algorithm`` option and user-specified objective definitions).
+MOGA (based on NSGA-II [#f6]_) and MOGA3 (based on NSGA-III [#f7]_), described in more detail below. Additional background on
+MOGA3 post-processing with user-defined R/Python code is provided in :ref:`MOGA3 post-processing <moga3_postprocessing>`.
+These algorithms are configured through the :ref:`Options List<Options>` (for example, via the ``algorithm`` option and
+user-specified objective definitions).
 
 .. _MOGA_desc:
 

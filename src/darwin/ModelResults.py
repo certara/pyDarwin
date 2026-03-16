@@ -88,7 +88,7 @@ class ModelResults(BaseModelResults):
 
             self.fitness = fitness
 
-            return fitness
+            return
 
         penalties = options.penalty
 
@@ -121,8 +121,6 @@ class ModelResults(BaseModelResults):
             fitness = options.crash_value
 
         self.fitness = fitness
-
-        return fitness
 
     def decode_r_stdout(self, r_stdout, file_path: str):
         new_val = r_stdout.decode('utf-8').replace('[1]', '').strip()

@@ -35,10 +35,10 @@ warnings.filterwarnings('ignore', category=DeprecationWarning)
 logger = logging.getLogger(__name__)
 
 
-def _get_n_params(run: ModelRun) -> int:
+def _get_moga2_f(run: ModelRun) -> list:
     res = run.result
 
-    return res.estimated_omega_num + res.estimated_theta_num + res.estimated_sigma_num
+    return [run.result.ofv, res.estimated_omega_num + res.estimated_theta_num + res.estimated_sigma_num]
 
 
 class MogaProblem(ElementwiseProblem):
@@ -46,7 +46,7 @@ class MogaProblem(ElementwiseProblem):
     n_obj = 2
     n_constr = 0
 
-    def __init__(self, run: ModelRun = None):
+    def __init__(self, run: ModelRun = None, cap: list = None):
         super().__init__(
             n_var=self.n_var,  # number of bits
             n_obj=self.n_obj,
@@ -58,16 +58,24 @@ class MogaProblem(ElementwiseProblem):
         )
 
         self.run = run
+        self.cap = cap
 
     def _evaluate(self, x, out, *args, **kwargs):
-        if options.isMOGA3:
-            out['F'] = self.run.result.f if self.run.result.success else [options.crash_value] * self.n_obj
-            out['G'] = self.run.result.g or [0] * self.n_constr if self.run.result.success else [1000] * self.n_constr
-        else:
-            f1 = self.run.result.ofv
-            f2 = 999999 if f1 >= options.crash_value else _get_n_params(self.run)
+        if not self.run.result.success:
+            out['F'] = self.cap
 
-            out['F'] = [f1, f2]
+            print(f"capped {self.run.model_num} to {self.cap}")
+
+            if options.isMOGA3:
+                out['G'] = [1000] * self.n_constr
+
+            return
+
+        if options.isMOGA3:
+            out['F'] = self.run.result.f
+            out['G'] = self.run.result.g or [0] * self.n_constr
+        else:
+            out['F'] = _get_moga2_f(self.run)
 
 
 def _get_front_runs(res: Result, template: Template, model_cache) -> list:
@@ -205,8 +213,12 @@ class _MOGARunner:
             infills = np.array([np.array(run.model.model_code.FullBinCode, dtype=bool) for run in runs])
             self.pop = pop = pop_from_array_or_individual(infills)
 
+        get_f = (lambda run: run.result.f) if options.isMOGA3 else _get_moga2_f
+        all_f = np.vstack(list(map(get_f, [r for r in runs if r.result.success])))
+        cap = np.max(all_f, axis=0).tolist()
+
         for run, moo_ind in zip(runs, pop):
-            problem = MogaProblem(run)
+            problem = MogaProblem(run, cap)
 
             self.algorithm.evaluator.eval(problem, moo_ind)
 

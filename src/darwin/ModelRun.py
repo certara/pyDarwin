@@ -373,6 +373,12 @@ class ModelRun:
 
         return True
 
+    def _post_process(self) -> bool:
+        if not self.result.can_postprocess():
+            return True
+
+        return self._post_run_r() and self._post_run_python()
+
     def run_model(self):
         """
         Runs the model. Will terminate model if the timeout option (model_run_timeout) is exceeded.
@@ -417,16 +423,16 @@ class ModelRun:
             engine = self._adapter
 
             if engine.read_model(self) and engine.read_results(self) or options.skip_running:
-                if options.skip_running:
-                    self.result.success = True
-
-                if not self.result.can_postprocess() or self._post_run_r() and self._post_run_python():
-                    try:
+                try:
+                    if self._post_process():
                         self.result.calc_fitness(self.model)
-                    except:
-                        traceback.print_exc()
 
-                    self.set_status('Done')
+                        self.set_status('Done')
+
+                        if options.skip_running:
+                            self.result.success = True
+                except:
+                    traceback.print_exc()
 
     def finish(self):
         if self.rerun:

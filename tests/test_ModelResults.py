@@ -104,8 +104,11 @@ class ModelResultsTestCase(unittest.TestCase):
         }
         options.penalty = penalties
         options.skip_running = False
+
         # Call the calc_fitness() method
-        fitness = model_results.calc_fitness(model)
+        model_results.calc_fitness(model)
+        fitness = model_results.fitness
+
         # Expected fitness value
         expected_fitness = (
                 model_results.ofv +

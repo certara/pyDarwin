@@ -32,6 +32,17 @@ def _trim_niches(niches: list, good_individuals: list):
         niche.runs_finish = cum_start
 
 
+def get_best_run(runs: list) -> ModelRun:
+    """
+    Get the best run (the run with the least fitness among entire population).
+    """
+    fitnesses = [r.result.fitness for r in runs]
+
+    best = utils.get_n_best_index(1, fitnesses)[0]
+
+    return runs[best]
+
+
 class Population:
     """
     Population of individuals (model runs).
@@ -178,11 +189,7 @@ class Population:
         """
         Get the best run (the run with the least fitness among entire population).
         """
-        fitnesses = [r.result.fitness for r in self.runs]
-
-        best = utils.get_n_best_index(1, fitnesses)[0]
-
-        return self.runs[best]
+        return get_best_run(self.runs)
 
     def get_best_runs(self, n: int) -> list:
         """

@@ -8,7 +8,7 @@ from darwin.ExecutionManager import keep_going
 
 from darwin.Template import Template
 from darwin.ModelRun import ModelRun
-from darwin.Population import Population
+from darwin.Population import Population, get_best_run
 from darwin.ModelCode import ModelCode
 
 
@@ -141,7 +141,7 @@ def _get_better_runs(runs: list, best_run: ModelRun) -> list:
     return better_runs
 
 
-def _run_local_grid_search(runs: list, template: Template, niches: list, generation, step_num: int,
+def _run_local_grid_search(runs: list, template: Template, niches: list, step_name: str,
                            unique_only: bool = False) -> list:
     test_models = []
 
@@ -173,8 +173,7 @@ def _run_local_grid_search(runs: list, template: Template, niches: list, generat
     if not test_models:
         return runs
 
-    population = Population.from_codes(template, str(generation) + f"D{step_num:02d}G",
-                                       test_models, ModelCode.from_min_binary, niches=niches)
+    population = Population.from_codes(template, step_name + 'G', test_models, ModelCode.from_min_binary, niches=niches)
 
     if unique_only:
         population.runs = [run for run in population.runs if run.is_unique()]
@@ -204,7 +203,7 @@ def do_moga_downhill_step(template: Template, niche_runs: list, generation, step
     runs = pop.runs
 
     if options.local_grid_search:
-        runs += _run_local_grid_search(runs, template, niches, generation, step_num, True)
+        runs += _run_local_grid_search(runs, template, niches, pop.name, True)
 
     return runs
 
@@ -271,7 +270,7 @@ def run_downhill(template: Template, pop: Population) -> list:
             break
 
         if options.local_grid_search:
-            runs = _run_local_grid_search(runs, template, niches, generation, this_step)
+            runs = _run_local_grid_search(runs, template, niches, population.name)
 
             if not keep_going():
                 break
@@ -387,12 +386,29 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation):
             break
 
         best = population.get_best_run()
-        log.message(f"Model for local exhaustive search = {best.file_stem}, "
-                    f"fitness = {best.result.fitness}")
         current_best_fitness = best.result.fitness
+
+        log.message(f"Model for local exhaustive search = {best.file_stem}, fitness = {best.result.fitness}")
 
         if current_best_fitness < last_best_fitness:
             current_best_model = best.model.model_code.MinBinCode
+
+            if options.local_grid_search:
+                niches = [_Niche(current_best_model)]
+
+                runs = _run_local_grid_search(population.runs, model_template, niches, population.name)
+
+                if not keep_going():
+                    break
+
+                best = get_best_run(runs)
+
+                if best.result.fitness < current_best_fitness:
+                    log.message(f"Model for local exhaustive search = {best.file_stem}, "
+                                f"fitness = {best.result.fitness}")
+
+                    current_best_fitness = best.result.fitness
+                    current_best_model = best.model.model_code.MinBinCode
 
         if current_best_fitness < overall_best_run.result.fitness:
             overall_best_run = copy(best)

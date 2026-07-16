@@ -155,7 +155,7 @@ def _run_local_grid_search(runs: list, template: Template, niches: list, step_na
             niche.done = True
             continue
 
-        flip_bits = sorted(list(set(_get_flip_bit(niche.best_run, r) for r in better_runs)))
+        flip_bits = _get_flip_bits(niche.best_run, better_runs)
         perms = [_int_to_bin(c, len(flip_bits)) for c in range(2 ** len(flip_bits))]
 
         niche.runs_start = len(test_models)
@@ -212,15 +212,27 @@ def _unique_runs(runs: list) -> list:
     return [r for r in runs if not r.is_duplicate()]
 
 
-def _get_flip_bit(r1: ModelRun, r2: ModelRun) -> int or None:
+def _get_flip_bit(r1: ModelRun, r2: ModelRun, found: set) -> int or None:
     c1 = r1.model.model_code.MinBinCode
     c2 = r2.model.model_code.MinBinCode
 
     for i in range(len(c1)):
-        if c1[i] != c2[i]:
+        if c1[i] != c2[i] and i not in found:
             return i
 
     return None
+
+
+def _get_flip_bits(best_run: ModelRun, better_runs: list) -> list:
+    found = set()
+
+    for r in better_runs:
+        i = _get_flip_bit(best_run, r, found)
+
+        if i is not None:
+            found.add(i)
+
+    return sorted(list(found))
 
 
 def _int_to_bin(n, length) -> list:
@@ -361,19 +373,16 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation):
     Output:
     single best model """
     this_step = 1
-    best_pre_fitness = best_pre.result.fitness
-    last_best_fitness = best_pre_fitness
-    current_best_fitness = best_pre_fitness
-    overall_best_run = best_pre
-    current_best_model = best_pre.model.model_code.MinBinCode
+    overall_best_run = best = best_pre
 
     all_runs = []
 
-    while current_best_fitness < last_best_fitness or this_step == 1:  # run at least once
+    while best.result.fitness < best_pre.result.fitness or this_step == 1:  # run at least once
         full_generation = str(base_generation) + f"S{this_step:02d}"
-        last_best_fitness = current_best_fitness
+        best_pre = best
+
+        test_models = [best.model.model_code.MinBinCode]  # start with just one, then call recursively for each radius
         radius = 1
-        test_models = [current_best_model]  # start with just one, then call recursively for each radius
 
         while radius <= 2:
             test_models, radius = _change_each_bit(test_models, radius)
@@ -386,31 +395,27 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation):
             break
 
         best = population.get_best_run()
-        current_best_fitness = best.result.fitness
 
         log.message(f"Model for local exhaustive search = {best.file_stem}, fitness = {best.result.fitness}")
 
-        if current_best_fitness < last_best_fitness:
-            current_best_model = best.model.model_code.MinBinCode
+        if best.result.fitness < best_pre.result.fitness and options.local_grid_search:
+            niche = _Niche(best_pre)
+            niche.runs_start = 0
+            niche.runs_finish = len(population.runs)
 
-            if options.local_grid_search:
-                niches = [_Niche(current_best_model)]
+            runs = _run_local_grid_search(population.runs, model_template, [niche], population.name)
 
-                runs = _run_local_grid_search(population.runs, model_template, niches, population.name)
+            if not keep_going():
+                break
 
-                if not keep_going():
-                    break
+            best_gs = get_best_run(runs)
 
-                best = get_best_run(runs)
+            if best_gs.result.fitness < best.result.fitness:
+                best = best_gs
 
-                if best.result.fitness < current_best_fitness:
-                    log.message(f"Model for local exhaustive search = {best.file_stem}, "
-                                f"fitness = {best.result.fitness}")
+                log.message(f"Model for local exhaustive search = {best.file_stem}, fitness = {best.result.fitness}")
 
-                    current_best_fitness = best.result.fitness
-                    current_best_model = best.model.model_code.MinBinCode
-
-        if current_best_fitness < overall_best_run.result.fitness:
+        if best.result.fitness < overall_best_run.result.fitness:
             overall_best_run = copy(best)
 
         this_step += 1

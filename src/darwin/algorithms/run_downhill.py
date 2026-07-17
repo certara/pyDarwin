@@ -142,7 +142,7 @@ def _get_better_runs(runs: list, best_run: ModelRun) -> list:
 
 
 def _run_local_grid_search(runs: list, template: Template, niches: list, step_name: str,
-                           unique_only: bool = False) -> list:
+                           unique_only: bool = False, all_bits: bool = False) -> list:
     test_models = []
 
     for niche in niches:
@@ -155,7 +155,7 @@ def _run_local_grid_search(runs: list, template: Template, niches: list, step_na
             niche.done = True
             continue
 
-        flip_bits = _get_flip_bits(niche.best_run, better_runs)
+        flip_bits = _get_flip_bits(niche.best_run, better_runs, all_bits)
         perms = [_int_to_bin(c, len(flip_bits)) for c in range(2 ** len(flip_bits))]
 
         niche.runs_start = len(test_models)
@@ -223,14 +223,20 @@ def _get_flip_bit(r1: ModelRun, r2: ModelRun, found: set) -> int or None:
     return None
 
 
-def _get_flip_bits(best_run: ModelRun, better_runs: list) -> list:
+def _get_flip_bits(best_run: ModelRun, better_runs: list, all_bits: bool) -> list:
     found = set()
 
     for r in better_runs:
-        i = _get_flip_bit(best_run, r, found)
+        while True:
+            i = _get_flip_bit(best_run, r, found)
 
-        if i is not None:
+            if i is None:
+                break
+
             found.add(i)
+
+            if not all_bits:
+                break
 
     return sorted(list(found))
 
@@ -403,7 +409,7 @@ def _full_search(model_template: Template, best_pre: ModelRun, base_generation):
             niche.runs_start = 0
             niche.runs_finish = len(population.runs)
 
-            runs = _run_local_grid_search(population.runs, model_template, [niche], population.name)
+            runs = _run_local_grid_search(population.runs, model_template, [niche], population.name, all_bits=True)
 
             if not keep_going():
                 break

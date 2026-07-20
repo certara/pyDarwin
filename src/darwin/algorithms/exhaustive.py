@@ -102,6 +102,7 @@ def unique_code_generator(template: Template, coordinates: list):
     num_coord = len(coordinates)
 
     step = 2 if options.max_omega_band_width is not None else 1
+    search_omega_blocks = options.search_omega_blocks
 
     if template.omega_band_pos is not None:
         for i, s in enumerate(range(template.omega_band_pos, num_coord, step)):
@@ -117,8 +118,10 @@ def unique_code_generator(template: Template, coordinates: list):
         looped_over = looped_over_in.copy()
 
         while x := re.search(r'\{([\w~]+)\[\d+]}', text, flags=re.RegexFlag.MULTILINE) \
-                or re.search(r';; (search band)', text, flags=re.RegexFlag.MULTILINE) \
-                or re.search(r'^\s*#(search_block)\(', text, flags=re.RegexFlag.MULTILINE):
+                or search_omega_blocks and (
+                   re.search(r';; (search band)', text, flags=re.RegexFlag.MULTILINE)
+                   or re.search(r'^\s*#(search_block)\(', text, flags=re.RegexFlag.MULTILINE)
+                   ):
 
             key = x.group(1)
             key_i = key
@@ -196,9 +199,14 @@ def unique_code_generator(template: Template, coordinates: list):
                 else:
                     break
 
-        if not re.findall(r'\{[\w~]+\[\d+]}|;; search band|^\s*#search_block\(', text, flags=re.RegexFlag.MULTILINE):
-            code = [x or i for x, i in zip(genome, initial)]
-            yield code
+        if re.findall(r'\{[\w~]+\[\d+]}', text, flags=re.RegexFlag.MULTILINE) \
+                or search_omega_blocks \
+                and re.findall(r';; search band|^\s*#search_block\(', text, flags=re.RegexFlag.MULTILINE):
+            return
+
+        code = [x or i for x, i in zip(genome, initial)]
+
+        yield code
 
     yield from _replace_tokens(template.template_text, [None] * num_coord, [False] * num_coord, [False] * num_coord, {}, 1)
 

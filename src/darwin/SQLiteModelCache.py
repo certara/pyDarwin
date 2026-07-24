@@ -32,20 +32,23 @@ class SQLiteModelCache(ModelCache):
 
         self.file = Path(self.file)
 
-        if options.saved_models_readonly:
-            log.message("Not saving any models.")
-            return
-
-        log.message(f"Models will be saved in {self.file}")
-
-        if not self.file.is_file():
-            create_database(self.file)
-
-        self.conn = sqlite3.connect(self.file, check_same_thread=False)
-
         self.warmed_up = {}
 
-        self.session = self.start_session()
+        self.conn = None
+        mode = ''
+
+        if options.saved_models_readonly:
+            log.message('Not saving any models.')
+            mode = '?mode=ro'
+        else:
+            log.message(f"Models will be saved in {self.file}")
+
+            if not self.file.is_file():
+                create_database(self.file)
+
+        if self.file.is_file():
+            self.conn = sqlite3.connect(f"file:{self.file}{mode}", uri=True, check_same_thread=False)
+            self.session = -1 if options.saved_models_readonly else self.start_session()
 
     def start_session(self) -> int:
         with lock:
@@ -67,6 +70,9 @@ class SQLiteModelCache(ModelCache):
         """
         Store a run.
         """
+
+        if options.saved_models_readonly:
+            return
 
         m = run.model
         r = run.result
@@ -148,6 +154,9 @@ class SQLiteModelCache(ModelCache):
             self.warmed_up[run.model.phenotype] = (run.run_dir, run.model.control)
 
     def find_model_run(self, **kwargs) -> ModelRun or None:
+        if self.conn is None:
+            return None
+
         if 'model_code' in kwargs:
             model = kwargs['model_code']
             value = int("".join(str(b) for b in model.FullBinCode), 2)
@@ -216,7 +225,8 @@ class SQLiteModelCache(ModelCache):
         Finalize all ongoing activities.
         """
 
-        self.conn.close()
+        if self.conn is not None:
+            self.conn.close()
 
 
 def create_database(db_name: Path):

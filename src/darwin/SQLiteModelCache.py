@@ -35,9 +35,11 @@ class SQLiteModelCache(ModelCache):
         self.warmed_up = {}
 
         self.conn = None
+        mode = ''
 
         if options.saved_models_readonly:
-            log.message("Not saving any models.")
+            log.message('Not saving any models.')
+            mode = '?mode=ro'
         else:
             log.message(f"Models will be saved in {self.file}")
 
@@ -45,8 +47,8 @@ class SQLiteModelCache(ModelCache):
                 create_database(self.file)
 
         if self.file.is_file():
-            self.conn = sqlite3.connect(self.file, check_same_thread=False)
-            self.session = self.start_session()
+            self.conn = sqlite3.connect(f"file:{self.file}{mode}", uri=True, check_same_thread=False)
+            self.session = -1 if options.saved_models_readonly else self.start_session()
 
     def start_session(self) -> int:
         with lock:
@@ -153,7 +155,7 @@ class SQLiteModelCache(ModelCache):
 
     def find_model_run(self, **kwargs) -> ModelRun or None:
         if self.conn is None:
-            return
+            return None
 
         if 'model_code' in kwargs:
             model = kwargs['model_code']

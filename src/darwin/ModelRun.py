@@ -388,6 +388,15 @@ class ModelRun:
         if not keep_going():
             return
 
+        if options.dry_run:
+            self.result.calc_fitness(self.model)
+
+            self.set_status('Done')
+
+            self.result.success = True
+
+            return
+
         self.make_control_file()
 
         if not file_checker.check_files_present(self):

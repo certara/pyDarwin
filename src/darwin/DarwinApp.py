@@ -119,7 +119,9 @@ def init_search(model_template: Template) -> bool:
     log.message(f"Algorithm: {options.algorithm}")
     log.message(f"Engine: {adapter.get_engine_name().upper()}")
 
-    if options.skip_running:
+    if options.dry_run:
+        log.warn('Performing a dry run')
+    elif options.skip_running:
         log.warn('Skipping model runs')
 
     if options.algorithm in ["GA", "PSO", "GBRT", "RF", "GP", "MOGA", "MOGA3"]:

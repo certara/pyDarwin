@@ -58,6 +58,14 @@ class PipelineRunManager(ModelRunManager):
 
     @staticmethod
     def _process_run_results(run: ModelRun):
+        if options.dry_run:
+            log_run(run)
+
+            model_cache = get_model_cache()
+            model_cache.store_model_run(run)
+
+            return run
+
         this_one_is_better = (GlobalVars.best_run is None or run.result.fitness < GlobalVars.best_run.result.fitness) \
             and run.result.fitness != options.crash_value
 

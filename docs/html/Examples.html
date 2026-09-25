@@ -6,19 +6,19 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Examples &mdash; pyDarwin 3.1.0 documentation</title>
+  <title>Examples &mdash; pyDarwin 3.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
 
   
-      <script src="_static/documentation_options.js?v=dd1205ac"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Options List" href="Options.html" />
+    <link rel="next" title="Example 1: PK Model, Trivial Exhaustive Search" href="Example1.html" />
     <link rel="prev" title="Usage" href="Usage.html" /> 
 </head>
 
@@ -52,7 +52,19 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example7.html">Example 7: PK Model, Exhaustive Omega Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example8.html">Example 8: Emax Model, PSO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example9.html">Example 9: MOGA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example10.html">Example 10: MOGA3</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
@@ -85,18 +97,22 @@
              
   <section id="examples">
 <span id="startexamples"></span><h1>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h1>
-<p>The following examples are provided in pyDarwin 3.1.0 to help you get started.
+<p>The following examples are provided in pyDarwin 3.2.0 to help you get started.
 <a class="reference external" href="https://github.com/certara/pyDarwin/tree/master/examples/user">Examples</a> are
 organized into folders with all required files available for execution.</p>
+<div class="toctree-wrapper compound">
+</div>
 <ul class="simple">
-<li><p><a class="reference internal" href="Example1.html#startpk1"><span class="std std-ref">Example 1: PK Model, Trivial Exhaustive Search</span></a>.</p></li>
-<li><p><a class="reference internal" href="Example2.html#startpk2"><span class="std std-ref">Example 2: PK Model 2, Simulation model by GP with Python code</span></a>.</p></li>
-<li><p><a class="reference internal" href="Example3.html#startpk3"><span class="std std-ref">Example 3: PK Model, ODE model</span></a>.</p></li>
-<li><p><a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">Example 4: PK Model, DMAG by GA with post-run R code</span></a>.</p></li>
-<li><p><a class="reference internal" href="Example5.html#startpk5"><span class="std std-ref">Example 5: PK Model, DMAG by GP</span></a>.</p></li>
-<li><p><a class="reference internal" href="Example6.html#startpk6"><span class="std std-ref">Example 6: PK Model, DMAG by RF with post-run Python code</span></a>.</p></li>
-<li><p><a class="reference internal" href="Example7.html#startpk7"><span class="std std-ref">Example 7: PK Model, Exhaustive Omega Search</span></a>.</p></li>
-<li><p><a class="reference internal" href="Example8.html#startpd8"><span class="std std-ref">Example 8: Emax Model, PSO</span></a>.</p></li>
+<li><p><a class="reference internal" href="Example1.html#startpk1"><span class="std std-ref">Example 1: PK Model, Trivial Exhaustive Search</span></a></p></li>
+<li><p><a class="reference internal" href="Example2.html#startpk2"><span class="std std-ref">Example 2: PK Model 2, Simulation model by GP with Python code</span></a></p></li>
+<li><p><a class="reference internal" href="Example3.html#startpk3"><span class="std std-ref">Example 3: PK Model, ODE model</span></a></p></li>
+<li><p><a class="reference internal" href="Example4.html#startpk4"><span class="std std-ref">Example 4: PK Model, DMAG by GA with post-run R code</span></a></p></li>
+<li><p><a class="reference internal" href="Example5.html#startpk5"><span class="std std-ref">Example 5: PK Model, DMAG by GP</span></a></p></li>
+<li><p><a class="reference internal" href="Example6.html#startpk6"><span class="std std-ref">Example 6: PK Model, DMAG by RF with post-run Python code</span></a></p></li>
+<li><p><a class="reference internal" href="Example7.html#startpk7"><span class="std std-ref">Example 7: PK Model, Exhaustive Omega Search</span></a></p></li>
+<li><p><a class="reference internal" href="Example8.html#startpd8"><span class="std std-ref">Example 8: Emax Model, PSO</span></a></p></li>
+<li><p><a class="reference internal" href="Example9.html#startmoga9"><span class="std std-ref">Example 9: MOGA</span></a></p></li>
+<li><p><a class="reference internal" href="Example10.html#startmoga10"><span class="std std-ref">Example 10: MOGA3</span></a></p></li>
 </ul>
 <p id="examples-target">To get started, download and unzip the <a class="reference external" href="https://github.com/certara/pyDarwin/tree/master/examples/user">Examples</a>
 folders from the following <a class="reference external" href="https://certara-training.s3.amazonaws.com/Certara+Darwin+Project/pyDarwin_1_1_Examples.zip">link</a>.</p>
@@ -117,7 +133,7 @@ you can simply specify the path to the one of the Example[n] folders in the comm
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="Usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="Options.html" class="btn btn-neutral float-right" title="Options List" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Example1.html" class="btn btn-neutral float-right" title="Example 1: PK Model, Trivial Exhaustive Search" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

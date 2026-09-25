@@ -6,16 +6,16 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Algorithms &mdash; pyDarwin 3.1.0 documentation</title>
+  <title>Algorithms &mdash; pyDarwin 3.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
 
   
-      <script src="_static/documentation_options.js?v=dd1205ac"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -187,7 +187,7 @@ The “star” topology is the only implementation currently available in pyDarw
 sort of star shape, up to the number of neighbors specified in <a class="reference internal" href="Options.html#neighbor-num-options-desc"><span class="std std-ref">neighbor_number</span></a>.</p>
 </section>
 <section id="multi-objective-optimization">
-<span id="moo-desc"></span><h2>Multi-Objective Optimization<a class="headerlink" href="#multi-objective-optimization" title="Link to this heading">¶</a></h2>
+<span id="moo-desc"></span><span id="moo-label"></span><h2>Multi-Objective Optimization<a class="headerlink" href="#multi-objective-optimization" title="Link to this heading">¶</a></h2>
 <p>Many model selection problems involve several competing objectives that cannot be reduced to a single scalar value without
 introducing arbitrary penalty terms. Multi-objective optimization (MOO <a class="footnote-reference brackets" href="#f5" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>) addresses this by optimizing multiple criteria
 simultaneously and identifying a set of non-dominated models that form a Pareto front. A model on the Pareto front cannot be
@@ -199,9 +199,28 @@ MOO algorithms in pyDarwin generate a manageable set of non-dominated models tha
 This set is then presented to the user, who selects one or more preferred models based on both numerical criteria and subjective
 considerations such as biological plausibility and diagnostic plots. A detailed case study of applying pyDarwin to PopPK model
 selection using these methods is provided in <a class="footnote-reference brackets" href="#f8" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>.</p>
+<p>Imagine you are deciding what car to buy. You have two objectives: you would like it to be fast (measured as lap time around the
+Nürburgring track) and inexpensive (measured as cost). In addition to these numerical (objective) criteria, you also have subjective
+criteria such as comfort and how fun the car is to drive. The subjective criteria cannot easily be captured numerically, and even for
+the objective criteria it can be difficult to combine them into a single scalar “goodness” value using penalties, for example:</p>
+<div class="math notranslate nohighlight">
+\[Car \enspace \textit{&quot;goodness&quot;}  = Nürburgring \enspace   time \enspace (seconds) + \frac{Cost}{500}\]</div>
+<p>In this example the penalty on cost is cost divided by 500. The value 500 is subjective and somewhat arbitrary; another person would
+likely choose a different value, and you might choose a different value after your yearly bonus. If that penalty changes after an
+optimization has been run, the optimization would need to be repeated. Multi-objective optimization avoids this arbitrariness by
+optimizing several objectives simultaneously and presenting a set of “non-dominated” (Pareto optimal) solutions to the user. For each
+solution on the Pareto front there is no other solution that is better in every objective, and dominated solutions (worse in all
+objectives than some other solution) can be discarded.</p>
+<p>The MOO results visualize the trade-offs between the objectives, allowing users to revisit and discuss preferred solutions as
+preferences change. A representative plot for the trade-off between two objectives (speed and cost) is depicted below for car
+performance and cost:</p>
+<a class="reference internal image-reference" href="_images/ParetoFrontCars.jpeg"><img alt="Car performance vs cost" class="align-center" src="_images/ParetoFrontCars.jpeg" style="width: 700px;" />
+</a>
 <p>pyDarwin implements multi-objective optimization using genetic algorithms. The currently available algorithms are
-MOGA (based on NSGA-II <a class="footnote-reference brackets" href="#f6" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>) and MOGA3 (based on NSGA-III <a class="footnote-reference brackets" href="#f7" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>), described in more detail below. These algorithms are configured
-through the <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a> (for example, via the <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> option and user-specified objective definitions).</p>
+MOGA (based on NSGA-II <a class="footnote-reference brackets" href="#f6" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>) and MOGA3 (based on NSGA-III <a class="footnote-reference brackets" href="#f7" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>), described in more detail below. Additional background on
+MOGA3 post-processing with user-defined R/Python code is provided in <a class="reference internal" href="MOGA3Postprocessing.html#moga3-postprocessing"><span class="std std-ref">MOGA3 post-processing</span></a>.
+These algorithms are configured through the <a class="reference internal" href="Options.html#options"><span class="std std-ref">Options List</span></a> (for example, via the <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> option and
+user-specified objective definitions).</p>
 <section id="moga-nsga-ii">
 <span id="moga-desc"></span><h3>MOGA (NSGA-II)<a class="headerlink" href="#moga-nsga-ii" title="Link to this heading">¶</a></h3>
 <p>MOGA in pyDarwin is based on the Non-dominated Sorting Genetic Algorithm II (NSGA-II <a class="footnote-reference brackets" href="#f6" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>). Like the single-objective

@@ -1,0 +1,822 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example 10: MOGA3 &mdash; pyDarwin 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
+
+  
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Options List" href="Options.html" />
+    <link rel="prev" title="Example 9: MOGA" href="Example9.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example7.html">Example 7: PK Model, Exhaustive Omega Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example8.html">Example 8: Emax Model, PSO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example9.html">Example 9: MOGA</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Example 10: MOGA3</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#partitions-and-population-size">Partitions and population size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#post-run-r-code">Post Run R code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nonmem">NONMEM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nonmem-post-run-r-code">NONMEM Post Run R code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nonmem-post-run-python-code-post-process">NONMEM Post Run python code - post_process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nonmem-post-run-python-code-post-process2">NONMEM Post Run python code - post_process2</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nlme">NLME</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nlme-post-run-r-code">NLME Post Run R code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nlme-post-run-python-code-post-process">NLME Post Run python code - post_process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nlme-post-run-python-code-post-process2">NLME Post Run python code - post_process2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLME.html">NLME integration</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="Examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Example 10: MOGA3</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-10-moga3">
+<span id="startmoga10"></span><h1>Example 10: MOGA3<a class="headerlink" href="#example-10-moga3" title="Link to this heading">¶</a></h1>
+<p>MOGA3 requires user defined code. The template.txt and tokens.json files are identical to those used for other single
+objective algorithms. For additional background on general principles of MOGA3 post-processing and user-defined R/Python code,
+see <a class="reference internal" href="MOGA3Postprocessing.html#moga3-postprocessing"><span class="std std-ref">MOGA3 post-processing</span></a>.</p>
+<section id="partitions-and-population-size">
+<h2>Partitions and population size<a class="headerlink" href="#partitions-and-population-size" title="Link to this heading">¶</a></h2>
+<p>In theory, with more than two or more continuous objective, there can be an infinite number of non-dominated
+solutions. Keep in mind that to be dominated requires that ALL objective in some other solution are better.
+One can imagine a set of solutions with 2 continuous objectives with a list of objectives with values
+alternating with decriments of 0.000001, such that all are non-dominated. The solution to this problem, as
+well as to improve performance, is to partition the search space such that the direction of the search
+is divided into a finite number of directions. The number of parititions will influence the number of
+non-dominated returned by the algorithm, with the number of non-dominated being (roughly) equal to or
+less than the number of partitions. The non-dominated solutions returned will typically be distributed
+throughout the search space. That is, the you are unlikely to get all 2 compartment models with additive
+residual error, and just varying by covariates. More likely there will be a mix of 1 and 2 compartment models,
+with and without ALAG, different residual errors and a range of covariates.</p>
+<p>The number of partitions possible will be limited by the population size. A useful (although very technical)
+guide can be found here:
+<a class="reference external" href="https://journals.sagepub.com/doi/10.3233/ICA-170542">Cheng et al</a>.</p>
+<p>Practically, the population size will be 50-100 (potentially larger with more complex searchs). The number of
+partitions will then be driven by the number of non-dominated models that the user would like returned for
+further consideration. Perhaps 6-12 partitions might typically be used.</p>
+<p>The number of paritions is set in the options.json file (<a class="reference external" href="https://certara.github.io/pyDarwin/html/Options.html">Options.json</a>).
+An example is below:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="nt">"MOGA"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"attribute_mutation_probability"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"constraints"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"crossover"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"single"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"crossover_rate"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.95</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"mutation_rate"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.95</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"names"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">"OFV"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"Nparms"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"NFailedRSEs"</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">"objectives"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"partitions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span>
+<span class="p">},</span>
+<span class="nt">"algorithm"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"MOGA3"</span><span class="p">,</span>
+<span class="nt">"postprocess"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"use_r"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"use_python"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"post_run_python_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{project_dir}/RSE3penalty.py"</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">"r_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="nt">"author"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Certara"</span><span class="p">,</span>
+<span class="nt">"downhill_period"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="nt">"engine_adapter"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"nlme"</span><span class="p">,</span>
+<span class="nt">"final_downhill_search"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="nt">"gcc_dir"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"C:\\Program Files\\Certara\\mingw64"</span><span class="p">,</span>
+<span class="nt">"keep_extensions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"csv"</span><span class="p">],</span>
+<span class="nt">"keep_files"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"res.csv"</span><span class="p">,</span><span class="s2">"residuals.csv"</span><span class="p">],</span>
+<span class="nt">"local_2_bit_search"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="nt">"model_run_timeout"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span>
+<span class="nt">"niche_radius"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="nt">"nlme_dir"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"C:\\Program Files\\Certara\\NLME_Engine"</span><span class="p">,</span>
+<span class="nt">"num_generations"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="nt">"num_niches"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="nt">"num_parallel"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="nt">"population_size"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+
+<span class="nt">"project_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"MOGA3"</span><span class="p">,</span>
+<span class="nt">"random_seed"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">51424319</span><span class="p">,</span>
+<span class="nt">"rscript_path"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"C:/Program Files/R/R-4.5.1/bin/Rscript.exe"</span><span class="p">,</span>
+<span class="nt">"working_dir"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"{project_dir}"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="post-run-r-code">
+<h2>Post Run R code<a class="headerlink" href="#post-run-r-code" title="Link to this heading">¶</a></h2>
+<p>It is important to insure that R returns (to standard output) the correct number of value in all cases.
+This requires using the suppres? function for all other output, e.g., to load the xpose package, the
+syntax would be:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">suppressPackageStartupMessages</span><span class="p">(</span><span class="nf">library</span><span class="p">(</span><span class="n">xpose</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>and to load the NONMEM output into an xpose data base:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">suppressWarnings</span><span class="p">(</span><span class="n">xpdb</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">xpose_data</span><span class="p">(</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lstfile</span><span class="p">,</span><span class="w"> </span><span class="n">quiet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="nonmem">
+<h2>NONMEM<a class="headerlink" href="#nonmem" title="Link to this heading">¶</a></h2>
+<section id="nonmem-post-run-r-code">
+<h3>NONMEM Post Run R code<a class="headerlink" href="#nonmem-post-run-r-code" title="Link to this heading">¶</a></h3>
+<p>Below is R code to return 3 objectives (OFV, n parameters and the number of parameter estimates with RSE &gt; 0.5),
+and a constraint if anything goes wrong (0 = feasible solution, 1 = infeasible solution).
+Note again that this is a script, not a function.</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">suppressPackageStartupMessages</span><span class="p">(</span><span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">))</span>
+<span class="nf">suppressPackageStartupMessages</span><span class="p">(</span><span class="nf">library</span><span class="p">(</span><span class="n">xpose</span><span class="p">))</span>
+<span class="nf">suppressPackageStartupMessages</span><span class="p">(</span><span class="nf">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">))</span>
+<span class="nf">suppressWarnings</span><span class="p">({</span>
+<span class="w">    </span><span class="nf">suppressMessages</span><span class="p">({</span>
+<span class="w">        </span><span class="n">OFV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nparms</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nfailedRSEs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">99999</span>
+<span class="w">        </span><span class="nf">tryCatch</span><span class="p">({</span>
+<span class="w">            </span><span class="n">lstfile</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">list.files</span><span class="p">(</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"."</span><span class="p">,</span>
+<span class="w">                                </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"lst$"</span><span class="p">)</span>
+<span class="w">            </span><span class="kr">if</span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">lstfile</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">){</span>
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">OFV</span><span class="p">,</span><span class="w"> </span><span class="n">nparms</span><span class="p">,</span><span class="w"> </span><span class="n">nfailedRSEs</span><span class="p">))</span>
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="kr">else</span><span class="p">{</span>
+<span class="w">                </span><span class="nf">suppressWarnings</span><span class="p">({</span>
+<span class="w">                    </span><span class="n">xpdb</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">xpose_data</span><span class="p">(</span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lstfile</span><span class="p">,</span><span class="w"> </span><span class="n">quiet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="w">                </span><span class="p">})</span>
+<span class="w">                </span><span class="n">res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">get_summary</span><span class="p">(</span><span class="n">xpdb</span><span class="p">)</span>
+<span class="w">                </span><span class="n">OFVpos</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">which</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">descr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">'Objective function value'</span><span class="p">)</span>
+<span class="w">                </span><span class="n">OFV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res</span><span class="o">$</span><span class="n">value</span><span class="p">[</span><span class="n">OFVpos</span><span class="p">]</span>
+<span class="w">                </span><span class="kr">if</span><span class="p">(</span><span class="n">OFV</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"na"</span><span class="p">)</span><span class="w"> </span><span class="n">OFV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">99999</span>
+<span class="w">                </span><span class="n">res</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">tryCatch</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">prm</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">get_prm</span><span class="p">(</span><span class="n">xpdb</span><span class="p">,</span><span class="w"> </span><span class="n">quiet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span>
+<span class="w">                    </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="n">e</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">                </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nf">inherits</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="s">"error"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">OFV</span><span class="p">,</span><span class="w"> </span><span class="n">nparms</span><span class="p">,</span><span class="w"> </span><span class="n">nfailedRSEs</span><span class="p">))</span>
+<span class="w">                    </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>
+<span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="kr">else</span><span class="p">{</span>
+<span class="w">                </span><span class="n">nparms</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="n">prm</span><span class="o">$</span><span class="n">name</span><span class="p">)</span>
+<span class="w">                </span><span class="n">values</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">prm</span><span class="o">$</span><span class="n">value</span>
+<span class="w">                </span><span class="n">ses</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">prm</span><span class="o">$</span><span class="n">se</span>
+<span class="w">                </span><span class="kr">if</span><span class="p">(</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">ses</span><span class="p">[</span><span class="m">1</span><span class="p">])){</span>
+<span class="w">                    </span><span class="n">rses</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ses</span><span class="o">/</span><span class="n">values</span>
+<span class="w">                    </span><span class="n">nfailedRSEs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">rses</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.5</span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span><span class="kr">else</span><span class="p">{</span>
+<span class="w">                    </span><span class="n">nfailedRSEs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nparms</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">OFV</span><span class="p">,</span><span class="w"> </span><span class="n">nparms</span><span class="p">,</span><span class="w"> </span><span class="n">nfailedRSEs</span><span class="p">))</span>
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">))</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="p">},</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kr">function</span><span class="p">(){</span>
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">OFV</span><span class="p">,</span><span class="w"> </span><span class="n">nparms</span><span class="p">,</span><span class="w"> </span><span class="n">nfailedRSEs</span><span class="p">))</span>
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="nonmem-post-run-python-code-post-process">
+<h3>NONMEM Post Run python code - post_process<a class="headerlink" href="#nonmem-post-run-python-code-post-process" title="Link to this heading">¶</a></h3>
+<p>Note that the pharmpy-core package is required for post run NONMEM code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pharmpy.tools</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_nmoutput</span><span class="p">(</span><span class="n">rundir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    uses pharmpy function to read nonmem outputd return OFV,  nparms and n failed RSEs.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rundir : pyDarwin model run directory</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    OFV, nparms, nfailedRSEs</span>
+
+<span class="sd">    """</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ofv</span> <span class="o">=</span> <span class="n">nparms</span> <span class="o">=</span> <span class="n">nfailedRSEs</span> <span class="o">=</span> <span class="mi">99999</span>
+        <span class="n">mod_file</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">rundir</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".mod"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">filename</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"NM_"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span> <span class="ow">and</span> <span class="n">filename</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rundir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                <span class="n">mod_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rundir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">mod_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span> <span class="c1">#pharmpy function throws warning about parameter name THETA etc duplicated</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">read_modelfit_results</span><span class="p">(</span><span class="n">mod_file</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"default"</span><span class="p">)</span>
+            <span class="n">ofv</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s2">"ofv"</span><span class="p">,</span> <span class="mi">9999999</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">ofv</span><span class="p">):</span>
+                <span class="n">ofv</span> <span class="o">=</span> <span class="mi">99999</span>
+            <span class="n">parms</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s2">"parameter_estimates"</span><span class="p">,</span> <span class="mi">999999</span><span class="p">)</span>
+            <span class="n">nparms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">parms</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">'covstep_successful'</span><span class="p">):</span>
+                <span class="n">rses</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="s1">'relative_standard_errors'</span><span class="p">)</span>
+                <span class="n">nfailedRSEs</span>  <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">rses</span> <span class="k">if</span> <span class="n">item</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nfailedRSEs</span> <span class="o">=</span> <span class="n">nparms</span>
+        <span class="k">return</span> <span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span>
+
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">post_process</span><span class="p">(</span><span class="n">rundir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""post run processing for MOGA3 in python. post_process2 takes the run directory as the argument, return</span>
+<span class="sd">    ofv, number of parameters and number of parameters with RSE &gt; 0.5. Excepteion return available values</span>
+<span class="sd">    and constraint = 1</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rundir : pyDarwin model run directory</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    objectives, constraint [float, float, float],[constraint]</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    post_process(rundir)</span>
+<span class="sd">    [10.2, 8, 1],[0]</span>
+<span class="sd">    """</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span> <span class="o">=</span> <span class="n">read_nmoutput</span><span class="p">(</span><span class="n">rundir</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">post_process</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>the</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">post_process</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>code is again included so that it can be run from command line for checking. An example of code
+to run from command line is:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python RSE3penalty.py temp/1/01</span>
+<span class="gp gp-VirtualEnv">([np.float64(5668.41945648538)</span><span class="go">, 11, 11], [0])</span>
+</pre></div>
+</div>
+</section>
+<section id="nonmem-post-run-python-code-post-process2">
+<h3>NONMEM Post Run python code - post_process2<a class="headerlink" href="#nonmem-post-run-python-code-post-process2" title="Link to this heading">¶</a></h3>
+<p>The pharmpy-core package is required for the python code below. while some results are available in the run
+object (OFV, number of parameters), others are not (RSEs in this case). The run directory (run_dir in the results
+object) is then used to identify the NM_*.mod file. The read_modelfit_results function in pharmpy-tools is then
+called with the .mod file to return the requred RSEs. It is not possible to run the post_process2 code from command
+line.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pharmpy.tools</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_nmoutput</span><span class="p">(</span><span class="n">rundir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    uses pharmpy function to read nonmem outputd return OFV,  nparms and n failed RSEs.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rundir : pyDarwin model run directory</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    OFV, nparms, nfailedRSEs</span>
+
+<span class="sd">    """</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ofv</span> <span class="o">=</span> <span class="n">nparms</span> <span class="o">=</span> <span class="n">nfailedRSEs</span> <span class="o">=</span> <span class="mi">99999</span>
+        <span class="n">mod_file</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">rundir</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".mod"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">filename</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"NM_"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span> <span class="ow">and</span> <span class="n">filename</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rundir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                <span class="n">mod_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rundir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">mod_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span> <span class="c1">#pharmpy function throws warning about he parameter name THETA is duplicated.</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">read_modelfit_results</span><span class="p">(</span><span class="n">mod_file</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"default"</span><span class="p">)</span>
+            <span class="n">ofv</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s2">"ofv"</span><span class="p">,</span> <span class="mi">9999999</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">ofv</span><span class="p">):</span>
+                <span class="n">ofv</span> <span class="o">=</span> <span class="mi">99999</span>
+            <span class="n">parms</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s2">"parameter_estimates"</span><span class="p">,</span> <span class="mi">999999</span><span class="p">)</span>
+            <span class="n">nparms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">parms</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">'covstep_successful'</span><span class="p">):</span>
+                <span class="n">rses</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="s1">'relative_standard_errors'</span><span class="p">)</span>
+                <span class="n">nfailedRSEs</span>  <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">rses</span> <span class="k">if</span> <span class="n">item</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nfailedRSEs</span> <span class="o">=</span> <span class="n">nparms</span>
+        <span class="k">return</span> <span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span>
+
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">post_process2</span><span class="p">(</span><span class="n">run</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""post run processing for MOGA3 in python. post_process2 takes the run object as the argument, return</span>
+<span class="sd">    ofv, number of parameters and number of parameters with RSE &gt; 0.5. Excepteion return available values</span>
+<span class="sd">    and constraint = 1</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    run : pyDarwin model</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    objectives, constraint [float, float, float],[constraint]</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    post_process(run)</span>
+<span class="sd">    [10.2, 8, 1],[0]</span>
+<span class="sd">    """</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># read ofv from run, just to demonstrate</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="s2">"result"</span><span class="p">)</span>
+        <span class="n">ofv</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="s1">'ofv'</span><span class="p">)</span>
+        <span class="c1"># but rses are not in run, need to use pharmpy to read output</span>
+        <span class="n">rundir</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="s2">"run_dir"</span><span class="p">)</span>
+        <span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span> <span class="o">=</span> <span class="n">read_nmoutput</span><span class="p">(</span><span class="n">rundir</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="nlme">
+<h2>NLME<a class="headerlink" href="#nlme" title="Link to this heading">¶</a></h2>
+<section id="nlme-post-run-r-code">
+<h3>NLME Post Run R code<a class="headerlink" href="#nlme-post-run-r-code" title="Link to this heading">¶</a></h3>
+<p>For R post processing code in NLME, the key output is the dmp.txt file. This file, when
+sourced in R (e.g., source(“dmp.txt”)) generates a dmp.txt object that contains most of the
+key output for very easy access.
+The code below returns 3 objectives and one constraint. As for the NONMEM examples, the
+first two objectives are OFV and number of parameters. The third objective is a CmaxPenalty
+for the mean absolute percent bias is Cmax, abs(%(Observed - predicted)) * 10.
+This script also returns a constraint of 1 (infeasible) if any RSE values are &gt; 0.5.</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">suppressPackageStartupMessages</span><span class="p">(</span><span class="nf">suppressMessages</span><span class="p">(</span><span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)))</span>
+<span class="nf">suppressPackageStartupMessages</span><span class="p">(</span><span class="nf">suppressWarnings</span><span class="p">(</span><span class="nf">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)))</span>
+<span class="nf">suppressPackageStartupMessages</span><span class="p">(</span><span class="nf">suppressWarnings</span><span class="p">(</span><span class="nf">library</span><span class="p">(</span><span class="n">readtext</span><span class="p">)))</span>
+<span class="nf">suppressPackageStartupMessages</span><span class="p">(</span><span class="nf">suppressWarnings</span><span class="p">(</span><span class="nf">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)))</span>
+
+<span class="n">GetCmaxPenalty</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">CrashPenalty</span><span class="p">){</span>
+<span class="w">    </span><span class="nf">tryCatch</span><span class="p">({</span>
+<span class="w">    </span><span class="nf">source</span><span class="p">(</span><span class="s">"dmp.txt"</span><span class="p">)</span>
+<span class="w">    </span><span class="n">preds</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dmp.txt</span><span class="o">$</span><span class="n">residuals</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">select</span><span class="p">(</span><span class="n">ID5</span><span class="p">,</span><span class="w"> </span><span class="n">IPRED</span><span class="p">,</span><span class="w"> </span><span class="n">DV</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">group_by</span><span class="p">(</span><span class="n">ID5</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">summarise</span><span class="p">(</span><span class="n">ObsCmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">DV</span><span class="p">),</span><span class="w"> </span><span class="n">PredCmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">max</span><span class="p">(</span><span class="n">IPRED</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="o">*</span><span class="p">(</span><span class="n">ObsCmax</span><span class="o">-</span><span class="n">PredCmax</span><span class="p">)</span><span class="o">/</span><span class="n">ObsCmax</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span>
+<span class="w">        </span><span class="nf">summarise</span><span class="p">(</span><span class="n">MeanAbsDiff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="n">Diff</span><span class="p">))</span>
+<span class="w">    </span><span class="kr">return</span><span class="p">(</span><span class="m">10</span><span class="o">*</span><span class="nf">abs</span><span class="p">(</span><span class="n">preds</span><span class="o">$</span><span class="n">MeanAbsDiff</span><span class="p">))</span>
+
+<span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kr">function</span><span class="p">(){</span>
+<span class="w">    </span><span class="kr">return</span><span class="p">(</span><span class="n">CrashPenalty</span><span class="p">)</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="p">}</span>
+
+<span class="n">OFV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">nParms</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">CmaxPenalty</span><span class="w"> </span><span class="o">&lt;-</span><span class="w">  </span><span class="n">CrashPenalty</span><span class="w">  </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">99999</span>
+<span class="nf">tryCatch</span><span class="p">({</span>
+<span class="w">    </span><span class="kr">if</span><span class="p">(</span><span class="o">!</span><span class="nf">file.exists</span><span class="p">(</span><span class="s">"dmp.txt"</span><span class="p">)){</span>
+<span class="w">        </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">CrashPenalty</span><span class="p">,</span><span class="n">CrashPenalty</span><span class="p">,</span><span class="n">CrashPenalty</span><span class="p">))</span>
+<span class="w">        </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>
+<span class="w">    </span><span class="p">}</span><span class="kr">else</span><span class="p">{</span>
+<span class="w">        </span><span class="nf">source</span><span class="p">(</span><span class="s">"dmp.txt"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">OFV</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dmp.txt</span><span class="o">$</span><span class="n">logLik</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="m">-2</span><span class="p">)</span>
+<span class="w">        </span><span class="n">CmaxPenalty</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">GetCmaxPenalty</span><span class="p">(</span><span class="n">CrashPenalty</span><span class="p">)</span>
+<span class="w">        </span><span class="n">nParms</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">dmp.txt</span><span class="o">$</span><span class="n">nParm</span>
+<span class="w">        </span><span class="kr">if</span><span class="p">(</span><span class="o">!</span><span class="nf">file.exists</span><span class="p">(</span><span class="s">"nlme7engine.log"</span><span class="p">)){</span>
+<span class="w">            </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">OFV</span><span class="p">,</span><span class="w"> </span><span class="n">nParms</span><span class="p">,</span><span class="w"> </span><span class="n">CmaxPenalty</span><span class="p">))</span>
+<span class="w">            </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>
+<span class="w">        </span><span class="p">}</span><span class="kr">else</span><span class="p">{</span>
+<span class="w">            </span><span class="n">log</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">readLines</span><span class="p">(</span><span class="s">"nlme7engine.log"</span><span class="p">)</span>
+<span class="w">            </span><span class="n">ScoresuccessLine</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">grep</span><span class="p">(</span><span class="s">"external_coords"</span><span class="p">,</span><span class="w"> </span><span class="n">log</span><span class="p">)</span>
+<span class="w">            </span><span class="kr">if</span><span class="w"> </span><span class="p">(</span><span class="nf">length</span><span class="p">(</span><span class="n">ScoresuccessLine</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">){</span>
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">OFV</span><span class="p">,</span><span class="w"> </span><span class="n">nParms</span><span class="p">,</span><span class="w"> </span><span class="n">CmaxPenalty</span><span class="p">))</span>
+<span class="w">                </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>
+<span class="w">            </span><span class="p">}</span><span class="kr">else</span><span class="p">{</span>
+<span class="w">                </span><span class="n">parms</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">data.frame</span><span class="p">(</span><span class="nf">matrix</span><span class="p">(</span><span class="m">-99</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nParms</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">))</span>
+<span class="w">                </span><span class="n">ScoresuccessLine</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ScoresuccessLine</span><span class="p">[</span><span class="nf">length</span><span class="p">(</span><span class="n">ScoresuccessLine</span><span class="p">)]</span>
+<span class="w">                </span><span class="n">line</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">str_trim</span><span class="p">(</span><span class="n">log</span><span class="p">[</span><span class="n">ScoresuccessLine</span><span class="p">[</span><span class="m">1</span><span class="p">]])</span>
+<span class="w">                </span><span class="nf">colnames</span><span class="p">(</span><span class="n">parms</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">strsplit</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="s">"\\s{2,}"</span><span class="p">)[[</span><span class="m">1</span><span class="p">]]</span>
+<span class="w">                </span><span class="n">start</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">ScoresuccessLine</span><span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span>
+<span class="w">                </span><span class="kr">for</span><span class="p">(</span><span class="n">this_parm</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="n">nParms</span><span class="p">){</span>
+<span class="w">                    </span><span class="n">line</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">str_trim</span><span class="p">(</span><span class="n">log</span><span class="p">[</span><span class="n">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">this_parm</span><span class="p">])</span>
+<span class="w">                    </span><span class="n">parms</span><span class="p">[</span><span class="n">this_parm</span><span class="p">,]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">strsplit</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="s">"\\s{2,}"</span><span class="p">)[[</span><span class="m">1</span><span class="p">]]</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">                </span><span class="n">parms</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">parms</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span><span class="n">rel_std_err</span><span class="o">=</span><span class="w"> </span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">rel_std_err</span><span class="p">))</span>
+<span class="w">                </span><span class="kr">if</span><span class="p">(</span><span class="nf">any</span><span class="p">(</span><span class="n">parms</span><span class="o">$</span><span class="n">rel_std_err</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0.5</span><span class="p">)){</span>
+<span class="w">                    </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">OFV</span><span class="p">,</span><span class="w"> </span><span class="n">nParms</span><span class="p">,</span><span class="w"> </span><span class="n">CmaxPenalty</span><span class="p">))</span>
+<span class="w">                    </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>
+<span class="w">                </span><span class="p">}</span><span class="kr">else</span><span class="p">{</span>
+<span class="w">                    </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">OFV</span><span class="p">,</span><span class="n">nParms</span><span class="p">,</span><span class="w"> </span><span class="n">CmaxPenalty</span><span class="p">))</span>
+<span class="w">                    </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">))</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">},</span>
+<span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">a</span><span class="p">){</span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">OFV</span><span class="p">,</span><span class="w"> </span><span class="n">nParms</span><span class="p">,</span><span class="w"> </span><span class="n">CmaxPenalty</span><span class="p">))</span>
+<span class="w">    </span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="nlme-post-run-python-code-post-process">
+<span id="moga3-nlme-post-process"></span><h3>NLME Post Run python code - post_process<a class="headerlink" href="#nlme-post-run-python-code-post-process" title="Link to this heading">¶</a></h3>
+<p>Using a post_process function is the most practical way to develop post run python code. The argument
+to the post_process function is the nlme run folder, e.g., ./temp/1/01.</p>
+<p>Most of the typically need information is in the err1.txt file. Unfortunately, there isn’t an
+equivalent to the dmp.txt file for R in python. The err1.txt must be read and parsed to extract
+the model information. Below is example code to return objectives of OFV, number of estimated
+parameters, and number of failed RSEs and one constraint for exceptions (1).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_external_coords</span><span class="p">(</span><span class="n">rundir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""read the err1.txt file in the run directory, find the parameter values and SEs and return the number of</span>
+<span class="sd">    failed RSE (se/value&gt; 0.5).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rundir : string</span>
+<span class="sd">        run directory</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        number of parameters with RSE &gt; 0.5</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    get_external_coords('c:/pyDarwinRun/temp/1/01)</span>
+<span class="sd">    4</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1">## se and parameter estimates in err1.txt</span>
+        <span class="c1">## use sandwich</span>
+        <span class="c1">## start read at " Standard errors of estimated parameters"</span>
+        <span class="n">logfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rundir</span><span class="p">,</span> <span class="s1">'err1.txt'</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">logfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">" Standard errors of estimated parameters"</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">index</span>
+                <span class="k">break</span>
+            <span class="c1">## find next " external_coords"</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">index</span><span class="p">:]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">" external_coords"</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">index</span>
+                <span class="k">break</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">):]</span>
+        <span class="c1"># get end at " std error time="</span>
+
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">" std error time="</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">index</span>
+                <span class="k">break</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[:</span><span class="n">end</span><span class="p">]</span>
+        <span class="n">external_coor</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nFailedRSEs</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">nparms</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Iterate through each string in the array, test if se/value &gt; 0.5</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="n">split_words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">external_coor</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">split_words</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">split_words</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">se</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">split_words</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">nparms</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">se</span> <span class="o">/</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+                <span class="n">nFailedRSEs</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">nFailedRSEs</span><span class="p">,</span> <span class="n">nparms</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">999999</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_ofv</span><span class="p">(</span><span class="n">rundir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""read the err1.txt file in the run directory, find the parameter values and SEs and return the number of</span>
+<span class="sd">    failed RSE (se/value&gt; 0.5).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rundir : string</span>
+<span class="sd">        run directory</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float OFV values</span>
+<span class="sd">    int number of parameters</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; get_ofv_nparms('c:/pyDarwinRun/temp/1/01)</span>
+<span class="sd">    [2345.43, 8]</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1">## se and parameter estimates in err1.txt</span>
+        <span class="c1">## use sandwich</span>
+        <span class="c1">## start read at " Standard errors of estimated parameters"</span>
+        <span class="n">logfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rundir</span><span class="p">,</span> <span class="s1">'err1.txt'</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">logfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">" -2*Loglikelihood="</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">index</span>
+                <span class="k">break</span>
+        <span class="n">ofv</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">ofv</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">999999</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">post_process</span><span class="p">(</span><span class="n">rundir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""post run processing for MOGA3 in python. post_process2 takes the run directory as the argument, return</span>
+<span class="sd">    ofv, number of parameters and number of parameters with RSE &gt; 0.5. Excepteion return available values</span>
+<span class="sd">    and constraint = 1</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rundir : pyDarwin model run directory</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    objectives, constraint [float, float, float],[constraint]</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    post_process2(run)</span>
+<span class="sd">    [10.2, 8, 1],[0]</span>
+<span class="sd">    """</span>
+    <span class="n">ofv</span> <span class="o">=</span> <span class="mi">999999</span>
+    <span class="n">nparms</span> <span class="o">=</span> <span class="mi">999999</span>
+    <span class="n">nfailedRSEs</span> <span class="o">=</span> <span class="mi">999999</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ofv</span> <span class="o">=</span> <span class="n">get_ofv</span><span class="p">(</span><span class="n">rundir</span><span class="p">)</span>
+        <span class="n">nfailedRSEs</span><span class="p">,</span> <span class="n">nparms</span>  <span class="o">=</span> <span class="n">get_external_coords</span><span class="p">(</span><span class="n">rundir</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">post_process</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>The last section of code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">post_process</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>is to permit calling the python code from command line.
+The command line for calling from the project directory and return values, assuming the temp folder is called temp is:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python RSE3penalty.py .\temp\1\01</span>
+<span class="gp gp-VirtualEnv">([8438.103, 7, 3], [0])</span>
+</pre></div>
+</div>
+</section>
+<section id="nlme-post-run-python-code-post-process2">
+<span id="moga3-nlme-post-process2"></span><h3>NLME Post Run python code - post_process2<a class="headerlink" href="#nlme-post-run-python-code-post-process2" title="Link to this heading">¶</a></h3>
+<p>Below is python code for OFV, nparms and nFailedRSE using post_process2.
+Note that is it not possible to run post_process2 code from command line as the argument is the pyDarwin run object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_external_coords</span><span class="p">(</span><span class="n">rundir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""read the err1.txt file in the run directory, find the parameter values and SEs and return the number of</span>
+<span class="sd">    failed RSE (se/value&gt; 0.5).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rundir : string</span>
+<span class="sd">        run directory</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        number of parameters with RSE &gt; 0.5</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; get_external_coords('c:/pyDarwinRun/temp/1/01)</span>
+<span class="sd">    4</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1">## se and parameter estimates in err1.txt</span>
+        <span class="c1">## use sandwich</span>
+        <span class="c1">## start read at " Standard errors of estimated parameters"</span>
+        <span class="n">logfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rundir</span><span class="p">,</span> <span class="s1">'err1.txt'</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">logfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">" Standard errors of estimated parameters"</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">index</span>
+                <span class="k">break</span>
+            <span class="c1">## find next " external_coords"</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">index</span><span class="p">:]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">" external_coords"</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">index</span>
+                <span class="k">break</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">2</span><span class="p">):]</span>
+        <span class="c1"># get end at " std error time="</span>
+
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">" std error time="</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">index</span>
+                <span class="k">break</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[:</span><span class="n">end</span><span class="p">]</span>
+        <span class="n">external_coor</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nFailedRSEs</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Iterate through each string in the array, test if se/value &gt; 0.5</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="n">split_words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">external_coor</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">split_words</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">split_words</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">se</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">split_words</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">se</span> <span class="o">/</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+                <span class="n">nFailedRSEs</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">nFailedRSEs</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">999999</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">post_process2</span><span class="p">(</span><span class="n">run</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""post run processing for MOGA3 in python. post_process2 takes the run as the argument, return</span>
+<span class="sd">    ofv, number of parameters and number of parameters with RSE &gt; 0.5. Excepteion return available values</span>
+<span class="sd">    and constraint = 1</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    run : pyDarwin run</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    objectives, constraint [float, float, float],[constraint]</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; post_process2(run)</span>
+<span class="sd">    [10.2, 8, 1],[0]</span>
+<span class="sd">    """</span>
+    <span class="n">ofv</span> <span class="o">=</span> <span class="n">nparms</span> <span class="o">=</span> <span class="n">nfailedRSEs</span> <span class="o">=</span> <span class="mi">999999</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="s1">'result'</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="s1">'model'</span><span class="p">)</span>
+        <span class="n">ntheta</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">'theta_num'</span><span class="p">)</span>
+        <span class="n">nomega</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">'omega_num'</span><span class="p">)</span>
+        <span class="n">nsigma</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">'sigma_num'</span><span class="p">)</span>
+        <span class="n">nparms</span> <span class="o">=</span> <span class="n">ntheta</span> <span class="o">+</span> <span class="n">nomega</span> <span class="o">+</span> <span class="n">nsigma</span>
+        <span class="n">ofv</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">'ofv'</span><span class="p">)</span>
+        <span class="n">nfailedRSEs</span> <span class="o">=</span> <span class="n">get_external_coords</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="s1">'run_dir'</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ofv</span><span class="p">,</span> <span class="n">nparms</span><span class="p">,</span> <span class="n">nfailedRSEs</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Example9.html" class="btn btn-neutral float-left" title="Example 9: MOGA" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Options.html" class="btn btn-neutral float-right" title="Options List" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Mark Sale, Certara.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -6,15 +6,15 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NLME integration &mdash; pyDarwin 3.1.0 documentation</title>
+  <title>NLME integration &mdash; pyDarwin 3.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
 
   
-      <script src="_static/documentation_options.js?v=dd1205ac"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -744,8 +744,8 @@ time is the <em>most recent</em> value observed <em>before</em> that time. If no
 value is given at time=0, the first available value is used.</p></li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="highlight-pml notranslate"><div class="highlight"><pre><span></span>covariate(Weight)  // Declares &#39;Weight&#39; as a continuous covariate
-covariate(Sex())    // Declares &#39;Sex&#39; as a categorical covariate
+<div class="highlight-pml notranslate"><div class="highlight"><pre><span></span>covariate(Weight)  // Declares 'Weight' as a continuous covariate
+covariate(Sex())    // Declares 'Sex' as a categorical covariate
 </pre></div>
 </div>
 <p><strong>NONMEM Equivalent:</strong> There is no direct equivalent in NONMEM. NONMEM’s default behavior for covariates is backward extrapolation, similar to PML’s <code class="docutils literal notranslate"><span class="pre">covariate</span></code>.</p>
@@ -776,8 +776,8 @@ is also carried backward if no value is given at time=0.</p></li>
 <em>occasion covariates</em>.</p></li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="highlight-pml notranslate"><div class="highlight"><pre><span></span>fcovariate(DoseRate)   // Declares &#39;DoseRate&#39; as a time-varying covariate
-fcovariate(Occasion())  // Declares &#39;Occasion&#39; as an occasion covariate (recommended)
+<div class="highlight-pml notranslate"><div class="highlight"><pre><span></span>fcovariate(DoseRate)   // Declares 'DoseRate' as a time-varying covariate
+fcovariate(Occasion())  // Declares 'Occasion' as an occasion covariate (recommended)
 fcovariate(Occasion) // also valid, but less explicit
 </pre></div>
 </div>
@@ -956,7 +956,7 @@ from the population typical value <code class="docutils literal notranslate"><sp
   fixef(tvCl = c(, 1, ))
   ranef(diag(nCl) = c(1)) // IIV variance on Cl
 
-  // Define the IOV variances. &#39;same()&#39; is often used to assume variability is equal across occasions.
+  // Define the IOV variances. 'same()' is often used to assume variability is equal across occasions.
   ranef(diag(nCl_Occ1) = c(1), same(nCl_Occ2), same(nCl_Occ3))
   ...
 }
@@ -982,14 +982,14 @@ effect, and one that adds the IOV random effects. The token must swap
 out both the <code class="docutils literal notranslate"><span class="pre">stparm</span></code> expression and the corresponding <code class="docutils literal notranslate"><span class="pre">ranef</span></code>
 block.</p>
 <p><strong>Correct Token Structure for IOV on Clearance (_nCl):</strong></p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;_nCl&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"_nCl"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">[</span>
-<span class="w">        </span><span class="s2">&quot;* exp(nCl)&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;ranef(diag(nCl) = c(1))&quot;</span>
+<span class="w">        </span><span class="s2">"* exp(nCl)"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"ranef(diag(nCl) = c(1))"</span>
 <span class="w">    </span><span class="p">],</span>
 <span class="w">    </span><span class="p">[</span>
-<span class="w">        </span><span class="s2">&quot;* exp(nCl + (Occasion==1)*nClOccasionx1 + (Occasion==2)*nClOccasionx2)&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;ranef(diag(nCl) = c(1))\\n\\tranef(diag(nClOccasionx1) = c(1), same(nClOccasionx2))&quot;</span>
+<span class="w">        </span><span class="s2">"* exp(nCl + (Occasion==1)*nClOccasionx1 + (Occasion==2)*nClOccasionx2)"</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">"ranef(diag(nCl) = c(1))\\n\\tranef(diag(nClOccasionx1) = c(1), same(nClOccasionx2))"</span>
 <span class="w">    </span><span class="p">]</span>
 <span class="p">]</span>
 </pre></div>
@@ -2008,7 +2008,7 @@ generate different output tables with different contents and time
 points.</p></li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;results.csv&quot;</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"results.csv"</span><span class="p">,</span>
       <span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">seq</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="mi">48</span><span class="p">),</span>  <span class="o">//</span> <span class="n">Output</span> <span class="n">at</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">every</span> <span class="mf">0.5</span> <span class="kn">from</span><span class="w"> </span><span class="mi">1</span> <span class="n">to</span> <span class="mi">24</span><span class="p">,</span> <span class="ow">and</span> <span class="n">at</span> <span class="n">t</span><span class="o">=</span><span class="mi">48</span>
       <span class="n">dose</span><span class="p">(</span><span class="n">A1</span><span class="p">),</span>                      <span class="o">//</span> <span class="n">Output</span> <span class="n">at</span> <span class="n">dose</span> <span class="n">times</span> <span class="n">to</span> <span class="n">compartment</span> <span class="n">A1</span>
       <span class="n">obs</span><span class="p">(</span><span class="n">CObs</span><span class="p">),</span>                   <span class="o">//</span> <span class="n">Output</span> <span class="n">at</span> <span class="n">observation</span> <span class="n">times</span> <span class="k">for</span> <span class="n">CObs</span>
@@ -2016,7 +2016,7 @@ points.</p></li>
       <span class="n">C</span><span class="p">,</span> <span class="n">CObs</span><span class="p">,</span> <span class="n">Tmax</span><span class="p">,</span> <span class="n">Cmax</span><span class="p">,</span> <span class="n">Tmin</span><span class="p">,</span> <span class="n">Cmin</span>  <span class="o">//</span> <span class="n">Include</span> <span class="n">these</span> <span class="n">variables</span>
      <span class="p">)</span>
 
-<span class="n">table</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;covariates.csv&quot;</span><span class="p">,</span>
+<span class="n">table</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"covariates.csv"</span><span class="p">,</span>
       <span class="n">time</span><span class="p">(</span><span class="n">seq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span> <span class="mi">4</span><span class="p">)),</span>
       <span class="n">covr</span><span class="p">(</span><span class="n">Weight</span><span class="p">,</span> <span class="n">Sex</span><span class="p">),</span>
       <span class="n">Weight</span><span class="p">,</span> <span class="n">Sex</span><span class="p">,</span> <span class="n">Age</span>
@@ -2191,7 +2191,7 @@ C = A1 / V
 <p><strong>Example (Two-compartment model, two absorption pathways, each with
 gamma delay):</strong></p>
 <div class="highlight-pml notranslate"><div class="highlight"><pre><span></span>delayInfCpt(Ac1, MeanDelayTime1, ShapeParamMinusOne1, out = -Cl * C - Cl2 * (C - C2))
-dosepoint(Ac1, bioavail = frac)  // Fraction &#39;frac&#39; goes through pathway 1
+dosepoint(Ac1, bioavail = frac)  // Fraction 'frac' goes through pathway 1
 delayInfCpt(Ac2, MeanDelayTime2, ShapeParamMinusOne2)
 dosepoint(Ac2, bioavail = 1 - frac) // Remaining fraction goes through pathway 2
 deriv(A2 = Cl2 * (C - C2))
@@ -2295,7 +2295,7 @@ number) to a parameter that has constraints (e.g., a probability).</p></li>
 </li>
 </ul>
 <p><strong>Example (Logistic Regression):</strong></p>
-<div class="highlight-pml notranslate"><div class="highlight"><pre><span></span>stparm(p = ilogit(A * time + B))  // &#39;p&#39; is a probability between 0 and 1
+<div class="highlight-pml notranslate"><div class="highlight"><pre><span></span>stparm(p = ilogit(A * time + B))  // 'p' is a probability between 0 and 1
 LL(Resp, Resp * log(p) + (1 - Resp) * log(1 - p))
 </pre></div>
 </div>
@@ -2406,7 +2406,7 @@ stparm(
 )
 
 stparm(
-  K21 = t &gt;= 6 and t &lt;= 8 ? tvK21 : 0  // INCORRECT: Cannot use &#39;and&#39;
+  K21 = t &gt;= 6 and t &lt;= 8 ? tvK21 : 0  // INCORRECT: Cannot use 'and'
 )
 </pre></div>
 </div>
@@ -2624,7 +2624,7 @@ Example: <code class="docutils literal notranslate"><span class="pre">dvid(TYPE)
 <span class="n">obs</span><span class="p">(</span><span class="n">CObs</span> <span class="o">&lt;-</span> <span class="n">DV</span><span class="p">)</span>    <span class="o">//</span> <span class="n">PK</span> <span class="n">observations</span>
 <span class="n">obs</span><span class="p">(</span><span class="n">EObs</span> <span class="o">&lt;-</span> <span class="n">DV</span><span class="p">)</span>  <span class="o">//</span> <span class="n">PD</span> <span class="n">observations</span>
 <span class="n">covr</span><span class="p">(</span><span class="n">Weight</span> <span class="o">&lt;-</span> <span class="n">WEIGHT</span><span class="p">)</span>
-<span class="n">covr</span><span class="p">(</span><span class="n">Sex</span> <span class="o">&lt;-</span> <span class="n">SEX</span><span class="p">(</span><span class="s2">&quot;Male&quot;</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Female&quot;</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">covr</span><span class="p">(</span><span class="n">Sex</span> <span class="o">&lt;-</span> <span class="n">SEX</span><span class="p">(</span><span class="s2">"Male"</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"Female"</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
 <span class="n">censor</span><span class="p">(</span><span class="n">CObsBQL</span><span class="p">)</span>  <span class="o">//</span> <span class="n">BQL</span> <span class="n">flag</span> <span class="k">for</span> <span class="n">PK</span> <span class="n">observations</span>
 <span class="n">loq</span><span class="p">(</span><span class="n">LOQ</span><span class="p">)</span>
 <span class="n">dose</span><span class="p">(</span><span class="n">AaDose</span> <span class="o">&lt;-</span> <span class="n">AMT</span><span class="p">,</span> <span class="n">cmt</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>   <span class="o">//</span> <span class="n">Map</span> <span class="n">AMT</span> <span class="n">to</span> <span class="n">AaDose</span> <span class="n">when</span> <span class="n">CMT</span><span class="o">=</span><span class="mi">1</span> <span class="p">(</span><span class="n">bolus</span><span class="p">)</span>
@@ -2959,9 +2959,9 @@ remaining fraction to a zero-order process.</p></li>
 <p><strong>Example Code (Simultaneous ZO/FO):</strong></p>
 <div class="highlight-pml notranslate"><div class="highlight"><pre><span></span>test() {
     # PARALLEL PATHWAYS:
-    # 1. First-order absorption for fraction &#39;Fr&#39;.
+    # 1. First-order absorption for fraction 'Fr'.
     dosepoint(Aa, bioavail = Fr)
-    # 2. Zero-order absorption for fraction &#39;(1 - Fr)&#39; over duration &#39;Dur&#39;.
+    # 2. Zero-order absorption for fraction '(1 - Fr)' over duration 'Dur'.
     dosepoint(A1, bioavail = 1 - Fr, duration = Dur)
 
     # Model structure
@@ -3002,21 +3002,21 @@ solutions.</p></li>
 
     # SEQUENTIAL PATHWAYS:
     # 1. First-Order Pathway:
-    # A fraction &#39;Fr&#39; of the dose is sent to the absorption depot &#39;Aa&#39;,
-    # but its absorption is DELAYED by &#39;D&#39; time units.
+    # A fraction 'Fr' of the dose is sent to the absorption depot 'Aa',
+    # but its absorption is DELAYED by 'D' time units.
     dosepoint(Aa, tlag = D, bioavail = Fr)
 
     # 2. Zero-Order Pathway:
-    # The remaining fraction &#39;(1-Fr)&#39; is absorbed into the central
-    # compartment &#39;A1&#39; over a DURATION of &#39;D&#39; time units, starting at time 0.
+    # The remaining fraction '(1-Fr)' is absorbed into the central
+    # compartment 'A1' over a DURATION of 'D' time units, starting at time 0.
     dosepoint(A1, bioavail = 1 - Fr, duration = D)
 
-    # Define the fraction &#39;Fr&#39; to be absorbed first-order (after the lag)
+    # Define the fraction 'Fr' to be absorbed first-order (after the lag)
     stparm(Fr = ilogit(tvFr_logit + nFr_logit))
     fixef(tvFr_logit = c(, 0, ))
     ranef(diag(nFr_logit) = c(0.09))
 
-    # Define the duration/tlag parameter &#39;D&#39;
+    # Define the duration/tlag parameter 'D'
     stparm(D = tvD * exp(nD))
     fixef(tvD = c(, 1, ))
     ranef(diag(nD) = c(0.09))
@@ -3052,13 +3052,13 @@ infusion of the other 50% into the same <code class="docutils literal notranslat
     C = A1 / V
 
     # DOSE SPLITTING:
-    # 1. Define the bolus part. &#39;bioavail=(.5)&#39; takes 50% of the dose.
-    #    &#39;split&#39; is ESSENTIAL to allow the same data column to be used for dosepoint2.
+    # 1. Define the bolus part. 'bioavail=(.5)' takes 50% of the dose.
+    #    'split' is ESSENTIAL to allow the same data column to be used for dosepoint2.
     dosepoint(Aa, bioavail = (.5), split)
 
-    # 2. Define the infusion part on the same compartment &#39;Aa&#39;.
-    #    &#39;bioavail=(.5)&#39; takes the other 50% of the dose.
-    #    &#39;duration=(3)&#39; defines the zero-order infusion time.
+    # 2. Define the infusion part on the same compartment 'Aa'.
+    #    'bioavail=(.5)' takes the other 50% of the dose.
+    #    'duration=(3)' defines the zero-order infusion time.
     dosepoint2(Aa, bioavail = (.5), duration = (3))
 
     # ... observe/error and parameter definition statements ...
@@ -3072,9 +3072,9 @@ infusion of the other 50% into the same <code class="docutils literal notranslat
 </pre></div>
 </div>
 <p><strong>Corresponding Column Definition Mapping:</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Because &#39;split&#39; is used, both dose() and dose2() can map to &quot;AMT&quot;.</span>
-<span class="n">dose</span><span class="p">(</span><span class="n">Aa</span><span class="o">&lt;-</span><span class="s2">&quot;AMT&quot;</span><span class="p">)</span>
-<span class="n">dose2</span><span class="p">(</span><span class="n">Aa</span><span class="o">&lt;-</span><span class="s2">&quot;AMT&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Because 'split' is used, both dose() and dose2() can map to "AMT".</span>
+<span class="n">dose</span><span class="p">(</span><span class="n">Aa</span><span class="o">&lt;-</span><span class="s2">"AMT"</span><span class="p">)</span>
+<span class="n">dose2</span><span class="p">(</span><span class="n">Aa</span><span class="o">&lt;-</span><span class="s2">"AMT"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -3094,10 +3094,10 @@ structural parameter, allowing them to be estimated independently.</p></li>
 a dose into a first-order pathway and a zero-order pathway, where each
 can start after its own unique delay.</p>
 <p><strong>PML Code Snippet (Focus on dosepoint):</strong></p>
-<div class="highlight-pml notranslate"><div class="highlight"><pre><span></span># 1. First-Order Pathway with its own lag time &#39;Tlag_FO&#39;
+<div class="highlight-pml notranslate"><div class="highlight"><pre><span></span># 1. First-Order Pathway with its own lag time 'Tlag_FO'
 dosepoint(Aa, bioavail = Fr_FO, tlag = Tlag_FO)
 
-# 2. Zero-Order Pathway with its own lag time &#39;Tlag_ZO&#39;
+# 2. Zero-Order Pathway with its own lag time 'Tlag_ZO'
 dosepoint(A1, bioavail = 1 - Fr_FO, duration = Dur_ZO, tlag = Tlag_ZO)
 
 # ... parameter definitions for Tlag_FO and Tlag_ZO would be separate ...
@@ -3315,9 +3315,9 @@ through the simpler <code class="docutils literal notranslate"><span class="pre"
 is a conflict, the <code class="docutils literal notranslate"><span class="pre">##COLDEF</span></code> definition may take precedence.</p></li>
 <li><p><strong>Example Syntax:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">##COLDEF</span>
-<span class="nb">id</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
-<span class="n">obs</span><span class="p">(</span><span class="n">CObs</span><span class="o">&lt;-</span><span class="s2">&quot;conc&quot;</span><span class="p">)</span>
-<span class="n">covr</span><span class="p">(</span><span class="n">sex</span><span class="o">&lt;-</span><span class="s2">&quot;sex&quot;</span><span class="p">(</span><span class="s2">&quot;male&quot;</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;female&quot;</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+<span class="nb">id</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
+<span class="n">obs</span><span class="p">(</span><span class="n">CObs</span><span class="o">&lt;-</span><span class="s2">"conc"</span><span class="p">)</span>
+<span class="n">covr</span><span class="p">(</span><span class="n">sex</span><span class="o">&lt;-</span><span class="s2">"sex"</span><span class="p">(</span><span class="s2">"male"</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"female"</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 </li>
@@ -3579,25 +3579,25 @@ dataset, writing output only at the original time points.</p></li>
 <ul>
 <li><p><strong>Post-hoc parameters at time zero:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">##TABLES</span>
-<span class="n">table</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;parameters_t0.csv&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Ka</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">Cl</span><span class="p">)</span>
+<span class="n">table</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"parameters_t0.csv"</span><span class="p">,</span> <span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Ka</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">Cl</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
 <li><p><strong>Residuals and special variables at observation times:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">##TABLES</span>
-<span class="n">table</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;residuals.csv&quot;</span><span class="p">,</span> <span class="n">obs</span><span class="p">(</span><span class="n">CObs</span><span class="p">),</span> <span class="n">IPRED</span><span class="p">,</span> <span class="n">specvar</span><span class="p">(</span><span class="n">TAD</span><span class="p">,</span> <span class="n">IRES</span><span class="p">,</span> <span class="n">IWRES</span><span class="p">))</span>
+<span class="n">table</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"residuals.csv"</span><span class="p">,</span> <span class="n">obs</span><span class="p">(</span><span class="n">CObs</span><span class="p">),</span> <span class="n">IPRED</span><span class="p">,</span> <span class="n">specvar</span><span class="p">(</span><span class="n">TAD</span><span class="p">,</span> <span class="n">IRES</span><span class="p">,</span> <span class="n">IWRES</span><span class="p">))</span>
 </pre></div>
 </div>
 </li>
 <li><p><strong>A simulated dataset matching the original data structure:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">##TABLES</span>
-<span class="n">simtbl</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;simulated_data.csv&quot;</span><span class="p">,</span> <span class="n">CObs</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">keep</span><span class="p">)</span>
+<span class="n">simtbl</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"simulated_data.csv"</span><span class="p">,</span> <span class="n">CObs</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">keep</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
 <li><p><strong>A dense grid of simulated concentration profiles:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">##TABLES</span>
-<span class="n">simtbl</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;simulation_profiles.csv&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">(</span><span class="n">seq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)),</span> <span class="n">C</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">Cl</span><span class="p">)</span>
+<span class="n">simtbl</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"simulation_profiles.csv"</span><span class="p">,</span> <span class="n">time</span><span class="p">(</span><span class="n">seq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)),</span> <span class="n">C</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">Cl</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -3701,11 +3701,11 @@ definitions from both blocks. If a mapping is defined in both places,
 the <code class="docutils literal notranslate"><span class="pre">##COLDEF</span></code> definition may take precedence.</p>
 <p><strong>Example using native syntax:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">##COLDEF</span>
-  <span class="nb">id</span><span class="p">(</span><span class="s2">&quot;Subject&quot;</span><span class="p">)</span>
-  <span class="n">time</span><span class="p">(</span><span class="s2">&quot;Time&quot;</span><span class="p">)</span>
-  <span class="n">dose</span><span class="p">(</span><span class="n">A1</span><span class="o">&lt;-</span><span class="s2">&quot;Dose&quot;</span><span class="p">)</span>
-  <span class="n">obs</span><span class="p">(</span><span class="n">CObs</span><span class="o">&lt;-</span><span class="s2">&quot;Conc&quot;</span><span class="p">)</span>
-  <span class="n">covr</span><span class="p">(</span><span class="n">wt</span><span class="o">&lt;-</span><span class="s2">&quot;Weight&quot;</span><span class="p">)</span>
+  <span class="nb">id</span><span class="p">(</span><span class="s2">"Subject"</span><span class="p">)</span>
+  <span class="n">time</span><span class="p">(</span><span class="s2">"Time"</span><span class="p">)</span>
+  <span class="n">dose</span><span class="p">(</span><span class="n">A1</span><span class="o">&lt;-</span><span class="s2">"Dose"</span><span class="p">)</span>
+  <span class="n">obs</span><span class="p">(</span><span class="n">CObs</span><span class="o">&lt;-</span><span class="s2">"Conc"</span><span class="p">)</span>
+  <span class="n">covr</span><span class="p">(</span><span class="n">wt</span><span class="o">&lt;-</span><span class="s2">"Weight"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Keywords:</strong> ##MAP, ##COLDEF, mapping, id, time, rate, duration, SS, ADDL, II, MDV, Reset, categorical covariate</p>
@@ -3797,7 +3797,7 @@ how all the different blocks work together.</p>
 <span class="c1">##ESTARGS</span>
   <span class="n">method</span> <span class="o">=</span> <span class="n">FOCE</span><span class="o">-</span><span class="n">ELS</span>
   <span class="n">numIterations</span> <span class="o">=</span> <span class="mi">1000</span>
-  <span class="n">stdErr</span> <span class="o">=</span> <span class="s2">&quot;Sandwich&quot;</span>
+  <span class="n">stdErr</span> <span class="o">=</span> <span class="s2">"Sandwich"</span>
 
 <span class="c1">##SIMARGS</span>
   <span class="n">numReplicates</span> <span class="o">=</span> <span class="mi">500</span>
@@ -3805,9 +3805,9 @@ how all the different blocks work together.</p>
 
 <span class="c1">##TABLES</span>
   <span class="c1"># Estimation table with residuals</span>
-  <span class="n">table</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;residuals_output.csv&quot;</span><span class="p">,</span> <span class="n">obs</span><span class="p">(</span><span class="n">CObs</span><span class="p">),</span> <span class="n">specvar</span><span class="p">(</span><span class="n">IRES</span><span class="p">,</span> <span class="n">IWRES</span><span class="p">))</span>
+  <span class="n">table</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"residuals_output.csv"</span><span class="p">,</span> <span class="n">obs</span><span class="p">(</span><span class="n">CObs</span><span class="p">),</span> <span class="n">specvar</span><span class="p">(</span><span class="n">IRES</span><span class="p">,</span> <span class="n">IWRES</span><span class="p">))</span>
   <span class="c1"># Simulation table matching original data structure</span>
-  <span class="n">simtbl</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;simulation_output.csv&quot;</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">CObs</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">keep</span><span class="p">)</span>
+  <span class="n">simtbl</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"simulation_output.csv"</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">CObs</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">keep</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Keywords:</strong> example, metamodel, .mmdl, complete</p>
@@ -3856,9 +3856,9 @@ to insert.</p></li>
 </ul>
 <p><strong>Example of Token Usage:</strong> A token in <code class="docutils literal notranslate"><span class="pre">tokens.json</span></code> might be defined
 like this:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;_COV_Cl&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="p">],</span>
-<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot; * (BW/70)^dBWdCl&quot;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;\n\tfixef(dBWdCl = c(, 0.75, ))&quot;</span><span class="w"> </span><span class="p">]</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"_COV_Cl"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="p">],</span>
+<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">" * (BW/70)^dBWdCl"</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s2">"\n\tfixef(dBWdCl = c(, 0.75, ))"</span><span class="w"> </span><span class="p">]</span>
 <span class="p">]</span>
 </pre></div>
 </div>
@@ -3913,13 +3913,13 @@ that can be substituted into the tokens in the template. The structure of this f
 </ul>
 <p><strong>Example Structure:</strong></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;TOKEN_NAME_1&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;text for option 1, index 1&quot;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;text for option 1, index 2&quot;</span><span class="w"> </span><span class="p">],</span>
-<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;text for option 2, index 1&quot;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;text for option 2, index 2&quot;</span><span class="w"> </span><span class="p">]</span>
+<span class="w">  </span><span class="nt">"TOKEN_NAME_1"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">"text for option 1, index 1"</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s2">"text for option 1, index 2"</span><span class="w"> </span><span class="p">],</span>
+<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">"text for option 2, index 1"</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s2">"text for option 2, index 2"</span><span class="w"> </span><span class="p">]</span>
 <span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;TOKEN_NAME_2&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;text for option 1, index 1&quot;</span><span class="w"> </span><span class="p">],</span>
-<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;text for option 2, index 1&quot;</span><span class="w"> </span><span class="p">]</span>
+<span class="w">  </span><span class="nt">"TOKEN_NAME_2"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">"text for option 1, index 1"</span><span class="w"> </span><span class="p">],</span>
+<span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="s2">"text for option 2, index 1"</span><span class="w"> </span><span class="p">]</span>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
@@ -3972,14 +3972,14 @@ baseline model generated where none of the optional features are added.</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">tokens.json</span></code></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;_COV_Cl&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"_COV_Cl"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;&quot;</span>
+<span class="w">      </span><span class="s2">""</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">""</span>
 <span class="w">    </span><span class="p">],</span>
 <span class="w">    </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot; * (BW/70)^dBWdCl&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="s2">&quot;\n\tfixef(dBWdCl = c(, 0.75, ))&quot;</span>
+<span class="w">      </span><span class="s2">" * (BW/70)^dBWdCl"</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">"\n\tfixef(dBWdCl = c(, 0.75, ))"</span>
 <span class="w">    </span><span class="p">]</span>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
@@ -4244,9 +4244,9 @@ ranef(diag(nCl, nV, nKa, nF) = c(1,1,1,1))
 </pre></div>
 </div>
 <p>And your <code class="docutils literal notranslate"><span class="pre">options.json</span></code> contains:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;search_omega_blocks&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="nt">&quot;search_omega_sub_matrix&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="nt">&quot;max_omega_sub_matrix&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"search_omega_blocks"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="nt">"search_omega_sub_matrix"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="nt">"max_omega_sub_matrix"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">pyDarwin</span></code> will now test a much larger set of possible Omega

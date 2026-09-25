@@ -46,7 +46,7 @@ pyDarwin may be executed on Linux hosts with Sun Grid Engine (SGE), or Slurm.
 Software Requirements
 -----------------------
 
-- Python 3.10, 3.11, 3.12
+- Python 3.10, 3.11, 3.12, and 3.13 or later
 - NLME-Engine >= 24.9
 - NONMEM >= 7.4.3
 - R >= 4.0.0 (optional)

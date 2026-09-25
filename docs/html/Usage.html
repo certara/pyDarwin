@@ -6,16 +6,16 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Usage &mdash; pyDarwin 3.1.0 documentation</title>
+  <title>Usage &mdash; pyDarwin 3.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
 
   
-      <script src="_static/documentation_options.js?v=dd1205ac"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/tabs.js?v=3030b3cb"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -204,55 +204,55 @@ a single argument specifying the path to the folder containing the <code class="
 <p>In both cases you can <a class="reference internal" href="#stop-search"><span class="std std-ref">stop the search</span></a> using <code class="docutils literal notranslate"><span class="pre">darwin.stop_search</span></code>. Just keep in mind that in the second case, it may not be very responsive (due to load/IO latency/grid deployment details), so be patient.</p>
 <p id="generic-grid-adapter-examples">With either case, you need to setup <a class="reference internal" href="Options.html#generic-grid-adapter-options-desc"><span class="std std-ref">grid settings</span></a> in your <code class="docutils literal notranslate"><span class="pre">options.json</span></code>. Below are examples for different workload managers:</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-U0dF" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-U0dF" name="U0dF" role="tab" tabindex="0">SGE</button><button aria-controls="panel-0-U2x1cm0=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-U2x1cm0=" name="U2x1cm0=" role="tab" tabindex="-1">Slurm</button><button aria-controls="panel-0-anN1Yi1Ub3JxdWU=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-anN1Yi1Ub3JxdWU=" name="anN1Yi1Ub3JxdWU=" role="tab" tabindex="-1">jsub-Torque</button><button aria-controls="panel-0-TFNG" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-TFNG" name="TFNG" role="tab" tabindex="-1">LSF</button></div><div aria-labelledby="tab-0-U0dF" class="sphinx-tabs-panel group-tab" id="panel-0-U0dF" name="U0dF" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;model_run_man&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.GridRunManager&quot;</span><span class="p">,</span>
-<span class="nt">&quot;generic_grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;python_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/venv/bin/python&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Your job (\\w+) \\(\&quot;.+?\&quot;\\) has been submitted&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^\\s+(\\w+)&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qstat -s z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;delete_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qdel {project_stem}-*&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_search_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qsub -b y -wd {project_dir} -o {project_stem}.out -e {project_stem}.err -N &#39;{project_stem}&#39;&quot;</span>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-U0dF" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-U0dF" name="U0dF" role="tab" tabindex="0">SGE</button><button aria-controls="panel-0-U2x1cm0=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-U2x1cm0=" name="U2x1cm0=" role="tab" tabindex="-1">Slurm</button><button aria-controls="panel-0-anN1Yi1Ub3JxdWU=" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-anN1Yi1Ub3JxdWU=" name="anN1Yi1Ub3JxdWU=" role="tab" tabindex="-1">jsub-Torque</button><button aria-controls="panel-0-TFNG" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-TFNG" name="TFNG" role="tab" tabindex="-1">LSF</button></div><div aria-labelledby="tab-0-U0dF" class="sphinx-tabs-panel group-tab" id="panel-0-U0dF" name="U0dF" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"model_run_man"</span><span class="p">:</span><span class="w"> </span><span class="s2">"darwin.GridRunManager"</span><span class="p">,</span>
+<span class="nt">"generic_grid_adapter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"python_path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~/darwin/venv/bin/python"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_job_id_re"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Your job (\\w+) \\(\".+?\"\\) has been submitted"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_job_id_re"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^\\s+(\\w+)"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qstat -s z"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"delete_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qdel {project_stem}-*"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qsub -b y -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_search_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qsub -b y -wd {project_dir} -o {project_stem}.out -e {project_stem}.err -N '{project_stem}'"</span>
 <span class="p">},</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-0-U2x1cm0=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-U2x1cm0=" name="U2x1cm0=" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;model_run_man&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.GridRunManager&quot;</span><span class="p">,</span>
-<span class="nt">&quot;generic_grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;python_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/venv/bin/python&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Submitted batch job (\\d+)&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^(\\d+)&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;squeue -t CD,CA,F,ST,TO --noheader --format=%i&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;delete_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;scancel {job_ids}&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sbatch --job-name {job_name} --output {results_dir}/{run_name}.out --error {results_dir}/{run_name}.err --wrap {darwin_cmd}&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_search_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sbatch -D {project_dir} --job-name &#39;{project_name}&#39; --output {project_stem}.out --error {project_stem}.err --wrap &#39;{darwin_cmd}&#39;&quot;</span>
+</div><div aria-labelledby="tab-0-U2x1cm0=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-U2x1cm0=" name="U2x1cm0=" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"model_run_man"</span><span class="p">:</span><span class="w"> </span><span class="s2">"darwin.GridRunManager"</span><span class="p">,</span>
+<span class="nt">"generic_grid_adapter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"python_path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~/darwin/venv/bin/python"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_job_id_re"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Submitted batch job (\\d+)"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_job_id_re"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^(\\d+)"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"squeue -t CD,CA,F,ST,TO --noheader --format=%i"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"delete_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"scancel {job_ids}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sbatch --job-name {job_name} --output {results_dir}/{run_name}.out --error {results_dir}/{run_name}.err --wrap {darwin_cmd}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_search_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sbatch -D {project_dir} --job-name '{project_name}' --output {project_stem}.out --error {project_stem}.err --wrap '{darwin_cmd}'"</span>
 <span class="p">},</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-0-anN1Yi1Ub3JxdWU=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-anN1Yi1Ub3JxdWU=" name="anN1Yi1Ub3JxdWU=" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;model_run_man&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.GridRunManager&quot;</span><span class="p">,</span>
-<span class="nt">&quot;generic_grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;python_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/venv/bin/python&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^(\\d+)\\.&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^(\\d+)\\.&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qstat -a | grep \&quot;\\b [CE]  \&quot;&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;delete_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qdel {job_ids}&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jsub -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name} --&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_search_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jsub -d {project_dir} -o {project_stem}.out -e {project_stem}.err -N &#39;{project_stem}&#39; --&quot;</span>
+</div><div aria-labelledby="tab-0-anN1Yi1Ub3JxdWU=" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-anN1Yi1Ub3JxdWU=" name="anN1Yi1Ub3JxdWU=" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"model_run_man"</span><span class="p">:</span><span class="w"> </span><span class="s2">"darwin.GridRunManager"</span><span class="p">,</span>
+<span class="nt">"generic_grid_adapter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"python_path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~/darwin/venv/bin/python"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_job_id_re"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^(\\d+)\\."</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_job_id_re"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^(\\d+)\\."</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qstat -a | grep \"\\b [CE]  \""</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"delete_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qdel {job_ids}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jsub -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -N {job_name} --"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_search_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jsub -d {project_dir} -o {project_stem}.out -e {project_stem}.err -N '{project_stem}' --"</span>
 <span class="p">},</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-0-TFNG" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-TFNG" name="TFNG" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;model_run_man&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;darwin.GridRunManager&quot;</span><span class="p">,</span>
-<span class="nt">&quot;generic_grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;python_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/venv/bin/python&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Job \\&lt;(\\d+)\\&gt; is submitted&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_job_id_re&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^(\\d+)&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;poll_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bjobs -d&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;delete_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bkill -J {project_stem}-*&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bsub -n 1 -q standard -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -J {job_name}&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;submit_search_command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bsub -q standard -cwd {project_dir} -o {project_stem}.out -e {project_stem}.err -J &#39;{project_stem}&#39;&quot;</span>
+</div><div aria-labelledby="tab-0-TFNG" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-TFNG" name="TFNG" role="tabpanel" tabindex="0"><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"model_run_man"</span><span class="p">:</span><span class="w"> </span><span class="s2">"darwin.GridRunManager"</span><span class="p">,</span>
+<span class="nt">"generic_grid_adapter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"python_path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~/darwin/venv/bin/python"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_job_id_re"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Job \\&lt;(\\d+)\\&gt; is submitted"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_job_id_re"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^(\\d+)"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"poll_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bjobs -d"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"delete_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bkill -J {project_stem}-*"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bsub -n 1 -q standard -o {results_dir}/{run_name}.out -e {results_dir}/{run_name}.err -J {job_name}"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"submit_search_command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bsub -q standard -cwd {project_dir} -o {project_stem}.out -e {project_stem}.err -J '{project_stem}'"</span>
 <span class="p">},</span>
 </pre></div>
 </div>
@@ -292,14 +292,14 @@ you’ll need to load the corresponding module first. You can achieve that with 
 <div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 module<span class="w"> </span>load<span class="w"> </span>pydarwin/3.1.0
-python<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+python<span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
 </pre></div>
 </div>
 </div></blockquote>
 <p>Use the script as <a class="mono reference internal" href="Options.html#python-path-options-desc"><span class="std std-ref">python_path</span></a>:</p>
 <blockquote>
-<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;generic_grid_adapter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;python_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/darwin/run_pydarwin.sh&quot;</span><span class="p">,</span>
+<div><div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"generic_grid_adapter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"python_path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~/darwin/run_pydarwin.sh"</span><span class="p">,</span>
 <span class="p">},</span>
 </pre></div>
 </div>
@@ -462,7 +462,7 @@ $OMEGA
 0.1 ; ETA(D1)
 0.1 ; A
 0.1 ; ETA ON C
-0.1 ; ETA(D2) D2 or ETA ON D2 or any other way that doesn&#39;t look like another definition
+0.1 ; ETA(D2) D2 or ETA ON D2 or any other way that doesn't look like another definition
 </pre></div>
 </div>
 <p>Which then becomes:</p>
@@ -496,14 +496,14 @@ will need to be replaced by text to create correct syntax. For example, if the s
 and K32 must be provided in the $PK block, and (typically) initial estimates must be provided in the $THETA block. Thus, a set of 3 replacements must be made, one in $SUBS,
 one in $PK, and one in $THETA. So, the token set for selection of number of compartments, for 1 compartment (first option) or 2 compartments (second option),
 will include the following JSON code:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;ADVAN&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="p">[</span><span class="s2">&quot;ADVAN1 &quot;</span><span class="p">,</span>
-                <span class="s2">&quot;;; 1 compartment, no definition needed for K12 or K21 &quot;</span><span class="p">,</span>
-                <span class="s2">&quot;;; 1 compartment, no initial estimate needed for K12 or K21&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">"ADVAN"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">[</span><span class="s2">"ADVAN1 "</span><span class="p">,</span>
+                <span class="s2">";; 1 compartment, no definition needed for K12 or K21 "</span><span class="p">,</span>
+                <span class="s2">";; 1 compartment, no initial estimate needed for K12 or K21"</span>
             <span class="p">],</span>
-            <span class="p">[</span><span class="s2">&quot;ADVAN3 &quot;</span><span class="p">,</span>
-                <span class="s2">&quot; K12 = THETA(ADVANA) ;; 2 compartment, need definition for K12 </span><span class="se">\n</span><span class="s2"> K21 = THETA(ADVANB)&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;  (0,0.5) ;; K12 THETA(ADVANA)  </span><span class="se">\n</span><span class="s2">  (0,0.5) ;; K21 THETA(ADVANB) &quot;</span>
+            <span class="p">[</span><span class="s2">"ADVAN3 "</span><span class="p">,</span>
+                <span class="s2">" K12 = THETA(ADVANA) ;; 2 compartment, need definition for K12 </span><span class="se">\n</span><span class="s2"> K21 = THETA(ADVANB)"</span><span class="p">,</span>
+                <span class="s2">"  (0,0.5) ;; K12 THETA(ADVANA)  </span><span class="se">\n</span><span class="s2">  (0,0.5) ;; K21 THETA(ADVANB) "</span>
             <span class="p">],</span>
 </pre></div>
 </div>
@@ -536,8 +536,8 @@ For example, if a token stem has two THETAs:</p>
 </pre></div>
 </div>
 <p>for the text in the $PK block, then code to be put into the $THETA block will be:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;  (0,100) </span><span class="se">\t</span><span class="s2">; THETA(EMAX) &quot;</span>
-<span class="s2">&quot;  (0,1000) </span><span class="se">\t</span><span class="s2">; THETA(EC50) &quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">"  (0,100) </span><span class="se">\t</span><span class="s2">; THETA(EMAX) "</span>
+<span class="s2">"  (0,1000) </span><span class="se">\t</span><span class="s2">; THETA(EC50) "</span>
 </pre></div>
 </div>
 <p>Where \t is a tab. Without this THETA(EMAX) and THETA(EC50) as a comment, there would not be any way to identify which initial estimate is to be associated with which

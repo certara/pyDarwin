@@ -5,6 +5,17 @@ Releases
 ######################
 
 **********************
+pyDarwin-Certara 3.2.0
+**********************
+
+What's New
+====================
+
+* An SQLite-based model cache stores completed runs to a database in real time, improving robustness, performance with large caches, and enabling SQL-based data navigation and filtering.
+* Exhaustive search now uses lazy model-sequence generators instead of allocating the entire search space upfront, eliminating excessive memory consumption and crashes on large search spaces.
+* pyDarwin now supports installation on Python >= 3.13, resolving a dependency compatibility issue that previously blocked setup on newer Python versions.
+
+**********************
 pyDarwin-Certara 3.1.0
 **********************
 

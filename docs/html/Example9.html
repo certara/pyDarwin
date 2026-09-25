@@ -1,0 +1,215 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example 9: MOGA &mdash; pyDarwin 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
+
+  
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example 10: MOGA3" href="Example10.html" />
+    <link rel="prev" title="Example 8: Emax Model, PSO" href="Example8.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example7.html">Example 7: PK Model, Exhaustive Omega Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example8.html">Example 8: Emax Model, PSO</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Example 9: MOGA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#options-json">Options.json</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Example10.html">Example 10: MOGA3</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLME.html">NLME integration</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="Examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Example 9: MOGA</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-9-moga">
+<span id="startmoga9"></span><h1>Example 9: MOGA<a class="headerlink" href="#example-9-moga" title="Link to this heading">¶</a></h1>
+<p>The MOGA option, specified in the options.json file directs pyDarwin to use the NSGA-II algorithm for selecting
+non-dominated models. No user defined code is required or accepted. Two objectives are used, the OFV and the
+total number of parameters (esimtated thetas, omega elements and, for NONMEM, sigma). The template.txt and
+tokens.json file are idential to those for other algorithms. Note that there are no penalties, as there isn’t
+a composite fitness function.</p>
+<section id="options-json">
+<h2>Options.json<a class="headerlink" href="#options-json" title="Link to this heading">¶</a></h2>
+<p>The options.json file specified the MOGA algorithm and options. NONMEM and NLME are specified identically
+with regard to the MOGA options. An example for NONMEM is given below:</p>
+<blockquote>
+<div><div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">   </span><span class="nt">"MOGA"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"attribute_mutation_probability"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"crossover"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"single"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"crossover_rate"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.95</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"mutation_rate"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.95</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"partitions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">"algorithm"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"MOGA"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"author"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Certara"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"downhill_period"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"engine_adapter"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"nonmem"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"final_downhill_search"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"keep_extensions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">   </span><span class="nt">"keep_files"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">   </span><span class="nt">"local_2_bit_search"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"model_run_timeout"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"niche_radius"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"local_grid_search"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"num_generations"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"num_niches"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"num_parallel"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"population_size"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"nmfe_path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c:/nm75g64/util/nmfe75.bat"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"project_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"MOGA-nonmem"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"random_seed"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">51424319</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"working_dir"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"{project_dir}"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Note that the path to rscript.exe is not required for MOGA with NONMEM.
+A comparable options.json file for NLME is given below</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">       </span><span class="nt">"MOGA"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">"attribute_mutation_probability"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"crossover"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"single"</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"crossover_rate"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.95</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"mutation_rate"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.95</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"partitions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span>
+<span class="w">       </span><span class="p">},</span>
+<span class="w">       </span><span class="nt">"algorithm"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"MOGA"</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"author"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Certara"</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"downhill_period"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"engine_adapter"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"nlme"</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"final_downhill_search"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"gcc_dir"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"C:\\Program Files\\Certara\\mingw64"</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"keep_extensions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">       </span><span class="nt">"keep_files"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">       </span><span class="nt">"local_2_bit_search"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"model_run_timeout"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"niche_radius"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"nlme_dir"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"C:\\Program Files\\Certara\\NLME_Engine"</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"num_generations"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"num_niches"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"num_parallel"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"population_size"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+
+<span class="w">       </span><span class="nt">"project_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"MOGA-nlme"</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"random_seed"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">51424319</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"rscript_path"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"C:/Program Files/R/R-4.5.1/bin/Rscript.exe"</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">"working_dir"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"{project_dir}"</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The path to Rscript.exe is required for all NLME searches, regardless of whether post-run
+R code is used.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Example8.html" class="btn btn-neutral float-left" title="Example 8: Emax Model, PSO" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Example10.html" class="btn btn-neutral float-right" title="Example 10: MOGA3" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Mark Sale, Certara.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

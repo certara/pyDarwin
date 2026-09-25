@@ -6,18 +6,20 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example 7: PK Model, Exhaustive Omega Search &mdash; pyDarwin 3.1.0 documentation</title>
+  <title>Example 7: PK Model, Exhaustive Omega Search &mdash; pyDarwin 3.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
 
   
-      <script src="_static/documentation_options.js?v=dd1205ac"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example 8: Emax Model, PSO" href="Example8.html" />
+    <link rel="prev" title="Example 6: PK Model, DMAG by RF with post-run Python code" href="Example6.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,10 +49,25 @@
 <li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Example1.html">Example 1: PK Model, Trivial Exhaustive Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example2.html">Example 2: PK Model 2, Simulation model by GP with Python code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example3.html">Example 3: PK Model, ODE model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example4.html">Example 4: PK Model, DMAG by GA with post-run R code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example5.html">Example 5: PK Model, DMAG by GP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example6.html">Example 6: PK Model, DMAG by RF with post-run Python code</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Example 7: PK Model, Exhaustive Omega Search</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#execute-search">Execute Search</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Example8.html">Example 8: Emax Model, PSO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example9.html">Example 9: MOGA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example10.html">Example 10: MOGA3</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
@@ -72,6 +89,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="Examples.html">Examples</a></li>
       <li class="breadcrumb-item active">Example 7: PK Model, Exhaustive Omega Search</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -94,29 +112,29 @@ the default is:</p>
 <p>where {user_dir} is the user’s home directory and {project_name} is the name of the project.</p>
 <p>The options file looks like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Certara&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;EXHAUSTIVE&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;exhaustive_batch_size&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
-  <span class="s2">&quot;num_parallel&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-  <span class="s2">&quot;crash_value&quot;</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
-  <span class="s2">&quot;random_seed&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
-  <span class="s2">&quot;penalty&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-    <span class="s2">&quot;convergence&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s2">&quot;covariance&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s2">&quot;correlation&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s2">&quot;condition_number&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="s2">&quot;non_influential_tokens&quot;</span><span class="p">:</span> <span class="mf">0.00001</span>
+  <span class="s2">"author"</span><span class="p">:</span> <span class="s2">"Certara"</span><span class="p">,</span>
+  <span class="s2">"algorithm"</span><span class="p">:</span> <span class="s2">"EXHAUSTIVE"</span><span class="p">,</span>
+  <span class="s2">"exhaustive_batch_size"</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+  <span class="s2">"num_parallel"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="s2">"crash_value"</span><span class="p">:</span> <span class="mi">99999999</span><span class="p">,</span>
+  <span class="s2">"random_seed"</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+  <span class="s2">"penalty"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"theta"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">"omega"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">"sigma"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s2">"convergence"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">"covariance"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">"correlation"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">"condition_number"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s2">"non_influential_tokens"</span><span class="p">:</span> <span class="mf">0.00001</span>
   <span class="p">},</span>
-  <span class="s2">&quot;search_omega_bands&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
-  <span class="s2">&quot;max_omega_band_width&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-  <span class="s2">&quot;search_omega_sub_matrix&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
-  <span class="s2">&quot;max_omega_sub_matrix&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-  <span class="s2">&quot;remove_run_dir&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
-  <span class="s2">&quot;nmfe_path&quot;</span><span class="p">:</span> <span class="s2">&quot;c:/nm74g64/util/nmfe74.bat&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;model_run_timeout&quot;</span><span class="p">:</span> <span class="mi">1200</span>
+  <span class="s2">"search_omega_bands"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">"max_omega_band_width"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s2">"search_omega_sub_matrix"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+  <span class="s2">"max_omega_sub_matrix"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="s2">"remove_run_dir"</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+  <span class="s2">"nmfe_path"</span><span class="p">:</span> <span class="s2">"c:/nm74g64/util/nmfe74.bat"</span><span class="p">,</span>
+  <span class="s2">"model_run_timeout"</span><span class="p">:</span> <span class="mi">1200</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -159,7 +177,10 @@ and <a class="reference internal" href="Options.html#max-omega-sub-matrix-option
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Example6.html" class="btn btn-neutral float-left" title="Example 6: PK Model, DMAG by RF with post-run Python code" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Example8.html" class="btn btn-neutral float-right" title="Example 8: Emax Model, PSO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

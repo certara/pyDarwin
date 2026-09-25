@@ -1,0 +1,219 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOGA3 Post-processing &mdash; pyDarwin 3.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=0f71c7ad" />
+
+  
+      <script src="_static/documentation_options.js?v=4f6ddb47"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyDarwin
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">About:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Support.html">Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Releases.html">Releases</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Options.html">Options List</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NLME.html">NLME integration</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyDarwin</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MOGA3 Post-processing</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="moga3-post-processing">
+<span id="moga3-postprocessing"></span><span id="general-principles"></span><h1>MOGA3 Post-processing<a class="headerlink" href="#moga3-post-processing" title="Link to this heading">¶</a></h1>
+<p>In all cases, the post processing code is called from the directory where NONMEM or NLME has run, and before
+any files are removed. Therefore, all output from NONMEM (i.e, $TABLE files, .ext, .xml, .phi etc) file and
+all NLME (i.e. dmp.txt, err?, nlme?engine.log, tables etc) will be available in the working directory for R
+or python to read. In addition, you can be confident that only files that pyDarwin/NONMEM/NLME put there
+will be there, there will be no additional files that might cause problems, if, for examples, you looked for
+the .xml NONMEM output (e.g., NM_1_01.xml) file in R with</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">list.files</span><span class="p">(</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"."</span><span class="p">,</span><span class="w"> </span><span class="n">pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"xml$"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>this will return a list of files with the file extension .xml. Unless NONMEM put some additional files
+(e.g., from $TABLE) it will be the only .xml file present, and can then be used to extract model information.
+In NONMEM, the file name stem for output files such as the .lst, .ext and .xml file will
+be the same as the folder name, specifially NM_{Generation}_{model}, e.g., NM_1_01.xml for the xml file
+from generation 1, model 1 (if there are 10-99 models in the population).</p>
+<p>The MOGA algorithm option in pyDarwin does not accept user defined code. MOGA3 requires user defined code.
+In MOGA3, in all cases the code must return the required number of variables. python code must return
+2 arrays, one of objectives and one of constraints, from a function. For R, the same values
+are passed back to python by outputing them to the standard output in R with two print() statement.
+As for post processing code with other algorithms, the R code will be a script and the python code will
+be a function.
+The lengths of the vectors/arrays must match the number of objectives and constraints specified
+in the options.json file. Any other return values will result in a crash in pyDarwin.
+Practically, this means the use of error trapping and the return of “crash” values for exceptions with
+required structure; 2 vectors or arrays of length defined in the options.json file as,
+<a class="reference external" href="https://certara.github.io/pyDarwin/html/Options.html/">objectives and constraints</a>.
+Further, in the case of R, other output to the standard output (e.g., messages from loading packages) must
+be suppressed.
+In general post run R and python code is not compatible between NONMEM and NLME, as the output files are very
+different, e.g., the xml for NONMEM and the dmp.txt file for NLME.  The exception is when the post_process2
+function in python is used, and only information available in the pyDarwin run object is used.
+(<a class="reference internal" href="Example10.html#moga3-nlme-post-process2"><span class="std std-ref">NLME Post Run python code - post_process2</span></a>).</p>
+<p>In general, there is little reason to have more than one constraint in MOGA3, as the results from number
+of infeasible results can be used to set a single contraint to a value &gt; 0.</p>
+<section id="r">
+<h2>R<a class="headerlink" href="#r" title="Link to this heading">¶</a></h2>
+<p>In all cases the R code will include a script. The script may call any defined functions. For MOGA3 the
+script should print to the standard output two vectors, the first being the objectives, and the second the constraint(s).
+Both outputs may be numeric or character, but character values must be convertable to numeric. In MOGA3 the use of
+the print() statement is required, as there will be two outputs to the standard error, and just</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">c</span><span class="p">(</span><span class="n">OFV1</span><span class="p">,</span><span class="w"> </span><span class="n">OFV2</span><span class="p">,</span><span class="w"> </span><span class="n">OFV3</span><span class="p">)</span>
+<span class="nf">c</span><span class="p">(</span><span class="n">constraint1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Would only output the final to the standard output. The correct syntax is:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">OFV1</span><span class="p">,</span><span class="w"> </span><span class="n">OFV2</span><span class="p">,</span><span class="w"> </span><span class="n">OFV3</span><span class="p">))</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="n">constraint1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>and the code can be tested by calling rscript with the code file as an argument, from the run directory. It should return the
+required output the the console, e.g. for DOS command line:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">c:\git\mogaexamples\moga3NLMER\temp\1\01&gt;"C:/Program Files/R/R-4.5.1/bin/Rscript.exe" ..\..\..\RSE3penaltyb.R</span>
+<span class="go">[1] 8438.10000    7.00000   61.60081</span>
+<span class="go">[1] 1</span>
+</pre></div>
+</div>
+</section>
+<section id="python">
+<h2>python<a class="headerlink" href="#python" title="Link to this heading">¶</a></h2>
+<p>In contrast to R, post run code in python is a function. In fact, syntax is available for two functions. The first (and
+likely the most useful) is to write a function called post_process
+(<a class="reference internal" href="Example10.html#moga3-nlme-post-process"><span class="std std-ref">NLME Post Run python code - post_process</span></a>) and takes the argument run_dir. The function signature is</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">post_process</span><span class="p">(</span><span class="n">rundir</span><span class="p">):</span>
+<span class="o">.</span>
+<span class="o">.</span>
+<span class="o">.</span>
+
+<span class="k">return</span> <span class="p">[</span><span class="n">OFV1</span><span class="p">,</span> <span class="n">OFV2</span><span class="p">,</span> <span class="n">OFV3</span><span class="p">],</span> <span class="p">[</span><span class="n">constraint1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>where rundir is a string. The function must return 2 vectors with the lenghth of the first described by the
+value of “objectives” in the options.json file:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="nt">"MOGA"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">     </span><span class="nt">"objectives"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>and the length of the 2nd described by the value of “constraints”</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="nt">"MOGA"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">   </span><span class="nt">"constraints"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>If the search is to be unconstrained, it is most stable to still use 1 contraint, but always return [0] in the constraint vector.</p>
+<p>The second syntax is for post_process2, with the function signature below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">post_process2</span><span class="p">(</span><span class="n">run</span><span class="p">):</span>
+<span class="o">.</span>
+<span class="o">.</span>
+<span class="o">.</span>
+
+<span class="k">return</span> <span class="p">[</span><span class="n">OFV1</span><span class="p">,</span> <span class="n">OFV2</span><span class="p">,</span> <span class="n">OFV3</span><span class="p">],</span> <span class="p">[</span><span class="n">constraint1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>where “run” is the python object model run object. Developing code for post_process2 is challenging in that it must be
+developed within a full pyDarwin run in order to create the run objects. This is likely non-trivial for the causal user.
+However, Certara is happy to provide support for interested user. In contrast with post_process, one can simply send
+the run path as a argument, e.g.,</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>or use your favorite IDE, with the NLME run folder as the working directory.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Mark Sale, Certara.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

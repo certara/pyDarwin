@@ -1,6 +1,6 @@
 # [pyDarwin](https://certara.github.io/pyDarwin/html/index.html)
 
-Python solution for using several machine learning methods to search a candidate solution space for the optimal population models in NONMEM.
+Python solution for using several machine learning methods to search a candidate solution space for the optimal population models in NLME or NONMEM.
 
 Visit [pyDarwin Documentation](https://certara.github.io/pyDarwin/html/index.html) to learn more.
 
@@ -17,10 +17,11 @@ Visit [pyDarwin Documentation](https://certara.github.io/pyDarwin/html/index.htm
 ## Installation Prerequisites
 
 * Python >= 3.10
+* NLME >= 25.7.1
 * NONMEM >= 7.4.3
 * R >= 4.0.0 (optional)
 
-*Note: Requirements are Python and NONMEM installation with nmfe.bat available. R is required if using post-run R penalty function.*
+*R is required if using post-run R penalty function.*
 
 
 ## Installation
